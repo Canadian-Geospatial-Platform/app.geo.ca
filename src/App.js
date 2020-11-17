@@ -11,8 +11,7 @@ function App() {
   return (
     <div className="App container">
     <div className="banner">
-        <img alt="Geo Canada" className="logo-bar" src={require('assets/logo.png')} />
-        <h3 className="text-bar">GEO CANADA</h3>
+        <img alt="Geo Canada" className="logo-bar" src={require('assets/logo.jpg')} />
     </div>
       <Routes />
     </div>
