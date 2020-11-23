@@ -9,10 +9,10 @@ import "assets/css/styles.css";
 
 function App() {
   return (
-    <div className="App container">
-    <div className="banner">
+    <div className="container-fluid p-0">
+    {/* <div className="banner">
         <img alt="Geo Canada" className="logo-bar" src={require('assets/logo.jpg')} />
-    </div>
+    </div> */}
       <Routes />
     </div>
   );
