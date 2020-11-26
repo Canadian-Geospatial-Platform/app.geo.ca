@@ -25,3 +25,23 @@
 .btn-search {
   background-color: #0074d9;
 }
+
+.sr-only {
+    display: none;
+  }
+
+  .btn-smaller {
+    border-radius: 13px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+.on-top {
+  z-index: 10;
+}
+
+.in-middle {
+  z-index: 5;
+}

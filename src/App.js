@@ -1,7 +1,6 @@
 import React from 'react';
 import Routes from "./routes";
 import { NavLink as NavLinkRRD, Link, withRouter, useHistory } from "react-router-dom";
-import logo from './logo.svg';
 import './App.css';
 import './index.css';
 
@@ -13,7 +12,9 @@ function App() {
     {/* <div className="banner">
         <img alt="Geo Canada" className="logo-bar" src={require('assets/logo.jpg')} />
     </div> */}
+    <div>
       <Routes />
+    </div>
     </div>
   );
 }
