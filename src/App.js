@@ -4,7 +4,7 @@ import { NavLink as NavLinkRRD, Link, withRouter, useHistory } from "react-route
 import './App.css';
 import './index.css';
 
-import "assets/css/styles.css";
+import "./assets/css/styles.css";
 
 function App() {
   return (
