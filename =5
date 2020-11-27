@@ -1,0 +1,8 @@
++ @testing-library/dom@7.28.1
+added 16 packages from 17 contributors, removed 1 package, updated 5 packages and audited 2158 packages in 26.544s
+
+72 packages are looking for funding
+  run `npm fund` for details
+
+found 1 high severity vulnerability
+  run `npm audit fix` to fix them, or `npm audit` for details
