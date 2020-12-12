@@ -1,19 +1,25 @@
 import React from 'react';
-import Routes from "./routes";
-import { NavLink as NavLinkRRD, Link, withRouter, useHistory } from "react-router-dom";
+import { 
+  //NavLink as NavLinkRRD, 
+  BrowserRouter as Router, 
+  Route, 
+  //Link, 
+  //withRouter, 
+  //useHistory 
+  } from "react-router-dom";
+import Main from "./en/main.jsx";
+// css
 import './App.css';
 import './index.css';
-
 import "./assets/css/styles.css";
 
-function App() {
+const App = () => {
   return (
+    <Router>
     <div className="container-fluid p-0">
-    <div>
-      <Routes />
+      <Route exact path="/" component={Main} />
     </div>
-    </div>
-  );
+    </Router>
+    );
 }
-
-export default withRouter(App);
+export default App;

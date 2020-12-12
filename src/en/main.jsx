@@ -59,6 +59,7 @@ import { css } from "@emotion/core";
 import BeatLoader from "react-spinners/BeatLoader";
 import { EditControl } from "react-leaflet-draw";
 
+import Dashboard from '../cognito-auth/Dashboard';
 
 class Main extends Component {
 
@@ -286,7 +287,8 @@ class Main extends Component {
   }
 
   render() {
-
+    const {hash} = this.props.location;
+    //console.log(hash);
     return (
       <>
       <div className="leaflet-container">
@@ -306,7 +308,7 @@ class Main extends Component {
            <Row className="align-items-center">
             <Col className="pt-2" xs="10" md="10" xl="10">
               <Input
-              placeHolder="Search ..."
+              placeholder="Search ..."
               id="search-input"
               type="search"
               onChange={this.handleChange}
@@ -400,14 +402,16 @@ class Main extends Component {
             </div>
            </Tab>
            <Tab id="aoi" header="Area of Interest" icon={<FiCrosshair />}>
-            <h4 className="pt-4 text-center">Would you like to set an Area of Interest?</h4>
-            <p className="pt-2 text-center">Do set a new Area of Interest, please zoom to the area of your choice and press the button below. Once pressed, you will be brought back to the results page with your new results. </p>
-            <div className="pt-2 justify-content-center text-center">
-            <Button className="btn-search text-center" onClick={this.handleAOI}>Set AOI</Button>
-            </div>
+             <div>
+              <h4 className="pt-4 text-center">Would you like to set an Area of Interest?</h4>
+              <p className="pt-2 text-center">Do set a new Area of Interest, please zoom to the area of your choice and press the button below. Once pressed, you will be brought back to the results page with your new results. </p>
+              <div className="pt-2 justify-content-center text-center">
+              <Button className="btn-search text-center" onClick={this.handleAOI}>Set AOI</Button>
+              </div>
+            </div>  
            </Tab>
            <Tab id="account" header="Account" anchor="bottom" icon={<FiUser />}>
-            <p>This is where the account will go.</p>
+            <Dashboard pname={hash} />
            </Tab>
            <Tab id="settings" header="Settings" anchor="bottom" icon={<FiSettings />}>
             <p>We don't want privacy so much as privacy settings!</p>
@@ -443,7 +447,7 @@ class Main extends Component {
       </FeatureGroup> */}
 
       {this.state.results.map((result) => (
-        <div>
+        <div key={'result'+result.id}>
         {(this.state.id === result.id && this.state.open === true ?
           <GeoJSON key={result.id} data={{
             "type": "Feature",
