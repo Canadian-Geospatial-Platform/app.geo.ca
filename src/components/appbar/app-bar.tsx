@@ -10,6 +10,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { DomEvent } from 'leaflet';
 
 import Layers from './buttons/layers';
+import Search from './buttons/search';
+import Account from './buttons/account';
 import Version from './buttons/version';
 
 const drawerWidth = 200;
@@ -57,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Appbar(props: AppBarProps): JSX.Element {
-    const { id } = props;
+    const { id, search, auth } = props;
     const { t } = useTranslation();
     const classes = useStyles();
 
@@ -95,6 +97,8 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     {items.map((item) => (
                         <Layers key={`${id}-${item.id}`} />
                     ))}
+                    {search && <Search key="search" />}
+                    {auth && <Account key="auth" />}
                 </List>
                 <Divider className={classes.spacer} />
                 <Divider />
@@ -109,4 +113,6 @@ export function Appbar(props: AppBarProps): JSX.Element {
 
 interface AppBarProps {
     id: string;
+    search: boolean;
+    auth: boolean;
 }

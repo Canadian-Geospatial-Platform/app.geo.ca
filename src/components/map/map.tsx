@@ -17,7 +17,7 @@ import { Appbar } from '../appbar/app-bar';
 import { NavBar } from '../navbar/nav-bar';
 
 function Map(props: MapProps): JSX.Element {
-    const { id, center, zoom, projection, language, layers } = props;
+    const { id, center, zoom, projection, language, search, auth, layers } = props;
 
     // get the needed projection. Web Mercator is out of the box but we need to create LCC
     // the projection will work with CBMT basemap. If another basemap would be use, update...
@@ -70,7 +70,7 @@ function Map(props: MapProps): JSX.Element {
             <AttributionControl position="bottomleft" />
             <OverviewMap crs={crs} basemaps={basemaps} zoomFactor={mapOptions.zoomFactor} />
             <div className="leaflet-control cgp-appbar">
-                <Appbar id={id} />
+                <Appbar id={id} search={search} auth={auth} />
             </div>
         </MapContainer>
     );
@@ -91,6 +91,8 @@ export function createMap(element: Element, config: MapConfig, i18nInstance: any
                         projection={config.projection}
                         language={config.language}
                         layers={config.layers}
+                        search={config.search}
+                        auth={config.auth}
                     />
                 </I18nextProvider>
             </Suspense>
@@ -106,6 +108,8 @@ interface MapConfig {
     zoom: number;
     projection: number;
     language: string;
+    search: boolean;
+    auth: boolean;
     layers?: LayerConfig[];
 }
 
@@ -115,5 +119,7 @@ interface MapProps {
     zoom: number;
     projection: number;
     language: string;
+    search: boolean;
+    auth: boolean;
     layers?: LayerConfig[];
 }
