@@ -1,0 +1,6 @@
+{
+    "region": "ca-central-1",
+    "userPool": "ca-central-1_2mbARkze7",
+    "identityPool": "ca-central-1:230256d5-f665-428b-a293-529db911bf7f",
+    "clientId": "3fb9r4n5bm9mfujrargkhnorgg"
+  }
