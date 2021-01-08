@@ -55,7 +55,7 @@ import FullscreenControl from 'react-leaflet-fullscreen';
 import axios from "axios";
 import { Sidebar, Tab } from 'react-leaflet-sidetabs'
 import { FiHome, FiChevronRight, FiSearch, FiSettings, FiCrosshair, FiUser } from "react-icons/fi";
-import { css } from "@emotion/core";
+//import { css } from "@emotion/core";
 import BeatLoader from "react-spinners/BeatLoader";
 import { EditControl } from "react-leaflet-draw";
 
@@ -237,21 +237,20 @@ class Main extends Component {
         let lat = position.coords.latitude;
         let lng = position.coords.longitude;
 
-        this.setState({ lat: lat });
-        this.setState({ lng: lng });
+       // this.setState({ lat: lat });
+       // this.setState({ lng: lng });
 
         let bounds =  this.refs.map.leafletElement.getBounds();
         let north = bounds._northEast.lat;
         let east = bounds._northEast.lng;
         let south = bounds._southWest.lat;
         let west = bounds._southWest.lng;
-
-        this.setState({ bounds: bounds });
+/*        this.setState({ bounds: bounds });
         this.setState({ north: north });
         this.setState({ east: east });
         this.setState({ south: south });
         this.setState({ west: west });
-
+*/
         const search = axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: {
           north: north,
           east: east,
@@ -266,11 +265,21 @@ class Main extends Component {
 
           console.log(options);
 
-          this.setState({ results: results });
+          //this.setState({ results: results });
 
           console.log(results);
+          this.setState({ 
+            results: results,
+            lat: lat,
+            lng: lng,
+            bounds: bounds,
+            north: north,
+            east: east,
+            south: south,
+            west: west,
+            loading: false });
 
-          this.setState({ loading: false });
+          //this.setState({ loading: false });
 
         })
       })
