@@ -40,11 +40,11 @@ import {
   ModalBody,
   ModalFooter
 } from "reactstrap";
-import { Map, GeoJSON } from 'react-leaflet';
+//import { Map, GeoJSON } from 'react-leaflet';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-
+import { css } from "@emotion/core";
 export default class GeoSearch extends Component {
 
   constructor(props) {
@@ -79,22 +79,23 @@ export default class GeoSearch extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     //this.handleCreate = this.handleCreate.bind(this);
     //this.handleAOI = this.handleAOI.bind(this);
-    //this.handleModal = this.handleModal.bind(this);
+    this.handleModal = this.handleModal.bind(this);
   }
 
-  onClose() {
-    this.setState({collapsed: true});
-  }
-  onOpen(id) {
-    this.setState({
-      collapsed: false,
-      selected: id,
-    })
-  }
+//   onClose() {
+//     this.setState({collapsed: true});
+//   }
+//   onOpen(id) {
+//     this.setState({
+//       collapsed: false,
+//       selected: id,
+//     });
+//   }
 
   handleSelect(event) {
-    this.setState({ id: event});
-    this.setState({ open: !this.state.open});
+    const {id, open} = this.state; 
+    const cardOpen = id === event ? !open : true;
+    this.setState({ id: event, open: cardOpen });
   }
 
   handleChange(event) {
@@ -109,43 +110,43 @@ export default class GeoSearch extends Component {
     this.setState({ modal: !this.state.modal});
   }
 
-  handleSearch()  {
+  handleSearch(keyword)  {
     this.setState({ loading: true });
     const {bounds} =  this.props;
-    const {keyword} = this.state;
+    //const {keyword} = this.state;
 
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition( async (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-        const north = bounds._northEast.lat;
-        const east = bounds._northEast.lng;
-        const south = bounds._southWest.lat;
-        const west = bounds._southWest.lng;
-
-        axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: {
-          north: north,
-          east: east,
-          south: south,
-          west: west,
-          keyword: keyword
-        }}).then(response => response.data)
+        const searchParams = {
+            north: bounds._northEast.lat,
+            east: bounds._northEast.lng,
+            south: bounds._southWest.lat,
+            west: bounds._southWest.lng,
+            keyword: keyword  
+        }
+        //const north = bounds._northEast.lat;
+        //const east = bounds._northEast.lng;
+        //const south = bounds._southWest.lat;
+        //const west = bounds._southWest.lng;
+        console.log(searchParams);
+        axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
+        .then(response => response.data)
         .then((data) => {
 
           console.log(data);
 
           const results = data.Items;
           
-          this.setState({ 
+          this.setState({...{
             results: results,  
             lat: lat,
             lng: lng,
             bounds: bounds,
-            north: north,
-            east: east,
-            south: south,
-            west: west,
-            loading: false });
+            loading: false},
+            ...searchParams
+          });
 
         });
       });
@@ -157,15 +158,16 @@ export default class GeoSearch extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.handleSearch();
+    this.handleSearch(this.keywordInput.value);
   }
 
   componentDidMount() {
-    this.handleSearch();
+    //this.handleSearch("");
   }
 
   render() {
-    const {loading, results, id, open} = this.state;  
+    const {loading, results, id, open, modal} = this.state; 
+     
     return (
       <div className="geoSearchContainer">
         <div className="searchInput">
@@ -173,29 +175,35 @@ export default class GeoSearch extends Component {
               placeholder="Search ..."
               id="search-input"
               type="search"
-              onChange={this.handleChange}
+              ref={e=>this.keywordInput=e}
+              disabled = {loading}
+              //onChange={this.handleChange}
             />
-            <button className="icon-button" type="button" onClick={this.handleSubmit}><SearchIcon /></button>
+            <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? this.handleSubmit : null}><SearchIcon /></button>
         </div>
-        <div className="searchResult">
-           {loading && Array.isArray(results) ?
+        <div className="container">
+           {loading ?
              <BeatLoader
               color={'#0074d9'}
               />
               :
-              results.map((result) => (
-                <div  key={result.id} className="resultCard">
-                {id === result.id && open === true ?
+              (!Array.isArray(results) || results.length===0 || results[0].id===undefined ? 
+              (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') : 
+              results.map((result) => (  
+                <div className="row" key={result.id}>
+                    <div className="col-lg-12 d-flex align-items-stretch">
+                    <Card className="p-0 col-lg-12">
+                    {(id === result.id && open === true ?
                     <div>
                         <div onClick={() => this.handleSelect(result.id)}>
-                        <h6>{result.title}</h6>
-                        <p>{result.description.substr(0,240)} <span onClick={this.handleModal}>...show more</span></p>
-                        <p><strong>Organisation: </strong>{result.organisation}</p>
-                        <p><strong>Published: </strong>{result.published}</p>
-                        <p><strong>Keywords: </strong>{result.keywords.substring(0, result.keywords.length - 2)}</p>
+                            <h6 className="text-left font-weight-bold pt-2 pl-2">{result.title}</h6>
+                            <p className="text-left pt-2 pl-2">{result.description.substr(0,240)} <span onClick={this.handleModal}>...show more</span></p>
+                            <p className="text-left pt-1 pl-2"><strong>Organisation: </strong>{result.organisation}</p>
+                            <p className="text-left pl-2"><strong>Published: </strong>{result.published}</p>
+                            <p className="text-left pl-2"><strong>Keywords: </strong>{result.keywords.substring(0, result.keywords.length - 2)}</p>
                         </div>
-                        <div><Button color="primary" size="sm" className="on-top" onClick={this.handleModal}>Show Metadata</Button></div>
-                        <Modal isOpen={this.state.modal} toggle={this.handleModal}>
+                        <div className="pt-2 pl-2 pb-3"><Button color="primary" size="sm" className="on-top" onClick={this.handleModal}>Show Metadata</Button></div>
+                        <Modal isOpen={modal} toggle={this.handleModal}>
                         <ModalHeader toggle={this.handleModal}>{result.title}</ModalHeader>
                         <ModalBody>
                             <p><strong>Description:</strong></p>
@@ -212,15 +220,19 @@ export default class GeoSearch extends Component {
                     </div>
                     :
                     <div onClick={() => this.handleSelect(result.id)}>
-                        <h6>{result.title}</h6>
-                        <p>{result.description}</p>
+                        <h6 className="text-left font-weight-bold pt-2 pl-2">{result.title}</h6>
+                        <p className="text-left pt-2 pl-2 text-truncate">{result.description}</p>
                     </div>
-                    }
-                    <div className="smallClick" onClick={() => this.handleSelect(result.id)}>
+                    )}
+                    <div className="p-1 text-center">
+                        <small onClick={() => this.handleSelect(result.id)}>
                         {id === result.id && open === true ? "Click to Close":"Click for More" }
+                        </small>
                     </div>
+                    </Card>
                 </div>
-              ))
+                </div>
+              )))
             }
         </div>
       </div>

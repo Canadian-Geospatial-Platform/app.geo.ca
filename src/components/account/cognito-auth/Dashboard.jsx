@@ -19,6 +19,7 @@ import ConfirmForm from './ConfirmForm';
 import RegisterForm from './RegisterForm';
 import ChangePasswordForm from './ChangePasswordForm';
 import UpdateEmailForm from './UpdateEmailForm';
+import UpdateProfileForm from './UpdateProfileForm';
 import PasswordResetForm from './PasswordResetForm';
 
 const BaseDashboard = ({ state, user, attributes}) => {
@@ -31,7 +32,7 @@ const BaseDashboard = ({ state, user, attributes}) => {
       {Object.keys(attributes).map(name => {
         return (
           <label key={name}>
-            <span>{name}</span>
+            <span>{name}: </span>
             {attributes[name]}
           </label>
           )
@@ -42,6 +43,7 @@ const BaseDashboard = ({ state, user, attributes}) => {
         </li>
         <li><button className="link-button" onClick={()=>setPage("change_password")}>Change password</button></li>
         <li><button className="link-button" onClick={()=>setPage("change_email")}>Change email address</button></li>
+        <li><button className="link-button" onClick={()=>setPage("change_profile")}>Change profile</button></li>
       </ul>
     </div>
   );
@@ -113,6 +115,14 @@ const BaseDashboard = ({ state, user, attributes}) => {
     </div>
   );
 
+  const updateProfilePage = () => (
+    <div className="authContainer">
+      <p>Change your Profile</p>
+      <UpdateProfileForm />
+      <button className="link-button" onClick={()=>setPage("account")}>Back to profile</button>
+    </div>
+  );
+
   const changePasswordPage = () => (
     <div className="authContainer">
       <p>Set a new password</p>
@@ -134,6 +144,8 @@ const BaseDashboard = ({ state, user, attributes}) => {
           return updatePage();
         case 'change_password':
           return changePasswordPage();  
+        case 'change_profile':
+          return updateProfilePage();  
         default:
           return loggedInPage(user, attributes);
       }

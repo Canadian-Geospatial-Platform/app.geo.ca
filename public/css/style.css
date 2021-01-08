@@ -20,7 +20,10 @@ body {
 .MuiDrawer-paper {
     position: relative !important;
 }
-
+.MuiCardContent-root {
+    height: 588px;
+    overflow-y: auto;
+}
 .leaflet-control-scale {
     z-index: 30;
     position: absolute;
@@ -78,7 +81,6 @@ input {
 .btn-button {
     color: #fff;
     background-color: #0074d9;
-    border-color: #4e555b;
     display: inline-block;
     font-weight: 400;
     text-align: center;
@@ -98,10 +100,14 @@ input {
 }
 
 .icon-button {
-    color: #fff;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    color:#fff;
     background-color: #0074d9;
-    border-color: #4e555b;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-weight: 400;
     text-align: center;
     white-space: nowrap;
@@ -111,18 +117,23 @@ input {
     -ms-user-select: none;
     user-select: none;
     border: 1px solid transparent;
-    padding: .375rem .375rem 0;
-    font-size: 14px;
-    line-height: 1.5;
+    padding: 0;
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    margin: 5px 5px 5px 0;
+    margin: 0;
 }
 
 .btn-button:hover, .icon-button:hover {
     color: #fff;
     background-color: #5a6268;
     border-color: #545b62;
+}
+
+.icon-button:disabled {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+    cursor: text;
 }
 
 .link-button {
@@ -145,30 +156,32 @@ input {
     cursor: pointer;
 }
 
+.modal {
+    font-size: 0.75rem;
+}
+.container {
+    font-size: 0.75rem;
+    padding:15px 0;
+    color: #000;
+}
+.container small, .container .card {
+    cursor: pointer;
+}
+
 .geoSearchContainer{
     width:100%;
     height: 100%;
-    overflow-y: auto ;
 }
 
 .geoSearchContainer .searchInput {
-    width:90%;
-    margin-right: 10%;
-    display: flex;
+    width: 100%;
     align-items: center;
 }
 
 .geoSearchContainer .searchInput input {
-    width: 80%;
+    width:80%;
+    display: inline-block;
     margin-right: 10px;
-}
-
-.geoSearchContainer .searchResult {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin:15px 0;
 }
 
 .authContainer,
