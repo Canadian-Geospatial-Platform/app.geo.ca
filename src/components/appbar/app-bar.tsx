@@ -98,9 +98,9 @@ export function Appbar(props: AppBarProps): JSX.Element {
                         <Layers key={`${id}-${item.id}`} />
                     ))}
                     {search && <Search key="search" />}
-                    {auth && <Account key="auth" />}
                 </List>
                 <Divider className={classes.spacer} />
+                {auth && <List><Account key="auth" /></List>}
                 <Divider />
                 <List className={classes.githubSection}>
                     <Version />
