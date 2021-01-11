@@ -2,39 +2,8 @@
 import React, { Component } from "react";
 // reactstrap components
 import {
-  Badge,
   Button,
   Card,
-  CardHeader,
-  CardBody,
-  CardImg,
-  CardTitle,
-  CardDeck,
-  CardSubtitle,
-  CardText,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledDropdown,
-  Form,
-  FormGroup,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  Label,
-  CustomInput,
-  ListGroupItem,
-  ListGroup,
-  Media,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
-  Container,
-  Row,
-  Col,
-  UncontrolledTooltip,
   Modal,
   ModalHeader,
   ModalBody,
@@ -93,9 +62,12 @@ export default class GeoSearch extends Component {
 //   }
 
   handleSelect(event) {
-    const {id, open} = this.state; 
+    const {selectResult} = this.props;  
+    const {id, open, results} = this.state; 
     const cardOpen = id === event ? !open : true;
-    this.setState({ id: event, open: cardOpen });
+    const result = Array.isArray(results) && results.length>0 && cardOpen ? results.find(r=>r.id===event): null;
+    console.log(result);
+    this.setState({ id: event, open: cardOpen}, selectResult(result));
   }
 
   handleChange(event) {
@@ -183,9 +155,11 @@ export default class GeoSearch extends Component {
         </div>
         <div className="container">
            {loading ?
-             <BeatLoader
-              color={'#0074d9'}
-              />
+             <div className="d-flex justify-content-center">
+                <BeatLoader
+                color={'#0074d9'}
+                />
+              </div>
               :
               (!Array.isArray(results) || results.length===0 || results[0].id===undefined ? 
               (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') : 

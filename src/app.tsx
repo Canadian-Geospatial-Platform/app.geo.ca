@@ -9,7 +9,7 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { createMap } from './components/map/map';
 
 import '../node_modules/leaflet/dist/leaflet.css';
-import '../public/css/style.css';
+import '../public/css/style.scss';
 
 // hack for default leaflet icon: https://github.com/Leaflet/Leaflet/issues/4968
 // TODO: put somewhere else
