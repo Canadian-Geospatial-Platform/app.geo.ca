@@ -98,11 +98,7 @@ export default class GeoSearch extends Component {
             west: bounds._southWest.lng,
             keyword: keyword  
         }
-        //const north = bounds._northEast.lat;
-        //const east = bounds._northEast.lng;
-        //const south = bounds._southWest.lat;
-        //const west = bounds._southWest.lng;
-        console.log(searchParams);
+        //console.log(searchParams);
         axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
         .then(response => response.data)
         .then((data) => {
