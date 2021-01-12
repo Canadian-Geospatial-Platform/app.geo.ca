@@ -9,7 +9,7 @@ import ButtonApp from '../button';
 
 export default function Layers(): JSX.Element {
     const map = useMap();
-
+    
     function handleclick() {
         render(<LayersPanel />, map.getContainer().getElementsByClassName('cgp-apppanel')[0]);
     }

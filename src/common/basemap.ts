@@ -70,8 +70,8 @@ export class Basemap {
         // get proper label url
         this.lccParamCBMT[1].url =
             this.language === 'en-CA'
-                ? this.lccParamCBMT[1].url.replaceAll('xxxx', 'CBMT')
-                : this.lccParamCBMT[1].url.replaceAll('xxxx', 'CBCT');
+                ? this.lccParamCBMT[1].url.replace(/xxxx/g, 'CBMT')
+                : this.lccParamCBMT[1].url.replace(/xxxx/g, 'CBCT');
         return this.lccParamCBMT;
     }
 
@@ -79,8 +79,8 @@ export class Basemap {
         // get proper label url
         this.wmParamCBMT[1].url =
             this.language === 'en-CA'
-                ? this.wmParamCBMT[1].url.replaceAll('xxxx', 'CBMT')
-                : this.wmParamCBMT[1].url.replaceAll('xxxx', 'CBCT');
+                ? this.wmParamCBMT[1].url.replace(/xxxx/g, 'CBMT')
+                : this.wmParamCBMT[1].url.replace(/xxxx/g, 'CBCT');
 
         return this.wmParamCBMT;
     }

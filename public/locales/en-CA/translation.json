@@ -20,6 +20,8 @@
         "fullscreen": "Full Screen",
         "help": "Help",
         "layers": "Layers",
+        "search": "Search",
+        "account": "Account",
         "share": "Share",
         "version": "Access GitHub repo"
     }

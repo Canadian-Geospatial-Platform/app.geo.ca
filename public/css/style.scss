@@ -1,0 +1,233 @@
+html {
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100vh;
+    /* width: 1500px;
+    height: 700px; */
+    margin: auto;
+    display: flex;
+}
+
+.cgp-appbar {
+    height: 100%;
+}
+
+.MuiDrawer-paper {
+    position: relative !important;
+}
+.MuiCardContent-root {
+    height: calc(100vh - 68px);
+    overflow-y: auto;
+}
+.leaflet-control-scale {
+    z-index: 30;
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    padding-left: 2px;
+    font-size: 11px;
+    font-weight: 500;
+    background-color:rgba(255, 255, 255, 0.80);
+    right: 0px;
+    bottom: 0px;
+    margin-bottom: 0px!important;
+    margin-right: 0px!important;
+}
+
+.leaflet-control-scale-line {
+    background-color: rgba(255, 255, 255, 0.80);
+    border: 1px solid #000!important;
+    border-left: none!important;
+    border-right: none!important;
+    border-top: none!important;
+    margin: auto!important;
+}
+
+.leaflet-control-attribution {
+    font-size: 11px;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.80)!important;
+    height: 20px!important;
+}
+
+.leaflet-control-mouseposition {
+    position: absolute !important;
+    right: 120px!important;
+    z-index: 800;
+    text-align: center;
+    bottom: 0px;
+    margin-bottom: 0px!important;
+    padding: 2px;
+    display: flex!important;
+    flex-direction: column;
+    font-size: 11px;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.80);
+}
+
+input {
+    width: 90%;
+    height: 30px;
+    box-sizing: border-box;
+    padding: 0 5px;
+    margin: 5px 0;  
+}
+
+.btn-button {
+    color: #fff;
+    background-color: #0074d9;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .125rem .75rem;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    margin: 5px 5px 5px 0;
+}
+
+.icon-button {
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    color:#fff;
+    background-color: #0074d9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    margin: 0;
+}
+
+.btn-button:hover, .icon-button:hover {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.icon-button:disabled {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+    cursor: text;
+}
+
+.link-button {
+    background: transparent;
+    border: none;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 5px 5px 5px 0;
+    padding: 0;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.modal {
+    font-size: 0.75rem;
+}
+.container {
+    font-size: 0.75rem;
+    padding: 25px 0;
+    color: #000;
+    small, .card {
+        cursor: pointer;
+    }
+    .css-0 {
+        margin: auto;
+    }
+}
+
+.geoSearchContainer{
+    width:100%;
+    height: 100%;
+    .searchInput {
+        width: 100%;
+        align-items: center;
+        input {
+            width: calc(100% - 40px);
+            display: inline-block;
+            margin-right: 10px;
+        }
+    }
+}
+
+.authContainer,
+.authForm {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 0;
+  font: 14px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.authContainer {
+    p {
+        margin: 0;
+        &:first-child {
+        font-size: 16px;
+        font-weight: 600;
+        }
+    }    
+    label {
+        width: 100%;
+        margin: 5px 0;
+        >span {
+        padding-right: 5px;
+        font-weight: 600;
+        }
+    }
+    ul {
+    list-style: none;
+    margin: 0;
+    padding: 5px 0;
+    }
+    .errMessage {
+    font-size: 14px;
+    font-weight: 500;
+    color: #d9002f;
+    margin: 0;
+    padding: 5px 0;
+    }
+    .pageMessage {
+    font-size: 14px;
+    font-weight: 500;
+    color: #00d9c7;
+    margin: 0;
+    padding: 5px 0;
+    }
+}
