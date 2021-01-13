@@ -1,0 +1,51 @@
+version: 1
+env:
+  variables:
+      key: value
+backend:
+  phases:
+    preBuild:
+      commands:
+        - *enter command*
+    build:
+      commands:
+        - *enter command*
+    postBuild:
+        commands:
+        - *enter command*
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd react-app
+        - npm ci
+    build:
+      commands:
+        - npm run serve
+  artifacts:
+    files:
+        - location
+        - location
+    discard-paths: yes
+    baseDirectory: location
+  cache:
+    paths:
+        - path
+        - path
+test:
+  phases:
+    preTest:
+      commands:
+        - *enter command*
+    test:
+      commands:
+        - *enter command*
+    postTest:
+      commands:
+        - *enter command*
+  artifacts:
+    files:
+        - location
+        - location
+    configFilePath: *location*
+    baseDirectory: *location*
