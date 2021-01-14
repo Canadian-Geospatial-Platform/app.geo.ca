@@ -6,7 +6,7 @@
   "main": "app.tsx",
   "scripts": {
     "serve": "webpack serve --progress --color --config webpack.prod.js",
-    "start": "webpack serve --open --config webpack.dev.js",
+    "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --progress --color --config webpack.prod.js",
     "deploy": "gh-pages -d dist",
     "test": "jest",

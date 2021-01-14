@@ -10,6 +10,7 @@ const config = {
     host: process.env.IP,
     https: false,
     disableHostCheck: true,
+    contentBase: path.resolve(__dirname, 'public'),
     historyApiFallback: true,
     contentBase: './dist',
     overlay: true,
