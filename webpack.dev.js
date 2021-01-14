@@ -7,10 +7,14 @@ const common = require('./webpack.common.js');
 const config = {
     mode: 'development',
     devServer: {
-        contentBase: './dist',
-        overlay: true,
-        hot: true,
-        port: 8080
+    host: process.env.IP,
+    https: false,
+    disableHostCheck: true,
+    historyApiFallback: true,
+    contentBase: './dist',
+    overlay: true,
+    hot: true,
+    port: 8080,
     },
 };
 
