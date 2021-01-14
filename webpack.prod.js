@@ -5,7 +5,13 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 const config = {
-    mode: 'development'
+    mode: 'development',
+    devServer: {
+        contentBase: './dist',
+        overlay: true,
+        hot: true,
+        port: 8080
+    },
 };
 
 module.exports = merge(common, config);
