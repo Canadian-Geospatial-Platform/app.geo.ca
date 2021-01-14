@@ -6,7 +6,7 @@ const common = require('./webpack.common.js');
 
 const config = {
     mode: 'development',
-    //devtool: 'source-map',
+    devtool: 'source-map',
     devServer: {
         contentBase: path.resolve(__dirname, 'public'),
         historyApiFallback: true,
