@@ -45,6 +45,7 @@
     "amplify": "0.0.11",
     "aws-sdk": "https://github.com/lucastrcts/aws-sdk-js",
     "axios": "^0.21.1",
+    "copy-webpack-plugin": "^7.0.0",
     "esri-leaflet": "2.5.1",
     "esri-leaflet-renderers": "2.0.6",
     "i18next": "19.8.4",

@@ -1,31 +1,18 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
 
-module.exports = {
+const config = {
     mode: 'development',
-    entry: './src/app.tsx',
-    output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/
-            }
-        ]
-    },
+    //devtool: 'source-map',
     devServer: {
-        contentBase: './dist',
-        overlay: true,
-        hot: true
+        contentBase: path.resolve(__dirname, 'public'),
+        historyApiFallback: true,
+        compress: true,
+        open: true,
     },
-    plugins: [
-        new CopyWebpackPlugin({
-            patterns: ['index.html']
-        }),
-        new webpack.HotModuleReplacementPlugin()
-    ]
 };
+
+module.exports = merge(common, config);
