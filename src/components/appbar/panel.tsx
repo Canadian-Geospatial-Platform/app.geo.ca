@@ -12,7 +12,7 @@ import { DomEvent } from 'leaflet';
 const useStyles = makeStyles(() =>
     createStyles({
         root: {
-            width: 300,
+            width: 450,
             height: '100%',
             margin: '0px 2px',
             borderRadius: 0,
