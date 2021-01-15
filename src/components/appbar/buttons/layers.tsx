@@ -9,10 +9,10 @@ import ButtonApp from '../button';
 
 export default function Layers(): JSX.Element {
     const map = useMap();
-    
+
     function handleclick() {
         render(<LayersPanel />, map.getContainer().getElementsByClassName('cgp-apppanel')[0]);
     }
 
-    return <ButtonApp tooltip="appbar.layers" icon={<LayersIcon />} onClickFunction={handleclick} />;
+    return <ButtonApp tooltip="Layers" icon={<LayersIcon />} onClickFunction={handleclick} />;
 }

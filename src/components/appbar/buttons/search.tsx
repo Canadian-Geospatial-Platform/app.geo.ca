@@ -13,7 +13,7 @@ export default function Search(): JSX.Element {
     function selectResult(result) {
         map.eachLayer((layer) => {
             //console.log(layer);
-            const feature = layer.feature; 
+            const feature = layer.feature;
             if ( !!feature && feature.type && feature.type==="Feature" && feature.properties && feature.properties.tag && feature.properties.tag === "geoViewGeoJSON") {
               map.removeLayer(layer);
             }
@@ -35,5 +35,5 @@ export default function Search(): JSX.Element {
         render(<SearchPanel bounds={initBounds} selectResult={selectResult} />, map.getContainer().getElementsByClassName('cgp-apppanel')[0]);
     }
 
-    return <ButtonApp tooltip="appbar.search" icon={<SearchIcon />} onClickFunction={handleclick} />;
+    return <ButtonApp tooltip="Search" icon={<SearchIcon />} onClickFunction={handleclick} />;
 }
