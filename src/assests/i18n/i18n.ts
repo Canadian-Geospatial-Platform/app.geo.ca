@@ -10,10 +10,9 @@ i18n.use(initReactI18next)
     // for all options read: https://www.i18next.com/overview/configuration-options
     .init({
         debug: true,
-
-        lng: 'fr-CA',
-        fallbackLng: 'f-CA',
-        whitelist: ['en-CA', 'fr-CA'],
+        lng: 'en-CA',
+        fallbackLng: 'en-CA',
+        whitelist: ['en-CA', 'fr-CA', 'en', 'fr'],
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default
         },

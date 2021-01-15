@@ -1,5 +1,5 @@
-
-import React, { Component } from "react";
+import React, { useState, useEffect, createRef } from "react";
+import PropTypes from 'prop-types';
 // reactstrap components
 import {
   Button,
@@ -9,172 +9,155 @@ import {
   ModalBody,
   ModalFooter
 } from "reactstrap";
-//import { Map, GeoJSON } from 'react-leaflet';
+//import { useMap } from 'react-leaflet';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/core";
-export default class GeoSearch extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      noData: false,
-      lat: '',
-      lng: '',
-      bounds: '',
-      north: '',
-      east: '',
-      south: '',
-      west: '',
-      results: [],
-      features: [],
-      properties: '',
-      collapsed: false,
-      selected: 'search',
-      id: '',
-      open: false,
-      value: '',
-      keyword: '',
-      modal: false
-
-    };
-    //this.map = useMap();
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    //this.handleCreate = this.handleCreate.bind(this);
-    //this.handleAOI = this.handleAOI.bind(this);
-    this.handleModal = this.handleModal.bind(this);
-  }
-
-//   onClose() {
-//     this.setState({collapsed: true});
-//   }
-//   onOpen(id) {
-//     this.setState({
-//       collapsed: false,
-//       selected: id,
-//     });
-//   }
-
-  handleSelect(event) {
-    const {selectResult} = this.props;  
-    const {id, open, results} = this.state; 
-    const cardOpen = id === event ? !open : true;
+const GeoSearch = ({geoMap}) => {
+  //const map = useMap();
+  const inputRef = createRef();
+  const [map, setMap] = useState(geoMap);
+  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState([]);
+  const [selected, setSelected] = useState("search");
+  const [open, setOpen] = useState(false);
+  const [keyword, setKeyword] = useState("");
+  const [modal, setModal] = useState(false);  
+  
+  const handleSelect = (event) => {
+    //const {selectResult} = this.props;  
+    const cardOpen = selected === event ? !open : true;
     const result = Array.isArray(results) && results.length>0 && cardOpen ? results.find(r=>r.id===event): null;
-    console.log(result);
-    this.setState({ id: event, open: cardOpen}, selectResult(result));
-  }
+    
+    setSelected(event);
+    setOpen(cardOpen);
+    selectResult(result);
+  };
 
-  handleChange(event) {
-    this.setState({ keyword: event.target.value });
-  }
-
-//   handleCreate(event) {
-//     console.log(event.target.getLatLngs());
-//   }
-
-  handleModal(event) {
-    this.setState({ modal: !this.state.modal});
-  }
-
-  handleSearch(keyword)  {
-    this.setState({ loading: true });
-    const {bounds} =  this.props;
-    //const {keyword} = this.state;
-
-    if (window.navigator.geolocation) {
-      window.navigator.geolocation.getCurrentPosition( async (position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        const searchParams = {
-            north: bounds._northEast.lat,
-            east: bounds._northEast.lng,
-            south: bounds._southWest.lat,
-            west: bounds._southWest.lng,
-            keyword: keyword  
+  const selectResult = (result) => {
+    map.eachLayer((layer) => {
+        //console.log(layer);
+        const feature = layer.feature; 
+        if ( !!feature && feature.type && feature.type==="Feature" && feature.properties && feature.properties.tag && feature.properties.tag === "geoViewGeoJSON") {
+          map.removeLayer(layer);
         }
-        //console.log(searchParams);
-        axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
-        .then(response => response.data)
-        .then((data) => {
+    });
 
-          console.log(data);
-
-          const results = data.Items;
-          
-          this.setState({...{
-            results: results,  
-            lat: lat,
-            lng: lng,
-            bounds: bounds,
-            loading: false},
-            ...searchParams
-          });
-
-        });
-      });
-    } else {
-      console.log("navigator not supported");
-      this.setState({ lat: 45.4236, lng: 75.7009, loading: false });
+    if (result!==null) {
+        const data = {
+                "type": "Feature",
+                "properties": {"id": result.id, "tag": "geoViewGeoJSON"},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": JSON.parse(result.coordinates)
+                } };
+        new L.geoJSON(data).addTo(map);
     }
-  }  
+  };
 
-  handleSubmit(event) {
+  const handleModal = () => {
+    setModal(!modal);
+  };
+
+  const handleSearch = (keyword) => {
+    setLoading(true);
+    const bounds = map.getBounds();
+    const searchParams = {
+        north: bounds._northEast.lat,
+        east: bounds._northEast.lng,
+        south: bounds._southWest.lat,
+        west: bounds._southWest.lng,
+        keyword: keyword 
+    }
+    //console.log(searchParams);
+    axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
+    .then(response => response.data)
+    .then((data) => {
+        console.log(data);
+        const results = data.Items;
+        setLoading(false);
+        setResults(results);
+        setKeyword(keyword);
+    })
+    .catch(err=>{
+        console.log(err);
+        setResults([]);
+        setKeyword(keyword);
+        setLoading(false);
+    });
+    
+  }; 
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    this.handleSearch(this.keywordInput.value);
-  }
+    const keyword = inputRef.current.value; 
+    handleSearch(keyword);
+  };
 
-  componentDidMount() {
-    //this.handleSearch("");
-  }
+  useEffect(() => {
+    /*if (window.navigator.geolocation) {
+        window.navigator.geolocation.getCurrentPosition( async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          map.panTo(new L.LatLng(lat, lng));
+        });
+    } else {
+    console.log("navigator not supported");
+    } */
+    //if (keyword!=='')
+    //  handleSearch(keyword);
+  });
+  
+  map.on('moveend', (event) => {
+    //event.preventDefault();  
+    var bounds = map.getBounds();
+    console.log(bounds);
+    if (!loading) {
+        //handleSearch(keyword);
+    }    
+  });
 
-  render() {
-    const {loading, results, id, open, modal} = this.state; 
-     
-    return (
-      <div className="geoSearchContainer">
+  //console.log(loading, results);
+  return (
+        <div className="geoSearchContainer">
         <div className="searchInput">
             <input
-              placeholder="Search ..."
-              id="search-input"
-              type="search"
-              ref={e=>this.keywordInput=e}
-              disabled = {loading}
-              //onChange={this.handleChange}
+                placeholder="Search ..."
+                id="search-input"
+                type="search"
+                ref={inputRef}
+                disabled = {loading}
+                //onChange={this.handleChange}
             />
-            <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? this.handleSubmit : null}><SearchIcon /></button>
+            <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
         <div className="container">
-           {loading ?
-             <div className="d-flex justify-content-center">
+            {loading ?
+                <div className="d-flex justify-content-center">
                 <BeatLoader
                 color={'#0074d9'}
                 />
-              </div>
-              :
-              (!Array.isArray(results) || results.length===0 || results[0].id===undefined ? 
-              (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') : 
-              results.map((result) => (  
+                </div>
+                :
+                (!Array.isArray(results) || results.length===0 || results[0].id===undefined ? 
+                (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') : 
+                results.map((result) => (  
                 <div className="row" key={result.id}>
                     <div className="col-lg-12 d-flex align-items-stretch">
                     <Card className="p-0 col-lg-12">
-                    {(id === result.id && open === true ?
+                    {(selected === result.id && open === true ?
                     <div>
-                        <div onClick={() => this.handleSelect(result.id)}>
+                        <div onClick={() => handleSelect(result.id)}>
                             <h6 className="text-left font-weight-bold pt-2 pl-2">{result.title}</h6>
-                            <p className="text-left pt-2 pl-2">{result.description.substr(0,240)} <span onClick={this.handleModal}>...show more</span></p>
+                            <p className="text-left pt-2 pl-2">{result.description.substr(0,240)} <span onClick={handleModal}>...show more</span></p>
                             <p className="text-left pt-1 pl-2"><strong>Organisation: </strong>{result.organisation}</p>
                             <p className="text-left pl-2"><strong>Published: </strong>{result.published}</p>
                             <p className="text-left pl-2"><strong>Keywords: </strong>{result.keywords.substring(0, result.keywords.length - 2)}</p>
                         </div>
-                        <div className="pt-2 pl-2 pb-3"><Button color="primary" size="sm" className="on-top" onClick={this.handleModal}>Show Metadata</Button></div>
-                        <Modal isOpen={modal} toggle={this.handleModal}>
-                        <ModalHeader toggle={this.handleModal}>{result.title}</ModalHeader>
+                        <div className="pt-2 pl-2 pb-3"><Button color="primary" size="sm" className="on-top" onClick={handleModal}>Show Metadata</Button></div>
+                        <Modal isOpen={modal} toggle={handleModal}>
+                        <ModalHeader toggle={handleModal}>{result.title}</ModalHeader>
                         <ModalBody>
                             <p><strong>Description:</strong></p>
                             <p>{result.description}</p>
@@ -184,29 +167,33 @@ export default class GeoSearch extends Component {
                         </ModalBody>
                         <ModalFooter>
                             <a href={`https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/` + result.id + `.geojson`} target="_blank" ><Button color="primary">View Full Metadata</Button></a>{' '}
-                            <Button color="secondary" onClick={this.handleModal}>Close</Button>
+                            <Button color="secondary" onClick={handleModal}>Close</Button>
                         </ModalFooter>
                         </Modal>
                     </div>
                     :
-                    <div onClick={() => this.handleSelect(result.id)}>
+                    <div onClick={() => handleSelect(result.id)}>
                         <h6 className="text-left font-weight-bold pt-2 pl-2">{result.title}</h6>
                         <p className="text-left pt-2 pl-2 text-truncate">{result.description}</p>
                     </div>
                     )}
                     <div className="p-1 text-center">
-                        <small onClick={() => this.handleSelect(result.id)}>
-                        {id === result.id && open === true ? "Click to Close":"Click for More" }
+                        <small onClick={() => handleSelect(result.id)}>
+                        {selected === result.id && open === true ? "Click to Close":"Click for More" }
                         </small>
                     </div>
                     </Card>
                 </div>
                 </div>
-              )))
+                )))
             }
         </div>
-      </div>
+        </div>
     );
-  }
 }
 
+GeoSearch.propTypes = {
+   map: PropTypes.object
+};
+  
+export default GeoSearch;
