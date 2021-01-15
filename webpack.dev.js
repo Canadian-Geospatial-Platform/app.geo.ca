@@ -6,12 +6,16 @@ const common = require('./webpack.common.js');
 
 const config = {
     mode: 'development',
-    devtool: 'source-map',
     devServer: {
-        contentBase: path.resolve(__dirname, 'public'),
-        historyApiFallback: true,
-        compress: true,
-        open: true,
+    host: process.env.IP,
+    https: false,
+    disableHostCheck: true,
+    contentBase: path.resolve(__dirname, 'public'),
+    historyApiFallback: true,
+    contentBase: './dist',
+    overlay: true,
+    hot: true,
+    port: 8080,
     },
 };
 

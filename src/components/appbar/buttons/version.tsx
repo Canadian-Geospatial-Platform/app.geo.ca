@@ -48,7 +48,7 @@ export default function Version(): JSX.Element {
 
     return (
         <ButtonApp
-            tooltip="appbar.version"
+            tooltip="Version"
             icon={<GitHubIcon />}
             onClickFunction={getRepo}
             content={

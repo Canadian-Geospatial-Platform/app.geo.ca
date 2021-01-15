@@ -11,7 +11,7 @@ export default function SearchPanel(props: SearchProps): JSX.Element {
     
     return (
         <PanelApp
-            title={'appbar.search'}
+            title={'Search'}
             icon={<SearchIcon />}
             content={
                 ((
@@ -23,8 +23,6 @@ export default function SearchPanel(props: SearchProps): JSX.Element {
         />
     );
 }
-
 interface SearchProps {
-    geoMap: React.ReactNode,
-    searchResult: Function
+    map: React.ReactNode
 }

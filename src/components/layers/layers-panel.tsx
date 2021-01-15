@@ -8,7 +8,7 @@ export default function LayersPanel(): JSX.Element {
     // TODO: register and unregister events when panel open and close
     return (
         <PanelApp
-            title={'appbar.layers'}
+            title={'Layers'}
             icon={<LayersIcon />}
             content={
                 ((

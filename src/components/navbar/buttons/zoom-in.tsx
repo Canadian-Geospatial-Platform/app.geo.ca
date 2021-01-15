@@ -14,5 +14,5 @@ export default function ZoomIn(props: OtherProps): JSX.Element {
         map.zoomIn();
     }
 
-    return <ButtonMapNav tooltip="mapnav.zoomIn" icon={<ZoomInIcon />} onClickFunction={zoomIn} parentClass={otherProps.className} />;
+    return <ButtonMapNav tooltip="Zoom in" icon={<ZoomInIcon />} onClickFunction={zoomIn} parentClass={otherProps.className} />;
 }
