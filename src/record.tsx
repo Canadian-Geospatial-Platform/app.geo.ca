@@ -27,8 +27,10 @@ export default function RecordPanel(props: RecordProps): JSX.Element {
         <PanelApp
             title={'Record'}            
             content={
-                ((
-                   // Add contents here
+                ((                   
+                   <div>
+                       // Add contents here
+                   </div>
                 ) as unknown) as Element
             }
         />
