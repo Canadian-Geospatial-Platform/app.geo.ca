@@ -85,14 +85,14 @@ const GeoSearch = ({geoMap}) => {
     });*/
   }
 
-  const handleSearch = (keyword) => {
+  const handleSearch = (keyword, bounds) => {
     !loading && setLoadingStatus(true);  
     
     const searchParams = {
-        north: initBounds._northEast.lat,
-        east: initBounds._northEast.lng,
-        south: initBounds._southWest.lat,
-        west: initBounds._southWest.lng,
+        north: bounds._northEast.lat,
+        east: bounds._northEast.lng,
+        south: bounds._southWest.lat,
+        west: bounds._southWest.lng,
         keyword: keyword 
     }
     //console.log(searchParams);
@@ -102,6 +102,7 @@ const GeoSearch = ({geoMap}) => {
         console.log(data);
         const results = data.Items;
         setResults(results);
+        setBounds(bounds);
         setKeyword(keyword);
         setLoadingStatus(false);
         if (selected!=='search' && open && results.find(r=>r.id===selected)) {
@@ -115,6 +116,7 @@ const GeoSearch = ({geoMap}) => {
     .catch(error=>{
         console.log(error);
         setResults([]);
+        setBounds(bounds);
         setKeyword(keyword);
         setSelected('search');
         setOpen(false);
@@ -131,7 +133,7 @@ const GeoSearch = ({geoMap}) => {
         event.preventDefault();
     }
     const keyword = inputRef.current.value; 
-    handleSearch(keyword);
+    handleSearch(keyword, initBounds);
   };
 
   useEffect(() => {
@@ -156,8 +158,8 @@ const GeoSearch = ({geoMap}) => {
         //console.log('research:', loading, keyword, mapCount);
         mapCount++;
         setLoadingStatus(true);
-        setBounds(mbounds);
-        handleSearch(keyword);
+        //setBounds(mbounds);
+        handleSearch(keyword, mbounds);
     }
   }
 
