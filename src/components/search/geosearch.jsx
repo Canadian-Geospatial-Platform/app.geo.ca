@@ -17,14 +17,16 @@ import { css } from "@emotion/core";
 const GeoSearch = ({geoMap}) => {
   //const map = useMap();
   const inputRef = createRef();
+  let mapCount = 0;
   const [map, setMap] = useState(geoMap);
+  const [initBounds, setBounds] = useState(geoMap.getBounds());
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState("search");
   const [open, setOpen] = useState(false);
-  const [keyword, setKeyword] = useState("");
+  const [initKeyword, setKeyword] = useState("");
   const [modal, setModal] = useState(false);  
-  
+   
   const handleSelect = (event) => {
     //const {selectResult} = this.props;  
     const cardOpen = selected === event ? !open : true;
@@ -60,14 +62,37 @@ const GeoSearch = ({geoMap}) => {
     setModal(!modal);
   };
 
+  const setLoadingStatus = (flag) => {
+    flag && 
+    map._handlers.forEach(handler => {
+        handler.disable();
+    });
+    /*flag &&
+    map._controls.forEach(control => {
+        control.disable();
+    });
+    */
+    setLoading(flag);
+    
+    !flag && 
+    map._handlers.forEach(handler => {
+        handler.enable();
+    });
+    //!flag && map.on('moveend', event=>eventHandler(event, initKeyword, initBounds));
+    /*!flag && 
+    map._controls.forEach(control => {
+        control.enable();
+    });*/
+  }
+
   const handleSearch = (keyword) => {
-    setLoading(true);
-    const bounds = map.getBounds();
+    !loading && setLoadingStatus(true);  
+    
     const searchParams = {
-        north: bounds._northEast.lat,
-        east: bounds._northEast.lng,
-        south: bounds._southWest.lat,
-        west: bounds._southWest.lng,
+        north: initBounds._northEast.lat,
+        east: initBounds._northEast.lng,
+        south: initBounds._southWest.lat,
+        west: initBounds._southWest.lng,
         keyword: keyword 
     }
     //console.log(searchParams);
@@ -76,21 +101,35 @@ const GeoSearch = ({geoMap}) => {
     .then((data) => {
         console.log(data);
         const results = data.Items;
-        setLoading(false);
         setResults(results);
         setKeyword(keyword);
+        setLoadingStatus(false);
+        if (selected!=='search' && open && results.find(r=>r.id===selected)) {
+            setSelected('search');
+            setOpen(false);
+            selectResult(null);
+        }
+        map.on('moveend', event=>eventHandler(event, keyword, initBounds));
+        mapCount=0;
     })
-    .catch(err=>{
-        console.log(err);
+    .catch(error=>{
+        console.log(error);
         setResults([]);
         setKeyword(keyword);
-        setLoading(false);
+        setSelected('search');
+        setOpen(false);
+        selectResult(null);
+        setLoadingStatus(false);
+        map.on('moveend', event=>eventHandler(event, keyword, initBounds));
+        mapCount=0;
     });
     
   }; 
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
     const keyword = inputRef.current.value; 
     handleSearch(keyword);
   };
@@ -107,16 +146,22 @@ const GeoSearch = ({geoMap}) => {
     } */
     //if (keyword!=='')
     //  handleSearch(keyword);
-  });
-  
-  map.on('moveend', (event) => {
-    //event.preventDefault();  
-    var bounds = map.getBounds();
-    console.log(bounds);
-    if (!loading) {
-        //handleSearch(keyword);
-    }    
-  });
+   });
+  const eventHandler = (event, keyword, bounds) => {
+    const mbounds = event.target.getBounds();
+    //console.log(mbounds,bounds);
+    map.off('moveend', eventHandler);
+    //console.log('status:', loading, 'keyword', keyword,initKeyword);
+    if (!loading && keyword!=="" && mapCount === 0 && !Object.is(mbounds, bounds)) {
+        //console.log('research:', loading, keyword, mapCount);
+        mapCount++;
+        setLoadingStatus(true);
+        setBounds(mbounds);
+        handleSearch(keyword);
+    }
+  }
+
+ // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);
   return (
