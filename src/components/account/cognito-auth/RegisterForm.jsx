@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 //import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import { useStore } from 'react-redux';
-//import { withRouter } from 'react-router';
 import { registerUser } from 'react-cognito';
-import { LinkedCameraTwoTone } from '@material-ui/icons';
+import axios from "axios";
+//import { LinkedCameraTwoTone } from '@material-ui/icons';
 
 const RegisterForm = () => {
   const store = useStore();
@@ -28,8 +28,7 @@ const RegisterForm = () => {
     //const state = store.getState();
     const userPool = state.cognito.userPool;
     const config = state.cognito.config;
-    event.preventDefault();
-    registerUser(userPool, config, username, password, {
+    const regData = {
         'email': emailAddr,
         'family_name': lname,
         'given_name': fname,
@@ -39,14 +38,38 @@ const RegisterForm = () => {
         'custom:city': city,
         'custom:prov': prov,
         'custom:postal_code': postalcode
-    }).then(
+    };
+    const dbData = {
+        'email': emailAddr,
+        'fname': fname,
+        'lname': lname, 
+        'org': org, 
+        'address': address,
+        'city': city,
+        'prov': prov,
+        'postal_code': postalcode,
+        'phone': phone
+    };
+    event.preventDefault();
+    registerUser(userPool, config, username, password, regData).then(
       (action) => {
         store.dispatch(action);
+        changeDB(dbData);
         history.push('/#account');
       },
       error => setError({ error }));
   }
 
+  const changeDB = (data) => {
+    const api = 'https://w3f1qdahx4.execute-api.ca-central-1.amazonaws.com/staging';
+    axios.post(api, data)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   const changeUsername = (event) => {
     setUsername(event.target.value);
   }
