@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <center>
+        <h1>NRCan GEO Keyword Search</h1> <br><br>
+
+        <input type="text" name="Keyvalue" id="keyvalue" size="50" style="width: 500px;height:30px" value="">
+        <br><br>
+
+        <form>
+            <input type="button" value="Search" style="width: 80px;height:30px" onclick="r1()" size="300">
+        </form>
+        <br><br>
+
+        <div>
+            <label for="resultSearch">Result of Search Query</label>
+        </div><br><br>
+
+        <textarea id="resultArea" name="resultArea" rows="50" cols="150">
+        </textarea>
+        <br><br>
+    </center>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        function r1() {
+
+            var params = {
+                keyword: document.getElementById('keyvalue').value,
+                keyword_only: 'true',
+                lang: 'en'
+            };
+
+            (async() => {
+                var response = await axios({
+                    url: 'https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo',
+                    method: 'get',
+                    params: params
+                })
+
+                let resultAfterResponse = JSON.stringify(response);
+                console.log(JSON.stringify(resultAfterResponse));
+                document.getElementById("resultArea").value = resultAfterResponse;
+
+            })()
+
+        }
+    </script>
+
+</body>
+
+</html>
