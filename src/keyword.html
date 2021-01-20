@@ -16,11 +16,10 @@
 
         <div>
             <label for="resultSearch">Result of Search Query</label>
-        </div><br>
-        <Br>
+        </div><br><br>
 
         <textarea id="resultArea" name="resultArea" rows="50" cols="150">
-  </textarea>
+        </textarea>
         <br><br>
     </center>
 
@@ -46,9 +45,6 @@
                 console.log(JSON.stringify(resultAfterResponse));
                 document.getElementById("resultArea").value = resultAfterResponse;
 
-                //console.log(JSON.stringify(response));
-                //document.getElementById("myTextarea").value = ;
-                //alert(JSON.stringify(response));
             })()
 
         }
