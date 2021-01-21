@@ -17,6 +17,7 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'gcpv-main.js',
+        publicPath: '/',
     },
     resolve: {
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx'],

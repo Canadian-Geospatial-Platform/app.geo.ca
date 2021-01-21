@@ -16,7 +16,7 @@ import { OverviewMap } from '../mapctrl/overview-map';
 import { Appbar } from '../appbar/app-bar';
 import { NavBar } from '../navbar/nav-bar';
 
-function Map(props: MapProps): JSX.Element {
+export function Map(props: MapProps): JSX.Element {
     const { id, center, zoom, projection, language, search, auth, layers } = props;
 
     // get the needed projection. Web Mercator is out of the box but we need to create LCC
@@ -73,6 +73,27 @@ function Map(props: MapProps): JSX.Element {
                 <Appbar id={id} search={search} auth={auth} />
             </div>
         </MapContainer>
+    );
+}
+
+export function renderMap(element: Element, config: MapConfig): void {
+    const center: LatLngTuple = [config.center[0], config.center[1]];
+
+    // * strict mode rendering twice explanation: https://mariosfakiolas.com/blog/my-react-components-render-twice-and-drive-me-crazy/
+    render(
+        <Suspense fallback="">
+            <Map
+                id={element.id}
+                center={center}
+                zoom={config.zoom}
+                projection={config.projection}
+                language={config.language}
+                layers={config.layers}
+                search={config.search}
+                auth={config.auth}
+            />
+        </Suspense>,
+        element
     );
 }
 
