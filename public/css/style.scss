@@ -6,6 +6,13 @@ body {
   margin: 0;
 }
 
+div#mapWM{
+    display: none;
+}
+div#root:empty ~ div#mapWM{
+    display: block;
+}
+
 .leaflet-container {
     width: 100%;
     height: 100vh;

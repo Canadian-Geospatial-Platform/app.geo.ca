@@ -1,6 +1,6 @@
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import {Route, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
+import {Route, HashRouter, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
 import './assests/i18n/i18n';
 import i18n from 'i18next';
@@ -32,7 +32,7 @@ const i18nInstance = i18n.cloneInstance({
 });
 const center: LatLngTuple = [config.center[0], config.center[1]];
 const routing = (
-    <Router>
+    <HashRouter>
         <StrictMode>
         <I18nextProvider i18n={i18nInstance}>
         <Switch>
@@ -44,7 +44,7 @@ const routing = (
         </Switch>
         </I18nextProvider>
         </StrictMode>
-    </Router>
+    </HashRouter>
 );
 
 ReactDOM.render(routing, document.getElementById('root'));

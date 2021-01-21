@@ -12,7 +12,7 @@ const config = {
     disableHostCheck: true,
     contentBase: path.resolve(__dirname, 'public'),
     historyApiFallback: true,
-    contentBase: './dist',
+    //contentBase: './dist',
     overlay: true,
     hot: true,
     port: 8080,
