@@ -184,6 +184,7 @@ input {
     width: 100%;
     display: flex;
     align-items: center;
+    margin: auto;
     input {
         width: calc(100% - 40px);
         display: inline-block;
@@ -191,16 +192,142 @@ input {
     }
 }
 
+.searchResult {
+    &.selected {
+        border: 2px solid #0074d9;
+    }
+    &:nth-of-type(even) {
+        background-color: #f2f2f2;
+    }
+}
+.rowDivider {
+	border: 1px solid #f2f2f2;
+}
+
+.rowDivider > .searchResult {
+	padding-bottom: 2em;
+	padding-top: 1.2em;
+}
+
+.rowDividerMd  {
+	border: 1px solid #f2f2f2;
+	padding-bottom: 2.5em;
+	padding-top: 2em;
+}
+
+.btn:not(:disabled):not(.disabled) {
+	cursor: pointer;
+}
+
+//search result
+
+.searchTitle {
+	font-size: 1.75em;
+	font-weight: 600;
+	text-transform: uppercase;
+	margin: 0.5em 0 0.5em 0;
+	color: #169548;
+}
+
+.searchDesc {
+	margin-bottom: 1em;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	font-size: 1.25em;
+	padding-bottom: 2em;
+}
+
+.searchButton {
+	background-color: #E6A44E;
+	color: #54595F;
+	margin-top: 1.2em;
+	transition-duration: 0.4s;
+	text-transform: uppercase;
+    letter-spacing: 0.1em;
+    width: auto;
+    &:hover  {
+        background-color: #54595F;
+        color: #E6A44E;
+    }
+}
+
+.broWhy {
+	border: 5px  orange solid;
+	background-color: teal;
+}
+
+.searchButtonGroup {
+	font-size: 0.9em;
+	color: #515aa9;
+	margin-bottom: 0.5em;
+    margin-top: 0.6em;
+    .searchButtonGroupBtn > button {
+        border: 1px solid #E6A44E;
+        background-color: rgba(0,0,0,0);
+        transition-duration: 0.4s;
+        text-transform: uppercase;
+        letter-spacing: 0.075em;
+        margin-top: 5px;
+        margin-left: 5px!important;
+        &:hover  {
+            color: #E6A44E;
+            border: 1px solid #515aa9;
+            background-color: #515aa9;
+        }
+    }
+}
+
+.searchImage {
+	border: 1px solid #169548;
+	height: 300px;
+	margin-top: 1em;
+	text-align: center;
+}
+
 .pageContainer {
     width:100%;
     height: 100%;
-    max-width: 1000px;
-    text-align: center;
     margin: 15px auto;
+    font-family: "Open Sans";
+    color: #54595F;
+    h1 {
+        margin: 20px auto;
+        text-align: center;
+    }
+    .searchInput {
+        max-width: 1000px;
+        padding: 0 20px;
+    }
+    .resultContainer {
+        padding: 25px 0;
+    }
 }
 .geoSearchContainer{
     width:100%;
     height: 100%;
+    font-family: "Open Sans";
+    color: #54595F;
+    
+    .searchTitle {
+        font-size: 1.25em;
+    }
+    
+    .searchDesc {
+        font-size: 1em;
+    }
+    
+    .searchButton {
+        width: 100%;
+        margin-bottom: 2em;
+    }
+    
+    .searchButtonGroupBtn {
+        margin-top: 5px;;
+        >.btn, >.btn-group, >.input-group {
+            margin-left: 0px;
+            font-size: 0.9em;
+        }
+    }
 }
 
 .authContainer,

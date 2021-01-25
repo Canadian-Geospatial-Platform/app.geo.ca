@@ -85,6 +85,14 @@ const GeoSearch = ({geoMap}) => {
     });*/
   }
 
+  const handleView = (id) => {
+    window.open("/#/result?id="+id, "View Record");
+  }
+
+  const handleKeyword = (keyword) => {
+    window.open("/#/?keyword="+keyword, "New Search");
+  }
+
   const handleSearch = (keyword, bounds) => {
     !loading && setLoadingStatus(true);  
     
@@ -189,9 +197,24 @@ const GeoSearch = ({geoMap}) => {
                 :
                 (!Array.isArray(results) || results.length===0 || results[0].id===undefined ? 
                 (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') : 
-                results.map((result) => (  
-                <div className="row" key={result.id}>
-                    <div className="col-lg-12 d-flex align-items-stretch">
+                <div className="row rowDivider"> 
+                {results.map((result) => (  
+                    <div key={result.id} class={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"}>
+                        <p class="searchTitle" onClick={() => handleSelect(result.id)}>{result.title}</p>
+                        <div class="searchButtonGroupToolbar">
+                            <div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
+                            {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
+                                return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
+                                            <button type="button" class="btn" onClick = {() => handleKeyword(keyword)}>{keyword}</button>
+                                        </div>)
+                            })}
+                        </div>
+                        <div>
+                            <p class="searchDesc" onClick={() => handleSelect(result.id)}>{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
+                            <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
+                        </div>
+                    </div>
+                    {/* <div className="col-lg-12 d-flex align-items-stretch">
                     <Card className="p-0 col-lg-12">
                     {(selected === result.id && open === true ?
                     <div>
@@ -230,10 +253,11 @@ const GeoSearch = ({geoMap}) => {
                         </small>
                     </div>
                     </Card>
+                </div> */}
+                </div> 
+                ))}
                 </div>
-                </div>
-                )))
-            }
+            )}
         </div>
         </div>
     );

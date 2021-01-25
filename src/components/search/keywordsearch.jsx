@@ -66,9 +66,18 @@ const KeywordSearch = () => {
     if (event) {
         event.preventDefault();
     }
+  
     const keyword = inputRef.current.value; 
     handleSearch(keyword);
   };
+
+  const handleView = (id) => {
+    window.open("/#/result?id="+id, "View Record");
+  }
+
+  const handleKeyword = (keyword) => {
+    window.open("/#/search?keyword="+keyword, "New Search page");
+  }
 
   return (
         <div className="pageContainer">
@@ -84,7 +93,7 @@ const KeywordSearch = () => {
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
-        <div className="container">
+        <div className="resultContainer">
             {loading ?
                 <div className="d-flex justify-content-center">
                 <BeatLoader
@@ -93,52 +102,37 @@ const KeywordSearch = () => {
                 </div>
                 :
                 (!Array.isArray(results) || results.length===0 || results[0].id===undefined ? 
-                (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') : 
+                <div className="d-flex justify-content-center">
+                    {Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result'}
+                </div> : 
                 results.map((result) => (  
-                <div className="row" key={result.id}>
-                    <div className="col-lg-12 d-flex align-items-stretch">
-                    <Card className="p-0 col-lg-12">
-                    {(selected === result.id && open === true ?
-                    <div>
-                        <div onClick={() => handleSelect(result.id)}>
-                            <h6 className="text-left font-weight-bold pt-2 pl-2">{result.title}</h6>
-                            <p className="text-left pt-2 pl-2">{result.description.substr(0,240)} <span onClick={handleModal}>...show more</span></p>
-                            <p className="text-left pt-1 pl-2"><strong>Organisation: </strong>{result.organisation}</p>
-                            <p className="text-left pl-2"><strong>Published: </strong>{result.published}</p>
-                            <p className="text-left pl-2"><strong>Keywords: </strong>{result.keywords.substring(0, result.keywords.length - 2)}</p>
+                <div key={result.id} class="searchResult container-fluid">
+                    <div class="row rowDividerMd">
+                        <div class="col-md-1" />
+                        <div class="col-md-4 searchImage">
+                            <p>Image height: 300px</p>
+                            {/* <img src="img/CensusDivision2016.png" alt="Census Subdivisions in 2016 in Canada" height="100%" loading="lazy" /> */}
                         </div>
-                        <div className="pt-2 pl-2 pb-3"><Button color="primary" size="sm" className="on-top" onClick={handleModal}>Show Metadata</Button></div>
-                        <Modal isOpen={modal} toggle={handleModal}>
-                        <ModalHeader toggle={handleModal}>{result.title}</ModalHeader>
-                        <ModalBody>
-                            <p><strong>Description:</strong></p>
-                            <p>{result.description}</p>
-                            <p><strong>Organisation:</strong> {result.organisation}</p>
-                            <p><strong>Published:</strong> {result.published}</p>
-                            <p><strong>Keywords:</strong> {result.keywords.substring(0, result.keywords.length - 2)}</p>
-                        </ModalBody>
-                        <ModalFooter>
-                            <a href={`https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/` + result.id + `.geojson`} target="_blank" ><Button color="primary">View Full Metadata</Button></a>{' '}
-                            <Button color="secondary" onClick={handleModal}>Close</Button>
-                        </ModalFooter>
-                        </Modal>
+                        <div class="col-md-6">
+                            <p class="searchTitle">{result.title}</p>
+                            <div class="searchButtonGroupToolbar">
+                                <div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
+                                {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
+                                    return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
+                                                <button type="button" class="btn" onClick = {() => handleKeyword(keyword)}>{keyword}</button>
+                                            </div>)
+                                })}
+                                </div>
+                                <div>
+                                    <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span onClick={handleModal}>...</span> : ""}</p>
+                                    <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
+                                </div>
+                            </div>    
+                        </div>
+                        <div class="col-md-1 " />
                     </div>
-                    :
-                    <div onClick={() => handleSelect(result.id)}>
-                        <h6 className="text-left font-weight-bold pt-2 pl-2">{result.title}</h6>
-                        <p className="text-left pt-2 pl-2 text-truncate">{result.description}</p>
-                    </div>
-                    )}
-                    <div className="p-1 text-center">
-                        <small onClick={() => handleSelect(result.id)}>
-                        {selected === result.id && open === true ? "Click to Close":"Click for More" }
-                        </small>
-                    </div>
-                    </Card>
-                </div>
-                </div>
-                )))
-            }
+                </div> 
+                )))}
         </div>
         </div>
     );
