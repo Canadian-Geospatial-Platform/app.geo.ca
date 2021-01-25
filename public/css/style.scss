@@ -222,10 +222,13 @@ input {
     label {
         width: 100%;
         margin: 5px 0;
+        display: flex;
+        flex-direction: column;
         >span {
         padding-right: 5px;
         font-weight: 600;
         }
+        
     }
     ul {
     list-style: none;

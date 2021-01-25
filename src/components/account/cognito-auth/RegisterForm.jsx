@@ -29,26 +29,26 @@ const RegisterForm = () => {
     const userPool = state.cognito.userPool;
     const config = state.cognito.config;
     const regData = {
-        'email': emailAddr,
-        'family_name': lname,
-        'given_name': fname,
-        'address': address,
-        'phone_number': phone,
-        'custom:org': org,
-        'custom:city': city,
-        'custom:prov': prov,
-        'custom:postal_code': postalcode
+        "email": emailAddr,
+        "family_name": lname,
+        "given_name": fname,
+        "address": address,
+        "phone_number": phone,
+        "custom:org": org,
+        "custom:city": city,
+        "custom:prov": prov,
+        "custom:postal_code": postalcode
     };
     const dbData = {
-        'email': emailAddr,
-        'fname': fname,
-        'lname': lname, 
-        'org': org, 
-        'address': address,
-        'city': city,
-        'prov': prov,
-        'postal_code': postalcode,
-        'phone': phone
+        "email": emailAddr,
+        "fname": fname,
+        "lname": lname, 
+        "org": org, 
+        "address": address,
+        "city": city,
+        "prov": prov,
+        "postal_code": postalcode,
+        "phone": phone
     };
     event.preventDefault();
     registerUser(userPool, config, username, password, regData).then(
