@@ -101,18 +101,8 @@ const GeoSearch = ({geoMap}) => {
   }
 
   const handleKeyword = (evt, keyword) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
     evt.stopPropagation();
-    window.open("/#/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
-=======
-    evt.stopPropagation();  
     window.open("/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
->>>>>>> e9a4727cdd57ef7043c2bb963205f850d68cee15
-=======
-    evt.stopPropagation();  
-    window.open("/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
->>>>>>> e9a4727cdd57ef7043c2bb963205f850d68cee15
   }
 
   const handleChange = (e) => {
