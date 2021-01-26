@@ -94,9 +94,9 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 </div>
                 <Divider />
                 <List>
-                    {items.map((item) => (
+                    {/*{items.map((item) => (
                         <Layers key={`${id}-${item.id}`} />
-                    ))}
+                    ))}*/}
                     {search && <Search key="search" />}
                 </List>
                 <Divider className={classes.spacer} />

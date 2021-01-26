@@ -84,7 +84,7 @@ input {
     height: 30px;
     box-sizing: border-box;
     padding: 0 5px;
-    margin: 5px 0;  
+    margin: 5px 0;
 }
 
 .btn-button {
@@ -113,7 +113,7 @@ input {
     height: 30px;
     box-sizing: border-box;
     color:#fff;
-    background-color: #0074d9;
+    background-color: #515AA9;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -226,30 +226,37 @@ input {
 .searchTitle {
 	font-size: 1.75em;
 	font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
 	text-transform: uppercase;
-	margin: 0.5em 0 0.5em 0;
-	color: #169548;
+	margin: 0 0 0.2em 0;
+	color: #515AA9;
 }
 
 .searchDesc {
-	margin-bottom: 1em;
-	margin-block-start: 1em;
-	margin-block-end: 1em;
+	margin-bottom: 0.2em;
+	margin-block-start: 0.5em;
+	//margin-block-end: 1em;
+  font-family: 'Open Sans', sans-serif;
 	font-size: 1.25em;
-	padding-bottom: 2em;
+	padding-bottom: 0.3em;
 }
 
 .searchButton {
-	background-color: #E6A44E;
-	color: #54595F;
-	margin-top: 1.2em;
+	background-color: #FFFFFF;
+	color: #515AA9;
+	margin-top: .5em;
 	transition-duration: 0.4s;
 	text-transform: uppercase;
-    letter-spacing: 0.1em;
-    width: auto;
+  letter-spacing: 0.1em;
+  float: right;
+  width: 50%!important;
+  border-radius: 25px;
+  border-width: 1px;
+  margin-bottom: 0.1em!important;
+
     &:hover  {
-        background-color: #54595F;
-        color: #E6A44E;
+        background-color: #515AA9;
+        color: #FFFFFF;
     }
 }
 
@@ -310,20 +317,20 @@ input {
     height: 100%;
     font-family: "Open Sans";
     color: #54595F;
-    
+
     .searchTitle {
         font-size: 1.25em;
     }
-    
+
     .searchDesc {
         font-size: 1em;
     }
-    
+
     .searchButton {
         width: 100%;
         margin-bottom: 2em;
     }
-    
+
     .searchButtonGroupBtn {
         margin-top: 5px;;
         >.btn, >.btn-group, >.input-group {
@@ -348,7 +355,7 @@ input {
         font-size: 16px;
         font-weight: 600;
         }
-    }    
+    }
     label {
         width: 100%;
         margin: 5px 0;
@@ -358,7 +365,7 @@ input {
         padding-right: 5px;
         font-weight: 600;
         }
-        
+
     }
     ul {
     list-style: none;

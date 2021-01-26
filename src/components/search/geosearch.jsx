@@ -19,9 +19,9 @@ const GeoSearch = ({geoMap}) => {
   const queryParams = {};
   const querySearch = window.location.href.split('?')[1];
   if (querySearch && querySearch.trim()!=='') {
-    querySearch.trim().split('&').forEach( q=>{ 
+    querySearch.trim().split('&').forEach( q=>{
         let item = q.split("=");
-        queryParams[item[0]] = decodeURI(item[1]); 
+        queryParams[item[0]] = decodeURI(item[1]);
     });
   }
   const inputRef = createRef();
@@ -36,16 +36,16 @@ const GeoSearch = ({geoMap}) => {
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
-  
+
   const handleModal = () => {
     setModal(!modal);
   };
 
   const handleSelect = (event) => {
-    //const {selectResult} = this.props;  
+    //const {selectResult} = this.props;
     const cardOpen = selected === event ? !open : true;
     const result = Array.isArray(results) && results.length>0 && cardOpen ? results.find(r=>r.id===event): null;
-    
+
     setSelected(event);
     setOpen(cardOpen);
     selectResult(result);
@@ -54,7 +54,7 @@ const GeoSearch = ({geoMap}) => {
   const selectResult = (result) => {
     map.eachLayer((layer) => {
         //console.log(layer);
-        const feature = layer.feature; 
+        const feature = layer.feature;
         if ( !!feature && feature.type && feature.type==="Feature" && feature.properties && feature.properties.tag && feature.properties.tag === "geoViewGeoJSON") {
           map.removeLayer(layer);
         }
@@ -73,7 +73,7 @@ const GeoSearch = ({geoMap}) => {
   };
 
   const setLoadingStatus = (flag) => {
-    flag && 
+    flag &&
     map._handlers.forEach(handler => {
         handler.disable();
     });
@@ -83,13 +83,13 @@ const GeoSearch = ({geoMap}) => {
     });
     */
     setLoading(flag);
-    
-    !flag && 
+
+    !flag &&
     map._handlers.forEach(handler => {
         handler.enable();
     });
     //!flag && map.on('moveend', event=>eventHandler(event, initKeyword, initBounds));
-    /*!flag && 
+    /*!flag &&
     map._controls.forEach(control => {
         control.enable();
     });*/
@@ -101,8 +101,18 @@ const GeoSearch = ({geoMap}) => {
   }
 
   const handleKeyword = (evt, keyword) => {
+<<<<<<< HEAD
+<<<<<<< HEAD
+    evt.stopPropagation();
+    window.open("/#/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
+=======
     evt.stopPropagation();  
     window.open("/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
+>>>>>>> e9a4727cdd57ef7043c2bb963205f850d68cee15
+=======
+    evt.stopPropagation();  
+    window.open("/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
+>>>>>>> e9a4727cdd57ef7043c2bb963205f850d68cee15
   }
 
   const handleChange = (e) => {
@@ -111,14 +121,14 @@ const GeoSearch = ({geoMap}) => {
   }
 
   const handleSearch = (keyword, bounds) => {
-    !loading && setLoadingStatus(true);  
-    
+    !loading && setLoadingStatus(true);
+
     const searchParams = {
         north: bounds._northEast.lat,
         east: bounds._northEast.lng,
         south: bounds._southWest.lat,
         west: bounds._southWest.lng,
-        keyword: keyword 
+        keyword: keyword
     }
     //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
@@ -150,14 +160,14 @@ const GeoSearch = ({geoMap}) => {
         map.on('moveend', event=>eventHandler(event, keyword, initBounds));
         mapCount=0;
     });
-    
-  }; 
+
+  };
 
   const handleSubmit = (event) => {
     if (event) {
         event.preventDefault();
     }
-    const keyword = inputRef.current.value; 
+    const keyword = inputRef.current.value;
     handleSearch(keyword, initBounds);
   };
 
@@ -201,17 +211,18 @@ const GeoSearch = ({geoMap}) => {
             {loading ?
                 <div className="d-flex justify-content-center">
                 <BeatLoader
-                color={'#0074d9'}
+                color={'#515AA9'}
                 />
                 </div>
                 :
-                (!Array.isArray(results) || results.length===0 || results[0].id===undefined ? 
-                (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') : 
-                <div className="row rowDivider"> 
-                {results.map((result) => (  
+                (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
+                (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') :
+                <div className="row rowDivider">
+                {results.map((result) => (
                     <div key={result.id} class={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"} onClick={() => handleSelect(result.id)}>
                         <p class="searchTitle">{result.title}</p>
-                        <div class="searchButtonGroupToolbar">
+
+                        {/*<div class="searchButtonGroupToolbar">
                             <div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
                             {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
                                 return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
@@ -219,11 +230,15 @@ const GeoSearch = ({geoMap}) => {
                                         </div>)
                             })}
                         </div>
+                        </div>*/}
+
                         <div>
                             <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
-                            <button type="button" class="btn btn-block searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
+                            <button type="button" class="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
                         </div>
-                    </div>
+
+
+
                     {/* <div className="col-lg-12 d-flex align-items-stretch">
                     <Card className="p-0 col-lg-12">
                     {(selected === result.id && open === true ?
@@ -264,7 +279,7 @@ const GeoSearch = ({geoMap}) => {
                     </div>
                     </Card>
                 </div> */}
-                </div> 
+                </div>
                 ))}
                 </div>
             )}
@@ -276,5 +291,5 @@ const GeoSearch = ({geoMap}) => {
 GeoSearch.propTypes = {
     map: PropTypes.object
  };
-   
+
  export default GeoSearch;

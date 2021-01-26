@@ -17,22 +17,22 @@ import { css } from "@emotion/core";
 function KeywordSearch(props)  {
   const queryParams = {};
   if (props.location.search.trim()!=='') {
-    props.location.search.trim().substr(1).split('&').forEach( q=>{ 
+    props.location.search.trim().substr(1).split('&').forEach( q=>{
         let item = q.split("=");
-        queryParams[item[0]] = decodeURI(item[1]); 
+        queryParams[item[0]] = decodeURI(item[1]);
     });
   }
-  
+
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
   const inputRef = createRef();
-  
+
   const handleSearch = (keyword) => {
-    setLoading(true);  
-    
+    setLoading(true);
+
     const searchParams = {
         keyword: keyword,
         keyword_only: 'true',
@@ -54,8 +54,8 @@ function KeywordSearch(props)  {
         //setKeyword(keyword);
         setLoading(false);
     });
-    
-  }; 
+
+  };
 
   const handleChange = (e) => {
       e.preventDefault();
@@ -66,8 +66,8 @@ function KeywordSearch(props)  {
     if (event) {
         event.preventDefault();
     }
-  
-    const keyword = inputRef.current.value; 
+
+    const keyword = inputRef.current.value;
     handleSearch(keyword);
   };
 
@@ -87,7 +87,6 @@ function KeywordSearch(props)  {
 
   return (
         <div className="pageContainer">
-        <h1>NRCan GEO Keyword Search</h1>
         <div className="searchInput">
             <input
                 placeholder="Search ..."
@@ -108,11 +107,11 @@ function KeywordSearch(props)  {
                 />
                 </div>
                 :
-                (!Array.isArray(results) || results.length===0 || results[0].id===undefined ? 
+                (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
                 <div className="d-flex justify-content-center">
                     {Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result'}
-                </div> : 
-                results.map((result) => (  
+                </div> :
+                results.map((result) => (
                 <div key={result.id} class="searchResult container-fluid">
                     <div class="row rowDividerMd">
                         <div class="col-md-1" />
@@ -123,22 +122,22 @@ function KeywordSearch(props)  {
                         <div class="col-md-6">
                             <p class="searchTitle">{result.title}</p>
                             <div class="searchButtonGroupToolbar">
-                                <div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
+                                {/*<div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
                                 {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
                                     return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
                                                 <button type="button" class="btn" onClick = {() => handleKeyword(keyword)}>{keyword}</button>
                                             </div>)
                                 })}
-                                </div>
+                                </div>*/}
                                 <div>
                                     <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
                                     <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
                                 </div>
-                            </div>    
+                            </div>
                         </div>
                         <div class="col-md-1 " />
                     </div>
-                </div> 
+                </div>
                 )))}
         </div>
         </div>
