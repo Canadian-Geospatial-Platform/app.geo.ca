@@ -1,6 +1,7 @@
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import {Route, HashRouter, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
+import BeatLoader from "react-spinners/BeatLoader";
 import { I18nextProvider } from 'react-i18next';
 import './assests/i18n/i18n';
 import i18n from 'i18next';
@@ -32,19 +33,19 @@ const i18nInstance = i18n.cloneInstance({
 });
 //const center: LatLngTuple = [config.center[0], config.center[1]];
 const routing = (
-    <Router>
-        <StrictMode>
         <I18nextProvider i18n={i18nInstance}>
-        <Switch>
-            <Route exact path="/" component={renderMap(maps[0], config)} />
-            <Route exact path="/search" component={KeywordSearch} />
-            <Route exact path="/result" component={MetaDataPage} />
-            <Route path="/404" render={() => <div>404 - Not Found</div>} />
-            <Redirect to="/404" /> 
-        </Switch>
-        </I18nextProvider>
+        <Router>
+        <StrictMode>
+            <Switch>
+                <Route exact path="/" component={renderMap(maps[0], config)} />
+                <Route exact path="/search" component={KeywordSearch} />
+                <Route exact path="/result" component={MetaDataPage} />
+                <Route path="/404" render={() => <div>404 - Not Found</div>} />
+                <Redirect to="/404" /> 
+            </Switch>
         </StrictMode>
-    </Router>
+        </Router>
+    </I18nextProvider>
 );
 
 ReactDOM.render(routing, document.getElementById('root'));

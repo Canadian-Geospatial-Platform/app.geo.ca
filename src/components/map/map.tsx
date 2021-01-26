@@ -81,7 +81,7 @@ export function renderMap(element: Element, config: MapConfig): void {
 
     // * strict mode rendering twice explanation: https://mariosfakiolas.com/blog/my-react-components-render-twice-and-drive-me-crazy/
     render(
-        <Suspense fallback="">
+        <Suspense fallback="loading">
             <Map
                 id={element.id}
                 center={center}

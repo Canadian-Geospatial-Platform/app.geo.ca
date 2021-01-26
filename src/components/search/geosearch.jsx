@@ -35,7 +35,7 @@ const GeoSearch = ({geoMap}) => {
   const [modal, setModal] = useState(false);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"environment");
+  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
 
   const handleModal = () => {
     setModal(!modal);
