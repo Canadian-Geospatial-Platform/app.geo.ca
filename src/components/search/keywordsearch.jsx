@@ -1,4 +1,5 @@
-import React, { useState, createRef } from "react";
+import React, { useState, createRef, useEffect } from "react";
+import {withRouter} from "react-router";
 // reactstrap components
 import {
   Button,
@@ -13,35 +14,29 @@ import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/core";
 
-const KeywordSearch = () => {
-  const inputRef = createRef();
+function KeywordSearch(props)  {
+  const queryParams = {};
+  if (props.location.search.trim()!=='') {
+    props.location.search.trim().substr(1).split('&').forEach( q=>{ 
+        let item = q.split("=");
+        queryParams[item[0]] = decodeURI(item[1]); 
+    });
+  }
+  
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
-  const [selected, setSelected] = useState("search");
-  const [open, setOpen] = useState(false);
-  //const [initKeyword, setKeyword] = useState("");
-  const [modal, setModal] = useState(false);  
-   
-  const handleSelect = (event) => {
-    //const {selectResult} = this.props;  
-    const cardOpen = selected === event ? !open : true;
-    const result = Array.isArray(results) && results.length>0 && cardOpen ? results.find(r=>r.id===event): null;
-    
-    setSelected(event);
-    setOpen(cardOpen);
-  };
-
-  const handleModal = () => {
-    setModal(!modal);
-  };
-
+  const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
+  const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
+  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
+  const inputRef = createRef();
+  
   const handleSearch = (keyword) => {
     setLoading(true);  
     
     const searchParams = {
         keyword: keyword,
         keyword_only: 'true',
-        lang: 'en'
+        lang: language
     }
     //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
@@ -62,6 +57,11 @@ const KeywordSearch = () => {
     
   }; 
 
+  const handleChange = (e) => {
+      e.preventDefault();
+      setKeyword(e.target.value);
+  }
+
   const handleSubmit = (event) => {
     if (event) {
         event.preventDefault();
@@ -72,12 +72,18 @@ const KeywordSearch = () => {
   };
 
   const handleView = (id) => {
-    window.open("/#/result?id="+id, "View Record");
+    window.open("/#/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
   }
 
   const handleKeyword = (keyword) => {
-    window.open("/#/search?keyword="+keyword, "New Search page");
+    window.open("/#/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
   }
+
+  useEffect(() => {
+    if (initKeyword !== '') {
+        handleSearch(initKeyword);
+    }
+  }, [language, theme]);
 
   return (
         <div className="pageContainer">
@@ -88,8 +94,9 @@ const KeywordSearch = () => {
                 id="search-input"
                 type="search"
                 ref={inputRef}
+                value={initKeyword}
                 disabled = {loading}
-                //onChange={this.handleChange}
+                onChange={handleChange}
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
@@ -124,7 +131,7 @@ const KeywordSearch = () => {
                                 })}
                                 </div>
                                 <div>
-                                    <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span onClick={handleModal}>...</span> : ""}</p>
+                                    <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
                                     <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
                                 </div>
                             </div>    

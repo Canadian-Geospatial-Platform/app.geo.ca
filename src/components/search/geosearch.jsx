@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import PropTypes from 'prop-types';
 // reactstrap components
 import {
@@ -14,8 +14,16 @@ import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/core";
+
 const GeoSearch = ({geoMap}) => {
-  //const map = useMap();
+  const queryParams = {};
+  const querySearch = window.location.href.split('?')[1];
+  if (querySearch && querySearch.trim()!=='') {
+    querySearch.trim().split('&').forEach( q=>{ 
+        let item = q.split("=");
+        queryParams[item[0]] = decodeURI(item[1]); 
+    });
+  }
   const inputRef = createRef();
   let mapCount = 0;
   const [map, setMap] = useState(geoMap);
@@ -24,9 +32,15 @@ const GeoSearch = ({geoMap}) => {
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState("search");
   const [open, setOpen] = useState(false);
-  const [initKeyword, setKeyword] = useState("");
-  const [modal, setModal] = useState(false);  
-   
+  const [modal, setModal] = useState(false);
+  const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
+  const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
+  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
+  
+  const handleModal = () => {
+    setModal(!modal);
+  };
+
   const handleSelect = (event) => {
     //const {selectResult} = this.props;  
     const cardOpen = selected === event ? !open : true;
@@ -58,10 +72,6 @@ const GeoSearch = ({geoMap}) => {
     }
   };
 
-  const handleModal = () => {
-    setModal(!modal);
-  };
-
   const setLoadingStatus = (flag) => {
     flag && 
     map._handlers.forEach(handler => {
@@ -86,11 +96,16 @@ const GeoSearch = ({geoMap}) => {
   }
 
   const handleView = (id) => {
-    window.open("/#/result?id="+id, "View Record");
+    window.open("/#/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
   }
 
   const handleKeyword = (keyword) => {
-    window.open("/#/?keyword="+keyword, "New Search");
+    window.open("/#/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
+  }
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setKeyword(e.target.value);
   }
 
   const handleSearch = (keyword, bounds) => {
@@ -144,19 +159,6 @@ const GeoSearch = ({geoMap}) => {
     handleSearch(keyword, initBounds);
   };
 
-  useEffect(() => {
-    /*if (window.navigator.geolocation) {
-        window.navigator.geolocation.getCurrentPosition( async (position) => {
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          map.panTo(new L.LatLng(lat, lng));
-        });
-    } else {
-    console.log("navigator not supported");
-    } */
-    //if (keyword!=='')
-    //  handleSearch(keyword);
-   });
   const eventHandler = (event, keyword, bounds) => {
     const mbounds = event.target.getBounds();
     //console.log(mbounds,bounds);
@@ -171,6 +173,11 @@ const GeoSearch = ({geoMap}) => {
     }
   }
 
+  useEffect(() => {
+    if (initKeyword !== '') {
+        handleSearch(initKeyword, initBounds);
+    }
+  }, [language, theme]);
  // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);
@@ -183,7 +190,8 @@ const GeoSearch = ({geoMap}) => {
                 type="search"
                 ref={inputRef}
                 disabled = {loading}
-                //onChange={this.handleChange}
+                value={initKeyword}
+                onChange={handleChange}
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
@@ -264,7 +272,7 @@ const GeoSearch = ({geoMap}) => {
 }
 
 GeoSearch.propTypes = {
-   map: PropTypes.object
-};
-  
-export default GeoSearch;
+    map: PropTypes.object
+ };
+   
+ export default GeoSearch;

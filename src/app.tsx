@@ -30,7 +30,7 @@ const i18nInstance = i18n.cloneInstance({
     lng: config.language,
     fallbackLng: config.language,
 });
-const center: LatLngTuple = [config.center[0], config.center[1]];
+//const center: LatLngTuple = [config.center[0], config.center[1]];
 const routing = (
     <HashRouter>
         <StrictMode>
