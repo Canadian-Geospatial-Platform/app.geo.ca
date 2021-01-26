@@ -95,11 +95,13 @@ const GeoSearch = ({geoMap}) => {
     });*/
   }
 
-  const handleView = (id) => {
+  const handleView = (evt, id) => {
+    evt.stopPropagation();
     window.open("/#/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
   }
 
-  const handleKeyword = (keyword) => {
+  const handleKeyword = (evt, keyword) => {
+    evt.stopPropagation();  
     window.open("/#/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
   }
 
@@ -207,19 +209,19 @@ const GeoSearch = ({geoMap}) => {
                 (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') : 
                 <div className="row rowDivider"> 
                 {results.map((result) => (  
-                    <div key={result.id} class={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"}>
-                        <p class="searchTitle" onClick={() => handleSelect(result.id)}>{result.title}</p>
+                    <div key={result.id} class={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"} onClick={() => handleSelect(result.id)}>
+                        <p class="searchTitle">{result.title}</p>
                         <div class="searchButtonGroupToolbar">
                             <div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
                             {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
                                 return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
-                                            <button type="button" class="btn" onClick = {() => handleKeyword(keyword)}>{keyword}</button>
+                                            <button type="button" class="btn" onClick = {(e) => handleKeyword(e, keyword)}>{keyword}</button>
                                         </div>)
                             })}
                         </div>
                         <div>
-                            <p class="searchDesc" onClick={() => handleSelect(result.id)}>{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
-                            <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
+                            <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
+                            <button type="button" class="btn btn-block searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
                         </div>
                     </div>
                     {/* <div className="col-lg-12 d-flex align-items-stretch">
