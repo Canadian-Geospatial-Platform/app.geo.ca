@@ -36,7 +36,10 @@ function KeywordSearch(props)  {
     const searchParams = {
         keyword: keyword,
         keyword_only: 'true',
-        lang: language
+        lang: language,
+    }
+    if (theme!=='') {
+        searchParams.theme = theme;
     }
     //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
@@ -72,7 +75,7 @@ function KeywordSearch(props)  {
   };
 
   const handleView = (id) => {
-    window.open("/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
+    window.open("/result?id="+encodeURI(id.trim())+"&lang="+language+"&theme="+theme, "View Record " + id.trim());
   }
 
   const handleKeyword = (keyword) => {
