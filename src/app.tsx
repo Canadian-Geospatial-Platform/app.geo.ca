@@ -32,7 +32,7 @@ const i18nInstance = i18n.cloneInstance({
 });
 //const center: LatLngTuple = [config.center[0], config.center[1]];
 const routing = (
-    <HashRouter>
+    <Router>
         <StrictMode>
         <I18nextProvider i18n={i18nInstance}>
         <Switch>
@@ -44,7 +44,7 @@ const routing = (
         </Switch>
         </I18nextProvider>
         </StrictMode>
-    </HashRouter>
+    </Router>
 );
 
 ReactDOM.render(routing, document.getElementById('root'));
