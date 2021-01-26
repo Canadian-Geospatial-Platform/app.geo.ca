@@ -27,7 +27,7 @@ function KeywordSearch(props)  {
   const [results, setResults] = useState([]);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
+  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"environment");
   const inputRef = createRef();
 
   const handleSearch = (keyword) => {

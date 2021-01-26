@@ -35,7 +35,7 @@ const GeoSearch = ({geoMap}) => {
   const [modal, setModal] = useState(false);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
+  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"environment");
 
   const handleModal = () => {
     setModal(!modal);
@@ -124,7 +124,7 @@ const GeoSearch = ({geoMap}) => {
     if (theme!=='') {
         searchParams.theme = theme;
     }
-    //console.log(searchParams);
+    console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
