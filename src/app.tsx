@@ -39,8 +39,8 @@ const routing = (
             <Route exact path="/" component={renderMap(maps[0], config)} />
             <Route exact path="/search" component={KeywordSearch} />
             <Route exact path="/result" component={MetaDataPage} />
-            {/* <Route path="/404" component={NotFoundPage} />
-            <Redirect to="/404" /> */}
+            <Route path="/404" render={() => <div>404 - Not Found</div>} />
+            <Redirect to="/404" /> 
         </Switch>
         </I18nextProvider>
         </StrictMode>
