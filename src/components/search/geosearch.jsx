@@ -97,7 +97,7 @@ const GeoSearch = ({geoMap}) => {
 
   const handleView = (evt, id) => {
     evt.stopPropagation();
-    window.open("/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
+    window.open("/#/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
   }
 
   const handleKeyword = (evt, keyword) => {
