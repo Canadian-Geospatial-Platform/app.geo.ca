@@ -228,6 +228,8 @@ const GeoSearch = ({geoMap}) => {
 
                         <div>
                             <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
+                            <p><strong>Organisation:</strong> {result.organisation}</p>
+                            <p><strong>Published:</strong> {result.published}</p>
                             <button type="button" class="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
                         </div>
 

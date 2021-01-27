@@ -1,5 +1,4 @@
 import React, { useState, createRef, useEffect } from "react";
-import {withRouter} from "react-router";
 // reactstrap components
 import {
   Button,
@@ -134,6 +133,8 @@ function KeywordSearch(props)  {
                                 </div>*/}
                                 <div>
                                     <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
+                                    <p><strong>Organisation:</strong> {result.organisation}</p>
+                                    <p><strong>Published:</strong> {result.published}</p>
                                     <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
                                 </div>
                             </div>
