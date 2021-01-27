@@ -33,6 +33,7 @@ const i18nInstance = i18n.cloneInstance({
 });
 //const center: LatLngTuple = [config.center[0], config.center[1]];
 const routing = (
+    <Suspense fallback={<BeatLoader color={'#515AA9'} />}>
         <I18nextProvider i18n={i18nInstance}>
         <Router>
         <StrictMode>
@@ -45,7 +46,8 @@ const routing = (
             </Switch>
         </StrictMode>
         </Router>
-    </I18nextProvider>
+        </I18nextProvider>
+    </Suspense>
 );
 
 ReactDOM.render(routing, document.getElementById('root'));
