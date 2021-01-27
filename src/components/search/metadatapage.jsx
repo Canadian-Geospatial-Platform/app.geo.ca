@@ -45,7 +45,7 @@ const MetaDataPage = (props) => {
     };
   
     const handleKeyword = (keyword) => {
-      window.open("/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
+      window.open("/#/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
     }
   
     useEffect(() => {
