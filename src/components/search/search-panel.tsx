@@ -11,7 +11,7 @@ export default function SearchPanel(props: SearchProps): JSX.Element {
     
     return (
         <PanelApp
-            title={'Search'}
+            title="appbar.search"
             icon={<SearchIcon />}
             content={
                 ((

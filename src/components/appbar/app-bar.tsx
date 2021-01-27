@@ -88,7 +88,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 classes={{ paper: open ? classes.drawerOpen : classes.drawerClose }}
             >
                 <div className={classes.toolbar}>
-                    <Tooltip title={t('Drawer')} placement="right" TransitionComponent={Fade}>
+                    <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
                         <IconButton onClick={handleDrawerClose}>{!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
                     </Tooltip>
                 </div>

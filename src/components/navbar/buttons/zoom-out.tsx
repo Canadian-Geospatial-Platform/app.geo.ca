@@ -14,5 +14,5 @@ export default function ZoomOut(props: OtherProps): JSX.Element {
         map.zoomOut();
     }
 
-    return <ButtonMapNav tooltip="Zoom out" icon={<ZoomOutIcon />} onClickFunction={zoomOut} parentClass={otherProps.className} />;
+    return <ButtonMapNav tooltip="mapnav.zoomOut" icon={<ZoomOutIcon />} onClickFunction={zoomOut} parentClass={otherProps.className} />;
 }

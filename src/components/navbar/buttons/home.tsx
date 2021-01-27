@@ -15,5 +15,5 @@ export default function Home(props: OtherProps): JSX.Element {
         map.fitBounds(initBounds);
     }
 
-    return <ButtonMapNav tooltip="Home" icon={<HomeIcon />} onClickFunction={setHome} parentClass={otherProps.className} />;
+    return <ButtonMapNav tooltip="mapnav.home" icon={<HomeIcon />} onClickFunction={setHome} parentClass={otherProps.className} />;
 }

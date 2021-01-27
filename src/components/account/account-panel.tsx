@@ -9,7 +9,7 @@ export default function AccountPanel(): JSX.Element {
     // TODO: register and unregister events when panel open and close
     return (
         <PanelApp
-            title={'Account'}
+            title="appbar.account"
             icon={<AccountIcon />}
             content={
                 ((

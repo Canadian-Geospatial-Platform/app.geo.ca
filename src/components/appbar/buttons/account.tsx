@@ -28,5 +28,5 @@ export default function Account(): JSX.Element {
         render(<Provider store={store}><AccountPanel /></Provider>, map.getContainer().getElementsByClassName('cgp-apppanel')[0]);
     }
 
-    return <ButtonApp tooltip="Account" icon={<AccountIcon />} onClickFunction={handleclick} />;
+    return <ButtonApp tooltip="appbar.account" icon={<AccountIcon />} onClickFunction={handleclick} />;
 }
