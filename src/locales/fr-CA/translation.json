@@ -16,6 +16,7 @@
         }
     },
     "appbar": {
+        "drawer": "Drawer",
         "export": "Exporter",
         "fullscreen": "Plein écran",
         "help": "Aide",

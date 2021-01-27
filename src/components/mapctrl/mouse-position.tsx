@@ -20,8 +20,8 @@ export function MousePosition(): JSX.Element {
 
     const onMouseMove = useCallback(
         (e) => {
-            const lat = coordFormnat(e.latlng.lat, e.latlng.lat > 0 ? t('North') : t('South'));
-            const lng = coordFormnat(e.latlng.lng, e.latlng.lng < 0 ? t('West') : t('East'));
+            const lat = coordFormnat(e.latlng.lat, e.latlng.lat > 0 ? t('mapctrl.mouseposition.north') : t('mapctrl.mouseposition.south'));
+            const lng = coordFormnat(e.latlng.lng, e.latlng.lng < 0 ? t('mapctrl.mouseposition.west') : t('mapctrl.mouseposition.east'));
             setPosition({ lat, lng });
         },
         [t]

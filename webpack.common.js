@@ -20,7 +20,7 @@ const config = {
         publicPath: '/',
     },
     resolve: {
-        extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx'],
+        extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json'],
         fallback: {
           "fs": false,
           "tls": false,

@@ -26,5 +26,5 @@ export default function Search(): JSX.Element {
             handleclick();
         }
     })
-    return <ButtonApp tooltip="Search" icon={<SearchIcon />} onClickFunction={handleclick} />;
+    return <ButtonApp tooltip="appbar.search" icon={<SearchIcon />} onClickFunction={handleclick} />;
 }

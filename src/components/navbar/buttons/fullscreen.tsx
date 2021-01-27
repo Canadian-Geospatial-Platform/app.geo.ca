@@ -22,7 +22,7 @@ export default function Fullscreen(props: OtherProps): JSX.Element {
 
     return (
         <ButtonMapNav
-            tooltip="Fullscreen"
+            tooltip="mapnav.fullscreen"
             icon={!fs ? <FullscreenIcon /> : <FullscreenExitIcon />}
             onClickFunction={setFullscreen}
             parentClass={otherProps.className}
