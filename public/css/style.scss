@@ -232,11 +232,17 @@ input {
 	color: #515AA9;
 }
 
+.searchFields {
+    font-size: 0.75em;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
 .searchDesc {
 	margin-bottom: 0.2em;
 	margin-block-start: 0.5em;
 	//margin-block-end: 1em;
-  font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 	font-size: 1.25em;
 	padding-bottom: 0.3em;
 }
