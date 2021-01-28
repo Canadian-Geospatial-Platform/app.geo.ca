@@ -33,10 +33,18 @@ const MetaDataPage = (props) => {
       axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id", { params: searchParams})
       .then(response => response.data)
       .then((data) => {
-          console.log(data);
-          const results = data.Items;
-          //console.log(data.Items);
+          //console.log(data);
+          const results = data.Items;    
+          const result1 = results[0];
+          console.log(result1);
+          let formattedOption = result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+          let formattedContact = result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+          let formattedCoordinates = result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);          
+
           setResults(results);
+          setOptions(formattedOption);
+          setContact(formattedContact);
+          setCoordinates(formattedCoordinates);
           //setKeyword(keyword);
           setLoading(false);
       })
@@ -48,7 +56,7 @@ const MetaDataPage = (props) => {
       });
   
     };
-  
+
     const handleKeyword = (keyword) => {
       window.open("/#/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
     }
@@ -90,9 +98,9 @@ const MetaDataPage = (props) => {
                                   <div>
                                       <p class="searchDesc">{result.description}</p>
                                       <p><strong>Published:</strong> {result.published}</p>
-                                      <p><strong>Options:</strong> {result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1)}</p>
-                                      <p><strong>Contact:</strong> {result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1)}</p>
-                                      <p><strong>Coordinates:</strong> {result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1)}</p>
+                                      <p><strong>Options:</strong> {options}</p>
+                                      <p><strong>Contact:</strong> {contact}</p>
+                                      <p><strong>Coordinates:</strong>{coordinates}</p>
                                   </div>
                               </div>
                           </div>
