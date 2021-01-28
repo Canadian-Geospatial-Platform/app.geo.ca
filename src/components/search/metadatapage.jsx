@@ -17,6 +17,10 @@ const MetaDataPage = (props) => {
     const [rid, setID] = useState(queryParams && queryParams["id"]?queryParams["id"].trim():"");
     const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
     const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
+    const [options, setOptions] = useState(queryParams && queryParams["options"]?queryParams["options"]:"");
+    const [contact, setContact] = useState(queryParams && queryParams["contact"]?queryParams["contact"]:"");
+    const [coordinates, setCoordinates] = useState(queryParams && queryParams["coordinates"]?queryParams["coordinates"]:"");
+    
 
     const handleSearch = (id) => {
       setLoading(true);
@@ -31,6 +35,7 @@ const MetaDataPage = (props) => {
       .then((data) => {
           console.log(data);
           const results = data.Items;
+          //console.log(data.Items);
           setResults(results);
           //setKeyword(keyword);
           setLoading(false);
@@ -85,6 +90,9 @@ const MetaDataPage = (props) => {
                                   <div>
                                       <p class="searchDesc">{result.description}</p>
                                       <p><strong>Published:</strong> {result.published}</p>
+                                      <p><strong>Options:</strong> {result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1)}</p>
+                                      <p><strong>Contact:</strong> {result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1)}</p>
+                                      <p><strong>Coordinates:</strong> {result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1)}</p>
                                   </div>
                               </div>
                           </div>
