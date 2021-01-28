@@ -29,6 +29,9 @@ div#root:empty ~ div#mapWM{
 .MuiDrawer-paper {
     position: relative !important;
 }
+.cgp-apppanel .MuiCard-root.jss13 {
+    margin: 0;
+} 
 .MuiCardContent-root {
     height: calc(100vh - 68px);
     overflow-y: auto;
