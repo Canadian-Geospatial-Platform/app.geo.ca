@@ -1,13 +1,15 @@
 import React, { useState, createRef, useEffect } from "react";
+
+import { MapContainer, TileLayer, ScaleControl, AttributionControl } from 'react-leaflet';
 // reactstrap components
-import {
-  Button,
-  Card,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from "reactstrap";
+// import {
+//   Button,
+//   Card,
+//   Modal,
+//   ModalHeader,
+//   ModalBody,
+//   ModalFooter
+// } from "reactstrap";
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -113,37 +115,76 @@ function KeywordSearch(props)  {
                 <div className="d-flex justify-content-center">
                     {Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result'}
                 </div> :
-                results.map((result) => (
+                results.map((result) => {
+                const coords = JSON.parse(result.coordinates);    
+                return (
                 <div key={result.id} class="searchResult container-fluid">
                     <div class="row rowDividerMd">
-                        <div class="col-md-1" />
-                        <div class="col-md-4 searchImage">
-                            <p>Image height: 300px</p>
-                            {/* <img src="img/CensusDivision2016.png" alt="Census Subdivisions in 2016 in Canada" height="100%" loading="lazy" /> */}
-                        </div>
-                        <div class="col-md-6">
-                            <p class="searchTitle">{result.title}</p>
-                            <div class="searchButtonGroupToolbar">
-                                {/*<div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
-                                {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
-                                    return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
-                                                <button type="button" class="btn" onClick = {() => handleKeyword(keyword)}>{keyword}</button>
-                                            </div>)
-                                })}
-                                </div>*/}
-                                <div>
-                                    <p className="searchFields"><strong>Organisation:</strong> {result.organisation}</p>
-                                    <p className="searchFields"><strong>Published:</strong> {result.published}</p>
-                                    <p className="searchFields"><strong>Keywords:</strong> {result.keywords.substring(0, result.keywords.length - 2)}</p>
-                                    <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
-                                    <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
+                        <div className="row col">
+                            <div class="col-md-1" />
+                            <div class="col-md-10">
+                                <p class="searchTitle">{result.title}</p>
+                                <div class="searchButtonGroupToolbar">
+                                    <div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
+                                    {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
+                                        return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
+                                                    <button type="button" class="btn" onClick = {() => handleKeyword(keyword)}>{keyword}</button>
+                                                </div>)
+                                    })}
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-md-1 " />
                         </div>
-                        <div class="col-md-1 " />
+                        <div className="row">
+                            <div class="col-md-1" />
+                            <div class="col-md-4">
+                                <div className="searchImage">
+                                <MapContainer
+                                    center={[43.65, -79.5]}
+                                    zoom={7}
+                                >
+                                    <TileLayer  url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution="© Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources" />
+                                    
+                                </MapContainer>
+                                    {/* {
+                                        var map = L.map('mapid_admin_1').setView([43.65, -79.5], 7);
+                                        L.tileLayer('https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg', {
+                                        attribution: '© Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources',
+                                        }).addTo( map );
+                                        
+                                        const data = {
+                                        "type": "Feature",
+                                        "properties": {"id": result.id, "tag": "geoViewGeoJSON"},
+                                        "geometry": {
+                                        "type": "Polygon",
+                                        "coordinates": JSON.parse(result.coordinates)
+                                        } };
+                                        var geo = L.geoJSON(data).addTo(map);
+                                        </script>
+                                    }
+                                    <p>Image height: 300px</p>
+                                    <p>
+                                    {coords[0][0][0]},
+                                    {coords[0][0][1]},
+                                    {coords[0][1][0]},
+                                    {coords[0][2][1]}
+                                    </p> */}
+                                    {/* <img src="img/CensusDivision2016.png" alt="Census Subdivisions in 2016 in Canada" height="100%" loading="lazy" /> */}
+                                </div>
+                            </div>    
+                            <div class="col-md-6">
+                                <p className="searchFields"><strong>Organisation:</strong> {result.organisation}</p>
+                                <p className="searchFields"><strong>Published:</strong> {result.published}</p>
+                                <p className="searchFields"><strong>Keywords:</strong> {result.keywords.substring(0, result.keywords.length - 2)}</p>
+                                <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
+                                <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
+                            </div>
+                            <div class="col-md-1 " />
+                        </div>
                     </div>
                 </div>
-                )))}
+                )}))}
         </div>
         </div>
     );
