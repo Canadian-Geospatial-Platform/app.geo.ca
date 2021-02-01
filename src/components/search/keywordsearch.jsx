@@ -1,6 +1,6 @@
 import React, { useState, createRef, useEffect } from "react";
 
-import { MapContainer, TileLayer, ScaleControl, AttributionControl } from 'react-leaflet';
+import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 // reactstrap components
 // import {
 //   Button,
@@ -144,33 +144,13 @@ function KeywordSearch(props)  {
                                     center={[43.65, -79.5]}
                                     zoom={7}
                                 >
-                                    <TileLayer  url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution="© Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources" />
-                                    
+                                    <TileLayer url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution="© Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources" />
+                                    <GeoJSON key={result.id} data={{
+                                            "type": "Feature",
+                                            "properties": {"id": result.id, "tag": "geoViewGeoJSON"},
+                                            "geometry": {"type": "Polygon", "coordinates": JSON.parse(result.coordinates)}
+                                            }} />          
                                 </MapContainer>
-                                    {/* {
-                                        var map = L.map('mapid_admin_1').setView([43.65, -79.5], 7);
-                                        L.tileLayer('https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg', {
-                                        attribution: '© Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources',
-                                        }).addTo( map );
-                                        
-                                        const data = {
-                                        "type": "Feature",
-                                        "properties": {"id": result.id, "tag": "geoViewGeoJSON"},
-                                        "geometry": {
-                                        "type": "Polygon",
-                                        "coordinates": JSON.parse(result.coordinates)
-                                        } };
-                                        var geo = L.geoJSON(data).addTo(map);
-                                        </script>
-                                    }
-                                    <p>Image height: 300px</p>
-                                    <p>
-                                    {coords[0][0][0]},
-                                    {coords[0][0][1]},
-                                    {coords[0][1][0]},
-                                    {coords[0][2][1]}
-                                    </p> */}
-                                    {/* <img src="img/CensusDivision2016.png" alt="Census Subdivisions in 2016 in Canada" height="100%" loading="lazy" /> */}
                                 </div>
                             </div>    
                             <div class="col-md-6">
