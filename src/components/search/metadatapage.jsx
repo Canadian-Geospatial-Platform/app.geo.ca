@@ -27,18 +27,10 @@ const MetaDataPage = (props) => {
     const [address, setAddress] = useState("");
     const [email, setEmail] = useState("");
     const [fax, setFax] = useState("");
-
-
-    // const [individual, setIndividual] = useState(
-    //     {contact: {
-    //           individual: "",
-    //           fieldTwo: {
-    //              fieldTwoOne: "b",
-    //              fieldTwoTwo: "c"
-    //              }
-    //           }
-    //      })
-    
+    const [status, setStatus] = useState("");
+    const [maintenance, setMaintenance] = useState("");
+    const [type, setType] = useState("");
+    const [spatialRepresentation,  setSpatialRepresentation] = useState("");       
 
     const handleSearch = (id) => {
       setLoading(true);
@@ -52,89 +44,40 @@ const MetaDataPage = (props) => {
       .then(response => response.data)
       .then((data) => {           
 
-            //console.log(data);
+          //console.log(data);
           const results = data.Items;    
           const result1 = results[0];
-          console.log(result1);
-        //   let formattedOption = result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-        //   let formattedContact = result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-        //   let formattedCoordinates = result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);          
+          console.log(result1);        
 
-             let formattedOption = result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-             let formattedContact = result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-             let formattedCoordinates = result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);      
+          let formattedOption = result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+          let formattedContact = result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+          let formattedCoordinates = result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);      
 
           setResults(results);
           setOptions(formattedOption);
           setContact((formattedContact));
           setCoordinates(formattedCoordinates);
-
-          console.log("-----Check Language----------------------------------------");
-          console.log(language);
-          console.log("-----------------------------------------------------");
-
+          
           let contact1 =   JSON.parse(formattedContact);
-          //let contact1 =   JSON.parse(contact);
-          //let contact1 =   contact;
-          //let contat11 = contact1[0]("individual");
-          
-          //console.log(console.log(data));
-          console.log(formattedContact);
-
-          
-          console.log("--------------------------------------------------");
-          console.log(contact1[0].individual);
-          setIndividual(contact1[0].individual);
-          console.log("--------------------------------------------------");
-          console.log(contact1[0].organisation);
-          //setOrganisation((language == 'en')?contact1[0].organisation.en:contact1[0].organisation.fr);
-          setOrganisation((language == 'en')? contact1[0].organisation.en: contact1[0].organisation.fr);
-
-          console.log("--------------------------------------------------");
-          console.log(contact1[0].role);
-          setRole(contact1[0].role);
-
-          console.log("--------------------------------------------------");  
-          console.log(contact1[0].telephone);
-          //setOrganisation((language == 'en')?contact1[0].organisation.en:contact1[0].organisation.fr);
+          setOrganisation((language == 'en')? contact1[0].organisation.en: contact1[0].organisation.fr);          
+          setRole(contact1[0].role);          
           setTelephone((language == 'en')? contact1[0].telephone.en: contact1[0].telephone.fr);
-
-          console.log("--------------------------------------------------");  
-          console.log(contact1[0].address);
-          //setOrganisation((language == 'en')?contact1[0].organisation.en:contact1[0].organisation.fr);
-          setAddress((language == 'en')? contact1[0].address.en: contact1[0].address.fr);
-
-          console.log("--------------------------------------------------");
-          console.log(contact1[0].fax);
-          setFax(contact1[0].fax);
-
-          console.log("--------------------------------------------------");  
-          console.log(contact1[0].email);
-          //setOrganisation((language == 'en')?contact1[0].organisation.en:contact1[0].organisation.fr);
+          setAddress((language == 'en')? contact1[0].address.en: contact1[0].address.fr);          
+          setFax(contact1[0].fax);          
           setEmail((language == 'en')? contact1[0].email.en: contact1[0].email.fr);
 
+          let statusArray = result1.status.split(';');
+          setStatus((language == 'en')? statusArray[0] : statusArray[1]);
           
-
-
-
-          console.log("--------------------------------------------------");
-          console.log(contact1);
-
-          console.log("--------------------------------------------------");  
-
-          console.log(result1);
-
-          //console.log(contact1[0].individual);
-          console.log("--------------------------------------------------");  
-
-          console.log(result1.contact);
-
-
-          //setIndividual(JSON.stringify(result1.contact[0].individual));
-
-
-          console.log(individual);
-
+          let maintenanceArray = result1.maintenance.split(';');          
+          setMaintenance((language == 'en')? maintenanceArray[0] : maintenanceArray[1]);
+          
+          let typeArray = result1.type.split(';');          
+          setType((language == 'en')? typeArray[0] : typeArray[1]);
+          
+          let spatialRepresentationArray = result1.spatialRepresentation.split(';');          
+          setSpatialRepresentation((language == 'en')? spatialRepresentationArray[0] : spatialRepresentationArray[1]);          
+          
           //setKeyword(keyword);
           setLoading(false);          
       })
@@ -320,12 +263,12 @@ const MetaDataPage = (props) => {
                                 </caption>
                                 <tbody id="tbody-adv-meta" class="collapses">
                                     <tr>
-                                    <th scope="row">Status</th>
-                                    <td>{result.status}</td>
+                                    <th scope="row">Status</th>                                   
+                                    <td>{status}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">Maintenance</th>
-                                    <td>{result.maintenance}</td>
+                                    <td>{maintenance}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">ID</th>
@@ -337,7 +280,7 @@ const MetaDataPage = (props) => {
                                     </tr>
                                     <tr>
                                     <th scope="row">Type</th>
-                                    <td>{result.type}</td>
+                                    <td>{type}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">North</th>
@@ -357,7 +300,7 @@ const MetaDataPage = (props) => {
                                     </tr>
                                     <tr>
                                     <th scope="row">Spatial Representation</th>
-                                    <td>{result.spatialRepresentation}</td>
+                                    <td>{spatialRepresentation}</td>
                                     </tr>
                                 </tbody>
                                 </table>
@@ -385,15 +328,7 @@ const MetaDataPage = (props) => {
                             </section>
                         </aside>
                     </div>
-                  </div>
-                 
-
-
-
-                
-                
-              
-
+                  </div>       
                   )))}
           </div>
           </div>
