@@ -239,6 +239,9 @@ input {
     font-size: 0.85em;
     line-height: 1.2;
     margin-bottom: 10px;
+    &:first-child {
+        margin-top: 1em;
+    }
 }
 
 .searchDesc {
@@ -300,7 +303,8 @@ input {
 	border: 1px solid #169548;
 	height: 300px;
 	margin-top: 1em;
-	text-align: center;
+    text-align: center;
+    overflow: hidden;
 }
 
 .pageContainer {
