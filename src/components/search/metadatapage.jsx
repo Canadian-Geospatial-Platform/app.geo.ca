@@ -76,29 +76,7 @@ const MetaDataPage = (props) => {
                   results.map((result) => (
                    
                   <div key={result.id} class="container-fluid container-search-result container-search-result-two-col">
-                      <div class="row rowDividerMd">
-                          <div class="col-md-1" />
-                          <div class="col-md-10">
-                              <p class="searchTitle">{result.title}</p>
-                              <div class="searchButtonGroupToolbar">
-                                  <div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
-                                  {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
-                                      return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
-                                                  <button type="button" class="btn" onClick = {() => handleKeyword(keyword)}>{keyword}</button>
-                                              </div>)
-                                  })}
-                                  </div>
-                                  <div>
-                                      <p class="searchDesc">{result.description}</p>
-                                      <p><strong>Published:</strong> {result.published}</p>
-                                      <p><strong>Options:</strong> {result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1)}</p>
-                                      <p><strong>Contact:</strong> {result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1)}</p>
-                                      <p><strong>Coordinates:</strong> {result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1)}</p>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="col-md-1 " />
-                      </div>
+     
                       <div class="row g-0">
                         <main class="col col-lg-8 main">
                             {/* Header */}
@@ -112,13 +90,7 @@ const MetaDataPage = (props) => {
                                 <p>{result.description}</p>
                                 </div>
                                 <div class="search-result-keywords">
-                                <p><strong>Keywords:</strong>
-                                    {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
-                                        return (
-                                            {keyword} 
-                                        )
-                                    })}
-                                </p>
+                                    <p><strong>Keywords: </strong> {result.keywords}</p>
                                 </div>
                                 <table class="table table-hover caption-top table-search-result table-meta">
                                 <caption>
@@ -135,7 +107,16 @@ const MetaDataPage = (props) => {
                                     </tr>
                                     <tr>
                                     <th scope="row">Temporal Coverage</th>
-                                    <td>TO-DO: {result.temporalExtent}</td>
+                                    <td> { result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").map((date, ki)=>{
+                                            let str = date.substring(date.indexOf("=") + 1);
+                                        
+                                            return (
+                                                <span>{str}</span>
+                                            )
+                                            }
+                                        
+                                        )}
+                                    </td>
                                     </tr>
                                     <tr>
                                     <th scope="row">Source(s) <em class="visually-hidden">(Same as Organization)</em></th>
