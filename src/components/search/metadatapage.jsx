@@ -20,6 +20,24 @@ const MetaDataPage = (props) => {
     const [options, setOptions] = useState(queryParams && queryParams["options"]?queryParams["options"]:"");
     const [contact, setContact] = useState(queryParams && queryParams["contact"]?queryParams["contact"]:"");
     const [coordinates, setCoordinates] = useState(queryParams && queryParams["coordinates"]?queryParams["coordinates"]:"");
+    const [individual, setIndividual] = useState("");
+    const [organisation, setOrganisation] = useState("");
+    const [role, setRole] = useState("");
+    const [telephone, setTelephone] = useState("");
+    const [address, setAddress] = useState("");
+    const [email, setEmail] = useState("");
+    const [fax, setFax] = useState("");
+
+
+    // const [individual, setIndividual] = useState(
+    //     {contact: {
+    //           individual: "",
+    //           fieldTwo: {
+    //              fieldTwoOne: "b",
+    //              fieldTwoTwo: "c"
+    //              }
+    //           }
+    //      })
     
 
     const handleSearch = (id) => {
@@ -32,13 +50,93 @@ const MetaDataPage = (props) => {
       //console.log(searchParams);
       axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id", { params: searchParams})
       .then(response => response.data)
-      .then((data) => {
-          console.log(data);
-          const results = data.Items;
-          //console.log(data.Items);
+      .then((data) => {           
+
+            //console.log(data);
+          const results = data.Items;    
+          const result1 = results[0];
+          console.log(result1);
+        //   let formattedOption = result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+        //   let formattedContact = result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+        //   let formattedCoordinates = result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);          
+
+             let formattedOption = result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+             let formattedContact = result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+             let formattedCoordinates = result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);      
+
           setResults(results);
+          setOptions(formattedOption);
+          setContact((formattedContact));
+          setCoordinates(formattedCoordinates);
+
+          console.log("-----Check Language----------------------------------------");
+          console.log(language);
+          console.log("-----------------------------------------------------");
+
+          let contact1 =   JSON.parse(formattedContact);
+          //let contact1 =   JSON.parse(contact);
+          //let contact1 =   contact;
+          //let contat11 = contact1[0]("individual");
+          
+          //console.log(console.log(data));
+          console.log(formattedContact);
+
+          
+          console.log("--------------------------------------------------");
+          console.log(contact1[0].individual);
+          setIndividual(contact1[0].individual);
+          console.log("--------------------------------------------------");
+          console.log(contact1[0].organisation);
+          //setOrganisation((language == 'en')?contact1[0].organisation.en:contact1[0].organisation.fr);
+          setOrganisation((language == 'en')? contact1[0].organisation.en: contact1[0].organisation.fr);
+
+          console.log("--------------------------------------------------");
+          console.log(contact1[0].role);
+          setRole(contact1[0].role);
+
+          console.log("--------------------------------------------------");  
+          console.log(contact1[0].telephone);
+          //setOrganisation((language == 'en')?contact1[0].organisation.en:contact1[0].organisation.fr);
+          setTelephone((language == 'en')? contact1[0].telephone.en: contact1[0].telephone.fr);
+
+          console.log("--------------------------------------------------");  
+          console.log(contact1[0].address);
+          //setOrganisation((language == 'en')?contact1[0].organisation.en:contact1[0].organisation.fr);
+          setAddress((language == 'en')? contact1[0].address.en: contact1[0].address.fr);
+
+          console.log("--------------------------------------------------");
+          console.log(contact1[0].fax);
+          setFax(contact1[0].fax);
+
+          console.log("--------------------------------------------------");  
+          console.log(contact1[0].email);
+          //setOrganisation((language == 'en')?contact1[0].organisation.en:contact1[0].organisation.fr);
+          setEmail((language == 'en')? contact1[0].email.en: contact1[0].email.fr);
+
+          
+
+
+
+          console.log("--------------------------------------------------");
+          console.log(contact1);
+
+          console.log("--------------------------------------------------");  
+
+          console.log(result1);
+
+          //console.log(contact1[0].individual);
+          console.log("--------------------------------------------------");  
+
+          console.log(result1.contact);
+
+
+          //setIndividual(JSON.stringify(result1.contact[0].individual));
+
+
+          console.log(individual);
+
           //setKeyword(keyword);
-          setLoading(false);
+          setLoading(false);          
       })
       .catch(error=>{
           console.log(error);
@@ -119,8 +217,8 @@ const MetaDataPage = (props) => {
                                     </td>
                                     </tr>
                                     <tr>
-                                    <th scope="row">Source(s) <em class="visually-hidden">(Same as Organization)</em></th>
-                                    <td>TO-DO: Government of Canada; Natural Resources Canada; Canadian Forest Service (CFS)</td>
+                                    <th scope="row">Source(s) <em class="visually-hidden">（Same as organization)</em></th>
+                                    <td>{organisation}</td>
                                     </tr>
                                 </tbody>
                                 </table>
@@ -176,31 +274,32 @@ const MetaDataPage = (props) => {
                                 <tbody id="tbody-contact-data">
                                     <tr>
                                     <th scope="row">Organization</th>
-                                    <td>Government of Canada; Natural Resources Canada; Canadian Forest Service (CFS)</td>
+                                    <td>{organisation}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">Address</th>
-                                    <td>506 West Burnside Road <br />Victoria, British Columbia <br />Canada <br />V8Z 1M5</td>
+                                    <td>{address}</td>
                                     </tr>
                                     <tr>
-                                    <th scope="row">Individual Name</th>
-                                    <td>Brian Low</td>
+                                    <th scope="row">Individual Name</th>                                    
+                                    <td>{individual}</td>                                    
                                     </tr>
                                     <tr>
                                     <th scope="row">Role</th>
-                                    <td>Distributor</td>
+                                    <td>{role}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">Telephone</th>
-                                    <td><a href="tel:1-250-298-2411" class="table-cell-link">1-250-298-2411</a></td>
+                                    {/* <td><a href="tel:1-250-298-2411" class="table-cell-link">1-250-298-2411</a></td> */}
+                                    <td>{telephone}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">Fax</th>
-                                    <td><a href="fax:1-250-298-2411" class="table-cell-link">1-250-298-2411</a></td>
+                                    <td>{fax}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">Email</th>
-                                    <td><a href="mailto:Dan.Turner@gov.bc.ca" class="table-cell-link">Dan.Turner@gov.bc.ca</a></td>
+                                    <td>{email}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">Web</th>
