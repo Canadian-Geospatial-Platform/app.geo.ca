@@ -156,7 +156,7 @@ function KeywordSearch(props)  {
                             <div class="col-md-6">
                                 <p className="searchFields"><strong>Organisation:</strong> {result.organisation}</p>
                                 <p className="searchFields"><strong>Published:</strong> {result.published}</p>
-                                <p className="searchFields"><strong>Keywords:</strong> {result.keywords.substring(0, result.keywords.length - 2)}</p>
+                                {/* <p className="searchFields"><strong>Keywords:</strong> {result.keywords.substring(0, result.keywords.length - 2)}</p> */}
                                 <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
                                 <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
                             </div>
