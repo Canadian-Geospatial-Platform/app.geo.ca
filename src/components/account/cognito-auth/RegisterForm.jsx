@@ -23,6 +23,37 @@ const RegisterForm = () => {
   const [phone, setPhone] = useState("");
   const [stateError, setError] = useState({error:""});
 
+ /* const validation = () => {
+
+  }
+
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let emailValid = this.state.emailValid;
+    let passwordValid = this.state.passwordValid;
+  
+    switch(fieldName) {
+      case 'email':
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+        break;
+      case 'password':
+        passwordValid = value.length >= 6;
+        fieldValidationErrors.password = passwordValid ? '': ' is too short';
+        break;
+      default:
+        break;
+    }
+    this.setState({formErrors: fieldValidationErrors,
+                    emailValid: emailValid,
+                    passwordValid: passwordValid
+                  }, this.validateForm);
+  }
+  
+  validateForm() {
+    this.setState({formValid: this.state.emailValid && this.state.passwordValid});
+  }
+*/
   const onSubmit = (event) => {
     //const { store } = this.context;
     //const state = store.getState();
@@ -55,6 +86,7 @@ const RegisterForm = () => {
       (action) => {
         store.dispatch(action);
         changeDB(dbData);
+        setError({error:'A new account created'});
         history.push('/#account');
       },
       error => setError({ error }));

@@ -23,23 +23,47 @@ const UpdateProfileForm = () => {
     //const state = store.getState();
     const user = state.cognito.user;
     const config = state.cognito.config;
+    const regData = {
+        "family_name": lname,
+        "given_name": fname,
+        "address": address,
+        "phone_number": phone,
+        "custom:org": org,
+        "custom:city": city,
+        "custom:prov": prov,
+        "custom:postal_code": postalcode
+    };
+    const dbData = {
+        "email": emailAddr,
+        "fname": fname,
+        "lname": lname, 
+        "org": org, 
+        "address": address,
+        "city": city,
+        "prov": prov,
+        "postal_code": postalcode,
+        "phone": phone
+    };
     event.preventDefault();
-    updateAttributes(user, {
-        'family_name': lname,
-        'given_name': fname,
-        'address': address,
-        'phone_number': phone,
-        'custom:org': org,
-        'custom:city': city,
-        'custom:prov': prov,
-        'custom:postal_code': postalcode
-    }, config).then(
+    updateAttributes(user, regData, config).then(
       (action) => {
         store.dispatch(action);
-        setError({error:'email changed'});
+        changeDB(dbData);
+        setError({error:'Profile changed'});
       },
       error => setError({ error }),
     );
+  }
+
+  const changeDB = (data) => {
+    const api = 'https://w3f1qdahx4.execute-api.ca-central-1.amazonaws.com/staging';
+    axios.post(api, data)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   const changeFname = (event) => {
