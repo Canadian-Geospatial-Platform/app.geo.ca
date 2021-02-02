@@ -309,6 +309,9 @@ input {
 	margin-top: 1em;
     text-align: center;
     overflow: hidden;
+    .leaflet-container {
+        height: 300px;
+    }
 }
 
 .pageContainer {
@@ -592,6 +595,9 @@ input {
                 .ratio {
                     max-height: 300px;
                     overflow: hidden;
+                    .leaflet-container {
+                        max-height: 300px;
+                    }
                 }
             }
 
