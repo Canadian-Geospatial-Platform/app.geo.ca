@@ -262,12 +262,12 @@ input {
 	margin-top: .5em;
 	transition-duration: 0.4s;
 	text-transform: uppercase;
-  letter-spacing: 0.1em;
-  float: right;
-  width: 50%!important;
-  border-radius: 25px;
-  border-width: 1px;
-  margin-bottom: 0.1em!important;
+    letter-spacing: 0.1em;
+    float: right;
+    width: 50%!important;
+    border-radius: 25px;
+    border: 1px solid #515aa9;
+    margin-bottom: 0.1em!important;
 
     &:hover  {
         background-color: #515AA9;
@@ -292,7 +292,7 @@ input {
         text-transform: uppercase;
         letter-spacing: 0.075em;
         margin-top: 5px;
-        margin-left: 5px!important;
+        margin-right: 5px!important;
         color: #515aa9;
         font-size: 0.8em;
         &:hover  {
