@@ -405,3 +405,203 @@ input {
     padding: 5px 0;
     }
 }
+
+// Single search result page
+
+@import 'variables-site/variables-site';
+
+.container-search-result {
+    // Primary Column
+    .main {
+        color: $color__light;
+        background-color: $color__logo-blue;
+        font-weight: 300;
+        @media (max-width: 991.98px) {
+            order: 2;
+        }
+
+        .header {
+            margin: 1.5em 5% 1.5em 5%;
+            padding: 1em 0 0.5em 0;
+            .btn-back-to-search {
+                color: $color__light;
+                padding-left: 0;
+                i {
+                    font-size: 1.5em;
+                }
+            }
+            .search-result-page-title {
+                color: $color__text-heading-2;
+                font-size: 2.25em;
+                text-align: left;
+            }
+        }
+
+        .sec-search-result {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin: 0 5% 1.5em 5%;
+            padding: 5%;
+        }
+
+        .sec-title {
+            color: $color__text-heading-2;
+            margin-bottom: 0.5em;
+            text-transform: uppercase;
+            font-size: 1.75em;
+        }
+
+        .search-result-desc {
+            p {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .search-result-keywords {
+            border-top: 1px solid $color__table-border-2;
+            border-bottom: 1px solid $color__table-border-2;
+            font-size: 14px;
+            margin-bottom: 1em;
+            padding: 0.5rem 0;
+            p {
+                margin: 0;
+            }
+            strong {
+                color: $color__table-heading-2;
+                font-weight: normal;
+                text-transform: uppercase;
+            }
+        }
+
+        .table-search-result {
+            border-color: $color__table-border-2;
+            color: $color__light;
+
+            tbody > tr:hover {
+                color: $color__light;
+            }
+
+            caption {
+                caption-side: top;
+                color: $color__light;
+                font-size: 1.3rem;
+                text-transform: uppercase;
+                a {
+                    position: relative;
+                    color: $color__light;
+                    display: block;
+                    text-decoration: none;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        right: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        display: inline-block;
+                        background-repeat: no-repeat;
+                        background-size: 1em;
+                        height: 1em;
+                        width: 1em;
+                        background-image: url($ico__bi-chevron-down);
+                        // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
+                        filter: invert(100%) sepia(93%) saturate(0%) hue-rotate(265deg) brightness(105%) contrast(109%);
+                    }
+                    &::after[aria-expanded='true'] {
+                        background-image: url($ico__bi-chevron-up);
+                    }
+                    &::after[aria-expanded='false'] {
+                        background-image: url($ico__bi-chevron-down);
+                    }
+                }
+            }
+
+            th {
+                color: $color__table-heading-2;
+                font-weight: 100;
+                width: 40%;
+                text-transform: uppercase;
+            }
+
+            .table-cell-link {
+                display: flex;
+                color: $color__link-2;
+                text-decoration: none;
+                &:hover {
+                    color: $color__table-heading-2;
+                    &::before {
+                        filter: invert(100%) sepia(46%) saturate(3625%) hue-rotate(179deg) brightness(85%) contrast(104%);
+                    }
+                }
+                i {
+                    display: block;
+                    height: 20px;
+                    width: 20px;
+                }
+                span {
+                    display: block;
+                }
+                &::before {
+                    display: inline-block;
+                    content: ' ';
+                    background-size: 20px;
+                    height: 20px;
+                    width: 20px;
+                    background: url($ico__bi-link-45deg) center center no-repeat transparent;
+                    margin-right: 20px;
+                    // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
+                    filter: invert(6%) sepia(6%) saturate(7298%) hue-rotate(200deg) brightness(96%) contrast(94%);
+                }
+            }
+        }
+        .btn-record-link {
+            display: inline-block;
+            background-color: #515aa9;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2em;
+            &:hover {
+                color: rgba(255, 255, 255, 0.8);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
+
+    // Secondary Column
+    .aside {
+        color: $color__text-aside-2;
+
+        @media (max-width: 991.98px) {
+            order: 1;
+        }
+        .sec-search-result {
+            background-color: $color__light;
+            margin: 0 0 2px 0;
+            padding: 1.5em 5%;
+
+            &.search-results-map {
+                padding: 0;
+            }
+
+            .section-title {
+                color: $color__heading-sec-title-2;
+                font-size: 1rem;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+            a.btn {
+                background-color: #ffb85c;
+                color: $color__light;
+                text-decoration: none;
+                display: inline-block;
+                min-width: 140px;
+
+                &:hover {
+                    background-color: $color__logo-yellow;
+                }
+            }
+        }
+    }
+}
