@@ -56,7 +56,7 @@ const MetaDataPage = (props) => {
     }, [language, rid]);
   
     return (
-          <div className="pageContainer">
+          <div className="pageContainer resultPage">
           <div className="resultContainer">
               {loading ?
                   <div className="d-flex justify-content-center">
