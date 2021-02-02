@@ -492,11 +492,12 @@ input {
                 color: $color__light;
                 font-size: 1.3rem;
                 text-transform: uppercase;
-                a {
+                span {
                     position: relative;
                     color: $color__light;
                     display: block;
                     text-decoration: none;
+                    cursor: pointer;
                     &:hover {
                         text-decoration: none;
                     }
@@ -515,10 +516,10 @@ input {
                         // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
                         filter: invert(100%) sepia(93%) saturate(0%) hue-rotate(265deg) brightness(105%) contrast(109%);
                     }
-                    &::after[aria-expanded='true'] {
+                    &.expand::after {
                         background-image: url($ico__bi-chevron-up);
                     }
-                    &::after[aria-expanded='false'] {
+                    &.collapse::after {
                         background-image: url($ico__bi-chevron-down);
                     }
                 }
