@@ -422,8 +422,8 @@ input {
 .container-search-result {
     // Primary Column
     .main {
-        color: $color__dark;
-        background-color: #fff;
+        color: $color__light;
+        background-color: $color__logo-blue;
         font-weight: 300;
         @media (max-width: 991.98px) {
             order: 2;
@@ -433,7 +433,7 @@ input {
             margin: 1.5em 5% 1.5em 5%;
             padding: 1em 0 0.5em 0;
             .btn-back-to-search {
-                color: $color__logo-blue;
+                color: $color__light;
                 padding-left: 0;
                 i {
                     font-size: 1.5em;
@@ -447,7 +447,7 @@ input {
         }
 
         .sec-search-result {
-            background-color: $color__light;
+            background-color: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             margin: 0 5% 1.5em 5%;
             padding: 5%;
@@ -484,20 +484,20 @@ input {
 
         .table-search-result {
             border-color: $color__table-border-2;
-            color: $color__dark;
+            color: $color__light;
 
             tbody > tr:hover {
-                color: $color__logo-blue;
+                color: $color__light;
             }
 
             caption {
                 caption-side: top;
-                color: $color__logo-blue;
+                color: $color__light;
                 font-size: 1.3rem;
                 text-transform: uppercase;
                 span {
                     position: relative;
-                    color: $color__logo-blue;
+                    color: $color__light;
                     display: block;
                     text-decoration: none;
                     cursor: pointer;
@@ -515,10 +515,9 @@ input {
                         background-size: 1em;
                         height: 1em;
                         width: 1em;
-                        color: $color__logo-blue;
                         background-image: url($ico__bi-chevron-down);
                         // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
-                        //filter: invert(100%) sepia(93%) saturate(0%) hue-rotate(265deg) brightness(105%) contrast(109%);
+                        filter: invert(100%) sepia(93%) saturate(0%) hue-rotate(265deg) brightness(105%) contrast(109%);
                     }
                     &.expand::after {
                         background-image: url($ico__bi-chevron-up);
@@ -587,7 +586,7 @@ input {
             order: 1;
         }
         .sec-search-result {
-            background-color: #fff;
+            background-color: $color__light;
             margin: 0 0 2px 0;
             padding: 1.5em 5%;
 
