@@ -106,8 +106,8 @@ const MetaDataPage = (props) => {
           let descriptionInDataSourceArray = ((language == 'en')? optionsArrayGlobal[0].description.en : optionsArrayGlobal[0].description.fr).split(';');
           setTypeinDataSource(descriptionInDataSourceArray[0]);
           setFormatinDataSource(descriptionInDataSourceArray[1]);
-          setLanuageinDataSource(descriptionInDataSourceArray[2]);
-                    
+          setLanuageinDataSource(descriptionInDataSourceArray[2]);                  
+
           //setKeyword(keyword);
           setLoading(false);          
       })
@@ -119,7 +119,7 @@ const MetaDataPage = (props) => {
       });
   
     };
-  
+
     const handleKeyword = (keyword) => {
       window.open("/#/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
     }

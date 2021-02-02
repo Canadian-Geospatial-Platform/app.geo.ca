@@ -29,12 +29,12 @@ function KeywordSearch(props)  {
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
   const inputRef = createRef();
 
-  const handleSearch = (keyword) => {
+  const handleSearch = (keyword, keyword_only) => {
     setLoading(true);
 
     const searchParams = {
         keyword: keyword,
-        keyword_only: 'true',
+        keyword_only: keyword_only,
         lang: language,
     }
     if (theme!=='') {
@@ -44,10 +44,13 @@ function KeywordSearch(props)  {
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
-        console.log(data);
+        //console.log(data);
         const results = data.Items;
+        console.log(results);
         setResults(results);
-        //setKeyword(keyword);
+        setKeyword(keyword);  
+        console.log(language);
+        setLang(language);
         setLoading(false);
     })
     .catch(error=>{
@@ -70,7 +73,7 @@ function KeywordSearch(props)  {
     }
 
     const keyword = inputRef.current.value;
-    handleSearch(keyword);
+    handleSearch(keyword, true); // Pass in keyword_only in the 2nd param
   };
 
   const handleView = (id) => {
@@ -85,6 +88,7 @@ function KeywordSearch(props)  {
     if (initKeyword !== '') {
         handleSearch(initKeyword);
     }
+    setLang(language);
   }, [language, theme]);
 
   return (
