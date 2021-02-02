@@ -588,6 +588,10 @@ input {
 
             &.search-results-map {
                 padding: 0;
+                .ratio {
+                    max-height: 300px;
+                    overflow: hidden;
+                }
             }
 
             .section-title {
