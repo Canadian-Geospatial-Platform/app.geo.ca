@@ -120,7 +120,7 @@ function KeywordSearch(props)  {
                 return (
                 <div key={result.id} class="searchResult container-fluid">
                     <div class="row rowDividerMd">
-                        <div className="row col">
+                        <div className="row resultRow">
                             <div class="col-md-1" />
                             <div class="col-md-10">
                                 <p class="searchTitle">{result.title}</p>
@@ -136,7 +136,7 @@ function KeywordSearch(props)  {
                             </div>
                             <div class="col-md-1 " />
                         </div>
-                        <div className="row">
+                        <div className="row resultRow">
                             <div class="col-md-1" />
                             <div class="col-md-4">
                                 <div className="searchImage">
