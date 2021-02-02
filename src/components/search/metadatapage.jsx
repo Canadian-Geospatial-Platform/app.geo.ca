@@ -81,9 +81,10 @@ const MetaDataPage = (props) => {
                       No result
                   </div> :
                   results.map((result) => {
-                    //let formattedOption = result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+                    const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                     const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                     //const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);      
+                    const options = JSON.parse(formattedOption);
                     const contact =   JSON.parse(formattedContact);
                     const coordinates = JSON.parse(result.coordinates);
 
@@ -92,7 +93,7 @@ const MetaDataPage = (props) => {
                     const maintenance = result.maintenance.split(';')[langInd];
                     const type = result.type.split(';')[langInd];
                     const spatialRepresentation = result.spatialRepresentation.split(';')[langInd];
-                    console.log(contact);
+                    console.log(contact, options);
                     return (
                     <div key={result.id} className="container-fluid container-search-result container-search-result-two-col">
                     <div className="row g-0">
@@ -108,7 +109,7 @@ const MetaDataPage = (props) => {
                               <p>{result.description}</p>
                               </div>
                               <div className="search-result-keywords">
-                                  <p><strong>Keywords: </strong> {result.keywords}</p>
+                                  <p><strong>Keywords: </strong> {result.keywords.substring(0, result.keywords.length - 2)}</p>
                               </div>
                               <table className="table table-hover caption-top table-search-result table-meta">
                               <caption>
@@ -150,32 +151,19 @@ const MetaDataPage = (props) => {
                                   <th scope="col">Format</th>
                                   <th scope="col">Languages</th>
                                   </tr>
-                                  <tr>
-                                  <td>
-                                      <a className="table-cell-link" href="https://nfi.nfis.org/downloads/nfi_knn2011.zip" target="_blank">Forest Attribute Maps of Canada</a>
-                                  </td>
-                                  <td>Dataset</td>
-                                  <td>GeoTIF</td>
-                                  <td>English</td>
-                                  </tr>
-                                  <tr>
-                                  <td><a className="table-cell-link" href="http://www.nrcresearchpress.com/doi/abs/10.1139/cjfr-2013-0401#.VzX_A9L2Y-U" target="_blank">Mapping attributes of Canada's forests</a></td>
-                                  <td>Supporting Document</td>
-                                  <td>HTML</td>
-                                  <td>English</td>
-                                  </tr>
-                                  <tr>
-                                  <td><a className="table-cell-link" href="https://nfi.nfis.org/mapserver/cgi-bin/nfis-kNN_2011.cgi?layers=kNN_SpeciesDominant_broadleaf_250m_2011&request=getcapabilities&service=wms&caption_format=image/png&feature_info_type=text/plain" target="_blank">Broad-leaved species in Canada 2011</a></td>
-                                  <td>Web Service</td>
-                                  <td>WMS</td>
-                                  <td>English</td>
-                                  </tr>
-                                  <tr>
-                                  <td><a className="table-cell-link" href="https://nfi.nfis.org/en/maps" target="_blank">Canada's National Forest Inventory (NFI) (English)</a></td>
-                                  <td>Application</td>
-                                  <td>HTML</td>
-                                  <td>English</td>
-                                  </tr>
+                                  {options.map((option, oi) => {
+                                      const desc = option.description[language].split(";");
+                                      return (
+                                        <tr key={oi}>
+                                        <td>
+                                            <a className="table-cell-link" href={option.url} target="_blank">{option.name[language]}</a>
+                                        </td>
+                                        <td>{desc[0]}</td>
+                                        <td>{desc[1]}</td>
+                                        <td>{language==="en"?"English" : "French"}</td>
+                                        </tr>
+                                      );
+                                  })}
                               </tbody>
                               </table>
                           </section>
@@ -217,7 +205,7 @@ const MetaDataPage = (props) => {
                                   </tr>
                                   <tr>
                                   <th scope="row">Web</th>
-                                  <td><a href="http://nfis.org/" className="table-cell-link">http://nfis.org/</a></td>
+                                  <td><a href={contact[0].onlineresource.onlineresource} className="table-cell-link">{contact[0].onlineresource.onlineresource}</a></td>
                                   </tr>
                                   <tr>
                                   <th scope="row">Description</th>
