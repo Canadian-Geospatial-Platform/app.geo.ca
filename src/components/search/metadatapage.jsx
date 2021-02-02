@@ -41,7 +41,7 @@ const MetaDataPage = (props) => {
       axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id", { params: searchParams})
       .then(response => response.data)
       .then((data) => {
-          console.log(data);
+          //console.log(data);
           const results = data.Items;
           setResults(results);
           //setKeyword(keyword);
@@ -93,7 +93,7 @@ const MetaDataPage = (props) => {
                     const maintenance = result.maintenance.split(';')[langInd];
                     const type = result.type.split(';')[langInd];
                     const spatialRepresentation = result.spatialRepresentation.split(';')[langInd];
-                    console.log(contact, options);
+                    //console.log(contact, options);
                     return (
                     <div key={result.id} className="container-fluid container-search-result container-search-result-two-col">
                     <div className="row g-0">
