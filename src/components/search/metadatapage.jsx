@@ -30,7 +30,16 @@ const MetaDataPage = (props) => {
     const [status, setStatus] = useState("");
     const [maintenance, setMaintenance] = useState("");
     const [type, setType] = useState("");
-    const [spatialRepresentation,  setSpatialRepresentation] = useState("");       
+    const [spatialRepresentation,  setSpatialRepresentation] = useState("");
+    const [optionsInresult,  setOptionsInresult] = useState([]);
+    const [nameinDataSource,  setNameinDataSource] = useState("");
+    const [typeinDataSource,  setTypeinDataSource] = useState("");
+    const [formatinDataSource,  setFormatinDataSource] = useState("");
+    const [lanuageinDataSource,  setLanuageinDataSource] = useState("");
+
+
+    let optionsArrayGlobal = [];
+    
 
     const handleSearch = (id) => {
       setLoading(true);
@@ -43,22 +52,30 @@ const MetaDataPage = (props) => {
       axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id", { params: searchParams})
       .then(response => response.data)
       .then((data) => {           
+          const results = data.Items;     
+          if (!Array.isArray(results) || results.length===0 || results[0].id===undefined){ 
+            console.log("invalid result array");
+          } else {           
+            console.log(results.length);
+          }
 
           //console.log(data);
-          const results = data.Items;    
           const result1 = results[0];
           console.log(result1);        
 
+          // Used to remove escape and extra characters from endpoint return result 
           let formattedOption = result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
           let formattedContact = result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
           let formattedCoordinates = result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result1.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);      
 
           setResults(results);
           setOptions(formattedOption);
+
           setContact((formattedContact));
           setCoordinates(formattedCoordinates);
           
-          let contact1 =   JSON.parse(formattedContact);
+          let contact1 =   JSON.parse(formattedContact);          
+          setIndividual(contact1[0].individual);
           setOrganisation((language == 'en')? contact1[0].organisation.en: contact1[0].organisation.fr);          
           setRole(contact1[0].role);          
           setTelephone((language == 'en')? contact1[0].telephone.en: contact1[0].telephone.fr);
@@ -67,17 +84,30 @@ const MetaDataPage = (props) => {
           setEmail((language == 'en')? contact1[0].email.en: contact1[0].email.fr);
 
           let statusArray = result1.status.split(';');
-          setStatus((language == 'en')? statusArray[0] : statusArray[1]);
-          
+          setStatus((language == 'en')? statusArray[0] : statusArray[1]);          
           let maintenanceArray = result1.maintenance.split(';');          
-          setMaintenance((language == 'en')? maintenanceArray[0] : maintenanceArray[1]);
-          
+          setMaintenance((language == 'en')? maintenanceArray[0] : maintenanceArray[1]);          
           let typeArray = result1.type.split(';');          
-          setType((language == 'en')? typeArray[0] : typeArray[1]);
-          
+          setType((language == 'en')? typeArray[0] : typeArray[1]);          
           let spatialRepresentationArray = result1.spatialRepresentation.split(';');          
           setSpatialRepresentation((language == 'en')? spatialRepresentationArray[0] : spatialRepresentationArray[1]);          
+
+          // Extract data source related 
+          let optionsInResult = JSON.parse(formattedOption);          
+          if (!Array.isArray(optionsInResult) || optionsInResult.length===0){ 
+            console.log("Nothing in options");
+          } else {            
+            console.log(optionsInResult.length);
+            optionsArrayGlobal = optionsInResult;          
+          }         
           
+          setNameinDataSource((language == 'en')? optionsArrayGlobal[0].name.en : optionsArrayGlobal[0].name.fr);    
+
+          let descriptionInDataSourceArray = ((language == 'en')? optionsArrayGlobal[0].description.en : optionsArrayGlobal[0].description.fr).split(';');
+          setTypeinDataSource(descriptionInDataSourceArray[0]);
+          setFormatinDataSource(descriptionInDataSourceArray[1]);
+          setLanuageinDataSource(descriptionInDataSourceArray[2]);
+                    
           //setKeyword(keyword);
           setLoading(false);          
       })
@@ -170,7 +200,7 @@ const MetaDataPage = (props) => {
                             <section id="search-result-data-resources" class="sec-search-result sec-search-result-data-resources">
                                 <table class="table table-hover caption-top table-search-result table-data-resources">
                                 <caption>
-                                    <a data-bs-toggle="collapse" href="#tbody-data-resources" role="button" aria-expanded="true" aria-controls="tbody-data-resources">Data Resources</a>
+                                    <a data-bs-toggle="collapse" href="#tbody-data-resources" role="button" aria-expanded="true" aria-controls="tbody-data-resources">DATA RESOURCES</a>
                                 </caption>
                                 <tbody id="tbody-data-resources" class="collapse show">
                                     <tr>
@@ -178,33 +208,36 @@ const MetaDataPage = (props) => {
                                     <th scope="col">Type</th>
                                     <th scope="col">Format</th>
                                     <th scope="col">Languages</th>
+                                    </tr>                                                                                
+                                    <tr>                                    
+                                        <td>
+                                          <a class="table-cell-link" href="https://nfi.nfis.org/downloads/nfi_knn2011.zip" target="_blank">{nameinDataSource}</a>
+                                        </td>
+                                        <td>{typeinDataSource}</td>
+                                        <td>{formatinDataSource}</td>
+                                        <td>{lanuageinDataSource}</td>
                                     </tr>
-                                    <tr>
-                                    <td>
-                                        <a class="table-cell-link" href="https://nfi.nfis.org/downloads/nfi_knn2011.zip" target="_blank">Forest Attribute Maps of Canada</a>
-                                    </td>
-                                    <td>Dataset</td>
-                                    <td>GeoTIF</td>
-                                    <td>English</td>
-                                    </tr>
-                                    <tr>
+                                    {/* <tr>
                                     <td><a class="table-cell-link" href="http://www.nrcresearchpress.com/doi/abs/10.1139/cjfr-2013-0401#.VzX_A9L2Y-U" target="_blank">Mapping attributes of Canada's forests</a></td>
                                     <td>Supporting Document</td>
                                     <td>HTML</td>
                                     <td>English</td>
                                     </tr>
+                                    
                                     <tr>
                                     <td><a class="table-cell-link" href="https://nfi.nfis.org/mapserver/cgi-bin/nfis-kNN_2011.cgi?layers=kNN_SpeciesDominant_broadleaf_250m_2011&request=getcapabilities&service=wms&caption_format=image/png&feature_info_type=text/plain" target="_blank">Broad-leaved species in Canada 2011</a></td>
                                     <td>Web Service</td>
                                     <td>WMS</td>
                                     <td>English</td>
                                     </tr>
+                                    
                                     <tr>
                                     <td><a class="table-cell-link" href="https://nfi.nfis.org/en/maps" target="_blank">Canada's National Forest Inventory (NFI) (English)</a></td>
                                     <td>Application</td>
                                     <td>HTML</td>
                                     <td>English</td>
-                                    </tr>
+                                    </tr> */}
+
                                 </tbody>
                                 </table>
                             </section>
@@ -222,6 +255,7 @@ const MetaDataPage = (props) => {
                                     <tr>
                                     <th scope="row">Address</th>
                                     <td>{address}</td>
+                                    {/* <td>{options}</td>                                     */}
                                     </tr>
                                     <tr>
                                     <th scope="row">Individual Name</th>                                    
