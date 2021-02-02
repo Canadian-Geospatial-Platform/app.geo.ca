@@ -97,12 +97,12 @@ const GeoSearch = ({geoMap}) => {
 
   const handleView = (evt, id) => {
     evt.stopPropagation();
-    window.open("/#/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
+    window.open("/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
   }
 
   const handleKeyword = (evt, keyword) => {
     evt.stopPropagation();
-    window.open("/#/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
+    window.open("/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
   }
 
   const handleChange = (e) => {
