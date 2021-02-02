@@ -1,15 +1,15 @@
 html {
-  font-family: "Montserrat", sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
-div#mapWM{
+div#mapWM {
     display: none;
 }
-div#root:empty ~ div#mapWM{
+div#root:empty ~ div#mapWM {
     display: block;
 }
 
@@ -41,42 +41,42 @@ div#root:empty ~ div#mapWM{
     padding-left: 2px;
     font-size: 11px;
     font-weight: 500;
-    background-color:rgba(255, 255, 255, 0.80);
+    background-color: rgba(255, 255, 255, 0.8);
     right: 0px;
     bottom: 0px;
-    margin-bottom: 0px!important;
-    margin-right: 0px!important;
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
 }
 
 .leaflet-control-scale-line {
-    background-color: rgba(255, 255, 255, 0.80);
-    border: 1px solid #000!important;
-    border-left: none!important;
-    border-right: none!important;
-    border-top: none!important;
-    margin: auto!important;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #000 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    margin: auto !important;
 }
 
 .leaflet-control-attribution {
     font-size: 11px;
     font-weight: 500;
-    background-color: rgba(255, 255, 255, 0.80)!important;
-    height: 20px!important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    height: 20px !important;
 }
 
 .leaflet-control-mouseposition {
     position: absolute !important;
-    right: 120px!important;
+    right: 120px !important;
     z-index: 800;
     text-align: center;
     bottom: 0px;
-    margin-bottom: 0px!important;
+    margin-bottom: 0px !important;
     padding: 2px;
-    display: flex!important;
+    display: flex !important;
     flex-direction: column;
     font-size: 11px;
     font-weight: 500;
-    background-color: rgba(255, 255, 255, 0.80);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 input {
@@ -100,11 +100,11 @@ input {
     -ms-user-select: none;
     user-select: none;
     border: 1px solid transparent;
-    padding: .125rem .75rem;
+    padding: 0.125rem 0.75rem;
     font-size: 14px;
     line-height: 1.5;
-    border-radius: .25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     margin: 5px 5px 5px 0;
 }
 
@@ -112,8 +112,8 @@ input {
     width: 30px;
     height: 30px;
     box-sizing: border-box;
-    color:#fff;
-    background-color: #515AA9;
+    color: #fff;
+    background-color: #515aa9;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -127,12 +127,13 @@ input {
     user-select: none;
     border: 1px solid transparent;
     padding: 0;
-    border-radius: .25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     margin: 0;
 }
 
-.btn-button:hover, .icon-button:hover {
+.btn-button:hover,
+.icon-button:hover {
     color: #fff;
     background-color: #5a6268;
     border-color: #545b62;
@@ -172,7 +173,8 @@ input {
     font-size: 0.75rem;
     padding: 25px 0;
     color: #000;
-    small, .card {
+    small,
+    .card {
         cursor: pointer;
     }
     .css-0 {
@@ -203,33 +205,33 @@ input {
     }
 }
 .rowDivider {
-	border: 1px solid #f2f2f2;
+    border: 1px solid #f2f2f2;
 }
 
 .rowDivider > .searchResult {
-	padding-bottom: 2em;
-	padding-top: 1.2em;
+    padding-bottom: 2em;
+    padding-top: 1.2em;
 }
 
-.rowDividerMd  {
-	border: 1px solid #f2f2f2;
-	padding-bottom: 2.5em;
-	padding-top: 2em;
+.rowDividerMd {
+    border: 1px solid #f2f2f2;
+    padding-bottom: 2.5em;
+    padding-top: 2em;
 }
 
 .btn:not(:disabled):not(.disabled) {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 //search result
 
 .searchTitle {
-	font-size: 1.75em;
-	font-weight: 600;
-  font-family: 'Open Sans', sans-serif;
-	text-transform: uppercase;
-	margin: 0 0 0.2em 0;
-	color: #515AA9;
+    font-size: 1.75em;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    margin: 0 0 0.2em 0;
+    color: #515aa9;
 }
 
 .searchFields {
@@ -239,54 +241,54 @@ input {
 }
 
 .searchDesc {
-	margin-bottom: 0.2em;
-	margin-block-start: 0.5em;
-	//margin-block-end: 1em;
+    margin-bottom: 0.2em;
+    margin-block-start: 0.5em;
+    //margin-block-end: 1em;
     font-family: 'Open Sans', sans-serif;
-	font-size: 1.25em;
-	padding-bottom: 0.3em;
+    font-size: 1.25em;
+    padding-bottom: 0.3em;
 }
 
 .searchButton {
-	background-color: #FFFFFF;
-	color: #515AA9;
-	margin-top: .5em;
-	transition-duration: 0.4s;
-	text-transform: uppercase;
-  letter-spacing: 0.1em;
-  float: right;
-  width: 50%!important;
-  border-radius: 25px;
-  border-width: 1px;
-  margin-bottom: 0.1em!important;
+    background-color: #ffffff;
+    color: #515aa9;
+    margin-top: 0.5em;
+    transition-duration: 0.4s;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    float: right;
+    width: 50% !important;
+    border-radius: 25px;
+    border-width: 1px;
+    margin-bottom: 0.1em !important;
 
-    &:hover  {
-        background-color: #515AA9;
-        color: #FFFFFF;
+    &:hover {
+        background-color: #515aa9;
+        color: #ffffff;
     }
 }
 
 .broWhy {
-	border: 5px  orange solid;
-	background-color: teal;
+    border: 5px orange solid;
+    background-color: teal;
 }
 
 .searchButtonGroup {
-	font-size: 0.9em;
-	color: #515aa9;
-	margin-bottom: 0.5em;
+    font-size: 0.9em;
+    color: #515aa9;
+    margin-bottom: 0.5em;
     margin-top: 0.6em;
     .searchButtonGroupBtn > button {
-        border: 1px solid #E6A44E;
-        background-color: rgba(0,0,0,0);
+        border: 1px solid #e6a44e;
+        background-color: rgba(0, 0, 0, 0);
         transition-duration: 0.4s;
         text-transform: uppercase;
         letter-spacing: 0.075em;
         margin-top: 5px;
-        margin-left: 5px!important;
+        margin-left: 5px !important;
         color: #515aa9;
-        &:hover  {
-            color: #E6A44E;
+        &:hover {
+            color: #e6a44e;
             border: 1px solid #515aa9;
             background-color: #515aa9;
         }
@@ -294,18 +296,18 @@ input {
 }
 
 .searchImage {
-	border: 1px solid #169548;
-	height: 300px;
-	margin-top: 1em;
-	text-align: center;
+    border: 1px solid #169548;
+    height: 300px;
+    margin-top: 1em;
+    text-align: center;
 }
 
 .pageContainer {
-    width:100%;
+    width: 100%;
     height: 100%;
     margin: 15px auto;
-    font-family: "Open Sans";
-    color: #54595F;
+    font-family: 'Open Sans';
+    color: #54595f;
     h1 {
         margin: 20px auto;
         text-align: center;
@@ -318,11 +320,11 @@ input {
         padding: 25px 0;
     }
 }
-.geoSearchContainer{
-    width:100%;
+.geoSearchContainer {
+    width: 100%;
     height: 100%;
-    font-family: "Open Sans";
-    color: #54595F;
+    font-family: 'Open Sans';
+    color: #54595f;
 
     .searchTitle {
         font-size: 1.25em;
@@ -338,8 +340,10 @@ input {
     }
 
     .searchButtonGroupBtn {
-        margin-top: 5px;;
-        >.btn, >.btn-group, >.input-group {
+        margin-top: 5px;
+        > .btn,
+        > .btn-group,
+        > .input-group {
             margin-left: 0px;
             font-size: 0.9em;
         }
@@ -348,18 +352,18 @@ input {
 
 .authContainer,
 .authForm {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 10px 0;
-  font: 14px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 0;
+    font: 14px/1.5 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
 .authContainer {
     p {
         margin: 0;
         &:first-child {
-        font-size: 16px;
-        font-weight: 600;
+            font-size: 16px;
+            font-weight: 600;
         }
     }
     label {
@@ -367,29 +371,228 @@ input {
         margin: 5px 0;
         display: flex;
         flex-direction: column;
-        >span {
-        padding-right: 5px;
-        font-weight: 600;
+        > span {
+            padding-right: 5px;
+            font-weight: 600;
         }
-
     }
     ul {
-    list-style: none;
-    margin: 0;
-    padding: 5px 0;
+        list-style: none;
+        margin: 0;
+        padding: 5px 0;
     }
     .errMessage {
-    font-size: 14px;
-    font-weight: 500;
-    color: #d9002f;
-    margin: 0;
-    padding: 5px 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #d9002f;
+        margin: 0;
+        padding: 5px 0;
     }
     .pageMessage {
-    font-size: 14px;
-    font-weight: 500;
-    color: #00d9c7;
-    margin: 0;
-    padding: 5px 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #00d9c7;
+        margin: 0;
+        padding: 5px 0;
+    }
+}
+
+// Single search result page
+
+@import 'variables-site/variables-site';
+
+.container-search-result {
+    // Primary Column
+    .main {
+        color: $color__light;
+        background-color: $color__logo-blue;
+        font-weight: 300;
+        @media (max-width: 991.98px) {
+            order: 2;
+        }
+
+        .header {
+            margin: 1.5em 5% 1.5em 5%;
+            padding: 1em 0 0.5em 0;
+            .btn-back-to-search {
+                color: $color__light;
+                padding-left: 0;
+                i {
+                    font-size: 1.5em;
+                }
+            }
+            .search-result-page-title {
+                color: $color__text-heading-2;
+                font-size: 2.25em;
+                text-align: left;
+            }
+        }
+
+        .sec-search-result {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin: 0 5% 1.5em 5%;
+            padding: 5%;
+        }
+
+        .sec-title {
+            color: $color__text-heading-2;
+            margin-bottom: 0.5em;
+            text-transform: uppercase;
+            font-size: 1.75em;
+        }
+
+        .search-result-desc {
+            p {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .search-result-keywords {
+            border-top: 1px solid $color__table-border-2;
+            border-bottom: 1px solid $color__table-border-2;
+            font-size: 14px;
+            margin-bottom: 1em;
+            padding: 0.5rem 0;
+            p {
+                margin: 0;
+            }
+            strong {
+                color: $color__table-heading-2;
+                font-weight: normal;
+                text-transform: uppercase;
+            }
+        }
+
+        .table-search-result {
+            border-color: $color__table-border-2;
+            color: $color__light;
+
+            tbody > tr:hover {
+                color: $color__light;
+            }
+
+            caption {
+                caption-side: top;
+                color: $color__light;
+                font-size: 1.3rem;
+                text-transform: uppercase;
+                a {
+                    position: relative;
+                    color: $color__light;
+                    display: block;
+                    text-decoration: none;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        right: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        display: inline-block;
+                        background-repeat: no-repeat;
+                        background-size: 1em;
+                        height: 1em;
+                        width: 1em;
+                        background-image: url($ico__bi-chevron-down);
+                        // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
+                        filter: invert(100%) sepia(93%) saturate(0%) hue-rotate(265deg) brightness(105%) contrast(109%);
+                    }
+                    &::after[aria-expanded='true'] {
+                        background-image: url($ico__bi-chevron-up);
+                    }
+                    &::after[aria-expanded='false'] {
+                        background-image: url($ico__bi-chevron-down);
+                    }
+                }
+            }
+
+            th {
+                color: $color__table-heading-2;
+                font-weight: 100;
+                width: 40%;
+                text-transform: uppercase;
+            }
+
+            .table-cell-link {
+                display: flex;
+                color: $color__link-2;
+                text-decoration: none;
+                &:hover {
+                    color: $color__table-heading-2;
+                    &::before {
+                        filter: invert(100%) sepia(46%) saturate(3625%) hue-rotate(179deg) brightness(85%) contrast(104%);
+                    }
+                }
+                i {
+                    display: block;
+                    height: 20px;
+                    width: 20px;
+                }
+                span {
+                    display: block;
+                }
+                &::before {
+                    display: inline-block;
+                    content: ' ';
+                    background-size: 20px;
+                    height: 20px;
+                    width: 20px;
+                    background: url($ico__bi-link-45deg) center center no-repeat transparent;
+                    margin-right: 20px;
+                    // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
+                    filter: invert(6%) sepia(6%) saturate(7298%) hue-rotate(200deg) brightness(96%) contrast(94%);
+                }
+            }
+        }
+        .btn-record-link {
+            display: inline-block;
+            background-color: #515aa9;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2em;
+            &:hover {
+                color: rgba(255, 255, 255, 0.8);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
+
+    // Secondary Column
+    .aside {
+        color: $color__text-aside-2;
+
+        @media (max-width: 991.98px) {
+            order: 1;
+        }
+        .sec-search-result {
+            background-color: $color__light;
+            margin: 0 0 2px 0;
+            padding: 1.5em 5%;
+
+            &.search-results-map {
+                padding: 0;
+            }
+
+            .section-title {
+                color: $color__heading-sec-title-2;
+                font-size: 1rem;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+            a.btn {
+                background-color: #ffb85c;
+                color: $color__light;
+                text-decoration: none;
+                display: inline-block;
+                min-width: 140px;
+
+                &:hover {
+                    background-color: $color__logo-yellow;
+                }
+            }
+        }
     }
 }
