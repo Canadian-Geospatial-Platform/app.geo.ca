@@ -81,7 +81,7 @@ const MetaDataPage = (props) => {
           setTelephone((language == 'en')? contact1[0].telephone.en: contact1[0].telephone.fr);
           setAddress((language == 'en')? contact1[0].address.en: contact1[0].address.fr);          
           setFax(contact1[0].fax);          
-          setEmail((language == 'en')? contact1[0].email.en: contact1[0].email.fr);
+          setEmail(((language == 'en')? contact1[0].email.en: contact1[0].email.fr).toLowerCase());
 
           let statusArray = result1.status.split(';');
           setStatus((language == 'en')? statusArray[0] : statusArray[1]);          
