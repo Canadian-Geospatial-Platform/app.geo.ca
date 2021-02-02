@@ -318,6 +318,12 @@ input {
     font-family: "Open Sans";
     font-size: 14px;
     color: #54595F;
+    &.resultPage {
+        margin: 0 auto;
+        .resultContainer {
+            padding: 0; 
+        }
+    }
     h1 {
         margin: 20px auto;
         text-align: center;
