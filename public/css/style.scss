@@ -217,7 +217,10 @@ input {
 .rowDividerMd  {
 	border: 1px solid #f2f2f2;
 	padding-bottom: 2.5em;
-	padding-top: 2em;
+    padding-top: 2em;
+    .resultRow {
+        width: 100%;
+    }
 }
 
 .btn:not(:disabled):not(.disabled) {
