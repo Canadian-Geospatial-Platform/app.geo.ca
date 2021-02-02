@@ -127,7 +127,7 @@ const MetaDataPage = (props) => {
                                   <tr>
                                   <th scope="row">Temporal Coverage</th>
                                   <td> { result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").map((date, ki)=>(
-                                              <span key={ki}>{date.substring(date.indexOf("=") + 1)}</span>
+                                              <span key={ki}>{date.substring(date.indexOf("=") + 1)} </span>
                                           ))}
                                   </td>
                                   </tr>
@@ -205,7 +205,7 @@ const MetaDataPage = (props) => {
                                   </tr>
                                   <tr>
                                   <th scope="row">Web</th>
-                                  <td><a href={contact[0].onlineresource.onlineresource} className="table-cell-link">{contact[0].onlineresource.onlineresource}</a></td>
+                                  <td>{contact[0].onlineresource.onlineresource!=="null"? <a href={contact[0].onlineresource.onlineresource} className="table-cell-link">{contact[0].onlineresource.onlineresource}</a>: 'null'}</td>
                                   </tr>
                                   <tr>
                                   <th scope="row">Description</th>
