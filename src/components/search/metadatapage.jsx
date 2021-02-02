@@ -15,10 +15,21 @@ const MetaDataPage = (props) => {
   
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
+    const [openSection, setOpen] = useState([]);
     const [rid, setID] = useState(queryParams && queryParams["id"]?queryParams["id"].trim():"");
     const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
     const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
 
+    const handleOpen = (section) => {
+        const newOpen = openSection.map(o=>o);
+        const hIndex = openSection.findIndex(os=>os===section);
+        if ( hIndex < 0 ) {
+            newOpen.push(section);
+        } else {
+            newOpen.splice(hIndex, 1);
+        }
+        setOpen(newOpen);
+    }
     const handleSearch = (id) => {
       setLoading(true);
   
@@ -81,25 +92,25 @@ const MetaDataPage = (props) => {
                     const maintenance = result.maintenance.split(';')[langInd];
                     const type = result.type.split(';')[langInd];
                     const spatialRepresentation = result.spatialRepresentation.split(';')[langInd];
-
+                    console.log(contact);
                     return (
-                    <div key={result.id} class="container-fluid container-search-result container-search-result-two-col">
-                    <div class="row g-0">
-                      <main class="col col-lg-8 main">
+                    <div key={result.id} className="container-fluid container-search-result container-search-result-two-col">
+                    <div className="row g-0">
+                      <main className="col col-lg-8 main">
                           {/* Header */}
-                          <header class="header">
-                              <h1 class="search-result-page-title">{result.title}</h1>
+                          <header className="header">
+                              <h1 className="search-result-page-title">{result.title}</h1>
                           </header>
                           {/* About */}
-                          <section id="search-result-about" class="sec-search-result sec-search-result-about">
-                              <h2 class="sec-title">About this dataset</h2>
-                              <div class="search-result-desc">
+                          <section id="search-result-about" className="sec-search-result sec-search-result-about">
+                              <h2 className="sec-title">About this dataset</h2>
+                              <div className="search-result-desc">
                               <p>{result.description}</p>
                               </div>
-                              <div class="search-result-keywords">
+                              <div className="search-result-keywords">
                                   <p><strong>Keywords: </strong> {result.keywords}</p>
                               </div>
-                              <table class="table table-hover caption-top table-search-result table-meta">
+                              <table className="table table-hover caption-top table-search-result table-meta">
                               <caption>
                                   Metadata
                               </caption>
@@ -120,19 +131,19 @@ const MetaDataPage = (props) => {
                                   </td>
                                   </tr>
                                   <tr>
-                                  <th scope="row">Source(s) <em class="visually-hidden">（Same as organization)</em></th>
+                                  <th scope="row">Source(s) <em className="visually-hidden">（Same as organization)</em></th>
                                   <td>{contact[0].organisation[language]}</td>
                                   </tr>
                               </tbody>
                               </table>
                           </section>
                           {/* Data Resources */}
-                          <section id="search-result-data-resources" class="sec-search-result sec-search-result-data-resources">
-                              <table class="table table-hover caption-top table-search-result table-data-resources">
+                          <section id="search-result-data-resources" className="sec-search-result sec-search-result-data-resources">
+                              <table className="table table-hover caption-top table-search-result table-data-resources">
                               <caption>
-                                  <a data-bs-toggle="collapse" href="#tbody-data-resources" role="button" aria-expanded="true" aria-controls="tbody-data-resources">Data Resources</a>
+                                    <span className={openSection.findIndex(o=>o==='dataresources')<0?"collapse":"expand"} role="button" onClick={()=>handleOpen('dataresources')}>Data Resources</span>
                               </caption>
-                              <tbody id="tbody-data-resources" class="collapse show">
+                              <tbody id="tbody-data-resources" className={openSection.findIndex(o=>o==='dataresources')<0?"collapse":"collapse show"}>
                                   <tr>
                                   <th scope="col">Name</th>
                                   <th scope="col">Type</th>
@@ -141,26 +152,26 @@ const MetaDataPage = (props) => {
                                   </tr>
                                   <tr>
                                   <td>
-                                      <a class="table-cell-link" href="https://nfi.nfis.org/downloads/nfi_knn2011.zip" target="_blank">Forest Attribute Maps of Canada</a>
+                                      <a className="table-cell-link" href="https://nfi.nfis.org/downloads/nfi_knn2011.zip" target="_blank">Forest Attribute Maps of Canada</a>
                                   </td>
                                   <td>Dataset</td>
                                   <td>GeoTIF</td>
                                   <td>English</td>
                                   </tr>
                                   <tr>
-                                  <td><a class="table-cell-link" href="http://www.nrcresearchpress.com/doi/abs/10.1139/cjfr-2013-0401#.VzX_A9L2Y-U" target="_blank">Mapping attributes of Canada's forests</a></td>
+                                  <td><a className="table-cell-link" href="http://www.nrcresearchpress.com/doi/abs/10.1139/cjfr-2013-0401#.VzX_A9L2Y-U" target="_blank">Mapping attributes of Canada's forests</a></td>
                                   <td>Supporting Document</td>
                                   <td>HTML</td>
                                   <td>English</td>
                                   </tr>
                                   <tr>
-                                  <td><a class="table-cell-link" href="https://nfi.nfis.org/mapserver/cgi-bin/nfis-kNN_2011.cgi?layers=kNN_SpeciesDominant_broadleaf_250m_2011&request=getcapabilities&service=wms&caption_format=image/png&feature_info_type=text/plain" target="_blank">Broad-leaved species in Canada 2011</a></td>
+                                  <td><a className="table-cell-link" href="https://nfi.nfis.org/mapserver/cgi-bin/nfis-kNN_2011.cgi?layers=kNN_SpeciesDominant_broadleaf_250m_2011&request=getcapabilities&service=wms&caption_format=image/png&feature_info_type=text/plain" target="_blank">Broad-leaved species in Canada 2011</a></td>
                                   <td>Web Service</td>
                                   <td>WMS</td>
                                   <td>English</td>
                                   </tr>
                                   <tr>
-                                  <td><a class="table-cell-link" href="https://nfi.nfis.org/en/maps" target="_blank">Canada's National Forest Inventory (NFI) (English)</a></td>
+                                  <td><a className="table-cell-link" href="https://nfi.nfis.org/en/maps" target="_blank">Canada's National Forest Inventory (NFI) (English)</a></td>
                                   <td>Application</td>
                                   <td>HTML</td>
                                   <td>English</td>
@@ -169,12 +180,12 @@ const MetaDataPage = (props) => {
                               </table>
                           </section>
                           {/* Contact Data */}
-                          <section id="search-result-contact-data" class="sec-search-result sec-search-result-contact-data">
-                              <table class="table table-hover caption-top table-search-result table-contact-data">
+                          <section id="search-result-contact-data" className="sec-search-result sec-search-result-contact-data">
+                              <table className="table table-hover caption-top table-search-result table-contact-data">
                               <caption>
-                                  <a data-bs-toggle="collapse" href="#tbody-contact-data" role="button" aria-expanded="false" aria-controls="tbody-contact-data">Contact Data</a>
+                                  <span className={openSection.findIndex(o=>o==='contactdata')<0?"collapse":"expand"} role="button" onClick={()=>handleOpen('contactdata')}>Contact Data</span>
                               </caption>
-                              <tbody id="tbody-contact-data">
+                              <tbody id="tbody-contact-data" className={openSection.findIndex(o=>o==='contactdata')<0?"collapse":"collapse show"}>
                                   <tr>
                                   <th scope="row">Organization</th>
                                   <td>{contact[0].organisation[language]}</td>
@@ -193,7 +204,7 @@ const MetaDataPage = (props) => {
                                   </tr>
                                   <tr>
                                   <th scope="row">Telephone</th>
-                                  {/* <td><a href="tel:1-250-298-2411" class="table-cell-link">1-250-298-2411</a></td> */}
+                                  {/* <td><a href="tel:1-250-298-2411" className="table-cell-link">1-250-298-2411</a></td> */}
                                   <td>{contact[0].telephone[language]}</td>
                                   </tr>
                                   <tr>
@@ -206,7 +217,7 @@ const MetaDataPage = (props) => {
                                   </tr>
                                   <tr>
                                   <th scope="row">Web</th>
-                                  <td><a href="http://nfis.org/" class="table-cell-link">http://nfis.org/</a></td>
+                                  <td><a href="http://nfis.org/" className="table-cell-link">http://nfis.org/</a></td>
                                   </tr>
                                   <tr>
                                   <th scope="row">Description</th>
@@ -216,12 +227,12 @@ const MetaDataPage = (props) => {
                               </table>
                           </section>
                           {/* Advanced Metadata */}
-                          <section id="search-result-adv-meta" class="sec-search-result sec-search-result-adv-meta">
-                              <table class="table table-hover caption-top table-search-result table-adv-meta">
+                          <section id="search-result-adv-meta" className="sec-search-result sec-search-result-adv-meta">
+                              <table className="table table-hover caption-top table-search-result table-adv-meta">
                               <caption>
-                                  <a data-toggle="collapse" href="#tbody-adv-meta" role="button" aria-expanded="false" aria-controls="tbody-adv-meta">Advanced Metadata</a>
+                                  <span className={openSection.findIndex(o=>o==='advdata')<0?"collapse":"expand"} role="button" onClick={()=>handleOpen('advdata')}>Advanced Metadata</span>
                               </caption>
-                              <tbody id="tbody-adv-meta" class="collapses">
+                              <tbody id="tbody-adv-meta" className={openSection.findIndex(o=>o==='advdata')<0?"collapse":"collapse show"}>
                                   <tr>
                                   <th scope="row">Status</th>                                   
                                   <td>{status}</td>
@@ -266,9 +277,9 @@ const MetaDataPage = (props) => {
                               </table>
                           </section>
                       </main>
-                      <aside class="col col-lg-4 aside">
-                          <section class="sec-search-result search-results-section search-results-map">
-                              <div class="ratio ratio-16x9">
+                      <aside className="col col-lg-4 aside">
+                          <section className="sec-search-result search-results-section search-results-map">
+                              <div className="ratio ratio-16x9">
                               <MapContainer
                                     center={[43.65, -79.5]}
                                     zoom={7}
@@ -282,18 +293,18 @@ const MetaDataPage = (props) => {
                                 </MapContainer>
                               </div>
                           </section>
-                          <section class="sec-search-result search-results-section search-results-misc-data">
-                              <h3 class="section-title">Lorem Ipsum</h3>
+                          <section className="sec-search-result search-results-section search-results-misc-data">
+                              <h3 className="section-title">Lorem Ipsum</h3>
                               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nunc est, sagittis vitae aliquam vitae, pretium id orci. Fusce eget imperdiet odio, non vehicula sapien.</p>
-                              <p class="text-end"><a href="#" class="btn btn-sm">Open Map</a></p>
+                              <p className="text-end"><a href="#" className="btn btn-sm">Open Map</a></p>
                           </section>
-                          <section class="sec-search-result search-results-section search-results-misc-data">
-                              <h3 class="section-title">Lorem Ipsum</h3>
+                          <section className="sec-search-result search-results-section search-results-misc-data">
+                              <h3 className="section-title">Lorem Ipsum</h3>
                               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nunc est, sagittis vitae aliquam vitae, pretium id orci. Fusce eget imperdiet odio, non vehicula sapien.</p>
-                              <p class="text-end"><a href="#" class="btn btn-sm">All Metadata</a></p>
+                              <p className="text-end"><a href="#" className="btn btn-sm">All Metadata</a></p>
                           </section>
-                          <section class="sec-search-result search-results-section search-results-misc-data">
-                              <h3 class="section-title">Lorem Ipsum</h3>
+                          <section className="sec-search-result search-results-section search-results-misc-data">
+                              <h3 className="section-title">Lorem Ipsum</h3>
                               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nunc est, sagittis vitae aliquam vitae, pretium id orci. Fusce eget imperdiet odio, non vehicula sapien.</p>
                           </section>
                       </aside>
