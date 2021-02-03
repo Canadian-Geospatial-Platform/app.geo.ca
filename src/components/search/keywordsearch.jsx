@@ -25,6 +25,7 @@ function KeywordSearch(props)  {
   }
 
   const [loading, setLoading] = useState(false);
+  const [allkw, setKWShowing] = useState([]);
   const [results, setResults] = useState([]);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
@@ -66,6 +67,12 @@ function KeywordSearch(props)  {
       setKeyword(e.target.value);
   }
 
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 13) {
+        handleSubmit(e);
+    }
+  };
+
   const handleSubmit = (event) => {
     if (event) {
         event.preventDefault();
@@ -82,6 +89,17 @@ function KeywordSearch(props)  {
   const handleKeyword = (keyword) => {
     window.open("/#/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
   }
+
+  const handleKwshowing = (rid) => {
+    const newOpen = allkw.map(o=>o);
+    const hIndex = allkw.findIndex(os=>os===rid);
+    if ( hIndex < 0 ) {
+        newOpen.push(rid);
+    } else {
+        newOpen.splice(hIndex, 1);
+    }
+    setKWShowing(newOpen);
+}
 
   useEffect(() => {
     if (initKeyword !== '') {
@@ -100,6 +118,7 @@ function KeywordSearch(props)  {
                 value={initKeyword}
                 disabled = {loading}
                 onChange={handleChange}
+                onKeyUp={e=>handleKeyUp(e)}
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
@@ -116,29 +135,32 @@ function KeywordSearch(props)  {
                     {Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result'}
                 </div> :
                 results.map((result) => {
-                const coordinates = JSON.parse(result.coordinates);    
+                const coordinates = JSON.parse(result.coordinates);   
+                const keywords = result.keywords.substring(0, result.keywords.length - 2).split(","); 
+                const allkwshowing = (allkw.findIndex(ak=>ak===result.id) > -1); 
                 return (
-                <div key={result.id} class="searchResult container-fluid">
-                    <div class="row rowDividerMd">
+                <div key={result.id} className="searchResult container-fluid">
+                    <div className="row rowDividerMd">
                         <div className="row resultRow">
-                            <div class="col-md-1" />
-                            <div class="col-md-10">
-                                <p class="searchTitle">{result.title}</p>
-                                <div class="searchButtonGroupToolbar">
-                                    <div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
-                                    {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
-                                        return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
-                                                    <button type="button" class="btn" onClick = {() => handleKeyword(keyword)}>{keyword}</button>
+                            <div className="col-md-1" />
+                            <div className="col-md-10">
+                                <p className="searchTitle">{result.title}</p>
+                                <div className="searchButtonGroupToolbar">
+                                    <div className={allkwshowing?"btn-toolbar searchButtonGroup":"btn-toolbar searchButtonGroup less"} role="toolbar" aria-label="Toolbar with button groups">
+                                    {keywords.map((keyword, ki)=>{
+                                        return (<div className={ki<5?"btn-group searchButtonGroupBtn":"btn-group searchButtonGroupBtn more"} key={ki}>
+                                                    <button type="button" className="btn" onClick = {() => handleKeyword(keyword)}>{keyword}</button>
                                                 </div>)
                                     })}
+                                    {keywords.length>5 && <div className="btn-group searchButtonGroupBtn searchButtonGroupBtnMore"><button type="button" className="btn" onClick={()=>handleKwshowing(result.id)}>{allkwshowing?"Show Less":"View More"}</button></div>}
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-1 " />
+                            <div className="col-md-1 " />
                         </div>
                         <div className="row resultRow">
-                            <div class="col-md-1" />
-                            <div class="col-md-4">
+                            <div className="col-md-1" />
+                            <div className="col-md-4">
                                 <div className="searchImage">
                                 <MapContainer
                                     center={[(coordinates[0][2][1]+coordinates[0][0][1])/2, (coordinates[0][1][0]+coordinates[0][0][0])/2]}
@@ -153,14 +175,14 @@ function KeywordSearch(props)  {
                                 </MapContainer>
                                 </div>
                             </div>    
-                            <div class="col-md-6">
+                            <div className="col-md-6">
                                 <p className="searchFields"><strong>Organisation:</strong> {result.organisation}</p>
                                 <p className="searchFields"><strong>Published:</strong> {result.published}</p>
                                 {/* <p className="searchFields"><strong>Keywords:</strong> {result.keywords.substring(0, result.keywords.length - 2)}</p> */}
-                                <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
-                                <button type="button" class="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
+                                <p className="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
+                                <button type="button" className="btn btn-block searchButton" onClick={() => handleView(result.id)}>View Record <i className="fas fa-long-arrow-alt-right"></i></button>
                             </div>
-                            <div class="col-md-1 " />
+                            <div className="col-md-1 " />
                         </div>
                     </div>
                 </div>

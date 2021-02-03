@@ -157,6 +157,12 @@ const GeoSearch = ({geoMap}) => {
 
   };
 
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 13) {
+        handleSubmit(e);
+    }
+  };
+
   const handleSubmit = (event) => {
     if (event) {
         event.preventDefault();
@@ -198,6 +204,7 @@ const GeoSearch = ({geoMap}) => {
                 disabled = {loading}
                 value={initKeyword}
                 onChange={handleChange}
+                onKeyUp={e=>handleKeyUp(e)}
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
@@ -213,14 +220,14 @@ const GeoSearch = ({geoMap}) => {
                 (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') :
                 <div className="row rowDivider">
                 {results.map((result) => (
-                    <div key={result.id} class={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"} onClick={() => handleSelect(result.id)}>
-                        <p class="searchTitle">{result.title}</p>
+                    <div key={result.id} className={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"} onClick={() => handleSelect(result.id)}>
+                        <p className="searchTitle">{result.title}</p>
 
-                        {/*<div class="searchButtonGroupToolbar">
-                            <div class="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
+                        {/*<div className="searchButtonGroupToolbar">
+                            <div className="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
                             {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
-                                return (<div class="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
-                                            <button type="button" class="btn" onClick = {(e) => handleKeyword(e, keyword)}>{keyword}</button>
+                                return (<div className="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
+                                            <button type="button" className="btn" onClick = {(e) => handleKeyword(e, keyword)}>{keyword}</button>
                                         </div>)
                             })}
                         </div>
@@ -229,9 +236,9 @@ const GeoSearch = ({geoMap}) => {
                         <div>
                             <p className="searchFields"><strong>Organisation:</strong> {result.organisation}</p>
                             <p className="searchFields"><strong>Published:</strong> {result.published}</p>
-                            <p class="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
+                            <p className="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
                             
-                            <button type="button" class="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i class="fas fa-long-arrow-alt-right"></i></button>
+                            <button type="button" className="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i className="fas fa-long-arrow-alt-right"></i></button>
                         </div>
 
 

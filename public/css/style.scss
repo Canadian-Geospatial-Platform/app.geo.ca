@@ -285,22 +285,42 @@ input {
 	color: #515aa9;
 	margin-bottom: 0.5em;
     margin-top: 0.6em;
-    .searchButtonGroupBtn > button {
-        border: 1px solid #E6A44E;
-        background-color: rgba(0,0,0,0);
-        transition-duration: 0.4s;
-        text-transform: uppercase;
-        letter-spacing: 0.075em;
-        margin-top: 5px;
-        margin-right: 5px!important;
-        color: #515aa9;
-        font-size: 0.8em;
-        &:hover  {
-            color: #E6A44E;
-            border: 1px solid #515aa9;
-            background-color: #515aa9;
-        }
+    &.less {
+        .searchButtonGroupBtn.more {
+            display: none;
+        }    
     }
+    .searchButtonGroupBtn {
+        > button {
+            border: 1px solid #E6A44E;
+            background-color: rgba(0,0,0,0);
+            transition-duration: 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 0.075em;
+            margin-top: 5px;
+            margin-right: 5px!important;
+            color: #515aa9;
+            font-size: 0.8em;
+            &:hover  {
+                color: #E6A44E;
+                border: 1px solid #515aa9;
+                background-color: #515aa9;
+            }
+        }
+        &.searchButtonGroupBtnMore {
+            > button {
+                border: 1px solid #E6A44E;
+                background-color: #515aa9;
+                color: #E6A44E;
+                &:hover {
+                    border: 1px solid #515aa9;
+                    background-color: #E6A44E;
+                    color: #515aa9;
+                }
+            }
+        }        
+    }
+
 }
 
 .searchImage {
