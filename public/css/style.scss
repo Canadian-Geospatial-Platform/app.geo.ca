@@ -1,15 +1,30 @@
 html {
-  font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
-div#mapWM{
+.header2 img {
+    float: RIGHT;
+    width: 100%;
+    height: 200px;
+    background: rgb(231, 116, 116);
+}
+
+.header2 h1 {
+    position: relative;
+    top: 18px;
+    height: 500px;
+    left: 10px;
+}
+
+div#mapWM {
     display: none;
 }
-div#root:empty ~ div#mapWM{
+
+div#root:empty~div#mapWM {
     display: block;
 }
 
@@ -29,13 +44,16 @@ div#root:empty ~ div#mapWM{
 .MuiDrawer-paper {
     position: relative !important;
 }
+
 .cgp-apppanel .MuiCard-root.jss13 {
     margin: 0;
-} 
+}
+
 .MuiCardContent-root {
     height: calc(100vh - 68px);
     overflow-y: auto;
 }
+
 .leaflet-control-scale {
     z-index: 30;
     position: absolute;
@@ -44,7 +62,7 @@ div#root:empty ~ div#mapWM{
     padding-left: 2px;
     font-size: 11px;
     font-weight: 500;
-    background-color:rgba(255, 255, 255, 0.80);
+    background-color: rgba(255, 255, 255, 0.80);
     right: 0px;
     bottom: 0px;
     margin-bottom: 0px!important;
@@ -107,7 +125,7 @@ input {
     font-size: 14px;
     line-height: 1.5;
     border-radius: .25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     margin: 5px 5px 5px 0;
 }
 
@@ -115,7 +133,7 @@ input {
     width: 30px;
     height: 30px;
     box-sizing: border-box;
-    color:#fff;
+    color: #fff;
     background-color: #515AA9;
     display: inline-flex;
     align-items: center;
@@ -131,11 +149,12 @@ input {
     border: 1px solid transparent;
     padding: 0;
     border-radius: .25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     margin: 0;
 }
 
-.btn-button:hover, .icon-button:hover {
+.btn-button:hover,
+.icon-button:hover {
     color: #fff;
     background-color: #5a6268;
     border-color: #545b62;
@@ -171,11 +190,13 @@ input {
 .modal {
     font-size: 0.75rem;
 }
+
 .container {
     font-size: 0.75rem;
     padding: 25px 0;
     color: #000;
-    small, .card {
+    small,
+    .card {
         cursor: pointer;
     }
     .css-0 {
@@ -205,18 +226,19 @@ input {
         background-color: #f2f2f2;
     }
 }
+
 .rowDivider {
-	border: 1px solid #f2f2f2;
+    border: 1px solid #f2f2f2;
 }
 
-.rowDivider > .searchResult {
-	padding-bottom: 2em;
-	padding-top: 1.2em;
+.rowDivider>.searchResult {
+    padding-bottom: 2em;
+    padding-top: 1.2em;
 }
 
-.rowDividerMd  {
-	border: 1px solid #f2f2f2;
-	padding-bottom: 2.5em;
+.rowDividerMd {
+    border: 1px solid #f2f2f2;
+    padding-bottom: 2.5em;
     padding-top: 2em;
     .resultRow {
         width: 100%;
@@ -224,18 +246,17 @@ input {
 }
 
 .btn:not(:disabled):not(.disabled) {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 //search result
-
 .searchTitle {
-	font-size: 1.75em;
-	font-weight: 600;
+    font-size: 1.75em;
+    font-weight: 600;
     font-family: 'Open Sans', sans-serif;
-	text-transform: uppercase;
-	margin: 0 0 0.6em 0;
-	color: #515AA9;
+    text-transform: uppercase;
+    margin: 0 0 0.6em 0;
+    color: #515AA9;
 }
 
 .searchFields {
@@ -248,46 +269,45 @@ input {
 }
 
 .searchDesc {
-	margin-bottom: 0.2em;
-	margin-block-start: 0.5em;
-	//margin-block-end: 1em;
+    margin-bottom: 0.2em;
+    margin-block-start: 0.5em;
+    //margin-block-end: 1em;
     font-family: 'Open Sans', sans-serif;
-	font-size: 1.25em;
-	padding-bottom: 0.3em;
+    font-size: 1.25em;
+    padding-bottom: 0.3em;
 }
 
 .searchButton {
-	background-color: #FFFFFF;
-	color: #515AA9;
-	margin-top: .5em;
-	transition-duration: 0.4s;
-	text-transform: uppercase;
+    background-color: #FFFFFF;
+    color: #515AA9;
+    margin-top: .5em;
+    transition-duration: 0.4s;
+    text-transform: uppercase;
     letter-spacing: 0.1em;
     float: right;
     width: 50%!important;
     border-radius: 25px;
     border: 1px solid #515aa9;
     margin-bottom: 0.1em!important;
-
-    &:hover  {
+    &:hover {
         background-color: #515AA9;
         color: #FFFFFF;
     }
 }
 
 .broWhy {
-	border: 5px  orange solid;
-	background-color: teal;
+    border: 5px orange solid;
+    background-color: teal;
 }
 
 .searchButtonGroup {
-	font-size: 0.9em;
-	color: #515aa9;
-	margin-bottom: 0.5em;
+    font-size: 0.9em;
+    color: #515aa9;
+    margin-bottom: 0.5em;
     margin-top: 0.6em;
-    .searchButtonGroupBtn > button {
+    .searchButtonGroupBtn>button {
         border: 1px solid #E6A44E;
-        background-color: rgba(0,0,0,0);
+        background-color: rgba(0, 0, 0, 0);
         transition-duration: 0.4s;
         text-transform: uppercase;
         letter-spacing: 0.075em;
@@ -295,7 +315,7 @@ input {
         margin-right: 5px!important;
         color: #515aa9;
         font-size: 0.8em;
-        &:hover  {
+        &:hover {
             color: #E6A44E;
             border: 1px solid #515aa9;
             background-color: #515aa9;
@@ -304,9 +324,9 @@ input {
 }
 
 .searchImage {
-	border: 1px solid #169548;
-	height: 300px;
-	margin-top: 1em;
+    border: 1px solid #169548;
+    height: 300px;
+    margin-top: 1em;
     text-align: center;
     overflow: hidden;
     .leaflet-container {
@@ -315,7 +335,7 @@ input {
 }
 
 .pageContainer {
-    width:100%;
+    width: 100%;
     height: 100%;
     margin: 15px auto;
     font-family: "Open Sans";
@@ -324,7 +344,7 @@ input {
     &.resultPage {
         margin: 0 auto;
         .resultContainer {
-            padding: 0; 
+            padding: 0;
         }
     }
     h1 {
@@ -339,28 +359,28 @@ input {
         padding: 25px 0;
     }
 }
-.geoSearchContainer{
-    width:100%;
+
+.geoSearchContainer {
+    width: 100%;
     height: 100%;
     font-family: "Open Sans";
     color: #54595F;
-
     .searchTitle {
         font-size: 1.25em;
     }
-
     .searchDesc {
         font-size: 1em;
     }
-
     .searchButton {
         width: 100%;
         margin-bottom: 2em;
     }
-
     .searchButtonGroupBtn {
-        margin-top: 5px;;
-        >.btn, >.btn-group, >.input-group {
+        margin-top: 5px;
+        ;
+        >.btn,
+        >.btn-group,
+        >.input-group {
             margin-left: 0px;
             font-size: 0.9em;
         }
@@ -369,18 +389,18 @@ input {
 
 .authContainer,
 .authForm {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 10px 0;
-  font: 14px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 0;
+    font: 14px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 .authContainer {
     p {
         margin: 0;
         &:first-child {
-        font-size: 16px;
-        font-weight: 600;
+            font-size: 16px;
+            font-weight: 600;
         }
     }
     label {
@@ -389,36 +409,33 @@ input {
         display: flex;
         flex-direction: column;
         >span {
-        padding-right: 5px;
-        font-weight: 600;
+            padding-right: 5px;
+            font-weight: 600;
         }
-
     }
     ul {
-    list-style: none;
-    margin: 0;
-    padding: 5px 0;
+        list-style: none;
+        margin: 0;
+        padding: 5px 0;
     }
     .errMessage {
-    font-size: 14px;
-    font-weight: 500;
-    color: #d9002f;
-    margin: 0;
-    padding: 5px 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #d9002f;
+        margin: 0;
+        padding: 5px 0;
     }
     .pageMessage {
-    font-size: 14px;
-    font-weight: 500;
-    color: #00d9c7;
-    margin: 0;
-    padding: 5px 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #00d9c7;
+        margin: 0;
+        padding: 5px 0;
     }
 }
 
 // Single search result page
-
 @import 'variables-site/variables-site';
-
 .container-search-result {
     // Primary Column
     .main {
@@ -428,7 +445,6 @@ input {
         @media (max-width: 991.98px) {
             order: 2;
         }
-
         .header {
             margin: 1.5em 5% 1.5em 5%;
             padding: 1em 0 0.5em 0;
@@ -445,27 +461,23 @@ input {
                 text-align: left;
             }
         }
-
         .sec-search-result {
             background-color: rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             margin: 0 5% 1.5em 5%;
             padding: 5%;
         }
-
         .sec-title {
             color: $color__text-heading-2;
             margin-bottom: 0.5em;
             text-transform: uppercase;
             font-size: 1.75em;
         }
-
         .search-result-desc {
             p {
                 margin-bottom: 0.5rem;
             }
         }
-
         .search-result-keywords {
             border-top: 1px solid $color__table-border-2;
             border-bottom: 1px solid $color__table-border-2;
@@ -481,15 +493,12 @@ input {
                 text-transform: uppercase;
             }
         }
-
         .table-search-result {
             border-color: $color__table-border-2;
             color: $color__light;
-
-            tbody > tr:hover {
+            tbody>tr:hover {
                 color: $color__light;
             }
-
             caption {
                 caption-side: top;
                 color: $color__light;
@@ -527,14 +536,12 @@ input {
                     }
                 }
             }
-
             th {
                 color: $color__table-heading-2;
                 font-weight: 100;
                 width: 40%;
                 text-transform: uppercase;
             }
-
             .table-cell-link {
                 display: flex;
                 color: $color__link-2;
@@ -577,11 +584,9 @@ input {
             }
         }
     }
-
     // Secondary Column
     .aside {
         color: $color__text-aside-2;
-
         @media (max-width: 991.98px) {
             order: 1;
         }
@@ -589,7 +594,6 @@ input {
             background-color: $color__light;
             margin: 0 0 2px 0;
             padding: 1.5em 5%;
-
             &.search-results-map {
                 padding: 0;
                 .ratio {
@@ -600,21 +604,18 @@ input {
                     }
                 }
             }
-
             .section-title {
                 color: $color__heading-sec-title-2;
                 font-size: 1rem;
                 font-weight: 600;
                 text-transform: uppercase;
             }
-
             a.btn {
                 background-color: #ffb85c;
                 color: $color__light;
                 text-decoration: none;
                 display: inline-block;
                 min-width: 140px;
-
                 &:hover {
                     background-color: $color__logo-yellow;
                 }
