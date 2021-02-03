@@ -113,7 +113,7 @@ input {
     margin: 5px 5px 5px 0;
 }
 
-/*.icon-button {
+.icon-button {
     width: 30px;
     height: 30px;
     box-sizing: border-box;
@@ -135,19 +135,18 @@ input {
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     margin: 0;
-}*/
+    &:disabled {
+        color: #fff;
+        background-color: #5a6268;
+        border-color: #545b62;
+        cursor: text;
+    }
+}
 
 .btn-button:hover, .icon-button:hover {
     color: #fff;
     background-color: #5a6268;
     border-color: #545b62;
-}
-
-.icon-button:disabled {
-    color: #fff;
-    background-color: #5a6268;
-    border-color: #545b62;
-    cursor: text;
 }
 
 .link-button {
@@ -223,6 +222,11 @@ input {
         width: 33px;
         &:hover {
             cursor: pointer;
+        }
+        &:disabled {
+            background-color: #5a6268;
+            border-color: #545b62;
+            cursor: text;
         }
     }
 }
