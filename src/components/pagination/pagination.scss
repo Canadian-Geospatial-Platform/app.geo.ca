@@ -1,0 +1,64 @@
+.paginationContainer {
+    display: flex;
+    align-items: center;
+    padding: 15px 10%;
+    .buttonContainer {
+        height: 1.2em;
+        width: 1.2em;
+        //border-radius: 2px;
+        //background-color: rgba(216, 216, 216, .2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        &.disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+       /* &.next {
+            margin-left: 8px;
+        }
+     
+        &.previous {
+            margin-right: 8px;
+        }*/
+        >svg {
+            width:100%;
+        }
+    }
+
+    
+
+    /*.icon {
+        height: 14px;
+        width: 14px;
+        opacity: 0.5;
+        cursor: pointer;
+    }*/
+
+    .pageList {
+        color: #000000;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 400;
+        font-size: 1em;
+        line-height: 22px;
+        margin: 0 10px;
+        display: flex;
+        align-items: center;
+        .pageListItem {
+            opacity: 0.5;
+            display: inline-block;
+            padding: 0 3px;
+            cursor: pointer;
+            &:hover {
+                opacity: 0.8;
+                font-weight: 700; 
+            }
+            &.current {
+                font-weight: 700;
+                opacity: 1;
+                cursor: default;
+            }
+        }
+    }
+}

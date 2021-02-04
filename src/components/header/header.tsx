@@ -1,4 +1,5 @@
-import logo from '../assests/img/GeoDotCaBanner.jpg';
+import logo from '../../assests/img/GeoDotCaBanner.jpg';
+import './header.scss';
 
 export default function Header(): JSX.Element {
     return (
