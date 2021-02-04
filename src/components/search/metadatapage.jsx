@@ -4,6 +4,7 @@ import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import Header from '../header/header';
 import { css } from "@emotion/core";
+import './metadatapage.scss';
 
 const MetaDataPage = (props) => {
     const queryParams = {};
