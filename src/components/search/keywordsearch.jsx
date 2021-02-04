@@ -10,7 +10,8 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 //   ModalBody,
 //   ModalFooter
 // } from "reactstrap";
-import Header from '../../common/header';
+import Header from '../header/header';
+import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -27,6 +28,8 @@ function KeywordSearch(props)  {
 
   const [loading, setLoading] = useState(false);
   const [allkw, setKWShowing] = useState([]);
+  const [pn, setPageNumber] = useState(1);
+  const [cnt, setCount] = useState(0);
   const [results, setResults] = useState([]);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
@@ -40,6 +43,8 @@ function KeywordSearch(props)  {
         keyword: keyword,
         keyword_only: 'true',
         lang: language,
+        min: (pn-1)*10,
+        max: pn*10
     }
     if (theme!=='') {
         searchParams.theme = theme;
@@ -51,13 +56,17 @@ function KeywordSearch(props)  {
         console.log(data);
         const results = data.Items;
         setResults(results);
-        //setKeyword(keyword);
+        setCount(100);
+        setKWShowing([]);
+        setKeyword(keyword);
         setLoading(false);
     })
     .catch(error=>{
         console.log(error);
         setResults([]);
-        //setKeyword(keyword);
+        setCount(0);
+        setKWShowing([]);
+        setKeyword(keyword);
         setLoading(false);
     });
 
@@ -106,7 +115,7 @@ function KeywordSearch(props)  {
     if (initKeyword !== '') {
         handleSearch(initKeyword);
     }
-  }, [language, theme]);
+  }, [language, theme, pn]);
 
   return (
         <div className="pageContainer">
@@ -125,6 +134,7 @@ function KeywordSearch(props)  {
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
         <div className="resultContainer">
+            {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             {loading ?
                 <div className="d-flex justify-content-center">
                 <BeatLoader
@@ -189,7 +199,8 @@ function KeywordSearch(props)  {
                     </div>
                 </div>
                 )}))}
-        </div>
+                {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+            </div>
         </div>
     );
 }

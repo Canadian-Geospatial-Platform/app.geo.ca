@@ -10,10 +10,12 @@ import {
   ModalFooter
 } from "reactstrap";
 //import { useMap } from 'react-leaflet';
+import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from "@emotion/core";
+import './geosearch.scss';
 
 const GeoSearch = ({geoMap}) => {
   const queryParams = {};
@@ -30,6 +32,8 @@ const GeoSearch = ({geoMap}) => {
   const [initBounds, setBounds] = useState(geoMap.getBounds());
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
+  const [pn, setPageNumber] = useState(1);
+  const [cnt, setCount] = useState(0);
   const [selected, setSelected] = useState("search");
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState(false);
@@ -120,6 +124,8 @@ const GeoSearch = ({geoMap}) => {
         west: bounds._southWest.lng,
         keyword: keyword,
         lang: language,
+        min: (pn-1)*10,
+        max: pn*10
     }
     if (theme!=='') {
         searchParams.theme = theme;
@@ -131,6 +137,7 @@ const GeoSearch = ({geoMap}) => {
         console.log(data);
         const results = data.Items;
         setResults(results);
+        setCount(100);
         setBounds(bounds);
         setKeyword(keyword);
         setLoadingStatus(false);
@@ -145,6 +152,7 @@ const GeoSearch = ({geoMap}) => {
     .catch(error=>{
         console.log(error);
         setResults([]);
+        setCount(0);
         setBounds(bounds);
         setKeyword(keyword);
         setSelected('search');
@@ -189,7 +197,7 @@ const GeoSearch = ({geoMap}) => {
     if (initKeyword !== '') {
         handleSearch(initKeyword, initBounds);
     }
-  }, [language, theme]);
+  }, [language, theme, pn]);
  // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);
@@ -209,6 +217,7 @@ const GeoSearch = ({geoMap}) => {
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
         <div className="container">
+            {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             {loading ?
                 <div className="d-flex justify-content-center">
                 <BeatLoader
@@ -233,6 +242,7 @@ const GeoSearch = ({geoMap}) => {
                 ))}
                 </div>
             )}
+            {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
         </div>
         </div>
     );
