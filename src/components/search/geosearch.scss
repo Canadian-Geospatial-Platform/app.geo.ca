@@ -1,0 +1,27 @@
+.geoSearchContainer{
+    width:100%;
+    height: 100%;
+    font-family: "Open Sans";
+    color: #54595F;
+
+    .searchTitle {
+        font-size: 1.25em;
+    }
+
+    .searchDesc {
+        font-size: 1em;
+    }
+
+    .searchButton {
+        width: 100%;
+        margin-bottom: 2em;
+    }
+
+    .searchButtonGroupBtn {
+        margin-top: 5px;;
+        >.btn, >.btn-group, >.input-group {
+            margin-left: 0px;
+            font-size: 0.9em;
+        }
+    }
+}

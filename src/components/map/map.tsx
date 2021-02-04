@@ -6,7 +6,7 @@ import { I18nextProvider } from 'react-i18next';
 import { LatLngTuple, CRS } from 'leaflet';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl } from 'react-leaflet';
 
-import Header from '../../common/header';
+import Header from '../header/header';
 import { MapOptions, getMapOptions } from '../../common/map';
 import { Basemap, BasemapOptions } from '../../common/basemap';
 import { Layer, LayerConfig } from '../../common/layer';

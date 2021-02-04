@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-import Header from '../../common/header';
+import Header from '../header/header';
 import { css } from "@emotion/core";
 
 const MetaDataPage = (props) => {

@@ -22,6 +22,8 @@ import UpdateEmailForm from './UpdateEmailForm';
 import UpdateProfileForm from './UpdateProfileForm';
 import PasswordResetForm from './PasswordResetForm';
 
+import './auth.scss';
+
 const BaseDashboard = ({ state, user, attributes}) => {
   const [pname, setPage] = useState(""); 
 
