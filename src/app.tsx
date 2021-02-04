@@ -16,7 +16,7 @@ import KeywordSearch from './components/search/keywordsearch';
 import MetaDataPage from './components/search/metadatapage';
 
 import '../node_modules/leaflet/dist/leaflet.css';
-import '../public/css/style.scss';
+import './assests/css/style.scss';
 
 // hack for default leaflet icon: https://github.com/Leaflet/Leaflet/issues/4968
 // TODO: put somewhere else

@@ -10,7 +10,7 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 //   ModalBody,
 //   ModalFooter
 // } from "reactstrap";
-import Header from '../header/header';
+import Header from '../../common/header';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";

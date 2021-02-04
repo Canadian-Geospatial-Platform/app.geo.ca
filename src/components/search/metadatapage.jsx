@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
+import Header from '../../common/header';
 import { css } from "@emotion/core";
 
 const MetaDataPage = (props) => {
@@ -68,6 +69,7 @@ const MetaDataPage = (props) => {
   
     return (
           <div className="pageContainer resultPage">
+          <Header />
           <div className="resultContainer">
               {loading ?
                   <div className="d-flex justify-content-center">
