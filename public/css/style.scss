@@ -1,3 +1,5 @@
+@import 'variables-site/variables-site';
+
 html {
   font-family: "Montserrat", sans-serif;
 }
@@ -11,6 +13,24 @@ div#mapWM{
 }
 div#root:empty ~ div#mapWM{
     display: block;
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    >img {
+        height: 50px;
+        margin-right: 20px;
+    }
+    >h1 {
+        font-size: 2rem;
+        font-weight: 600;
+    }
+    
 }
 
 .leaflet-container {
@@ -133,19 +153,18 @@ input {
     border-radius: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     margin: 0;
+    &:disabled {
+        color: #fff;
+        background-color: #5a6268;
+        border-color: #545b62;
+        cursor: text;
+    }
 }
 
 .btn-button:hover, .icon-button:hover {
     color: #fff;
     background-color: #5a6268;
     border-color: #545b62;
-}
-
-.icon-button:disabled {
-    color: #fff;
-    background-color: #5a6268;
-    border-color: #545b62;
-    cursor: text;
 }
 
 .link-button {
@@ -188,10 +207,45 @@ input {
     display: flex;
     align-items: center;
     margin: auto;
-    input {
-        width: calc(100% - 40px);
+    >input {
         display: inline-block;
-        margin-right: 10px;
+        font-size: 15px;
+        line-height: 1em;
+        background: none;
+        border-radius: 75px;
+        border: 1px solid $color__search-panel-border;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        margin: 0;
+        padding: 0 calc(30px / 3);
+        width: calc(100% - 33px);
+        transition: color 0.2s;
+        &::placeholder {
+            opacity: 0.6;
+        }
+        &:focus {
+            outline: 0;
+            &::placeholder {
+                opacity: 1;
+            }
+        }
+    }
+    .icon-button {
+        color: $color__light;
+        background-color: $color__icon-btn-bg;
+        border: none;
+        border-top-right-radius: 75px;
+        border-bottom-right-radius: 75px;
+        height: 30px;
+        width: 33px;
+        &:hover {
+            cursor: pointer;
+        }
+        &:disabled {
+            background-color: #5a6268;
+            border-color: #545b62;
+            cursor: text;
+        }
     }
 }
 
@@ -285,22 +339,42 @@ input {
 	color: #515aa9;
 	margin-bottom: 0.5em;
     margin-top: 0.6em;
-    .searchButtonGroupBtn > button {
-        border: 1px solid #E6A44E;
-        background-color: rgba(0,0,0,0);
-        transition-duration: 0.4s;
-        text-transform: uppercase;
-        letter-spacing: 0.075em;
-        margin-top: 5px;
-        margin-right: 5px!important;
-        color: #515aa9;
-        font-size: 0.8em;
-        &:hover  {
-            color: #E6A44E;
-            border: 1px solid #515aa9;
-            background-color: #515aa9;
-        }
+    &.less {
+        .searchButtonGroupBtn.more {
+            display: none;
+        }    
     }
+    .searchButtonGroupBtn {
+        > button {
+            border: 1px solid #E6A44E;
+            background-color: rgba(0,0,0,0);
+            transition-duration: 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 0.075em;
+            margin-top: 5px;
+            margin-right: 5px!important;
+            color: #515aa9;
+            font-size: 0.8em;
+            &:hover  {
+                color: #E6A44E;
+                border: 1px solid #515aa9;
+                background-color: #515aa9;
+            }
+        }
+        &.searchButtonGroupBtnMore {
+            > button {
+                border: 1px solid #E6A44E;
+                background-color: #515aa9;
+                color: #E6A44E;
+                &:hover {
+                    border: 1px solid #515aa9;
+                    background-color: #E6A44E;
+                    color: #515aa9;
+                }
+            }
+        }        
+    }
+
 }
 
 .searchImage {
@@ -325,11 +399,12 @@ input {
         margin: 0 auto;
         .resultContainer {
             padding: 0; 
+            h1 {
+                margin: 20px auto;
+                text-align: center;
+            }
         }
-    }
-    h1 {
-        margin: 20px auto;
-        text-align: center;
+        
     }
     .searchInput {
         max-width: 1000px;
@@ -416,8 +491,6 @@ input {
 }
 
 // Single search result page
-
-@import 'variables-site/variables-site';
 
 .container-search-result {
     // Primary Column

@@ -32,9 +32,10 @@ const i18nInstance = i18n.cloneInstance({
     fallbackLng: config.language,
 });
 //const center: LatLngTuple = [config.center[0], config.center[1]];
+
 const routing = (
     <I18nextProvider i18n={i18nInstance}>
-        <Router>
+        <HashRouter>
         <StrictMode>
             <Switch>
                 <Route exact path="/" component={renderMap(maps[0], config)} />
@@ -44,7 +45,7 @@ const routing = (
                 <Redirect to="/404" /> 
             </Switch>
         </StrictMode>
-        </Router>
+        </HashRouter>
     </I18nextProvider>
 );
 
