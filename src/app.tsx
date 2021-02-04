@@ -32,6 +32,7 @@ const i18nInstance = i18n.cloneInstance({
     fallbackLng: config.language,
 });
 //const center: LatLngTuple = [config.center[0], config.center[1]];
+
 const routing = (
     <I18nextProvider i18n={i18nInstance}>
         <Router>
