@@ -222,17 +222,6 @@ const GeoSearch = ({geoMap}) => {
                 {results.map((result) => (
                     <div key={result.id} className={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"} onClick={() => handleSelect(result.id)}>
                         <p className="searchTitle">{result.title}</p>
-
-                        {/*<div className="searchButtonGroupToolbar">
-                            <div className="btn-toolbar searchButtonGroup" role="toolbar" aria-label="Toolbar with button groups">
-                            {result.keywords.substring(0, result.keywords.length - 2).split(",").map((keyword, ki)=>{
-                                return (<div className="btn-group searchButtonGroupBtn" role="group" key={ki} aria-label={ki + "group small"}>
-                                            <button type="button" className="btn" onClick = {(e) => handleKeyword(e, keyword)}>{keyword}</button>
-                                        </div>)
-                            })}
-                        </div>
-                        </div>*/}
-
                         <div>
                             <p className="searchFields"><strong>Organisation:</strong> {result.organisation}</p>
                             <p className="searchFields"><strong>Published:</strong> {result.published}</p>
@@ -240,50 +229,7 @@ const GeoSearch = ({geoMap}) => {
                             
                             <button type="button" className="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i className="fas fa-long-arrow-alt-right"></i></button>
                         </div>
-
-
-
-                    {/* <div className="col-lg-12 d-flex align-items-stretch">
-                    <Card className="p-0 col-lg-12">
-                    {(selected === result.id && open === true ?
-                    <div>
-                        <div onClick={() => handleSelect(result.id)}>
-                            <h6 className="text-left font-weight-bold pt-2 pl-2">{result.title}</h6>
-                            <p className="text-left pt-2 pl-2">{result.description.substr(0,240)} <span onClick={handleModal}>...show more</span></p>
-                            <p className="text-left pt-1 pl-2"><strong>Organisation: </strong>{result.organisation}</p>
-                            <p className="text-left pl-2"><strong>Published: </strong>{result.published}</p>
-                            <p className="text-left pl-2"><strong>Keywords: </strong>{result.keywords.substring(0, result.keywords.length - 2)}</p>
-                        </div>
-                        <div className="pt-2 pl-2 pb-3"><Button color="primary" size="sm" className="on-top" onClick={handleModal}>Show Metadata</Button></div>
-                        <Modal isOpen={modal} toggle={handleModal}>
-                        <ModalHeader toggle={handleModal}>{result.title}</ModalHeader>
-                        <ModalBody>
-                            <p><strong>Description:</strong></p>
-                            <p>{result.description}</p>
-                            <p><strong>Organisation:</strong> {result.organisation}</p>
-                            <p><strong>Published:</strong> {result.published}</p>
-                            <p><strong>Keywords:</strong> {result.keywords.substring(0, result.keywords.length - 2)}</p>
-                        </ModalBody>
-                        <ModalFooter>
-                            <a href={`https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/` + result.id + `.geojson`} target="_blank" ><Button color="primary">View Full Metadata</Button></a>{' '}
-                            <Button color="secondary" onClick={handleModal}>Close</Button>
-                        </ModalFooter>
-                        </Modal>
                     </div>
-                    :
-                    <div onClick={() => handleSelect(result.id)}>
-                        <h6 className="text-left font-weight-bold pt-2 pl-2">{result.title}</h6>
-                        <p className="text-left pt-2 pl-2 text-truncate">{result.description}</p>
-                    </div>
-                    )}
-                    <div className="p-1 text-center">
-                        <small onClick={() => handleSelect(result.id)}>
-                        {selected === result.id && open === true ? "Click to Close":"Click for More" }
-                        </small>
-                    </div>
-                    </Card>
-                </div> */}
-                </div>
                 ))}
                 </div>
             )}

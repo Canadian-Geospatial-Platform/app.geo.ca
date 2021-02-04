@@ -10,6 +10,7 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 //   ModalBody,
 //   ModalFooter
 // } from "reactstrap";
+import Header from '../header/header';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -109,6 +110,7 @@ function KeywordSearch(props)  {
 
   return (
         <div className="pageContainer">
+        <Header />    
         <div className="searchInput">
             <input
                 placeholder="Search ..."
