@@ -35,7 +35,7 @@ const i18nInstance = i18n.cloneInstance({
 
 const routing = (
     <I18nextProvider i18n={i18nInstance}>
-        <HashRouter>
+        <Router>
         <StrictMode>
             <Switch>
                 <Route exact path="/" component={renderMap(maps[0], config)} />
@@ -45,7 +45,7 @@ const routing = (
                 <Redirect to="/404" /> 
             </Switch>
         </StrictMode>
-        </HashRouter>
+        </Router>
     </I18nextProvider>
 );
 
