@@ -1,10 +1,17 @@
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import {Route, HashRouter, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
-import BeatLoader from "react-spinners/BeatLoader";
+//import BeatLoader from "react-spinners/BeatLoader";
+
 import { I18nextProvider } from 'react-i18next';
 import './assests/i18n/i18n';
 import i18n from 'i18next';
+
+//redux
+import { Provider } from 'react-redux';
+import { setupCognito, cognito } from 'react-cognito';
+import { combineReducers, createStore } from 'redux';
+import authconfig from './components/account/cognito-auth/config.json';
 
 // Leaflet icons import to solve issues 4968
 import { Icon, Marker, LatLngTuple, CRS } from 'leaflet';
@@ -33,8 +40,18 @@ const i18nInstance = i18n.cloneInstance({
 });
 //const center: LatLngTuple = [config.center[0], config.center[1]];
 
+const reducers = combineReducers({
+    cognito,
+});
+
+//let store = createStore(reducers);
+let store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+//config.group = 'admins'; // Uncomment this to require users to be in a group 'admins'
+setupCognito(store, authconfig);
+
 const routing = (
     <I18nextProvider i18n={i18nInstance}>
+        <Provider store={store}>
         <HashRouter>
         <StrictMode>
             <Switch>
@@ -46,6 +63,7 @@ const routing = (
             </Switch>
         </StrictMode>
         </HashRouter>
+        </Provider>
     </I18nextProvider>
 );
 
