@@ -33,6 +33,10 @@ const config = {
           "crypto-browserify": false,
         },
     },
+    performance: {
+        maxEntrypointSize: 2048000,
+        maxAssetSize: 2048000
+    },
     module: {
         rules: [
             {
