@@ -73,6 +73,19 @@
                 color: $color__light;
             }
 
+            .table-row-link {
+                cursor: pointer;
+                &:hover {
+                    color: $color__table-heading-2;
+                    a {
+                        color: $color__table-heading-2;
+                        &:before {
+                            filter: $filter__color-table-heading-2;
+                        }
+                    }
+                }
+            }
+
             caption {
                 caption-side: top;
                 color: $color__light;
@@ -99,8 +112,7 @@
                         height: 1em;
                         width: 1em;
                         background-image: url($ico__bi-chevron-down);
-                        // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
-                        filter: invert(100%) sepia(93%) saturate(0%) hue-rotate(265deg) brightness(105%) contrast(109%);
+                        filter: $filter__color-light;
                     }
                     &.expand::after {
                         background-image: url($ico__bi-chevron-up);

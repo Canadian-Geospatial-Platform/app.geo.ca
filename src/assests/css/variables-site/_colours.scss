@@ -26,3 +26,9 @@ $color__heading-sec-title-2: $color__logo-green;
 
 // Search form:
 $color__icon-btn-bg: $color__logo-blue;
+
+// Colour filters for SVG backgrounds
+// Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
+$filter__color-light: invert(100%) sepia(93%) saturate(0%) hue-rotate(265deg) brightness(105%) contrast(109%); // #fff
+$filter__color-table-heading-2: invert(100%) sepia(46%) saturate(3625%) hue-rotate(179deg) brightness(85%) contrast(104%); // #babede
+$filter__color-dark-blue: invert(6%) sepia(6%) saturate(7298%) hue-rotate(200deg) brightness(96%) contrast(94%);

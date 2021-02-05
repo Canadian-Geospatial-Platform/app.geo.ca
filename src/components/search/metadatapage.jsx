@@ -32,6 +32,12 @@ const MetaDataPage = (props) => {
         }
         setOpen(newOpen);
     }
+
+    
+    const handleRowClick = (url) => {
+        window.open(url, "_blank");
+    }
+
     const handleSearch = (id) => {
       setLoading(true);
   
@@ -157,7 +163,7 @@ const MetaDataPage = (props) => {
                                   {options.map((option, oi) => {
                                       const desc = option.description[language].split(";");
                                       return (
-                                        <tr key={oi}>
+                                        <tr className="table-row-link" key={oi} onClick={()=>handleRowClick(option.url)}>
                                         <td>
                                             <a className="table-cell-link" href={option.url} target="_blank">{option.name[language]}</a>
                                         </td>
