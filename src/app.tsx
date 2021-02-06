@@ -1,11 +1,13 @@
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import {Route, HashRouter, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
-import BeatLoader from "react-spinners/BeatLoader";
+//import BeatLoader from "react-spinners/BeatLoader";
+
 import { I18nextProvider } from 'react-i18next';
 import './assests/i18n/i18n';
 import i18n from 'i18next';
 
+import {StateProvider} from './globalstate/state';
 // Leaflet icons import to solve issues 4968
 import { Icon, Marker, LatLngTuple, CRS } from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -35,6 +37,7 @@ const i18nInstance = i18n.cloneInstance({
 
 const routing = (
     <I18nextProvider i18n={i18nInstance}>
+        <StateProvider>
         <Router>
         <StrictMode>
             <Switch>
@@ -46,6 +49,7 @@ const routing = (
             </Switch>
         </StrictMode>
         </Router>
+        </StateProvider>
     </I18nextProvider>
 );
 
