@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import Header from '../header/header';
 import { css } from "@emotion/core";
+import { mappingContext } from "../../globalstate/state";
+import { addMapping, delMapping } from "../../globalstate/action";
 import './metadatapage.scss';
+
 
 const MetaDataPage = (props) => {
     const queryParams = {};
@@ -14,7 +17,9 @@ const MetaDataPage = (props) => {
           queryParams[item[0]] = decodeURI(item[1]);
       });
     }
-  
+    const [state, dispatch] = useContext(mappingContext);
+    const mapping = state.mapping;
+    //const mapping = [];
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
@@ -102,6 +107,7 @@ const MetaDataPage = (props) => {
                     const maintenance = result.maintenance.split(';')[langInd];
                     const type = result.type.split(';')[langInd];
                     const spatialRepresentation = result.spatialRepresentation.split(';')[langInd];
+                    const inMapping = (mapping.findIndex(mid=>mid===result.id)>-1);
                     //console.log(contact, options);
                     return (
                     <div key={result.id} className="container-fluid container-search-result container-search-result-two-col">
@@ -291,6 +297,11 @@ const MetaDataPage = (props) => {
                               </div>
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
+                              <h3 className="section-title">{inMapping?"Remove from Map":"Add to a Map"}</h3>
+                              <p>{inMapping?"Remove from Map":"Add to a Map"}</p>
+                              <p className="text-end"><button type="button" className="btn btn-sm" onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Remove from Map":"Add to a Map"}</button></p>
+                          </section>
+                          {/* <section className="sec-search-result search-results-section search-results-misc-data">
                               <h3 className="section-title">Lorem Ipsum</h3>
                               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nunc est, sagittis vitae aliquam vitae, pretium id orci. Fusce eget imperdiet odio, non vehicula sapien.</p>
                               <p className="text-end"><a href="#" className="btn btn-sm">Open Map</a></p>
@@ -303,7 +314,7 @@ const MetaDataPage = (props) => {
                           <section className="sec-search-result search-results-section search-results-misc-data">
                               <h3 className="section-title">Lorem Ipsum</h3>
                               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nunc est, sagittis vitae aliquam vitae, pretium id orci. Fusce eget imperdiet odio, non vehicula sapien.</p>
-                          </section>
+                          </section> */}
                       </aside>
                   </div>
                 </div> 

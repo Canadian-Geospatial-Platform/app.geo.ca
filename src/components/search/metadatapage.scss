@@ -187,6 +187,7 @@
 
             &.search-results-map {
                 padding: 0;
+                border: 1px solid $color__heading-sec-title-2;
                 .ratio {
                     max-height: 300px;
                     overflow: hidden;
@@ -203,7 +204,7 @@
                 text-transform: uppercase;
             }
 
-            a.btn {
+            button.btn {
                 background-color: #ffb85c;
                 color: $color__light;
                 text-decoration: none;

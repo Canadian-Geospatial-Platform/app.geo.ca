@@ -10,7 +10,6 @@ import ButtonApp from '../button';
 import { setupCognito, cognito } from 'react-cognito';
 import { combineReducers, createStore } from 'redux';
 import config from '../../account/cognito-auth/config.json';
-//import { render } from "@testing-library/react";
 
 const reducers = combineReducers({
     cognito,
@@ -23,7 +22,7 @@ setupCognito(store, config);
 
 export default function Account(): JSX.Element {
     const map = useMap();
-
+    
     function handleclick() {
         render(<Provider store={store}><AccountPanel /></Provider>, map.getContainer().getElementsByClassName('cgp-apppanel')[0]);
     }
