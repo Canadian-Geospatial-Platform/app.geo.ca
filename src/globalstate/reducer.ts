@@ -9,13 +9,13 @@ export interface Action {
 export const reducer = (state: StateContext, action: Action) => {
   switch (action.type) {
     case ActionType.ADD_MAPPING:
-        const addMapping = state.mapping.map(m=>m).push(action.payload);
+        const addMapping = state.mapping.map(m=>m);
+        if (action.payload!==undefined && action.payload!=='' && addMapping.findIndex(mid => mid===action.payload)<0 ) {
+            addMapping.push(action.payload);
+        }
         return { ...state, mapping: addMapping };
     case ActionType.DEL_MAPPING:
-        const delMapping = state.mapping.map(m=>m);
-        const delIndex = delMapping.findIndex(mid => mid===action.payload);
-        delMapping.splice(delIndex, 1);
-        return { ...state, mapping: delMapping };
+        return { ...state, mapping: state.mapping.filter(mid => mid!==action.payload) };
     case ActionType.CLEAR_MAPPING:
         return { ...state, mapping: [] };
     default:
