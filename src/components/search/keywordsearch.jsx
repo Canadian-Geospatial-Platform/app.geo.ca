@@ -12,9 +12,11 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 // } from "reactstrap";
 import Header from '../header/header';
 import Pagination from '../pagination/pagination';
+import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
+import organisations from "./organisations.json";
 import { css } from "@emotion/core";
 
 function KeywordSearch(props)  {
@@ -34,6 +36,7 @@ function KeywordSearch(props)  {
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
+  const [orgfilters, setOrg] = useState("");
   const inputRef = createRef();
 
   const handleSearch = (keyword) => {
@@ -48,6 +51,9 @@ function KeywordSearch(props)  {
     }
     if (theme!=='') {
         searchParams.theme = theme;
+    }
+    if (orgfilters!=='') {
+        searchParams.org = orgfilters;
     }
     //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
@@ -115,7 +121,7 @@ function KeywordSearch(props)  {
     if (initKeyword !== '') {
         handleSearch(initKeyword);
     }
-  }, [language, theme, pn]);
+  }, [language, theme, pn, orgfilters]);
 
   return (
         <div className="pageContainer">
@@ -132,6 +138,10 @@ function KeywordSearch(props)  {
                 onKeyUp={e=>handleKeyUp(e)}
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
+        </div>
+        <div className="searchFilters">
+            <h2>Filters:</h2>
+            <SearchFilter filtertitle="Organisition" filtervalues={organisations} filterselected={orgfilters} selectFilters={setOrg} />
         </div>
         <div className="resultContainer">
             {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}

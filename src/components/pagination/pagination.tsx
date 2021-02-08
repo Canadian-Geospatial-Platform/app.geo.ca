@@ -1,7 +1,7 @@
-import ArrowNext from '@material-ui/icons/ArrowForward';
-import ArrowLast from '@material-ui/icons/ArrowForwardIos';
-import ArrowPre from '@material-ui/icons/ArrowBack';
-import ArrowFirst from '@material-ui/icons/ArrowBackIos';
+import ArrowNext from '@material-ui/icons/ArrowRight';
+import ArrowLast from '@material-ui/icons/ArrowForward';
+import ArrowPre from '@material-ui/icons/ArrowLeft';
+import ArrowFirst from '@material-ui/icons/ArrowBack';
 import './pagination.scss';
 
 export default function Pagination(props:paginationProps): JSX.Element {
@@ -13,11 +13,11 @@ export default function Pagination(props:paginationProps): JSX.Element {
     }
     return (
         <div className="paginationContainer">
-            <div className={current===1?"buttonContainer first disabled":"buttonContainer first"} onClick={current>1?() => selectPage(1):undefined}>
-                <ArrowFirst />
+            <div className={current===1?"buttonContainer  first disabled":"buttonContainer first"} onClick={current>1?() => selectPage(1):undefined}>
+                <ArrowFirst className="searchButton" />
             </div>
             <div className={current===1?"buttonContainer previous disabled":"buttonContainer previous"} onClick={current>1?() => selectPage(current-1):undefined}>
-                <ArrowPre />
+                <ArrowPre className="searchButton" />
             </div>
             <div className="pageList">
             {pagenumbers.map(pn=>(
@@ -30,10 +30,10 @@ export default function Pagination(props:paginationProps): JSX.Element {
                 ))}
             </div>
             <div className={current===pcnt?"buttonContainer next disabled":"buttonContainer next"} onClick={current<(pcnt+1)?() => selectPage(current+1):undefined}>
-                <ArrowNext />
+                <ArrowNext className="searchButton" />
             </div>
             <div className={current===pcnt?"buttonContainer last disabled":"buttonContainer last"} onClick={current<(pcnt+1)?() => selectPage(pcnt):undefined}>
-                <ArrowLast />
+                <ArrowLast className="searchButton" />
             </div>
         </div>
     )

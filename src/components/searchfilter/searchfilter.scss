@@ -1,0 +1,61 @@
+.filterContainer {
+    width: 100%;
+    height: 30px;
+    margin: 5px auto;
+    position: relative;
+    .filterCheck {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        cursor: pointer;
+        .filterTitle {
+            opacity: 0.6;
+        }
+        &.checked {
+            .filterTitle {
+                opacity: 1;
+            }
+        }
+    }
+    .filterList {
+        position: absolute;
+        top: 100%;
+        border: 1px solid #515AA9;
+        background-color: #fff;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding: 5px;
+        z-index: 1;
+        &.open {
+            display: flex;
+            .filterValue {
+                width: 100%;
+                display: flex;
+                align-items: flex-start;
+                padding: 5px 10px;
+            }
+            .filterAction {
+                .searchButton {
+                   font-size: 0.75rem;
+                   margin: 5px 10px; 
+                }
+                
+            }
+        }
+    }
+    .checkBox {
+        width: 16px;
+        height: 16px;
+        box-sizing: border-box;
+        border: 2px solid #000;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        color: #000;
+        margin: 3px;
+    }
+    .checked > .checkBox::after {
+        content: "\2713";
+    }
+}

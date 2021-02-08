@@ -169,6 +169,33 @@ input {
     cursor: pointer;
 }
 
+.searchButton {
+    background-color: #FFFFFF;
+    color: #515AA9;
+    margin-top: .5em;
+    transition-duration: 0.4s;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 25px;
+    border: 1px solid #515aa9;
+
+    &:hover  {
+        background-color: #515AA9;
+        color: #FFFFFF;
+    }
+}
+
+.disabled {
+    .searchButton {
+        cursor: default;
+        &:hover {
+            background-color: #FFFFFF;
+            color: #515AA9;
+            border-color:#515aa9;
+        }
+    }
+}
+
 .modal {
     font-size: 0.75rem;
 }
@@ -230,7 +257,13 @@ input {
         }
     }
 }
-
+.searchFilters{
+    margin: 10px auto;
+    >h2 {
+        font-size: 0.8rem;
+        padding: 0 5px;
+    }
+}
 .searchResult {
     box-sizing: border-box;
     border: 2px solid transparent;
@@ -266,24 +299,12 @@ input {
         font-size: 1.25em;
         padding-bottom: 0.3em;
     }
-    
+
     .searchButton {
-        background-color: #FFFFFF;
-        color: #515AA9;
-        margin-top: .5em;
-        transition-duration: 0.4s;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
         float: right;
         width: 50%!important;
         border-radius: 25px;
-        border: 1px solid #515aa9;
         margin-bottom: 0.1em!important;
-    
-        &:hover  {
-            background-color: #515AA9;
-            color: #FFFFFF;
-        }
     }
     
     .broWhy {
@@ -385,7 +406,7 @@ input {
         }
         
     }
-    .searchInput {
+    .searchInput, .searchFilters {
         max-width: 1000px;
         padding: 0 20px;
     }
