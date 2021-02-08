@@ -3,27 +3,21 @@
     align-items: center;
     padding: 15px 10%;
     .buttonContainer {
-        height: 1.2em;
-        width: 1.2em;
-        //border-radius: 2px;
-        //background-color: rgba(216, 216, 216, .2);
+        height: 1.2rem;
+        width: 1.2rem;
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 0 2px;
         cursor: pointer;
         &.disabled {
             opacity: 0.5;
             cursor: default;
         }
-       /* &.next {
-            margin-left: 8px;
-        }
-     
-        &.previous {
-            margin-right: 8px;
-        }*/
         >svg {
             width:100%;
+            height: 100%;
+            margin: 0;
         }
     }
 
