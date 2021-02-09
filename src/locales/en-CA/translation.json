@@ -21,7 +21,8 @@
         "fullscreen": "Full Screen",
         "help": "Help",
         "layers": "Layers",
-        "search": "Search",
+        "search": "Geo Search",
+        "keywordsearch": "Keyword Search",
         "account": "Account",
         "share": "Share",
         "version": "Access GitHub repo"

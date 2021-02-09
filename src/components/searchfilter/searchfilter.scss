@@ -29,7 +29,7 @@
         flex-direction: column;
         align-items: center;
         padding: 5px;
-        z-index: 1;
+        z-index: 1000;
         &.open {
             display: flex;
             .filterValue {
