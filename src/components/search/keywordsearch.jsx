@@ -17,6 +17,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import organisations from "./organisations.json";
+import types from "./types.json";
 import { css } from "@emotion/core";
 
 function KeywordSearch(props)  {
@@ -37,6 +38,7 @@ function KeywordSearch(props)  {
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
   const [orgfilters, setOrg] = useState("");
+  const [typefilters, setType] = useState("");
   const inputRef = createRef();
 
   const handleSearch = (keyword) => {
@@ -141,7 +143,8 @@ function KeywordSearch(props)  {
         </div>
         <div className="searchFilters">
             <h2>Filters:</h2>
-            <SearchFilter filtertitle="Organisition" filtervalues={organisations} filterselected={orgfilters} selectFilters={setOrg} />
+            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={setOrg} />
+            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={setType} />
         </div>
         <div className="resultContainer">
             {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
