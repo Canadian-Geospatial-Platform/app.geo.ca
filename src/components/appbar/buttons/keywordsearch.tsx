@@ -10,7 +10,7 @@ export default function KeywordSearch(): JSX.Element {
     const querySearch = window.location.href.split('?')[1];
     
     function handleclick() {
-        const url = "/#/search" + (querySearch!==undefined && querySearch!==''?"?"+querySearch : "");
+        const url = "/search" + (querySearch!==undefined && querySearch!==''?"?"+querySearch : "");
         window.open(url, '_self');
     }
 
