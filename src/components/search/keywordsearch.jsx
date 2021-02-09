@@ -57,11 +57,14 @@ function KeywordSearch(props)  {
     if (orgfilters!=='') {
         searchParams.org = orgfilters;
     }
+    if (typefilters!=='') {
+        searchParams.type = typefilters;
+    }
     //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
-        console.log(data);
+        //console.log(data);
         const results = data.Items;
         setResults(results);
         setCount(100);
@@ -97,6 +100,7 @@ function KeywordSearch(props)  {
     }
 
     const keyword = inputRef.current.value;
+    setPageNumber(1);
     handleSearch(keyword);
   };
 
@@ -117,13 +121,21 @@ function KeywordSearch(props)  {
         newOpen.splice(hIndex, 1);
     }
     setKWShowing(newOpen);
-}
+  }
 
+  const handleOrg = (filters) => {
+    setPageNumber(1);
+    setOrg(filters);
+  }
+  const handleType = (filters) => {
+    setPageNumber(1);
+    setType(filters);
+  }
   useEffect(() => {
     if (initKeyword !== '') {
         handleSearch(initKeyword);
     }
-  }, [language, theme, pn, orgfilters]);
+  }, [language, theme, pn, orgfilters, typefilters]);
 
   return (
         <div className="pageContainer">
@@ -143,8 +155,8 @@ function KeywordSearch(props)  {
         </div>
         <div className="searchFilters">
             <h2>Filters:</h2>
-            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={setOrg} />
-            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={setType} />
+            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
+            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
         </div>
         <div className="resultContainer">
             {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}

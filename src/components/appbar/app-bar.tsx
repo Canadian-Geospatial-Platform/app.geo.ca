@@ -9,7 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import { DomEvent } from 'leaflet';
 
-import Layers from './buttons/layers';
+//import Layers from './buttons/layers';
 import Search from './buttons/search';
 import Account from './buttons/account';
 import Version from './buttons/version';
@@ -98,8 +98,8 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     {/*{items.map((item) => (
                         <Layers key={`${id}-${item.id}`} />
                     ))}*/}
-                    {search && <Search key="search" />}
-                    {search && <KeywordSearch key="search" />}
+                    {search && <Search key="geosearch" />}
+                    {search && <KeywordSearch key="keywordsearch" />}
                 </List>
                 <Divider className={classes.spacer} />
                 {auth && <List><Account key="auth" /></List>}
