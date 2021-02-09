@@ -237,11 +237,11 @@ const GeoSearch = ({geoMap}) => {
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
-        <div className="searchFilters">
+        {/* <div className="searchFilters">
             <h2>Filters:</h2>
             <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
             <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
-        </div>
+        </div> */}
         <div className="container">
             {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             {loading ?
