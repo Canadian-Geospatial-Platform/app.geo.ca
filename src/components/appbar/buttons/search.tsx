@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { render } from 'react-dom';
 
-import SearchIcon from '@material-ui/icons/Search';
+//import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@material-ui/icons/ImageSearch';
 
 import { useMap } from 'react-leaflet';
 import SearchPanel from '../../search/search-panel';

@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+//import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@material-ui/icons/ImageSearch';
 
 import PanelApp from '../appbar/panel';
 import GeoSearch from './geosearch';
