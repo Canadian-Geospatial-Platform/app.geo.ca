@@ -147,7 +147,7 @@ const MetaDataPage = (props) => {
                                   </td>
                                   </tr>
                                   <tr>
-                                  <th scope="row">Source(s) <em className="visually-hidden">（Same as organization)</em></th>
+                                  <th scope="row">Source(s)</th>
                                   <td>{contact[0].organisation[language]}</td>
                                   </tr>
                               </tbody>
@@ -207,7 +207,6 @@ const MetaDataPage = (props) => {
                                   </tr>
                                   <tr>
                                   <th scope="row">Telephone</th>
-                                  {/* <td><a href="tel:1-250-298-2411" className="table-cell-link">1-250-298-2411</a></td> */}
                                   <td>{contact[0].telephone[language]}</td>
                                   </tr>
                                   <tr>
@@ -298,23 +297,20 @@ const MetaDataPage = (props) => {
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
                               <h3 className="section-title">{inMapping?"Remove from Map":"Add to a Map"}</h3>
-                              <p>{inMapping?"Remove from Map":"Add to a Map"}</p>
-                              <p className="text-end"><button type="button" className="btn btn-sm" onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Remove from Map":"Add to a Map"}</button></p>
-                          </section>
-                          {/* <section className="sec-search-result search-results-section search-results-misc-data">
-                              <h3 className="section-title">Lorem Ipsum</h3>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nunc est, sagittis vitae aliquam vitae, pretium id orci. Fusce eget imperdiet odio, non vehicula sapien.</p>
-                              <p className="text-end"><a href="#" className="btn btn-sm">Open Map</a></p>
+                              <p>View the data in depth by adding it to a map.</p>
+                              <div class="btn-group">
+                                <p className="mr-2"><a href={"https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-en.html?keys=" + result.id} className="btn btn-sm" role="button" target="_blank">View on Map</a></p>
+                                <p className="mr-2"><button type="button" className="btn btn-sm" onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Remove from Map":"Add to a Map"}</button></p>
+                              </div>
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
-                              <h3 className="section-title">Lorem Ipsum</h3>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nunc est, sagittis vitae aliquam vitae, pretium id orci. Fusce eget imperdiet odio, non vehicula sapien.</p>
-                              <p className="text-end"><a href="#" className="btn btn-sm">All Metadata</a></p>
+                              <h3 className="section-title">Metadata</h3>
+                              <p>Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.</p>
+                              <div class="btn-group">
+                                <p className="mr-2"><a href={"https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/" + result.id + ".geojson"} className="btn btn-sm" role="button" target="_blank">Download geoCore</a></p>
+                                <p className="mr-2"><a href={"https://open.canada.ca/data/en/dataset/" + result.id} className="btn btn-sm" role="button" target="_blank">View HNAP Record</a></p>
+                              </div>
                           </section>
-                          <section className="sec-search-result search-results-section search-results-misc-data">
-                              <h3 className="section-title">Lorem Ipsum</h3>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nunc est, sagittis vitae aliquam vitae, pretium id orci. Fusce eget imperdiet odio, non vehicula sapien.</p>
-                          </section> */}
                       </aside>
                   </div>
                 </div> 
