@@ -15,6 +15,12 @@ export default function SearchFilter(props:filterProps): JSX.Element {
         }
         setFilterSelected(newselected);
     }
+    const handleOpen = () => {
+        if (open && fselected.length>0) {
+            selectFilters(fselected.map(fs=>'^'+fs+'$').join("|"));  
+        }
+        setOpen(!open);
+    }
     const handleSubmit = () => {
         selectFilters(fselected.map(fs=>'^'+fs+'$').join("|"));
         setOpen(false);
@@ -26,7 +32,7 @@ export default function SearchFilter(props:filterProps): JSX.Element {
     }
     return (
         <div className="filterContainer">
-            <div className={fselected.length>0 || open ? "filterCheck checked": "filterCheck"} onClick={() => setOpen(!open)}>
+            <div className={fselected.length>0 || open ? "filterCheck checked": "filterCheck"} onClick={() => handleOpen()}>
                 <div className="checkBox"></div>
                 <div className="filterTitle">{filtertitle}</div>
             </div>

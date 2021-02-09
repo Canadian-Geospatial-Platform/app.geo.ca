@@ -187,7 +187,7 @@ input {
 
 .disabled {
     .searchButton {
-        cursor: default;
+        cursor: default!important;
         &:hover {
             background-color: #FFFFFF;
             color: #515AA9;
@@ -259,9 +259,13 @@ input {
 }
 .searchFilters{
     margin: 10px auto;
+    display: flex;
+    flex-wrap: wrap;
     >h2 {
-        font-size: 0.8rem;
+        font-size: .85rem;
         padding: 0 5px;
+        margin: 5px 0 0;
+        width: 100%;
     }
 }
 .searchResult {

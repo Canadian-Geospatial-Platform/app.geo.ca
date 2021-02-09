@@ -10,10 +10,13 @@ import {
   ModalFooter
 } from "reactstrap";
 //import { useMap } from 'react-leaflet';
+import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
+import organisations from "./organisations.json";
+import types from "./types.json";
 import { css } from "@emotion/core";
 import './geosearch.scss';
 
@@ -40,6 +43,8 @@ const GeoSearch = ({geoMap}) => {
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
+  const [orgfilters, setOrg] = useState("");
+  const [typefilters, setType] = useState("");
 
   const handleModal = () => {
     setModal(!modal);
@@ -130,7 +135,10 @@ const GeoSearch = ({geoMap}) => {
     if (theme!=='') {
         searchParams.theme = theme;
     }
-    console.log(searchParams);
+    if (orgfilters!=='') {
+        searchParams.org = orgfilters;
+    }
+    //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
@@ -197,7 +205,7 @@ const GeoSearch = ({geoMap}) => {
     if (initKeyword !== '') {
         handleSearch(initKeyword, initBounds);
     }
-  }, [language, theme, pn]);
+  }, [language, theme, pn, orgfilters]);
  // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);
@@ -215,6 +223,11 @@ const GeoSearch = ({geoMap}) => {
                 onKeyUp={e=>handleKeyUp(e)}
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
+        </div>
+        <div className="searchFilters">
+            <h2>Filters:</h2>
+            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={setOrg} />
+            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={setType} />
         </div>
         <div className="container">
             {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}

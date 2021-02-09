@@ -1,12 +1,14 @@
 .filterContainer {
-    width: 100%;
     height: 30px;
-    margin: 5px auto;
+    margin: 5px 5rem 5px 0;
     position: relative;
+    &:last-child {
+        margin-right: 0;
+    }
     .filterCheck {
         width: 100%;
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         cursor: pointer;
         .filterTitle {
             opacity: 0.6;
@@ -18,6 +20,7 @@
         }
     }
     .filterList {
+        width: max-content;
         position: absolute;
         top: 100%;
         border: 1px solid #515AA9;
@@ -32,28 +35,32 @@
             .filterValue {
                 width: 100%;
                 display: flex;
-                align-items: flex-start;
+                align-items: center;
                 padding: 5px 10px;
+                cursor: pointer;
             }
             .filterAction {
                 .searchButton {
                    font-size: 0.75rem;
                    margin: 5px 10px; 
                 }
-                
+                &.disabled {
+                    opacity: 0.6;
+                }
             }
         }
     }
     .checkBox {
-        width: 16px;
-        height: 16px;
+        width: 0.8rem;
+        height: 0.8rem;
         box-sizing: border-box;
-        border: 2px solid #000;
+        border: 2px solid #54595f;
+        border-radius: 0.1rem;
         display: flex;
         justify-content: center;
         align-items: center; 
-        color: #000;
-        margin: 3px;
+        color:#54595f;
+        margin: 5px;
     }
     .checked > .checkBox::after {
         content: "\2713";
