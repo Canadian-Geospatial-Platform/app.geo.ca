@@ -204,12 +204,12 @@
                 text-transform: uppercase;
             }
 
-            button.btn {
+            .btn {
                 background-color: #ffb85c;
                 color: $color__light;
                 text-decoration: none;
                 display: inline-block;
-                min-width: 140px;
+                min-width: 160px;
 
                 &:hover {
                     background-color: $color__logo-yellow;
