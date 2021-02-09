@@ -11,9 +11,11 @@ import { DomEvent } from 'leaflet';
 
 //import Layers from './buttons/layers';
 import Search from './buttons/search';
+import KeywordSearch from './buttons/keywordsearch';
+import Filter from './buttons/filters';
 import Account from './buttons/account';
 import Version from './buttons/version';
-import KeywordSearch from './buttons/keywordsearch';
+
 
 const drawerWidth = 200;
 
@@ -100,6 +102,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     ))}*/}
                     {search && <Search key="geosearch" />}
                     {search && <KeywordSearch key="keywordsearch" />}
+                    <Filter key="filters" />
                 </List>
                 <Divider className={classes.spacer} />
                 {auth && <List><Account key="auth" /></List>}
