@@ -1,17 +1,17 @@
 @import 'variables-site/variables-site';
-
 html {
-  font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
-div#mapWM{
+div#mapWM {
     display: none;
 }
-div#root:empty ~ div#mapWM{
+
+div#root:empty~div#mapWM {
     display: block;
 }
 
@@ -31,13 +31,16 @@ div#root:empty ~ div#mapWM{
 .MuiDrawer-paper {
     position: relative !important;
 }
+
 .cgp-apppanel .MuiCard-root.jss13 {
     margin: 0;
-} 
+}
+
 .MuiCardContent-root {
     height: calc(100vh - 158px);
     overflow-y: auto;
 }
+
 .leaflet-control-scale {
     z-index: 30;
     position: absolute;
@@ -46,7 +49,7 @@ div#root:empty ~ div#mapWM{
     padding-left: 2px;
     font-size: 11px;
     font-weight: 500;
-    background-color:rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.8);
     right: 0px;
     bottom: 0px;
     margin-bottom: 0px!important;
@@ -109,7 +112,7 @@ input {
     font-size: 14px;
     line-height: 1.5;
     border-radius: .25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     margin: 5px 5px 5px 0;
 }
 
@@ -117,7 +120,7 @@ input {
     width: 30px;
     height: 30px;
     box-sizing: border-box;
-    color:#fff;
+    color: #fff;
     background-color: #515AA9;
     display: inline-flex;
     align-items: center;
@@ -133,7 +136,7 @@ input {
     border: 1px solid transparent;
     padding: 0;
     border-radius: .25rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     margin: 0;
     &:disabled {
         color: #fff;
@@ -143,7 +146,8 @@ input {
     }
 }
 
-.btn-button:hover, .icon-button:hover {
+.btn-button:hover,
+.icon-button:hover {
     color: #fff;
     background-color: #5a6268;
     border-color: #545b62;
@@ -178,8 +182,7 @@ input {
     letter-spacing: 0.1em;
     border-radius: 25px;
     border: 1px solid #515aa9;
-
-    &:hover  {
+    &:hover {
         background-color: #515AA9;
         color: #FFFFFF;
     }
@@ -191,7 +194,7 @@ input {
         &:hover {
             background-color: #FFFFFF;
             color: #515AA9;
-            border-color:#515aa9;
+            border-color: #515aa9;
         }
     }
 }
@@ -199,11 +202,13 @@ input {
 .modal {
     font-size: 0.75rem;
 }
+
 .container {
     font-size: 0.75rem;
     padding: 25px 0;
     color: #000;
-    small, .card {
+    small,
+    .card {
         cursor: pointer;
     }
     .css-0 {
@@ -257,7 +262,8 @@ input {
         }
     }
 }
-.searchFilters{
+
+.searchFilters {
     margin: 10px auto;
     display: flex;
     flex-wrap: wrap;
@@ -268,6 +274,7 @@ input {
         width: 100%;
     }
 }
+
 .searchResult {
     box-sizing: border-box;
     border: 2px solid transparent;
@@ -285,7 +292,6 @@ input {
         margin: 0 0 0.6em 0;
         color: #515AA9;
     }
-    
     .searchFields {
         font-size: 0.85em;
         line-height: 1.2;
@@ -294,7 +300,6 @@ input {
             margin-top: 1em;
         }
     }
-    
     .searchDesc {
         margin-bottom: 0.2em;
         margin-block-start: 0.5em;
@@ -303,19 +308,16 @@ input {
         font-size: 1.25em;
         padding-bottom: 0.3em;
     }
-
     .searchButton {
         float: right;
         width: 50%!important;
         border-radius: 25px;
         margin-bottom: 0.1em!important;
     }
-    
     .broWhy {
-        border: 5px  orange solid;
+        border: 5px orange solid;
         background-color: teal;
     }
-    
     .searchButtonGroup {
         font-size: 0.9em;
         color: #515aa9;
@@ -324,12 +326,12 @@ input {
         &.less {
             .searchButtonGroupBtn.more {
                 display: none;
-            }    
+            }
         }
         .searchButtonGroupBtn {
-            > button {
+            >button {
                 border: 1px solid #E6A44E;
-                background-color: rgba(0,0,0,0);
+                background-color: rgba(0, 0, 0, 0);
                 transition-duration: 0.4s;
                 text-transform: uppercase;
                 letter-spacing: 0.075em;
@@ -337,14 +339,14 @@ input {
                 margin-right: 5px!important;
                 color: #515aa9;
                 font-size: 0.8em;
-                &:hover  {
+                &:hover {
                     color: #E6A44E;
                     border: 1px solid #515aa9;
                     background-color: #515aa9;
                 }
             }
             &.searchButtonGroupBtnMore {
-                > button {
+                >button {
                     border: 1px solid #E6A44E;
                     background-color: #515aa9;
                     color: #E6A44E;
@@ -354,11 +356,9 @@ input {
                         color: #515aa9;
                     }
                 }
-            }        
+            }
         }
-    
     }
-    
     .searchImage {
         border: 1px solid #169548;
         height: 300px;
@@ -370,18 +370,19 @@ input {
         }
     }
 }
+
 .rowDivider {
-	border: 1px solid #f2f2f2;
+    border: 1px solid #f2f2f2;
 }
 
-.rowDivider > .searchResult {
-	padding-bottom: 2em;
-	padding-top: 1.2em;
+.rowDivider>.searchResult {
+    padding-bottom: 2em;
+    padding-top: 1.2em;
 }
 
-.rowDividerMd  {
-	border: 1px solid #f2f2f2;
-	padding-bottom: 2.5em;
+.rowDividerMd {
+    border: 1px solid #f2f2f2;
+    padding-bottom: 2.5em;
     padding-top: 2em;
     .resultRow {
         width: 100%;
@@ -389,11 +390,11 @@ input {
 }
 
 .btn:not(:disabled):not(.disabled) {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .pageContainer {
-    width:100%;
+    width: 100%;
     height: 100%;
     margin: 0px auto;
     font-family: "Open Sans";
@@ -402,15 +403,15 @@ input {
     &.resultPage {
         margin: 0 auto;
         .resultContainer {
-            padding: 0; 
+            padding: 0;
             h1 {
                 margin: 20px auto;
                 text-align: center;
             }
         }
-        
     }
-    .searchInput, .searchFilters {
+    .searchInput,
+    .searchFilters {
         max-width: 1000px;
         padding: 0 20px;
     }
@@ -418,4 +419,3 @@ input {
         padding: 25px 0;
     }
 }
-

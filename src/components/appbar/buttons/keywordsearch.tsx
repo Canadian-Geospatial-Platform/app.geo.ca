@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { render } from 'react-dom';
 
-//import SearchIcon from '@material-ui/icons/Search';
-import SearchIcon from '@material-ui/icons/ImageSearch';
+import KeywordSearchIcon from '@material-ui/icons/Search';
+//import SearchIcon from '@material-ui/icons/ImageSearch';
 
 import { useMap } from 'react-leaflet';
 import SearchPanel from '../../search/search-panel';
 import ButtonApp from '../button';
 
-export default function Search(): JSX.Element {
+export default function KeywordSearch(): JSX.Element {
     const map = useMap();
     const queryParams = {};
     const querySearch = window.location.href.split('?')[1];
@@ -19,7 +19,8 @@ export default function Search(): JSX.Element {
         });
     }
     function handleclick() {
-        render(<SearchPanel map={map} />, map.getContainer().getElementsByClassName('cgp-apppanel')[0]);
+        // render(<SearchPanel map={map} />, map.getContainer().getElementsByClassName('cgp-apppanel')[0]);
+        window.open("/#/search");
     }
 
     useEffect(()=>{
@@ -27,5 +28,5 @@ export default function Search(): JSX.Element {
             handleclick();
         }
     })
-    return <ButtonApp tooltip="appbar.search" icon={<SearchIcon />} onClickFunction={handleclick} />;
+    return <ButtonApp tooltip="appbar.search" icon={<KeywordSearchIcon />} onClickFunction={handleclick} />;
 }

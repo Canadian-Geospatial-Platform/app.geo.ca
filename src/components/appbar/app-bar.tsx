@@ -13,6 +13,7 @@ import Layers from './buttons/layers';
 import Search from './buttons/search';
 import Account from './buttons/account';
 import Version from './buttons/version';
+import KeywordSearch from './buttons/keywordsearch';
 
 const drawerWidth = 200;
 
@@ -98,6 +99,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                         <Layers key={`${id}-${item.id}`} />
                     ))}*/}
                     {search && <Search key="search" />}
+                    {search && <KeywordSearch key="search" />}
                 </List>
                 <Divider className={classes.spacer} />
                 {auth && <List><Account key="auth" /></List>}
