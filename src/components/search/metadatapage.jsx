@@ -296,11 +296,11 @@ const MetaDataPage = (props) => {
                               </div>
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
-                              <h3 className="section-title">{inMapping?"Remove from Map":"Add to a Map"}</h3>
+                              <h3 className="section-title">Add to MyMap</h3>
                               <p>View the data in depth by adding it to a map.</p>
                               <div class="btn-group">
                                 <p className="mr-2"><a href={"https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-en.html?keys=" + result.id} className="btn btn-sm" role="button" target="_blank">View on Map</a></p>
-                                <p className="mr-2"><button type="button" className="btn btn-sm" onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Remove from Map":"Add to a Map"}</button></p>
+                                <p className="mr-2"><button type="button" className={inMapping?"btn btn-sm btn-added":"btn btn-sm"} onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Added to a MyMap":"Add to a MyMap"}</button></p>
                               </div>
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
@@ -308,7 +308,7 @@ const MetaDataPage = (props) => {
                               <p>Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.</p>
                               <div class="btn-group">
                                 <p className="mr-2"><a href={"https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/" + result.id + ".geojson"} className="btn btn-sm" role="button" target="_blank">Download geoCore</a></p>
-                                <p className="mr-2"><a href={"https://open.canada.ca/data/en/dataset/" + result.id} className="btn btn-sm" role="button" target="_blank">View HNAP Record</a></p>
+                                <p className="mr-2"><a href={"https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=" + result.id} className="btn btn-sm" role="button" target="_blank">View HNAP Record</a></p>
                               </div>
                           </section>
                       </aside>

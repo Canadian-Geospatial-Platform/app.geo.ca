@@ -1,4 +1,4 @@
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, useContext, createRef, useEffect } from "react";
 
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 // reactstrap components
@@ -10,6 +10,8 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 //   ModalBody,
 //   ModalFooter
 // } from "reactstrap";
+import { mappingContext } from "../../globalstate/state";
+import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
 import Header from '../header/header';
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
@@ -38,8 +40,11 @@ function KeywordSearch(props)  {
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
-  const [orgfilters, setOrg] = useState("");
-  const [typefilters, setType] = useState("");
+  const [state, dispatch] = useContext(mappingContext);
+  const orgfilters = state.orgfilter;
+  const typefilters = state.typefilter;
+  //const [orgfilters, setOrg] = useState("");
+  //const [typefilters, setType] = useState("");
   const inputRef = createRef();
 
   const handleSearch = (keyword) => {
@@ -126,11 +131,11 @@ function KeywordSearch(props)  {
 
   const handleOrg = (filters) => {
     setPageNumber(1);
-    setOrg(filters);
+    dispatch(setOrgFilter(filters));
   }
   const handleType = (filters) => {
     setPageNumber(1);
-    setType(filters);
+    dispatch(setTypeFilter(filters));
   }
   useEffect(() => {
     if (initKeyword !== '') {
