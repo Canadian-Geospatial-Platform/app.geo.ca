@@ -1,6 +1,3 @@
-import React, { useEffect } from "react";
-import { render } from 'react-dom';
-
 import KeywordSearchIcon from '@material-ui/icons/Search';
 //import SearchIcon from '@material-ui/icons/ImageSearch';
 

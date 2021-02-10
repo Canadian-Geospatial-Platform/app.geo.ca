@@ -23,6 +23,7 @@
         "layers": "Couches",
         "search": "Geo Search",
         "keywordsearch": "Keyword Search",
+        "filters": "Filters",
         "account": "Account",
         "share": "Partager",
         "version": "Accéder au repo sur GitHub"

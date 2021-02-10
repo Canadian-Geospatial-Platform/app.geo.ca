@@ -23,6 +23,7 @@
         "layers": "Layers",
         "search": "Geo Search",
         "keywordsearch": "Keyword Search",
+        "filters": "Filters",
         "account": "Account",
         "share": "Share",
         "version": "Access GitHub repo"

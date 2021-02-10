@@ -1,4 +1,4 @@
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, useContext, createRef, useEffect } from "react";
 import PropTypes from 'prop-types';
 // reactstrap components
 import {
@@ -10,13 +10,15 @@ import {
   ModalFooter
 } from "reactstrap";
 //import { useMap } from 'react-leaflet';
-import SearchFilter from '../searchfilter/searchfilter';
+//import SearchFilter from '../searchfilter/searchfilter';
+import { mappingContext } from "../../globalstate/state";
+import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
 import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-import organisations from "./organisations.json";
-import types from "./types.json";
+//import organisations from "./organisations.json";
+//import types from "./types.json";
 import { css } from "@emotion/core";
 import './geosearch.scss';
 
@@ -43,8 +45,11 @@ const GeoSearch = ({geoMap}) => {
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
-  const [orgfilters, setOrg] = useState("");
-  const [typefilters, setType] = useState("");
+  //const [orgfilters, setOrg] = useState("");
+  //const [typefilters, setType] = useState("");
+  const [state, dispatch] = useContext(mappingContext);
+  const orgfilters = state.orgfilter;
+  const typefilters = state.typefilter;
 
   const handleModal = () => {
     setModal(!modal);
@@ -215,9 +220,9 @@ const GeoSearch = ({geoMap}) => {
     setType(filters);
   }
   useEffect(() => {
-    if (initKeyword !== '') {
+    //if (initKeyword !== '') {
         handleSearch(initKeyword, initBounds);
-    }
+    //}
   }, [language, theme, pn, orgfilters, typefilters]);
  // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
@@ -237,11 +242,11 @@ const GeoSearch = ({geoMap}) => {
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
-        <div className="searchFilters">
+        {/* <div className="searchFilters">
             <h2>Filters:</h2>
             <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
             <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
-        </div>
+        </div> */}
         <div className="container">
             {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             {loading ?
