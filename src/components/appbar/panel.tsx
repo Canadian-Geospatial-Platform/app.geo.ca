@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import { render } from 'react-dom';
 
 import { useTranslation } from 'react-i18next';
-
+import {StateProvider} from '../../globalstate/state';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Card, CardHeader, CardContent, Divider, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
@@ -45,6 +45,7 @@ export default function PanelApp(props: PanelAppProps): JSX.Element {
     }
 
     return (
+        <StateProvider>
         <Card className={classes.root} ref={panel}>
             <CardHeader
                 className={classes.avatar}
@@ -59,6 +60,7 @@ export default function PanelApp(props: PanelAppProps): JSX.Element {
             <Divider />
             <CardContent>{content}</CardContent>
         </Card>
+        </StateProvider>
     );
 }
 
