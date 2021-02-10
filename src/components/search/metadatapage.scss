@@ -214,6 +214,13 @@
                 &:hover {
                     background-color: $color__logo-yellow;
                 }
+
+                &.btn-added {
+                    background-color: $color__logo-green;
+                    &:hover {
+                        background-color: $color__logo-green;
+                    }
+                }
             }
         }
     }
