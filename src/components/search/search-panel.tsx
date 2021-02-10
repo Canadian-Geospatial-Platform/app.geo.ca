@@ -9,7 +9,7 @@ export default function SearchPanel(props: SearchProps): JSX.Element {
     // TODO: access Leaflat map from custom component to use inside panel event
     // TODO: register and unregister events when panel open and close
     const {map} = props;
-    
+
     return (
         <PanelApp
             title="appbar.search"

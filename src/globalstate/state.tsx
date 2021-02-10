@@ -5,12 +5,16 @@ import { reducer, Action } from './reducer';
 
 export interface StateContext {
   mapping: string[];
+  orgfilter: string;
+  typefilter: string;
+  themefilter: string;
+  language: 'en-CA'|'fr-CA';
 }
 export interface Store {
   state: StateContext;
   dispatch?: React.Dispatch<Action>;
 }
-const defaultState: StateContext = { mapping: [] };
+const defaultState: StateContext = { mapping: [], orgfilter: '', typefilter: '', themefilter: '', language: 'en-CA' };
 export const mappingContext = createContext< Store >( { state: defaultState } );
 export const useStateContext = () => useContext(mappingContext);
 export const StateProvider = ({ children }) => {
