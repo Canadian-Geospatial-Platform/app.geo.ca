@@ -23,21 +23,24 @@
                 }
             }
             .search-result-page-title {
-                color: $color__text-heading-2;
+                color: $color__text-heading;
                 font-size: 2.25em;
+                margin: 0;
                 text-align: left;
             }
         }
 
         .sec-search-result {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
+            background-color: #5a62ad;
             border-radius: 10px;
             margin: 0 5% 1.5em 5%;
             padding: 5%;
         }
 
         .sec-title {
-            color: $color__text-heading-2;
+            color: $color__text-heading;
+            letter-spacing: 0.1em;
             margin-bottom: 0.5em;
             text-transform: uppercase;
             font-size: 1.75em;
@@ -50,8 +53,8 @@
         }
 
         .search-result-keywords {
-            border-top: 1px solid $color__table-border-2;
-            border-bottom: 1px solid $color__table-border-2;
+            border-top: 1px solid $color__table-border;
+            border-bottom: 1px solid $color__table-border;
             font-size: 14px;
             margin-bottom: 1em;
             padding: 0.5rem 0;
@@ -59,14 +62,14 @@
                 margin: 0;
             }
             strong {
-                color: $color__table-heading-2;
+                color: $color__table-heading;
                 font-weight: normal;
                 text-transform: uppercase;
             }
         }
 
         .table-search-result {
-            border-color: $color__table-border-2;
+            border-color: $color__table-border;
             color: $color__light;
 
             tbody > tr:hover {
@@ -76,9 +79,9 @@
             .table-row-link {
                 cursor: pointer;
                 &:hover {
-                    color: $color__table-heading-2;
+                    color: $color__table-heading;
                     a {
-                        color: $color__table-heading-2;
+                        color: $color__table-heading;
                         &:before {
                             filter: $filter__color-table-heading-2;
                         }
@@ -124,7 +127,7 @@
             }
 
             th {
-                color: $color__table-heading-2;
+                color: $color__table-heading;
                 font-weight: 100;
                 width: 40%;
                 text-transform: uppercase;
@@ -132,10 +135,10 @@
 
             .table-cell-link {
                 display: flex;
-                color: $color__link-2;
+                color: $color__link;
                 text-decoration: none;
                 &:hover {
-                    color: $color__table-heading-2;
+                    color: $color__table-heading;
                     &::before {
                         filter: invert(100%) sepia(46%) saturate(3625%) hue-rotate(179deg) brightness(85%) contrast(104%);
                     }
@@ -175,7 +178,7 @@
 
     // Secondary Column
     .aside {
-        color: $color__text-aside-2;
+        color: $color__text-aside;
 
         @media (max-width: 991.98px) {
             order: 1;
@@ -187,7 +190,7 @@
 
             &.search-results-map {
                 padding: 0;
-                border: 1px solid $color__heading-sec-title-2;
+                border: 1px solid $color__heading-aside-title;
                 .ratio {
                     max-height: 300px;
                     overflow: hidden;
@@ -198,21 +201,21 @@
             }
 
             .section-title {
-                color: $color__heading-sec-title-2;
+                color: $color__heading-aside-title;
                 font-size: 1rem;
                 font-weight: 600;
                 text-transform: uppercase;
             }
 
             .btn {
-                background-color: #ffb85c;
+                background-color: $color__btn-aside;
                 color: $color__light;
                 text-decoration: none;
                 display: inline-block;
                 min-width: 160px;
 
                 &:hover {
-                    background-color: $color__logo-yellow;
+                    background-color: $color__btn-aside-hover;
                 }
             }
         }

@@ -1,31 +1,29 @@
+// Global
 $color__light: #fff;
 $color__dark: #000;
-
 $color__logo-green: #169548;
 $color__logo-blue: #515aa9;
 $color__logo-yellow: #ffc272;
+$color__logo-yellow-dark: #ffb85c;
 
-// Simple
-$color__bg-body: #f5f5f5;
-$color__text-main: #54595f;
-$color__text-heading: #113355;
-$color__link: #113355;
-$color__table-heading: #777;
-
-// Colourful
-$color__bg-body-2: #f5f5f5;
-$color__text-main-2: #f1f2f8;
-$color__text-aside-2: #54595f;
-$color__text-heading-2: #fff;
-$color__link-2: #ffffff;
-$color__table-heading-2: #babede;
-
-$color__table-border-2: rgba(255, 255, 255, 0.1);
+// Search form
 $color__search-panel-border: rgba(0, 0, 0, 0.12);
-$color__heading-sec-title-2: $color__logo-green;
-
-// Search form:
 $color__icon-btn-bg: $color__logo-blue;
+
+// Main
+$color__bg-body: #f5f5f5;
+$color__text-main: #f1f2f8;
+$color__text-heading: $color__light;
+$color__link: $color__light;
+$color__table-heading: #c9cbe4;
+$color__table-border: rgba(255, 255, 255, 0.01);
+$color__table-border: rgba(255, 255, 255, 0.2);
+
+// Sidebar
+$color__text-aside: #54595f;
+$color__heading-aside-title: $color__logo-green;
+$color__btn-aside: $color__logo-yellow-dark;
+$color__btn-aside-hover: $color__logo-yellow;
 
 // Colour filters for SVG backgrounds
 // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
