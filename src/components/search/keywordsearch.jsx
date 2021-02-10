@@ -16,7 +16,7 @@ import Header from '../header/header';
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
-import FilterIcon from '@material-ui/icons/filter';
+import FilterIcon from '@material-ui/icons/Filter';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import organisations from "./organisations.json";
@@ -138,9 +138,9 @@ function KeywordSearch(props)  {
     dispatch(setTypeFilter(filters));
   }
   useEffect(() => {
-    if (initKeyword !== '') {
-        handleSearch(initKeyword);
-    }
+    //if (initKeyword !== '') {
+    handleSearch(initKeyword);
+    //}
   }, [language, theme, pn, orgfilters, typefilters]);
 
   return (

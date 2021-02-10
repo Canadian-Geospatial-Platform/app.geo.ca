@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Typography } from '@material-ui/core';
 //import SearchIcon from '@material-ui/icons/Search';
-import FilterIcon from '@material-ui/icons/filter';
+import FilterIcon from '@material-ui/icons/Filter';
 
 import PanelApp from '../appbar/panel';
 import SearchFilter from './searchfilter';
