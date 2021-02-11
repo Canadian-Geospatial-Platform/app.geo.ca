@@ -16,14 +16,14 @@ export default function SearchFilter(props:filterProps): JSX.Element {
         setFilterSelected(newselected);
     }
     const handleOpen = () => {
-        if (open && fselected.length>0) {
-            selectFilters(fselected.map(fs=>'^'+fs+'$').join("|"));  
+        if (open) {
+            selectFilters(fselected.length>0 ? fselected.map(fs=>'^'+fs+'$').join("|"):"");  
         }
         setOpen(!open);
     }
     const handleSubmit = () => {
         selectFilters(fselected.map(fs=>'^'+fs+'$').join("|"));
-        setOpen(false);
+        setOpen(false); 
     }
     const handleClear = () => {
         selectFilters("");
@@ -49,8 +49,8 @@ export default function SearchFilter(props:filterProps): JSX.Element {
                     </div>
                 )})}
                 <div className={fselected.length>0?"filterAction":"filterAction disabled"}>
-                    <button className="btn searchButton submit" onClick={fselected.length>0?handleSubmit:null}>Submit</button>
-                    <button className="btn searchButton clear" onClick={fselected.length>0?handleClear:null}>Clear</button>
+                    <button className="btn searchButton submit" onClick={fselected.length>0?handleSubmit:undefined}>Submit</button>
+                    <button className="btn searchButton clear" onClick={fselected.length>0?handleClear:undefined}>Clear</button>
                 </div>    
             </div>
         </div>
