@@ -2,9 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-import Header from '../header/header';
 import { css } from "@emotion/core";
-import { mappingContext } from "../../globalstate/state";
+import { mappingContext, useStateContext } from "../../globalstate/state";
 import { addMapping, delMapping } from "../../globalstate/action";
 import './metadatapage.scss';
 
@@ -17,9 +16,10 @@ const MetaDataPage = (props) => {
           queryParams[item[0]] = decodeURI(item[1]);
       });
     }
-    const [state, dispatch] = useContext(mappingContext);
+    const {state, dispatch} = useStateContext();
     const mapping = state.mapping;
     //const mapping = [];
+    console.log(mapping);
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
@@ -81,7 +81,7 @@ const MetaDataPage = (props) => {
   
     return (
           <div className="pageContainer resultPage">
-          <Header />
+          {/* <Header /> */}
           <div className="resultContainer">
               {loading ?
                   <div className="d-flex justify-content-center">

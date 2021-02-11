@@ -10,9 +10,8 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 //   ModalBody,
 //   ModalFooter
 // } from "reactstrap";
-import { mappingContext } from "../../globalstate/state";
+import { mappingContext, useStateContext } from "../../globalstate/state";
 import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
-import Header from '../header/header';
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
@@ -40,7 +39,7 @@ function KeywordSearch(props)  {
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
-  const [state, dispatch] = useContext(mappingContext);
+  const {state, dispatch} = useStateContext();
   const orgfilters = state.orgfilter;
   const typefilters = state.typefilter;
   //const [orgfilters, setOrg] = useState("");
@@ -55,7 +54,7 @@ function KeywordSearch(props)  {
         keyword_only: 'true',
         lang: language,
         min: (pn-1)*10,
-        max: pn*10
+        max: cnt>0?Math.min(pn*10-1, cnt-1):pn*10-1
     }
     if (theme!=='') {
         searchParams.theme = theme;
@@ -145,7 +144,7 @@ function KeywordSearch(props)  {
 
   return (
         <div className="pageContainer">
-        <Header />
+        {/* <Header /> */}
         <div className="row">
         <div className="col-md-1">
             <div className="searchFilters">
@@ -169,7 +168,7 @@ function KeywordSearch(props)  {
                 <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
             </div>
             <div className="resultContainer">
-                {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                {cnt>0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                 {loading ?
                     <div className="d-flex justify-content-center">
                     <BeatLoader
@@ -234,7 +233,7 @@ function KeywordSearch(props)  {
                         </div>
                     </div>
                     )}))}
-                    {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                    {cnt>0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                 </div>
             </div>
             <div className="col-md-1 " />
