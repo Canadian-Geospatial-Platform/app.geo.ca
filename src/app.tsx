@@ -1,6 +1,7 @@
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import {Route, HashRouter, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
+import { Provider } from 'react-redux';
 //import BeatLoader from "react-spinners/BeatLoader";
 
 import { I18nextProvider } from 'react-i18next';
@@ -8,6 +9,7 @@ import './assests/i18n/i18n';
 import i18n from 'i18next';
 
 import {StateProvider} from './globalstate/state';
+
 // Leaflet icons import to solve issues 4968
 import { Icon, Marker, LatLngTuple, CRS } from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -20,7 +22,21 @@ import MetaDataPage from './components/search/metadatapage';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assests/css/style.scss';
+/*
+import { setupCognito, cognito } from 'react-cognito';
+import { combineReducers, createStore } from 'redux';
+import authconfig from './components/account/cognito-auth/config.json';
 
+const reducers = combineReducers({
+    cognito,
+});
+
+//const store = createStore(reducers);
+const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+//config.group = 'admins'; // Uncomment this to require users to be in a group 'admins'
+setupCognito(store, authconfig);
+
+console.log(store);*/
 // hack for default leaflet icon: https://github.com/Leaflet/Leaflet/issues/4968
 // TODO: put somewhere else
 const DefaultIcon = new Icon({
@@ -55,8 +71,8 @@ const renderMap:React.FunctionComponent = () => {
 }
 
 const routing = (
+    <StateProvider>
     <I18nextProvider i18n={i18nInstance}>
-        <StateProvider>
         <HashRouter>
         <StrictMode>
             <Header />
@@ -69,8 +85,9 @@ const routing = (
             </Switch>
         </StrictMode>
         </HashRouter>
-        </StateProvider>
     </I18nextProvider>
+    </StateProvider>
+
 );
 
 ReactDOM.render(routing, document.getElementById('root'));

@@ -1,4 +1,4 @@
-import React, { useState, useContext, createRef, useEffect } from "react";
+import React, { useState, useContext, createRef, useEffect, KeyboardEventHandler } from "react";
 
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 // reactstrap components
@@ -22,7 +22,7 @@ import organisations from "./organisations.json";
 import types from "./types.json";
 import { css } from "@emotion/core";
 
-function KeywordSearch(props)  {
+const KeywordSearch:React.FunctionComponent = (props) => {
   const queryParams = {};
   if (props.location.search.trim()!=='') {
     props.location.search.trim().substr(1).split('&').forEach( q=>{
@@ -44,9 +44,10 @@ function KeywordSearch(props)  {
   const typefilters = state.typefilter;
   //const [orgfilters, setOrg] = useState("");
   //const [typefilters, setType] = useState("");
+  console.log(state, dispatch);
   const inputRef = createRef();
 
-  const handleSearch = (keyword) => {
+  const handleSearch = (keyword: string) => {
     setLoading(true);
 
     const searchParams = {
@@ -88,12 +89,12 @@ function KeywordSearch(props)  {
 
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e:Event) => {
       e.preventDefault();
       setKeyword(e.target.value);
   }
 
-  const handleKeyUp = (e) => {
+  const handleKeyUp = (e: KeyboardEventHandler) => {
     if (e.keyCode === 13) {
         handleSubmit(e);
     }
@@ -109,15 +110,15 @@ function KeywordSearch(props)  {
     handleSearch(keyword);
   };
 
-  const handleView = (id) => {
+  const handleView = (id: string) => {
     window.open("/#/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
   }
 
-  const handleKeyword = (keyword) => {
+  const handleKeyword = (keyword: string) => {
     window.open("/#/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
   }
 
-  const handleKwshowing = (rid) => {
+  const handleKwshowing = (rid: string) => {
     const newOpen = allkw.map(o=>o);
     const hIndex = allkw.findIndex(os=>os===rid);
     if ( hIndex < 0 ) {
@@ -128,11 +129,11 @@ function KeywordSearch(props)  {
     setKWShowing(newOpen);
   }
 
-  const handleOrg = (filters) => {
+  const handleOrg = (filters: string) => {
     setPageNumber(1);
     dispatch(setOrgFilter(filters));
   }
-  const handleType = (filters) => {
+  const handleType = (filters: string) => {
     setPageNumber(1);
     dispatch(setTypeFilter(filters));
   }

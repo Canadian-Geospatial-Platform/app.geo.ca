@@ -7,7 +7,7 @@ import PanelApp from '../appbar/panel';
 import SearchFilter from './searchfilter';
 import organisations from "../search/organisations.json";
 import types from "../search/types.json";
-import { mappingContext, useStateContext } from "../../globalstate/state";
+import { useStateContext } from "../../globalstate/state";
 import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
 
 export default function FilterPanel(): JSX.Element {
@@ -16,7 +16,7 @@ export default function FilterPanel(): JSX.Element {
     const { state, dispatch } = useStateContext(); 
     const orgfilters = state.orgfilter;
     const typefilters = state.typefilter;
-
+ //console.log(state, dispatch);
     return (
         <PanelApp
             title="appbar.filters"
@@ -25,8 +25,8 @@ export default function FilterPanel(): JSX.Element {
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
                         <div className="searchFilters">
-                            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={setOrgFilter} />
-                            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={setTypeFilter} />
+                            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={(ofilter:string) => setOrgFilter(ofilter)} />
+                            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={(tfilter:string) => setTypeFilter(tfilter)} />
                         </div>
                     </Typography>
                 ) as unknown) as Element
