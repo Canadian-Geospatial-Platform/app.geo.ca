@@ -15,7 +15,7 @@ export interface Store {
   dispatch?: React.Dispatch<Action>;
 }
 const defaultState: StateContext = { mapping: [], orgfilter: '', typefilter: '', themefilter: '', language: 'en-CA' };
-export const mappingContext = createContext< Store >( { state: defaultState } );
+const mappingContext = createContext< Store >( { state: defaultState } );
 export const useStateContext = () => useContext(mappingContext);
 export const StateProvider = ( {children} ) => {
   const [state, dispatch] = useReducer(reducer, defaultState);
