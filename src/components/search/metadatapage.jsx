@@ -110,8 +110,8 @@ const MetaDataPage = (props) => {
                     const inMapping = (mapping.findIndex(mid=>mid===result.id)>-1);
                     //console.log(contact, options);
                     return (
-                    <div key={result.id} className="container-fluid container-search-result container-search-result-two-col">
-                    <div className="row g-0">
+                    <div key={result.id} className="container-search-result container-search-result-two-col">
+                    <div className="row no-gutters">
                       <main className="col col-lg-8 main">
                           {/* Header */}
                           <header className="header">
@@ -299,16 +299,16 @@ const MetaDataPage = (props) => {
                               <h3 className="section-title">Add to MyMap</h3>
                               <p>View the data in depth by adding it to a map.</p>
                               <div class="btn-group">
-                                <p className="mr-2"><a href={"https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-en.html?keys=" + result.id} className="btn btn-sm" role="button" target="_blank">View on Map</a></p>
-                                <p className="mr-2"><button type="button" className={inMapping?"btn btn-sm btn-added":"btn btn-sm"} onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Added to a MyMap":"Add to a MyMap"}</button></p>
+                                <a href={"https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-en.html?keys=" + result.id} className="btn btn-search mr-2" role="button" target="_blank">View on Map</a>
+                                <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Added to a MyMap":"Add to a MyMap"}</button>
                               </div>
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
                               <h3 className="section-title">Metadata</h3>
                               <p>Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.</p>
                               <div class="btn-group">
-                                <p className="mr-2"><a href={"https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/" + result.id + ".geojson"} className="btn btn-sm" role="button" target="_blank">Download geoCore</a></p>
-                                <p className="mr-2"><a href={"https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=" + result.id} className="btn btn-sm" role="button" target="_blank">View HNAP Record</a></p>
+                                <a href={"https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/" + result.id + ".geojson"} className="btn btn-search mr-2" role="button" target="_blank">Download geoCore</a>
+                                <a href={"https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=" + result.id} className="btn btn-search" role="button" target="_blank">View HNAP Record</a>
                               </div>
                           </section>
                       </aside>
