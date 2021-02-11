@@ -296,11 +296,11 @@ const MetaDataPage = (props) => {
                               </div>
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
-                              <h3 className="section-title">Add to MyMap</h3>
+                              <h3 className="section-title">Add to Map</h3>
                               <p>View the data in depth by adding it to a map.</p>
                               <div class="btn-group">
                                 <a href={"https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-en.html?keys=" + result.id} className="btn btn-search mr-2" role="button" target="_blank">View on Map</a>
-                                <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Added to a MyMap":"Add to a MyMap"}</button>
+                                <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Added to MyMap":"Add to MyMap"}</button>
                               </div>
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
