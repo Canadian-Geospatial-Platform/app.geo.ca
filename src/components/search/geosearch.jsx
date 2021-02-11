@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 //import { useMap } from 'react-leaflet';
 //import SearchFilter from '../searchfilter/searchfilter';
-import { mappingContext } from "../../globalstate/state";
+import { mappingContext, useStateContext } from "../../globalstate/state";
 import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
 import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
@@ -47,7 +47,7 @@ const GeoSearch = ({geoMap}) => {
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
   //const [orgfilters, setOrg] = useState("");
   //const [typefilters, setType] = useState("");
-  const [state, dispatch] = useContext(mappingContext);
+  const {state, dispatch} = useStateContext();
   const orgfilters = state.orgfilter;
   const typefilters = state.typefilter;
 
@@ -135,7 +135,7 @@ const GeoSearch = ({geoMap}) => {
         keyword: keyword,
         lang: language,
         min: (pn-1)*10,
-        max: pn*10
+        max: cnt>0?Math.min(pn*10-1, cnt-1):pn*10-1
     }
     if (theme!=='') {
         searchParams.theme = theme;
@@ -248,7 +248,7 @@ const GeoSearch = ({geoMap}) => {
             <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
         </div> */}
         <div className="container">
-            {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+            {cnt>0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             {loading ?
                 <div className="d-flex justify-content-center">
                 <BeatLoader
@@ -273,7 +273,7 @@ const GeoSearch = ({geoMap}) => {
                 ))}
                 </div>
             )}
-            {cnt>10 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+            {cnt>0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
         </div>
         </div>
     );

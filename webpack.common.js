@@ -19,7 +19,7 @@ const config = {
         filename: 'gcpv-main.js',
     },
     resolve: {
-        extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json'],
+        extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json', '.jpg'],
         fallback: {
           "fs": false,
           "tls": false,

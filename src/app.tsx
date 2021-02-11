@@ -13,7 +13,8 @@ import { Icon, Marker, LatLngTuple, CRS } from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-import { renderMap } from './components/map/map';
+import Header from './components/header/header';
+import { Map } from './components/map/map';
 import KeywordSearch from './components/search/keywordsearch';
 import MetaDataPage from './components/search/metadatapage';
 
@@ -27,21 +28,40 @@ const DefaultIcon = new Icon({
     shadowUrl: iconShadow,
 });
 Marker.prototype.options.icon = DefaultIcon;
-const maps: Element[] = [...document.getElementsByClassName('llwb-map')];
-const config = JSON.parse(maps[0].getAttribute('data-leaflet')!.replace(/'/g, '"'));
+//const maps: Element[] = [...document.getElementsByClassName('llwb-map')];
+const config = JSON.parse(document.getElementById('root').getAttribute('data-leaflet')!.replace(/'/g, '"'));
 const i18nInstance = i18n.cloneInstance({
     lng: config.language,
     fallbackLng: config.language,
 });
 //const center: LatLngTuple = [config.center[0], config.center[1]];
 
+const renderMap:React.FunctionComponent = () => {
+    const center: LatLngTuple = [config.center[0], config.center[1]];
+    return (
+        <Suspense fallback="loading">
+            <Map
+                id="MainMap"
+                center={center}
+                zoom={config.zoom}
+                projection={config.projection}
+                language={config.language}
+                layers={config.layers}
+                search={config.search}
+                auth={config.auth}
+            />
+        </Suspense>
+    );
+}
+
 const routing = (
     <I18nextProvider i18n={i18nInstance}>
         <StateProvider>
         <Router>
         <StrictMode>
+            <Header />
             <Switch>
-                <Route exact path="/" component={renderMap(maps[0], config)} />
+                <Route exact path="/" component={renderMap} />
                 <Route exact path="/search" component={KeywordSearch} />
                 <Route exact path="/result" component={MetaDataPage} />
                 <Route path="/404" render={() => <div>404 - Not Found</div>} />

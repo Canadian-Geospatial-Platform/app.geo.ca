@@ -1,4 +1,4 @@
-import { Suspense, StrictMode } from 'react';
+import React, { Suspense, StrictMode } from 'react';
 import { render } from 'react-dom';
 
 import { I18nextProvider } from 'react-i18next';
@@ -6,7 +6,6 @@ import { I18nextProvider } from 'react-i18next';
 import { LatLngTuple, CRS } from 'leaflet';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl } from 'react-leaflet';
 
-import Header from '../header/header';
 import { MapOptions, getMapOptions } from '../../common/map';
 import { Basemap, BasemapOptions } from '../../common/basemap';
 import { Layer, LayerConfig } from '../../common/layer';
@@ -74,28 +73,6 @@ export function Map(props: MapProps): JSX.Element {
                 <Appbar id={id} search={search} auth={auth} />
             </div>
         </MapContainer>
-    );
-}
-
-export function renderMap(element: Element, config: MapConfig): void {
-    const center: LatLngTuple = [config.center[0], config.center[1]];
-
-    // * strict mode rendering twice explanation: https://mariosfakiolas.com/blog/my-react-components-render-twice-and-drive-me-crazy/
-    render(
-        <Suspense fallback="loading">
-            <Header />
-            <Map
-                id={element.id}
-                center={center}
-                zoom={config.zoom}
-                projection={config.projection}
-                language={config.language}
-                layers={config.layers}
-                search={config.search}
-                auth={config.auth}
-            />
-        </Suspense>,
-        element
     );
 }
 
