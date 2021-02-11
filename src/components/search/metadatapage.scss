@@ -1,10 +1,24 @@
 @import '../../assests/css/variables-site/variables-site';
 
 .container-search-result {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    .no-gutters {
+        margin-right: 0;
+        margin-left: 0;
+
+        > .col,
+        > [class*='col-'] {
+            padding-right: 0;
+            padding-left: 0;
+        }
+    }
+
     // Primary Column
     .main {
         color: $color__light;
-        background-color: $color__logo-blue;
+        background-color: $color__logo-blue-dark;
         font-weight: 300;
         @media (max-width: 991.98px) {
             order: 2;
@@ -23,21 +37,25 @@
                 }
             }
             .search-result-page-title {
-                color: $color__text-heading-2;
-                font-size: 2.25em;
+                color: $color__text-heading;
+                font-size: 2.1em;
+                font-weight: 300;
+                letter-spacing: -0.01em;
+                margin: 0;
                 text-align: left;
             }
         }
 
         .sec-search-result {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: $color__logo-blue;
             border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             margin: 0 5% 1.5em 5%;
-            padding: 5%;
+            padding: 2.5em 5% 2em 5%;
         }
 
         .sec-title {
-            color: $color__text-heading-2;
+            color: $color__text-heading;
             margin-bottom: 0.5em;
             text-transform: uppercase;
             font-size: 1.75em;
@@ -50,38 +68,44 @@
         }
 
         .search-result-keywords {
-            border-top: 1px solid $color__table-border-2;
-            border-bottom: 1px solid $color__table-border-2;
+            border-top: 1px solid $color__table-border;
+            border-bottom: 1px solid $color__table-border;
             font-size: 14px;
-            margin-bottom: 1em;
-            padding: 0.5rem 0;
+            margin: 1em 0 2em 0;
+            padding: 0.75rem 0;
             p {
                 margin: 0;
             }
             strong {
-                color: $color__table-heading-2;
+                display: inline-block;
+                padding-right: 0.5em;
+                color: $color__table-heading;
                 font-weight: normal;
                 text-transform: uppercase;
             }
         }
 
         .table-search-result {
-            border-color: $color__table-border-2;
+            border-color: $color__table-border;
             color: $color__light;
+            margin-bottom: 0;
+
+            & > :not(caption) > * > * {
+                border-color: $color__table-border;
+                border-bottom-width: 1px;
+            }
 
             tbody > tr:hover {
+                background-color: $color__logo-blue-dark;
                 color: $color__light;
             }
 
             .table-row-link {
                 cursor: pointer;
                 &:hover {
-                    color: $color__table-heading-2;
+                    color: $color__table-heading;
                     a {
-                        color: $color__table-heading-2;
-                        &:before {
-                            filter: $filter__color-table-heading-2;
-                        }
+                        color: $color__table-heading;
                     }
                 }
             }
@@ -90,6 +114,7 @@
                 caption-side: top;
                 color: $color__light;
                 font-size: 1.3rem;
+                padding-top: 0;
                 text-transform: uppercase;
                 span {
                     position: relative;
@@ -124,7 +149,7 @@
             }
 
             th {
-                color: $color__table-heading-2;
+                color: $color__table-heading;
                 font-weight: 100;
                 width: 40%;
                 text-transform: uppercase;
@@ -132,10 +157,10 @@
 
             .table-cell-link {
                 display: flex;
-                color: $color__link-2;
+                color: $color__link;
                 text-decoration: none;
                 &:hover {
-                    color: $color__table-heading-2;
+                    color: $color__table-heading;
                     &::before {
                         filter: invert(100%) sepia(46%) saturate(3625%) hue-rotate(179deg) brightness(85%) contrast(104%);
                     }
@@ -156,8 +181,7 @@
                     width: 20px;
                     background: url($ico__bi-link-45deg) center center no-repeat transparent;
                     margin-right: 20px;
-                    // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
-                    filter: invert(6%) sepia(6%) saturate(7298%) hue-rotate(200deg) brightness(96%) contrast(94%);
+                    filter: $filter__color-light;
                 }
             }
         }
@@ -175,7 +199,8 @@
 
     // Secondary Column
     .aside {
-        color: $color__text-aside-2;
+        background-color: $color__bg-aside;
+        color: $color__text-aside;
 
         @media (max-width: 991.98px) {
             order: 1;
@@ -183,11 +208,11 @@
         .sec-search-result {
             background-color: $color__light;
             margin: 0 0 2px 0;
-            padding: 1.5em 5%;
+            padding: 2.5em 5%;
 
             &.search-results-map {
+                border-bottom: 2px solid $color__logo-yellow;
                 padding: 0;
-                border: 1px solid $color__heading-sec-title-2;
                 .ratio {
                     max-height: 300px;
                     overflow: hidden;
@@ -198,27 +223,36 @@
             }
 
             .section-title {
-                color: $color__heading-sec-title-2;
-                font-size: 1rem;
+                color: $color__heading-aside-title;
+                font-size: 1.4rem;
                 font-weight: 600;
                 text-transform: uppercase;
             }
 
+            .btn-group {
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+
             .btn {
-                background-color: #ffb85c;
-                color: $color__light;
+                background-color: $color__bg-btn-aside;
+                color: $color__text-btn-aside;
+                border-radius: 0.2rem;
+                font-size: 14px;
+                letter-spacing: 0.1em;
                 text-decoration: none;
                 display: inline-block;
-                min-width: 160px;
+                width: 50%;
 
                 &:hover {
-                    background-color: $color__logo-yellow;
+                    background-color: $color__bg-btn-aside-hover;
+                    color: $color__text-btn-aside-hover;
                 }
 
                 &.btn-added {
-                    background-color: $color__logo-green;
+                    background-color: $color__logo-green-dark;
                     &:hover {
-                        background-color: $color__logo-green;
+                        background-color: $color__logo-green-dark;
                     }
                 }
             }

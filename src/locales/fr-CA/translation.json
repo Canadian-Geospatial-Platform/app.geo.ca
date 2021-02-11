@@ -1,5 +1,4 @@
 {
-    "close": "Fermer",
     "mapnav": {
         "ariaNavbar": "groupe de buttons vertical pour navigation sur la carte",
         "fullscreen": "Plein Écran",
@@ -17,6 +16,7 @@
     },
     "appbar": {
         "drawer": "Drawer",
+        "close": "Fermer",
         "export": "Exporter",
         "fullscreen": "Plein écran",
         "help": "Aide",

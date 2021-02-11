@@ -1,5 +1,4 @@
 {
-    "close": "Close",
     "mapnav": {
         "ariaNavbar": "vertical button group for map navigation",
         "fullscreen": "Full Screen",
@@ -17,6 +16,7 @@
     },
     "appbar": {
         "drawer": "Drawer",
+        "close": "Close",
         "export": "Export",
         "fullscreen": "Full Screen",
         "help": "Help",
