@@ -14,8 +14,8 @@ import Search from './buttons/search';
 import KeywordSearch from './buttons/keywordsearch';
 import Filter from './buttons/filters';
 import Account from './buttons/account';
+import Howto from './buttons/howto';
 import Version from './buttons/version';
-
 
 const drawerWidth = 200;
 
@@ -105,7 +105,10 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     <Filter key="filters" />
                 </List>
                 <Divider className={classes.spacer} />
-                {auth && <List><Account key="auth" /></List>}
+                <List>
+                    {auth && <Account key="auth" />}
+                    <Howto key="auth" />
+                </List>
                 <Divider />
                 <List className={classes.githubSection}>
                     <Version />
