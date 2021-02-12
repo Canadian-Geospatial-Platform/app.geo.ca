@@ -1,5 +1,5 @@
 import React, { useState, useContext, createRef, useEffect, KeyboardEventHandler } from "react";
-
+import {useLocation, useHistory} from 'react-router';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 // reactstrap components
 // import {
@@ -10,7 +10,7 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 //   ModalBody,
 //   ModalFooter
 // } from "reactstrap";
-import { mappingContext, useStateContext } from "../../globalstate/state";
+import { useStateContext } from "../../globalstate/state";
 import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
@@ -22,10 +22,19 @@ import organisations from "./organisations.json";
 import types from "./types.json";
 import { css } from "@emotion/core";
 
+interface QueryParams {
+    "keyword"?:string; 
+    "lang"?: "en"|"fr"; 
+    "theme"?: string;
+};
+
 const KeywordSearch:React.FunctionComponent = (props) => {
-  const queryParams = {};
-  if (props.location.search.trim()!=='') {
-    props.location.search.trim().substr(1).split('&').forEach( q=>{
+  const queryParams:QueryParams = {};
+  const location = useLocation();
+  //const history = useHistory();
+  //console.log(location, history);
+  if (location.search && location.search!=='') {
+    location.search.substr(1).split('&').forEach( (q:string)=>{
         let item = q.split("=");
         queryParams[item[0]] = decodeURI(item[1]);
     });
@@ -36,7 +45,7 @@ const KeywordSearch:React.FunctionComponent = (props) => {
   const [pn, setPageNumber] = useState(1);
   const [cnt, setCount] = useState(0);
   const [results, setResults] = useState([]);
-  const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
+  const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword?queryParams.keyword.trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
   const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
   const {state, dispatch} = useStateContext();
@@ -90,17 +99,19 @@ const KeywordSearch:React.FunctionComponent = (props) => {
   };
 
   const handleChange = (e:Event) => {
-      e.preventDefault();
-      setKeyword(e.target.value);
+      if (e.target!==null) {
+        e.preventDefault();
+        setKeyword(e.target.value);
+      }
   }
 
-  const handleKeyUp = (e: KeyboardEventHandler) => {
-    if (e.keyCode === 13) {
+  const handleKeyUp = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
         handleSubmit(e);
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event:Event) => {
     if (event) {
         event.preventDefault();
     }
