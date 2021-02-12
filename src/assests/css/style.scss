@@ -1,6 +1,6 @@
 @import 'variables-site/variables-site';
 html {
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
@@ -11,7 +11,7 @@ div#mapWM {
     display: none;
 }
 
-div#root:empty~div#mapWM {
+div#root:empty ~ div#mapWM {
     display: block;
 }
 
@@ -20,7 +20,7 @@ div#root:empty~div#mapWM {
     height: calc(100vh - 90px);
     /* width: 1500px;
     height: 700px; */
-    margin: auto;
+    margin: 90px auto auto auto;
     display: flex;
 }
 
@@ -52,35 +52,35 @@ div#root:empty~div#mapWM {
     background-color: rgba(255, 255, 255, 0.8);
     right: 0px;
     bottom: 0px;
-    margin-bottom: 0px!important;
-    margin-right: 0px!important;
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
 }
 
 .leaflet-control-scale-line {
     background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid #000!important;
-    border-left: none!important;
-    border-right: none!important;
-    border-top: none!important;
-    margin: auto!important;
+    border: 1px solid #000 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    margin: auto !important;
 }
 
 .leaflet-control-attribution {
     font-size: 11px;
     font-weight: 500;
-    background-color: rgba(255, 255, 255, 0.8)!important;
-    height: 20px!important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    height: 20px !important;
 }
 
 .leaflet-control-mouseposition {
     position: absolute !important;
-    right: 120px!important;
+    right: 120px !important;
     z-index: 800;
     text-align: center;
     bottom: 0px;
-    margin-bottom: 0px!important;
+    margin-bottom: 0px !important;
     padding: 2px;
-    display: flex!important;
+    display: flex !important;
     flex-direction: column;
     font-size: 11px;
     font-weight: 500;
@@ -108,11 +108,11 @@ input {
     -ms-user-select: none;
     user-select: none;
     border: 1px solid transparent;
-    padding: .125rem .75rem;
+    padding: 0.125rem 0.75rem;
     font-size: 14px;
     line-height: 1.5;
-    border-radius: .25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     margin: 5px 5px 5px 0;
 }
 
@@ -121,7 +121,7 @@ input {
     height: 30px;
     box-sizing: border-box;
     color: #fff;
-    background-color: #515AA9;
+    background-color: #515aa9;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -135,8 +135,8 @@ input {
     user-select: none;
     border: 1px solid transparent;
     padding: 0;
-    border-radius: .25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     margin: 0;
     &:disabled {
         color: #fff;
@@ -174,26 +174,26 @@ input {
 }
 
 .searchButton {
-    background-color: #FFFFFF;
-    color: #515AA9;
-    margin-top: .5em;
+    background-color: #ffffff;
+    color: #515aa9;
+    margin-top: 0.5em;
     transition-duration: 0.4s;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     border-radius: 25px;
     border: 1px solid #515aa9;
     &:hover {
-        background-color: #515AA9;
-        color: #FFFFFF;
+        background-color: #515aa9;
+        color: #ffffff;
     }
 }
 
 .disabled {
     .searchButton {
-        cursor: default!important;
+        cursor: default !important;
         &:hover {
-            background-color: #FFFFFF;
-            color: #515AA9;
+            background-color: #ffffff;
+            color: #515aa9;
             border-color: #515aa9;
         }
     }
@@ -221,7 +221,7 @@ input {
     display: flex;
     align-items: center;
     margin: auto;
-    >input {
+    > input {
         display: inline-block;
         font-size: 15px;
         line-height: 1em;
@@ -267,14 +267,14 @@ input {
     margin: 10px auto;
     //display: flex;
     //flex-wrap: wrap;
-    >h2 {
-        font-size: .85rem;
+    > h2 {
+        font-size: 0.85rem;
         padding: 0 5px;
         margin: 5px 0 0;
         width: 100%;
         display: flex;
         align-items: center;
-        >svg {
+        > svg {
             margin-right: 5px;
         }
     }
@@ -295,7 +295,7 @@ input {
         font-family: 'Open Sans', sans-serif;
         text-transform: uppercase;
         margin: 0 0 0.6em 0;
-        color: #515AA9;
+        color: #515aa9;
     }
     .searchFields {
         font-size: 0.85em;
@@ -315,9 +315,9 @@ input {
     }
     .searchButton {
         float: right;
-        width: 50%!important;
+        width: 50% !important;
         border-radius: 25px;
-        margin-bottom: 0.1em!important;
+        margin-bottom: 0.1em !important;
     }
     .broWhy {
         border: 5px orange solid;
@@ -334,30 +334,30 @@ input {
             }
         }
         .searchButtonGroupBtn {
-            >button {
-                border: 1px solid #E6A44E;
+            > button {
+                border: 1px solid #e6a44e;
                 background-color: rgba(0, 0, 0, 0);
                 transition-duration: 0.4s;
                 text-transform: uppercase;
                 letter-spacing: 0.075em;
                 margin-top: 5px;
-                margin-right: 5px!important;
+                margin-right: 5px !important;
                 color: #515aa9;
                 font-size: 0.8em;
                 &:hover {
-                    color: #E6A44E;
+                    color: #e6a44e;
                     border: 1px solid #515aa9;
                     background-color: #515aa9;
                 }
             }
             &.searchButtonGroupBtnMore {
-                >button {
-                    border: 1px solid #E6A44E;
+                > button {
+                    border: 1px solid #e6a44e;
                     background-color: #515aa9;
-                    color: #E6A44E;
+                    color: #e6a44e;
                     &:hover {
                         border: 1px solid #515aa9;
-                        background-color: #E6A44E;
+                        background-color: #e6a44e;
                         color: #515aa9;
                     }
                 }
@@ -380,7 +380,7 @@ input {
     border: 1px solid #f2f2f2;
 }
 
-.rowDivider>.searchResult {
+.rowDivider > .searchResult {
     padding-bottom: 2em;
     padding-top: 1.2em;
 }
@@ -401,12 +401,11 @@ input {
 .pageContainer {
     width: 100%;
     height: 100%;
-    margin: 0px auto;
-    font-family: "Open Sans";
+    margin: 90px auto 0 auto; // 90px top margin to clear the page header
+    font-family: 'Open Sans';
     font-size: 14px;
-    color: #54595F;
+    color: #54595f;
     &.resultPage {
-        margin: 0 auto;
         .resultContainer {
             padding: 0;
             h1 {
