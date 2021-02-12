@@ -112,11 +112,11 @@ const MetaDataPage = (props) => {
                     return (
                     <div key={result.id} className="container-search-result container-search-result-two-col">
                     <div className="row no-gutters">
-                      <main className="col col-lg-8 main">
+                      <main className="col col-12 col-xl-8 main">
                           {/* Header */}
-                          <header className="header">
+                          <div className="search-result-page-title-wrap">
                               <h1 className="search-result-page-title">{result.title}</h1>
-                          </header>
+                          </div>
                           {/* About */}
                           <section id="search-result-about" className="sec-search-result sec-search-result-about">
                               <h2 className="sec-title">About this dataset</h2>
@@ -279,7 +279,7 @@ const MetaDataPage = (props) => {
                               </table>
                           </section>
                       </main>
-                      <aside className="col col-lg-4 aside">
+                      <aside className="col col-12 col-xl-4 aside">
                           <section className="sec-search-result search-results-section search-results-map">
                               <div className="ratio ratio-16x9">
                               <MapContainer
