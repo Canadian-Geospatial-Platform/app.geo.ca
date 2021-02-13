@@ -2,7 +2,7 @@ import { StateContext } from './state';
 import {ActionType} from './action';
 
 export interface Action {
-    type: ActionType.ADD_MAPPING | ActionType.DEL_MAPPING | ActionType.CLEAR_MAPPING | ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME | ActionType.SET_LANGUAGE ;
+    type: ActionType.ADD_MAPPING | ActionType.DEL_MAPPING | ActionType.CLEAR_MAPPING | ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME ;
     payload?: string;
 }
 
@@ -24,9 +24,6 @@ export const reducer = (state: StateContext, action: Action) => {
         return { ...state, typefilter: action.payload };    
     case ActionType.SET_THEME:
         return { ...state, themefilter: action.payload };    
-    case ActionType.SET_LANGUAGE:
-        return { ...state, lanuage: action.payload };    
-                        
     default:
       throw new Error('Not among actions');
   }

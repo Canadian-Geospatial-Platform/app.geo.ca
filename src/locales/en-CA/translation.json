@@ -1,4 +1,11 @@
 {
+    "nav": {
+        "home": "Home",
+        "language": {
+            "key": "fr-CA",
+            "name": "Français"
+        }
+    },
     "mapnav": {
         "ariaNavbar": "vertical button group for map navigation",
         "fullscreen": "Full Screen",

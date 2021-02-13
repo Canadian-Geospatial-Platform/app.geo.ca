@@ -1,4 +1,4 @@
-import React, { useState, useContext, createRef, useEffect, KeyboardEventHandler } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import {useLocation, useHistory} from 'react-router';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 // reactstrap components
@@ -11,7 +11,7 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 //   ModalFooter
 // } from "reactstrap";
 import { useStateContext } from "../../globalstate/state";
-import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
+import { setOrgFilter, setTypeFilter, setThemeFilter } from "../../globalstate/action";
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
@@ -20,14 +20,9 @@ import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import organisations from './organisations.json';
 import types from './types.json';
-import { css } from '@emotion/core';
+import themes from './themes.json';
+//import { css } from '@emotion/core';
 import './keywordsearch.scss';
-
-interface QueryParams {
-    "keyword"?:string; 
-    "lang"?: "en"|"fr"; 
-    "theme"?: string;
-};
 
 const KeywordSearch:React.FunctionComponent = (props) => {
   const queryParams:QueryParams = {};
@@ -48,27 +43,28 @@ const KeywordSearch:React.FunctionComponent = (props) => {
   const [results, setResults] = useState([]);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword?queryParams.keyword.trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
+  //const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
   const {state, dispatch} = useStateContext();
   const orgfilters = state.orgfilter;
   const typefilters = state.typefilter;
+  const themefilters = state.themefilter;
   //const [orgfilters, setOrg] = useState("");
   //const [typefilters, setType] = useState("");
-  console.log(state, dispatch);
+  //console.log(state, dispatch);
   const inputRef = createRef();
 
     const handleSearch = (keyword: string) => {
         setLoading(true);
 
-        const searchParams = {
+        const searchParams:SearchParams = {
             keyword: keyword,
             keyword_only: 'true',
             lang: language,
             min: (pn - 1) * 10,
             max: cnt > 0 ? Math.min(pn * 10 - 1, cnt - 1) : pn * 10 - 1,
         };
-        if (theme !== '') {
-            searchParams.theme = theme;
+        if (themefilters !== '') {
+            searchParams.theme = themefilters;
         }
         if (orgfilters !== '') {
             searchParams.org = orgfilters;
@@ -143,17 +139,24 @@ const KeywordSearch:React.FunctionComponent = (props) => {
 
     const handleOrg = (filters: string) => {
         setPageNumber(1);
-        dispatch(setOrgFilter(filters));
+        (typeof dispatch ==='function') ? dispatch(setOrgFilter(filters)) : setOrgFilter(filters) ;
     };
+
     const handleType = (filters: string) => {
         setPageNumber(1);
-        dispatch(setTypeFilter(filters));
+        (typeof dispatch ==='function') ? dispatch(setTypeFilter(filters)) : setTypeFilter(filters);
     };
+
+    const handleTheme = (filters: string) => {
+        setPageNumber(1);
+        (typeof dispatch ==='function') ? dispatch(setThemeFilter(filters)) : setThemeFilter(filters);
+    };
+
     useEffect(() => {
         //if (initKeyword !== '') {
         handleSearch(initKeyword);
         //}
-    }, [language, theme, pn, orgfilters, typefilters]);
+    }, [language, pn, themefilters, orgfilters, typefilters]);
 
     return (
         <div className="pageContainer keywordSearchPage">
@@ -164,13 +167,9 @@ const KeywordSearch:React.FunctionComponent = (props) => {
                         <h2>
                             <FilterIcon /> Filters:
                         </h2>
-                        <SearchFilter
-                            filtertitle="Organisitions"
-                            filtervalues={organisations}
-                            filterselected={orgfilters}
-                            selectFilters={handleOrg}
-                        />
+                        <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
                         <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
+                        <SearchFilter filtertitle="Themes" filtervalues={themes} filtertype={1} filterselected={themefilters} selectFilters={handleTheme} />
                     </div>
                 </div>
                 <div className="col-md-10">
@@ -183,7 +182,7 @@ const KeywordSearch:React.FunctionComponent = (props) => {
                             value={initKeyword}
                             disabled={loading}
                             onChange={handleChange}
-                            onKeyUp={(e) => handleKeyUp(e)}
+                            onKeyUp={(e:KeyboardEvent) => handleKeyUp(e)}
                         />
                         <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : null}>
                             <SearchIcon />
@@ -200,7 +199,7 @@ const KeywordSearch:React.FunctionComponent = (props) => {
                                 {Array.isArray(results) && results.length === 0 ? 'Input keyword to search' : 'No result'}
                             </div>
                         ) : (
-                            results.map((result) => {
+                            results.map((result:SearchResult) => {
                                 const coordinates = JSON.parse(result.coordinates);
                                 const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                                 const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
@@ -277,7 +276,7 @@ const KeywordSearch:React.FunctionComponent = (props) => {
                                                                 data={{
                                                                     type: 'Feature',
                                                                     properties: { id: result.id, tag: 'geoViewGeoJSON' },
-                                                                    geometry: { type: 'Polygon', coordinates: coordinates },
+                                                                    geometry: { type: 'Polygon', coordinates: coordinates }
                                                                 }}
                                                             />
                                                         </MapContainer>
@@ -318,5 +317,43 @@ const KeywordSearch:React.FunctionComponent = (props) => {
         </div>
     );
 };
+
+interface QueryParams {
+    "keyword"?:string; 
+    "lang"?: "en"|"fr"; 
+    "theme"?: string;
+};
+
+interface SearchParams {
+    keyword: string;
+    keyword_only: 'true'|'false';
+    lang: 'en'|'fr';
+    min: number;
+    max: number;
+    theme?: string;
+    org?: string;
+    type?: string;
+    
+};
+
+interface SearchResult {
+    row_num: number;
+    id: string;
+    coordinates: string;
+    title: string;
+    description: string;
+    published: string;
+    keywords: string;
+    options: [];
+    contact: [];
+    created: string;
+    spatialRepresentation: string;
+    type: string;
+    temporalExtent: {};
+    graphicOverview: [];
+    language: string;
+    organisation: string;
+    total: number;
+}
 
 export default KeywordSearch;
