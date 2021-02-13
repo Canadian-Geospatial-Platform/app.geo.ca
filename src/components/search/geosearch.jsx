@@ -44,12 +44,13 @@ const GeoSearch = ({geoMap}) => {
   const [modal, setModal] = useState(false);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
+  //const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
   //const [orgfilters, setOrg] = useState("");
   //const [typefilters, setType] = useState("");
   const {state, dispatch} = useStateContext();
   const orgfilters = state.orgfilter;
   const typefilters = state.typefilter;
+  const themefilters = state.themefilter;
 
   const handleModal = () => {
     setModal(!modal);
@@ -116,7 +117,7 @@ const GeoSearch = ({geoMap}) => {
 
   const handleKeyword = (evt, keyword) => {
     evt.stopPropagation();
-    window.open("/#/?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
+    window.open("/#/?keyword="+encodeURI(keyword.trim())+"&lang="+language, "Search " + keyword.trim() );
   }
 
   const handleChange = (e) => {
@@ -137,8 +138,8 @@ const GeoSearch = ({geoMap}) => {
         min: (pn-1)*10,
         max: cnt>0?Math.min(pn*10-1, cnt-1):pn*10-1
     }
-    if (theme!=='') {
-        searchParams.theme = theme;
+    if (themefilters!=='') {
+        searchParams.theme = themefilters;
     }
     if (orgfilters!=='') {
         searchParams.org = orgfilters;
@@ -223,7 +224,7 @@ const GeoSearch = ({geoMap}) => {
     //if (initKeyword !== '') {
         handleSearch(initKeyword, initBounds);
     //}
-  }, [language, theme, pn, orgfilters, typefilters]);
+  }, [language, pn, themefilters, orgfilters, typefilters]);
  // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);

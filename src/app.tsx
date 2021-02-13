@@ -1,14 +1,14 @@
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
+import {useLocation} from 'react-router';
 import {Route, HashRouter, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
 import { Provider } from 'react-redux';
 //import BeatLoader from "react-spinners/BeatLoader";
 
 import { I18nextProvider } from 'react-i18next';
-import './assests/i18n/i18n';
-import i18n from 'i18next';
+import i18n from './assests/i18n/i18n';
 
-import {StateProvider} from './globalstate/state';
+import { StateProvider } from "./globalstate/state";
 
 // Leaflet icons import to solve issues 4968
 import { Icon, Marker, LatLngTuple, CRS } from 'leaflet';
@@ -39,58 +39,67 @@ setupCognito(store, authconfig);
 console.log(store);*/
 // hack for default leaflet icon: https://github.com/Leaflet/Leaflet/issues/4968
 // TODO: put somewhere else
-const DefaultIcon = new Icon({
+/*const DefaultIcon = new Icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
 });
-Marker.prototype.options.icon = DefaultIcon;
+Marker.prototype.options.icon = DefaultIcon;*/
 //const maps: Element[] = [...document.getElementsByClassName('llwb-map')];
+ 
 const config = JSON.parse(document.getElementById('root').getAttribute('data-leaflet')!.replace(/'/g, '"'));
-const i18nInstance = i18n.cloneInstance({
-    lng: config.language,
-    fallbackLng: config.language,
-});
+
 //const center: LatLngTuple = [config.center[0], config.center[1]];
 
 const renderMap:React.FunctionComponent = () => {
     const center: LatLngTuple = [config.center[0], config.center[1]];
     return (
         <Suspense fallback="loading">
-            <Map
-                id="MainMap"
-                center={center}
-                zoom={config.zoom}
-                projection={config.projection}
-                language={config.language}
-                layers={config.layers}
-                search={config.search}
-                auth={config.auth}
-            />
+            <div className="mapContainer">
+                <Map
+                    id="MainMap"
+                    center={center}
+                    zoom={config.zoom}
+                    projection={config.projection}
+                    language={config.language}
+                    layers={config.layers}
+                    search={config.search}
+                    auth={config.auth}
+                />
+            </div>
         </Suspense>
     );
 }
 
-const routing = (
-    <StateProvider>
-    <I18nextProvider i18n={i18nInstance}>
+const Routing = () => {
+    let language = config.language;
+    
+    if (language !== i18n.language.substring(0,2)) {
+        i18n.changeLanguage(language+'-CA');
+    }
+
+    return (
         <HashRouter>
-        <StrictMode>
-            <Header />
-            <Switch>
-                <Route exact path="/" component={renderMap} />
-                <Route exact path="/search" component={KeywordSearch} />
-                <Route exact path="/result" component={MetaDataPage} />
-                <Route path="/404" render={() => <div>404 - Not Found</div>} />
-                <Redirect to="/404" /> 
-            </Switch>
-        </StrictMode>
+            <StrictMode>
+                <Header />
+                <Switch>
+                    <Route exact path="/" component={renderMap} />
+                    <Route exact path="/search" component={KeywordSearch} />
+                    <Route exact path="/result" component={MetaDataPage} />
+                    <Route path="/404" render={() => <div>404 - Not Found</div>} />
+                    <Redirect to="/404" /> 
+                </Switch>
+            </StrictMode>
         </HashRouter>
-    </I18nextProvider>
-    </StateProvider>
+    );
+};    
 
-);
-
-ReactDOM.render(routing, document.getElementById('root'));
+ReactDOM.render(
+    <StateProvider>
+        <I18nextProvider i18n={i18n}>
+            <Routing />
+        </I18nextProvider>
+    </StateProvider>, 
+    document.getElementById('root'));
 
 // loop trought all the maps and create an app for it.
 /*const maps: Element[] = [...document.getElementsByClassName('llwb-map')];
