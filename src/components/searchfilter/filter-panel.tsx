@@ -7,8 +7,9 @@ import PanelApp from '../appbar/panel';
 import SearchFilter from './searchfilter';
 import organisations from "../search/organisations.json";
 import types from "../search/types.json";
+import themes from "../search/themes.json";
 import { useStateContext } from "../../globalstate/state";
-import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
+import { setOrgFilter, setTypeFilter, setThemeFilter } from "../../globalstate/action";
 
 export default function FilterPanel(): JSX.Element {
     // TODO: access Leaflat map from custom component to use inside panel event
@@ -16,6 +17,7 @@ export default function FilterPanel(): JSX.Element {
     const { state, dispatch } = useStateContext(); 
     const orgfilters = state.orgfilter;
     const typefilters = state.typefilter;
+    const themefilters = state.themefilter;
  //console.log(state, dispatch);
     return (
         <PanelApp
@@ -25,8 +27,9 @@ export default function FilterPanel(): JSX.Element {
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
                         <div className="searchFilters">
-                            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={(ofilter:string) => setOrgFilter(ofilter)} />
-                            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={(tfilter:string) => setTypeFilter(tfilter)} />
+                            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={(ofilter:string) => (typeof dispatch ==='function') ? dispatch(setOrgFilter(ofilter)) : setOrgFilter(ofilter)} />
+                            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={(tfilter:string) => (typeof dispatch ==='function') ? dispatch(setTypeFilter(tfilter)) : setTypeFilter(tfilter)} />
+                            <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} filtertype={1} selectFilters={(thfilter:string) => (typeof dispatch ==='function') ? dispatch(setThemeFilter(thfilter)) : setThemeFilter(thfilter)} />
                         </div>
                     </Typography>
                 ) as unknown) as Element

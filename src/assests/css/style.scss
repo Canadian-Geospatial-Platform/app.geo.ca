@@ -7,20 +7,17 @@ body {
     margin: 0;
 }
 
-div#mapWM {
-    display: none;
-}
-
-div#root:empty ~ div#mapWM {
-    display: block;
+.mapContainer {
+    width: 100%;
+    height: calc(100vh - 90px);
+    margin: 90px auto 0 auto;
+    display: flex;
 }
 
 .leaflet-container {
     width: 100%;
-    height: calc(100vh - 90px);
-    /* width: 1500px;
-    height: 700px; */
-    margin: 90px auto auto auto;
+    height: 100%;
+    margin: 0;
     display: flex;
 }
 
