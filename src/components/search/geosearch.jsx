@@ -1,21 +1,19 @@
-import React, { useState, useContext, createRef, useEffect } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import {useLocation, useHistory} from 'react-router';
 import { useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 // reactstrap components
-import {
+/*import {
   Button,
   Card,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
-} from "reactstrap";
-//import { useMap } from 'react-leaflet';
+} from "reactstrap";*/
 //import SearchFilter from '../searchfilter/searchfilter';
-import { mappingContext, useStateContext } from "../../globalstate/state";
-import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
+import { useStateContext } from "../../globalstate/state";
 import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
@@ -25,7 +23,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 //import { css } from "@emotion/core";
 import './geosearch.scss';
 
-const GeoSearch = () => {
+const GeoSearch = ({showing}) => {
   const queryParams = {};
   const location = useLocation();
   const {t} = useTranslation();
@@ -40,22 +38,22 @@ const GeoSearch = () => {
   const inputRef = createRef();
   let mapCount = 0;
   const map = useMap();
-  //const [map, setMap] = useState(geoMap);
   const [initBounds, setBounds] = useState(map.getBounds());
+  //const [panelshowing, setShowing] = useState(showing);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [pn, setPageNumber] = useState(1);
   const [cnt, setCount] = useState(0);
   const [selected, setSelected] = useState("search");
   const [open, setOpen] = useState(false);
-  const [modal, setModal] = useState(false);
+  //const [modal, setModal] = useState(false);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const {state, dispatch} = useStateContext();
   const orgfilters = state.orgfilter;
   const typefilters = state.typefilter;
   const themefilters = state.themefilter;
   const language = t("app.language");
-  console.log(language);
+  console.log(showing);
 
   const handleSelect = (event) => {
     //const {selectResult} = this.props;
@@ -93,22 +91,12 @@ const GeoSearch = () => {
     map._handlers.forEach(handler => {
         handler.disable();
     });
-    /*flag &&
-    map._controls.forEach(control => {
-        control.disable();
-    });
-    */
     setLoading(flag);
 
     !flag &&
     map._handlers.forEach(handler => {
         handler.enable();
     });
-    //!flag && map.on('moveend', event=>eventHandler(event, initKeyword, initBounds));
-    /*!flag &&
-    map._controls.forEach(control => {
-        control.enable();
-    });*/
   }
 
   const handleView = (evt, id) => {
@@ -116,10 +104,10 @@ const GeoSearch = () => {
     window.open("/#/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
   }
 
-  const handleKeyword = (evt, keyword) => {
+  /*const handleKeyword = (evt, keyword) => {
     evt.stopPropagation();
     window.open("/#/?keyword="+encodeURI(keyword.trim())+"&lang="+language, "Search " + keyword.trim() );
-  }
+  }*/
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -139,14 +127,14 @@ const GeoSearch = () => {
         min: (pn-1)*10,
         max: cnt>0?Math.min(pn*10-1, cnt-1):pn*10-1
     }
-    if (themefilters!=='') {
-        searchParams.theme = themefilters;
+    if (themefilters.length > 0) {
+        searchParams.theme = themefilters.map(fs=>"^"+fs+"$").join("|");
     }
-    if (orgfilters!=='') {
-        searchParams.org = orgfilters;
+    if (orgfilters.length > 0) {
+        searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
     }
-    if (typefilters!=='') {
-        searchParams.type = typefilters;
+    if (typefilters.length > 0) {
+        searchParams.type = typefilters.map(fs=>fs).join(",");
     }
     //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
@@ -213,19 +201,27 @@ const GeoSearch = () => {
     }
   }
 
-  const handleOrg = (filters) => {
+  /*const handleOrg = (filters) => {
     setPageNumber(1);
     setOrg(filters);
   }
   const handleType = (filters) => {
     setPageNumber(1);
     setType(filters);
-  }
+  }*/
   useEffect(() => {
-    //if (initKeyword !== '') {
-        handleSearch(initKeyword, initBounds);
-    //}
-  }, [language, pn, themefilters, orgfilters, typefilters]);
+    const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);  
+    if (showing) {
+        if ((initKeyword !== '' && filteractive) || (initKeyword === '' && !filteractive)) {
+            handleSearch(initKeyword, initBounds);
+        } 
+        if (initKeyword === '' && filteractive ) {
+            setResults([]);
+            setCount(0);
+            setPageNumber(1);
+        }
+    } 
+  }, [showing, language, pn, themefilters, orgfilters, typefilters]);
  // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);
@@ -282,7 +278,7 @@ const GeoSearch = () => {
 }
 
 GeoSearch.propTypes = {
-    map: PropTypes.object
+    showing: PropTypes.boolean
  };
 
  export default GeoSearch;

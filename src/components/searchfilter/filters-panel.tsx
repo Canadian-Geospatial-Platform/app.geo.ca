@@ -29,9 +29,9 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
                         <div className="searchFilters">
-                            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={(ofilter:string) => (typeof dispatch ==='function') ? dispatch(setOrgFilter(ofilter)) : setOrgFilter(ofilter)} />
-                            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={(tfilter:string) => (typeof dispatch ==='function') ? dispatch(setTypeFilter(tfilter)) : setTypeFilter(tfilter)} />
-                            <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} filtertype={1} selectFilters={(thfilter:string) => (typeof dispatch ==='function') ? dispatch(setThemeFilter(thfilter)) : setThemeFilter(thfilter)} />
+                            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={(ofilter:string[]) => (typeof dispatch ==='function') ? dispatch(setOrgFilter(ofilter)) : setOrgFilter(ofilter)} />
+                            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={(tfilter:string[]) => (typeof dispatch ==='function') ? dispatch(setTypeFilter(tfilter)) : setTypeFilter(tfilter)} />
+                            <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} selectFilters={(thfilter:string[]) => (typeof dispatch ==='function') ? dispatch(setThemeFilter(thfilter)) : setThemeFilter(thfilter)} />
                         </div>
                     </Typography>
                 ) as unknown) as Element
