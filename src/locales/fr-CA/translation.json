@@ -1,6 +1,9 @@
 {
+    "app": {
+        "language": "fr"
+    },
     "nav": {
-        "home": "Home",
+        "home": "Accueil",
         "language": {
             "key": "en-CA",
             "name": "English"
@@ -22,17 +25,17 @@
         }
     },
     "appbar": {
-        "drawer": "Drawer",
+        "drawer": "Tiroir",
         "close": "Fermer",
         "export": "Exporter",
         "fullscreen": "Plein écran",
         "help": "Aide",
         "layers": "Couches",
-        "search": "Geo Search",
-        "keywordsearch": "Keyword Search",
-        "filters": "Filters",
-        "account": "Account",
-        "howto": "How To",
+        "search": "Geo Chercher",
+        "keywordsearch": "Cecherche par mot clé",
+        "filters": "Filtres",
+        "account": "Compte",
+        "howto": "Comment",
         "share": "Partager",
         "version": "Accéder au repo sur GitHub"
     }

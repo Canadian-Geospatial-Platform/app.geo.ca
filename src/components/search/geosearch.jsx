@@ -1,5 +1,8 @@
 import React, { useState, useContext, createRef, useEffect } from "react";
+import {useLocation, useHistory} from 'react-router';
+import { useMap } from 'react-leaflet';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 // reactstrap components
 import {
   Button,
@@ -19,22 +22,26 @@ import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 //import organisations from "./organisations.json";
 //import types from "./types.json";
-import { css } from "@emotion/core";
+//import { css } from "@emotion/core";
 import './geosearch.scss';
 
-const GeoSearch = ({geoMap}) => {
+const GeoSearch = () => {
   const queryParams = {};
-  const querySearch = window.location.href.split('?')[1];
-  if (querySearch && querySearch.trim()!=='') {
-    querySearch.trim().split('&').forEach( q=>{
-        let item = q.split("=");
-        queryParams[item[0]] = decodeURI(item[1]);
-    });
+  const location = useLocation();
+  const {t} = useTranslation();
+  //const history = useHistory();
+  //console.log(location, history);
+  if (location.search && location.search!=='') {
+      location.search.substr(1).split('&').forEach( (q)=>{
+          let item = q.split("=");
+          queryParams[item[0]] = decodeURI(item[1]);
+      });
   }
   const inputRef = createRef();
   let mapCount = 0;
-  const [map, setMap] = useState(geoMap);
-  const [initBounds, setBounds] = useState(geoMap.getBounds());
+  const map = useMap();
+  //const [map, setMap] = useState(geoMap);
+  const [initBounds, setBounds] = useState(map.getBounds());
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [pn, setPageNumber] = useState(1);
@@ -43,18 +50,12 @@ const GeoSearch = ({geoMap}) => {
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
-  const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-  //const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
-  //const [orgfilters, setOrg] = useState("");
-  //const [typefilters, setType] = useState("");
   const {state, dispatch} = useStateContext();
   const orgfilters = state.orgfilter;
   const typefilters = state.typefilter;
   const themefilters = state.themefilter;
-
-  const handleModal = () => {
-    setModal(!modal);
-  };
+  const language = t("app.language");
+  console.log(language);
 
   const handleSelect = (event) => {
     //const {selectResult} = this.props;

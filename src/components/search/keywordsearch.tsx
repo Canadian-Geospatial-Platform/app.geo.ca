@@ -1,5 +1,6 @@
 import React, { useState, createRef, useEffect } from "react";
 import {useLocation, useHistory} from 'react-router';
+import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 // reactstrap components
 // import {
@@ -27,6 +28,7 @@ import './keywordsearch.scss';
 const KeywordSearch:React.FunctionComponent = (props) => {
   const queryParams:QueryParams = {};
   const location = useLocation();
+  const {t} = useTranslation();
   //const history = useHistory();
   //console.log(location, history);
   if (location.search && location.search!=='') {
@@ -42,18 +44,15 @@ const KeywordSearch:React.FunctionComponent = (props) => {
   const [cnt, setCount] = useState(0);
   const [results, setResults] = useState([]);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword?queryParams.keyword.trim():"");
-  const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-  //const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
   const {state, dispatch} = useStateContext();
   const orgfilters = state.orgfilter;
   const typefilters = state.typefilter;
   const themefilters = state.themefilter;
-  //const [orgfilters, setOrg] = useState("");
-  //const [typefilters, setType] = useState("");
-  //console.log(state, dispatch);
-  const inputRef = createRef();
+  const language = t("app.language");
 
-    const handleSearch = (keyword: string) => {
+  const inputRef = createRef();
+  
+  const handleSearch = (keyword: string) => {
         setLoading(true);
 
         const searchParams:SearchParams = {
@@ -153,7 +152,12 @@ const KeywordSearch:React.FunctionComponent = (props) => {
     };
 
     useEffect(() => {
-        //if (initKeyword !== '') {
+        //if (initKeyword !== '') 
+        
+        /*if (language!==i18n.language.substring(0,2)) {    
+            setLang(i18n.language.substring(0, 2));
+            setPageNumber(1);
+        }*/
         handleSearch(initKeyword);
         //}
     }, [language, pn, themefilters, orgfilters, typefilters]);
@@ -327,7 +331,7 @@ interface QueryParams {
 interface SearchParams {
     keyword: string;
     keyword_only: 'true'|'false';
-    lang: 'en'|'fr';
+    lang: string;
     min: number;
     max: number;
     theme?: string;
