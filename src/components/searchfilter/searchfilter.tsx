@@ -1,14 +1,9 @@
 import React, {useState} from 'react';
 import './searchfilter.scss';
 
-const filtertypes = [
-    {"start":"^", "end":"$", "sep":"|"},
-    {"start":"", "end":"", "sep":","},
-];
 export default function SearchFilter(props:filterProps): JSX.Element {
-    const {filtertitle, filtervalues, filterselected, filtertype, selectFilters} = props;
-    const fo = filtertypes[filtertype?filtertype:0];
-    const [fselected, setFilterSelected] = useState(filterselected.length>2 ? filterselected.substring(fo.start.length,filterselected.length-fo.start.length-fo.end.length).split(fo.end+fo.sep+fo.start) : []);
+    const {filtertitle, filtervalues, filterselected, selectFilters} = props;
+    const [fselected, setFilterSelected] = useState(filterselected);
     const [open, setOpen] = useState(false);
     const selectFilterValue = (filter: string) => {
         const newselected = fselected.map(fs=>fs);
@@ -22,12 +17,12 @@ export default function SearchFilter(props:filterProps): JSX.Element {
     }
     const handleOpen = () => {
         if (open) {
-            selectFilters(fselected.length>0 ? fselected.map(fs=>fo.start+fs+fo.end).join(fo.sep):"");  
+            selectFilters(fselected);  
         }
         setOpen(!open);
     }
     const handleSubmit = () => {
-        selectFilters(fselected.map(fs=>fo.start+fs+fo.end).join(fo.sep));
+        selectFilters(fselected);
         setOpen(false); 
     }
     const handleClear = () => {
@@ -65,7 +60,6 @@ export default function SearchFilter(props:filterProps): JSX.Element {
 interface filterProps {
     filtertitle: string;
     filtervalues: string[];
-    filterselected: string;
-    filtertype?: number;
+    filterselected: string[];
     selectFilters: Function; 
 }
