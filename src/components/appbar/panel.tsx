@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { render } from 'react-dom';
+//import { render } from 'react-dom';
 
 import { useTranslation } from 'react-i18next';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -7,6 +7,7 @@ import { Card, CardHeader, CardContent, Divider, IconButton } from '@material-ui
 import CloseIcon from '@material-ui/icons/Close';
 
 import { DomEvent } from 'leaflet';
+import { ReactJSXLibraryManagedAttributes } from '@emotion/react/types/jsx-namespace';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -24,7 +25,7 @@ const useStyles = makeStyles(() =>
 );
 
 export default function PanelApp(props: PanelAppProps): JSX.Element {
-    const { title, icon, content } = props;
+    const { showing, title, icon, content, closeFunction } = props;
     const classes = useStyles();
     const { t } = useTranslation();
 
@@ -36,21 +37,21 @@ export default function PanelApp(props: PanelAppProps): JSX.Element {
     }, []);
 
     // TODO: first draf to open close the custom appbar pnael component. Make this cleaner
-    if (typeof panel.current !== 'undefined') {
+    /*if (typeof panel.current !== 'undefined') {
         panel.current.parentElement.style.display = 'block';
-    }
-    function closePanel(): void {
-        panel.current.parentElement.style.display = 'none';
-    }
+    }*/
+    //function closePanel(): void {
+        //panel.current.parentElement.style.display = 'none';
+    //}
 
     return (
-        <Card className={classes.root} ref={panel}>
+        <Card className={classes.root+(showing?" current":"")} ref={panel}>
             <CardHeader
                 className={classes.avatar}
                 avatar={icon}
                 title={t(title)}
                 action={
-                    <IconButton aria-label={t('appbar.close')} onClick={closePanel}>
+                    <IconButton aria-label={t('appbar.close')} onClick={closeFunction}>
                         <CloseIcon />
                     </IconButton>
                 }
@@ -62,8 +63,15 @@ export default function PanelApp(props: PanelAppProps): JSX.Element {
 }
 
 interface PanelAppProps {
+    showing?: boolean;
     title: string;
     // eslint-disable-next-line react/require-default-props
     icon?: React.ReactNode;
     content: Element;
+    closeFunction: () => void;
+}
+
+export interface PanelProps {
+    showing: boolean;
+    closeFunction: ()=>void;
 }

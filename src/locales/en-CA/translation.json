@@ -1,4 +1,7 @@
 {
+    "app": {
+        "language": "en"
+    },
     "nav": {
         "home": "Home",
         "language": {

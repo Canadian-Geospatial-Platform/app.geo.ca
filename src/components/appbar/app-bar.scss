@@ -1,0 +1,25 @@
+.cgp-appbar {
+    height: 100%;
+
+    .MuiDrawer-paper {
+        position: relative !important;
+    }
+
+    .cgp-apppanel {
+        display: none; 
+        &.search, &.account, &.filters, &.howto {
+            display: block;
+            .MuiCard-root.current {
+                display: block;
+            }
+        }
+        .MuiCard-root {
+            margin: 0;
+            display: none;
+            .MuiCardContent-root {
+                height: calc(100vh - 158px);
+                overflow-y: auto;
+            }
+        }    
+    }
+}    

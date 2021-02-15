@@ -21,23 +21,6 @@ body {
     display: flex;
 }
 
-.cgp-appbar {
-    height: 100%;
-}
-
-.MuiDrawer-paper {
-    position: relative !important;
-}
-
-.cgp-apppanel .MuiCard-root.jss13 {
-    margin: 0;
-}
-
-.MuiCardContent-root {
-    height: calc(100vh - 158px);
-    overflow-y: auto;
-}
-
 .leaflet-control-scale {
     z-index: 30;
     position: absolute;
