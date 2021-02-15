@@ -25,7 +25,7 @@ import themes from './themes.json';
 //import { css } from '@emotion/core';
 import './keywordsearch.scss';
 
-const KeywordSearch:React.FunctionComponent = (props) => {
+const KeywordSearch:React.FunctionComponent = () => {
   const queryParams:QueryParams = {};
   const location = useLocation();
   const {t} = useTranslation();
@@ -62,14 +62,14 @@ const KeywordSearch:React.FunctionComponent = (props) => {
             min: (pn - 1) * 10,
             max: cnt > 0 ? Math.min(pn * 10 - 1, cnt - 1) : pn * 10 - 1,
         };
-        if (themefilters !== '') {
-            searchParams.theme = themefilters;
+        if (themefilters.length > 0) {
+            searchParams.theme = themefilters.map(fs=>"^"+fs+"$").join("|");
         }
-        if (orgfilters !== '') {
-            searchParams.org = orgfilters;
+        if (orgfilters.length > 0) {
+            searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
         }
-        if (typefilters !== '') {
-            searchParams.type = typefilters;
+        if (typefilters.length > 0) {
+            searchParams.type = typefilters.map(fs=>fs).join(",");
         }
         //console.log(searchParams);
         axios
@@ -136,30 +136,31 @@ const KeywordSearch:React.FunctionComponent = (props) => {
         setKWShowing(newOpen);
     };
 
-    const handleOrg = (filters: string) => {
+    const handleOrg = (filters: string[]) => {
         setPageNumber(1);
         (typeof dispatch ==='function') ? dispatch(setOrgFilter(filters)) : setOrgFilter(filters) ;
     };
 
-    const handleType = (filters: string) => {
+    const handleType = (filters: string[]) => {
         setPageNumber(1);
         (typeof dispatch ==='function') ? dispatch(setTypeFilter(filters)) : setTypeFilter(filters);
     };
 
-    const handleTheme = (filters: string) => {
+    const handleTheme = (filters: string[]) => {
         setPageNumber(1);
         (typeof dispatch ==='function') ? dispatch(setThemeFilter(filters)) : setThemeFilter(filters);
     };
 
     useEffect(() => {
-        //if (initKeyword !== '') 
-        
-        /*if (language!==i18n.language.substring(0,2)) {    
-            setLang(i18n.language.substring(0, 2));
+        const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);  
+        if ((initKeyword !== '' && filteractive) || (initKeyword === '' && !filteractive)) {
+            handleSearch(initKeyword);
+        }
+        if (initKeyword === '' && filteractive) {
+            setResults([]);
+            setCount(0);
             setPageNumber(1);
-        }*/
-        handleSearch(initKeyword);
-        //}
+        }
     }, [language, pn, themefilters, orgfilters, typefilters]);
 
     return (
@@ -173,7 +174,7 @@ const KeywordSearch:React.FunctionComponent = (props) => {
                         </h2>
                         <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
                         <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
-                        <SearchFilter filtertitle="Themes" filtervalues={themes} filtertype={1} filterselected={themefilters} selectFilters={handleTheme} />
+                        <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} selectFilters={handleTheme} />
                     </div>
                 </div>
                 <div className="col-md-10">

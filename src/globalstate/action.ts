@@ -19,14 +19,14 @@ export function clearMapping() {
     return {type: ActionType.CLEAR_MAPPING};
 }
 
-export function setOrgFilter(orgfilter:string) {
+export function setOrgFilter(orgfilter:string[]) {
     return {type: ActionType.SET_ORG, payload: orgfilter};
 }
 
-export function setTypeFilter(typefilter:string) {
+export function setTypeFilter(typefilter:string[]) {
     return {type: ActionType.SET_TYPE, payload: typefilter};
 }
 
-export function setThemeFilter(themefilter:string) {
+export function setThemeFilter(themefilter:string[]) {
     return {type: ActionType.SET_THEME, payload: themefilter};
 }
