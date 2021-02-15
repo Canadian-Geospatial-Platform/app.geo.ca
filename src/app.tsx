@@ -22,7 +22,7 @@ import MetaDataPage from './components/search/metadatapage';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assests/css/style.scss';
-/*
+
 import { setupCognito, cognito } from 'react-cognito';
 import { combineReducers, createStore } from 'redux';
 import authconfig from './components/account/cognito-auth/config.json';
@@ -36,7 +36,6 @@ const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && windo
 //config.group = 'admins'; // Uncomment this to require users to be in a group 'admins'
 setupCognito(store, authconfig);
 
-console.log(store);*/
 // hack for default leaflet icon: https://github.com/Leaflet/Leaflet/issues/4968
 // TODO: put somewhere else
 /*const DefaultIcon = new Icon({
@@ -60,7 +59,7 @@ const renderMap:React.FunctionComponent = () => {
                     center={center}
                     zoom={config.zoom}
                     projection={config.projection}
-                    language={config.language}
+                    language={config.language+'-CA'}
                     layers={config.layers}
                     search={config.search}
                     auth={config.auth}
@@ -94,11 +93,13 @@ const Routing = () => {
 };    
 
 ReactDOM.render(
+    <Provider store={store}>
     <StateProvider>
         <I18nextProvider i18n={i18n}>
             <Routing />
         </I18nextProvider>
-    </StateProvider>, 
+    </StateProvider>
+    </Provider>, 
     document.getElementById('root'));
 
 // loop trought all the maps and create an app for it.

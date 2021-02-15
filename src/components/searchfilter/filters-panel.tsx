@@ -3,7 +3,7 @@ import { Typography } from '@material-ui/core';
 //import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
 
-import PanelApp from '../appbar/panel';
+import PanelApp, {PanelProps} from '../appbar/panel';
 import SearchFilter from './searchfilter';
 import organisations from "../search/organisations.json";
 import types from "../search/types.json";
@@ -11,7 +11,7 @@ import themes from "../search/themes.json";
 import { useStateContext } from "../../globalstate/state";
 import { setOrgFilter, setTypeFilter, setThemeFilter } from "../../globalstate/action";
 
-export default function FilterPanel(): JSX.Element {
+export default function FilterPanel(props: PanelProps): JSX.Element {
     // TODO: access Leaflat map from custom component to use inside panel event
     // TODO: register and unregister events when panel open and close
     const { state, dispatch } = useStateContext(); 
@@ -23,6 +23,8 @@ export default function FilterPanel(): JSX.Element {
         <PanelApp
             title="appbar.filters"
             icon={<FilterIcon />}
+            showing = {props.showing}
+            closeFunction = {props.closeFunction}
             content={
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
