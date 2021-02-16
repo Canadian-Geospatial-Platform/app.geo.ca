@@ -31,7 +31,7 @@ const GeoSearch = ({showing}) => {
   //console.log(location, history);
   if (location.search && location.search!=='') {
       location.search.substr(1).split('&').forEach( (q)=>{
-          let item = q.split("=");
+          const item = q.split("=");
           queryParams[item[0]] = decodeURI(item[1]);
       });
   }
@@ -53,7 +53,7 @@ const GeoSearch = ({showing}) => {
   const typefilters = state.typefilter;
   const themefilters = state.themefilter;
   const language = t("app.language");
-  console.log(showing);
+  //console.log(showing);
 
   const handleSelect = (event) => {
     //const {selectResult} = this.props;
@@ -101,13 +101,8 @@ const GeoSearch = ({showing}) => {
 
   const handleView = (evt, id) => {
     evt.stopPropagation();
-    window.open("/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
+    window.open("/result?id="+encodeURI(id.trim()), "View Record " + id.trim());
   }
-
-  /*const handleKeyword = (evt, keyword) => {
-    evt.stopPropagation();
-    window.open("/?keyword="+encodeURI(keyword.trim())+"&lang="+language, "Search " + keyword.trim() );
-  }*/
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -140,10 +135,11 @@ const GeoSearch = ({showing}) => {
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
-        console.log(data);
+        //console.log(data);
         const results = data.Items;
+        const rcnt = results.length>0?results[0].total:0;
         setResults(results);
-        setCount(100);
+        setCount(rcnt);
         setBounds(bounds);
         setKeyword(keyword);
         setLoadingStatus(false);
