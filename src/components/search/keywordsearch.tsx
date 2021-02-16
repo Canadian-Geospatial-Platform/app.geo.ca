@@ -1,5 +1,5 @@
-import React, { useState, useContext, createRef, useEffect, KeyboardEventHandler } from "react";
-import {useLocation, useHistory} from 'react-router';
+import React, { useState, useContext, createRef, useEffect, KeyboardEventHandler } from 'react';
+import { useLocation, useHistory } from 'react-router';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 // reactstrap components
 // import {
@@ -10,8 +10,8 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 //   ModalBody,
 //   ModalFooter
 // } from "reactstrap";
-import { useStateContext } from "../../globalstate/state";
-import { setOrgFilter, setTypeFilter } from "../../globalstate/action";
+import { useStateContext } from '../../globalstate/state';
+import { setOrgFilter, setTypeFilter } from '../../globalstate/action';
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
@@ -24,38 +24,41 @@ import { css } from '@emotion/core';
 import './keywordsearch.scss';
 
 interface QueryParams {
-    "keyword"?:string; 
-    "lang"?: "en"|"fr"; 
-    "theme"?: string;
-};
+    keyword?: string;
+    lang?: 'en' | 'fr';
+    theme?: string;
+}
 
-const KeywordSearch:React.FunctionComponent = (props) => {
-  const queryParams:QueryParams = {};
-  const location = useLocation();
-  //const history = useHistory();
-  //console.log(location, history);
-  if (location.search && location.search!=='') {
-    location.search.substr(1).split('&').forEach( (q:string)=>{
-        let item = q.split("=");
-        queryParams[item[0]] = decodeURI(item[1]);
-    });
-  }
+const KeywordSearch: React.FunctionComponent = (props) => {
+    const queryParams: QueryParams = {};
+    const location = useLocation();
+    //const history = useHistory();
+    //console.log(location, history);
+    if (location.search && location.search !== '') {
+        location.search
+            .substr(1)
+            .split('&')
+            .forEach((q: string) => {
+                let item = q.split('=');
+                queryParams[item[0]] = decodeURI(item[1]);
+            });
+    }
 
-  const [loading, setLoading] = useState(false);
-  const [allkw, setKWShowing] = useState([]);
-  const [pn, setPageNumber] = useState(1);
-  const [cnt, setCount] = useState(0);
-  const [results, setResults] = useState([]);
-  const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword?queryParams.keyword.trim():"");
-  const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-  const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
-  const {state, dispatch} = useStateContext();
-  const orgfilters = state.orgfilter;
-  const typefilters = state.typefilter;
-  //const [orgfilters, setOrg] = useState("");
-  //const [typefilters, setType] = useState("");
-  console.log(state, dispatch);
-  const inputRef = createRef();
+    const [loading, setLoading] = useState(false);
+    const [allkw, setKWShowing] = useState([]);
+    const [pn, setPageNumber] = useState(1);
+    const [cnt, setCount] = useState(0);
+    const [results, setResults] = useState([]);
+    const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
+    const [language, setLang] = useState(queryParams && queryParams['lang'] ? queryParams['lang'] : 'en');
+    const [theme, setTheme] = useState(queryParams && queryParams['theme'] ? queryParams['theme'] : '');
+    const { state, dispatch } = useStateContext();
+    const orgfilters = state.orgfilter;
+    const typefilters = state.typefilter;
+    //const [orgfilters, setOrg] = useState("");
+    //const [typefilters, setType] = useState("");
+    console.log(state, dispatch);
+    const inputRef = createRef();
 
     const handleSearch = (keyword: string) => {
         setLoading(true);
@@ -99,28 +102,28 @@ const KeywordSearch:React.FunctionComponent = (props) => {
             });
     };
 
-  const handleChange = (e:Event) => {
-      if (e.target!==null) {
-        e.preventDefault();
-        setKeyword(e.target.value);
-      }
-  }
+    const handleChange = (e: Event) => {
+        if (e.target !== null) {
+            e.preventDefault();
+            setKeyword(e.target.value);
+        }
+    };
 
-  const handleKeyUp = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-        handleSubmit(e);
-    }
-  };
+    const handleKeyUp = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleSubmit(e);
+        }
+    };
 
-  const handleSubmit = (event:Event) => {
-    if (event) {
-        event.preventDefault();
-    }
+    const handleSubmit = (event: Event) => {
+        if (event) {
+            event.preventDefault();
+        }
 
-    const keyword = inputRef.current.value;
-    setPageNumber(1);
-    handleSearch(keyword);
-  };
+        const keyword = inputRef.current.value;
+        setPageNumber(1);
+        handleSearch(keyword);
+    };
 
     const handleView = (id: string) => {
         window.open('/#/result?id=' + encodeURI(id.trim()) + '&lang=' + language, 'View Record ' + id.trim());
@@ -157,40 +160,50 @@ const KeywordSearch:React.FunctionComponent = (props) => {
 
     return (
         <div className="pageContainer keywordSearchPage">
-            {/* <Header /> */}
-            <div className="row">
-                <div className="col-md-1">
-                    <div className="searchFilters">
-                        <h2>
-                            <FilterIcon /> Filters:
-                        </h2>
-                        <SearchFilter
-                            filtertitle="Organisitions"
-                            filtervalues={organisations}
-                            filterselected={orgfilters}
-                            selectFilters={handleOrg}
-                        />
-                        <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
+            <div className="container-fluid">
+                <div className="row row-search-controls">
+                    <div className="col-md-2">
+                        <div className="searchFilters">
+                            <h2>
+                                <FilterIcon /> Filters:
+                            </h2>
+                            <SearchFilter
+                                filtertitle="Organisitions"
+                                filtervalues={organisations}
+                                filterselected={orgfilters}
+                                selectFilters={handleOrg}
+                            />
+                            <SearchFilter
+                                filtertitle="Types"
+                                filtervalues={types}
+                                filterselected={typefilters}
+                                selectFilters={handleType}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-10">
+                        <div className="searchInput">
+                            <input
+                                placeholder="Search ..."
+                                id="search-input"
+                                type="search"
+                                ref={inputRef}
+                                value={initKeyword}
+                                disabled={loading}
+                                onChange={handleChange}
+                                onKeyUp={(e) => handleKeyUp(e)}
+                            />
+                            <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : null}>
+                                <SearchIcon />
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div className="col-md-10">
-                    <div className="searchInput">
-                        <input
-                            placeholder="Search ..."
-                            id="search-input"
-                            type="search"
-                            ref={inputRef}
-                            value={initKeyword}
-                            disabled={loading}
-                            onChange={handleChange}
-                            onKeyUp={(e) => handleKeyUp(e)}
-                        />
-                        <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : null}>
-                            <SearchIcon />
-                        </button>
-                    </div>
+                <div className="row row-pagination">
+                    <div className="col-12">{cnt > 0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}</div>
+                </div>
+                <div className="row row-results">
                     <div className="resultContainer">
-                        {cnt > 0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                         {loading ? (
                             <div className="d-flex justify-content-center">
                                 <BeatLoader color={'#0074d9'} />
@@ -208,8 +221,7 @@ const KeywordSearch:React.FunctionComponent = (props) => {
                                     <div key={result.id} className="searchResult container-fluid">
                                         <div className="row rowDividerMd">
                                             <div className="row resultRow">
-                                                <div className="col-md-1" />
-                                                <div className="col-md-10">
+                                                <div className="col-12">
                                                     <p className="searchTitle">{result.title}</p>
                                                     <div className="searchButtonGroupToolbar">
                                                         <div
@@ -255,11 +267,9 @@ const KeywordSearch:React.FunctionComponent = (props) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-1 " />
                                             </div>
                                             <div className="row resultRow">
-                                                <div className="col-md-1" />
-                                                <div className="col-md-4">
+                                                <div className="col-4">
                                                     <div className="searchImage">
                                                         <MapContainer
                                                             center={[
@@ -283,7 +293,7 @@ const KeywordSearch:React.FunctionComponent = (props) => {
                                                         </MapContainer>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-6">
+                                                <div className="col-8">
                                                     <p className="searchFields">
                                                         <strong>Organisation:</strong> {result.organisation}
                                                     </p>
@@ -303,17 +313,17 @@ const KeywordSearch:React.FunctionComponent = (props) => {
                                                         View Record <i className="fas fa-long-arrow-alt-right"></i>
                                                     </button>
                                                 </div>
-                                                <div className="col-md-1 " />
                                             </div>
                                         </div>
                                     </div>
                                 );
                             })
                         )}
-                        {cnt > 0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                     </div>
                 </div>
-                <div className="col-md-1 " />
+                <div className="row row-pagination">
+                    <div className="col-12">{cnt > 0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}</div>
+                </div>
             </div>
         </div>
     );
