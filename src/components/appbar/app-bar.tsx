@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import {useLocation, useHistory} from 'react-router';
 
 import { useTranslation } from 'react-i18next';
 
@@ -10,12 +11,26 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { DomEvent } from 'leaflet';
 
 //import Layers from './buttons/layers';
-import Search from './buttons/search';
-import KeywordSearch from './buttons/keywordsearch';
-import Filter from './buttons/filters';
-import Account from './buttons/account';
-import Howto from './buttons/howto';
+//import Search from './buttons/search';
+//import KeywordSearch from './buttons/keywordsearch';
+//import Filter from './buttons/filters';
+//import Account from './buttons/account';
+//import Howto from './buttons/howto';
 import Version from './buttons/version';
+
+import ButtonApp from './button';
+import SearchIcon from '@material-ui/icons/ImageSearch';
+import KeywordSearchIcon from '@material-ui/icons/Search';
+import FilterIcon from '@material-ui/icons/Filter';
+import AccountIcon from '@material-ui/icons/AccountBox';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+
+import SearchPanel from '../search/search-panel';
+import FiltersPanel from '../searchfilter/filters-panel';
+import AccountPanel from '../account/account-panel';
+import HowtoPanel from '../howto/howto-panel';
+
+import './app-bar.scss';
 
 const drawerWidth = 200;
 
@@ -64,6 +79,8 @@ const useStyles = makeStyles((theme) => ({
 export function Appbar(props: AppBarProps): JSX.Element {
     const { id, search, auth } = props;
     const { t } = useTranslation();
+    const history = useHistory();
+
     const classes = useStyles();
 
     const appBar = useRef();
@@ -74,6 +91,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
     }, []);
 
     const [open, setOpen] = useState(false);
+    const [panel, setPanel] = useState("");
 
     // side menu items
     // const items = [{ divider: true }, { id: 'layers' }, { divider: true }, { id: 'fullscreen' }, { id: 'help' }];
@@ -100,21 +118,26 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     {/*{items.map((item) => (
                         <Layers key={`${id}-${item.id}`} />
                     ))}*/}
-                    {search && <Search key="geosearch" />}
-                    {search && <KeywordSearch key="keywordsearch" />}
-                    <Filter key="filters" />
+                    {search && <ButtonApp tooltip="appbar.search" icon={<SearchIcon />} onClickFunction={()=>setPanel(' search')} />}
+                    {search && <ButtonApp tooltip="appbar.keywordsearch" icon={<KeywordSearchIcon />} onClickFunction={()=>history.push("/search" + location.search)} />}
+                    <ButtonApp tooltip="appbar.filters" icon={<FilterIcon />} onClickFunction={()=>setPanel(' filters')} />
                 </List>
                 <Divider className={classes.spacer} />
                 <List>
-                    {auth && <Account key="auth" />}
-                    <Howto key="auth" />
+                    {auth && <ButtonApp tooltip="appbar.account" icon={<AccountIcon />} onClickFunction={()=>setPanel(' account')} />}
+                    <ButtonApp tooltip="appbar.howto" icon={<HelpOutlineIcon />} onClickFunction={()=>setPanel(' howto')} />
                 </List>
                 <Divider />
                 <List className={classes.githubSection}>
                     <Version />
                 </List>
             </Drawer>
-            <div className="cgp-apppanel" />
+            <div className={"cgp-apppanel"+panel}>
+                {search && <SearchPanel showing={panel===" search"} closeFunction={()=>setPanel('')} />}
+                <FiltersPanel showing={panel===" filters"} closeFunction={()=>setPanel('')} />
+                {auth && <AccountPanel showing={panel===" account"} closeFunction={()=>setPanel('')} />}
+                <HowtoPanel showing={panel===" howto"} closeFunction={()=>setPanel('')} />   
+            </div>
         </div>
     );
 }

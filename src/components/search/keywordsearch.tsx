@@ -1,5 +1,6 @@
-import React, { useState, useContext, createRef, useEffect, KeyboardEventHandler } from 'react';
-import { useLocation, useHistory } from 'react-router';
+import React, { useState, createRef, useEffect } from "react";
+import {useLocation, useHistory} from 'react-router';
+import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 // reactstrap components
 // import {
@@ -10,8 +11,8 @@ import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } fr
 //   ModalBody,
 //   ModalFooter
 // } from "reactstrap";
-import { useStateContext } from '../../globalstate/state';
-import { setOrgFilter, setTypeFilter } from '../../globalstate/action';
+import { useStateContext } from "../../globalstate/state";
+import { setOrgFilter, setTypeFilter, setThemeFilter } from "../../globalstate/action";
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
@@ -20,64 +21,55 @@ import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import organisations from './organisations.json';
 import types from './types.json';
-import { css } from '@emotion/core';
+import themes from './themes.json';
+//import { css } from '@emotion/core';
 import './keywordsearch.scss';
 
-interface QueryParams {
-    keyword?: string;
-    lang?: 'en' | 'fr';
-    theme?: string;
-}
+const KeywordSearch:React.FunctionComponent = () => {
+  const queryParams:QueryParams = {};
+  const location = useLocation();
+  const {t} = useTranslation();
+  //const history = useHistory();
+  //console.log(location, history);
+  if (location.search && location.search!=='') {
+    location.search.substr(1).split('&').forEach( (q:string)=>{
+        let item = q.split("=");
+        queryParams[item[0]] = decodeURI(item[1]);
+    });
+  }
 
-const KeywordSearch: React.FunctionComponent = (props) => {
-    const queryParams: QueryParams = {};
-    const location = useLocation();
-    //const history = useHistory();
-    //console.log(location, history);
-    if (location.search && location.search !== '') {
-        location.search
-            .substr(1)
-            .split('&')
-            .forEach((q: string) => {
-                let item = q.split('=');
-                queryParams[item[0]] = decodeURI(item[1]);
-            });
-    }
+  const [loading, setLoading] = useState(false);
+  const [allkw, setKWShowing] = useState([]);
+  const [pn, setPageNumber] = useState(1);
+  const [cnt, setCount] = useState(0);
+  const [results, setResults] = useState([]);
+  const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword?queryParams.keyword.trim():"");
+  const {state, dispatch} = useStateContext();
+  const orgfilters = state.orgfilter;
+  const typefilters = state.typefilter;
+  const themefilters = state.themefilter;
+  const language = t("app.language");
 
-    const [loading, setLoading] = useState(false);
-    const [allkw, setKWShowing] = useState([]);
-    const [pn, setPageNumber] = useState(1);
-    const [cnt, setCount] = useState(0);
-    const [results, setResults] = useState([]);
-    const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
-    const [language, setLang] = useState(queryParams && queryParams['lang'] ? queryParams['lang'] : 'en');
-    const [theme, setTheme] = useState(queryParams && queryParams['theme'] ? queryParams['theme'] : '');
-    const { state, dispatch } = useStateContext();
-    const orgfilters = state.orgfilter;
-    const typefilters = state.typefilter;
-    //const [orgfilters, setOrg] = useState("");
-    //const [typefilters, setType] = useState("");
-    console.log(state, dispatch);
-    const inputRef = createRef();
-
-    const handleSearch = (keyword: string) => {
+  const inputRef = createRef();
+  
+  const handleSearch = (keyword: string) => {
         setLoading(true);
 
-        const searchParams = {
+        const searchParams:SearchParams = {
             keyword: keyword,
             keyword_only: 'true',
             lang: language,
             min: (pn - 1) * 10,
             max: cnt > 0 ? Math.min(pn * 10 - 1, cnt - 1) : pn * 10 - 1,
         };
-        if (theme !== '') {
-            searchParams.theme = theme;
+        if (themefilters.length > 0) {
+            searchParams.theme = themefilters.map(fs=>"^"+fs+"$").join("|");
         }
-        if (orgfilters !== '') {
-            searchParams.org = orgfilters;
+        if (orgfilters.length > 0) {
+            searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
         }
-        if (typefilters !== '') {
-            searchParams.type = typefilters;
+        if (typefilters.length > 0) {
+            searchParams.type = typefilters.map(fs=>fs).join(",");
         }
         //console.log(searchParams);
         axios
@@ -144,59 +136,62 @@ const KeywordSearch: React.FunctionComponent = (props) => {
         setKWShowing(newOpen);
     };
 
-    const handleOrg = (filters: string) => {
+    const handleOrg = (filters: string[]) => {
         setPageNumber(1);
-        dispatch(setOrgFilter(filters));
+        (typeof dispatch ==='function') ? dispatch(setOrgFilter(filters)) : setOrgFilter(filters) ;
     };
-    const handleType = (filters: string) => {
+
+    const handleType = (filters: string[]) => {
         setPageNumber(1);
-        dispatch(setTypeFilter(filters));
+        (typeof dispatch ==='function') ? dispatch(setTypeFilter(filters)) : setTypeFilter(filters);
     };
+
+    const handleTheme = (filters: string[]) => {
+        setPageNumber(1);
+        (typeof dispatch ==='function') ? dispatch(setThemeFilter(filters)) : setThemeFilter(filters);
+    };
+
     useEffect(() => {
-        //if (initKeyword !== '') {
-        handleSearch(initKeyword);
-        //}
-    }, [language, theme, pn, orgfilters, typefilters]);
+        const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);  
+        if ((initKeyword !== '' && filteractive) || (initKeyword === '' && !filteractive)) {
+            handleSearch(initKeyword);
+        }
+        if (initKeyword === '' && filteractive) {
+            setResults([]);
+            setCount(0);
+            setPageNumber(1);
+        }
+    }, [language, pn, themefilters, orgfilters, typefilters]);
 
     return (
         <div className="pageContainer keywordSearchPage">
-            <div className="container-fluid">
-                <div className="row row-search-controls">
-                    <div className="col-md-2">
-                        <div className="searchFilters">
-                            <h2>
-                                <FilterIcon /> Filters:
-                            </h2>
-                            <SearchFilter
-                                filtertitle="Organisitions"
-                                filtervalues={organisations}
-                                filterselected={orgfilters}
-                                selectFilters={handleOrg}
-                            />
-                            <SearchFilter
-                                filtertitle="Types"
-                                filtervalues={types}
-                                filterselected={typefilters}
-                                selectFilters={handleType}
-                            />
-                        </div>
+            {/* <Header /> */}
+            <div className="row">
+                <div className="col-md-1">
+                    <div className="searchFilters">
+                        <h2>
+                            <FilterIcon /> Filters:
+                        </h2>
+                        <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
+                        <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
+                        <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} selectFilters={handleTheme} />
                     </div>
-                    <div className="col-md-10">
-                        <div className="searchInput">
-                            <input
-                                placeholder="Search ..."
-                                id="search-input"
-                                type="search"
-                                ref={inputRef}
-                                value={initKeyword}
-                                disabled={loading}
-                                onChange={handleChange}
-                                onKeyUp={(e) => handleKeyUp(e)}
-                            />
-                            <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : null}>
-                                <SearchIcon />
-                            </button>
-                        </div>
+                </div>
+                <div className="col-md-10">
+                    <div className="searchInput">
+                        <input
+                            placeholder="Search ..."
+                            id="search-input"
+                            type="search"
+                            ref={inputRef}
+                            value={initKeyword}
+                            disabled={loading}
+                            onChange={handleChange}
+                            onKeyUp={(e:KeyboardEvent) => handleKeyUp(e)}
+                        />
+                        <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : null}>
+                            <SearchIcon />
+                        </button>
                     </div>
                 </div>
                 <div className="row row-pagination">
@@ -213,10 +208,17 @@ const KeywordSearch: React.FunctionComponent = (props) => {
                                 {Array.isArray(results) && results.length === 0 ? 'Input keyword to search' : 'No result'}
                             </div>
                         ) : (
-                            results.map((result) => {
+                            results.map((result:SearchResult) => {
                                 const coordinates = JSON.parse(result.coordinates);
                                 const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                                 const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
+                                //const resolutionHorizontal = Math.abs(40075*Math.cos(coordinates[0][1][0] - coordinates[0][0][0]))/108;
+                                //const resolutionVertical = (40.7436654315252*Math.abs(coordinates[0][2][1] - coordinates[0][0][1])*11132)/(256*15);
+                                //const resolution = Math.max(resolutionHorizontal, resolutionVertical); 
+                                const dist = Math.max(Math.abs(coordinates[0][2][1] - coordinates[0][0][1]), Math.abs(coordinates[0][1][0] - coordinates[0][0][0]));
+                                const resolution = (40.7436654315252*dist*11132)/15;
+                                const zoom = Math.max(Math.log2(3600000/resolution), 1);
+                                //console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
                                 return (
                                     <div key={result.id} className="searchResult container-fluid">
                                         <div className="row rowDividerMd">
@@ -276,7 +278,7 @@ const KeywordSearch: React.FunctionComponent = (props) => {
                                                                 (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
                                                                 (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
                                                             ]}
-                                                            zoom={7}
+                                                            zoom={zoom}
                                                         >
                                                             <TileLayer
                                                                 url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
@@ -287,7 +289,7 @@ const KeywordSearch: React.FunctionComponent = (props) => {
                                                                 data={{
                                                                     type: 'Feature',
                                                                     properties: { id: result.id, tag: 'geoViewGeoJSON' },
-                                                                    geometry: { type: 'Polygon', coordinates: coordinates },
+                                                                    geometry: { type: 'Polygon', coordinates: coordinates }
                                                                 }}
                                                             />
                                                         </MapContainer>
@@ -328,5 +330,43 @@ const KeywordSearch: React.FunctionComponent = (props) => {
         </div>
     );
 };
+
+interface QueryParams {
+    "keyword"?:string; 
+    "lang"?: "en"|"fr"; 
+    "theme"?: string;
+};
+
+interface SearchParams {
+    keyword: string;
+    keyword_only: 'true'|'false';
+    lang: string;
+    min: number;
+    max: number;
+    theme?: string;
+    org?: string;
+    type?: string;
+    
+};
+
+interface SearchResult {
+    row_num: number;
+    id: string;
+    coordinates: string;
+    title: string;
+    description: string;
+    published: string;
+    keywords: string;
+    options: [];
+    contact: [];
+    created: string;
+    spatialRepresentation: string;
+    type: string;
+    temporalExtent: {};
+    graphicOverview: [];
+    language: string;
+    organisation: string;
+    total: number;
+}
 
 export default KeywordSearch;

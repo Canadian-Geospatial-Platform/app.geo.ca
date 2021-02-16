@@ -1,7 +1,12 @@
 .paginationContainer {
+    margin: 0 auto;
     padding: 15px 5%;
+    .total {
+        text-align: center;
+    }
     .pages {
         display: flex;
+        justify-content: center;
         align-items: center;
         .buttonContainer {
             height: 1.2rem;

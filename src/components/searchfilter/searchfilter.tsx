@@ -3,7 +3,7 @@ import './searchfilter.scss';
 
 export default function SearchFilter(props:filterProps): JSX.Element {
     const {filtertitle, filtervalues, filterselected, selectFilters} = props;
-    const [fselected, setFilterSelected] = useState(filterselected.length>2 ? filterselected.substring(1,filterselected.length-2).split("$|^") : []);
+    const [fselected, setFilterSelected] = useState(filterselected);
     const [open, setOpen] = useState(false);
     const selectFilterValue = (filter: string) => {
         const newselected = fselected.map(fs=>fs);
@@ -17,12 +17,12 @@ export default function SearchFilter(props:filterProps): JSX.Element {
     }
     const handleOpen = () => {
         if (open) {
-            selectFilters(fselected.length>0 ? fselected.map(fs=>'^'+fs+'$').join("|"):"");  
+            selectFilters(fselected);  
         }
         setOpen(!open);
     }
     const handleSubmit = () => {
-        selectFilters(fselected.map(fs=>'^'+fs+'$').join("|"));
+        selectFilters(fselected);
         setOpen(false); 
     }
     const handleClear = () => {
@@ -60,6 +60,6 @@ export default function SearchFilter(props:filterProps): JSX.Element {
 interface filterProps {
     filtertitle: string;
     filtervalues: string[];
-    filterselected: string;
+    filterselected: string[];
     selectFilters: Function; 
 }

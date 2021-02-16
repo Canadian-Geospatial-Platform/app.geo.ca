@@ -31,12 +31,10 @@
 
         .list-group-item {
             border: none;
-        }
-
-        a {
             color: #3d3d3d;
             text-decoration: none;
             transition: background-color 150ms linear, color 150ms linear;
+            cursor: pointer;
             &:hover {
                 color: rgb(5, 179, 170);
             }

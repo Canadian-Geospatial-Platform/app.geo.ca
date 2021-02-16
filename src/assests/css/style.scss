@@ -7,38 +7,18 @@ body {
     margin: 0;
 }
 
-div#mapWM {
-    display: none;
-}
-
-div#root:empty ~ div#mapWM {
-    display: block;
+.mapContainer {
+    width: 100%;
+    height: calc(100vh - 90px);
+    margin: 90px auto 0 auto;
+    display: flex;
 }
 
 .leaflet-container {
     width: 100%;
-    height: calc(100vh - 90px);
-    /* width: 1500px;
-    height: 700px; */
-    margin: 90px auto auto auto;
-    display: flex;
-}
-
-.cgp-appbar {
     height: 100%;
-}
-
-.MuiDrawer-paper {
-    position: relative !important;
-}
-
-.cgp-apppanel .MuiCard-root.jss13 {
     margin: 0;
-}
-
-.MuiCardContent-root {
-    height: calc(100vh - 158px);
-    overflow-y: auto;
+    display: flex;
 }
 
 .leaflet-control-scale {
