@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-import { css } from "@emotion/core";
-import { mappingContext, useStateContext } from "../../globalstate/state";
+//import { css } from "@emotion/core";
+import { useStateContext } from "../../globalstate/state";
 import { addMapping, delMapping } from "../../globalstate/action";
 import './metadatapage.scss';
 
@@ -108,6 +108,9 @@ const MetaDataPage = (props) => {
                     const type = result.type.split(';')[langInd];
                     const spatialRepresentation = result.spatialRepresentation.split(';')[langInd];
                     const inMapping = (mapping.findIndex(mid=>mid===result.id)>-1);
+                    const dist = Math.max(Math.abs(coordinates[0][2][1] - coordinates[0][0][1])/15, Math.abs(coordinates[0][1][0] - coordinates[0][0][0])/30);
+                    const resolution = (40.7436654315252*dist*11132);
+                    const zoom = Math.max(Math.log2(3600000/resolution), 1);
                     //console.log(contact, options);
                     return (
                     <div key={result.id} className="container-search-result container-search-result-two-col">
@@ -284,7 +287,7 @@ const MetaDataPage = (props) => {
                               <div className="ratio ratio-16x9">
                               <MapContainer
                                     center={[(coordinates[0][2][1]+coordinates[0][0][1])/2, (coordinates[0][1][0]+coordinates[0][0][0])/2]}
-                                    zoom={7}
+                                    zoom={zoom}
                                 >
                                     <TileLayer url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution="© Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources" />
                                     <GeoJSON key={result.id} data={{
