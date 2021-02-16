@@ -27,6 +27,8 @@
             }
         }
         .pageList {
+            max-width: calc(100% - 5rem - 36px);
+            overflow: auto;
             color: #000000;
             font-family: 'Open Sans', sans-serif;
             font-weight: 400;
