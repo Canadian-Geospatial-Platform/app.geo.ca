@@ -1,4 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
+import {useLocation, useHistory} from 'react-router';
+import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -10,11 +12,13 @@ import './metadatapage.scss';
 
 const MetaDataPage = (props) => {
     const queryParams = {};
-    if (props.location.search.trim()!=='') {
-      props.location.search.trim().substr(1).split('&').forEach( q=>{
-          let item = q.split("=");
-          queryParams[item[0]] = decodeURI(item[1]);
-      });
+    const location = useLocation();
+    const {t} = useTranslation();
+    if (location.search && location.search!=='') {
+        location.search.substr(1).split('&').forEach( (q)=>{
+            const item = q.split("=");
+            queryParams[item[0]] = decodeURI(item[1]);
+        });
     }
     const {state, dispatch} = useStateContext();
     const mapping = state.mapping;
@@ -24,9 +28,10 @@ const MetaDataPage = (props) => {
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
     const [rid, setID] = useState(queryParams && queryParams["id"]?queryParams["id"].trim():"");
-    const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
+    //const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
     const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
-
+    const language = t("app.language");
+    
     const handleOpen = (section) => {
         const newOpen = openSection.map(o=>o);
         const hIndex = openSection.findIndex(os=>os===section);
