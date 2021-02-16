@@ -5,21 +5,25 @@ import ArrowFirst from '@material-ui/icons/ArrowBack';
 import './pagination.scss';
 
 export default function Pagination(props:paginationProps): JSX.Element {
-    const {rcnt, current, selectPage} = props;
-    const pcnt = Math.ceil(rcnt/10);
+    const {rpp, ppg, rcnt, current, selectPage} = props;
+    const pcnt = Math.ceil(rcnt/rpp);
+    const pgcnt = Math.ceil(pcnt/ppg);
+    const cgroup = Math.ceil(current/rpp); 
     const pagenumbers = [];
-    for (let i=1; i<=pcnt; i++) {
+    for (let i=(cgroup-1)*ppg+1; i<=Math.min(cgroup*ppg, pcnt); i++) {
         pagenumbers.push(i);
     }
-    const max = Math.min(current*10, rcnt);
+    const max = Math.min(current*rpp, rcnt);
     return (
         <div className="paginationContainer">
-            <div className="total"> {(current-1)*10+1} - {max} of {rcnt} records</div>
-            {rcnt > 10 && 
+            <div className="total"> {(current-1)*rpp+1} - {max} of {rcnt} records</div>
+            {rcnt > rpp && 
             <div className="pages">
-                <div className={current===1?"buttonContainer  first disabled":"buttonContainer first"} onClick={current>1?() => selectPage(1):undefined}>
+            {pgcnt>1 && 
+                <div className={current===1?"buttonContainer  first disabled":"buttonContainer first"} onClick={cgroup>1?() => selectPage((cgroup-1)*rpp):undefined}>
                     <ArrowFirst className="searchButton" />
                 </div>
+            }
                 <div className={current===1?"buttonContainer previous disabled":"buttonContainer previous"} onClick={current>1?() => selectPage(current-1):undefined}>
                     <ArrowPre className="searchButton" />
                 </div>
@@ -36,15 +40,19 @@ export default function Pagination(props:paginationProps): JSX.Element {
                 <div className={current===pcnt?"buttonContainer next disabled":"buttonContainer next"} onClick={current<(pcnt+1)?() => selectPage(current+1):undefined}>
                     <ArrowNext className="searchButton" />
                 </div>
-                <div className={current===pcnt?"buttonContainer last disabled":"buttonContainer last"} onClick={current<(pcnt+1)?() => selectPage(pcnt):undefined}>
+            {pgcnt>1 &&    
+                <div className={current===pcnt?"buttonContainer last disabled":"buttonContainer last"} onClick={cgroup<(pgcnt+1)?() => selectPage(cgroup*rpp+1):undefined}>
                     <ArrowLast className="searchButton" />
                 </div>
+            }    
             </div> }    
         </div>
     )
 }
 
 interface paginationProps {
+    rpp: number;
+    ppg: number;
     rcnt: number;
     current: number;
     selectPage: Function; 

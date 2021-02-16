@@ -37,7 +37,7 @@ const KeywordSearch:React.FunctionComponent = () => {
         queryParams[item[0]] = decodeURI(item[1]);
     });
   }
-
+  const rpp = 10;
   const [loading, setLoading] = useState(false);
   const [allkw, setKWShowing] = useState([]);
   const [pn, setPageNumber] = useState(1);
@@ -59,8 +59,8 @@ const KeywordSearch:React.FunctionComponent = () => {
             keyword: keyword,
             keyword_only: 'true',
             lang: language,
-            min: (pn - 1) * 10 + 1,
-            max: cnt > 0 ? Math.min(pn * 10, cnt) : pn * 10,
+            min: (pn - 1) * rpp + 1,
+            max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
         if (themefilters.length > 0) {
             searchParams.theme = themefilters.map(fs=>"^"+fs+"$").join("|");
@@ -195,7 +195,7 @@ const KeywordSearch:React.FunctionComponent = () => {
                         </button>
                     </div>
                     <div className="resultContainer">
-                        {cnt > 0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                         {loading ? (
                             <div className="d-flex justify-content-center">
                                 <BeatLoader color={'#0074d9'} />
@@ -322,7 +322,7 @@ const KeywordSearch:React.FunctionComponent = () => {
                                 );
                             })
                         )}
-                        {cnt > 0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                     </div>
                 </div>
                 <div className="col-md-1 " />
