@@ -211,10 +211,11 @@
             padding: 2.5em 5%;
 
             &.search-results-map {
+                height: 300px;
                 border-bottom: 2px solid $color__logo-yellow;
                 padding: 0;
                 .ratio {
-                    max-height: 300px;
+                    height: 300px;
                     overflow: hidden;
                     .leaflet-container {
                         margin-top: 0;

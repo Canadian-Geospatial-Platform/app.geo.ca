@@ -208,6 +208,13 @@ const KeywordSearch:React.FunctionComponent = () => {
                                 const coordinates = JSON.parse(result.coordinates);
                                 const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                                 const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
+                                //const resolutionHorizontal = Math.abs(40075*Math.cos(coordinates[0][1][0] - coordinates[0][0][0]))/108;
+                                //const resolutionVertical = (40.7436654315252*Math.abs(coordinates[0][2][1] - coordinates[0][0][1])*11132)/(256*15);
+                                //const resolution = Math.max(resolutionHorizontal, resolutionVertical); 
+                                const dist = Math.max(Math.abs(coordinates[0][2][1] - coordinates[0][0][1]), Math.abs(coordinates[0][1][0] - coordinates[0][0][0]));
+                                const resolution = (40.7436654315252*dist*11132)/15;
+                                const zoom = Math.max(Math.log2(3600000/resolution), 1);
+                                //console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
                                 return (
                                     <div key={result.id} className="searchResult container-fluid">
                                         <div className="row rowDividerMd">
@@ -270,7 +277,7 @@ const KeywordSearch:React.FunctionComponent = () => {
                                                                 (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
                                                                 (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
                                                             ]}
-                                                            zoom={7}
+                                                            zoom={zoom}
                                                         >
                                                             <TileLayer
                                                                 url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
