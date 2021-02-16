@@ -33,7 +33,7 @@ const KeywordSearch:React.FunctionComponent = () => {
   //console.log(location, history);
   if (location.search && location.search!=='') {
     location.search.substr(1).split('&').forEach( (q:string)=>{
-        let item = q.split("=");
+        const item = q.split("=");
         queryParams[item[0]] = decodeURI(item[1]);
     });
   }
@@ -59,8 +59,8 @@ const KeywordSearch:React.FunctionComponent = () => {
             keyword: keyword,
             keyword_only: 'true',
             lang: language,
-            min: (pn - 1) * 10,
-            max: cnt > 0 ? Math.min(pn * 10 - 1, cnt - 1) : pn * 10 - 1,
+            min: (pn - 1) * 10 + 1,
+            max: cnt > 0 ? Math.min(pn * 10, cnt) : pn * 10,
         };
         if (themefilters.length > 0) {
             searchParams.theme = themefilters.map(fs=>"^"+fs+"$").join("|");
@@ -78,8 +78,9 @@ const KeywordSearch:React.FunctionComponent = () => {
             .then((data) => {
                 //console.log(data);
                 const results = data.Items;
+                const rcnt = results.length>0?results[0].total:0;
                 setResults(results);
-                setCount(100);
+                setCount(rcnt);
                 setKWShowing([]);
                 setKeyword(keyword);
                 setLoading(false);
@@ -117,13 +118,13 @@ const KeywordSearch:React.FunctionComponent = () => {
     handleSearch(keyword);
   };
 
-  const handleView = (id: string) => {
-    window.open("/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
-  }
+    const handleView = (id: string) => {
+        window.open('/result?id=' + encodeURI(id.trim()), 'View Record ' + id.trim());
+    };
 
-  const handleKeyword = (keyword: string) => {
-    window.open("/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
-  }
+    const handleKeyword = (keyword: string) => {
+        window.open('/search?keyword=' + encodeURI(keyword.trim()), 'Search ' + keyword.trim());
+    };
 
     const handleKwshowing = (rid: string) => {
         const newOpen = allkw.map((o) => o);

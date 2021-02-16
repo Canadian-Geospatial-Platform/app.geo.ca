@@ -38,11 +38,11 @@ setupCognito(store, authconfig);
 
 // hack for default leaflet icon: https://github.com/Leaflet/Leaflet/issues/4968
 // TODO: put somewhere else
-/*const DefaultIcon = new Icon({
+const DefaultIcon = new Icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
 });
-Marker.prototype.options.icon = DefaultIcon;*/
+Marker.prototype.options.icon = DefaultIcon;
 //const maps: Element[] = [...document.getElementsByClassName('llwb-map')];
  
 const config = JSON.parse(document.getElementById('root').getAttribute('data-leaflet')!.replace(/'/g, '"'));
