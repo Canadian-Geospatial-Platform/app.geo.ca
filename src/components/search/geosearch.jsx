@@ -35,6 +35,7 @@ const GeoSearch = ({showing}) => {
           queryParams[item[0]] = decodeURI(item[1]);
       });
   }
+  const rpp = 10;
   const inputRef = createRef();
   let mapCount = 0;
   const map = useMap();
@@ -119,8 +120,8 @@ const GeoSearch = ({showing}) => {
         west: bounds._southWest.lng,
         keyword: keyword,
         lang: language,
-        min: (pn-1)*10,
-        max: cnt>0?Math.min(pn*10-1, cnt-1):pn*10-1
+        min: (pn-1)*rpp + 1,
+        max: cnt>0?Math.min(pn*rpp, cnt-1):pn*rpp
     }
     if (themefilters.length > 0) {
         searchParams.theme = themefilters.map(fs=>"^"+fs+"$").join("|");
@@ -242,7 +243,7 @@ const GeoSearch = ({showing}) => {
             <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
         </div> */}
         <div className="container">
-            {cnt>0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+            {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             {loading ?
                 <div className="d-flex justify-content-center">
                 <BeatLoader
@@ -267,7 +268,7 @@ const GeoSearch = ({showing}) => {
                 ))}
                 </div>
             )}
-            {cnt>0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+            {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
         </div>
         </div>
     );
