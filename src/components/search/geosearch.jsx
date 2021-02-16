@@ -107,7 +107,7 @@ const GeoSearch = ({showing}) => {
   /*const handleKeyword = (evt, keyword) => {
     evt.stopPropagation();
     window.open("/?keyword="+encodeURI(keyword.trim())+"&lang="+language, "Search " + keyword.trim() );
-  }
+  }*/
 
   const handleChange = (e) => {
     e.preventDefault();
