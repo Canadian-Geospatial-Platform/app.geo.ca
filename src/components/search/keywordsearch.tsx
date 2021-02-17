@@ -95,10 +95,10 @@ const KeywordSearch:React.FunctionComponent = () => {
             searchParams.theme = themefilters.map(fs=>fs).join(",");
         }
         if (state.orgfilter.length > 0) {
-            searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
+            searchParams.org = orgfilters.map(fs=>fs).join("|");
         }
         if (state.typefilter.length > 0) {
-            searchParams.type = typefilters.map(fs=>"^"+fs+"$").join("|");
+            searchParams.type = typefilters.map(fs=>fs).join("|");
         }
         if (state.foundational) {
             searchParams.foundational = "true";
@@ -195,7 +195,7 @@ const KeywordSearch:React.FunctionComponent = () => {
 
     useEffect(() => {
         if (!fReset) {
-            const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0); 
+            /*const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0); 
             if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
                 handleSearch(initKeyword);
             }
@@ -203,7 +203,8 @@ const KeywordSearch:React.FunctionComponent = () => {
                 setResults([]);
                 setCount(0);
                 setPageNumber(1);
-            }
+            }*/
+            handleSearch(initKeyword);
         }
     }, [language, pn, fReset]);
 
@@ -213,13 +214,11 @@ const KeywordSearch:React.FunctionComponent = () => {
             <div className="row">
                 <div className="col-md-1">
                     <div className="searchFilters">
-                        <h2>
-                            <FilterIcon /> Filters:
-                        </h2>
-                        <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
+                        <h2><FilterIcon /> Filter by:</h2>
+                        <SearchFilter filtertitle="Organisations" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
                         <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
                         <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} selectFilters={handleTheme} />
-                        <SearchFilter filtertitle="Foundational" filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
+                        <SearchFilter filtertitle="Foundational Layers Only" filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
                         <div className="filterAction">
                             <button className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>Apply Filters</button>
                             <button className="btn searchButton clear" onClick={clearAll}>Clear All</button>
