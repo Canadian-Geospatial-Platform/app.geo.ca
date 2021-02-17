@@ -127,10 +127,10 @@ const GeoSearch = ({showing}) => {
         searchParams.theme = themefilters.map(fs=>fs).join(",");
     }
     if (orgfilters.length > 0) {
-        searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
+        searchParams.org = orgfilters.map(fs=>fs).join("|");
     }
     if (typefilters.length > 0) {
-        searchParams.type = typefilters.map(fs=>"^"+fs+"$").join("|");
+        searchParams.type = typefilters.map(fs=>fs).join("|");
     }
     if (foundational) {
         searchParams.foundational = "true";
@@ -212,14 +212,15 @@ const GeoSearch = ({showing}) => {
   useEffect(() => {
     const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);  
     if (showing) {
-        if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
+        /*if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
             handleSearch(initKeyword, initBounds);
         } 
         if (initKeyword === '' && filteractive ) {
             setResults([]);
             setCount(0);
             setPageNumber(1);
-        }
+        }*/
+        handleSearch(initKeyword, initBounds);
     } 
   }, [showing, language, pn, themefilters, orgfilters, typefilters, foundational]);
   //map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
