@@ -23,7 +23,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 //import { css } from "@emotion/core";
 import './geosearch.scss';
 
-const GeoSearch = ({geoMap, showing}) => {
+const GeoSearch = ({showing}) => {
   const queryParams = {};
   const location = useLocation();
   const {t} = useTranslation();
@@ -38,8 +38,8 @@ const GeoSearch = ({geoMap, showing}) => {
   const rpp = 10;
   const inputRef = createRef();
   let mapCount = 0;
-  const [map, setMap] = useState(geoMap);
-  const [initBounds, setBounds] = useState(geoMap.getBounds());
+  const map = useMap();
+  const [initBounds, setBounds] = useState(map.getBounds());
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [pn, setPageNumber] = useState(1);
@@ -191,7 +191,7 @@ const GeoSearch = ({geoMap, showing}) => {
     //console.log(mbounds,bounds);
     map.off('moveend', eventHandler);
     //console.log('status:', loading, 'keyword', keyword,initKeyword);
-    if (!loading && keyword!=="" && mapCount === 0 && !Object.is(mbounds, bounds)) {
+    if (!loading && mapCount === 0 && !Object.is(mbounds, bounds)) {
         //console.log('research:', loading, keyword, mapCount);
         mapCount++;
         setLoadingStatus(true);

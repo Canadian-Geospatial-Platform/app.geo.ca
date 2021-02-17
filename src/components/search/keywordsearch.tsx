@@ -1,6 +1,5 @@
 import React, { useState, createRef, useEffect } from "react";
 import {useLocation, useHistory} from 'react-router';
-import {Link} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 // reactstrap components
@@ -29,7 +28,7 @@ import './keywordsearch.scss';
 const KeywordSearch:React.FunctionComponent = () => {
   const queryParams:QueryParams = {};
   const location = useLocation();
-  const history = useHistory();
+  //const history = useHistory();
   const {t} = useTranslation();
   //console.log(location, history);
   if (location.search && location.search!=='') {

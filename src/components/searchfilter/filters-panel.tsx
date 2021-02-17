@@ -19,6 +19,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [typefilters, setType] = useState(state.typefilter);
     const [themefilters, setTheme] = useState(state.themefilter);
     const [foundational, setFound] = useState(state.foundational);
+    const [fReset, setFReset] = useState(false);
  //console.log(state, dispatch);
     const applyFilters = () => {
         if (typeof dispatch ==='function') {
@@ -27,6 +28,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             dispatch(setThemeFilter(themefilters));
             dispatch(setFoundational(foundational));
         } 
+        setFReset(false);
     }
     const clearAll = () => {
         setOrg([]);
@@ -39,7 +41,29 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             dispatch(setThemeFilter([]));
             dispatch(setFoundational(false));
         } 
+        setFReset(false);
     }
+
+    const handleOrg = (filters: string[]) => {
+        setFReset(true);
+        setOrg(filters);
+    };
+
+    const handleType = (filters: string[]) => {
+        setFReset(true);
+        setType(filters);
+    };
+
+    const handleTheme = (filters: string[]) => {
+        setFReset(true);
+        setTheme(filters);
+    };
+
+    const handleFound = (found: boolean) => {
+        setFReset(true);
+        setFound(found);
+    };
+
     return (
         <PanelApp
             title="appbar.filters"
@@ -50,12 +74,12 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
                         <div className="searchFilters">
-                            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={setOrg} />
-                            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={setType} />
-                            <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} selectFilters={setTheme} />
-                            <SearchFilter filtertitle="Foundational" filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={setFound} />
+                            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
+                            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
+                            <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} selectFilters={handleTheme} />
+                            <SearchFilter filtertitle="Foundational" filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
                             <div className="filterAction">
-                                <button className="btn searchButton submit" onClick={applyFilters}>Apply Filters</button>
+                            <button className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>Apply Filters</button>
                                 <button className="btn searchButton clear" onClick={clearAll}>Clear All</button>
                             </div>
                         </div>
