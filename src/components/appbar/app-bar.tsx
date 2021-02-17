@@ -80,6 +80,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const { id, search, auth } = props;
     const { t } = useTranslation();
     const history = useHistory();
+    const location = useLocation();
 
     const classes = useStyles();
 

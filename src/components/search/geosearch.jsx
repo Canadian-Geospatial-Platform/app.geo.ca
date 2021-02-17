@@ -40,7 +40,6 @@ const GeoSearch = ({showing}) => {
   let mapCount = 0;
   const map = useMap();
   const [initBounds, setBounds] = useState(map.getBounds());
-  //const [panelshowing, setShowing] = useState(showing);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [pn, setPageNumber] = useState(1);
@@ -53,6 +52,7 @@ const GeoSearch = ({showing}) => {
   const orgfilters = state.orgfilter;
   const typefilters = state.typefilter;
   const themefilters = state.themefilter;
+  const foundational = state.foundational;
   const language = t("app.language");
   //console.log(showing);
 
@@ -124,13 +124,16 @@ const GeoSearch = ({showing}) => {
         max: cnt>0?Math.min(pn*rpp, cnt-1):pn*rpp
     }
     if (themefilters.length > 0) {
-        searchParams.theme = themefilters.map(fs=>"^"+fs+"$").join("|");
+        searchParams.theme = themefilters.map(fs=>fs).join(",");
     }
     if (orgfilters.length > 0) {
         searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
     }
     if (typefilters.length > 0) {
-        searchParams.type = typefilters.map(fs=>fs).join(",");
+        searchParams.type = typefilters.map(fs=>"^"+fs+"$").join("|");
+    }
+    if (foundational) {
+        searchParams.foundational = "true";
     }
     //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
@@ -188,7 +191,7 @@ const GeoSearch = ({showing}) => {
     //console.log(mbounds,bounds);
     map.off('moveend', eventHandler);
     //console.log('status:', loading, 'keyword', keyword,initKeyword);
-    if (!loading && keyword!=="" && mapCount === 0 && !Object.is(mbounds, bounds)) {
+    if (!loading && mapCount === 0 && !Object.is(mbounds, bounds)) {
         //console.log('research:', loading, keyword, mapCount);
         mapCount++;
         setLoadingStatus(true);
@@ -209,7 +212,7 @@ const GeoSearch = ({showing}) => {
   useEffect(() => {
     const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);  
     if (showing) {
-        if ((initKeyword !== '' && filteractive) || (initKeyword === '' && !filteractive)) {
+        if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
             handleSearch(initKeyword, initBounds);
         } 
         if (initKeyword === '' && filteractive ) {
@@ -218,8 +221,8 @@ const GeoSearch = ({showing}) => {
             setPageNumber(1);
         }
     } 
-  }, [showing, language, pn, themefilters, orgfilters, typefilters]);
- // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
+  }, [showing, language, pn, themefilters, orgfilters, typefilters, foundational]);
+  //map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);
   return (
@@ -274,8 +277,4 @@ const GeoSearch = ({showing}) => {
     );
 }
 
-GeoSearch.propTypes = {
-    showing: PropTypes.boolean
- };
-
- export default GeoSearch;
+export default GeoSearch;

@@ -258,6 +258,15 @@ input {
             margin-right: 5px;
         }
     }
+    >.filterAction {
+        .searchButton {
+           font-size: 0.65rem;
+           margin: 5px 10px 5px 0; 
+           &.disabled {
+            opacity: 0.6;
+           }
+        }
+    }
 }
 
 .searchResult {
@@ -394,10 +403,13 @@ input {
             }
         }
     }
-    .searchInput,
-    .searchFilters {
+    .searchInput {
         max-width: 1000px;
         padding: 0 20px;
+    }
+    .searchFilters {
+        max-width: 100%;
+        padding: 0 10px;
     }
     .resultContainer {
         padding: 25px 0;
