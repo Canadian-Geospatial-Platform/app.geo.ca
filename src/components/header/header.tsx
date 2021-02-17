@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useLocation, useHistory} from 'react-router';
+import {useLocation, useHistory, Link} from 'react-router';
 import i18n from '../../assests/i18n/i18n';
 import { useTranslation } from 'react-i18next';
 //import { useStateContext } from "../../globalstate/state";
@@ -33,12 +33,12 @@ export default function Header(): JSX.Element {
             <div className="container-fluid">
                 <div className="row align-items-center">
                     <div className="col-3 header-logo-col">
-                        <img src={logo} alt="" onClick={()=>history.push('/')} />
+                        <img src={logo} alt="" onClick={location.pathname==='/'?()=>history.go(0):()=>history.push('/')} />
                     </div>
                     <div className="col-9 header-nav-col">
                         <nav className="header-nav">
                             <ul className="list-group flex-row justify-content-end align-items-center menu-list">
-                                <li className="list-group-item" onClick={()=>history.push('/')}>{t('nav.home')}</li>
+                                <li className="list-group-item" onClick={location.pathname==='/'?()=>history.go(0):()=>history.push('/')}>{t('nav.home')}</li>
                                 <li className="list-group-item" onClick={() => changeLanguage(t('nav.language.key'))}>{t('nav.language.name')}</li>
                             </ul>
                         </nav>
