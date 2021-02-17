@@ -38,7 +38,12 @@ export default function Header(): JSX.Element {
                     <div className="col-9 header-nav-col">
                         <nav className="header-nav">
                             <ul className="list-group flex-row justify-content-end align-items-center menu-list">
-                                <li className="list-group-item" onClick={()=>history.push('/')}>{t('nav.home')}</li>
+                                <li className="list-group-item" 
+                                    // onClick={()=>history.push('/#/')}
+                                    onClick={()=> window.location.reload(false)}
+                                    >                                       
+                                        {t('nav.home')}
+                                </li>
                                 <li className="list-group-item" onClick={() => changeLanguage(t('nav.language.key'))}>{t('nav.language.name')}</li>
                             </ul>
                         </nav>
