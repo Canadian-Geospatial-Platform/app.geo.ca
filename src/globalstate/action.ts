@@ -4,7 +4,8 @@ export enum ActionType {
     CLEAR_MAPPING = 'clearMapping',
     SET_ORG = 'setOrgFilter',
     SET_TYPE = 'setTypeFilter',
-    SET_THEME = 'setThemeFilter'
+    SET_THEME = 'setThemeFilter',
+    SET_FOUND = 'setFoundational'
   }
 //export type Action = { type: ActionType.ADD_MAPPING, payload: idstring } | { type: ActionType.DEL_MAPPING, payload: idstring } | { type: ActionType.CLEAR_MAPPING };
 export function addMapping(rid:string) {
@@ -29,4 +30,8 @@ export function setTypeFilter(typefilter:string[]) {
 
 export function setThemeFilter(themefilter:string[]) {
     return {type: ActionType.SET_THEME, payload: themefilter};
+}
+
+export function setFoundational(foundational:boolean) {
+    return {type: ActionType.SET_FOUND, payload: foundational};
 }

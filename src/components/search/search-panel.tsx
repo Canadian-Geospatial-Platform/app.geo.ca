@@ -1,3 +1,4 @@
+import {useMap} from "react-leaflet";
 import { Typography } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/ImageSearch';
 
@@ -8,7 +9,8 @@ export default function SearchPanel(props: PanelProps): JSX.Element {
     // TODO: access Leaflat map from custom component to use inside panel event
     // TODO: register and unregister events when panel open and close
     const {showing} = props;
-
+    const map = useMap();
+    
     return (
         <PanelApp
             title="appbar.search"
@@ -18,7 +20,7 @@ export default function SearchPanel(props: PanelProps): JSX.Element {
             content={
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
-                        <GeoSearch showing={showing} />
+                        <GeoSearch geoMap={map} showing={showing} />
                     </Typography>
                 ) as unknown) as Element
             }
