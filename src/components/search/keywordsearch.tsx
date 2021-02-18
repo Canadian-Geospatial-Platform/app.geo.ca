@@ -103,7 +103,7 @@ const KeywordSearch:React.FunctionComponent = () => {
         if (state.foundational) {
             searchParams.foundational = "true";
         }
-        //console.log(searchParams);
+        console.log(searchParams);
         axios
             .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo', { params: searchParams })
             .then((response) => response.data)

@@ -16,14 +16,26 @@ import { useTranslation } from 'react-i18next';
 import { useStateContext } from "../../globalstate/state";
 import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
+import ClearIcon from '@material-ui/icons/Clear';
+
+
+import { setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from "../../globalstate/action";
+
+
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 //import organisations from "./organisations.json";
 //import types from "./types.json";
 //import { css } from "@emotion/core";
 import './geosearch.scss';
+//import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
 
 const GeoSearch = ({showing}) => {
+    //const [orgfilters, setOrg] = useState(state.orgfilter);
+    //const [typefilters, setType] = useState(state.typefilter);
+    //const [themefilters, setTheme] = useState(state.themefilter);
+    //const [foundational, setFound] = useState(state.foundational);
+
   const queryParams = {};
   const location = useLocation();
   const {t} = useTranslation();
@@ -45,12 +57,15 @@ const GeoSearch = ({showing}) => {
   const [pn, setPageNumber] = useState(1);
   const [cnt, setCount] = useState(0);
   const [selected, setSelected] = useState("search");
+  //const [typefilters, setType] = useState(state.typefilter);
+
   const [open, setOpen] = useState(false);
   //const [modal, setModal] = useState(false);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
   const {state, dispatch} = useStateContext();
+  //const [typefilters, setType] = useState(state.typefilter);
   const orgfilters = state.orgfilter;
-  const typefilters = state.typefilter;
+  const typefilters_local = state.typefilter;
   const themefilters = state.themefilter;
   const foundational = state.foundational;
   const language = t("app.language");
@@ -129,13 +144,13 @@ const GeoSearch = ({showing}) => {
     if (orgfilters.length > 0) {
         searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
     }
-    if (typefilters.length > 0) {
-        searchParams.type = typefilters.map(fs=>"^"+fs+"$").join("|");
+    if (typefilters_local.length > 0) {
+        searchParams.type = typefilters_local.map(fs=>"^"+fs+"$").join("|");
     }
     if (foundational) {
         searchParams.foundational = "true";
     }
-    //console.log(searchParams);
+    console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
@@ -186,6 +201,34 @@ const GeoSearch = ({showing}) => {
     handleSearch(keyword, initBounds);
   };
 
+  const handleClearTypeFilterFromDisplay = (event) =>{
+    let abc ='';
+    if (event) {
+        event.preventDefault();
+        console.log('Check what is in event');
+        console.log(event);
+        console.log('Check what is in target');
+        console.log(event.target);
+        console.log('Check what is in innerText');
+        console.log(event.target.innerText);
+        abc= event.target.innerText;
+
+    }
+    //const keyword = inputRef.current.value;
+    //setPageNumber(1);
+
+    //let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    let filtered = typefilters_local.filter(function(value, index, arr){ 
+        return value !==  abc.trim(); // 'API';
+    });
+
+    console.log('Test Handleresearch:');
+    // dispatch(setTypeFilter([]));
+    dispatch(setTypeFilter(filtered));
+    //setType(filtered);
+       
+  };
+
   const eventHandler = (event, keyword, bounds) => {
     const mbounds = event.target.getBounds();
     //console.log(mbounds,bounds);
@@ -210,7 +253,7 @@ const GeoSearch = ({showing}) => {
     setType(filters);
   }*/
   useEffect(() => {
-    const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);  
+    const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters_local.length > 0);  
     if (showing) {
         if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
             handleSearch(initKeyword, initBounds);
@@ -221,7 +264,7 @@ const GeoSearch = ({showing}) => {
             setPageNumber(1);
         }
     } 
-  }, [showing, language, pn, themefilters, orgfilters, typefilters, foundational]);
+  }, [showing, language, pn, themefilters, orgfilters, typefilters_local, foundational]);
   //map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);
@@ -245,6 +288,39 @@ const GeoSearch = ({showing}) => {
             <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
             <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
         </div> */}
+         <div className="searchFilters">
+            <h2>Filters:</h2>
+            
+            {/* <button type="button" className="btn btn-sm searchButton" ></button> */}
+
+            <div className="row rowDivider">
+            {typefilters_local.map((typefilter) => (
+            <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearTypeFilterFromDisplay: null}>  
+            
+            <h6> 
+            {/* {typefilter.map(fs=>fs).join("|")}  */}
+            {/* //{typefilters.map(fs=>fs).join("|")}  */}
+            {typefilter}
+            </h6>
+            
+            
+            <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>
+            {/* <span> <ClearIcon size='small'/>  </span> */}
+            {/* <ClearIcon size='small'/>  */}
+            </button>
+            ))
+            }
+            </div>
+
+            {/* <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
+            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} /> */}
+            {/* {orgfilters.map(fs=>"^"+fs+"$").join("|")} */}
+{/* //            {types} */}
+
+            {/* <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
+            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} /> */}
+
+        </div>
         <div className="container">
             {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             {loading ?
