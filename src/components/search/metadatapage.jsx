@@ -1,11 +1,17 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable camelcase */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import {useLocation, useHistory} from 'react-router';
+import {useLocation} from 'react-router';
 import { useDispatch, useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-//import { css } from "@emotion/core";
+// import { css } from "@emotion/core";
 import { addMapping, delMapping } from "../../reducers/action";
 import './metadatapage.scss';
 
@@ -27,7 +33,7 @@ const MetaDataPage = () => {
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
-    const [rid, setID] = useState(queryParams && queryParams["id"]?queryParams["id"].trim():"");
+    const [rid, setID] = useState(queryParams && queryParams.id?queryParams.id.trim():"");
     const language = t("app.language");
     
     const handleOpen = (section) => {
@@ -50,23 +56,23 @@ const MetaDataPage = () => {
       setLoading(true);
   
       const searchParams = {
-          id: id,
+          id,
           lang: language,
       };
-      //console.log(searchParams);
+      // console.log(searchParams);
       axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id", { params: searchParams})
       .then(response => response.data)
       .then((data) => {
-          //console.log(data);
-          const results = data.Items;
-          setResults(results);
-          //setKeyword(keyword);
+          // console.log(data);
+          const res = data.Items;
+          setResults(res);
+          // setKeyword(keyword);
           setLoading(false);
       })
       .catch(error=>{
-          console.log(error);
+          // console.log(error);
           setResults([]);
-          //setKeyword(keyword);
+          // setKeyword(keyword);
           setLoading(false);
       });
   
@@ -80,12 +86,9 @@ const MetaDataPage = () => {
   
     return (
           <div className="pageContainer resultPage">
-          {/* <Header /> */}
           <div className="resultContainer">
               {loading ?
-                  <div className="d-flex justify-content-center">
-                    <BeatLoader color={'#0074d9'} />
-                  </div>
+                  <div className="d-flex justify-content-center"><BeatLoader color="#0074d9" /></div>
                   :
                   (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
                   <div className="d-flex justify-content-center">
@@ -94,12 +97,12 @@ const MetaDataPage = () => {
                   results.map((result) => {
                     const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                     const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-                    //const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);      
+                    // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);      
                     const options = JSON.parse(formattedOption);
                     const contact =   JSON.parse(formattedContact);
                     const coordinates = JSON.parse(result.coordinates);
 
-                    const langInd = (language == 'en')? 0 : 1;
+                    const langInd = (language === 'en')? 0 : 1;
                     const status = result.status.split(';')[langInd];
                     const maintenance = result.maintenance.split(';')[langInd];
                     const type = result.type.split(';')[langInd];
@@ -108,7 +111,7 @@ const MetaDataPage = () => {
                     const dist = Math.max(Math.abs(coordinates[0][2][1] - coordinates[0][0][1])/15, Math.abs(coordinates[0][1][0] - coordinates[0][0][0])/30);
                     const resolution = (40.7436654315252*dist*11132);
                     const zoom = Math.max(Math.log2(3600000/resolution), 1);
-                    //console.log(contact, options);
+                    // console.log(contact, options);
                     return (
                     <div key={result.id} className="container-search-result container-search-result-two-col">
                     <div className="row no-gutters">
@@ -298,17 +301,17 @@ const MetaDataPage = () => {
                           <section className="sec-search-result search-results-section search-results-misc-data">
                               <h3 className="section-title">Add to Map</h3>
                               <p>View the data in depth by adding it to a map.</p>
-                              <div class="btn-group">
-                                <a href={"https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-en.html?keys=" + result.id} className="btn btn-search mr-2" role="button" target="_blank">View on Map</a>
+                              <div className="btn-group">
+                                <a href={`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-en.html?keys=${  result.id}`} className="btn btn-search mr-2" role="button" target="_blank">View on Map</a>
                                 <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Added to MyMap":"Add to MyMap"}</button>
                               </div>
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
                               <h3 className="section-title">Metadata</h3>
                               <p>Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.</p>
-                              <div class="btn-group">
-                                <a href={"https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/" + result.id + ".geojson"} className="btn btn-search mr-2" role="button" target="_blank">Download geoCore</a>
-                                <a href={"https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=" + result.id} className="btn btn-search" role="button" target="_blank">View HNAP Record</a>
+                              <div className="btn-group">
+                                <a href={`https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/${  result.id  }.geojson`} className="btn btn-search mr-2" role="button" target="_blank">Download geoCore</a>
+                                <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${  result.id}`} className="btn btn-search" role="button" target="_blank">View HNAP Record</a>
                               </div>
                           </section>
                       </aside>
