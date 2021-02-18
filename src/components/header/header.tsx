@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import {useLocation, useHistory, Link} from 'react-router';
+import {useLocation, useHistory} from 'react-router';
 import i18n from '../../assests/i18n/i18n';
 import { useTranslation } from 'react-i18next';
-//import { useStateContext } from "../../globalstate/state";
-//import { setLanguage } from "../../globalstate/action";
 
 import logo from '../../assests/img/GeoDotCaBanner.jpg';
 import './header.scss';

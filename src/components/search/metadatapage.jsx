@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import {useLocation, useHistory} from 'react-router';
+import { useDispatch, useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 //import { css } from "@emotion/core";
-import { useStateContext } from "../../globalstate/state";
-import { addMapping, delMapping } from "../../globalstate/action";
+import { addMapping, delMapping } from "../../reducers/action";
 import './metadatapage.scss';
 
 
-const MetaDataPage = (props) => {
+const MetaDataPage = () => {
     const queryParams = {};
     const location = useLocation();
     const {t} = useTranslation();
@@ -20,16 +20,14 @@ const MetaDataPage = (props) => {
             queryParams[item[0]] = decodeURI(item[1]);
         });
     }
-    const {state, dispatch} = useStateContext();
-    const mapping = state.mapping;
-    //const mapping = [];
+    const mapping = useSelector(state => state.mappingReducer.mapping);
+    const dispatch = useDispatch(); 
+    
     console.log(mapping);
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
     const [rid, setID] = useState(queryParams && queryParams["id"]?queryParams["id"].trim():"");
-    //const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-    const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
     const language = t("app.language");
     
     const handleOpen = (section) => {
@@ -74,10 +72,6 @@ const MetaDataPage = (props) => {
   
     };
   
-    const handleKeyword = (keyword) => {
-      window.open("/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
-    }
-  
     useEffect(() => {
       if (rid !== '') {
           handleSearch(rid);
@@ -90,9 +84,7 @@ const MetaDataPage = (props) => {
           <div className="resultContainer">
               {loading ?
                   <div className="d-flex justify-content-center">
-                  <BeatLoader
-                  color={'#0074d9'}
-                  />
+                    <BeatLoader color={'#0074d9'} />
                   </div>
                   :
                   (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
