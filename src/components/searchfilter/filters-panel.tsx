@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector} from "react-redux";
 import { Typography } from '@material-ui/core';
 //import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
@@ -8,26 +9,25 @@ import SearchFilter from './searchfilter';
 import organisations from "../search/organisations.json";
 import types from "../search/types.json";
 import themes from "../search/themes.json";
-import { useStateContext } from "../../globalstate/state";
-import { setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from "../../globalstate/action";
+import { setFilters } from "../../reducers/action";
 
 export default function FilterPanel(props: PanelProps): JSX.Element {
     // TODO: access Leaflat map from custom component to use inside panel event
     // TODO: register and unregister events when panel open and close
-    const { state, dispatch } = useStateContext(); 
-    const [orgfilters, setOrg] = useState(state.orgfilter);
-    const [typefilters, setType] = useState(state.typefilter);
-    const [themefilters, setTheme] = useState(state.themefilter);
-    const [foundational, setFound] = useState(state.foundational);
+    //const { state, dispatch } = useStateContext();
+    const storeorgfilters = useSelector(state => state.mappingReducer.orgfilter);
+    const storetypefilters = useSelector(state => state.mappingReducer.typefilter);
+    const storethemefilters = useSelector(state => state.mappingReducer.themefilter);
+    const storefoundational = useSelector(state => state.mappingReducer.foundational);
+    const dispatch = useDispatch(); 
+    const [orgfilters, setOrg] = useState(storeorgfilters);
+    const [typefilters, setType] = useState(storetypefilters);
+    const [themefilters, setTheme] = useState(storethemefilters);
+    const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
  //console.log(state, dispatch);
     const applyFilters = () => {
-        if (typeof dispatch ==='function') {
-            dispatch(setOrgFilter(orgfilters));
-            dispatch(setTypeFilter(typefilters));
-            dispatch(setThemeFilter(themefilters));
-            dispatch(setFoundational(foundational));
-        } 
+        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational: foundational }));
         setFReset(false);
     }
     const clearAll = () => {
@@ -35,12 +35,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setType([]);
         setTheme([]);
         setFound(false);
-        if (typeof dispatch ==='function') {
-            dispatch(setOrgFilter([]));
-            dispatch(setTypeFilter([]));
-            dispatch(setThemeFilter([]));
-            dispatch(setFoundational(false));
-        } 
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
         setFReset(false);
     }
 
