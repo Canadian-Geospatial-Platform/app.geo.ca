@@ -1,9 +1,126 @@
-.pageContainer {
-    &.keywordSearchPage {
-        margin-top: 120px;
+@import '../../assests/css/variables-site/variables-site';
 
-        .leaflet-container {
-            margin-top: 0;
+.pageContainer.keyword-search-page {
+    margin-top: 120px;
+
+    .row-filters-search {
+        border-bottom: 1px solid $color__bg-aside;
+    }
+
+    .row-pagination {
+    }
+
+    .row-results {
+        .col-beat-loader {
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .col-search-message {
+            border-bottom: 1px solid $color__bg-aside;
+            padding-top: 1rem;
+            text-align: center;
+        }
+
+        .search-image {
+            height: 300px;
+            overflow: hidden;
+            .leaflet-container {
+                height: 300px;
+                margin-top: 0;
+            }
+
+            @media (max-width: 1200px) {
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        .search-result {
+            box-sizing: border-box;
+            border: 2px solid transparent;
+            border-bottom: 1px solid #ccc;
+            letter-spacing: 0.05em;
+            padding: 2.5em 5% 2em 5%;
+            &.selected {
+                border: 2px solid #0074d9;
+            }
+            &:first-child {
+                border-top: 1px solid $color__bg-aside;
+            }
+            &:nth-of-type(even) {
+                background-color: $color__bg-aside;
+            }
+            .search-title {
+                color: $color__logo-blue;
+                font-size: 1.75rem;
+                font-weight: 400;
+                letter-spacing: -0.01em;
+                margin: 0 0 0.5em 0;
+                text-align: left;
+            }
+
+            .search-meta {
+                font-size: 0.75rem;
+            }
+
+            .search-desc {
+                font-size: 1rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .btn-group-keywords {
+                display: flex;
+                flex-wrap: wrap;
+                color: $color__logo-blue;
+                margin: 0.6em 0 0.5em 0;
+                &.less {
+                    .btn-keyword.more {
+                        display: none;
+                    }
+                }
+
+                .btn {
+                    border: 1px solid $color__logo-blue-light;
+                    font-size: 0.75rem;
+                    letter-spacing: 0.05em;
+                    margin-bottom: 0.5em;
+                    padding: 0.25rem 0.75rem;
+                    text-transform: capitalize;
+                    transition-duration: 0.4s;
+                }
+
+                .btn-keyword {
+                    background-color: transparent;
+                    color: $color__logo-blue;
+                    &:hover {
+                        background-color: $color__logo-blue;
+                        color: $color__light;
+                    }
+                }
+                .btn-keyword-more {
+                    background-color: $color__logo-blue;
+                    color: $color__light;
+                    &:hover {
+                        background-color: $color__logo-blue-light;
+                        color: $color__light;
+                    }
+                }
+            }
+
+            .btn-search {
+                background-color: $color__logo-blue;
+                color: $color__light;
+                float: right;
+                min-width: 25%;
+                border-radius: 25px;
+                font-size: 0.875rem;
+                letter-spacing: 0.1em;
+                &:hover {
+                    background-color: transparent;
+                    color: $color__logo-blue;
+                    border: 1px solid $color__logo-blue;
+                }
+            }
         }
     }
 }
