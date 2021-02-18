@@ -1,18 +1,9 @@
 import React, { useState, createRef, useEffect } from "react";
 import {useLocation, useHistory} from 'react-router';
+import { useDispatch, useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
-// reactstrap components
-// import {
-//   Button,
-//   Card,
-//   Modal,
-//   ModalHeader,
-//   ModalBody,
-//   ModalFooter
-// } from "reactstrap";
-import { useStateContext } from "../../globalstate/state";
-import { setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from "../../globalstate/action";
+import { setFilters } from "../../reducers/action";
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
@@ -44,11 +35,15 @@ const KeywordSearch:React.FunctionComponent = () => {
   const [cnt, setCount] = useState(0);
   const [results, setResults] = useState([]);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword?queryParams.keyword.trim():"");
-  const {state, dispatch} = useStateContext();
-  const [orgfilters, setOrg] = useState(state.orgfilter);
-  const [typefilters, setType] = useState(state.typefilter);
-  const [themefilters, setTheme] = useState(state.themefilter);
-  const [foundational, setFound] = useState(state.foundational);
+  const storeorgfilters = useSelector(state => state.mappingReducer.orgfilter);
+  const storetypefilters = useSelector(state => state.mappingReducer.typefilter);
+  const storethemefilters = useSelector(state => state.mappingReducer.themefilter);
+  const storefoundational = useSelector(state => state.mappingReducer.foundational);
+  const dispatch = useDispatch(); 
+  const [orgfilters, setOrg] = useState(storeorgfilters);
+  const [typefilters, setType] = useState(storetypefilters);
+  const [themefilters, setTheme] = useState(storethemefilters);
+  const [foundational, setFound] = useState(storefoundational);
   const [fReset, setFReset] = useState(false);
   const language = t("app.language");
 
@@ -56,12 +51,7 @@ const KeywordSearch:React.FunctionComponent = () => {
 
 //console.log(state, dispatch);
   const applyFilters = () => {
-    if (typeof dispatch ==='function') {
-        dispatch(setOrgFilter(orgfilters));
-        dispatch(setTypeFilter(typefilters));
-        dispatch(setThemeFilter(themefilters));
-        dispatch(setFoundational(foundational));
-    } 
+    dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational: foundational })); 
     setFReset(false);
     setPageNumber(1);
   }
@@ -71,12 +61,7 @@ const KeywordSearch:React.FunctionComponent = () => {
     setType([]);
     setTheme([]);
     setFound(false);
-    if (typeof dispatch ==='function') {
-        dispatch(setOrgFilter([]));
-        dispatch(setTypeFilter([]));
-        dispatch(setThemeFilter([]));
-        dispatch(setFoundational(false));
-    } 
+    dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
     setFReset(false);
     setPageNumber(1);
   }
@@ -91,16 +76,16 @@ const KeywordSearch:React.FunctionComponent = () => {
             min: (pn - 1) * rpp + 1,
             max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
-        if (state.themefilter.length > 0) {
-            searchParams.theme = themefilters.map(fs=>fs).join(",");
+        if (storethemefilters.length > 0) {
+            searchParams.theme = storethemefilters.map(fs=>fs).join(",");
         }
-        if (state.orgfilter.length > 0) {
-            searchParams.org = orgfilters.map(fs=>fs).join("|");
+        if (storeorgfilters.length > 0) {
+            searchParams.org = storeorgfilters.map(fs=>fs).join("|");
         }
-        if (state.typefilter.length > 0) {
-            searchParams.type = typefilters.map(fs=>fs).join("|");
+        if (storetypefilters.length > 0) {
+            searchParams.type = storetypefilters.map(fs=>fs).join("|");
         }
-        if (state.foundational) {
+        if (storefoundational) {
             searchParams.foundational = "true";
         }
         //console.log(searchParams);
@@ -212,7 +197,7 @@ const KeywordSearch:React.FunctionComponent = () => {
         <div className="pageContainer keywordSearchPage">
             {/* <Header /> */}
             <div className="row">
-                <div className="col-md-1">
+                <div className="col-md-2">
                     <div className="searchFilters">
                         <h2><FilterIcon /> Filter by:</h2>
                         <SearchFilter filtertitle="Organisations" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
@@ -369,7 +354,6 @@ const KeywordSearch:React.FunctionComponent = () => {
                         {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                     </div>
                 </div>
-                <div className="col-md-1 " />
             </div>
         </div>
     );

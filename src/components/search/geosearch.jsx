@@ -1,7 +1,7 @@
 import React, { useState, createRef, useEffect } from "react";
 import {useLocation, useHistory} from 'react-router';
+import { useDispatch, useSelector} from "react-redux";
 import { useMap } from 'react-leaflet';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 // reactstrap components
 /*import {
@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
   ModalFooter
 } from "reactstrap";*/
 //import SearchFilter from '../searchfilter/searchfilter';
-import { useStateContext } from "../../globalstate/state";
 import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
@@ -48,14 +47,12 @@ const GeoSearch = ({showing}) => {
   const [open, setOpen] = useState(false);
   //const [modal, setModal] = useState(false);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
-  const {state, dispatch} = useStateContext();
-  const orgfilters = state.orgfilter;
-  const typefilters = state.typefilter;
-  const themefilters = state.themefilter;
-  const foundational = state.foundational;
   const language = t("app.language");
-  //console.log(showing);
-
+  const orgfilters = useSelector(state => state.mappingReducer.orgfilter);
+  const typefilters = useSelector(state => state.mappingReducer.typefilter);
+  const themefilters = useSelector(state => state.mappingReducer.themefilter);
+  const foundational = useSelector(state => state.mappingReducer.foundational);
+  //const dispatch = useDispatch();
   const handleSelect = (event) => {
     //const {selectResult} = this.props;
     const cardOpen = selected === event ? !open : true;
