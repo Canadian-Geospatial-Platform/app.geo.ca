@@ -1,18 +1,9 @@
 import React, { useState, createRef, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
-// reactstrap components
-// import {
-//   Button,
-//   Card,
-//   Modal,
-//   ModalHeader,
-//   ModalBody,
-//   ModalFooter
-// } from "reactstrap";
-import { useStateContext } from '../../globalstate/state';
-import { setOrgFilter, setTypeFilter, setThemeFilter } from '../../globalstate/action';
+import { setFilters } from '../../reducers/action';
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
@@ -28,32 +19,55 @@ import './keywordsearch.scss';
 const KeywordSearch: React.FunctionComponent = () => {
     const queryParams: QueryParams = {};
     const location = useLocation();
-    const { t } = useTranslation();
     //const history = useHistory();
+    const { t } = useTranslation();
     //console.log(location, history);
     if (location.search && location.search !== '') {
         location.search
             .substr(1)
             .split('&')
             .forEach((q: string) => {
-                let item = q.split('=');
+                const item = q.split('=');
                 queryParams[item[0]] = decodeURI(item[1]);
             });
     }
-
+    const rpp = 10;
     const [loading, setLoading] = useState(false);
     const [allkw, setKWShowing] = useState([]);
     const [pn, setPageNumber] = useState(1);
     const [cnt, setCount] = useState(0);
     const [results, setResults] = useState([]);
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
-    const { state, dispatch } = useStateContext();
-    const orgfilters = state.orgfilter;
-    const typefilters = state.typefilter;
-    const themefilters = state.themefilter;
+    const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
+    const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
+    const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
+    const storefoundational = useSelector((state) => state.mappingReducer.foundational);
+    const dispatch = useDispatch();
+    const [orgfilters, setOrg] = useState(storeorgfilters);
+    const [typefilters, setType] = useState(storetypefilters);
+    const [themefilters, setTheme] = useState(storethemefilters);
+    const [foundational, setFound] = useState(storefoundational);
+    const [fReset, setFReset] = useState(false);
     const language = t('app.language');
 
     const inputRef = createRef();
+
+    //console.log(state, dispatch);
+    const applyFilters = () => {
+        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational: foundational }));
+        setFReset(false);
+        setPageNumber(1);
+    };
+
+    const clearAll = () => {
+        setOrg([]);
+        setType([]);
+        setTheme([]);
+        setFound(false);
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
+        setFReset(false);
+        setPageNumber(1);
+    };
 
     const handleSearch = (keyword: string) => {
         setLoading(true);
@@ -62,17 +76,20 @@ const KeywordSearch: React.FunctionComponent = () => {
             keyword: keyword,
             keyword_only: 'true',
             lang: language,
-            min: (pn - 1) * 10,
-            max: cnt > 0 ? Math.min(pn * 10 - 1, cnt - 1) : pn * 10 - 1,
+            min: (pn - 1) * rpp + 1,
+            max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
-        if (themefilters.length > 0) {
-            searchParams.theme = themefilters.map((fs) => '^' + fs + '$').join('|');
+        if (storethemefilters.length > 0) {
+            searchParams.theme = storethemefilters.map((fs) => fs).join(',');
         }
-        if (orgfilters.length > 0) {
-            searchParams.org = orgfilters.map((fs) => '^' + fs + '$').join('|');
+        if (storeorgfilters.length > 0) {
+            searchParams.org = storeorgfilters.map((fs) => fs).join('|');
         }
-        if (typefilters.length > 0) {
-            searchParams.type = typefilters.map((fs) => fs).join(',');
+        if (storetypefilters.length > 0) {
+            searchParams.type = storetypefilters.map((fs) => fs).join('|');
+        }
+        if (storefoundational) {
+            searchParams.foundational = 'true';
         }
         //console.log(searchParams);
         axios
@@ -81,8 +98,9 @@ const KeywordSearch: React.FunctionComponent = () => {
             .then((data) => {
                 //console.log(data);
                 const results = data.Items;
+                const rcnt = results.length > 0 ? results[0].total : 0;
                 setResults(results);
-                setCount(100);
+                setCount(rcnt);
                 setKWShowing([]);
                 setKeyword(keyword);
                 setLoading(false);
@@ -121,11 +139,11 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const handleView = (id: string) => {
-        window.open('/#/result?id=' + encodeURI(id.trim()) + '&lang=' + language, 'View Record ' + id.trim());
+        window.open('/#/result?id=' + encodeURI(id.trim()), 'View Record ' + id.trim());
     };
 
     const handleKeyword = (keyword: string) => {
-        window.open('/#/search?keyword=' + encodeURI(keyword.trim()) + '&lang=' + language + '&theme=' + theme, 'Search ' + keyword.trim());
+        window.open('/#/search?keyword=' + encodeURI(keyword.trim()), 'Search ' + keyword.trim());
     };
 
     const handleKwshowing = (rid: string) => {
@@ -140,31 +158,43 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const handleOrg = (filters: string[]) => {
-        setPageNumber(1);
-        typeof dispatch === 'function' ? dispatch(setOrgFilter(filters)) : setOrgFilter(filters);
+        //setPageNumber(1);
+        setFReset(true);
+        setOrg(filters);
     };
 
     const handleType = (filters: string[]) => {
-        setPageNumber(1);
-        typeof dispatch === 'function' ? dispatch(setTypeFilter(filters)) : setTypeFilter(filters);
+        //setPageNumber(1);
+        setFReset(true);
+        setType(filters);
     };
 
     const handleTheme = (filters: string[]) => {
-        setPageNumber(1);
-        typeof dispatch === 'function' ? dispatch(setThemeFilter(filters)) : setThemeFilter(filters);
+        //setPageNumber(1);
+        setFReset(true);
+        setTheme(filters);
+    };
+
+    const handleFound = (found: boolean) => {
+        //setPageNumber(1);
+        setFReset(true);
+        setFound(found);
     };
 
     useEffect(() => {
-        const filteractive = themefilters.length > 0 || orgfilters.length > 0 || typefilters.length > 0;
-        if ((initKeyword !== '' && filteractive) || (initKeyword === '' && !filteractive)) {
+        if (!fReset) {
+            /*const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0); 
+            if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
+                handleSearch(initKeyword);
+            }
+            if (initKeyword === '' && filteractive) {
+                setResults([]);
+                setCount(0);
+                setPageNumber(1);
+            }*/
             handleSearch(initKeyword);
         }
-        if (initKeyword === '' && filteractive) {
-            setResults([]);
-            setCount(0);
-            setPageNumber(1);
-        }
-    }, [language, pn, themefilters, orgfilters, typefilters]);
+    }, [language, pn, fReset]);
 
     return (
         <div className="pageContainer keyword-search-page">
@@ -174,10 +204,10 @@ const KeywordSearch: React.FunctionComponent = () => {
                     <div className="col-md-2">
                         <div className="searchFilters">
                             <h2>
-                                <FilterIcon /> Filters:
+                                <FilterIcon /> Filter by:
                             </h2>
                             <SearchFilter
-                                filtertitle="Organisitions"
+                                filtertitle="Organisations"
                                 filtervalues={organisations}
                                 filterselected={orgfilters}
                                 selectFilters={handleOrg}
@@ -194,6 +224,23 @@ const KeywordSearch: React.FunctionComponent = () => {
                                 filterselected={themefilters}
                                 selectFilters={handleTheme}
                             />
+                            <SearchFilter
+                                filtertitle="Foundational Layers Only"
+                                filtervalues={[]}
+                                filterselected={foundational ? ['true'] : []}
+                                selectFilters={handleFound}
+                            />
+                            <div className="filterAction">
+                                <button
+                                    className={fReset ? 'btn searchButton submit' : 'btn searchButton submit disabled'}
+                                    onClick={fReset ? applyFilters : undefined}
+                                >
+                                    Apply Filters
+                                </button>
+                                <button className="btn searchButton clear" onClick={clearAll}>
+                                    Clear All
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div className="col-md-10">
@@ -218,7 +265,10 @@ const KeywordSearch: React.FunctionComponent = () => {
             {/* Pagination - Top */}
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">
-                    <div className="col-12">{cnt > 0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}</div>
+                    <div className="col-12">
+                        {' '}
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                    </div>
                 </div>
             </div>
             {/* Results */}
@@ -226,20 +276,17 @@ const KeywordSearch: React.FunctionComponent = () => {
                 <div className="row row-results">
                     {loading ? (
                         <div className="col-12 col-beat-loader">
-                            <BeatLoader color={'#0074d9'} />
+                            <BeatLoader color={'#515aa9'} />
                         </div>
                     ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
                         <div className="col-12 col-search-message">
-                            <p>{Array.isArray(results) && results.length === 0 ? 'Input keyword to search' : 'No result'}</p>
+                            {Array.isArray(results) && results.length === 0 ? 'Input keyword to search' : 'No result'}
                         </div>
                     ) : (
                         results.map((result: SearchResult) => {
                             const coordinates = JSON.parse(result.coordinates);
                             const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                             const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
-                            //const resolutionHorizontal = Math.abs(40075*Math.cos(coordinates[0][1][0] - coordinates[0][0][0]))/108;
-                            //const resolutionVertical = (40.7436654315252*Math.abs(coordinates[0][2][1] - coordinates[0][0][1])*11132)/(256*15);
-                            //const resolution = Math.max(resolutionHorizontal, resolutionVertical);
                             const dist = Math.max(
                                 Math.abs(coordinates[0][2][1] - coordinates[0][0][1]),
                                 Math.abs(coordinates[0][1][0] - coordinates[0][0][0])
@@ -281,7 +328,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                     className={
                                                         allkwshowing ? 'btn-group btn-group-keywords' : 'btn-group btn-group-keywords less'
                                                     }
-                                                    role="group"
+                                                    role="toolbar"
                                                     aria-label="Keywords"
                                                 >
                                                     {keywords.map((keyword, ki) => {
@@ -335,7 +382,9 @@ const KeywordSearch: React.FunctionComponent = () => {
             {/* Pagination - Bottom */}
             <div className="container-fluid container-pagination container-pagination-bottom">
                 <div className="row row-pagination row-pagination-bottom">
-                    <div className="col-12">{cnt > 0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}</div>
+                    <div className="col-12">
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                    </div>
                 </div>
             </div>
         </div>
@@ -357,6 +406,7 @@ interface SearchParams {
     theme?: string;
     org?: string;
     type?: string;
+    foundational?: 'true';
 }
 
 interface SearchResult {

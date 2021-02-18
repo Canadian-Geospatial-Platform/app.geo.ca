@@ -1,14 +1,15 @@
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import {useLocation} from 'react-router';
 import {Route, HashRouter, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { combineReducers, createStore } from 'redux';
+import mappingReducer from "./reducers/reducer";
+import {loadState, saveState} from "./reducers/localStorage";
+import throttle from "lodash.throttle";
 //import BeatLoader from "react-spinners/BeatLoader";
 
 import { I18nextProvider } from 'react-i18next';
 import i18n from './assests/i18n/i18n';
-
-import { StateProvider } from "./globalstate/state";
 
 // Leaflet icons import to solve issues 4968
 import { Icon, Marker, LatLngTuple, CRS } from 'leaflet';
@@ -24,25 +25,29 @@ import '../node_modules/leaflet/dist/leaflet.css';
 import './assests/css/style.scss';
 
 import { setupCognito, cognito } from 'react-cognito';
-import { combineReducers, createStore } from 'redux';
 import authconfig from './components/account/cognito-auth/config.json';
 
+const persistedState = loadState();
 const reducers = combineReducers({
     cognito,
+    mappingReducer
 });
-
 //const store = createStore(reducers);
-const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(reducers, persistedState);
 //config.group = 'admins'; // Uncomment this to require users to be in a group 'admins'
 setupCognito(store, authconfig);
 
+store.subscribe(throttle(() => {
+    saveState(store.getState());
+  }, 1000));
+
 // hack for default leaflet icon: https://github.com/Leaflet/Leaflet/issues/4968
 // TODO: put somewhere else
-/*const DefaultIcon = new Icon({
+const DefaultIcon = new Icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
 });
-Marker.prototype.options.icon = DefaultIcon;*/
+Marker.prototype.options.icon = DefaultIcon;
 //const maps: Element[] = [...document.getElementsByClassName('llwb-map')];
  
 const config = JSON.parse(document.getElementById('root').getAttribute('data-leaflet')!.replace(/'/g, '"'));
@@ -94,11 +99,9 @@ const Routing = () => {
 
 ReactDOM.render(
     <Provider store={store}>
-    <StateProvider>
         <I18nextProvider i18n={i18n}>
             <Routing />
         </I18nextProvider>
-    </StateProvider>
     </Provider>, 
     document.getElementById('root'));
 

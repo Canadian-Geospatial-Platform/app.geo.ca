@@ -1,32 +1,35 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import {useLocation, useHistory} from 'react-router';
+import { useDispatch, useSelector} from "react-redux";
+import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 //import { css } from "@emotion/core";
-import { useStateContext } from "../../globalstate/state";
-import { addMapping, delMapping } from "../../globalstate/action";
+import { addMapping, delMapping } from "../../reducers/action";
 import './metadatapage.scss';
 
 
-const MetaDataPage = (props) => {
+const MetaDataPage = () => {
     const queryParams = {};
-    if (props.location.search.trim()!=='') {
-      props.location.search.trim().substr(1).split('&').forEach( q=>{
-          let item = q.split("=");
-          queryParams[item[0]] = decodeURI(item[1]);
-      });
+    const location = useLocation();
+    const {t} = useTranslation();
+    if (location.search && location.search!=='') {
+        location.search.substr(1).split('&').forEach( (q)=>{
+            const item = q.split("=");
+            queryParams[item[0]] = decodeURI(item[1]);
+        });
     }
-    const {state, dispatch} = useStateContext();
-    const mapping = state.mapping;
-    //const mapping = [];
+    const mapping = useSelector(state => state.mappingReducer.mapping);
+    const dispatch = useDispatch(); 
+    
     console.log(mapping);
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
     const [rid, setID] = useState(queryParams && queryParams["id"]?queryParams["id"].trim():"");
-    const [language, setLang] = useState(queryParams && queryParams["lang"]?queryParams["lang"]:"en");
-    const [theme, setTheme] = useState(queryParams && queryParams["theme"]?queryParams["theme"]:"");
-
+    const language = t("app.language");
+    
     const handleOpen = (section) => {
         const newOpen = openSection.map(o=>o);
         const hIndex = openSection.findIndex(os=>os===section);
@@ -69,9 +72,9 @@ const MetaDataPage = (props) => {
   
     };
   
-    const handleKeyword = (keyword) => {
-      window.open("/#/search?keyword="+encodeURI(keyword.trim())+"&lang="+language+"&theme="+theme, "Search " + keyword.trim() );
-    }
+    /*const handleKeyword = (keyword) => {
+      window.open("/#/search?keyword="+encodeURI(keyword.trim()), "Search " + keyword.trim() );
+    }*/
   
     useEffect(() => {
       if (rid !== '') {

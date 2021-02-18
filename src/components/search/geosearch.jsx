@@ -1,7 +1,7 @@
 import React, { useState, createRef, useEffect } from "react";
 import {useLocation, useHistory} from 'react-router';
+import { useDispatch, useSelector} from "react-redux";
 import { useMap } from 'react-leaflet';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 // reactstrap components
 /*import {
@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
   ModalFooter
 } from "reactstrap";*/
 //import SearchFilter from '../searchfilter/searchfilter';
-import { useStateContext } from "../../globalstate/state";
 import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
@@ -31,15 +30,15 @@ const GeoSearch = ({showing}) => {
   //console.log(location, history);
   if (location.search && location.search!=='') {
       location.search.substr(1).split('&').forEach( (q)=>{
-          let item = q.split("=");
+          const item = q.split("=");
           queryParams[item[0]] = decodeURI(item[1]);
       });
   }
+  const rpp = 10;
   const inputRef = createRef();
   let mapCount = 0;
   const map = useMap();
   const [initBounds, setBounds] = useState(map.getBounds());
-  //const [panelshowing, setShowing] = useState(showing);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [pn, setPageNumber] = useState(1);
@@ -48,13 +47,12 @@ const GeoSearch = ({showing}) => {
   const [open, setOpen] = useState(false);
   //const [modal, setModal] = useState(false);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
-  const {state, dispatch} = useStateContext();
-  const orgfilters = state.orgfilter;
-  const typefilters = state.typefilter;
-  const themefilters = state.themefilter;
   const language = t("app.language");
-  console.log(showing);
-
+  const orgfilters = useSelector(state => state.mappingReducer.orgfilter);
+  const typefilters = useSelector(state => state.mappingReducer.typefilter);
+  const themefilters = useSelector(state => state.mappingReducer.themefilter);
+  const foundational = useSelector(state => state.mappingReducer.foundational);
+  //const dispatch = useDispatch();
   const handleSelect = (event) => {
     //const {selectResult} = this.props;
     const cardOpen = selected === event ? !open : true;
@@ -101,13 +99,8 @@ const GeoSearch = ({showing}) => {
 
   const handleView = (evt, id) => {
     evt.stopPropagation();
-    window.open("/#/result?id="+encodeURI(id.trim())+"&lang="+language, "View Record " + id.trim());
+    window.open("/#/result?id="+encodeURI(id.trim()), "View Record " + id.trim());
   }
-
-  /*const handleKeyword = (evt, keyword) => {
-    evt.stopPropagation();
-    window.open("/#/?keyword="+encodeURI(keyword.trim())+"&lang="+language, "Search " + keyword.trim() );
-  }*/
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -124,26 +117,30 @@ const GeoSearch = ({showing}) => {
         west: bounds._southWest.lng,
         keyword: keyword,
         lang: language,
-        min: (pn-1)*10,
-        max: cnt>0?Math.min(pn*10-1, cnt-1):pn*10-1
+        min: (pn-1)*rpp + 1,
+        max: cnt>0?Math.min(pn*rpp, cnt-1):pn*rpp
     }
     if (themefilters.length > 0) {
-        searchParams.theme = themefilters.map(fs=>"^"+fs+"$").join("|");
+        searchParams.theme = themefilters.map(fs=>fs).join(",");
     }
     if (orgfilters.length > 0) {
-        searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
+        searchParams.org = orgfilters.map(fs=>fs).join("|");
     }
     if (typefilters.length > 0) {
-        searchParams.type = typefilters.map(fs=>fs).join(",");
+        searchParams.type = typefilters.map(fs=>fs).join("|");
+    }
+    if (foundational) {
+        searchParams.foundational = "true";
     }
     //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
-        console.log(data);
+        //console.log(data);
         const results = data.Items;
+        const rcnt = results.length>0?results[0].total:0;
         setResults(results);
-        setCount(100);
+        setCount(rcnt);
         setBounds(bounds);
         setKeyword(keyword);
         setLoadingStatus(false);
@@ -191,7 +188,7 @@ const GeoSearch = ({showing}) => {
     //console.log(mbounds,bounds);
     map.off('moveend', eventHandler);
     //console.log('status:', loading, 'keyword', keyword,initKeyword);
-    if (!loading && keyword!=="" && mapCount === 0 && !Object.is(mbounds, bounds)) {
+    if (!loading && mapCount === 0 && !Object.is(mbounds, bounds)) {
         //console.log('research:', loading, keyword, mapCount);
         mapCount++;
         setLoadingStatus(true);
@@ -212,17 +209,18 @@ const GeoSearch = ({showing}) => {
   useEffect(() => {
     const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);  
     if (showing) {
-        if ((initKeyword !== '' && filteractive) || (initKeyword === '' && !filteractive)) {
+        /*if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
             handleSearch(initKeyword, initBounds);
         } 
         if (initKeyword === '' && filteractive ) {
             setResults([]);
             setCount(0);
             setPageNumber(1);
-        }
+        }*/
+        handleSearch(initKeyword, initBounds);
     } 
-  }, [showing, language, pn, themefilters, orgfilters, typefilters]);
- // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
+  }, [showing, language, pn, themefilters, orgfilters, typefilters, foundational]);
+  //map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);
   return (
@@ -246,7 +244,7 @@ const GeoSearch = ({showing}) => {
             <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
         </div> */}
         <div className="container">
-            {cnt>0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+            {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             {loading ?
                 <div className="d-flex justify-content-center">
                 <BeatLoader
@@ -271,14 +269,10 @@ const GeoSearch = ({showing}) => {
                 ))}
                 </div>
             )}
-            {cnt>0 && <Pagination rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+            {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
         </div>
         </div>
     );
 }
 
-GeoSearch.propTypes = {
-    showing: PropTypes.boolean
- };
-
- export default GeoSearch;
+export default GeoSearch;
