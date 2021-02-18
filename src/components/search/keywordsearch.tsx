@@ -1,109 +1,119 @@
-import React, { useState, createRef, useEffect } from "react";
-import {useLocation, useHistory} from 'react-router';
-import { useDispatch, useSelector} from "react-redux";
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable camelcase */
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
+import { useLocation } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { MapContainer, TileLayer, ScaleControl, AttributionControl, GeoJSON } from 'react-leaflet';
-import { setFilters } from "../../reducers/action";
-import Pagination from '../pagination/pagination';
-import SearchFilter from '../searchfilter/searchfilter';
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
+import SearchFilter from '../searchfilter/searchfilter';
+import Pagination from '../pagination/pagination';
+import { setFilters } from '../../reducers/action';
 import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
-//import { css } from '@emotion/core';
+// import { css } from '@emotion/core';
 import './keywordsearch.scss';
 
-const KeywordSearch:React.FunctionComponent = () => {
-  const queryParams:QueryParams = {};
-  const location = useLocation();
-  //const history = useHistory();
-  const {t} = useTranslation();
-  //console.log(location, history);
-  if (location.search && location.search!=='') {
-    location.search.substr(1).split('&').forEach( (q:string)=>{
-        const item = q.split("=");
-        queryParams[item[0]] = decodeURI(item[1]);
-    });
-  }
-  const rpp = 10;
-  const [loading, setLoading] = useState(false);
-  const [allkw, setKWShowing] = useState([]);
-  const [pn, setPageNumber] = useState(1);
-  const [cnt, setCount] = useState(0);
-  const [results, setResults] = useState([]);
-  const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword?queryParams.keyword.trim():"");
-  const storeorgfilters = useSelector(state => state.mappingReducer.orgfilter);
-  const storetypefilters = useSelector(state => state.mappingReducer.typefilter);
-  const storethemefilters = useSelector(state => state.mappingReducer.themefilter);
-  const storefoundational = useSelector(state => state.mappingReducer.foundational);
-  const dispatch = useDispatch(); 
-  const [orgfilters, setOrg] = useState(storeorgfilters);
-  const [typefilters, setType] = useState(storetypefilters);
-  const [themefilters, setTheme] = useState(storethemefilters);
-  const [foundational, setFound] = useState(storefoundational);
-  const [fReset, setFReset] = useState(false);
-  const language = t("app.language");
+const KeywordSearch: React.FunctionComponent = () => {
+    const queryParams: QueryParams = {};
+    const location = useLocation();
+    // const history = useHistory();
+    const { t } = useTranslation();
+    // console.log(location, history);
+    if (location.search && location.search !== '') {
+        location.search
+            .substr(1)
+            .split('&')
+            .forEach((q: string) => {
+                const item = q.split('=');
+                queryParams[item[0]] = decodeURI(item[1]);
+            });
+    }
+    const rpp = 10;
+    const [loading, setLoading] = useState(false);
+    const [allkw, setKWShowing] = useState<string[]>([]);
+    const [pn, setPageNumber] = useState(1);
+    const [cnt, setCount] = useState(0);
+    const [results, setResults] = useState<SearchResult[]>([]);
+    const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
+    const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
+    const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
+    const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
+    const storefoundational = useSelector((state) => state.mappingReducer.foundational);
+    const dispatch = useDispatch();
+    const [orgfilters, setOrg] = useState(storeorgfilters);
+    const [typefilters, setType] = useState(storetypefilters);
+    const [themefilters, setTheme] = useState(storethemefilters);
+    const [foundational, setFound] = useState(storefoundational);
+    const [fReset, setFReset] = useState(false);
+    const language = t('app.language');
 
-  const inputRef = createRef();
+    const inputRef = createRef();
 
-//console.log(state, dispatch);
-  const applyFilters = () => {
-    dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational: foundational })); 
-    setFReset(false);
-    setPageNumber(1);
-  }
+    // console.log(state, dispatch);
+    const applyFilters = () => {
+        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
+        setFReset(false);
+        setPageNumber(1);
+    };
 
-  const clearAll = () => {
-    setOrg([]);
-    setType([]);
-    setTheme([]);
-    setFound(false);
-    dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
-    setFReset(false);
-    setPageNumber(1);
-  }
-  
-  const handleSearch = (keyword: string) => {
+    const clearAll = () => {
+        setOrg([]);
+        setType([]);
+        setTheme([]);
+        setFound(false);
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
+        setFReset(false);
+        setPageNumber(1);
+    };
+
+    const handleSearch = (keyword: string) => {
         setLoading(true);
 
-        const searchParams:SearchParams = {
-            keyword: keyword,
+        const searchParams: SearchParams = {
+            keyword,
             keyword_only: 'true',
             lang: language,
             min: (pn - 1) * rpp + 1,
             max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
         if (storethemefilters.length > 0) {
-            searchParams.theme = storethemefilters.map(fs=>fs).join(",");
+            searchParams.theme = storethemefilters.map((fs: string) => fs).join(',');
         }
         if (storeorgfilters.length > 0) {
-            searchParams.org = storeorgfilters.map(fs=>fs).join("|");
+            searchParams.org = storeorgfilters.map((fs: string) => fs).join('|');
         }
         if (storetypefilters.length > 0) {
-            searchParams.type = storetypefilters.map(fs=>fs).join("|");
+            searchParams.type = storetypefilters.map((fs: string) => fs).join('|');
         }
         if (storefoundational) {
-            searchParams.foundational = "true";
+            searchParams.foundational = 'true';
         }
-        //console.log(searchParams);
+        // console.log(searchParams);
         axios
             .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo', { params: searchParams })
             .then((response) => response.data)
             .then((data) => {
-                //console.log(data);
-                const results = data.Items;
-                const rcnt = results.length>0?results[0].total:0;
-                setResults(results);
+                // console.log(data);
+                const res = data.Items;
+                const rcnt = res.length > 0 ? res[0].total : 0;
+                setResults(res);
                 setCount(rcnt);
                 setKWShowing([]);
                 setKeyword(keyword);
                 setLoading(false);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
+                const err = error;
                 setResults([]);
                 setCount(0);
                 setKWShowing([]);
@@ -112,39 +122,39 @@ const KeywordSearch:React.FunctionComponent = () => {
             });
     };
 
-  const handleChange = (e:Event) => {
-      if (e.target!==null) {
-        e.preventDefault();
-        setKeyword(e.target.value);
-      }
-  }
+    const handleChange = (e: ChangeEvent) => {
+        if (e.target !== null) {
+            e.preventDefault();
+            setKeyword(e.target.value);
+        }
+    };
 
-  const handleKeyUp = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-        handleSubmit(e);
-    }
-  };
+    const handleSubmit = (event?: React.MouseEvent | undefined) => {
+        if (event) {
+            event.preventDefault();
+        }
 
-  const handleSubmit = (event:Event) => {
-    if (event) {
-        event.preventDefault();
-    }
+        const keyword = inputRef.current.value;
+        setPageNumber(1);
+        handleSearch(keyword);
+    };
 
-    const keyword = inputRef.current.value;
-    setPageNumber(1);
-    handleSearch(keyword);
-  };
+    const handleKeyUp = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleSubmit();
+        }
+    };
 
     const handleView = (id: string) => {
-        window.open('/#/result?id=' + encodeURI(id.trim()), 'View Record ' + id.trim());
+        window.open(`/#/result?id=${encodeURI(id.trim())}`, `View Record ${id.trim()}`);
     };
 
     const handleKeyword = (keyword: string) => {
-        window.open('/#/search?keyword=' + encodeURI(keyword.trim()), 'Search ' + keyword.trim());
+        window.open(`/#/search?keyword=${encodeURI(keyword.trim())}`, `Search ${keyword.trim()}`);
     };
 
     const handleKwshowing = (rid: string) => {
-        const newOpen = allkw.map((o) => o);
+        const newOpen = allkw.map((o: string) => o);
         const hIndex = allkw.findIndex((os) => os === rid);
         if (hIndex < 0) {
             newOpen.push(rid);
@@ -155,32 +165,32 @@ const KeywordSearch:React.FunctionComponent = () => {
     };
 
     const handleOrg = (filters: string[]) => {
-        //setPageNumber(1);
+        // setPageNumber(1);
         setFReset(true);
         setOrg(filters);
     };
 
     const handleType = (filters: string[]) => {
-        //setPageNumber(1);
+        // setPageNumber(1);
         setFReset(true);
         setType(filters);
     };
 
     const handleTheme = (filters: string[]) => {
-        //setPageNumber(1);
+        // setPageNumber(1);
         setFReset(true);
         setTheme(filters);
     };
 
     const handleFound = (found: boolean) => {
-        //setPageNumber(1);
+        // setPageNumber(1);
         setFReset(true);
         setFound(found);
     };
 
     useEffect(() => {
         if (!fReset) {
-            /*const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0); 
+            /* const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0); 
             if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
                 handleSearch(initKeyword);
             }
@@ -188,7 +198,7 @@ const KeywordSearch:React.FunctionComponent = () => {
                 setResults([]);
                 setCount(0);
                 setPageNumber(1);
-            }*/
+            } */
             handleSearch(initKeyword);
         }
     }, [language, pn, fReset]);
@@ -199,14 +209,35 @@ const KeywordSearch:React.FunctionComponent = () => {
             <div className="row">
                 <div className="col-md-2">
                     <div className="searchFilters">
-                        <h2><FilterIcon /> Filter by:</h2>
-                        <SearchFilter filtertitle="Organisations" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
+                        <h2>
+                            <FilterIcon /> Filter by:
+                        </h2>
+                        <SearchFilter
+                            filtertitle="Organisations"
+                            filtervalues={organisations}
+                            filterselected={orgfilters}
+                            selectFilters={handleOrg}
+                        />
                         <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
-                        <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} selectFilters={handleTheme} />
-                        <SearchFilter filtertitle="Foundational Layers Only" filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
+                        <SearchFilter
+                            filtertitle="Themes"
+                            filtervalues={themes}
+                            filterselected={themefilters}
+                            selectFilters={handleTheme}
+                        />
+                        <SearchFilter
+                            filtertitle="Foundational Layers Only"
+                            filtervalues={[]}
+                            filterselected={foundational ? ['true'] : []}
+                            selectFilters={handleFound}
+                        />
                         <div className="filterAction">
-                            <button className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>Apply Filters</button>
-                            <button className="btn searchButton clear" onClick={clearAll}>Clear All</button>
+                            <button type = "button" className={fReset ? 'btn searchButton submit' : 'btn searchButton submit disabled'} onClick={fReset ? applyFilters : undefined}>
+                                Apply Filters
+                            </button>
+                            <button type = "button" className="btn searchButton clear" onClick={clearAll}>
+                                Clear All
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -220,9 +251,9 @@ const KeywordSearch:React.FunctionComponent = () => {
                             value={initKeyword}
                             disabled={loading}
                             onChange={handleChange}
-                            onKeyUp={(e:KeyboardEvent) => handleKeyUp(e)}
+                            onKeyUp={(e: KeyboardEvent) => handleKeyUp(e)}
                         />
-                        <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : null}>
+                        <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : undefined}>
                             <SearchIcon />
                         </button>
                     </div>
@@ -230,21 +261,24 @@ const KeywordSearch:React.FunctionComponent = () => {
                         {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                         {loading ? (
                             <div className="d-flex justify-content-center">
-                                <BeatLoader color={'#0074d9'} />
+                                <BeatLoader color="#0074d9" />
                             </div>
                         ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
                             <div className="d-flex justify-content-center">
                                 {Array.isArray(results) && results.length === 0 ? 'Input keyword to search' : 'No result'}
                             </div>
                         ) : (
-                            results.map((result:SearchResult) => {
+                            results.map((result: SearchResult) => {
                                 const coordinates = JSON.parse(result.coordinates);
                                 const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                                 const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
-                                const dist = Math.max(Math.abs(coordinates[0][2][1] - coordinates[0][0][1]), Math.abs(coordinates[0][1][0] - coordinates[0][0][0]));
-                                const resolution = (40.7436654315252*dist*11132)/15;
-                                const zoom = Math.max(Math.log2(3600000/resolution), 1);
-                                //console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
+                                const dist = Math.max(
+                                    Math.abs(coordinates[0][2][1] - coordinates[0][0][1]),
+                                    Math.abs(coordinates[0][1][0] - coordinates[0][0][0])
+                                );
+                                const resolution = (40.7436654315252 * dist * 11132) / 15;
+                                const zoom = Math.max(Math.log2(3600000 / resolution), 1);
+                                // console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
                                 return (
                                     <div key={result.id} className="searchResult container-fluid">
                                         <div className="row rowDividerMd">
@@ -318,7 +352,7 @@ const KeywordSearch:React.FunctionComponent = () => {
                                                                 data={{
                                                                     type: 'Feature',
                                                                     properties: { id: result.id, tag: 'geoViewGeoJSON' },
-                                                                    geometry: { type: 'Polygon', coordinates: coordinates }
+                                                                    geometry: { type: 'Polygon', coordinates },
                                                                 }}
                                                             />
                                                         </MapContainer>
@@ -341,7 +375,7 @@ const KeywordSearch:React.FunctionComponent = () => {
                                                         className="btn btn-block searchButton"
                                                         onClick={() => handleView(result.id)}
                                                     >
-                                                        View Record <i className="fas fa-long-arrow-alt-right"></i>
+                                                        View Record <i className="fas fa-long-arrow-alt-right" />
                                                     </button>
                                                 </div>
                                                 <div className="col-md-1 " />
@@ -360,22 +394,22 @@ const KeywordSearch:React.FunctionComponent = () => {
 };
 
 interface QueryParams {
-    "keyword"?:string; 
-    "lang"?: "en"|"fr"; 
-    "theme"?: string;
-};
+    keyword?: string;
+    lang?: 'en' | 'fr';
+    theme?: string;
+}
 
 interface SearchParams {
     keyword: string;
-    keyword_only: 'true'|'false';
+    keyword_only: 'true' | 'false';
     lang: string;
     min: number;
     max: number;
     theme?: string;
     org?: string;
     type?: string;
-    foundational?: "true";
-};
+    foundational?: 'true';
+}
 
 interface SearchResult {
     row_num: number;
@@ -390,7 +424,7 @@ interface SearchResult {
     created: string;
     spatialRepresentation: string;
     type: string;
-    temporalExtent: {};
+    temporalExtent: unknown;
     graphicOverview: [];
     language: string;
     organisation: string;
