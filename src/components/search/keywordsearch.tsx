@@ -58,9 +58,9 @@ const KeywordSearch: React.FunctionComponent = () => {
 
     const inputRef = createRef();
 
-    // console.log(state, dispatch);
+    //console.log(state, dispatch);
     const applyFilters = () => {
-        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
+        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational: foundational }));
         setFReset(false);
         setPageNumber(1);
     };
@@ -79,7 +79,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         setLoading(true);
 
         const searchParams: SearchParams = {
-            keyword,
+            keyword: keyword,
             keyword_only: 'true',
             lang: language,
             min: (pn - 1) * rpp + 1,
@@ -204,187 +204,192 @@ const KeywordSearch: React.FunctionComponent = () => {
     }, [language, pn, fReset]);
 
     return (
-        <div className="pageContainer keywordSearchPage">
-            {/* <Header /> */}
-            <div className="row">
-                <div className="col-md-2">
-                    <div className="searchFilters">
-                        <h2>
-                            <FilterIcon /> Filter by:
-                        </h2>
-                        <SearchFilter
-                            filtertitle="Organisations"
-                            filtervalues={organisations}
-                            filterselected={orgfilters}
-                            selectFilters={handleOrg}
-                        />
-                        <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
-                        <SearchFilter
-                            filtertitle="Themes"
-                            filtervalues={themes}
-                            filterselected={themefilters}
-                            selectFilters={handleTheme}
-                        />
-                        <SearchFilter
-                            filtertitle="Foundational Layers Only"
-                            filtervalues={[]}
-                            filterselected={foundational ? ['true'] : []}
-                            selectFilters={handleFound}
-                        />
-                        <div className="filterAction">
-                            <button type = "button" className={fReset ? 'btn searchButton submit' : 'btn searchButton submit disabled'} onClick={fReset ? applyFilters : undefined}>
-                                Apply Filters
-                            </button>
-                            <button type = "button" className="btn searchButton clear" onClick={clearAll}>
-                                Clear All
+        <div className="pageContainer keyword-search-page">
+            {/* Filters / Search Bar */}
+            <div className="container-fluid container-filters-search">
+                <div className="row row-filters-search">
+                    <div className="col-md-2">
+                        <div className="searchFilters">
+                            <h2>
+                                <FilterIcon /> Filter by:
+                            </h2>
+                            <SearchFilter
+                                filtertitle="Organisations"
+                                filtervalues={organisations}
+                                filterselected={orgfilters}
+                                selectFilters={handleOrg}
+                            />
+                            <SearchFilter
+                                filtertitle="Types"
+                                filtervalues={types}
+                                filterselected={typefilters}
+                                selectFilters={handleType}
+                            />
+                            <SearchFilter
+                                filtertitle="Themes"
+                                filtervalues={themes}
+                                filterselected={themefilters}
+                                selectFilters={handleTheme}
+                            />
+                            <SearchFilter
+                                filtertitle="Foundational Layers Only"
+                                filtervalues={[]}
+                                filterselected={foundational ? ['true'] : []}
+                                selectFilters={handleFound}
+                            />
+                            <div className="filterAction">
+                                <button type="button"
+                                    className={fReset ? 'btn searchButton submit' : 'btn searchButton submit disabled'}
+                                    onClick={fReset ? applyFilters : undefined}
+                                >
+                                    Apply Filters
+                                </button>
+                                <button type="button" className="btn searchButton clear" onClick={clearAll}>
+                                    Clear All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-10">
+                        <div className="searchInput">
+                            <input
+                                placeholder="Search ..."
+                                id="search-input"
+                                type="search"
+                                ref={inputRef}
+                                value={initKeyword}
+                                disabled={loading}
+                                onChange={handleChange}
+                                onKeyUp={(e: KeyboardEvent) => handleKeyUp(e)}
+                            />
+                            <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : undefined}>
+                                <SearchIcon />
                             </button>
                         </div>
                     </div>
                 </div>
-                <div className="col-md-10">
-                    <div className="searchInput">
-                        <input
-                            placeholder="Search ..."
-                            id="search-input"
-                            type="search"
-                            ref={inputRef}
-                            value={initKeyword}
-                            disabled={loading}
-                            onChange={handleChange}
-                            onKeyUp={(e: KeyboardEvent) => handleKeyUp(e)}
-                        />
-                        <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : undefined}>
-                            <SearchIcon />
-                        </button>
-                    </div>
-                    <div className="resultContainer">
+            </div>
+            {/* Pagination - Top */}
+            <div className="container-fluid container-pagination container-pagination-top">
+                <div className="row row-pagination row-pagination-top">
+                    <div className="col-12">
+                        {' '}
                         {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
-                        {loading ? (
-                            <div className="d-flex justify-content-center">
-                                <BeatLoader color="#0074d9" />
-                            </div>
-                        ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
-                            <div className="d-flex justify-content-center">
-                                {Array.isArray(results) && results.length === 0 ? 'Input keyword to search' : 'No result'}
-                            </div>
-                        ) : (
-                            results.map((result: SearchResult) => {
-                                const coordinates = JSON.parse(result.coordinates);
-                                const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
-                                const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
-                                const dist = Math.max(
-                                    Math.abs(coordinates[0][2][1] - coordinates[0][0][1]),
-                                    Math.abs(coordinates[0][1][0] - coordinates[0][0][0])
-                                );
-                                const resolution = (40.7436654315252 * dist * 11132) / 15;
-                                const zoom = Math.max(Math.log2(3600000 / resolution), 1);
-                                // console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
-                                return (
-                                    <div key={result.id} className="searchResult container-fluid">
-                                        <div className="row rowDividerMd">
-                                            <div className="row resultRow">
-                                                <div className="col-md-1" />
-                                                <div className="col-md-10">
-                                                    <p className="searchTitle">{result.title}</p>
-                                                    <div className="searchButtonGroupToolbar">
-                                                        <div
-                                                            className={
-                                                                allkwshowing
-                                                                    ? 'btn-toolbar searchButtonGroup'
-                                                                    : 'btn-toolbar searchButtonGroup less'
-                                                            }
-                                                            role="toolbar"
-                                                            aria-label="Toolbar with button groups"
-                                                        >
-                                                            {keywords.map((keyword, ki) => {
-                                                                return (
-                                                                    <div
-                                                                        className={
-                                                                            ki < 5
-                                                                                ? 'btn-group searchButtonGroupBtn'
-                                                                                : 'btn-group searchButtonGroupBtn more'
-                                                                        }
-                                                                        key={ki}
-                                                                    >
-                                                                        <button
-                                                                            type="button"
-                                                                            className="btn"
-                                                                            onClick={() => handleKeyword(keyword)}
-                                                                        >
-                                                                            {keyword}
-                                                                        </button>
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                            {keywords.length > 5 && (
-                                                                <div className="btn-group searchButtonGroupBtn searchButtonGroupBtnMore">
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn"
-                                                                        onClick={() => handleKwshowing(result.id)}
-                                                                    >
-                                                                        {allkwshowing ? 'Show Less' : 'View More'}
-                                                                    </button>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-1 " />
-                                            </div>
-                                            <div className="row resultRow">
-                                                <div className="col-md-1" />
-                                                <div className="col-md-4">
-                                                    <div className="searchImage">
-                                                        <MapContainer
-                                                            center={[
-                                                                (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
-                                                                (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
-                                                            ]}
-                                                            zoom={zoom}
-                                                        >
-                                                            <TileLayer
-                                                                url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
-                                                                attribution="© Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources"
-                                                            />
-                                                            <GeoJSON
-                                                                key={result.id}
-                                                                data={{
-                                                                    type: 'Feature',
-                                                                    properties: { id: result.id, tag: 'geoViewGeoJSON' },
-                                                                    geometry: { type: 'Polygon', coordinates },
-                                                                }}
-                                                            />
-                                                        </MapContainer>
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <p className="searchFields">
-                                                        <strong>Organisation:</strong> {result.organisation}
-                                                    </p>
-                                                    <p className="searchFields">
-                                                        <strong>Published:</strong> {result.published}
-                                                    </p>
-                                                    {/* <p className="searchFields"><strong>Keywords:</strong> {result.keywords.substring(0, result.keywords.length - 2)}</p> */}
-                                                    <p className="searchDesc">
-                                                        {result.description.substr(0, 240)}{' '}
-                                                        {result.description.length > 240 ? <span>...</span> : ''}
-                                                    </p>
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-block searchButton"
-                                                        onClick={() => handleView(result.id)}
-                                                    >
-                                                        View Record <i className="fas fa-long-arrow-alt-right" />
-                                                    </button>
-                                                </div>
-                                                <div className="col-md-1 " />
+                    </div>
+                </div>
+            </div>
+            {/* Results */}
+            <div className="container-fluid container-results">
+                <div className="row row-results">
+                    {loading ? (
+                        <div className="col-12 col-beat-loader">
+                            <BeatLoader color={'#515aa9'} />
+                        </div>
+                    ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
+                        <div className="col-12 col-search-message">
+                            {Array.isArray(results) && results.length === 0 ? 'Input keyword to search' : 'No result'}
+                        </div>
+                    ) : (
+                        results.map((result: SearchResult) => {
+                            const coordinates = JSON.parse(result.coordinates);
+                            const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
+                            const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
+                            const dist = Math.max(
+                                Math.abs(coordinates[0][2][1] - coordinates[0][0][1]),
+                                Math.abs(coordinates[0][1][0] - coordinates[0][0][0])
+                            );
+                            const resolution = (40.7436654315252 * dist * 11132) / 15;
+                            const zoom = Math.max(Math.log2(3600000 / resolution), 1);
+                            //console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
+                            return (
+                                <div key={result.id} className="container-fluid search-result">
+                                    <div className="row resultRow">
+                                        <div className="col-lg-4">
+                                            <div className="search-image">
+                                                <MapContainer
+                                                    center={[
+                                                        (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
+                                                        (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
+                                                    ]}
+                                                    zoom={zoom}
+                                                >
+                                                    <TileLayer
+                                                        url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
+                                                        attribution="© Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources"
+                                                    />
+                                                    <GeoJSON
+                                                        key={result.id}
+                                                        data={{
+                                                            type: 'Feature',
+                                                            properties: { id: result.id, tag: 'geoViewGeoJSON' },
+                                                            geometry: { type: 'Polygon', coordinates: coordinates },
+                                                        }}
+                                                    />
+                                                </MapContainer>
                                             </div>
                                         </div>
+                                        <div className="col-lg-8">
+                                            <h2 className="search-title">{result.title}</h2>
+                                            <div className="search-keywords">
+                                                <div
+                                                    className={
+                                                        allkwshowing ? 'btn-group btn-group-keywords' : 'btn-group btn-group-keywords less'
+                                                    }
+                                                    role="toolbar"
+                                                    aria-label="Keywords"
+                                                >
+                                                    {keywords.map((keyword, ki) => {
+                                                        return (
+                                                            <button
+                                                                type="button"
+                                                                className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
+                                                                key={ki}
+                                                                onClick={() => handleKeyword(keyword)}
+                                                            >
+                                                                {keyword}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                    {keywords.length > 5 && (
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-keyword-more"
+                                                            onClick={() => handleKwshowing(result.id)}
+                                                        >
+                                                            {allkwshowing ? 'Show Less' : 'View More'}
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="search-meta">
+                                                <ul className="list list-unstyled">
+                                                    <li className="list-item">
+                                                        <strong>Organisation:</strong> {result.organisation}
+                                                    </li>
+                                                    <li className="list-item">
+                                                        <strong>Published:</strong> {result.published}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <p className="search-desc">
+                                                {result.description.substr(0, 240)}{' '}
+                                                {result.description.length > 240 ? <span>...</span> : ''}
+                                            </p>
+                                            <button type="button" className="btn btn-search" onClick={() => handleView(result.id)}>
+                                                View Record <i className="fas fa-long-arrow-alt-right" />
+                                            </button>
+                                        </div>
                                     </div>
-                                );
-                            })
-                        )}
+                                </div>
+                            );
+                        })
+                    )}
+                </div>
+            </div>
+            {/* Pagination - Bottom */}
+            <div className="container-fluid container-pagination container-pagination-bottom">
+                <div className="row row-pagination row-pagination-bottom">
+                    <div className="col-12">
                         {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                     </div>
                 </div>
