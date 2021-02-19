@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /**
  * A class to get a basemap for a define projection. For the moment, we a  Web Mercator and a LCC basemap.
  * We intend to have only one basemap per projection to avoid the need of a basemap switcher.
@@ -61,10 +62,10 @@ export class Basemap {
     ];
 
     // attribution to add the the map
-    private attributionVal: Attribution = {
+    /* private attributionVal: Attribution = {
         'en-CA': '&copy Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources',
         'fr-CA': '&copy Sa Majesté la Reine du Chef du Canada, représentée par le ministre des Ressources naturelles',
-    };
+    }; */
 
     get lccCBMT(): BasemapOptions[] {
         // get proper label url
@@ -85,9 +86,9 @@ export class Basemap {
         return this.wmParamCBMT;
     }
 
-    get attribution(): Attribution {
+    /* get attribution(): Attribution {
         return this.attributionVal;
-    }
+    } */
 }
 
 interface BasemapConfig {
@@ -103,7 +104,7 @@ export interface BasemapOptions {
     options: BasemapConfig;
 }
 
-export interface Attribution {
+/* export interface Attribution {
     'en-CA': string;
     'fr-CA': string;
-}
+} */
