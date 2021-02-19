@@ -327,7 +327,7 @@ const GeoSearch = ({showing}) => {
         </div>
         
          <div className="searchFilters">
-            <h2>Filters:</h2>
+            {/* <h2>Filters:</h2> */}
             
             {/* <button type="button" className="btn btn-sm searchButton" ></button> */}
 
@@ -347,22 +347,19 @@ const GeoSearch = ({showing}) => {
             }
             {orgfilters_local.map((orgfilter) => (
                 <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearOrgFilterFromDisplay: null}>  
-                    <h6>                        
-                        {orgfilter} 
+                    
                                            
                     {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
-                    <span class = "glyphicon glyphicon-remove">  <ClearIcon size='small'/>   </span>                    
-                    </h6> 
+                    <span class = "glyphicon glyphicon-remove"> {orgfilter}  <ClearIcon size='small'/>   </span>                    
+                   
                 </button>
             ))
             }
             {themefilters_local.map((themefilter) => (
                 <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearThemeFilterFromDisplay: null}>  
-                    <h5>                        
-                        {themefilter}                                           
-                    </h5>     
+                  
                     {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
-                    <span class = "glyphicon glyphicon-remove">  <ClearIcon size='small'/>   </span>                                        
+                    <span class = "glyphicon glyphicon-remove">   {themefilter}   <ClearIcon size='small'/>   </span>                                        
                 </button>
             ))
             }

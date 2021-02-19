@@ -24,8 +24,14 @@ import types from './types.json';
 import themes from './themes.json';
 //import { css } from '@emotion/core';
 import './keywordsearch.scss';
+import ClearIcon from '@material-ui/icons/Clear';
+
+
 
 const KeywordSearch:React.FunctionComponent = () => {
+
+    
+
   const queryParams:QueryParams = {};
   const location = useLocation();
   //const history = useHistory();
@@ -53,6 +59,11 @@ const KeywordSearch:React.FunctionComponent = () => {
   const language = t("app.language");
 
   const inputRef = createRef();
+
+  const orgfilters_local = state.orgfilter;
+  const typefilters_local = state.typefilter;
+  const themefilters_local = state.themefilter;
+  const foundational_local = state.foundational;
 
 //console.log(state, dispatch);
   const applyFilters = () => {
@@ -92,13 +103,13 @@ const KeywordSearch:React.FunctionComponent = () => {
             max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
         if (state.themefilter.length > 0) {
-            searchParams.theme = themefilters.map(fs=>fs).join(",");
+            searchParams.theme = themefilters_local.map(fs=>fs).join(",");
         }
         if (state.orgfilter.length > 0) {
-            searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
+            searchParams.org = orgfilters_local.map(fs=>"^"+fs+"$").join("|");
         }
         if (state.typefilter.length > 0) {
-            searchParams.type = typefilters.map(fs=>"^"+fs+"$").join("|");
+            searchParams.type = typefilters_local.map(fs=>"^"+fs+"$").join("|");
         }
         if (state.foundational) {
             searchParams.foundational = "true";
@@ -139,6 +150,84 @@ const KeywordSearch:React.FunctionComponent = () => {
         handleSubmit(e);
     }
   };
+
+  const handleClearTypeFilterFromDisplay = (event) =>{
+    let abc ='';
+    if (event) {
+        event.preventDefault();
+        console.log('Check what is in event');
+        console.log(event);
+        console.log('Check what is in target');
+        console.log(event.target);
+        console.log('Check what is in innerText');
+        console.log(event.target.innerText);
+        abc= event.target.innerText;
+
+    }
+    //const keyword = inputRef.current.value;
+    //setPageNumber(1);
+
+    
+    let filtered = typefilters_local.filter(function(value, index, arr){ 
+        return value !==  abc.trim(); // 'API';
+    });
+
+    console.log('Test Handleresearch:');
+    // dispatch(setTypeFilter([]));
+    dispatch(setTypeFilter(filtered));
+    //setType(filtered);
+       
+  };
+
+  const handleClearOrgFilterFromDisplay = (event) =>{
+    let localInnerTextHolder ='';
+    if (event) {
+        event.preventDefault();
+        console.log('Check what is in event');
+        console.log(event);
+        console.log('Check what is in target');
+        console.log(event.target);
+        console.log('Check what is in innerText');
+        console.log(event.target.innerText);
+        localInnerTextHolder= event.target.innerText;
+    }
+    //const keyword = inputRef.current.value;
+    //setPageNumber(1);
+    
+    let filtered = orgfilters_local.filter(function(value, index, arr){ 
+        return value !==  localInnerTextHolder.trim(); 
+    });
+
+    console.log('Test handleClearOrgFilterFromDisplay:');
+    dispatch(setOrgFilter(filtered));
+    //setType(filtered);       
+  };
+
+  const handleClearThemeFilterFromDisplay = (event) =>{
+    let localInnerTextHolder ='';
+    if (event) {
+        event.preventDefault();
+        console.log('Check what is in event');
+        console.log(event);
+        console.log('Check what is in target');
+        console.log(event.target);
+        console.log('Check what is in innerText');
+        console.log(event.target.innerText);
+        localInnerTextHolder= event.target.innerText;
+    }
+    //const keyword = inputRef.current.value;
+    //setPageNumber(1);
+    
+    let filtered = themefilters_local.filter(function(value, index, arr){ 
+        return value !==  localInnerTextHolder.trim(); 
+    });
+
+    console.log('Test handleClearOrgFilterFromDisplay:');
+    dispatch(setThemeFilter(filtered));
+    //setType(filtered);       
+  };
+
+ 
 
   const handleSubmit = (event:Event) => {
     if (event) {
@@ -195,7 +284,7 @@ const KeywordSearch:React.FunctionComponent = () => {
 
     useEffect(() => {
         if (!fReset) {
-            const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0); 
+            const filteractive = (themefilters_local.length>0 || orgfilters_local.length > 0 || typefilters_local.length > 0); 
             if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
                 handleSearch(initKeyword);
             }
@@ -205,7 +294,7 @@ const KeywordSearch:React.FunctionComponent = () => {
                 setPageNumber(1);
             }
         }
-    }, [language, pn, fReset]);
+    }, [language, pn, fReset,  themefilters_local, orgfilters_local, typefilters_local, foundational]);
 
     return (
         <div className="pageContainer keywordSearchPage">
@@ -242,8 +331,43 @@ const KeywordSearch:React.FunctionComponent = () => {
                             <SearchIcon />
                         </button>
                     </div>
+                    <div className="searchInput">
+                    {typefilters_local.map((typefilter) => (
+                      <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearTypeFilterFromDisplay: null}>  
+                      <span class = "glyphicon glyphicon-remove">  {typefilter} <ClearIcon size='small'/>  </span>
+                        {/* <span class = "glyphicon glyphicon-remove">   {typefilter} X  </span> */}
+                        {/* <span> <ClearIcon size='small'/>  </span> */}
+                        {/* <ClearIcon size='small'/>  */}
+                      </button>
+                    ))
+                    }
+                     {orgfilters_local.map((orgfilter) => (
+                <button type="button" className="  btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearOrgFilterFromDisplay: null}>  
+                               
+                       
+                                           
+                    {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
+                    <span class = "glyphicon glyphicon-remove">  {orgfilter}  <ClearIcon size='small'/>   </span>                    
+                  
+                </button>
+            ))
+            }
+            {themefilters_local.map((themefilter) => (
+                <button type="button" className=" btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearThemeFilterFromDisplay: null}>  
+                    
+                    {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
+                    <span class = "glyphicon glyphicon-remove"> {themefilter}      <ClearIcon size='small'/>   </span>                                        
+                </button>
+            ))
+            }
+
+            </div>
+
                     <div className="resultContainer">
-                        {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+
+                  
+            
+                       {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                         {loading ? (
                             <div className="d-flex justify-content-center">
                                 <BeatLoader color={'#0074d9'} />
