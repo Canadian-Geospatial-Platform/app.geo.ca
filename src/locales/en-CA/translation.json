@@ -22,7 +22,8 @@
             "west": "W",
             "north": "N",
             "south": "S"
-        }
+        },
+        "attribution": "&copy Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources"
     },
     "appbar": {
         "drawer": "Drawer",
@@ -38,5 +39,8 @@
         "howto": "How To",
         "share": "Share",
         "version": "Access GitHub repo"
+    },
+    "pagectrl": {
+        "total": "{{index}} of {{total}} records"
     }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useState, useRef, useEffect } from 'react';
 import {useLocation, useHistory} from 'react-router';
 
@@ -10,20 +11,20 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import { DomEvent } from 'leaflet';
 
-//import Layers from './buttons/layers';
-//import Search from './buttons/search';
-//import KeywordSearch from './buttons/keywordsearch';
-//import Filter from './buttons/filters';
-//import Account from './buttons/account';
-//import Howto from './buttons/howto';
-import Version from './buttons/version';
+// import Layers from './buttons/layers';
+// import Search from './buttons/search';
+// import KeywordSearch from './buttons/keywordsearch';
+// import Filter from './buttons/filters';
+// import Account from './buttons/account';
+// import Howto from './buttons/howto';
 
-import ButtonApp from './button';
 import SearchIcon from '@material-ui/icons/ImageSearch';
 import KeywordSearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
 import AccountIcon from '@material-ui/icons/AccountBox';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import ButtonApp from './button';
+import Version from './buttons/version';
 
 import SearchPanel from '../search/search-panel';
 import FiltersPanel from '../searchfilter/filters-panel';
@@ -81,8 +82,10 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const { t } = useTranslation();
     const history = useHistory();
     const location = useLocation();
-
     const classes = useStyles();
+
+    const [open, setOpen] = useState(false);
+    const [panel, setPanel] = useState("");
 
     const appBar = useRef();
     useEffect(() => {
@@ -91,12 +94,9 @@ export function Appbar(props: AppBarProps): JSX.Element {
         DomEvent.disableScrollPropagation(appBar.current.children[0] as HTMLElement);
     }, []);
 
-    const [open, setOpen] = useState(false);
-    const [panel, setPanel] = useState("");
-
     // side menu items
     // const items = [{ divider: true }, { id: 'layers' }, { divider: true }, { id: 'fullscreen' }, { id: 'help' }];
-    const items = [{ id: 'legend' }];
+    // const items = [{ id: 'legend' }];
 
     const handleDrawerClose = () => {
         setOpen(!open);
@@ -116,11 +116,11 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 </div>
                 <Divider />
                 <List>
-                    {/*{items.map((item) => (
+                    {/* {items.map((item) => (
                         <Layers key={`${id}-${item.id}`} />
-                    ))}*/}
+                    ))} */}
                     {search && <ButtonApp tooltip="appbar.search" icon={<SearchIcon />} onClickFunction={()=>setPanel(' search')} />}
-                    {search && <ButtonApp tooltip="appbar.keywordsearch" icon={<KeywordSearchIcon />} onClickFunction={()=>history.push("/search" + location.search)} />}
+                    {search && <ButtonApp tooltip="appbar.keywordsearch" icon={<KeywordSearchIcon />} onClickFunction={()=>history.push(`/search${location.search}`)} />}
                     <ButtonApp tooltip="appbar.filters" icon={<FilterIcon />} onClickFunction={()=>setPanel(' filters')} />
                 </List>
                 <Divider className={classes.spacer} />
@@ -133,7 +133,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     <Version />
                 </List>
             </Drawer>
-            <div className={"cgp-apppanel"+panel}>
+            <div className={`cgp-apppanel${panel}`}>
                 {search && <SearchPanel showing={panel===" search"} closeFunction={()=>setPanel('')} />}
                 <FiltersPanel showing={panel===" filters"} closeFunction={()=>setPanel('')} />
                 {auth && <AccountPanel showing={panel===" account"} closeFunction={()=>setPanel('')} />}

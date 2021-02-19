@@ -22,7 +22,8 @@
             "west": "O",
             "north": "N",
             "south": "S"
-        }
+        },
+        "attribution": "&copy Sa Majesté la Reine du Chef du Canada, représentée par le ministre des Ressources naturelles"
     },
     "appbar": {
         "drawer": "Tiroir",
@@ -38,5 +39,8 @@
         "howto": "Comment",
         "share": "Partager",
         "version": "Accéder au repo sur GitHub"
+    },
+    "pagectrl": {
+        "total": "{{index}} de {{total}} dossiers"
     }
 }

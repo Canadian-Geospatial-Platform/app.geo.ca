@@ -13,6 +13,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
+import { getQueryParams } from '../../common/queryparams'; 
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import { setFilters } from '../../reducers/action';
@@ -23,20 +24,9 @@ import themes from './themes.json';
 import './keywordsearch.scss';
 
 const KeywordSearch: React.FunctionComponent = () => {
-    const queryParams: QueryParams = {};
     const location = useLocation();
-    // const history = useHistory();
+    const queryParams: { [key: string]: string }  = getQueryParams(location.search);
     const { t } = useTranslation();
-    // console.log(location, history);
-    if (location.search && location.search !== '') {
-        location.search
-            .substr(1)
-            .split('&')
-            .forEach((q: string) => {
-                const item = q.split('=');
-                queryParams[item[0]] = decodeURI(item[1]);
-            });
-    }
     const rpp = 10;
     const [loading, setLoading] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
@@ -58,9 +48,9 @@ const KeywordSearch: React.FunctionComponent = () => {
 
     const inputRef = createRef();
 
-    //console.log(state, dispatch);
+    // console.log(state, dispatch);
     const applyFilters = () => {
-        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational: foundational }));
+        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
         setFReset(false);
         setPageNumber(1);
     };
@@ -79,7 +69,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         setLoading(true);
 
         const searchParams: SearchParams = {
-            keyword: keyword,
+            keyword,
             keyword_only: 'true',
             lang: language,
             min: (pn - 1) * rpp + 1,
@@ -113,7 +103,6 @@ const KeywordSearch: React.FunctionComponent = () => {
             })
             .catch((error) => {
                 // console.log(error);
-                const err = error;
                 setResults([]);
                 setCount(0);
                 setKWShowing([]);
@@ -125,7 +114,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const handleChange = (e: ChangeEvent) => {
         if (e.target !== null) {
             e.preventDefault();
-            setKeyword(e.target.value);
+            setKeyword((e.target as HTMLInputElement).value);
         }
     };
 
@@ -134,13 +123,13 @@ const KeywordSearch: React.FunctionComponent = () => {
             event.preventDefault();
         }
 
-        const keyword = inputRef.current.value;
+        const keyword = (inputRef.current as HTMLInputElement).value;
         setPageNumber(1);
         handleSearch(keyword);
     };
 
-    const handleKeyUp = (e: KeyboardEvent) => {
-        if (e.key === 'Enter') {
+    const handleKeyUp = (e:React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.keyCode === 13) {
             handleSubmit();
         }
     };
@@ -165,25 +154,21 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const handleOrg = (filters: string[]) => {
-        // setPageNumber(1);
         setFReset(true);
         setOrg(filters);
     };
 
     const handleType = (filters: string[]) => {
-        // setPageNumber(1);
         setFReset(true);
         setType(filters);
     };
 
     const handleTheme = (filters: string[]) => {
-        // setPageNumber(1);
         setFReset(true);
         setTheme(filters);
     };
 
     const handleFound = (found: boolean) => {
-        // setPageNumber(1);
         setFReset(true);
         setFound(found);
     };
@@ -260,7 +245,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                 value={initKeyword}
                                 disabled={loading}
                                 onChange={handleChange}
-                                onKeyUp={(e: KeyboardEvent) => handleKeyUp(e)}
+                                onKeyUp={(e:React.KeyboardEvent<HTMLInputElement>) => handleKeyUp(e)}
                             />
                             <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : undefined}>
                                 <SearchIcon />
@@ -283,7 +268,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                 <div className="row row-results">
                     {loading ? (
                         <div className="col-12 col-beat-loader">
-                            <BeatLoader color={'#515aa9'} />
+                            <BeatLoader color="#515aa9" />
                         </div>
                     ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
                         <div className="col-12 col-search-message">
@@ -300,7 +285,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                             );
                             const resolution = (40.7436654315252 * dist * 11132) / 15;
                             const zoom = Math.max(Math.log2(3600000 / resolution), 1);
-                            //console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
+                            // console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
                             return (
                                 <div key={result.id} className="container-fluid search-result">
                                     <div className="row resultRow">
@@ -322,7 +307,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                         data={{
                                                             type: 'Feature',
                                                             properties: { id: result.id, tag: 'geoViewGeoJSON' },
-                                                            geometry: { type: 'Polygon', coordinates: coordinates },
+                                                            geometry: { type: 'Polygon', coordinates },
                                                         }}
                                                     />
                                                 </MapContainer>
@@ -397,12 +382,6 @@ const KeywordSearch: React.FunctionComponent = () => {
         </div>
     );
 };
-
-interface QueryParams {
-    keyword?: string;
-    lang?: 'en' | 'fr';
-    theme?: string;
-}
 
 interface SearchParams {
     keyword: string;

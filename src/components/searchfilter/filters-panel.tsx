@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { Typography } from '@material-ui/core';
-//import SearchIcon from '@material-ui/icons/Search';
+// import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
 
 import PanelApp, {PanelProps} from '../appbar/panel';
@@ -12,9 +13,7 @@ import themes from "../search/themes.json";
 import { setFilters } from "../../reducers/action";
 
 export default function FilterPanel(props: PanelProps): JSX.Element {
-    // TODO: access Leaflat map from custom component to use inside panel event
-    // TODO: register and unregister events when panel open and close
-    //const { state, dispatch } = useStateContext();
+    const { showing, closeFunction } = props;
     const storeorgfilters = useSelector(state => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector(state => state.mappingReducer.typefilter);
     const storethemefilters = useSelector(state => state.mappingReducer.themefilter);
@@ -25,9 +24,9 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [themefilters, setTheme] = useState(storethemefilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
- //console.log(state, dispatch);
+ // console.log(state, dispatch);
     const applyFilters = () => {
-        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational: foundational }));
+        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
         setFReset(false);
     }
     const clearAll = () => {
@@ -63,8 +62,8 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         <PanelApp
             title="appbar.filters"
             icon={<FilterIcon />}
-            showing = {props.showing}
-            closeFunction = {props.closeFunction}
+            showing = {showing}
+            closeFunction = {closeFunction}
             content={
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
@@ -75,8 +74,8 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                             <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} selectFilters={handleTheme} />
                             <SearchFilter filtertitle="Foundational Layers Only" filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
                             <div className="filterAction">
-                            <button className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>Apply Filters</button>
-                                <button className="btn searchButton clear" onClick={clearAll}>Clear All</button>
+                                <button type="button" className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>Apply Filters</button>
+                                <button type="button" className="btn searchButton clear" onClick={clearAll}>Clear All</button>
                             </div>
                         </div>
                     </Typography>
