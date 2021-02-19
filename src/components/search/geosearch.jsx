@@ -17,18 +17,13 @@ import { useStateContext } from "../../globalstate/state";
 import Pagination from '../pagination/pagination';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
-
-
 import { setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from "../../globalstate/action";
-
-
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 //import organisations from "./organisations.json";
 //import types from "./types.json";
 //import { css } from "@emotion/core";
 import './geosearch.scss';
-//import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
 
 const GeoSearch = ({showing}) => {    
 
@@ -59,13 +54,9 @@ const GeoSearch = ({showing}) => {
   const [pn, setPageNumber] = useState(1);
   const [cnt, setCount] = useState(0);
   const [selected, setSelected] = useState("search");
-  //const [typefilters, setType] = useState(state.typefilter);
-
   const [open, setOpen] = useState(false);
   //const [modal, setModal] = useState(false);
-  const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
-  //const {state, dispatch} = useStateContext();
-  //const [typefilters, setType] = useState(state.typefilter);
+  const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");  
   const orgfilters_local = state.orgfilter;
   const typefilters_local = state.typefilter;
   const themefilters_local = state.themefilter;
@@ -204,79 +195,45 @@ const GeoSearch = ({showing}) => {
   };
 
   const handleClearTypeFilterFromDisplay = (event) =>{
-    let abc ='';
+    let localInnerTextHolder ='';
     if (event) {
-        event.preventDefault();
-        console.log('Check what is in event');
-        console.log(event);
-        console.log('Check what is in target');
-        console.log(event.target);
-        console.log('Check what is in innerText');
-        console.log(event.target.innerText);
-        abc= event.target.innerText;
-
-    }
-    //const keyword = inputRef.current.value;
-    //setPageNumber(1);
-
-    //let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+        event.preventDefault();        
+        localInnerTextHolder= event.target.innerText;
+    }    
+    
     let filtered = typefilters_local.filter(function(value, index, arr){ 
-        return value !==  abc.trim(); // 'API';
+        return value !==  localInnerTextHolder.trim(); 
     });
 
-    console.log('Test Handleresearch:');
-    // dispatch(setTypeFilter([]));
-    dispatch(setTypeFilter(filtered));
-    //setType(filtered);
-       
+    dispatch(setTypeFilter(filtered));      
   };
 
   const handleClearOrgFilterFromDisplay = (event) =>{
     let localInnerTextHolder ='';
     if (event) {
-        event.preventDefault();
-        console.log('Check what is in event');
-        console.log(event);
-        console.log('Check what is in target');
-        console.log(event.target);
-        console.log('Check what is in innerText');
-        console.log(event.target.innerText);
+        event.preventDefault();        
         localInnerTextHolder= event.target.innerText;
-    }
-    //const keyword = inputRef.current.value;
-    //setPageNumber(1);
+    }    
     
     let filtered = orgfilters_local.filter(function(value, index, arr){ 
         return value !==  localInnerTextHolder.trim(); 
     });
-
-    console.log('Test handleClearOrgFilterFromDisplay:');
-    dispatch(setOrgFilter(filtered));
-    //setType(filtered);       
+    
+    dispatch(setOrgFilter(filtered));    
   };
 
   const handleClearThemeFilterFromDisplay = (event) =>{
     let localInnerTextHolder ='';
     if (event) {
-        event.preventDefault();
-        console.log('Check what is in event');
-        console.log(event);
-        console.log('Check what is in target');
-        console.log(event.target);
-        console.log('Check what is in innerText');
-        console.log(event.target.innerText);
+        event.preventDefault();     
         localInnerTextHolder= event.target.innerText;
-    }
-    //const keyword = inputRef.current.value;
-    //setPageNumber(1);
+    }   
     
     let filtered = themefilters_local.filter(function(value, index, arr){ 
         return value !==  localInnerTextHolder.trim(); 
     });
-
-    console.log('Test handleClearOrgFilterFromDisplay:');
-    dispatch(setThemeFilter(filtered));
-    //setType(filtered);       
+    
+    dispatch(setThemeFilter(filtered));    
   };
 
   const eventHandler = (event, keyword, bounds) => {
@@ -327,48 +284,26 @@ const GeoSearch = ({showing}) => {
         </div>
         
          <div className="searchFilters">
-            {/* <h2>Filters:</h2> */}
-            
-            {/* <button type="button" className="btn btn-sm searchButton" ></button> */}
-
             <div className="row rowDivider">
             {typefilters_local.map((typefilter) => (
-                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearTypeFilterFromDisplay: null}>  
-                    {/* <h6>                   
-                        {typefilter}
-                    </h6>                         */}
-                    
-                    <span class = "glyphicon glyphicon-remove">  {typefilter} <ClearIcon size='small'/>  </span>
-                    {/* <span class = "glyphicon glyphicon-remove">   {typefilter} X  </span> */}
-                    {/* <span> <ClearIcon size='small'/>  </span> */}
-                    {/* <ClearIcon size='small'/>  */}
+                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearTypeFilterFromDisplay: null}>                                      
+                    <span class = "glyphicon glyphicon-remove">  {typefilter} <ClearIcon size='small'/>  </span>                   
                 </button>
             ))
             }
             {orgfilters_local.map((orgfilter) => (
-                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearOrgFilterFromDisplay: null}>  
-                    
-                                           
-                    {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
-                    <span class = "glyphicon glyphicon-remove"> {orgfilter}  <ClearIcon size='small'/>   </span>                    
-                   
+                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearOrgFilterFromDisplay: null}>                     
+                    <span class = "glyphicon glyphicon-remove"> {orgfilter}  <ClearIcon size='small'/>   </span>                
                 </button>
             ))
             }
             {themefilters_local.map((themefilter) => (
-                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearThemeFilterFromDisplay: null}>  
-                  
-                    {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
+                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearThemeFilterFromDisplay: null}>                    
                     <span class = "glyphicon glyphicon-remove">   {themefilter}   <ClearIcon size='small'/>   </span>                                        
                 </button>
             ))
             }
-
-
-
             </div>
-            
-
         </div>
         <div className="container">
             {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}

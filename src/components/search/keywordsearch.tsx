@@ -26,11 +26,7 @@ import themes from './themes.json';
 import './keywordsearch.scss';
 import ClearIcon from '@material-ui/icons/Clear';
 
-
-
 const KeywordSearch:React.FunctionComponent = () => {
-
-    
 
   const queryParams:QueryParams = {};
   const location = useLocation();
@@ -152,79 +148,45 @@ const KeywordSearch:React.FunctionComponent = () => {
   };
 
   const handleClearTypeFilterFromDisplay = (event) =>{
-    let abc ='';
+    let localInnerTextHolder ='';
     if (event) {
-        event.preventDefault();
-        console.log('Check what is in event');
-        console.log(event);
-        console.log('Check what is in target');
-        console.log(event.target);
-        console.log('Check what is in innerText');
-        console.log(event.target.innerText);
-        abc= event.target.innerText;
-
-    }
-    //const keyword = inputRef.current.value;
-    //setPageNumber(1);
-
+        event.preventDefault();     
+        localInnerTextHolder= event.target.innerText;
+    }   
     
     let filtered = typefilters_local.filter(function(value, index, arr){ 
-        return value !==  abc.trim(); // 'API';
+        return value !==  localInnerTextHolder.trim(); // 'API';
     });
-
-    console.log('Test Handleresearch:');
-    // dispatch(setTypeFilter([]));
-    dispatch(setTypeFilter(filtered));
-    //setType(filtered);
-       
+    
+    dispatch(setTypeFilter(filtered));       
   };
 
   const handleClearOrgFilterFromDisplay = (event) =>{
     let localInnerTextHolder ='';
     if (event) {
-        event.preventDefault();
-        console.log('Check what is in event');
-        console.log(event);
-        console.log('Check what is in target');
-        console.log(event.target);
-        console.log('Check what is in innerText');
-        console.log(event.target.innerText);
+        event.preventDefault();       
         localInnerTextHolder= event.target.innerText;
-    }
-    //const keyword = inputRef.current.value;
-    //setPageNumber(1);
+    }   
     
     let filtered = orgfilters_local.filter(function(value, index, arr){ 
         return value !==  localInnerTextHolder.trim(); 
     });
-
-    console.log('Test handleClearOrgFilterFromDisplay:');
-    dispatch(setOrgFilter(filtered));
-    //setType(filtered);       
+    
+    dispatch(setOrgFilter(filtered));    
   };
 
   const handleClearThemeFilterFromDisplay = (event) =>{
     let localInnerTextHolder ='';
     if (event) {
-        event.preventDefault();
-        console.log('Check what is in event');
-        console.log(event);
-        console.log('Check what is in target');
-        console.log(event.target);
-        console.log('Check what is in innerText');
-        console.log(event.target.innerText);
+        event.preventDefault();        
         localInnerTextHolder= event.target.innerText;
-    }
-    //const keyword = inputRef.current.value;
-    //setPageNumber(1);
+    }    
     
     let filtered = themefilters_local.filter(function(value, index, arr){ 
         return value !==  localInnerTextHolder.trim(); 
     });
-
-    console.log('Test handleClearOrgFilterFromDisplay:');
-    dispatch(setThemeFilter(filtered));
-    //setType(filtered);       
+    
+    dispatch(setThemeFilter(filtered));    
   };
 
  
@@ -333,40 +295,26 @@ const KeywordSearch:React.FunctionComponent = () => {
                     </div>
                     <div className="searchInput">
                     {typefilters_local.map((typefilter) => (
-                      <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearTypeFilterFromDisplay: null}>  
-                      <span class = "glyphicon glyphicon-remove">  {typefilter} <ClearIcon size='small'/>  </span>
-                        {/* <span class = "glyphicon glyphicon-remove">   {typefilter} X  </span> */}
-                        {/* <span> <ClearIcon size='small'/>  </span> */}
-                        {/* <ClearIcon size='small'/>  */}
+                        <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearTypeFilterFromDisplay: null}>  
+                            <span class = "glyphicon glyphicon-remove">  {typefilter} <ClearIcon size='small'/>  </span>                        
+                        </button>
+                    ))
+                    }
+                    {orgfilters_local.map((orgfilter) => (
+                      <button type="button" className="  btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearOrgFilterFromDisplay: null}>  
+                            <span class = "glyphicon glyphicon-remove">  {orgfilter}  <ClearIcon size='small'/>   </span>                                      
                       </button>
                     ))
                     }
-                     {orgfilters_local.map((orgfilter) => (
-                <button type="button" className="  btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearOrgFilterFromDisplay: null}>  
-                               
-                       
-                                           
-                    {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
-                    <span class = "glyphicon glyphicon-remove">  {orgfilter}  <ClearIcon size='small'/>   </span>                    
-                  
-                </button>
-            ))
-            }
-            {themefilters_local.map((themefilter) => (
-                <button type="button" className=" btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearThemeFilterFromDisplay: null}>  
-                    
-                    {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
-                    <span class = "glyphicon glyphicon-remove"> {themefilter}      <ClearIcon size='small'/>   </span>                                        
-                </button>
-            ))
-            }
+                    {themefilters_local.map((themefilter) => (
+                        <button type="button" className=" btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearThemeFilterFromDisplay: null}>                      
+                            <span class = "glyphicon glyphicon-remove"> {themefilter}      <ClearIcon size='small'/>   </span>                                        
+                        </button>
+                    ))
+                    }
+                </div>
 
-            </div>
-
-                    <div className="resultContainer">
-
-                  
-            
+                    <div className="resultContainer">            
                        {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                         {loading ? (
                             <div className="d-flex justify-content-center">
