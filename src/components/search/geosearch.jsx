@@ -246,11 +246,11 @@ const GeoSearch = ({showing}) => {
     //const keyword = inputRef.current.value;
     //setPageNumber(1);
     
-    let filtered = themefilters_local.filter(function(value, index, arr){ 
+    let filtered = orgfilters_local.filter(function(value, index, arr){ 
         return value !==  localInnerTextHolder.trim(); 
     });
 
-    console.log('Test handleClearThemeFilterFromDisplay:');
+    console.log('Test handleClearOrgFilterFromDisplay:');
     dispatch(setOrgFilter(filtered));
     //setType(filtered);       
   };
@@ -295,7 +295,7 @@ const GeoSearch = ({showing}) => {
   }
 
   useEffect(() => {
-    const filteractive = (themefilters.length>0 || orgfilters_local.length > 0 || typefilters_local.length > 0);  
+    const filteractive = (themefilters_local.length>0 || orgfilters_local.length > 0 || typefilters_local.length > 0);  
     if (showing) {
         if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
             handleSearch(initKeyword, initBounds);
