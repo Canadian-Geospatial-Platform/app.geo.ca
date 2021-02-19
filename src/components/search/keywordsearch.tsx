@@ -6,7 +6,8 @@
 
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
 import { useLocation } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
+import throttle from 'lodash.throttle';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SearchIcon from '@material-ui/icons/Search';
@@ -18,6 +19,7 @@ import { getQueryParams } from '../../common/queryparams';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
+import { saveState } from '../../reducers/localStorage';
 import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
@@ -35,6 +37,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const [cnt, setCount] = useState(0);
     const [results, setResults] = useState<SearchResult[]>([]);
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
+    // const store = useStore();
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -175,50 +178,43 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const clearOrgFilter = (filter:string) =>{
-        const  newfilter = orgfilters.filter(fs=>fs!==filter);
+        const  newfilter = orgfilters.filter((fs:string)=>fs!==filter);
         dispatch(setOrgFilter(newfilter)); 
         setOrg(newfilter);
         setFReset(false);
-        setPageNumber(1);     
+        setPageNumber(1);
     };
 
     const clearTypeFilter = (filter:string) =>{
-        const  newfilter = typefilters.filter(fs=>fs!==filter);
+        const  newfilter = typefilters.filter((fs:string)=>fs!==filter);
         dispatch(setTypeFilter(newfilter)); 
         setType(newfilter);
         setFReset(false);
-        setPageNumber(1);     
+        setPageNumber(1);
     };
 
     const clearThemeFilter = (filter:string) =>{
-        const  newfilter = themefilters.filter(fs=>fs!==filter);
+        const  newfilter = themefilters.filter((fs:string)=>fs!==filter);
         dispatch(setThemeFilter(newfilter)); 
         setTheme(newfilter);
         setFReset(false);
-        setPageNumber(1);     
+        setPageNumber(1);
     };
 
     const clearFound = () =>{
         dispatch(setFoundational(false)); 
         setFound(false);
         setFReset(false);
-        setPageNumber(1);     
+        setPageNumber(1);
     };
 
     useEffect(() => {
         if (!fReset) {
-            /* const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0); 
-            if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
-                handleSearch(initKeyword);
-            }
-            if (initKeyword === '' && filteractive) {
-                setResults([]);
-                setCount(0);
-                setPageNumber(1);
-            } */
+           // console.log(store.getState());
+           // saveState(store.getState());
             handleSearch(initKeyword);
         }
-    }, [language, pn, fReset, orgfilters, typefilters, themefilters, foundational]);
+    }, [language, pn, fReset, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
 
     return (
         <div className="pageContainer keyword-search-page">
@@ -284,27 +280,27 @@ const KeywordSearch: React.FunctionComponent = () => {
                             </button>
                         </div>
                         <div className="searchListFilters row">
-                            {typefilters.map((typefilter) => (
-                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): null}>                                      
-                                    <span className = "glyphicon glyphicon-remove">{typefilter} <ClearIcon size='small'/></span>                   
+                            {storetypefilters.map((typefilter:string) => (
+                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): undefined}>                                      
+                                    <span className = "glyphicon glyphicon-remove">{typefilter} <ClearIcon /></span>                   
                                 </button>
                             ))
                             }
-                            {orgfilters.map((orgfilter) => (
-                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): null}>                     
-                                    <span className = "glyphicon glyphicon-remove">{orgfilter}  <ClearIcon size='small'/></span>                
+                            {storeorgfilters.map((orgfilter:string) => (
+                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): undefined}>                     
+                                    <span className = "glyphicon glyphicon-remove">{orgfilter} <ClearIcon /></span>                
                                 </button>
                             ))
                             }
-                            {themefilters.map((themefilter) => (
-                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): null}>                    
-                                    <span className = "glyphicon glyphicon-remove">{themefilter} <ClearIcon size='small'/></span>                                        
+                            {storethemefilters.map((themefilter:string) => (
+                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): undefined}>                    
+                                    <span className = "glyphicon glyphicon-remove">{themefilter} <ClearIcon /></span>                                        
                                 </button>
                             ))
                             }
-                            {foundational && 
-                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: null}>                    
-                                    <span className = "glyphicon glyphicon-remove">Foundational Layers Only <ClearIcon size='small'/></span>                                        
+                            {storefoundational && 
+                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: undefined}>                    
+                                    <span className = "glyphicon glyphicon-remove">Foundational Layers Only <ClearIcon /></span>                                        
                                 </button>
                             }
                         </div>
