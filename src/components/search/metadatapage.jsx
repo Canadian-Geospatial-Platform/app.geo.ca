@@ -13,7 +13,7 @@ import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getQueryParams } from '../../common/queryparams'; 
 // import { css } from "@emotion/core";
-import { addMapping, delMapping } from "../../reducers/action";
+import { setMapping } from "../../reducers/action";
 import './metadatapage.scss';
 
 
@@ -23,6 +23,7 @@ const MetaDataPage = () => {
     const {t} = useTranslation();
     
     const mapping = useSelector(state => state.mappingReducer.mapping);
+
     const dispatch = useDispatch(); 
     
     // console.log(mapping);
@@ -73,6 +74,17 @@ const MetaDataPage = () => {
       });
   
     };
+    
+    const changeMapping = (rid) => {
+        const rIndex=mapping.findIndex(mid=>mid===rid);
+        const newMapping = mapping.map(m=>m);
+        if (rIndex > -1) {
+            newMapping.splice(rIndex, 1);
+        } else {
+            newMapping.push(rid);
+        }
+        dispatch(setMapping(newMapping));
+    } 
   
     /* const handleKeyword = (keyword) => {
       window.open("/#/search?keyword="+encodeURI(keyword.trim()), "Search " + keyword.trim() );
@@ -107,7 +119,7 @@ const MetaDataPage = () => {
                     const maintenance = result.maintenance.split(';')[langInd];
                     const type = result.type.split(';')[langInd];
                     const spatialRepresentation = result.spatialRepresentation.split(';')[langInd];
-                    const inMapping = (mapping.findIndex(mid=>mid===result.id)>-1);
+                    const inMapping = (mapping.findIndex((mid)=>mid===result.id)>-1);
                     const dist = Math.max(Math.abs(coordinates[0][2][1] - coordinates[0][0][1])/15, Math.abs(coordinates[0][1][0] - coordinates[0][0][0])/30);
                     const resolution = (40.7436654315252*dist*11132);
                     const zoom = Math.max(Math.log2(3600000/resolution), 1);
@@ -303,7 +315,7 @@ const MetaDataPage = () => {
                               <p>View the data in depth by adding it to a map.</p>
                               <div className="btn-group">
                                 <a href={`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-en.html?keys=${  result.id}`} className="btn btn-search mr-2" role="button" target="_blank">View on Map</a>
-                                <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={inMapping?()=>dispatch(delMapping(result.id)):()=>dispatch(addMapping(result.id))}>{inMapping?"Added to MyMap":"Add to MyMap"}</button>
+                                <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={()=>changeMapping(result.id)}>{inMapping?"Added to MyMap":"Add to MyMap"}</button>
                               </div>
                           </section>
                           <section className="sec-search-result search-results-section search-results-misc-data">
