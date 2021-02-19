@@ -20,9 +20,16 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [themefilters, setTheme] = useState(state.themefilter);
     const [foundational, setFound] = useState(state.foundational);
     const [fReset, setFReset] = useState(false);
- //console.log(state, dispatch);
-     console.log('check typefilters');
+    
+    console.log("Check state and dispath");
+    console.log(state, dispatch);
+    
+    console.log('check typefilters');
      console.log(typefilters);
+
+     console.log('check state.typefilter');
+     console.log(state.typefilter);
+     
     const applyFilters = () => {
         if (typeof dispatch ==='function') {
             dispatch(setOrgFilter(orgfilters));

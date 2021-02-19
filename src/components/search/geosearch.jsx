@@ -30,11 +30,13 @@ import BeatLoader from "react-spinners/BeatLoader";
 import './geosearch.scss';
 //import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
 
-const GeoSearch = ({showing}) => {
-    //const [orgfilters, setOrg] = useState(state.orgfilter);
-    //const [typefilters, setType] = useState(state.typefilter);
-    //const [themefilters, setTheme] = useState(state.themefilter);
-    //const [foundational, setFound] = useState(state.foundational);
+const GeoSearch = ({showing}) => {    
+
+    const { state, dispatch } = useStateContext(); 
+    const [orgfilters, setOrg] = useState(state.orgfilter);
+    const [typefilters, setType] = useState(state.typefilter);
+    const [themefilters, setTheme] = useState(state.themefilter);
+    const [foundational, setFound] = useState(state.foundational);
 
   const queryParams = {};
   const location = useLocation();
@@ -62,12 +64,12 @@ const GeoSearch = ({showing}) => {
   const [open, setOpen] = useState(false);
   //const [modal, setModal] = useState(false);
   const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
-  const {state, dispatch} = useStateContext();
+  //const {state, dispatch} = useStateContext();
   //const [typefilters, setType] = useState(state.typefilter);
-  const orgfilters = state.orgfilter;
+  const orgfilters_local = state.orgfilter;
   const typefilters_local = state.typefilter;
-  const themefilters = state.themefilter;
-  const foundational = state.foundational;
+  const themefilters_local = state.themefilter;
+  const foundational_local = state.foundational;
   const language = t("app.language");
   //console.log(showing);
 
@@ -138,16 +140,16 @@ const GeoSearch = ({showing}) => {
         min: (pn-1)*rpp + 1,
         max: cnt>0?Math.min(pn*rpp, cnt-1):pn*rpp
     }
-    if (themefilters.length > 0) {
-        searchParams.theme = themefilters.map(fs=>fs).join(",");
+    if (themefilters_local.length > 0) {
+        searchParams.theme = themefilters_local.map(fs=>fs).join(",");
     }
-    if (orgfilters.length > 0) {
-        searchParams.org = orgfilters.map(fs=>"^"+fs+"$").join("|");
+    if (orgfilters_local.length > 0) {
+        searchParams.org = orgfilters_local.map(fs=>"^"+fs+"$").join("|");
     }
     if (typefilters_local.length > 0) {
         searchParams.type = typefilters_local.map(fs=>"^"+fs+"$").join("|");
     }
-    if (foundational) {
+    if (foundational_local) {
         searchParams.foundational = "true";
     }
     console.log(searchParams);
@@ -229,6 +231,54 @@ const GeoSearch = ({showing}) => {
        
   };
 
+  const handleClearOrgFilterFromDisplay = (event) =>{
+    let localInnerTextHolder ='';
+    if (event) {
+        event.preventDefault();
+        console.log('Check what is in event');
+        console.log(event);
+        console.log('Check what is in target');
+        console.log(event.target);
+        console.log('Check what is in innerText');
+        console.log(event.target.innerText);
+        localInnerTextHolder= event.target.innerText;
+    }
+    //const keyword = inputRef.current.value;
+    //setPageNumber(1);
+    
+    let filtered = themefilters_local.filter(function(value, index, arr){ 
+        return value !==  localInnerTextHolder.trim(); 
+    });
+
+    console.log('Test handleClearThemeFilterFromDisplay:');
+    dispatch(setOrgFilter(filtered));
+    //setType(filtered);       
+  };
+
+  const handleClearThemeFilterFromDisplay = (event) =>{
+    let localInnerTextHolder ='';
+    if (event) {
+        event.preventDefault();
+        console.log('Check what is in event');
+        console.log(event);
+        console.log('Check what is in target');
+        console.log(event.target);
+        console.log('Check what is in innerText');
+        console.log(event.target.innerText);
+        localInnerTextHolder= event.target.innerText;
+    }
+    //const keyword = inputRef.current.value;
+    //setPageNumber(1);
+    
+    let filtered = themefilters_local.filter(function(value, index, arr){ 
+        return value !==  localInnerTextHolder.trim(); 
+    });
+
+    console.log('Test handleClearOrgFilterFromDisplay:');
+    dispatch(setThemeFilter(filtered));
+    //setType(filtered);       
+  };
+
   const eventHandler = (event, keyword, bounds) => {
     const mbounds = event.target.getBounds();
     //console.log(mbounds,bounds);
@@ -244,16 +294,8 @@ const GeoSearch = ({showing}) => {
     }
   }
 
-  /*const handleOrg = (filters) => {
-    setPageNumber(1);
-    setOrg(filters);
-  }
-  const handleType = (filters) => {
-    setPageNumber(1);
-    setType(filters);
-  }*/
   useEffect(() => {
-    const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters_local.length > 0);  
+    const filteractive = (themefilters.length>0 || orgfilters_local.length > 0 || typefilters_local.length > 0);  
     if (showing) {
         if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
             handleSearch(initKeyword, initBounds);
@@ -264,7 +306,7 @@ const GeoSearch = ({showing}) => {
             setPageNumber(1);
         }
     } 
-  }, [showing, language, pn, themefilters, orgfilters, typefilters_local, foundational]);
+  }, [showing, language, pn, themefilters_local, orgfilters_local, typefilters_local, foundational]);
   //map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
   //console.log(loading, results);
@@ -283,11 +325,7 @@ const GeoSearch = ({showing}) => {
             />
             <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
         </div>
-        {/* <div className="searchFilters">
-            <h2>Filters:</h2>
-            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
-            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
-        </div> */}
+        
          <div className="searchFilters">
             <h2>Filters:</h2>
             
@@ -295,30 +333,44 @@ const GeoSearch = ({showing}) => {
 
             <div className="row rowDivider">
             {typefilters_local.map((typefilter) => (
-            <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearTypeFilterFromDisplay: null}>  
-            
-            <h6> 
-            {/* {typefilter.map(fs=>fs).join("|")}  */}
-            {/* //{typefilters.map(fs=>fs).join("|")}  */}
-            {typefilter}
-            </h6>
-            
-            
-            <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>
-            {/* <span> <ClearIcon size='small'/>  </span> */}
-            {/* <ClearIcon size='small'/>  */}
-            </button>
+                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearTypeFilterFromDisplay: null}>  
+                    {/* <h6>                   
+                        {typefilter}
+                    </h6>                         */}
+                    
+                    <span class = "glyphicon glyphicon-remove">  {typefilter} <ClearIcon size='small'/>  </span>
+                    {/* <span class = "glyphicon glyphicon-remove">   {typefilter} X  </span> */}
+                    {/* <span> <ClearIcon size='small'/>  </span> */}
+                    {/* <ClearIcon size='small'/>  */}
+                </button>
             ))
             }
+            {orgfilters_local.map((orgfilter) => (
+                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearOrgFilterFromDisplay: null}>  
+                    <h6>                        
+                        {orgfilter} 
+                                           
+                    {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
+                    <span class = "glyphicon glyphicon-remove">  <ClearIcon size='small'/>   </span>                    
+                    </h6> 
+                </button>
+            ))
+            }
+            {themefilters_local.map((themefilter) => (
+                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? handleClearThemeFilterFromDisplay: null}>  
+                    <h5>                        
+                        {themefilter}                                           
+                    </h5>     
+                    {/* <span class = "glyphicon glyphicon-remove"> <ClearIcon size='small'/>  </span>                     */}
+                    <span class = "glyphicon glyphicon-remove">  <ClearIcon size='small'/>   </span>                                        
+                </button>
+            ))
+            }
+
+
+
             </div>
-
-            {/* <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
-            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} /> */}
-            {/* {orgfilters.map(fs=>"^"+fs+"$").join("|")} */}
-{/* //            {types} */}
-
-            {/* <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
-            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} /> */}
+            
 
         </div>
         <div className="container">
