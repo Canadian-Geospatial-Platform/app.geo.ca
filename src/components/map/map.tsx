@@ -1,8 +1,8 @@
+/* eslint-disable prettier/prettier */
 import React, { Suspense, StrictMode } from 'react';
 import { render } from 'react-dom';
 
-import { I18nextProvider } from 'react-i18next';
-
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import { LatLngTuple, CRS } from 'leaflet';
 import { MapContainer, TileLayer, ScaleControl, AttributionControl } from 'react-leaflet';
 
@@ -18,6 +18,7 @@ import { NavBar } from '../navbar/nav-bar';
 
 export function Map(props: MapProps): JSX.Element {
     const { id, center, zoom, projection, language, search, auth, layers } = props;
+    const { t } = useTranslation();
 
     // get the needed projection. Web Mercator is out of the box but we need to create LCC
     // the projection will work with CBMT basemap. If another basemap would be use, update...
@@ -26,7 +27,7 @@ export function Map(props: MapProps): JSX.Element {
     // get basemaps with attribution
     const basemap: Basemap = new Basemap(language);
     const basemaps: BasemapOptions[] = projection === 3857 ? basemap.wmCBMT : basemap.lccCBMT;
-    const attribution = language === 'en-CA' ? basemap.attribution['en-CA'] : basemap.attribution['fr-CA'];
+    // const attribution = language === 'en-CA' ? basemap.attribution['en-CA'] : basemap.attribution['fr-CA'];
 
     // get map option from slected basemap projection
     const mapOptions: MapOptions = getMapOptions(projection);
@@ -62,7 +63,7 @@ export function Map(props: MapProps): JSX.Element {
             }}
         >
             {basemaps.map((base) => (
-                <TileLayer key={base.id} url={base.url} attribution={attribution} />
+                <TileLayer key={base.id} url={base.url} attribution={t("mapctrl.attribution")} />
             ))}
             <NavBar />
             <MousePosition />

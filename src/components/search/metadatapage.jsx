@@ -11,21 +11,17 @@ import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
+import { getQueryParams } from '../../common/queryparams'; 
 // import { css } from "@emotion/core";
 import { addMapping, delMapping } from "../../reducers/action";
 import './metadatapage.scss';
 
 
 const MetaDataPage = () => {
-    const queryParams = {};
     const location = useLocation();
+    const queryParams = getQueryParams(location.search);
     const {t} = useTranslation();
-    if (location.search && location.search!=='') {
-        location.search.substr(1).split('&').forEach( (q)=>{
-            const item = q.split("=");
-            queryParams[item[0]] = decodeURI(item[1]);
-        });
-    }
+    
     const mapping = useSelector(state => state.mappingReducer.mapping);
     const dispatch = useDispatch(); 
     

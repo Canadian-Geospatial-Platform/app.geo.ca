@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { LatLngBounds } from 'leaflet';
 
 import screenfull from 'screenfull';

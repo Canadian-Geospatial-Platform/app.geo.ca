@@ -1,39 +1,37 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/jsx-filename-extension */
 import React, { useState, createRef, useEffect } from "react";
-import {useLocation, useHistory} from 'react-router';
+import {useLocation} from 'react-router';
 import { useDispatch, useSelector} from "react-redux";
 import { useMap } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 // reactstrap components
-/*import {
+/* import {
   Button,
   Card,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
-} from "reactstrap";*/
-//import SearchFilter from '../searchfilter/searchfilter';
-import Pagination from '../pagination/pagination';
+} from "reactstrap"; */
+// import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
+import ClearIcon from '@material-ui/icons/Clear';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-//import organisations from "./organisations.json";
-//import types from "./types.json";
-//import { css } from "@emotion/core";
+import { getQueryParams } from '../../common/queryparams'; 
+import Pagination from '../pagination/pagination';
+import { setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
+// import organisations from "./organisations.json";
+// import types from "./types.json";
+// import { css } from "@emotion/core";
 import './geosearch.scss';
 
 const GeoSearch = ({showing}) => {
-  const queryParams = {};
   const location = useLocation();
+  const queryParams = getQueryParams(location.search);
   const {t} = useTranslation();
-  //const history = useHistory();
-  //console.log(location, history);
-  if (location.search && location.search!=='') {
-      location.search.substr(1).split('&').forEach( (q)=>{
-          const item = q.split("=");
-          queryParams[item[0]] = decodeURI(item[1]);
-      });
-  }
   const rpp = 10;
   const inputRef = createRef();
   let mapCount = 0;
@@ -45,28 +43,19 @@ const GeoSearch = ({showing}) => {
   const [cnt, setCount] = useState(0);
   const [selected, setSelected] = useState("search");
   const [open, setOpen] = useState(false);
-  //const [modal, setModal] = useState(false);
-  const [initKeyword, setKeyword] = useState(queryParams && queryParams["keyword"]?queryParams["keyword"].trim():"");
+  // const [modal, setModal] = useState(false);
+  const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword?queryParams.keyword.trim():"");
   const language = t("app.language");
   const orgfilters = useSelector(state => state.mappingReducer.orgfilter);
   const typefilters = useSelector(state => state.mappingReducer.typefilter);
   const themefilters = useSelector(state => state.mappingReducer.themefilter);
   const foundational = useSelector(state => state.mappingReducer.foundational);
-  //const dispatch = useDispatch();
-  const handleSelect = (event) => {
-    //const {selectResult} = this.props;
-    const cardOpen = selected === event ? !open : true;
-    const result = Array.isArray(results) && results.length>0 && cardOpen ? results.find(r=>r.id===event): null;
-
-    setSelected(event);
-    setOpen(cardOpen);
-    selectResult(result);
-  };
-
+  const dispatch = useDispatch();
+  
   const selectResult = (result) => {
     map.eachLayer((layer) => {
-        //console.log(layer);
-        const feature = layer.feature;
+        // console.log(layer);
+        const {feature} = layer;
         if ( !!feature && feature.type && feature.type==="Feature" && feature.properties && feature.properties.tag && feature.properties.tag === "geoViewGeoJSON") {
           map.removeLayer(layer);
         }
@@ -83,7 +72,17 @@ const GeoSearch = ({showing}) => {
         new L.geoJSON(data).addTo(map);
     }
   };
+  
+  const handleSelect = (event) => {
+    // const {selectResult} = this.props;
+    const cardOpen = selected === event ? !open : true;
+    const result = Array.isArray(results) && results.length>0 && cardOpen ? results.find(r=>r.id===event): null;
 
+    setSelected(event);
+    setOpen(cardOpen);
+    selectResult(result);
+  };
+  
   const setLoadingStatus = (flag) => {
     flag &&
     map._handlers.forEach(handler => {
@@ -99,7 +98,7 @@ const GeoSearch = ({showing}) => {
 
   const handleView = (evt, id) => {
     evt.stopPropagation();
-    window.open("/result?id="+encodeURI(id.trim()), "View Record " + id.trim());
+    window.open(`/result?id=${encodeURI(id.trim())}`, `View Record ${id.trim()}`);
   }
 
   const handleChange = (e) => {
@@ -115,7 +114,7 @@ const GeoSearch = ({showing}) => {
         east: bounds._northEast.lng,
         south: bounds._southWest.lat,
         west: bounds._southWest.lng,
-        keyword: keyword,
+        keyword,
         lang: language,
         min: (pn-1)*rpp + 1,
         max: cnt>0?Math.min(pn*rpp, cnt-1):pn*rpp
@@ -132,11 +131,11 @@ const GeoSearch = ({showing}) => {
     if (foundational) {
         searchParams.foundational = "true";
     }
-    //console.log(searchParams);
+    // console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
-        //console.log(data);
+        // console.log(data);
         const results = data.Items;
         const rcnt = results.length>0?results[0].total:0;
         setResults(results);
@@ -185,92 +184,118 @@ const GeoSearch = ({showing}) => {
 
   const eventHandler = (event, keyword, bounds) => {
     const mbounds = event.target.getBounds();
-    //console.log(mbounds,bounds);
+    // console.log(mbounds,bounds);
     map.off('moveend', eventHandler);
-    //console.log('status:', loading, 'keyword', keyword,initKeyword);
+    // console.log('status:', loading, 'keyword', keyword,initKeyword);
     if (!loading && mapCount === 0 && !Object.is(mbounds, bounds)) {
-        //console.log('research:', loading, keyword, mapCount);
+        // console.log('research:', loading, keyword, mapCount);
         mapCount++;
         setLoadingStatus(true);
-        //setBounds(mbounds);
+        // setBounds(mbounds);
         setPageNumber(1);
         handleSearch(keyword, mbounds);
     }
   }
 
-  /*const handleOrg = (filters) => {
-    setPageNumber(1);
-    setOrg(filters);
-  }
-  const handleType = (filters) => {
-    setPageNumber(1);
-    setType(filters);
-  }*/
+  const clearOrgFilter = (filter) =>{
+    const  newfilter = orgfilters.filter(fs=>fs!==filter);
+    dispatch(setOrgFilter(newfilter)); 
+    setPageNumber(1);     
+  };
+
+  const clearTypeFilter = (filter) =>{
+    const  newfilter = typefilters.filter(fs=>fs!==filter);
+    dispatch(setTypeFilter(newfilter)); 
+    setPageNumber(1);     
+  };
+
+  const clearThemeFilter = (filter) =>{
+    const  newfilter = themefilters.filter(fs=>fs!==filter);
+    dispatch(setThemeFilter(newfilter)); 
+    setPageNumber(1);     
+  };
+
+  const clearFound = () =>{
+    dispatch(setFoundational(false)); 
+    setPageNumber(1);     
+  };
+  
   useEffect(() => {
-    const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);  
     if (showing) {
-        /*if ((initKeyword !== '') || (initKeyword === '' && !filteractive)) {
-            handleSearch(initKeyword, initBounds);
-        } 
-        if (initKeyword === '' && filteractive ) {
-            setResults([]);
-            setCount(0);
-            setPageNumber(1);
-        }*/
         handleSearch(initKeyword, initBounds);
     } 
-  }, [showing, language, pn, themefilters, orgfilters, typefilters, foundational]);
-  //map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
+  }, [showing, language, pn, orgfilters, typefilters, themefilters, foundational]);
+  // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
-  //console.log(loading, results);
+  // console.log(loading, results);
   return (
         <div className="geoSearchContainer">
-        <div className="searchInput">
-            <input
-                placeholder="Search ..."
-                id="search-input"
-                type="search"
-                ref={inputRef}
-                disabled = {loading}
-                value={initKeyword}
-                onChange={handleChange}
-                onKeyUp={e=>handleKeyUp(e)}
-            />
-            <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
-        </div>
-        {/* <div className="searchFilters">
-            <h2>Filters:</h2>
-            <SearchFilter filtertitle="Organisitions" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
-            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
-        </div> */}
-        <div className="container">
-            {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
-            {loading ?
-                <div className="d-flex justify-content-center">
-                <BeatLoader
-                color={'#515AA9'}
+            <div className="searchInput">
+                <input
+                    placeholder="Search ..."
+                    id="search-input"
+                    type="search"
+                    ref={inputRef}
+                    disabled = {loading}
+                    value={initKeyword}
+                    onChange={handleChange}
+                    onKeyUp={e=>handleKeyUp(e)}
                 />
-                </div>
-                :
-                (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
-                (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') :
+                <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
+            </div>
+            <div className="searchFilters">
                 <div className="row rowDivider">
-                {results.map((result) => (
-                    <div key={result.id} className={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"} onClick={() => handleSelect(result.id)}>
-                        <p className="searchTitle">{result.title}</p>
-                        <div>
-                            <p className="searchFields"><strong>Organisation:</strong> {result.organisation}</p>
-                            <p className="searchFields"><strong>Published:</strong> {result.published}</p>
-                            <p className="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
-                            
-                            <button type="button" className="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i className="fas fa-long-arrow-alt-right"></i></button>
-                        </div>
-                    </div>
-                ))}
+                {typefilters.map((typefilter) => (
+                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): null}>                                      
+                        <span className = "glyphicon glyphicon-remove">{typefilter} <ClearIcon size='small'/></span>                   
+                    </button>
+                ))
+                }
+                {orgfilters.map((orgfilter) => (
+                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): null}>                     
+                        <span className = "glyphicon glyphicon-remove">{orgfilter}  <ClearIcon size='small'/></span>                
+                    </button>
+                ))
+                }
+                {themefilters.map((themefilter) => (
+                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): null}>                    
+                        <span className = "glyphicon glyphicon-remove">{themefilter} <ClearIcon size='small'/></span>                                        
+                    </button>
+                ))
+                }
+                {foundational && 
+                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: null}>                    
+                        <span className = "glyphicon glyphicon-remove">Foundational Layers Only <ClearIcon size='small'/></span>                                        
+                    </button>
+                }
                 </div>
-            )}
-            {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
-        </div>
+            </div>
+            <div className="container">
+                {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                {loading ?
+                    <div className="d-flex justify-content-center">
+                    <BeatLoader color="#515AA9" />
+                    </div>
+                    :
+                    (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
+                    (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') :
+                    <div className="row rowDivider">
+                    {results.map((result) => (
+                        <div key={result.id} className={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"} onClick={() => handleSelect(result.id)}>
+                            <p className="searchTitle">{result.title}</p>
+                            <div>
+                                <p className="searchFields"><strong>Organisation:</strong> {result.organisation}</p>
+                                <p className="searchFields"><strong>Published:</strong> {result.published}</p>
+                                <p className="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
+                                
+                                <button type="button" className="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i className="fas fa-long-arrow-alt-right" /></button>
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+                )}
+                {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+            </div>
         </div>
     );
 }
