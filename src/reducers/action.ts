@@ -1,13 +1,11 @@
 /* eslint-disable prettier/prettier */
 export interface Action {
-    type: ActionType.ADD_MAPPING | ActionType.DEL_MAPPING | ActionType.CLEAR_MAPPING | ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME | ActionType.SET_FOUND | ActionType.SET_FILTERS ;
-    payload?: string | string[] | boolean | unknown;
+    type: ActionType.SET_MAPPING | ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME | ActionType.SET_FOUND | ActionType.SET_FILTERS ;
+    payload?: string[] | boolean | unknown;
 }
 
 export enum ActionType {
-    ADD_MAPPING = 'addMapping',
-    DEL_MAPPING = 'delMapping',
-    CLEAR_MAPPING = 'clearMapping',
+    SET_MAPPING = 'setMapping',
     SET_ORG = 'setOrgFilter',
     SET_TYPE = 'setTypeFilter',
     SET_THEME = 'setThemeFilter',
@@ -15,17 +13,9 @@ export enum ActionType {
     SET_FILTERS = 'setFilters'
   }
 // export type Action = { type: ActionType.ADD_MAPPING, payload: idstring } | { type: ActionType.DEL_MAPPING, payload: idstring } | { type: ActionType.CLEAR_MAPPING };
-export function addMapping(rid:string):Action {
-    return {type: ActionType.ADD_MAPPING, payload: rid};
+export function setMapping(mlist:string[]):Action {
+    return {type: ActionType.SET_MAPPING, payload: mlist};
 } 
-
-export function delMapping(rid:string):Action {
-    return {type: ActionType.DEL_MAPPING, payload: rid};
-}
-
-export function clearMapping():Action {
-    return {type: ActionType.CLEAR_MAPPING};
-}
 
 export function setOrgFilter(orgfilter:string[]):Action {
     return {type: ActionType.SET_ORG, payload: orgfilter};

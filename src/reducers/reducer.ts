@@ -22,12 +22,8 @@ const mappingReducer = (
     action: Action
 ) : mappingState => {
   switch (action.type) {
-    case ActionType.ADD_MAPPING:
-        return { ...state, mapping: state.mapping.push(action.payload) };
-    case ActionType.DEL_MAPPING:
-        return { ...state, mapping: state.mapping.filter(mid => mid!==action.payload) };
-    case ActionType.CLEAR_MAPPING:
-        return { ...state, mapping: [] };
+    case ActionType.SET_MAPPING:
+        return { ...state, mapping: action.payload };
     case ActionType.SET_ORG:
         return { ...state, orgfilter: action.payload };    
     case ActionType.SET_TYPE:
