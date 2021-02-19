@@ -3,7 +3,7 @@ import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import {Route, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore, StoreEnhancer } from 'redux';
 import throttle from 'lodash.throttle';
 import { I18nextProvider } from 'react-i18next';
 import { setupCognito, cognito } from 'react-cognito';
@@ -24,7 +24,7 @@ import './assests/css/style.scss';
 
 import authconfig from './components/account/cognito-auth/config.json';
 
-const persistedState = loadState();
+const persistedState:StoreEnhancer<unknown,unknown>|undefined = loadState();
 const reducers = combineReducers({
     cognito,
     mappingReducer,
