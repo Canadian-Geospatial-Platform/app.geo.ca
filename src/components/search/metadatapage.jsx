@@ -25,7 +25,7 @@ const MetaDataPage = () => {
     const mapping = useSelector(state => state.mappingReducer.mapping);
     const dispatch = useDispatch(); 
     
-    console.log(mapping);
+    // console.log(mapping);
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
