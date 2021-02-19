@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { Typography } from '@material-ui/core';
 // import SearchIcon from '@material-ui/icons/Search';
@@ -57,6 +57,17 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setFReset(true);
         setFound(found);
     };
+
+    useEffect(() => {
+        // const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);  
+        if (showing) { 
+            setOrg(storeorgfilters);
+            setType(storetypefilters);
+            setTheme(storethemefilters);
+            setFound(storefoundational);   
+            setFReset(false);
+        } 
+      }, [showing]);
 
     return (
         <PanelApp

@@ -94,6 +94,9 @@ input {
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     margin: 5px 5px 5px 0;
+    >span>svg {
+        vertical-align: middle;
+    }
 }
 
 .icon-button {
@@ -407,6 +410,13 @@ input {
         max-width: 1000px;
         padding: 0 20px;
     }
+
+    .searchListFilters {
+        max-width: 1000px;
+        margin: 10px auto;
+        padding: 0 20px;
+    }
+
     .searchFilters {
         max-width: 100%;
         padding: 0 5px 0 30px;

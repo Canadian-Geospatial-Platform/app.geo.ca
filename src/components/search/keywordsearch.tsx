@@ -11,12 +11,13 @@ import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
+import ClearIcon from '@material-ui/icons/Clear';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { getQueryParams } from '../../common/queryparams'; 
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
-import { setFilters } from '../../reducers/action';
+import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
 import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
@@ -173,6 +174,37 @@ const KeywordSearch: React.FunctionComponent = () => {
         setFound(found);
     };
 
+    const clearOrgFilter = (filter:string) =>{
+        const  newfilter = orgfilters.filter(fs=>fs!==filter);
+        dispatch(setOrgFilter(newfilter)); 
+        setOrg(newfilter);
+        setFReset(false);
+        setPageNumber(1);     
+    };
+
+    const clearTypeFilter = (filter:string) =>{
+        const  newfilter = typefilters.filter(fs=>fs!==filter);
+        dispatch(setTypeFilter(newfilter)); 
+        setType(newfilter);
+        setFReset(false);
+        setPageNumber(1);     
+    };
+
+    const clearThemeFilter = (filter:string) =>{
+        const  newfilter = themefilters.filter(fs=>fs!==filter);
+        dispatch(setThemeFilter(newfilter)); 
+        setTheme(newfilter);
+        setFReset(false);
+        setPageNumber(1);     
+    };
+
+    const clearFound = () =>{
+        dispatch(setFoundational(false)); 
+        setFound(false);
+        setFReset(false);
+        setPageNumber(1);     
+    };
+
     useEffect(() => {
         if (!fReset) {
             /* const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0); 
@@ -186,7 +218,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             } */
             handleSearch(initKeyword);
         }
-    }, [language, pn, fReset]);
+    }, [language, pn, fReset, orgfilters, typefilters, themefilters, foundational]);
 
     return (
         <div className="pageContainer keyword-search-page">
@@ -250,6 +282,31 @@ const KeywordSearch: React.FunctionComponent = () => {
                             <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : undefined}>
                                 <SearchIcon />
                             </button>
+                        </div>
+                        <div className="searchListFilters row">
+                            {typefilters.map((typefilter) => (
+                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): null}>                                      
+                                    <span className = "glyphicon glyphicon-remove">{typefilter} <ClearIcon size='small'/></span>                   
+                                </button>
+                            ))
+                            }
+                            {orgfilters.map((orgfilter) => (
+                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): null}>                     
+                                    <span className = "glyphicon glyphicon-remove">{orgfilter}  <ClearIcon size='small'/></span>                
+                                </button>
+                            ))
+                            }
+                            {themefilters.map((themefilter) => (
+                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): null}>                    
+                                    <span className = "glyphicon glyphicon-remove">{themefilter} <ClearIcon size='small'/></span>                                        
+                                </button>
+                            ))
+                            }
+                            {foundational && 
+                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: null}>                    
+                                    <span className = "glyphicon glyphicon-remove">Foundational Layers Only <ClearIcon size='small'/></span>                                        
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>
