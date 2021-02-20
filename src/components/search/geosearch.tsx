@@ -1,21 +1,18 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable no-plusplus */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable camelcase */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, createRef, useEffect, ChangeEvent } from "react";
 import {useLocation} from 'react-router';
 import { useDispatch, useSelector} from "react-redux";
 import { useMap } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
-// reactstrap components
-/* import {
-  Button,
-  Card,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from "reactstrap"; */
-// import SearchFilter from '../searchfilter/searchfilter';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import axios from "axios";
@@ -23,22 +20,19 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { getQueryParams } from '../../common/queryparams'; 
 import Pagination from '../pagination/pagination';
 import { setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
-// import organisations from "./organisations.json";
-// import types from "./types.json";
-// import { css } from "@emotion/core";
 import './geosearch.scss';
 
-const GeoSearch = ({showing}) => {
+const GeoSearch = (showing:string):JSX.Element => {
   const location = useLocation();
   const queryParams = getQueryParams(location.search);
   const {t} = useTranslation();
   const rpp = 10;
-  const inputRef = createRef();
+  const inputRef:React.RefObject<HTMLInputElement> = createRef();
   let mapCount = 0;
   const map = useMap();
   const [initBounds, setBounds] = useState(map.getBounds());
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [pn, setPageNumber] = useState(1);
   const [cnt, setCount] = useState(0);
   const [selected, setSelected] = useState("search");
@@ -51,17 +45,17 @@ const GeoSearch = ({showing}) => {
   const themefilters = useSelector(state => state.mappingReducer.themefilter);
   const foundational = useSelector(state => state.mappingReducer.foundational);
   const dispatch = useDispatch();
-  
-  const selectResult = (result) => {
-    map.eachLayer((layer) => {
+
+  const selectResult = (result:SearchResult|undefined) => {
+    map.eachLayer((layer:unknown) => {
         // console.log(layer);
-        const {feature} = layer;
+        const { feature } = layer;
         if ( !!feature && feature.type && feature.type==="Feature" && feature.properties && feature.properties.tag && feature.properties.tag === "geoViewGeoJSON") {
           map.removeLayer(layer);
         }
     });
 
-    if (result!==null) {
+    if (result) {
         const data = {
                 "type": "Feature",
                 "properties": {"id": result.id, "tag": "geoViewGeoJSON"},
@@ -69,21 +63,23 @@ const GeoSearch = ({showing}) => {
                     "type": "Polygon",
                     "coordinates": JSON.parse(result.coordinates)
                 } };
+
+        // eslint-disable-next-line new-cap
         new L.geoJSON(data).addTo(map);
     }
   };
   
-  const handleSelect = (event) => {
+  const handleSelect = (event:string) => {
     // const {selectResult} = this.props;
     const cardOpen = selected === event ? !open : true;
-    const result = Array.isArray(results) && results.length>0 && cardOpen ? results.find(r=>r.id===event): null;
+    const result = Array.isArray(results) && results.length>0 && cardOpen ? results.find((r:SearchResult)=>r.id===event): undefined;
 
     setSelected(event);
     setOpen(cardOpen);
     selectResult(result);
   };
   
-  const setLoadingStatus = (flag) => {
+  const setLoadingStatus = (flag:boolean) => {
     flag &&
     map._handlers.forEach(handler => {
         handler.disable();
@@ -96,93 +92,17 @@ const GeoSearch = ({showing}) => {
     });
   }
 
-  const handleView = (evt, id) => {
+  const handleView = (evt:React.MouseEvent<HTMLButtonElement>, id:string) => {
     evt.stopPropagation();
-    window.open(`/#/result?id=${encodeURI(id.trim())}`, `View Record ${  id.trim()}`);
+    window.open(`/#/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
   }
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setKeyword(e.target.value);
-  }
-
-  const handleSearch = (keyword, bounds) => {
-    !loading && setLoadingStatus(true);
-
-    const searchParams = {
-        north: bounds._northEast.lat,
-        east: bounds._northEast.lng,
-        south: bounds._southWest.lat,
-        west: bounds._southWest.lng,
-        keyword,
-        lang: language,
-        min: (pn-1)*rpp + 1,
-        max: cnt>0?Math.min(pn*rpp, cnt-1):pn*rpp
-    }
-    if (themefilters.length > 0) {
-        searchParams.theme = themefilters.map(fs=>fs).join(",");
-    }
-    if (orgfilters.length > 0) {
-        searchParams.org = orgfilters.map(fs=>fs).join("|");
-    }
-    if (typefilters.length > 0) {
-        searchParams.type = typefilters.map(fs=>fs).join("|");
-    }
-    if (foundational) {
-        searchParams.foundational = "true";
-    }
-    // console.log(searchParams);
-    axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
-    .then(response => response.data)
-    .then((data) => {
-        // console.log(data);
-        const results = data.Items;
-        const rcnt = results.length>0?results[0].total:0;
-        setResults(results);
-        setCount(rcnt);
-        setBounds(bounds);
-        setKeyword(keyword);
-        setLoadingStatus(false);
-        if (selected!=='search' && open && results.find(r=>r.id===selected)) {
-            setSelected('search');
-            setOpen(false);
-            selectResult(null);
-        }
-        map.on('moveend', event=>eventHandler(event, keyword, initBounds));
-        mapCount=0;
-    })
-    .catch(error=>{
-        console.log(error);
-        setResults([]);
-        setCount(0);
-        setBounds(bounds);
-        setKeyword(keyword);
-        setSelected('search');
-        setOpen(false);
-        selectResult(null);
-        setLoadingStatus(false);
-        map.on('moveend', event=>eventHandler(event, keyword, initBounds));
-        mapCount=0;
-    });
-
+  const handleChange = (e: ChangeEvent) => {
+        e.preventDefault();
+        setKeyword((e.target as HTMLInputElement).value);
   };
 
-  const handleKeyUp = (e) => {
-    if (e.keyCode === 13) {
-        handleSubmit(e);
-    }
-  };
-
-  const handleSubmit = (event) => {
-    if (event) {
-        event.preventDefault();
-    }
-    const keyword = inputRef.current.value;
-    setPageNumber(1);
-    handleSearch(keyword, initBounds);
-  };
-
-  const eventHandler = (event, keyword, bounds) => {
+  const eventHandler = (event:unknown, keyword:string, bounds:unknown) => {
     const mbounds = event.target.getBounds();
     // console.log(mbounds,bounds);
     map.off('moveend', eventHandler);
@@ -197,20 +117,97 @@ const GeoSearch = ({showing}) => {
     }
   }
 
-  const clearOrgFilter = (filter) =>{
-    const  newfilter = orgfilters.filter(fs=>fs!==filter);
+  const handleSearch = (keyword:string, bounds:unknown) => {
+    !loading && setLoadingStatus(true);
+
+    const searchParams:SearchParams = {
+        north: bounds._northEast.lat,
+        east: bounds._northEast.lng,
+        south: bounds._southWest.lat,
+        west: bounds._southWest.lng,
+        keyword,
+        lang: language,
+        min: (pn-1)*rpp + 1,
+        max: cnt>0?Math.min(pn*rpp, cnt):pn*rpp
+    }
+    if (themefilters.length > 0) {
+        searchParams.theme = themefilters.map((fs:string)=>fs).join(",");
+    }
+    if (orgfilters.length > 0) {
+        searchParams.org = orgfilters.map((fs:string)=>fs).join("|");
+    }
+    if (typefilters.length > 0) {
+        searchParams.type = typefilters.map((fs:string)=>fs).join("|");
+    }
+    if (foundational) {
+        searchParams.foundational = "true";
+    }
+    // console.log(searchParams);
+    axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
+    .then(response => response.data)
+    .then((data) => {
+        // console.log(data);
+        const res = data.Items;
+        const rcnt = res.length>0?res[0].total:0;
+        setResults(res);
+        setCount(rcnt);
+        setBounds(bounds);
+        setKeyword(keyword);
+        setLoadingStatus(false);
+        if (selected!=='search' && open && res.find((r:SearchResult)=>r.id===selected)) {
+            setSelected('search');
+            setOpen(false);
+            selectResult(undefined);
+        }
+        map.on('moveend', event=>eventHandler(event, keyword, initBounds));
+        mapCount=0;
+    })
+    .catch(error=>{
+        console.log(error);
+        setResults([]);
+        setCount(0);
+        setBounds(bounds);
+        setKeyword(keyword);
+        setSelected('search');
+        setOpen(false);
+        selectResult(undefined);
+        setLoadingStatus(false);
+        map.on('moveend', event=>eventHandler(event, keyword, initBounds));
+        mapCount=0;
+    });
+
+  };
+
+  const handleSubmit = (event?: React.MouseEvent | undefined) => {
+    if (event) {
+        event.preventDefault();
+    }
+
+    const keyword = (inputRef.current as HTMLInputElement).value;
+    setPageNumber(1);
+    handleSearch(keyword, initBounds);
+  };
+
+  const handleKeyUp = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode === 13) {
+        handleSubmit();
+    }
+  };
+  
+  const clearOrgFilter = (filter:string) =>{
+    const  newfilter = orgfilters.filter((fs:string)=>fs!==filter);
     dispatch(setOrgFilter(newfilter)); 
     setPageNumber(1);     
   };
 
-  const clearTypeFilter = (filter) =>{
-    const  newfilter = typefilters.filter(fs=>fs!==filter);
+  const clearTypeFilter = (filter:string) =>{
+    const  newfilter = typefilters.filter((fs:string)=>fs!==filter);
     dispatch(setTypeFilter(newfilter)); 
     setPageNumber(1);     
   };
 
-  const clearThemeFilter = (filter) =>{
-    const  newfilter = themefilters.filter(fs=>fs!==filter);
+  const clearThemeFilter = (filter:string) =>{
+    const  newfilter = themefilters.filter((fs:string)=>fs!==filter);
     dispatch(setThemeFilter(newfilter)); 
     setPageNumber(1);     
   };
@@ -241,31 +238,31 @@ const GeoSearch = ({showing}) => {
                     onChange={handleChange}
                     onKeyUp={e=>handleKeyUp(e)}
                 />
-                <button className="icon-button" disabled = {loading} type="button" onClick={!loading ? handleSubmit : null}><SearchIcon /></button>
+                <button type="button" className="icon-button" disabled = {loading} onClick={!loading ? handleSubmit : undefined}> <SearchIcon /> </button>
             </div>
             <div className="searchFilters">
                 <div className="row rowDivider">
-                {typefilters.map((typefilter) => (
-                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): null}>                                      
-                        <span className = "glyphicon glyphicon-remove">{typefilter} <ClearIcon size='small'/></span>                   
+                {typefilters.map((typefilter:string) => (
+                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): undefined}>                                      
+                        <span className = "glyphicon glyphicon-remove">{typefilter} <ClearIcon /></span>                   
                     </button>
                 ))
                 }
-                {orgfilters.map((orgfilter) => (
-                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): null}>                     
-                        <span className = "glyphicon glyphicon-remove">{orgfilter}  <ClearIcon size='small'/></span>                
+                {orgfilters.map((orgfilter:string) => (
+                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): undefined}>                     
+                        <span className = "glyphicon glyphicon-remove">{orgfilter}  <ClearIcon /></span>                
                     </button>
                 ))
                 }
-                {themefilters.map((themefilter) => (
-                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): null}>                    
-                        <span className = "glyphicon glyphicon-remove">{themefilter} <ClearIcon size='small'/></span>                                        
+                {themefilters.map((themefilter:string) => (
+                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): undefined}>                    
+                        <span className = "glyphicon glyphicon-remove">{themefilter} <ClearIcon /></span>                                        
                     </button>
                 ))
                 }
                 {foundational && 
-                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: null}>                    
-                        <span className = "glyphicon glyphicon-remove">Foundational Layers Only <ClearIcon size='small'/></span>                                        
+                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: undefined}>                    
+                        <span className = "glyphicon glyphicon-remove">Foundational Layers Only <ClearIcon /></span>                                        
                     </button>
                 }
                 </div>
@@ -280,7 +277,7 @@ const GeoSearch = ({showing}) => {
                     (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
                     (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') :
                     <div className="row rowDivider">
-                    {results.map((result) => (
+                    {results.map((result: SearchResult) => (
                         <div key={result.id} className={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"} onClick={() => handleSelect(result.id)}>
                             <p className="searchTitle">{result.title}</p>
                             <div>
@@ -298,6 +295,41 @@ const GeoSearch = ({showing}) => {
             </div>
         </div>
     );
+}
+
+interface SearchParams {
+    keyword: string;
+    north: number;
+    east: number;
+    south: number;
+    west: number;
+    lang: string;
+    min: number;
+    max: number;
+    theme?: string;
+    org?: string;
+    type?: string;
+    foundational?: 'true';
+}
+
+interface SearchResult {
+    row_num: number;
+    id: string;
+    coordinates: string;
+    title: string;
+    description: string;
+    published: string;
+    keywords: string;
+    options: [];
+    contact: [];
+    created: string;
+    spatialRepresentation: string;
+    type: string;
+    temporalExtent: unknown;
+    graphicOverview: [];
+    language: string;
+    organisation: string;
+    total: number;
 }
 
 export default GeoSearch;

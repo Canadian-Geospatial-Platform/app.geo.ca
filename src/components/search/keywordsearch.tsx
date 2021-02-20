@@ -6,8 +6,7 @@
 
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
 import { useLocation } from 'react-router';
-import { useDispatch, useSelector, useStore } from 'react-redux';
-import throttle from 'lodash.throttle';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SearchIcon from '@material-ui/icons/Search';
@@ -19,7 +18,6 @@ import { getQueryParams } from '../../common/queryparams';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
-import { saveState } from '../../reducers/localStorage';
 import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
@@ -50,7 +48,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const [fReset, setFReset] = useState(false);
     const language = t('app.language');
 
-    const inputRef = createRef();
+    const inputRef:React.RefObject<HTMLInputElement> = createRef();
 
     // console.log(state, dispatch);
     const applyFilters = () => {
@@ -105,7 +103,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                 setKeyword(keyword);
                 setLoading(false);
             })
-            .catch((error) => {
+            .catch(() => {
                 // console.log(error);
                 setResults([]);
                 setCount(0);
@@ -139,11 +137,11 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const handleView = (id: string) => {
-        window.open(`/#/result?id=${encodeURI(id.trim())}`, `View Record ${id.trim()}`);
+        window.open(`/#/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
     };
 
     const handleKeyword = (keyword: string) => {
-        window.open(`/#/search?keyword=${encodeURI(keyword.trim())}`, `Search ${keyword.trim()}`);
+        window.open(`/#/search?keyword=${encodeURI(keyword.trim())}&lang=${language}`, `Search ${keyword.trim()}`);
     };
 
     const handleKwshowing = (rid: string) => {
@@ -157,22 +155,22 @@ const KeywordSearch: React.FunctionComponent = () => {
         setKWShowing(newOpen);
     };
 
-    const handleOrg = (filters: string[]) => {
+    const handleOrg = (filters:unknown):void => {
         setFReset(true);
         setOrg(filters);
     };
 
-    const handleType = (filters: string[]) => {
+    const handleType = (filters:unknown):void => {
         setFReset(true);
         setType(filters);
     };
 
-    const handleTheme = (filters: string[]) => {
+    const handleTheme = (filters:unknown):void => {
         setFReset(true);
         setTheme(filters);
     };
 
-    const handleFound = (found: boolean) => {
+    const handleFound = (found:unknown):void => {
         setFReset(true);
         setFound(found);
     };
@@ -353,7 +351,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                 >
                                                     <TileLayer
                                                         url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
-                                                        attribution="© Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources"
+                                                        attribution={t("mapctrl.attribution")}
                                                     />
                                                     <GeoJSON
                                                         key={result.id}
