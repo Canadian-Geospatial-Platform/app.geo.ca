@@ -1,14 +1,17 @@
-import React, {useState, useEffect} from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useState, useEffect } from 'react';
 import './searchfilter.scss';
 
-export default function SearchFilter(props:filterProps): JSX.Element {
-    const {filtertitle, filtervalues, filterselected, selectFilters} = props;
+export default function SearchFilter(props: filterProps): JSX.Element {
+    const { filtertitle, filtervalues, filterselected, selectFilters } = props;
     const [fselected, setFilterSelected] = useState(filterselected);
     const [open, setOpen] = useState(false);
-    const vtype = (filtervalues.length>0);
+    const vtype = filtervalues.length > 0;
     const selectFilterValue = (filter: string) => {
-        const newselected = fselected.map(fs=>fs);
-        const selectedIndex = fselected.findIndex( fs => fs === filter);
+        const newselected = fselected.map((fs) => fs);
+        const selectedIndex = fselected.findIndex((fs) => fs === filter);
         if (selectedIndex < 0) {
             newselected.push(filter);
         } else {
@@ -16,19 +19,19 @@ export default function SearchFilter(props:filterProps): JSX.Element {
         }
         selectFilters(newselected);
         setFilterSelected(newselected);
-    }
+    };
     const handleOpen = () => {
         if (vtype) {
             if (open) {
-                selectFilters(fselected);  
+                selectFilters(fselected);
             }
         } else {
-            setFilterSelected(open?[]:["ture"]);
+            setFilterSelected(open ? [] : ['ture']);
             selectFilters(!open);
         }
         setOpen(!open);
-    }
-    /*const handleSubmit = () => {
+    };
+    /* const handleSubmit = () => {
         selectFilters(fselected);
         setOpen(false); 
     }
@@ -36,43 +39,45 @@ export default function SearchFilter(props:filterProps): JSX.Element {
         selectFilters("");
         setFilterSelected([]);
         setOpen(false);
-    }*/
-    useEffect(()=>{
+    } */
+    useEffect(() => {
         setFilterSelected(filterselected);
-    },[filterselected]);
+    }, [filterselected]);
 
     return (
         <div className="filterContainer">
-            <div className={fselected.length>0 || open ? "filterCheck checked": "filterCheck"} onClick={() => handleOpen()}>
-                <div className="checkBox"></div>
+            <div className={fselected.length > 0 || open ? 'filterCheck checked' : 'filterCheck'} onClick={() => handleOpen()}>
+                <div className="checkBox" />
                 <div className="filterTitle">{filtertitle}</div>
             </div>
-        {vtype &&
-            <div className={open?"filterList open":"filterList"}>
-            {filtervalues.map(filter=>{
-                const selected = (fselected.findIndex( fs => fs === filter) > -1);
-                return (
-                    <div key={filter}
-                        className = {selected? "filterValue checked" : "filterValue"}
-                        onClick = {()=>selectFilterValue(filter)}
-                    >
-                        <div className="checkBox"></div>
-                        <div className="value">{filter}</div>
-                    </div>
-                )})}
-                {/* <div className={fselected.length>0?"filterAction":"filterAction disabled"}>
+            {vtype && (
+                <div className={open ? 'filterList open' : 'filterList'}>
+                    {filtervalues.map((filter) => {
+                        const selected = fselected.findIndex((fs) => fs === filter) > -1;
+                        return (
+                            <div
+                                key={filter}
+                                className={selected ? 'filterValue checked' : 'filterValue'}
+                                onClick={() => selectFilterValue(filter)}
+                            >
+                                <div className="checkBox" />
+                                <div className="value">{filter}</div>
+                            </div>
+                        );
+                    })}
+                    {/* <div className={fselected.length>0?"filterAction":"filterAction disabled"}>
                     <button className="btn searchButton submit" onClick={fselected.length>0?handleSubmit:undefined}>Submit</button>
                     <button className="btn searchButton clear" onClick={fselected.length>0?handleClear:undefined}>Clear</button>
                 </div>     */}
-            </div>
-        }    
+                </div>
+            )}
         </div>
-    )
+    );
 }
 
 interface filterProps {
     filtertitle: string;
     filtervalues: string[];
     filterselected: string[];
-    selectFilters: Function; 
+    selectFilters: (arg:unknown) => void;
 }

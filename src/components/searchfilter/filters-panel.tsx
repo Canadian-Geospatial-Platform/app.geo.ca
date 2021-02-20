@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { Typography } from '@material-ui/core';
@@ -38,22 +39,22 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setFReset(false);
     }
 
-    const handleOrg = (filters: string[]) => {
+    const handleOrg = (filters:unknown):void => {
         setFReset(true);
         setOrg(filters);
     };
 
-    const handleType = (filters: string[]) => {
+    const handleType = (filters:unknown):void => {
         setFReset(true);
         setType(filters);
     };
 
-    const handleTheme = (filters: string[]) => {
+    const handleTheme = (filters:unknown):void => {
         setFReset(true);
         setTheme(filters);
     };
 
-    const handleFound = (found: boolean) => {
+    const handleFound = (found:unknown):void => {
         setFReset(true);
         setFound(found);
     };

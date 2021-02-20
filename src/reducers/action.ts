@@ -1,7 +1,23 @@
 /* eslint-disable prettier/prettier */
 export interface Action {
-    type: ActionType.SET_MAPPING | ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME | ActionType.SET_FOUND | ActionType.SET_FILTERS ;
-    payload?: string[] | boolean | unknown;
+    type: ActionType.SET_MAPPING | ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME;
+    payload: string[];
+}
+
+interface Filters {
+    orgfilter: string[];
+    typefilter: string[];
+    themefilter: string[];
+    foundational: boolean;
+}
+export interface BooleanAction {
+    type: ActionType.SET_FOUND;
+    payload: boolean;
+}
+
+export interface FiltersAction {
+    type: ActionType.SET_FILTERS ;
+    payload: Filters;
 }
 
 export enum ActionType {
@@ -29,10 +45,10 @@ export function setThemeFilter(themefilter:string[]):Action {
     return {type: ActionType.SET_THEME, payload: themefilter};
 }
 
-export function setFoundational(foundational:boolean):Action {
+export function setFoundational(foundational:boolean):BooleanAction {
     return {type: ActionType.SET_FOUND, payload: foundational};
 }
 
-export function setFilters(filters: unknown):Action {
+export function setFilters(filters: Filters):FiltersAction {
     return {type: ActionType.SET_FILTERS, payload: filters};
 }
