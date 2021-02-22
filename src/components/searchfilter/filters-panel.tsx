@@ -86,7 +86,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                             <SearchFilter filtertitle={t("filter.organisations")} filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
                             <SearchFilter filtertitle={t("filter.types")} filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
                             <SearchFilter filtertitle={t("filter.themes")} filtervalues={themes} filterselected={themefilters} selectFilters={handleTheme} />
-                            <SearchFilter filtertitle={t("filter.themes")} filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
+                            <SearchFilter filtertitle={t("filter.foundational")} filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
                             <div className="filterAction">
                                 <button type="button" className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>{t("filter.applyfilters")}</button>
                                 <button type="button" className="btn searchButton clear" onClick={clearAll}>{t("filter.clearall")}</button>
