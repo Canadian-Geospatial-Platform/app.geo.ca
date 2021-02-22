@@ -222,28 +222,28 @@ const KeywordSearch: React.FunctionComponent = () => {
                     <div className="col-md-2">
                         <div className="searchFilters">
                             <h2>
-                                <FilterIcon /> Filter by:
+                                <FilterIcon /> {t("filter.filterby")}:
                             </h2>
                             <SearchFilter
-                                filtertitle="Organisations"
+                                filtertitle={t("filter.organisations")}
                                 filtervalues={organisations}
                                 filterselected={orgfilters}
                                 selectFilters={handleOrg}
                             />
                             <SearchFilter
-                                filtertitle="Types"
+                                filtertitle={t("filter.types")}
                                 filtervalues={types}
                                 filterselected={typefilters}
                                 selectFilters={handleType}
                             />
                             <SearchFilter
-                                filtertitle="Themes"
+                                filtertitle={t("filter.themes")}
                                 filtervalues={themes}
                                 filterselected={themefilters}
                                 selectFilters={handleTheme}
                             />
                             <SearchFilter
-                                filtertitle="Foundational Layers Only"
+                                filtertitle={t("filter.foundational")}
                                 filtervalues={[]}
                                 filterselected={foundational ? ['true'] : []}
                                 selectFilters={handleFound}
@@ -253,10 +253,10 @@ const KeywordSearch: React.FunctionComponent = () => {
                                     className={fReset ? 'btn searchButton submit' : 'btn searchButton submit disabled'}
                                     onClick={fReset ? applyFilters : undefined}
                                 >
-                                    Apply Filters
+                                    {t("filter.applyfilters")}
                                 </button>
                                 <button type="button" className="btn searchButton clear" onClick={clearAll}>
-                                    Clear All
+                                    {t("filter.clearall")}
                                 </button>
                             </div>
                         </div>
@@ -264,7 +264,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                     <div className="col-md-10">
                         <div className="searchInput">
                             <input
-                                placeholder="Search ..."
+                                placeholder={t("page.search")}
                                 id="search-input"
                                 type="search"
                                 ref={inputRef}
@@ -298,7 +298,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                             }
                             {storefoundational && 
                                 <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: undefined}>                    
-                                    <span className = "glyphicon glyphicon-remove">Foundational Layers Only <ClearIcon /></span>                                        
+                                    <span className = "glyphicon glyphicon-remove">{t("filter.foundational")} <ClearIcon /></span>                                        
                                 </button>
                             }
                         </div>
@@ -309,7 +309,6 @@ const KeywordSearch: React.FunctionComponent = () => {
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">
                     <div className="col-12">
-                        {' '}
                         {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                     </div>
                 </div>
@@ -323,7 +322,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                         </div>
                     ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
                         <div className="col-12 col-search-message">
-                            {Array.isArray(results) && results.length === 0 ? 'Input keyword to search' : 'No result'}
+                            { t("page.changesearch") }
                         </div>
                     ) : (
                         results.map((result: SearchResult) => {
@@ -392,7 +391,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                             className="btn btn-keyword-more"
                                                             onClick={() => handleKwshowing(result.id)}
                                                         >
-                                                            {allkwshowing ? 'Show Less' : 'View More'}
+                                                            {allkwshowing ? t("page.showless") : t("page.viewmore")}
                                                         </button>
                                                     )}
                                                 </div>
@@ -400,10 +399,10 @@ const KeywordSearch: React.FunctionComponent = () => {
                                             <div className="search-meta">
                                                 <ul className="list list-unstyled">
                                                     <li className="list-item">
-                                                        <strong>Organisation:</strong> {result.organisation}
+                                                        <strong>{t("page.organisation")}:</strong> {result.organisation}
                                                     </li>
                                                     <li className="list-item">
-                                                        <strong>Published:</strong> {result.published}
+                                                        <strong>{t("page.published")}:</strong> {result.published}
                                                     </li>
                                                 </ul>
                                             </div>
@@ -412,7 +411,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                 {result.description.length > 240 ? <span>...</span> : ''}
                                             </p>
                                             <button type="button" className="btn btn-search" onClick={() => handleView(result.id)}>
-                                                View Record <i className="fas fa-long-arrow-alt-right" />
+                                                {t("page.viewrecord")} <i className="fas fa-long-arrow-alt-right" />
                                             </button>
                                         </div>
                                     </div>

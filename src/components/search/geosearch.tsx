@@ -229,7 +229,7 @@ const GeoSearch = (showing:string):JSX.Element => {
         <div className="geoSearchContainer">
             <div className="searchInput">
                 <input
-                    placeholder="Search ..."
+                    placeholder={t("page.search")}
                     id="search-input"
                     type="search"
                     ref={inputRef}
@@ -262,7 +262,7 @@ const GeoSearch = (showing:string):JSX.Element => {
                 }
                 {foundational && 
                     <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: undefined}>                    
-                        <span className = "glyphicon glyphicon-remove">Foundational Layers Only <ClearIcon /></span>                                        
+                        <span className = "glyphicon glyphicon-remove">{t("filter.foundational")} <ClearIcon /></span>                                        
                     </button>
                 }
                 </div>
@@ -275,17 +275,17 @@ const GeoSearch = (showing:string):JSX.Element => {
                     </div>
                     :
                     (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
-                    (Array.isArray(results) && results.length===0 ? 'Input keyword to search' : 'No result') :
+                    t("page.changesearch") :
                     <div className="row rowDivider">
                     {results.map((result: SearchResult) => (
                         <div key={result.id} className={(selected === result.id && open === true) ? "col-sm-12 searchResult selected":"col-sm-12 searchResult"} onClick={() => handleSelect(result.id)}>
                             <p className="searchTitle">{result.title}</p>
                             <div>
-                                <p className="searchFields"><strong>Organisation:</strong> {result.organisation}</p>
-                                <p className="searchFields"><strong>Published:</strong> {result.published}</p>
+                                <p className="searchFields"><strong>{t("page.organisation")}:</strong> {result.organisation}</p>
+                                <p className="searchFields"><strong>{t("page.published")}:</strong> {result.published}</p>
                                 <p className="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
                                 
-                                <button type="button" className="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>View Record <i className="fas fa-long-arrow-alt-right" /></button>
+                                <button type="button" className="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>{t("page.viewrecord")} <i className="fas fa-long-arrow-alt-right" /></button>
                             </div>
                         </div>
                     ))}

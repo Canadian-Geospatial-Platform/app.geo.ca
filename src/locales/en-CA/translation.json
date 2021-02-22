@@ -40,7 +40,61 @@
         "share": "Share",
         "version": "Access GitHub repo"
     },
-    "pagectrl": {
-        "total": "{{index}} of {{total}} records"
-    }
+    "filter": {
+        "filterby": "Filter by",
+        "organisations": "Organisations",
+        "types": "Types",
+        "themes": "Themes",
+        "foundational": "Foundational Layers Only",
+        "applyfilters": "Apply Filters",
+        "clearall": "Clear All"
+    },
+    "page": {
+        "ctrl": {
+            "total": "{{index}} of {{total}} records"
+        },
+        "changesearch": "Change the input to search ...",
+        "organisition": "Organisition",
+        "published": "Published",
+        "viewmore": "View More",
+        "showless": "Show Less",
+        "search": "Search ...",
+        "viewrecord": "View Record",
+        "aboutthisdataset": "About this dataset",
+        "keywords": "Keywords",
+        "metadata": "Metadata",
+        "datecreated": "Date Created",
+        "datepublished": "Date Published",
+        "temporalcoverage": "Temporal Coverage",
+        "source": "Source(s)",
+        "name": "Name",
+        "type": "Type",
+        "format": "Format",
+        "languages": "Languages",
+        "language": "English",
+        "organization": "Organization",
+        "address": "Address",
+        "individualname": "Individual Name",
+        "role": "Role",
+        "telephone": "Telephone",
+        "fax": "Fax",
+        "email": "Email",
+        "web": "Web",
+        "description": "Description",
+        "status": "Status",
+        "maintenance": "Maintenance",
+        "topiccategory": "Topic Category",
+        "north": "North",
+        "east": "East",
+        "west": "West",
+        "south": "South",
+        "spatialrepresentation": "Spatial Representation",
+        "addtomap": "Add to Map",
+        "viewthedata": "View the data in depth by adding it to a map.",
+        "addedtomymap": "Added to MyMap",
+        "addtomymap": "Add to MyMap",
+        "ourmetadatais": "Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.",
+        "downloadgeocore": "Download geoCore",
+        "viewhnaprecord": "View HNAP Record"
+    }    
 }

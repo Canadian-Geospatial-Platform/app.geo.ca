@@ -40,7 +40,61 @@
         "share": "Partager",
         "version": "Accéder au repo sur GitHub"
     },
-    "pagectrl": {
-        "total": "{{index}} de {{total}} dossiers"
+    "filter": {
+        "filterby": "Filtrer par",
+        "organisations": "Organisations",
+        "types": "Les Types",
+        "themes": "Thèmes ",
+        "foundational": "Couches de Base Uniquement",
+        "applyfilters": "Appliquer des Filtres",
+        "clearall": "Tout Effacer"
+    },
+    "page": {
+        "ctrl": {
+            "total": "{{index}} de {{total}} dossiers"
+        },
+        "changesearch": "Changer l'entrée à rechercher ... ", 
+        "organisition": "Organisition",
+        "published": "Publié",
+        "viewmore": "Voir Plus",
+        "showless": "Montrer Moins",
+        "search": "Chercher ...",
+        "viewrecord": "Afficher L'enregistrement",
+        "aboutthisdataset": "About this dataset",
+        "keywords": "Keywords",
+        "metadata": "Metadata",
+        "datecreated": "Date Created",
+        "datepublished": "Date Published",
+        "temporalcoverage": "Temporal Coverage",
+        "source": "Source(s)",
+        "name": "Name",
+        "type": "Taper",
+        "format": "Format",
+        "languages": "Languages",
+        "language": "Français",
+        "organization": "Organization",
+        "address": "Address",
+        "individualname": "Individual Name",
+        "role": "Role",
+        "telephone": "Telephone",
+        "fax": "Fax",
+        "email": "Email",
+        "web": "Web",
+        "description": "Description",
+        "status": "Status",
+        "maintenance": "Maintenance",
+        "topiccategory": "Topic Category",
+        "north": "North",
+        "east": "East",
+        "west": "West",
+        "south": "South",
+        "spatialrepresentation": "Spatial Representation",
+        "addtomap": "Add to Map",
+        "viewthedata": "View the data in depth by adding it to a map.",
+        "addedtomymap": "Added to MyMap",
+        "addtomymap": "Add to MyMap",
+        "ourmetadatais": "Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.",
+        "downloadgeocore": "Download geoCore",
+        "viewhnaprecord": "View HNAP Record"
     }
 }
