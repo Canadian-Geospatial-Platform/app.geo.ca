@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector} from "react-redux";
+import { useTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
 // import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
@@ -15,6 +16,7 @@ import { setFilters } from "../../reducers/action";
 
 export default function FilterPanel(props: PanelProps): JSX.Element {
     const { showing, closeFunction } = props;
+    const { t } = useTranslation();
     const storeorgfilters = useSelector(state => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector(state => state.mappingReducer.typefilter);
     const storethemefilters = useSelector(state => state.mappingReducer.themefilter);
@@ -80,14 +82,14 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
                         <div className="searchFilters">
-                            <h2>Filter By:</h2>
-                            <SearchFilter filtertitle="Organisations" filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
-                            <SearchFilter filtertitle="Types" filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
-                            <SearchFilter filtertitle="Themes" filtervalues={themes} filterselected={themefilters} selectFilters={handleTheme} />
-                            <SearchFilter filtertitle="Foundational Layers Only" filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
+                            <h2>{t("filter.filterby")}:</h2>
+                            <SearchFilter filtertitle={t("filter.organisations")} filtervalues={organisations} filterselected={orgfilters} selectFilters={handleOrg} />
+                            <SearchFilter filtertitle={t("filter.types")} filtervalues={types} filterselected={typefilters} selectFilters={handleType} />
+                            <SearchFilter filtertitle={t("filter.themes")} filtervalues={themes} filterselected={themefilters} selectFilters={handleTheme} />
+                            <SearchFilter filtertitle={t("filter.themes")} filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
                             <div className="filterAction">
-                                <button type="button" className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>Apply Filters</button>
-                                <button type="button" className="btn searchButton clear" onClick={clearAll}>Clear All</button>
+                                <button type="button" className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>{t("filter.applyfilters")}</button>
+                                <button type="button" className="btn searchButton clear" onClick={clearAll}>{t("filter.clearall")}</button>
                             </div>
                         </div>
                     </Typography>

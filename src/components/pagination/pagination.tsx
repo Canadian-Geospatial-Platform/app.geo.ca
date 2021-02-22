@@ -23,7 +23,7 @@ export default function Pagination(props:paginationProps): JSX.Element {
     const max = Math.min(current*rpp, rcnt);
     return (
         <div className="paginationContainer">
-            <div className="total">{t("pagectrl.total", { index: `${(current-1)*rpp+1} - ${max}`, total: rcnt })}</div>
+            <div className="total">{t("page.ctrl.total", { index: `${(current-1)*rpp+1} - ${max}`, total: rcnt })}</div>
             {rcnt > rpp && 
             <div className="pages">
             {pgcnt>1 && 
