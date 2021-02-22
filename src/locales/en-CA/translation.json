@@ -95,6 +95,7 @@
         "spatialrepresentation": "Spatial Representation",
         "addtomap": "Add to Map",
         "viewthedata": "View the data in depth by adding it to a map.",
+        "viewonmap": "View on Map",
         "addedtomymap": "Added to MyMap",
         "addtomymap": "Add to MyMap",
         "ourmetadatais": "Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.",
