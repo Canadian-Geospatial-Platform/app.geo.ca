@@ -22,6 +22,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const storethemefilters = useSelector(state => state.mappingReducer.themefilter);
     const storefoundational = useSelector(state => state.mappingReducer.foundational);
     const dispatch = useDispatch(); 
+    const language = t("app.language");
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
@@ -70,7 +71,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             setFound(storefoundational);   
             setFReset(false);
         } 
-      }, [showing]);
+      }, [showing, language]);
 
     return (
         <PanelApp
@@ -83,10 +84,10 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                     <Typography variant="body2" color="textSecondary" component="div">
                         <div className="searchFilters">
                             <h2>{t("filter.filterby")}:</h2>
-                            <SearchFilter filtertitle={t("filter.organisations")} filtervalues={organisations[t("app.language")]} filterselected={orgfilters} selectFilters={handleOrg} />
-                            <SearchFilter filtertitle={t("filter.types")} filtervalues={types[t("app.language")]} filterselected={typefilters} selectFilters={handleType} />
-                            <SearchFilter filtertitle={t("filter.themes")} filtervalues={themes[t("app.language")]} filterselected={themefilters} selectFilters={handleTheme} />
-                            <SearchFilter filtertitle={t("filter.foundational")} filtervalues={[]} filterselected={foundational?["true"]:[]} selectFilters={handleFound} />
+                            <SearchFilter filtertitle={t("filter.organisations")} filtervalues={organisations[language]} filterselected={orgfilters} selectFilters={handleOrg} />
+                            <SearchFilter filtertitle={t("filter.types")} filtervalues={types[language]} filterselected={typefilters} selectFilters={handleType} />
+                            <SearchFilter filtertitle={t("filter.themes")} filtervalues={themes[language]} filterselected={themefilters} selectFilters={handleTheme} />
+                            <SearchFilter filtertitle={t("filter.foundational")} filtervalues={[]} filterselected={foundational?[1]:[]} selectFilters={handleFound} />
                             <div className="filterAction">
                                 <button type="button" className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>{t("filter.applyfilters")}</button>
                                 <button type="button" className="btn searchButton clear" onClick={clearAll}>{t("filter.clearall")}</button>

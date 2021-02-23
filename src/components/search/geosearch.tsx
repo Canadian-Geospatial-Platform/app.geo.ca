@@ -97,7 +97,7 @@ const GeoSearch = (showing:string):JSX.Element => {
 
   const handleView = (evt:React.MouseEvent<HTMLButtonElement>, id:string) => {
     evt.stopPropagation();
-    window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
+    window.open(`/#/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
   }
 
   const handleChange = (e: ChangeEvent) => {
@@ -134,13 +134,13 @@ const GeoSearch = (showing:string):JSX.Element => {
         max: cnt>0?Math.min(pn*rpp, cnt):pn*rpp
     }
     if (themefilters.length > 0) {
-        searchParams.theme = themefilters.map((fs:number)=>themes[t(app.language)][fs]).join(",");
+        searchParams.theme = themefilters.map((fs:number)=>themes[language][fs]).join(",");
     }
     if (orgfilters.length > 0) {
-        searchParams.org = orgfilters.map((fs:number)=>organisations[t(app.language)][fs]).join("|");
+        searchParams.org = orgfilters.map((fs:number)=>organisations[language][fs]).join("|");
     }
     if (typefilters.length > 0) {
-        searchParams.type = typefilters.map((fs:number)=>types[t(app.language)][fs]).join("|");
+        searchParams.type = typefilters.map((fs:number)=>types[language][fs]).join("|");
     }
     if (foundational) {
         searchParams.foundational = "true";
@@ -197,20 +197,20 @@ const GeoSearch = (showing:string):JSX.Element => {
     }
   };
   
-  const clearOrgFilter = (filter:string) =>{
-    const  newfilter = orgfilters.filter((fs:string)=>fs!==filter);
+  const clearOrgFilter = (filter:number) =>{
+    const  newfilter = orgfilters.filter((fs:number)=>fs!==filter);
     dispatch(setOrgFilter(newfilter)); 
     setPageNumber(1);     
   };
 
-  const clearTypeFilter = (filter:string) =>{
-    const  newfilter = typefilters.filter((fs:string)=>fs!==filter);
+  const clearTypeFilter = (filter:number) =>{
+    const  newfilter = typefilters.filter((fs:number)=>fs!==filter);
     dispatch(setTypeFilter(newfilter)); 
     setPageNumber(1);     
   };
 
-  const clearThemeFilter = (filter:string) =>{
-    const  newfilter = themefilters.filter((fs:string)=>fs!==filter);
+  const clearThemeFilter = (filter:number) =>{
+    const  newfilter = themefilters.filter((fs:number)=>fs!==filter);
     dispatch(setThemeFilter(newfilter)); 
     setPageNumber(1);     
   };
@@ -245,21 +245,21 @@ const GeoSearch = (showing:string):JSX.Element => {
             </div>
             <div className="searchFilters">
                 <div className="row rowDivider">
-                {typefilters.map((typefilter:string) => (
+                {typefilters.map((typefilter:number) => (
                     <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): undefined}>                                      
-                        <span className = "glyphicon glyphicon-remove">{typefilter} <ClearIcon /></span>                   
+                        <span className = "glyphicon glyphicon-remove">{types[language][typefilter]} <ClearIcon /></span>                   
                     </button>
                 ))
                 }
-                {orgfilters.map((orgfilter:string) => (
+                {orgfilters.map((orgfilter:number) => (
                     <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): undefined}>                     
-                        <span className = "glyphicon glyphicon-remove">{orgfilter}  <ClearIcon /></span>                
+                        <span className = "glyphicon glyphicon-remove">{organisations[language][orgfilter]}  <ClearIcon /></span>                
                     </button>
                 ))
                 }
-                {themefilters.map((themefilter:string) => (
+                {themefilters.map((themefilter:number) => (
                     <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): undefined}>                    
-                        <span className = "glyphicon glyphicon-remove">{themefilter} <ClearIcon /></span>                                        
+                        <span className = "glyphicon glyphicon-remove">{themes[language][themefilter]} <ClearIcon /></span>                                        
                     </button>
                 ))
                 }

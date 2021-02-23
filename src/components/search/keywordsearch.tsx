@@ -78,13 +78,13 @@ const KeywordSearch: React.FunctionComponent = () => {
             max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
         if (storethemefilters.length > 0) {
-            searchParams.theme = storethemefilters.map((fs: number) => themes[t(app.language)][fs]).join(',');
+            searchParams.theme = storethemefilters.map((fs: number) => themes[language][fs]).join(',');
         }
         if (storeorgfilters.length > 0) {
-            searchParams.org = storeorgfilters.map((fs: number) => organisations[t(app.language)][fs]).join('|');
+            searchParams.org = storeorgfilters.map((fs: number) => organisations[language][fs]).join('|');
         }
         if (storetypefilters.length > 0) {
-            searchParams.type = storetypefilters.map((fs: number) => types[t(app.language)][fs]).join('|');
+            searchParams.type = storetypefilters.map((fs: number) => types[language][fs]).join('|');
         }
         if (storefoundational) {
             searchParams.foundational = 'true';
@@ -137,11 +137,11 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const handleView = (id: string) => {
-        window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
+        window.open(`/#/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
     };
 
     const handleKeyword = (keyword: string) => {
-        window.open(`/search?keyword=${encodeURI(keyword.trim())}&lang=${language}`, `Search ${keyword.trim()}`);
+        window.open(`/#/search?keyword=${encodeURI(keyword.trim())}&lang=${language}`, `Search ${keyword.trim()}`);
     };
 
     const handleKwshowing = (rid: string) => {
@@ -175,24 +175,24 @@ const KeywordSearch: React.FunctionComponent = () => {
         setFound(found);
     };
 
-    const clearOrgFilter = (filter:string) =>{
-        const  newfilter = orgfilters.filter((fs:string)=>fs!==filter);
+    const clearOrgFilter = (filter:number) =>{
+        const  newfilter = orgfilters.filter((fs:number)=>fs!==filter);
         dispatch(setOrgFilter(newfilter)); 
         setOrg(newfilter);
         setFReset(false);
         setPageNumber(1);
     };
 
-    const clearTypeFilter = (filter:string) =>{
-        const  newfilter = typefilters.filter((fs:string)=>fs!==filter);
+    const clearTypeFilter = (filter:number) =>{
+        const  newfilter = typefilters.filter((fs:number)=>fs!==filter);
         dispatch(setTypeFilter(newfilter)); 
         setType(newfilter);
         setFReset(false);
         setPageNumber(1);
     };
 
-    const clearThemeFilter = (filter:string) =>{
-        const  newfilter = themefilters.filter((fs:string)=>fs!==filter);
+    const clearThemeFilter = (filter:number) =>{
+        const  newfilter = themefilters.filter((fs:number)=>fs!==filter);
         dispatch(setThemeFilter(newfilter)); 
         setTheme(newfilter);
         setFReset(false);
@@ -226,19 +226,19 @@ const KeywordSearch: React.FunctionComponent = () => {
                             </h2>
                             <SearchFilter
                                 filtertitle={t("filter.organisations")}
-                                filtervalues={organisations[t("app.language")]}
+                                filtervalues={organisations[language]}
                                 filterselected={orgfilters}
                                 selectFilters={handleOrg}
                             />
                             <SearchFilter
                                 filtertitle={t("filter.types")}
-                                filtervalues={types[t("app.language")]}
+                                filtervalues={types[language]}
                                 filterselected={typefilters}
                                 selectFilters={handleType}
                             />
                             <SearchFilter
                                 filtertitle={t("filter.themes")}
-                                filtervalues={themes[t("app.language")]}
+                                filtervalues={themes[language]}
                                 filterselected={themefilters}
                                 selectFilters={handleTheme}
                             />
@@ -278,21 +278,21 @@ const KeywordSearch: React.FunctionComponent = () => {
                             </button>
                         </div>
                         <div className="searchListFilters row">
-                            {storetypefilters.map((typefilter:string) => (
+                            {storetypefilters.map((typefilter:number) => (
                                 <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): undefined}>                                      
-                                    <span className = "glyphicon glyphicon-remove">{typefilter} <ClearIcon /></span>                   
+                                    <span className = "glyphicon glyphicon-remove">{types[language][typefilter]} <ClearIcon /></span>                   
                                 </button>
                             ))
                             }
-                            {storeorgfilters.map((orgfilter:string) => (
+                            {storeorgfilters.map((orgfilter:number) => (
                                 <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): undefined}>                     
-                                    <span className = "glyphicon glyphicon-remove">{orgfilter} <ClearIcon /></span>                
+                                    <span className = "glyphicon glyphicon-remove">{organisations[language][orgfilter]} <ClearIcon /></span>                
                                 </button>
                             ))
                             }
-                            {storethemefilters.map((themefilter:string) => (
+                            {storethemefilters.map((themefilter:number) => (
                                 <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): undefined}>                    
-                                    <span className = "glyphicon glyphicon-remove">{themefilter} <ClearIcon /></span>                                        
+                                    <span className = "glyphicon glyphicon-remove">{themes[language][themefilter]} <ClearIcon /></span>                                        
                                 </button>
                             ))
                             }
