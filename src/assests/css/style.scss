@@ -426,3 +426,81 @@ input {
         padding: 25px 0;
     }
 }
+
+// filter sytling
+.row-filters {
+    position: relative;
+
+    .filters-wrap {
+        width: 100%;
+
+        .filters-title {
+            font-size: 1.5rem;
+        }
+
+        .filter-wrap {
+            margin-bottom: 1rem;
+            &.open {
+                .filter-list-wrap {
+                    display: block;
+                }
+            }
+
+            .filter-title {
+                font-size: 1rem;
+                font-weight: 600;
+                margin: 0 0 0.5em 0;
+                text-decoration: none!important;
+            }
+
+            .filter-list-wrap {
+                display: none;
+                .list {
+                    columns: 3;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .list-item {
+                    margin-bottom: 0.25rem;
+                    cursor: pointer;
+                    .label {
+                        order: 2;
+                        line-height: 1em;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .checkbox {
+                        order: 1;
+                        height: auto;
+                        width: auto;
+                        margin: 0 1rem 0 0;
+                        padding: 0;
+                    }
+                }
+            }
+        }
+    }
+    .filter-actions {
+        .search-btn {
+            margin-right: 0.5em;
+            background-color: #515aa9;
+            color: #fff;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .search-btn:not(.disabled) {
+            &:hover {
+                background-color: transparent;
+                color: #515aa9;
+                border: 1px solid #515aa9;
+            }
+        }
+    }
+}
