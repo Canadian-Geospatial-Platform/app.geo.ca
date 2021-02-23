@@ -9,11 +9,11 @@ export default function SearchFilter(props: filterProps): JSX.Element {
     const [fselected, setFilterSelected] = useState(filterselected);
     const [open, setOpen] = useState(false);
     const vtype = filtervalues.length > 0;
-    const selectFilterValue = (filter: string) => {
+    const selectFilterValue = (findex: number) => {
         const newselected = fselected.map((fs) => fs);
-        const selectedIndex = fselected.findIndex((fs) => fs === filter);
+        const selectedIndex = fselected.findIndex((fs) => fs === findex);
         if (selectedIndex < 0) {
-            newselected.push(filter);
+            newselected.push(findex);
         } else {
             newselected.splice(selectedIndex, 1);
         }
@@ -26,7 +26,7 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                 selectFilters(fselected);
             }
         } else {
-            setFilterSelected(open ? [] : ['ture']);
+            setFilterSelected(open ? [] : [1]);
             selectFilters(!open);
         }
         setOpen(!open);
@@ -52,13 +52,13 @@ export default function SearchFilter(props: filterProps): JSX.Element {
             </div>
             {vtype && (
                 <div className={open ? 'filterList open' : 'filterList'}>
-                    {filtervalues.map((filter) => {
-                        const selected = fselected.findIndex((fs) => fs === filter) > -1;
+                    {filtervalues.map((filter, findex: number) => {
+                        const selected = fselected.findIndex((fs) => fs === findex) > -1;
                         return (
                             <div
                                 key={filter}
                                 className={selected ? 'filterValue checked' : 'filterValue'}
-                                onClick={() => selectFilterValue(filter)}
+                                onClick={() => selectFilterValue(findex)}
                             >
                                 <div className="checkBox" />
                                 <div className="value">{filter}</div>
@@ -78,6 +78,6 @@ export default function SearchFilter(props: filterProps): JSX.Element {
 interface filterProps {
     filtertitle: string;
     filtervalues: string[];
-    filterselected: string[];
+    filterselected: number[];
     selectFilters: (arg:unknown) => void;
 }

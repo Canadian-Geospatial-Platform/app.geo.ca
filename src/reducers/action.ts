@@ -1,25 +1,4 @@
 /* eslint-disable prettier/prettier */
-export interface Action {
-    type: ActionType.SET_MAPPING | ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME;
-    payload: string[];
-}
-
-interface Filters {
-    orgfilter: string[];
-    typefilter: string[];
-    themefilter: string[];
-    foundational: boolean;
-}
-export interface BooleanAction {
-    type: ActionType.SET_FOUND;
-    payload: boolean;
-}
-
-export interface FiltersAction {
-    type: ActionType.SET_FILTERS ;
-    payload: Filters;
-}
-
 export enum ActionType {
     SET_MAPPING = 'setMapping',
     SET_ORG = 'setOrgFilter',
@@ -27,21 +6,48 @@ export enum ActionType {
     SET_THEME = 'setThemeFilter',
     SET_FOUND = 'setFoundational',
     SET_FILTERS = 'setFilters'
-  }
+}
+
+export interface Action {
+    type: ActionType.SET_MAPPING;
+    payload: string[];
+}
+
+interface Filters {
+    orgfilter: number[];
+    typefilter: number[];
+    themefilter: number[];
+    foundational: boolean;
+}
+
+export interface BooleanAction {
+    type: ActionType.SET_FOUND;
+    payload: boolean;
+}
+
+export interface FilterAction {
+    type: ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME;
+    payload: number[];
+}
+export interface FiltersAction {
+    type: ActionType.SET_FILTERS ;
+    payload: Filters;
+}
+
 // export type Action = { type: ActionType.ADD_MAPPING, payload: idstring } | { type: ActionType.DEL_MAPPING, payload: idstring } | { type: ActionType.CLEAR_MAPPING };
 export function setMapping(mlist:string[]):Action {
     return {type: ActionType.SET_MAPPING, payload: mlist};
 } 
 
-export function setOrgFilter(orgfilter:string[]):Action {
+export function setOrgFilter(orgfilter:number[]):FilterAction {
     return {type: ActionType.SET_ORG, payload: orgfilter};
 }
 
-export function setTypeFilter(typefilter:string[]):Action {
+export function setTypeFilter(typefilter:number[]):FilterAction {
     return {type: ActionType.SET_TYPE, payload: typefilter};
 }
 
-export function setThemeFilter(themefilter:string[]):Action {
+export function setThemeFilter(themefilter:number[]):FilterAction {
     return {type: ActionType.SET_THEME, payload: themefilter};
 }
 

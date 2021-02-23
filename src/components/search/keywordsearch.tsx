@@ -78,13 +78,13 @@ const KeywordSearch: React.FunctionComponent = () => {
             max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
         if (storethemefilters.length > 0) {
-            searchParams.theme = storethemefilters.map((fs: string) => fs).join(',');
+            searchParams.theme = storethemefilters.map((fs: number) => themes[t(app.language)][fs]).join(',');
         }
         if (storeorgfilters.length > 0) {
-            searchParams.org = storeorgfilters.map((fs: string) => fs).join('|');
+            searchParams.org = storeorgfilters.map((fs: number) => organisations[t(app.language)][fs]).join('|');
         }
         if (storetypefilters.length > 0) {
-            searchParams.type = storetypefilters.map((fs: string) => fs).join('|');
+            searchParams.type = storetypefilters.map((fs: number) => types[t(app.language)][fs]).join('|');
         }
         if (storefoundational) {
             searchParams.foundational = 'true';
@@ -226,26 +226,26 @@ const KeywordSearch: React.FunctionComponent = () => {
                             </h2>
                             <SearchFilter
                                 filtertitle={t("filter.organisations")}
-                                filtervalues={organisations}
+                                filtervalues={organisations[t("app.language")]}
                                 filterselected={orgfilters}
                                 selectFilters={handleOrg}
                             />
                             <SearchFilter
                                 filtertitle={t("filter.types")}
-                                filtervalues={types}
+                                filtervalues={types[t("app.language")]}
                                 filterselected={typefilters}
                                 selectFilters={handleType}
                             />
                             <SearchFilter
                                 filtertitle={t("filter.themes")}
-                                filtervalues={themes}
+                                filtervalues={themes[t("app.language")]}
                                 filterselected={themefilters}
                                 selectFilters={handleTheme}
                             />
                             <SearchFilter
                                 filtertitle={t("filter.foundational")}
                                 filtervalues={[]}
-                                filterselected={foundational ? ['true'] : []}
+                                filterselected={foundational ? [1] : []}
                                 selectFilters={handleFound}
                             />
                             <div className="filterAction">

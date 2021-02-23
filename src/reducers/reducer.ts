@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
-import {ActionType, Action, BooleanAction, FiltersAction } from './action';
+import {ActionType, Action, BooleanAction, FilterAction, FiltersAction } from './action';
 
 export interface mappingState {
     mapping: string[];
-    orgfilter: string[];
-    typefilter: string[];
-    themefilter: string[];
+    orgfilter: number[];
+    typefilter: number[];
+    themefilter: number[];
     foundational: boolean;
 }
 
@@ -19,7 +19,7 @@ const defaultState: mappingState = {
 
 const mappingReducer = (
     state: mappingState = defaultState, 
-    action: Action | BooleanAction | FiltersAction
+    action: Action | BooleanAction | FilterAction | FiltersAction
 ) : mappingState => {
   switch (action.type) {
     case ActionType.SET_MAPPING:

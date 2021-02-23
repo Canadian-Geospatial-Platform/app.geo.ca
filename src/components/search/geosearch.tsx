@@ -20,6 +20,9 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { getQueryParams } from '../../common/queryparams'; 
 import Pagination from '../pagination/pagination';
 import { setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
+import organisations from './organisations.json';
+import types from './types.json';
+import themes from './themes.json';
 import './geosearch.scss';
 
 const GeoSearch = (showing:string):JSX.Element => {
@@ -131,13 +134,13 @@ const GeoSearch = (showing:string):JSX.Element => {
         max: cnt>0?Math.min(pn*rpp, cnt):pn*rpp
     }
     if (themefilters.length > 0) {
-        searchParams.theme = themefilters.map((fs:string)=>fs).join(",");
+        searchParams.theme = themefilters.map((fs:number)=>themes[t(app.language)][fs]).join(",");
     }
     if (orgfilters.length > 0) {
-        searchParams.org = orgfilters.map((fs:string)=>fs).join("|");
+        searchParams.org = orgfilters.map((fs:number)=>organisations[t(app.language)][fs]).join("|");
     }
     if (typefilters.length > 0) {
-        searchParams.type = typefilters.map((fs:string)=>fs).join("|");
+        searchParams.type = typefilters.map((fs:number)=>types[t(app.language)][fs]).join("|");
     }
     if (foundational) {
         searchParams.foundational = "true";

@@ -1,4 +1,16 @@
-[
+{
+"en": [
+"administration", 
+"economy", 
+"environment", 
+"imagery", 
+"infrastructure", 
+"science", 
+"society", 
+"legal", 
+"emergency"
+],
+"fr": [
 "administration", 
 "economy", 
 "environment", 
@@ -9,3 +21,4 @@
 "legal", 
 "emergency"
 ]
+}
