@@ -33,6 +33,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const [pn, setPageNumber] = useState(1);
     const [cnt, setCount] = useState(0);
     const [results, setResults] = useState<SearchResult[]>([]);
+    const [filterbyshown, setFilterbyshown] = useState(false);
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     // const store = useStore();
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
@@ -48,8 +49,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const language = t('app.language');
 
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
-
-    // console.log(state, dispatch);
+    
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
         setFReset(false);
@@ -212,16 +212,10 @@ const KeywordSearch: React.FunctionComponent = () => {
             handleSearch(initKeyword);
         }
     }, [language, pn, fReset, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
-
-    const handleOpen = (section) => {
-        const newOpen = openSection.map((o) => o);
-        const hIndex = openSection.findIndex((os) => os === section);
-        if (hIndex < 0) {
-            newOpen.push(section);
-        } else {
-            newOpen.splice(hIndex, 1);
-        }
-        setOpen(newOpen);
+    
+    const handleToggleFilterBy = () => {        
+        if (filterbyshown) setFilterbyshown(false);
+        else  setFilterbyshown(true);
     };
 
     return (
@@ -244,17 +238,21 @@ const KeywordSearch: React.FunctionComponent = () => {
                             <SearchIcon />
                         </button>
                     </div>
-                    <div className="col-4 col-advanced-filters-link">
-                        <a href="#" onClick={() => handleOpen('dataresources')}>
-                            {t("page.advancedsearchfilters")}
-                        </a>
+                    {/* <div className="col-4 col-advanced-filters-link"> */}
+                    <div>                       
+                        <button className="toggle_button col-8 col-advanced-filters-button icon-button" disabled={loading} type="button" onClick={!loading ? handleToggleFilterBy : undefined}  >
+                        {t("page.advancedsearchfilters")}
+                        </button>
                     </div>
                 </div>
             </div>
+            { (storetypefilters.length > 0  ||   storeorgfilters.length > 0 ||  storethemefilters.length >0) &&
             <div className="container-fluid container-search-filters-active">
                 <div className="row row-search-filters-active">
                     <div className="col-12">
+                       {!loading &&  
                         <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
+                           
                             {storetypefilters.map((typefilter:number) => (
                                 <button
                                     type="button"
@@ -294,11 +292,15 @@ const KeywordSearch: React.FunctionComponent = () => {
                                 >
                                     {t("filter.foundational")} <i className="fas fa-times" />
                                 </button>
-                            )}
-                        </div>
+                            )}                            
+                            </div>
+                        }
+                        
                     </div>
                 </div>
             </div>
+            }
+            {!loading &&  filterbyshown &&
             <div className="container-fluid container-filter-selecton">
                 <div className="row row-filters">
                     <div className="col-12">
@@ -352,6 +354,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                     </div>
                 </div>
             </div>
+            }
             {/* Pagination - Top */}
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">

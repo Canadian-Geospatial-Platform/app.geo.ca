@@ -1,12 +1,9 @@
 @import '../../assests/css/variables-site/variables-site';
-
 .pageContainer.keyword-search-page {
     margin-top: 89px;
-
     .container-search {
         background-color: $color__logo-blue;
         padding: 2.5em 5% 2.5em 5%;
-
         .col-search-input {
             display: flex;
             align-items: center;
@@ -52,7 +49,9 @@
                 }
             }
         }
-
+        .col-advanced-filters-button {
+            align-items: right;
+        }
         .col-advanced-filters-link {
             align-self: flex-end;
             a {
@@ -64,31 +63,30 @@
                 }
             }
         }
+        .toggle_button {
+            float: right;
+            width: 300px;
+        }
     }
-
     .container-filter-selecton {
         padding: 2.5em 5% 2em 5%;
         border-bottom: 1px solid $color__bg-aside;
         background-color: rgb(242, 242, 242);
     }
-
     .container-search-filters-active {
         padding: 2.5em 5% 2em 5%;
         border-bottom: 1px solid $color__bg-aside;
     }
-
     .row-results {
         .col-beat-loader {
             padding: 1rem 0;
             text-align: center;
         }
-
         .col-search-message {
             border-bottom: 1px solid $color__bg-aside;
             padding-top: 1rem;
             text-align: center;
         }
-
         .search-image {
             height: 300px;
             overflow: hidden;
@@ -96,12 +94,10 @@
                 height: 300px;
                 margin-top: 0;
             }
-
             @media (max-width: 1200px) {
                 margin-bottom: 1.5rem;
             }
         }
-
         .search-result {
             box-sizing: border-box;
             border: 2px solid transparent;
@@ -125,16 +121,13 @@
                 margin: 0 0 0.5em 0;
                 text-align: left;
             }
-
             .search-meta {
                 font-size: 0.75rem;
             }
-
             .search-desc {
                 font-size: 1rem;
                 margin-bottom: 2.5rem;
             }
-
             .btn-group-keywords {
                 display: flex;
                 flex-wrap: wrap;
@@ -145,7 +138,6 @@
                         display: none;
                     }
                 }
-
                 .btn {
                     border: 1px solid $color__logo-blue-light;
                     font-size: 0.75rem;
@@ -155,7 +147,6 @@
                     text-transform: capitalize;
                     transition-duration: 0.4s;
                 }
-
                 .btn-keyword {
                     background-color: transparent;
                     color: $color__logo-blue;
@@ -173,7 +164,6 @@
                     }
                 }
             }
-
             .btn-search {
                 background-color: $color__logo-blue;
                 color: $color__light;
