@@ -38,10 +38,12 @@
             .filter-title {
                 font-size: 1rem;
                 font-weight: 600;
-                margin-bottom: 0.5em;
+                margin: 0 0 0.5em 0;
+                text-decoration: none!important;
             }
 
             .filter-list-wrap {
+                display: none;
                 .list {
                     columns: 3;
                     margin: 0;
@@ -50,6 +52,7 @@
 
                 .list-item {
                     margin-bottom: 0.25rem;
+                    cursor: pointer;
                     .label {
                         order: 2;
                         line-height: 1em;

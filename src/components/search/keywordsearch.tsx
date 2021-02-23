@@ -45,6 +45,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const [themefilters, setTheme] = useState(storethemefilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
+    const [ofOpen, setOfOpen] = useState(false);
     const language = t('app.language');
 
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
@@ -324,17 +325,14 @@ const KeywordSearch: React.FunctionComponent = () => {
                                 filterselected={themefilters}
                                 selectFilters={handleTheme}
                             />
-                            <div className="filter-wrap">
-                                <div className="filterCheck checked">
-                                    <h3 className="filter-title">{t("filter.otherfilters")}</h3>
-                                </div>
+                            <div className={ofOpen ?  'filter-wrap open' : 'filter-wrap'}>
+                                <button type="button" className="link-button filter-title" onClick={()=>setOfOpen(!ofOpen)}>{t("filter.otherfilters")}</button>
                                 <SearchFilter
                                     filtertitle={t("filter.foundational")}
                                     filtervalues={[]}
                                     filterselected={foundational ? [1] : []}
                                     selectFilters={handleFound}
                                 />
-                            
                             </div>
                         </div>
                         <div className="filter-actions d-flex justify-content-end">

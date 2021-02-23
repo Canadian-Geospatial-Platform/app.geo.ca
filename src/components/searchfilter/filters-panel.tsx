@@ -28,6 +28,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [themefilters, setTheme] = useState(storethemefilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
+    const [ofOpen, setOfOpen] = useState(false);
  // console.log(state, dispatch);
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
@@ -87,10 +88,8 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                             <SearchFilter filtertitle={t("filter.organisations")} filtervalues={organisations[language]} filterselected={orgfilters} selectFilters={handleOrg} />
                             <SearchFilter filtertitle={t("filter.types")} filtervalues={types[language]} filterselected={typefilters} selectFilters={handleType} />
                             <SearchFilter filtertitle={t("filter.themes")} filtervalues={themes[language]} filterselected={themefilters} selectFilters={handleTheme} />
-                            <div className="filter-wrap">
-                                <div className="filterCheck checked">
-                                    <h3 className="filter-title">{t("filter.otherfilters")}</h3>
-                                </div>
+                            <div className={ofOpen ?  'filter-wrap open' : 'filter-wrap'}>
+                                <button type="button" className="link-button filter-title" onClick={()=>setOfOpen(!ofOpen)}>{t("filter.otherfilters")}</button>
                                 <SearchFilter filtertitle={t("filter.foundational")} filtervalues={[]} filterselected={foundational?[1]:[]} selectFilters={handleFound} />
                             </div>
                             <div className="filterAction">

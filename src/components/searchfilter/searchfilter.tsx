@@ -32,58 +32,46 @@ export default function SearchFilter(props: filterProps): JSX.Element {
         }
         setOpen(!open);
     };
-    /* const handleSubmit = () => {
-        selectFilters(fselected);
-        setOpen(false); 
-    }
-    const handleClear = () => {
-        selectFilters("");
-        setFilterSelected([]);
-        setOpen(false);
-    } */
+    
     useEffect(() => {
         setFilterSelected(filterselected);
     }, [filterselected]);
 
     return (
-        <div className={open ? 'filter-wrap open' : 'filter-wrap'}>
-            {vtype && <div className={open ? 'filterCheck checked' : 'filterCheck'} onClick={() => handleOpen()}>
-                <h3 className="filter-title">{filtertitle}</h3>
-            </div>}
-            {vtype ? (
-                <div className={open ?  'filter-list-wrap open' : 'filter-list-wrap'}>
-                    <ul className="list">
-                        {filtervalues.map((filter:string, findex: number) => {
-                            const selected = fselected.findIndex((fs) => fs === findex) > -1;
-                            return (
-                                <li key={filter}
-                                    className={selected ? 'filterValue checked d-flex flex-row list-item' : 'filterValue d-flex flex-row list-item'}
-                                    onClick={() => selectFilterValue(findex)}
-                                >
-                                    <label htmlFor={filter} className="label">
-                                        {filter}
-                                    </label>
-                                    {/* <span className="checkBox" /> */}
-                                    <input type="checkbox" className="checkbox" checked={selected} />
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </div>
-            ) : (
-                <div className={open ?  'filter-list-wrap open' : 'filter-list-wrap'}>
-                    <ul className="list">
-                        <li className={fselected.length > 0 ? 'filterValue checked d-flex flex-row list-item' : 'filterValue d-flex flex-row list-item'}
-                            onClick={() => handleOpen()}
-                        >
-                            <label htmlFor={filtertitle} className="label">
-                                {filtertitle}
-                            </label>
-                            <input type="checkbox" className="checkbox" checked={fselected.length>0} />
-                        </li>
-                    </ul>
-                </div>
-            )}
+        vtype ? 
+        <div className={open ?  'filter-wrap open' : 'filter-wrap'}>
+            <button type="button" className="link-button filter-title" onClick={() => handleOpen()}>{filtertitle}</button>
+            <div className="filter-list-wrap">
+                <ul className="list">
+                    {filtervalues.map((filter:string, findex: number) => {
+                        const selected = fselected.findIndex((fs) => fs === findex) > -1;
+                        return (
+                            <li key={filter}
+                                className={selected ? 'filterValue checked d-flex flex-row list-item' : 'filterValue d-flex flex-row list-item'}
+                                onClick={() => selectFilterValue(findex)}
+                            >
+                                <label htmlFor={filter} className="label">
+                                    {filter}
+                                </label>
+                                <input type="checkbox" className="checkbox" checked={selected} />
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        </div>    
+        :
+        <div className="filter-list-wrap">
+            <ul className="list">
+                <li className={fselected.length > 0 ? 'filterValue checked d-flex flex-row list-item' : 'filterValue d-flex flex-row list-item'}
+                    onClick={() => handleOpen()}
+                >
+                    <label htmlFor={filtertitle} className="label">
+                        {filtertitle}
+                    </label>
+                    <input type="checkbox" className="checkbox" checked={fselected.length>0} />
+                </li>
+            </ul>
         </div>
     );
 }
