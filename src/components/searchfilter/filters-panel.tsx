@@ -82,12 +82,17 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             content={
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
-                        <div className="searchFilters">
+                        <div className="container-fluid container-filter-selecton">
                             <h2>{t("filter.filterby")}:</h2>
                             <SearchFilter filtertitle={t("filter.organisations")} filtervalues={organisations[language]} filterselected={orgfilters} selectFilters={handleOrg} />
                             <SearchFilter filtertitle={t("filter.types")} filtervalues={types[language]} filterselected={typefilters} selectFilters={handleType} />
                             <SearchFilter filtertitle={t("filter.themes")} filtervalues={themes[language]} filterselected={themefilters} selectFilters={handleTheme} />
-                            <SearchFilter filtertitle={t("filter.foundational")} filtervalues={[]} filterselected={foundational?[1]:[]} selectFilters={handleFound} />
+                            <div className="filter-wrap">
+                                <div className="filterCheck checked">
+                                    <h3 className="filter-title">{t("filter.otherfilters")}</h3>
+                                </div>
+                                <SearchFilter filtertitle={t("filter.foundational")} filtervalues={[]} filterselected={foundational?[1]:[]} selectFilters={handleFound} />
+                            </div>
                             <div className="filterAction">
                                 <button type="button" className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>{t("filter.applyfilters")}</button>
                                 <button type="button" className="btn searchButton clear" onClick={clearAll}>{t("filter.clearall")}</button>

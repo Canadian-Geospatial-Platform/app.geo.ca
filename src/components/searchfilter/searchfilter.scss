@@ -1,73 +1,92 @@
-.filterContainer {
-    width: 100%;
-    //height: 30px;
-    margin: 5px 5rem 5px 0;
-    //position: relative;
-    // &:last-child {
-    //     margin-right: 0;
-    // }
-    .filterCheck {
+.btn-group-search-filters-active {
+    .btn-filter {
+        background-color: transparent;
+        color: #515aa9;
+        border: 1px solid #5a62ad;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5em;
+        padding: 0.25rem 0.75rem;
+        text-transform: capitalize;
+        transition-duration: 0.4s;
+
+        &:hover {
+            background-color: #515aa9;
+            color: #fff;
+        }
+    }
+}
+
+.row-filters {
+    position: relative;
+
+    .filters-wrap {
         width: 100%;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        .filterTitle {
-            opacity: 0.6;
+
+        .filters-title {
+            font-size: 1.5rem;
         }
-        &.checked {
-            .filterTitle {
-                opacity: 1;
-            }
-        }
-    }
-    .filterList {
-        width: max-content;
-        //position: absolute;
-        //top: 100%;
-        border: 1px solid #515AA9;
-        background-color: #fff;
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        padding: 5px;
-        //z-index: 1000;
-        &.open {
-            display: flex;
-            z-index: 2000;
-            position: relative;
-            .filterValue {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                padding: 5px 10px;
-                cursor: pointer;
-            }
-            .filterAction {
-                .searchButton {
-                   font-size: 0.75rem;
-                   margin: 5px 10px; 
-                }
-                &.disabled {
-                    opacity: 0.6;
+
+        .filter-wrap {
+            margin-bottom: 1rem;
+            &.open {
+                .filter-list-wrap {
+                    display: block;
                 }
             }
+
+            .filter-title {
+                font-size: 1rem;
+                font-weight: 600;
+                margin-bottom: 0.5em;
+            }
+
+            .filter-list-wrap {
+                .list {
+                    columns: 3;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .list-item {
+                    margin-bottom: 0.25rem;
+                    .label {
+                        order: 2;
+                        line-height: 1em;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .checkbox {
+                        order: 1;
+                        height: auto;
+                        width: auto;
+                        margin: 0 1rem 0 0;
+                        padding: 0;
+                    }
+                }
+            }
         }
     }
-    .checkBox {
-        width: 0.8rem;
-        height: 0.8rem;
-        min-width: 14px;
-        min-height: 14px;
-        box-sizing: border-box;
-        border: 2px solid #54595f;
-        border-radius: 0.1rem;
-        display: flex;
-        justify-content: center;
-        align-items: center; 
-        color:#54595f;
-        margin: 5px;
-    }
-    .checked > .checkBox::after {
-        content: "\2713";
+    .filter-actions {
+        .search-btn {
+            margin-right: 0.5em;
+            background-color: #515aa9;
+            color: #fff;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .search-btn:not(.disabled) {
+            &:hover {
+                background-color: transparent;
+                color: #515aa9;
+                border: 1px solid #515aa9;
+            }
+        }
     }
 }

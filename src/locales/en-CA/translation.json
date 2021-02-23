@@ -46,6 +46,7 @@
         "types": "Types",
         "themes": "Themes",
         "foundational": "Foundational Layers Only",
+        "otherfilters": "Other Filters",
         "applyfilters": "Apply Filters",
         "clearall": "Clear All"
     },
@@ -60,6 +61,7 @@
         "viewmore": "View More",
         "showless": "Show Less",
         "search": "Search ...",
+        "advancedsearchfilters": "Advanced Search Filters",
         "viewrecord": "View Record",
         "aboutthisdataset": "About this dataset",
         "dataresources": "Data Resources",

@@ -11,10 +11,9 @@ import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
-import ClearIcon from '@material-ui/icons/Clear';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { getQueryParams } from '../../common/queryparams'; 
+import { getQueryParams } from '../../common/queryparams';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
@@ -26,7 +25,7 @@ import './keywordsearch.scss';
 
 const KeywordSearch: React.FunctionComponent = () => {
     const location = useLocation();
-    const queryParams: { [key: string]: string }  = getQueryParams(location.search);
+    const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const { t } = useTranslation();
     const rpp = 10;
     const [loading, setLoading] = useState(false);
@@ -48,7 +47,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const [fReset, setFReset] = useState(false);
     const language = t('app.language');
 
-    const inputRef:React.RefObject<HTMLInputElement> = createRef();
+    const inputRef: React.RefObject<HTMLInputElement> = createRef();
 
     // console.log(state, dispatch);
     const applyFilters = () => {
@@ -130,7 +129,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         handleSearch(keyword);
     };
 
-    const handleKeyUp = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.keyCode === 13) {
             handleSubmit();
         }
@@ -155,22 +154,22 @@ const KeywordSearch: React.FunctionComponent = () => {
         setKWShowing(newOpen);
     };
 
-    const handleOrg = (filters:unknown):void => {
+    const handleOrg = (filters: unknown): void => {
         setFReset(true);
         setOrg(filters);
     };
 
-    const handleType = (filters:unknown):void => {
+    const handleType = (filters: unknown): void => {
         setFReset(true);
         setType(filters);
     };
 
-    const handleTheme = (filters:unknown):void => {
+    const handleTheme = (filters: unknown): void => {
         setFReset(true);
         setTheme(filters);
     };
 
-    const handleFound = (found:unknown):void => {
+    const handleFound = (found: unknown): void => {
         setFReset(true);
         setFound(found);
     };
@@ -199,8 +198,8 @@ const KeywordSearch: React.FunctionComponent = () => {
         setPageNumber(1);
     };
 
-    const clearFound = () =>{
-        dispatch(setFoundational(false)); 
+    const clearFound = () => {
+        dispatch(setFoundational(false));
         setFound(false);
         setFReset(false);
         setPageNumber(1);
@@ -208,22 +207,105 @@ const KeywordSearch: React.FunctionComponent = () => {
 
     useEffect(() => {
         if (!fReset) {
-           // console.log(store.getState());
-           // saveState(store.getState());
+            // console.log(store.getState());
+            // saveState(store.getState());
             handleSearch(initKeyword);
         }
     }, [language, pn, fReset, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
 
+    const handleOpen = (section) => {
+        const newOpen = openSection.map((o) => o);
+        const hIndex = openSection.findIndex((os) => os === section);
+        if (hIndex < 0) {
+            newOpen.push(section);
+        } else {
+            newOpen.splice(hIndex, 1);
+        }
+        setOpen(newOpen);
+    };
+
     return (
         <div className="pageContainer keyword-search-page">
             {/* Filters / Search Bar */}
-            <div className="container-fluid container-filters-search">
-                <div className="row row-filters-search">
-                    <div className="col-md-2">
-                        <div className="searchFilters">
-                            <h2>
-                                <FilterIcon /> {t("filter.filterby")}:
-                            </h2>
+            <div className="container-fluid container-search">
+                <div className="row row-search">
+                    <div className="col-8 col-search-input">
+                        <input
+                            placeholder={t("page.search")}
+                            id="search-input"
+                            type="search"
+                            ref={inputRef}
+                            value={initKeyword}
+                            disabled={loading}
+                            onChange={handleChange}
+                            onKeyUp={(e:React.KeyboardEvent<HTMLInputElement>) => handleKeyUp(e)}
+                        />
+                        <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : undefined}>
+                            <SearchIcon />
+                        </button>
+                    </div>
+                    <div className="col-4 col-advanced-filters-link">
+                        <a href="#" onClick={() => handleOpen('dataresources')}>
+                            {t("page.advancedsearchfilters")}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div className="container-fluid container-search-filters-active">
+                <div className="row row-search-filters-active">
+                    <div className="col-12">
+                        <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
+                            {storetypefilters.map((typefilter:number) => (
+                                <button
+                                    type="button"
+                                    className="btn btn-filter"
+                                    disabled={loading}
+                                    onClick={!loading ? () => clearTypeFilter(typefilter) : undefined}
+                                >
+                                    {types[language][typefilter]} <i className="fas fa-times" />
+                                </button>
+                            ))}
+                            {storeorgfilters.map((orgfilter: number) => (
+                                <button
+                                    type="button"
+                                    className="btn btn-filter"
+                                    disabled={loading}
+                                    onClick={!loading ? () => clearOrgFilter(orgfilter) : undefined}
+                                >
+                                    {organisations[language][orgfilter]} <i className="fas fa-times" />
+                                </button>
+                            ))}
+                            {storethemefilters.map((themefilter: number) => (
+                                <button
+                                    type="button"
+                                    className="btn btn-filter"
+                                    disabled={loading}
+                                    onClick={!loading ? () => clearThemeFilter(themefilter) : undefined}
+                                >
+                                    {themes[language][themefilter]} <i className="fas fa-times" />
+                                </button>
+                            ))}
+                            {storefoundational && (
+                                <button
+                                    type="button"
+                                    className="btn btn-filter"
+                                    disabled={loading}
+                                    onClick={!loading ? clearFound : undefined}
+                                >
+                                    {t("filter.foundational")} <i className="fas fa-times" />
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="container-fluid container-filter-selecton">
+                <div className="row row-filters">
+                    <div className="col-12">
+                        <h2 className="filters-title">
+                            <FilterIcon /> {t("filter.filterby")}:
+                        </h2>
+                        <div className="filters-wrap">
                             <SearchFilter
                                 filtertitle={t("filter.organisations")}
                                 filtervalues={organisations[language]}
@@ -242,65 +324,30 @@ const KeywordSearch: React.FunctionComponent = () => {
                                 filterselected={themefilters}
                                 selectFilters={handleTheme}
                             />
-                            <SearchFilter
-                                filtertitle={t("filter.foundational")}
-                                filtervalues={[]}
-                                filterselected={foundational ? [1] : []}
-                                selectFilters={handleFound}
-                            />
-                            <div className="filterAction">
-                                <button type="button"
-                                    className={fReset ? 'btn searchButton submit' : 'btn searchButton submit disabled'}
-                                    onClick={fReset ? applyFilters : undefined}
-                                >
-                                    {t("filter.applyfilters")}
-                                </button>
-                                <button type="button" className="btn searchButton clear" onClick={clearAll}>
-                                    {t("filter.clearall")}
-                                </button>
+                            <div className="filter-wrap">
+                                <div className="filterCheck checked">
+                                    <h3 className="filter-title">{t("filter.otherfilters")}</h3>
+                                </div>
+                                <SearchFilter
+                                    filtertitle={t("filter.foundational")}
+                                    filtervalues={[]}
+                                    filterselected={foundational ? [1] : []}
+                                    selectFilters={handleFound}
+                                />
+                            
                             </div>
                         </div>
-                    </div>
-                    <div className="col-md-10">
-                        <div className="searchInput">
-                            <input
-                                placeholder={t("page.search")}
-                                id="search-input"
-                                type="search"
-                                ref={inputRef}
-                                value={initKeyword}
-                                disabled={loading}
-                                onChange={handleChange}
-                                onKeyUp={(e:React.KeyboardEvent<HTMLInputElement>) => handleKeyUp(e)}
-                            />
-                            <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : undefined}>
-                                <SearchIcon />
+                        <div className="filter-actions d-flex justify-content-end">
+                            <button
+                                type="button"
+                                className={fReset ? 'btn search-btn submit' : 'btn search-btn submit disabled'}
+                                onClick={fReset ? applyFilters : undefined}
+                            >
+                                {t("filter.applyfilters")}
                             </button>
-                        </div>
-                        <div className="searchListFilters row">
-                            {storetypefilters.map((typefilter:number) => (
-                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): undefined}>                                      
-                                    <span className = "glyphicon glyphicon-remove">{types[language][typefilter]} <ClearIcon /></span>                   
-                                </button>
-                            ))
-                            }
-                            {storeorgfilters.map((orgfilter:number) => (
-                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): undefined}>                     
-                                    <span className = "glyphicon glyphicon-remove">{organisations[language][orgfilter]} <ClearIcon /></span>                
-                                </button>
-                            ))
-                            }
-                            {storethemefilters.map((themefilter:number) => (
-                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): undefined}>                    
-                                    <span className = "glyphicon glyphicon-remove">{themes[language][themefilter]} <ClearIcon /></span>                                        
-                                </button>
-                            ))
-                            }
-                            {storefoundational && 
-                                <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: undefined}>                    
-                                    <span className = "glyphicon glyphicon-remove">{t("filter.foundational")} <ClearIcon /></span>                                        
-                                </button>
-                            }
+                            <button type="button" className="btn search-btn clear" onClick={clearAll}>
+                                {t("filter.clearall")}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -350,7 +397,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                 >
                                                     <TileLayer
                                                         url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
-                                                        attribution={t("mapctrl.attribution")}
+                                                        attribution={t('mapctrl.attribution')}
                                                     />
                                                     <GeoJSON
                                                         key={result.id}
