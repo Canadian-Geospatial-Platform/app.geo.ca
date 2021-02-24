@@ -24,15 +24,20 @@
     position: relative;
 
     .filters-title {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
+        font-weight: 300;
         margin-bottom: 1rem;
+
+        .MuiSvgIcon-root {
+            font-size: 0.8em;
+        }
     }
 
     .filters-wrap {
         width: 100%;
 
         .filter-wrap {
-            margin-bottom: 1rem;
+            margin: 0 0 1rem 2rem;
             &.open {
                 .filter-list-wrap {
                     display: block;
@@ -49,11 +54,13 @@
                 outline: none;
                 font-size: 1rem;
                 line-height: 2em;
-                font-weight: 600;
+                font-weight: 400;
+                letter-spacing: 0.1rem;
                 margin: 0 0 1em 0;
                 padding: 0 2em 0 0;
                 text-align: left;
                 text-decoration: none !important;
+                text-transform: uppercase;
                 position: relative;
                 width: 100%;
                 &::after {
@@ -73,6 +80,7 @@
             }
 
             .filter-list-wrap {
+                color: $color__dark;
                 display: none;
                 .list {
                     columns: 3;
@@ -86,11 +94,12 @@
 
                 .list-item {
                     break-inside: avoid-column; // Prevent list items text from spanning columns
-                    margin-bottom: 0.5rem;
+                    margin-bottom: 0.625rem;
                     cursor: pointer;
                     .label {
+                        font-weight: 300;
                         order: 2;
-                        line-height: 1em;
+                        line-height: 1.1em;
                         margin: 0;
                         padding: 0;
                     }
@@ -108,6 +117,8 @@
     .filter-actions {
         .search-btn {
             margin-right: 0.5em;
+            padding-left: 1rem;
+            padding-right: 1rem;
             background-color: $color__logo-blue;
             color: $color__light;
             border-radius: 25px;
