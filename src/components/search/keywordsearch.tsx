@@ -5,7 +5,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
-import { useLocation } from 'react-router';
+import {useLocation, useHistory} from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
@@ -25,6 +25,7 @@ import './keywordsearch.scss';
 
 const KeywordSearch: React.FunctionComponent = () => {
     const location = useLocation();
+    const history = useHistory();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const { t } = useTranslation();
     const rpp = 10;
@@ -47,6 +48,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
     const language = t('app.language');
+
 
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
     
@@ -243,7 +245,12 @@ const KeywordSearch: React.FunctionComponent = () => {
                         <button className="toggle_button col-8 col-advanced-filters-button icon-button" disabled={loading} type="button" onClick={!loading ? handleToggleFilterBy : undefined}  >
                         {t("page.advancedsearchfilters")}
                         </button>
-                    </div>
+                    </div>                  
+                    <div>                       
+                        <button className="goto_geo col-advanced-filters-button icon-button" disabled={loading} type="button" onClick={()=>history.push("/")} >
+                        {t("page.gotogeosearchpage")}
+                        </button>
+                    </div>                   
                 </div>
             </div>
             { (storetypefilters.length > 0  ||   storeorgfilters.length > 0 ||  storethemefilters.length >0) &&

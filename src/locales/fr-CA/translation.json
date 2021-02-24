@@ -54,7 +54,7 @@
         "ctrl": {
             "total": "{{index}} de {{total}} dossiers"
         },
-        "changesearch": "Changer l'entrée à rechercher ... ", 
+        "changesearch": "Changer l'entrée à rechercher ... ",
         "noresult": "Pas de résultat",
         "organisation": "Organisation",
         "published": "Publié",
@@ -62,6 +62,7 @@
         "showless": "Montrer Moins",
         "search": "Chercher ...",
         "advancedsearchfilters": "Filtres de recherche avancée",
+        "gotogeosearchpage": "Aller à GeoSearch",
         "viewrecord": "Afficher L'enregistrement",
         "aboutthisdataset": "À propos de cet ensemble de données",
         "dataresources": "Ressources de Données",

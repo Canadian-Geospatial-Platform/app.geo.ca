@@ -62,6 +62,7 @@
         "showless": "Show Less",
         "search": "Search ...",
         "advancedsearchfilters": "Advanced Search Filters",
+        "gotogeosearchpage": "Go To GeoSearch",
         "viewrecord": "View Record",
         "aboutthisdataset": "About this dataset",
         "dataresources": "Data Resources",
@@ -103,5 +104,5 @@
         "ourmetadatais": "Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.",
         "downloadgeocore": "Download geoCore",
         "viewhnaprecord": "View HNAP Record"
-    }    
+    }
 }
