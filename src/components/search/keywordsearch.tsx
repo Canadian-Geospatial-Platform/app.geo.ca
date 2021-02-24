@@ -5,7 +5,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
@@ -26,6 +26,7 @@ import './keywordsearch.scss';
 const KeywordSearch: React.FunctionComponent = () => {
     const location = useLocation();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
+    const history = useHistory();
     const { t } = useTranslation();
     const rpp = 10;
     const [loading, setLoading] = useState(false);
@@ -235,11 +236,16 @@ const KeywordSearch: React.FunctionComponent = () => {
                             <SearchIcon />
                         </button>
                     </div>
-                    <div className="col-4">
+                    <div className="col-2">
                         <button className="col-advanced-filters-button link-button" disabled={loading} type="button" onClick={!loading ? ()=>setFilterbyshown(!filterbyshown) : undefined}  >
                             {t("page.advancedsearchfilters")}
                         </button>
                     </div>
+                    <div className="col-2">
+                        <button className="col-advanced-filters-button link-button" disabled={loading} type="button" onClick={()=>history.push(`/?keyword=${initKeyword}`)} >
+                            {t("page.gotogeosearchpage")}
+                        </button>
+                    </div>    
                 </div>
             </div>
             { ( storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational?1:0) ) > 0 &&
