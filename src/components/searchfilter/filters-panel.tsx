@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
-// import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
 
 import PanelApp, {PanelProps} from '../appbar/panel';
@@ -28,6 +27,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [themefilters, setTheme] = useState(storethemefilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
+    const [ofOpen, setOfOpen] = useState(false);
  // console.log(state, dispatch);
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
@@ -82,15 +82,24 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             content={
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
-                        <div className="searchFilters">
-                            <h2>{t("filter.filterby")}:</h2>
-                            <SearchFilter filtertitle={t("filter.organisations")} filtervalues={organisations[language]} filterselected={orgfilters} selectFilters={handleOrg} />
-                            <SearchFilter filtertitle={t("filter.types")} filtervalues={types[language]} filterselected={typefilters} selectFilters={handleType} />
-                            <SearchFilter filtertitle={t("filter.themes")} filtervalues={themes[language]} filterselected={themefilters} selectFilters={handleTheme} />
-                            <SearchFilter filtertitle={t("filter.foundational")} filtervalues={[]} filterselected={foundational?[1]:[]} selectFilters={handleFound} />
-                            <div className="filterAction">
-                                <button type="button" className={fReset?"btn searchButton submit":"btn searchButton submit disabled"} onClick={fReset?applyFilters:undefined}>{t("filter.applyfilters")}</button>
-                                <button type="button" className="btn searchButton clear" onClick={clearAll}>{t("filter.clearall")}</button>
+                        <div className="container-fluid container-filter-selecton">
+                            <div className="row row-filters">
+                                <h2 className="filters-title">
+                                    {t("filter.filterby")}:
+                                </h2>
+                                <div className="filters-wrap">
+                                    <SearchFilter filtertitle={t("filter.organisations")} filtervalues={organisations[language]} filterselected={orgfilters} selectFilters={handleOrg} />
+                                    <SearchFilter filtertitle={t("filter.types")} filtervalues={types[language]} filterselected={typefilters} selectFilters={handleType} />
+                                    <SearchFilter filtertitle={t("filter.themes")} filtervalues={themes[language]} filterselected={themefilters} selectFilters={handleTheme} />
+                                    <div className={ofOpen ?  'filter-wrap open' : 'filter-wrap'}>
+                                        <button type="button" className="link-button filter-title" onClick={()=>setOfOpen(!ofOpen)}>{t("filter.otherfilters")}</button>
+                                        <SearchFilter filtertitle={t("filter.foundational")} filtervalues={[]} filterselected={foundational?[1]:[]} selectFilters={handleFound} />
+                                    </div>
+                                    <div className="filter-actions d-flex justify-content-end">
+                                        <button type="button" className={fReset?'btn search-btn submit' : 'btn search-btn submit disabled'} onClick={fReset?applyFilters:undefined}>{t("filter.applyfilters")}</button>
+                                        <button type="button" className="btn search-btn clear" onClick={clearAll}>{t("filter.clearall")}</button>
+                                    </div>
+                                </div>    
                             </div>
                         </div>
                     </Typography>

@@ -25,7 +25,7 @@ import types from './types.json';
 import themes from './themes.json';
 import './geosearch.scss';
 
-const GeoSearch = (showing:string):JSX.Element => {
+const GeoSearch = (showing:boolean):JSX.Element => {
   const location = useLocation();
   const queryParams = getQueryParams(location.search);
   const {t} = useTranslation();

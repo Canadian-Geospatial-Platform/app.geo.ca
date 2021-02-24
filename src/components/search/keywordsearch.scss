@@ -1,13 +1,78 @@
 @import '../../assests/css/variables-site/variables-site';
 
 .pageContainer.keyword-search-page {
-    margin-top: 120px;
+    margin-top: 89px;
 
-    .row-filters-search {
-        border-bottom: 1px solid $color__bg-aside;
+    .container-search {
+        background-color: $color__logo-blue;
+        padding: 2.5em 5% 2.5em 5%;
+
+        .col-search-input {
+            display: flex;
+            align-items: center;
+            input {
+                display: inline-block;
+                font-size: 15px;
+                line-height: 1em;
+                background: $color__light;
+                border-radius: 75px;
+                border: none;
+                border-right: 1px solid $color__logo-blue-dark;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+                margin: 0;
+                padding: 0 1rem;
+                width: calc(100% - 33px);
+                transition: color 0.2s;
+                &::placeholder {
+                    opacity: 0.6;
+                }
+                &:focus {
+                    outline: 0;
+                    &::placeholder {
+                        opacity: 1;
+                    }
+                }
+            }
+            .icon-button {
+                color: $color__icon-btn-bg;
+                background-color: $color__light;
+                border: none;
+                border-top-right-radius: 75px;
+                border-bottom-right-radius: 75px;
+                height: 30px;
+                width: 33px;
+                &:hover {
+                    cursor: pointer;
+                }
+                &:disabled {
+                    background-color: #5a6268;
+                    border-color: #545b62;
+                    cursor: text;
+                }
+            }
+        }
+        
+        .col-advanced-filters-button {
+            align-self: flex-end;
+            padding: 0.1rem;
+            color: $color__light;
+            text-decoration: none;
+            &:hover {
+                color: $color__light;
+            }
+        }
     }
 
-    .row-pagination {
+    .container-filter-selecton {
+        padding: 2.5em 5% 2em 5%;
+        border-bottom: 1px solid $color__bg-aside;
+        background-color: rgb(242, 242, 242);
+    }
+
+    .container-search-filters-active {
+        padding: 2.5em 5% 2em 5%;
+        border-bottom: 1px solid $color__bg-aside;
     }
 
     .row-results {

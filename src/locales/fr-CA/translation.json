@@ -46,6 +46,7 @@
         "types": "Les Types",
         "themes": "Thèmes ",
         "foundational": "Couches de Base Uniquement",
+        "otherfilters": "Autres Filtres",
         "applyfilters": "Appliquer des Filtres",
         "clearall": "Tout Effacer"
     },
@@ -60,6 +61,7 @@
         "viewmore": "Voir Plus",
         "showless": "Montrer Moins",
         "search": "Chercher ...",
+        "advancedsearchfilters": "Filtres de recherche avancée",
         "viewrecord": "Afficher L'enregistrement",
         "aboutthisdataset": "À propos de cet ensemble de données",
         "dataresources": "Ressources de Données",
