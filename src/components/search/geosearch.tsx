@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-expressions */
@@ -14,7 +15,6 @@ import { useDispatch, useSelector} from "react-redux";
 import { useMap } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
-import ClearIcon from '@material-ui/icons/Clear';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getQueryParams } from '../../common/queryparams'; 

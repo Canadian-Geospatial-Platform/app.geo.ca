@@ -32,7 +32,6 @@ import AccountPanel from '../account/account-panel';
 import HowtoPanel from '../howto/howto-panel';
 
 import './app-bar.scss';
-import { query } from 'esri-leaflet';
 
 const drawerWidth = 200;
 
