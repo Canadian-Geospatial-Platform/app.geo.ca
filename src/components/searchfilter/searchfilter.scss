@@ -1,9 +1,11 @@
+@import '../../assests/css/variables-site/variables-site';
+
 .btn-group-search-filters-active {
     flex-wrap: wrap;
     .btn-filter {
         background-color: transparent;
-        color: #515aa9;
-        border: 1px solid #5a62ad;
+        color: $color__logo-blue;
+        border: 1px solid $color__logo-blue-light;
         font-size: 0.75rem;
         letter-spacing: 0.05em;
         margin-bottom: 0.5em;
@@ -12,8 +14,8 @@
         transition-duration: 0.4s;
 
         &:hover {
-            background-color: #515aa9;
-            color: #fff;
+            background-color: $color__logo-blue;
+            color: $color__light;
         }
     }
 }
@@ -40,7 +42,7 @@
                 font-size: 1rem;
                 font-weight: 600;
                 margin: 0 0 0.5em 0;
-                text-decoration: none!important;
+                text-decoration: none !important;
             }
 
             .filter-list-wrap {
@@ -74,8 +76,8 @@
     .filter-actions {
         .search-btn {
             margin-right: 0.5em;
-            background-color: #515aa9;
-            color: #fff;
+            background-color: $color__logo-blue;
+            color: $color__light;
             border-radius: 25px;
             font-size: 0.875rem;
             letter-spacing: 0.1em;
@@ -88,8 +90,8 @@
         .search-btn:not(.disabled) {
             &:hover {
                 background-color: transparent;
-                color: #515aa9;
-                border: 1px solid #515aa9;
+                color: $color__logo-blue;
+                border: 1px solid $color__logo-blue;
             }
         }
     }
