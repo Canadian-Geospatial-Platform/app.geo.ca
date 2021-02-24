@@ -3,13 +3,27 @@
 .pageContainer.keyword-search-page {
     margin-top: 89px;
 
+    // Search Bar
     .container-search {
         background-color: $color__logo-blue;
         padding: 2.5em 5% 2.5em 5%;
 
+        .link-button {
+            color: $color__light;
+            outline: 0;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            &:hover {
+                color: $color__light;
+                text-decoration: underline;
+            }
+        }
+
         .col-search-input {
             display: flex;
             align-items: center;
+            margin-bottom: 0.5rem;
             input {
                 display: inline-block;
                 font-size: 15px;
@@ -53,155 +67,185 @@
             }
         }
 
-        .advanced-filters-button {
-            align-self: flex-end;
-            outline: 0;
-            margin: 0;
-            padding: 0 1.5rem 0 0;
-            color: $color__light;
-            text-decoration: none;
-            position: relative;
-           
-            &:hover {
-                color: $color__light;
-            }
-            &::after {
-                content: '';
-                position: absolute;
-                right: 0;
-                top: 50%;
-                transform: translateY(-50%);
-                display: inline-block;
-                background-repeat: no-repeat;
-                background-size: 1em;
-                height: 1em;
-                width: 1em;
-                background-image: url($ico__bi-chevron-down);
-                filter: $filter__color-light;
+        .col-advanced-filters-button {
+            text-align: right;
+            .advanced-filters-button {
+                align-self: flex-end;
+                margin-right: 0.75rem;
+                padding-right: 1.25rem;
+                position: relative;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    display: inline-block;
+                    background-repeat: no-repeat;
+                    background-size: 1em;
+                    height: 1em;
+                    width: 1em;
+                    background-image: url($ico__bi-chevron-down);
+                    filter: $filter__color-light;
+                }
+                &.open {
+                    &::after {
+                        background-image: url($ico__bi-chevron-up);
+                    }
+                }
             }
         }
+
+        .col-search-nav {
+            border-bottom: 1px solid $color__table-border;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            text-align: left;
+
+            .search-nav-button {
+                padding-right: 1.25rem;
+                position: relative;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    display: inline-block;
+                    background-repeat: no-repeat;
+                    background-size: 1em;
+                    height: 1em;
+                    width: 1em;
+                    background-image: url($ico__bi-chevron-right);
+                    filter: $filter__color-light;
+                }
+            }
+        }
+
     }
 
-    .container-filter-selecton {
-        padding: 2.5em 5% 2em 5%;
-        border-bottom: 1px solid $color__bg-aside;
-        background-color: rgb(242, 242, 242);
-    }
-
+    // Active Filters
     .container-search-filters-active {
         padding: 2.5em 5% 2em 5%;
         border-bottom: 1px solid $color__bg-aside;
     }
 
-    .row-results {
-        .col-beat-loader {
-            padding: 1rem 0;
-            text-align: center;
-        }
+    // Filter Selection
+    .container-filter-selecton {
+        padding: 2.5em 5% 2em 5%;
+        border-bottom: 1px solid $color__bg-aside;
+        background-color: $color__bg-aside;
+    }
 
-        .col-search-message {
-            border-bottom: 1px solid $color__bg-aside;
-            padding-top: 1rem;
-            text-align: center;
-        }
+    // Search Results
+    .container-results {
+        .row-results {
+            .col-beat-loader {
+                padding: 1rem 0;
+                text-align: center;
+            }
 
-        .search-image {
-            height: 300px;
-            overflow: hidden;
-            .leaflet-container {
+            .col-search-message {
+                border-bottom: 1px solid $color__bg-aside;
+                padding-top: 1rem;
+                text-align: center;
+            }
+
+            .search-image {
                 height: 300px;
-                margin-top: 0;
-            }
-
-            @media (max-width: 1200px) {
-                margin-bottom: 1.5rem;
-            }
-        }
-
-        .search-result {
-            box-sizing: border-box;
-            border: 2px solid transparent;
-            border-bottom: 1px solid #ccc;
-            letter-spacing: 0.05em;
-            padding: 2.5em 5% 2em 5%;
-            &.selected {
-                border: 2px solid #0074d9;
-            }
-            &:first-child {
-                border-top: 1px solid $color__bg-aside;
-            }
-            &:nth-of-type(even) {
-                background-color: $color__bg-aside;
-            }
-            .search-title {
-                color: $color__logo-blue;
-                font-size: 1.75rem;
-                font-weight: 400;
-                letter-spacing: -0.01em;
-                margin: 0 0 0.5em 0;
-                text-align: left;
-            }
-
-            .search-meta {
-                font-size: 0.75rem;
-            }
-
-            .search-desc {
-                font-size: 1rem;
-                margin-bottom: 2.5rem;
-            }
-
-            .btn-group-keywords {
-                display: flex;
-                flex-wrap: wrap;
-                color: $color__logo-blue;
-                margin: 0.6em 0 0.5em 0;
-                &.less {
-                    .btn-keyword.more {
-                        display: none;
-                    }
+                overflow: hidden;
+                .leaflet-container {
+                    height: 300px;
+                    margin-top: 0;
                 }
 
-                .btn {
-                    border: 1px solid $color__logo-blue-light;
-                    font-size: 0.75rem;
-                    letter-spacing: 0.05em;
-                    margin-bottom: 0.5em;
-                    padding: 0.25rem 0.75rem;
-                    text-transform: capitalize;
-                    transition-duration: 0.4s;
+                @media (max-width: $breakpoint__xl) {
+                    margin-bottom: 1.5rem;
                 }
+            }
 
-                .btn-keyword {
-                    background-color: transparent;
+            .search-result {
+                box-sizing: border-box;
+                border: 2px solid transparent;
+                border-bottom: 1px solid #ccc;
+                letter-spacing: 0.05em;
+                padding: 2.5em 5% 2em 5%;
+                &:first-child {
+                    border-top: 1px solid $color__bg-aside;
+                }
+                &:nth-of-type(even) {
+                    background-color: $color__bg-aside;
+                }
+                .search-title {
                     color: $color__logo-blue;
-                    &:hover {
+                    font-size: 1.75rem;
+                    font-weight: 400;
+                    letter-spacing: -0.01em;
+                    margin: 0 0 0.5em 0;
+                    text-align: left;
+                }
+
+                .search-meta {
+                    font-size: 0.75rem;
+                }
+
+                .search-desc {
+                    font-size: 1rem;
+                    margin-bottom: 2.5rem;
+                }
+
+                .btn-group-keywords {
+                    display: flex;
+                    flex-wrap: wrap;
+                    color: $color__logo-blue;
+                    margin: 0.6em 0 0.5em 0;
+                    &.less {
+                        .btn-keyword.more {
+                            display: none;
+                        }
+                    }
+
+                    .btn {
+                        border: 1px solid $color__logo-blue-light;
+                        font-size: 0.75rem;
+                        letter-spacing: 0.05em;
+                        margin-bottom: 0.5em;
+                        padding: 0.25rem 0.75rem;
+                        text-transform: capitalize;
+                        transition-duration: 0.4s;
+                    }
+
+                    .btn-keyword {
+                        background-color: transparent;
+                        color: $color__logo-blue;
+                        &:hover {
+                            background-color: $color__logo-blue;
+                            color: $color__light;
+                        }
+                    }
+                    .btn-keyword-more {
                         background-color: $color__logo-blue;
                         color: $color__light;
+                        &:hover {
+                            background-color: $color__logo-blue-light;
+                            color: $color__light;
+                        }
                     }
                 }
-                .btn-keyword-more {
+
+                .btn-search {
                     background-color: $color__logo-blue;
                     color: $color__light;
+                    float: right;
+                    min-width: 25%;
+                    border-radius: 25px;
+                    font-size: 0.875rem;
+                    letter-spacing: 0.1em;
                     &:hover {
-                        background-color: $color__logo-blue-light;
-                        color: $color__light;
+                        background-color: transparent;
+                        color: $color__logo-blue;
+                        border: 1px solid $color__logo-blue;
                     }
-                }
-            }
-
-            .btn-search {
-                background-color: $color__logo-blue;
-                color: $color__light;
-                float: right;
-                min-width: 25%;
-                border-radius: 25px;
-                font-size: 0.875rem;
-                letter-spacing: 0.1em;
-                &:hover {
-                    background-color: transparent;
-                    color: $color__logo-blue;
-                    border: 1px solid $color__logo-blue;
                 }
             }
         }

@@ -220,8 +220,18 @@ const KeywordSearch: React.FunctionComponent = () => {
         <div className="pageContainer keyword-search-page">
             {/* Filters / Search Bar */}
             <div className="container-fluid container-search">
-                <div className="row row-search">
-                    <div className="col-8 col-search-input">
+                <div className="row row-search align-items-center">
+                    <div className="col-12 col-search-nav">
+                        <button
+                            className="search-nav-button link-button"
+                            disabled={loading}
+                            type="button"
+                            onClick={() => history.push(`/?keyword=${initKeyword}`)}
+                        >
+                            {t('page.gotogeosearchpage')}
+                        </button>
+                    </div>
+                    <div className="col-12 col-search-input">
                         <input
                             placeholder={t('page.search')}
                             id="search-input"
@@ -236,16 +246,16 @@ const KeywordSearch: React.FunctionComponent = () => {
                             <SearchIcon />
                         </button>
                     </div>
-                    <div className="col-2 align-self-end col-advanced-filters-button">
-                        <button className="advanced-filters-button link-button" disabled={loading} type="button" onClick={!loading ? ()=>setFilterbyshown(!filterbyshown) : undefined}  >
-                            {t("page.advancedsearchfilters")}
+                    <div className="col-12 col-advanced-filters-button">
+                        <button
+                            className={filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'}
+                            disabled={loading}
+                            type="button"
+                            onClick={!loading ? () => setFilterbyshown(!filterbyshown) : undefined}
+                        >
+                            {t('page.advancedsearchfilters')}
                         </button>
                     </div>
-                    <div className="col-2 col-advanced-filters-button">
-                        <button className="advanced-filters-button link-button" disabled={loading} type="button" onClick={()=>history.push(`/?keyword=${initKeyword}`)} >
-                            {t("page.gotogeosearchpage")}
-                        </button>
-                    </div>    
                 </div>
             </div>
             {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
