@@ -45,6 +45,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const [themefilters, setTheme] = useState(storethemefilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
+    const [filterbyshown, setFilterbyshown] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
     const language = t('app.language');
 
@@ -214,17 +215,6 @@ const KeywordSearch: React.FunctionComponent = () => {
         }
     }, [language, pn, fReset, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
 
-    const handleOpen = (section) => {
-        const newOpen = openSection.map((o) => o);
-        const hIndex = openSection.findIndex((os) => os === section);
-        if (hIndex < 0) {
-            newOpen.push(section);
-        } else {
-            newOpen.splice(hIndex, 1);
-        }
-        setOpen(newOpen);
-    };
-
     return (
         <div className="pageContainer keyword-search-page">
             {/* Filters / Search Bar */}
@@ -245,13 +235,14 @@ const KeywordSearch: React.FunctionComponent = () => {
                             <SearchIcon />
                         </button>
                     </div>
-                    <div className="col-4 col-advanced-filters-link">
-                        <a href="#" onClick={() => handleOpen('dataresources')}>
+                    <div className="col-4">
+                        <button className="col-advanced-filters-button link-button" disabled={loading} type="button" onClick={!loading ? ()=>setFilterbyshown(!filterbyshown) : undefined}  >
                             {t("page.advancedsearchfilters")}
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
+            { ( storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational?1:0) ) > 0 &&
             <div className="container-fluid container-search-filters-active">
                 <div className="row row-search-filters-active">
                     <div className="col-12">
@@ -300,7 +291,9 @@ const KeywordSearch: React.FunctionComponent = () => {
                     </div>
                 </div>
             </div>
-            <div className="container-fluid container-filter-selecton">
+            }
+            {filterbyshown &&
+            <div className={loading ? "container-fluid container-filter-selecton disabled" : "container-fluid container-filter-selecton"}>
                 <div className="row row-filters">
                     <div className="col-12">
                         <h2 className="filters-title">
@@ -350,6 +343,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                     </div>
                 </div>
             </div>
+            }
             {/* Pagination - Top */}
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">

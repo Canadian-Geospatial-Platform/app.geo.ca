@@ -52,16 +52,14 @@
                 }
             }
         }
-
-        .col-advanced-filters-link {
+        
+        .col-advanced-filters-button {
             align-self: flex-end;
-            a {
+            padding: 0.1rem;
+            color: $color__light;
+            text-decoration: none;
+            &:hover {
                 color: $color__light;
-                text-decoration: none;
-                &:hover {
-                    color: $color__light;
-                    text-decoration: underline;
-                }
             }
         }
     }
