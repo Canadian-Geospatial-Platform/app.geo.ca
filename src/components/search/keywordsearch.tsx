@@ -5,7 +5,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
@@ -26,6 +26,7 @@ import './keywordsearch.scss';
 const KeywordSearch: React.FunctionComponent = () => {
     const location = useLocation();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
+    const history = useHistory();
     const { t } = useTranslation();
     const rpp = 10;
     const [loading, setLoading] = useState(false);
@@ -176,25 +177,25 @@ const KeywordSearch: React.FunctionComponent = () => {
         setFound(found);
     };
 
-    const clearOrgFilter = (filter:number) =>{
-        const  newfilter = orgfilters.filter((fs:number)=>fs!==filter);
-        dispatch(setOrgFilter(newfilter)); 
+    const clearOrgFilter = (filter: number) => {
+        const newfilter = orgfilters.filter((fs: number) => fs !== filter);
+        dispatch(setOrgFilter(newfilter));
         setOrg(newfilter);
         setFReset(false);
         setPageNumber(1);
     };
 
-    const clearTypeFilter = (filter:number) =>{
-        const  newfilter = typefilters.filter((fs:number)=>fs!==filter);
-        dispatch(setTypeFilter(newfilter)); 
+    const clearTypeFilter = (filter: number) => {
+        const newfilter = typefilters.filter((fs: number) => fs !== filter);
+        dispatch(setTypeFilter(newfilter));
         setType(newfilter);
         setFReset(false);
         setPageNumber(1);
     };
 
-    const clearThemeFilter = (filter:number) =>{
-        const  newfilter = themefilters.filter((fs:number)=>fs!==filter);
-        dispatch(setThemeFilter(newfilter)); 
+    const clearThemeFilter = (filter: number) => {
+        const newfilter = themefilters.filter((fs: number) => fs !== filter);
+        dispatch(setThemeFilter(newfilter));
         setTheme(newfilter);
         setFReset(false);
         setPageNumber(1);
@@ -222,128 +223,137 @@ const KeywordSearch: React.FunctionComponent = () => {
                 <div className="row row-search">
                     <div className="col-8 col-search-input">
                         <input
-                            placeholder={t("page.search")}
+                            placeholder={t('page.search')}
                             id="search-input"
                             type="search"
                             ref={inputRef}
                             value={initKeyword}
                             disabled={loading}
                             onChange={handleChange}
-                            onKeyUp={(e:React.KeyboardEvent<HTMLInputElement>) => handleKeyUp(e)}
+                            onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyUp(e)}
                         />
                         <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : undefined}>
                             <SearchIcon />
                         </button>
                     </div>
-                    <div className="col-4">
-                        <button className="col-advanced-filters-button link-button" disabled={loading} type="button" onClick={!loading ? ()=>setFilterbyshown(!filterbyshown) : undefined}  >
+                    <div className="col-2 align-self-end col-advanced-filters-button">
+                        <button className="advanced-filters-button link-button" disabled={loading} type="button" onClick={!loading ? ()=>setFilterbyshown(!filterbyshown) : undefined}  >
                             {t("page.advancedsearchfilters")}
                         </button>
                     </div>
+                    <div className="col-2 col-advanced-filters-button">
+                        <button className="advanced-filters-button link-button" disabled={loading} type="button" onClick={()=>history.push(`/?keyword=${initKeyword}`)} >
+                            {t("page.gotogeosearchpage")}
+                        </button>
+                    </div>    
                 </div>
             </div>
-            { ( storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational?1:0) ) > 0 &&
-            <div className="container-fluid container-search-filters-active">
-                <div className="row row-search-filters-active">
-                    <div className="col-12">
-                        <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
-                            {storetypefilters.map((typefilter:number) => (
-                                <button
-                                    type="button"
-                                    className="btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? () => clearTypeFilter(typefilter) : undefined}
-                                >
-                                    {types[language][typefilter]} <i className="fas fa-times" />
-                                </button>
-                            ))}
-                            {storeorgfilters.map((orgfilter: number) => (
-                                <button
-                                    type="button"
-                                    className="btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? () => clearOrgFilter(orgfilter) : undefined}
-                                >
-                                    {organisations[language][orgfilter]} <i className="fas fa-times" />
-                                </button>
-                            ))}
-                            {storethemefilters.map((themefilter: number) => (
-                                <button
-                                    type="button"
-                                    className="btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? () => clearThemeFilter(themefilter) : undefined}
-                                >
-                                    {themes[language][themefilter]} <i className="fas fa-times" />
-                                </button>
-                            ))}
-                            {storefoundational && (
-                                <button
-                                    type="button"
-                                    className="btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? clearFound : undefined}
-                                >
-                                    {t("filter.foundational")} <i className="fas fa-times" />
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            }
-            {filterbyshown &&
-            <div className={loading ? "container-fluid container-filter-selecton disabled" : "container-fluid container-filter-selecton"}>
-                <div className="row row-filters">
-                    <div className="col-12">
-                        <h2 className="filters-title">
-                            <FilterIcon /> {t("filter.filterby")}:
-                        </h2>
-                        <div className="filters-wrap">
-                            <SearchFilter
-                                filtertitle={t("filter.organisations")}
-                                filtervalues={organisations[language]}
-                                filterselected={orgfilters}
-                                selectFilters={handleOrg}
-                            />
-                            <SearchFilter
-                                filtertitle={t("filter.types")}
-                                filtervalues={types[language]}
-                                filterselected={typefilters}
-                                selectFilters={handleType}
-                            />
-                            <SearchFilter
-                                filtertitle={t("filter.themes")}
-                                filtervalues={themes[language]}
-                                filterselected={themefilters}
-                                selectFilters={handleTheme}
-                            />
-                            <div className={ofOpen ?  'filter-wrap open' : 'filter-wrap'}>
-                                <button type="button" className="link-button filter-title" onClick={()=>setOfOpen(!ofOpen)}>{t("filter.otherfilters")}</button>
-                                <SearchFilter
-                                    filtertitle={t("filter.foundational")}
-                                    filtervalues={[]}
-                                    filterselected={foundational ? [1] : []}
-                                    selectFilters={handleFound}
-                                />
+            {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
+                <div className="container-fluid container-search-filters-active">
+                    <div className="row row-search-filters-active">
+                        <div className="col-12">
+                            <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
+                                {storetypefilters.map((typefilter: number) => (
+                                    <button
+                                        type="button"
+                                        className="btn btn-filter"
+                                        disabled={loading}
+                                        onClick={!loading ? () => clearTypeFilter(typefilter) : undefined}
+                                    >
+                                        {types[language][typefilter]} <i className="fas fa-times" />
+                                    </button>
+                                ))}
+                                {storeorgfilters.map((orgfilter: number) => (
+                                    <button
+                                        type="button"
+                                        className="btn btn-filter"
+                                        disabled={loading}
+                                        onClick={!loading ? () => clearOrgFilter(orgfilter) : undefined}
+                                    >
+                                        {organisations[language][orgfilter]} <i className="fas fa-times" />
+                                    </button>
+                                ))}
+                                {storethemefilters.map((themefilter: number) => (
+                                    <button
+                                        type="button"
+                                        className="btn btn-filter"
+                                        disabled={loading}
+                                        onClick={!loading ? () => clearThemeFilter(themefilter) : undefined}
+                                    >
+                                        {themes[language][themefilter]} <i className="fas fa-times" />
+                                    </button>
+                                ))}
+                                {storefoundational && (
+                                    <button
+                                        type="button"
+                                        className="btn btn-filter"
+                                        disabled={loading}
+                                        onClick={!loading ? clearFound : undefined}
+                                    >
+                                        {t('filter.foundational')} <i className="fas fa-times" />
+                                    </button>
+                                )}
                             </div>
                         </div>
-                        <div className="filter-actions d-flex justify-content-end">
-                            <button
-                                type="button"
-                                className={fReset ? 'btn search-btn submit' : 'btn search-btn submit disabled'}
-                                onClick={fReset ? applyFilters : undefined}
-                            >
-                                {t("filter.applyfilters")}
-                            </button>
-                            <button type="button" className="btn search-btn clear" onClick={clearAll}>
-                                {t("filter.clearall")}
-                            </button>
+                    </div>
+                </div>
+            )}
+            {filterbyshown && (
+                <div
+                    className={loading ? 'container-fluid container-filter-selecton disabled' : 'container-fluid container-filter-selecton'}
+                >
+                    <div className="row row-filters">
+                        <div className="col-12">
+                            <h2 className="filters-title">
+                                <FilterIcon /> {t('filter.filterby')}:
+                            </h2>
+                            <div className="filters-wrap">
+                                <SearchFilter
+                                    filtertitle={t('filter.organisations')}
+                                    filtervalues={organisations[language]}
+                                    filterselected={orgfilters}
+                                    selectFilters={handleOrg}
+                                />
+                                <SearchFilter
+                                    filtertitle={t('filter.types')}
+                                    filtervalues={types[language]}
+                                    filterselected={typefilters}
+                                    selectFilters={handleType}
+                                />
+                                <SearchFilter
+                                    filtertitle={t('filter.themes')}
+                                    filtervalues={themes[language]}
+                                    filterselected={themefilters}
+                                    selectFilters={handleTheme}
+                                />
+                                <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
+                                    <button type="button" className="link-button filter-title" onClick={() => setOfOpen(!ofOpen)}>
+                                        {t('filter.otherfilters')}
+                                    </button>
+                                    <SearchFilter
+                                        filtertitle={t('filter.foundational')}
+                                        filtervalues={[]}
+                                        filterselected={foundational ? [1] : []}
+                                        selectFilters={handleFound}
+                                    />
+                                </div>
+                            </div>
+                            <div className="filter-actions d-flex justify-content-end">
+                                <button
+                                    type="button"
+                                    className={fReset ? 'btn search-btn submit' : 'btn search-btn submit disabled'}
+                                    onClick={fReset ? applyFilters : undefined}
+                                >
+                                    {t('filter.applyfilters')}
+                                </button>
+                                <button type="button" className="btn search-btn clear" onClick={clearAll}>
+                                    {t('filter.clearall')}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            }
+            )}
             {/* Pagination - Top */}
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">
@@ -360,9 +370,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                             <BeatLoader color="#515aa9" />
                         </div>
                     ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
-                        <div className="col-12 col-search-message">
-                            { t("page.changesearch") }
-                        </div>
+                        <div className="col-12 col-search-message">{t('page.changesearch')}</div>
                     ) : (
                         results.map((result: SearchResult) => {
                             const coordinates = JSON.parse(result.coordinates);
@@ -430,7 +438,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                             className="btn btn-keyword-more"
                                                             onClick={() => handleKwshowing(result.id)}
                                                         >
-                                                            {allkwshowing ? t("page.showless") : t("page.viewmore")}
+                                                            {allkwshowing ? t('page.showless') : t('page.viewmore')}
                                                         </button>
                                                     )}
                                                 </div>
@@ -438,10 +446,10 @@ const KeywordSearch: React.FunctionComponent = () => {
                                             <div className="search-meta">
                                                 <ul className="list list-unstyled">
                                                     <li className="list-item">
-                                                        <strong>{t("page.organisation")}:</strong> {result.organisation}
+                                                        <strong>{t('page.organisation')}:</strong> {result.organisation}
                                                     </li>
                                                     <li className="list-item">
-                                                        <strong>{t("page.published")}:</strong> {result.published}
+                                                        <strong>{t('page.published')}:</strong> {result.published}
                                                     </li>
                                                 </ul>
                                             </div>
@@ -450,7 +458,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                 {result.description.length > 240 ? <span>...</span> : ''}
                                             </p>
                                             <button type="button" className="btn btn-search" onClick={() => handleView(result.id)}>
-                                                {t("page.viewrecord")} <i className="fas fa-long-arrow-alt-right" />
+                                                {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                             </button>
                                         </div>
                                     </div>

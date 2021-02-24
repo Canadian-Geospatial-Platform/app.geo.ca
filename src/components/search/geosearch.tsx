@@ -244,28 +244,28 @@ const GeoSearch = (showing:boolean):JSX.Element => {
                 <button type="button" className="icon-button" disabled = {loading} onClick={!loading ? handleSubmit : undefined}> <SearchIcon /> </button>
             </div>
             <div className="searchFilters">
-                <div className="row rowDivider">
+                <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
                 {typefilters.map((typefilter:number) => (
-                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): undefined}>                                      
-                        <span className = "glyphicon glyphicon-remove">{types[language][typefilter]} <ClearIcon /></span>                   
+                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): undefined}>                                      
+                        {types[language][typefilter]} <i className="fas fa-times" />
                     </button>
                 ))
                 }
                 {orgfilters.map((orgfilter:number) => (
-                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): undefined}>                     
-                        <span className = "glyphicon glyphicon-remove">{organisations[language][orgfilter]}  <ClearIcon /></span>                
+                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): undefined}>                     
+                        {organisations[language][orgfilter]} <i className="fas fa-times" />               
                     </button>
                 ))
                 }
                 {themefilters.map((themefilter:number) => (
-                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): undefined}>                    
-                        <span className = "glyphicon glyphicon-remove">{themes[language][themefilter]} <ClearIcon /></span>                                        
+                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): undefined}>                    
+                       {themes[language][themefilter]} <i className="fas fa-times" />                                       
                     </button>
                 ))
                 }
                 {foundational && 
-                    <button type="button" className="btn btn-medium btn-button" disabled = {loading} onClick={!loading ? clearFound: undefined}>                    
-                        <span className = "glyphicon glyphicon-remove">{t("filter.foundational")} <ClearIcon /></span>                                        
+                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? clearFound: undefined}>                    
+                        {t("filter.foundational")} <i className="fas fa-times" />                            
                     </button>
                 }
                 </div>

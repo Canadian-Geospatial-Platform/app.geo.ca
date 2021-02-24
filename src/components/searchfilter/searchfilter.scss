@@ -1,9 +1,11 @@
+@import '../../assests/css/variables-site/variables-site';
+
 .btn-group-search-filters-active {
     flex-wrap: wrap;
     .btn-filter {
         background-color: transparent;
-        color: #515aa9;
-        border: 1px solid #5a62ad;
+        color: $color__logo-blue;
+        border: 1px solid $color__logo-blue-light;
         font-size: 0.75rem;
         letter-spacing: 0.05em;
         margin-bottom: 0.5em;
@@ -12,8 +14,8 @@
         transition-duration: 0.4s;
 
         &:hover {
-            background-color: #515aa9;
-            color: #fff;
+            background-color: $color__logo-blue;
+            color: $color__light;
         }
     }
 }
@@ -21,12 +23,13 @@
 .row-filters {
     position: relative;
 
+    .filters-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
     .filters-wrap {
         width: 100%;
-
-        .filters-title {
-            font-size: 1.5rem;
-        }
 
         .filter-wrap {
             margin-bottom: 1rem;
@@ -34,13 +37,39 @@
                 .filter-list-wrap {
                     display: block;
                 }
+                .filter-title {
+                    &::after {
+                        background-image: url($ico__bi-chevron-up);
+                    }
+                }
             }
 
             .filter-title {
+                border-bottom: 1px solid #ddd;
+                outline: none;
                 font-size: 1rem;
+                line-height: 2em;
                 font-weight: 600;
-                margin: 0 0 0.5em 0;
-                text-decoration: none!important;
+                margin: 0 0 1em 0;
+                padding: 0 2em 0 0;
+                text-align: left;
+                text-decoration: none !important;
+                position: relative;
+                width: 100%;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    display: inline-block;
+                    background-repeat: no-repeat;
+                    background-size: 1em;
+                    height: 1em;
+                    width: 1em;
+                    background-image: url($ico__bi-chevron-down);
+                    filter: $filter__color-text-main;
+                }
             }
 
             .filter-list-wrap {
@@ -49,10 +78,15 @@
                     columns: 3;
                     margin: 0;
                     padding: 0;
+
+                    @media (max-width: 992px) {
+                        columns: 2;
+                    }
                 }
 
                 .list-item {
-                    margin-bottom: 0.25rem;
+                    break-inside: avoid-column; // Prevent list items text from spanning columns
+                    margin-bottom: 0.5rem;
                     cursor: pointer;
                     .label {
                         order: 2;
@@ -74,8 +108,8 @@
     .filter-actions {
         .search-btn {
             margin-right: 0.5em;
-            background-color: #515aa9;
-            color: #fff;
+            background-color: $color__logo-blue;
+            color: $color__light;
             border-radius: 25px;
             font-size: 0.875rem;
             letter-spacing: 0.1em;
@@ -88,8 +122,8 @@
         .search-btn:not(.disabled) {
             &:hover {
                 background-color: transparent;
-                color: #515aa9;
-                border: 1px solid #515aa9;
+                color: $color__logo-blue;
+                border: 1px solid $color__logo-blue;
             }
         }
     }

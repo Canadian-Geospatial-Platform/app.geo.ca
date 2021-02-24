@@ -14,26 +14,33 @@ export default function Header(): JSX.Element {
     const { t } = useTranslation();
     const [langFromUrl, setLF] = useState(false);
     const location = useLocation();
-    
-    if (location && location.search && location.search!=='' && !langFromUrl) {
-        const queryParams: { [key: string]: string }  = getQueryParams(location.search);
-        if ( queryParams.lang && i18n.language.substring(0,2) !== queryParams.lang) {
-            i18n.changeLanguage( `${queryParams.lang}-CA` );
-            setLF(true);
-        }
+    const queryParams: { [key: string]: string }  = getQueryParams(location.search);
+    if (!langFromUrl && queryParams.lang!==undefined && i18n.language.substring(0,2) !== queryParams.lang) {
+        i18n.changeLanguage( `${queryParams.lang}-CA` );
+        setLF(true);
     }
-    
+    const gotoHome = () => {
+        if (location.pathname==='/' && queryParams.keyword===undefined) {
+            history.go(0);
+        } else {    
+            history.push({
+                pathname: '/',
+                search: ''
+            });
+        }    
+    }
+
     return (
         <header className="header">
             <div className="container-fluid">
                 <div className="row align-items-center">
                     <div className="col-3 header-logo-col">
-                        <img src={logo} alt="" onClick={location.pathname==='/'?()=>history.go(0):()=>history.push('/')} />
+                        <img src={logo} alt="" onClick={gotoHome} />
                     </div>
                     <div className="col-9 header-nav-col">
                         <nav className="header-nav">
                             <ul className="list-group flex-row justify-content-end align-items-center menu-list">
-                                <li className="list-group-item" onClick={location.pathname==='/'?()=>history.go(0):()=>history.push('/')}>{t('nav.home')}</li>
+                                <li className="list-group-item" onClick={gotoHome}>{t('nav.home')}</li>
                                 <li className="list-group-item" onClick={() => i18n.changeLanguage(t('nav.language.key'))}>{t('nav.language.name')}</li>
                             </ul>
                         </nav>

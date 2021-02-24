@@ -25,13 +25,14 @@ import AccountIcon from '@material-ui/icons/AccountBox';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import ButtonApp from './button';
 import Version from './buttons/version';
-
+import { getQueryParams } from '../../common/queryparams';
 import SearchPanel from '../search/search-panel';
 import FiltersPanel from '../searchfilter/filters-panel';
 import AccountPanel from '../account/account-panel';
 import HowtoPanel from '../howto/howto-panel';
 
 import './app-bar.scss';
+import { query } from 'esri-leaflet';
 
 const drawerWidth = 200;
 
@@ -82,10 +83,11 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const { t } = useTranslation();
     const history = useHistory();
     const location = useLocation();
+    const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const classes = useStyles();
-
+    // console.log(queryParams, queryParams.keyword);
     const [open, setOpen] = useState(false);
-    const [panel, setPanel] = useState("");
+    const [panel, setPanel] = useState(queryParams.keyword !== undefined? " search" : "");
 
     const appBar = useRef();
     useEffect(() => {
@@ -101,6 +103,10 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const handleDrawerClose = () => {
         setOpen(!open);
     };
+
+    useEffect(()=>{
+        setPanel(queryParams.keyword !== undefined? " search" : "");
+    }, [queryParams.keyword])
 
     return (
         <div className={classes.root} ref={appBar}>
