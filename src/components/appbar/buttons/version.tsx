@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { makeStyles } from '@material-ui/core/styles';
 import GitHubIcon from '@material-ui/icons/GitHub';
 

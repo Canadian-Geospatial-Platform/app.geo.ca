@@ -1,24 +1,24 @@
 {
-"en": [
-"administration", 
-"economy", 
-"environment", 
-"imagery", 
-"infrastructure", 
-"science", 
-"society", 
-"legal", 
-"emergency"
-],
-"fr": [
-"administration", 
-"economy", 
-"environment", 
-"imagery", 
-"infrastructure", 
-"science", 
-"society", 
-"legal", 
-"emergency"
-]
+    "en": [
+        "Administration",
+        "Economy",
+        "Emergency",
+        "Environment",
+        "Imagery",
+        "Infrastructure",
+        "Legal",
+        "Science",
+        "Society"
+    ],
+    "fr": [
+        "Administration",
+        "Économie",
+        "Urgences",
+        "Environnement",
+        "Imagerie",
+        "Infrastructure",
+        "Renseignements juridiques",
+        "Science",
+        "Société"
+    ]
 }
