@@ -52,14 +52,32 @@
                 }
             }
         }
-        
-        .col-advanced-filters-button {
+
+        .advanced-filters-button {
             align-self: flex-end;
-            padding: 0.1rem;
+            outline: 0;
+            margin: 0;
+            padding: 0 1.5rem 0 0;
             color: $color__light;
             text-decoration: none;
+            position: relative;
+           
             &:hover {
                 color: $color__light;
+            }
+            &::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                display: inline-block;
+                background-repeat: no-repeat;
+                background-size: 1em;
+                height: 1em;
+                width: 1em;
+                background-image: url($ico__bi-chevron-down);
+                filter: $filter__color-light;
             }
         }
     }
