@@ -3,6 +3,12 @@
 .pageContainer.keyword-search-page {
     margin-top: 89px;
 
+    .row-inner {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
     // Search Bar
     .container-search {
         background-color: $color__logo-blue;
@@ -20,10 +26,38 @@
             }
         }
 
+        .col-search-nav {
+            border-bottom: 1px solid $color__table-border;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            text-align: right;
+
+            .search-nav-button {
+                padding-right: 1.25rem;
+                position: relative;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    display: inline-block;
+                    background-repeat: no-repeat;
+                    background-size: 1em;
+                    height: 1em;
+                    width: 1em;
+                    background-image: url($ico__bi-chevron-right);
+                    filter: $filter__color-light;
+                }
+            }
+        }
+
         .col-search-input {
             display: flex;
             align-items: center;
             margin-bottom: 0.5rem;
+            max-width: $breakpoint__lg;
+            margin: 0 auto 0.5rem auto;
             input {
                 display: inline-block;
                 font-size: 15px;
@@ -69,6 +103,8 @@
 
         .col-advanced-filters-button {
             text-align: right;
+            margin: 0 auto;
+            max-width: $breakpoint__lg;
             .advanced-filters-button {
                 align-self: flex-end;
                 margin-right: 0.75rem;
@@ -96,32 +132,12 @@
             }
         }
 
-        .col-search-nav {
-            border-bottom: 1px solid $color__table-border;
-            margin-bottom: 2rem;
-            padding-bottom: 0.5rem;
-            text-align: left;
+        @media (max-width: $breakpoint__lg) {
 
-            .search-nav-button {
-                padding-right: 1.25rem;
-                position: relative;
-                &::after {
-                    content: '';
-                    position: absolute;
-                    right: 0;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    display: inline-block;
-                    background-repeat: no-repeat;
-                    background-size: 1em;
-                    height: 1em;
-                    width: 1em;
-                    background-image: url($ico__bi-chevron-right);
-                    filter: $filter__color-light;
-                }
+            .col-search-nav {
+                text-align: left;
             }
         }
-
     }
 
     // Active Filters
