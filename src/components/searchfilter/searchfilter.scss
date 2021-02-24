@@ -23,12 +23,13 @@
 .row-filters {
     position: relative;
 
+    .filters-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
     .filters-wrap {
         width: 100%;
-
-        .filters-title {
-            font-size: 1.5rem;
-        }
 
         .filter-wrap {
             margin-bottom: 1rem;
@@ -36,13 +37,39 @@
                 .filter-list-wrap {
                     display: block;
                 }
+                .filter-title {
+                    &::after {
+                        background-image: url($ico__bi-chevron-up);
+                    }
+                }
             }
 
             .filter-title {
+                border-bottom: 1px solid #ddd;
+                outline: none;
                 font-size: 1rem;
+                line-height: 2em;
                 font-weight: 600;
-                margin: 0 0 0.5em 0;
+                margin: 0 0 1em 0;
+                padding: 0 2em 0 0;
+                text-align: left;
                 text-decoration: none !important;
+                position: relative;
+                width: 100%;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    display: inline-block;
+                    background-repeat: no-repeat;
+                    background-size: 1em;
+                    height: 1em;
+                    width: 1em;
+                    background-image: url($ico__bi-chevron-down);
+                    filter: $filter__color-text-main;
+                }
             }
 
             .filter-list-wrap {
@@ -51,10 +78,15 @@
                     columns: 3;
                     margin: 0;
                     padding: 0;
+
+                    @media (max-width: 992px) {
+                        columns: 2;
+                    }
                 }
 
                 .list-item {
-                    margin-bottom: 0.25rem;
+                    break-inside: avoid-column; // Prevent list items text from spanning columns
+                    margin-bottom: 0.5rem;
                     cursor: pointer;
                     .label {
                         order: 2;
