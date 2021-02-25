@@ -1,6 +1,7 @@
 @import 'variables-site/variables-site';
 html {
-    font-family: 'Montserrat', sans-serif;
+    // font-family: 'Montserrat', sans-serif;
+    font-family: $font__main;
 }
 
 body {
@@ -94,7 +95,7 @@ input {
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     margin: 5px 5px 5px 0;
-    >span>svg {
+    > span > svg {
         vertical-align: middle;
     }
 }
@@ -263,13 +264,13 @@ input {
             margin-right: 5px;
         }
     }
-    >.filterAction {
+    > .filterAction {
         .searchButton {
-           font-size: 0.65rem;
-           margin: 5px 10px 5px 0; 
-           &.disabled {
-            opacity: 0.6;
-           }
+            font-size: 0.65rem;
+            margin: 5px 10px 5px 0;
+            &.disabled {
+                opacity: 0.6;
+            }
         }
     }
 }
