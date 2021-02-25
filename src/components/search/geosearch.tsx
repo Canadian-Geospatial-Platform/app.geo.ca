@@ -243,6 +243,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
                 />
                 <button type="button" className="icon-button" disabled = {loading} onClick={!loading ? handleSubmit : undefined}> <SearchIcon /> </button>
             </div>
+            {typefilters.length + orgfilters.length + themefilters.length + (foundational ? 1 : 0) > 0 &&
             <div className="searchFilters">
                 <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
                 {typefilters.map((typefilter:number) => (
@@ -270,6 +271,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
                 }
                 </div>
             </div>
+            }
             <div className="container">
                 {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                 {loading ?
