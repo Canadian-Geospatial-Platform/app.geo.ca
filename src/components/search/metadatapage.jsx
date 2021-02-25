@@ -101,7 +101,7 @@ const MetaDataPage = () => {
         <div className="pageContainer resultPage">
             <div className="resultContainer">
                 {loading ?
-                    <h1 className="d-flex justify-content-center"><BeatLoader color="#0074d9" /></h1>
+                    <h1 className="d-flex justify-content-center"><BeatLoader color="#515AA9" /></h1>
                     :
                     (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
                     <h1 className="d-flex justify-content-center">

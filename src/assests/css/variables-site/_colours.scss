@@ -1,6 +1,7 @@
 // Global
 $color__light: #fff;
 $color__dark: #000;
+$color__semi-dark: #1f1f1f;
 $color__logo-green: #169548;
 $color__logo-green-dark: #106a34;
 $color__logo-blue: #515aa9;
@@ -17,6 +18,7 @@ $color__icon-btn-bg: $color__logo-blue;
 // Main
 $color__bg-body: #f5f5f5;
 $color__text-main: #54595f;
+$color__text-main-hover: $color__semi-dark;
 $color__text-heading: $color__light;
 $color__link: $color__light;
 $color__table-heading: #eee;
@@ -37,3 +39,4 @@ $filter__color-light: invert(100%) sepia(93%) saturate(0%) hue-rotate(265deg) br
 $filter__color-table-heading: invert(100%) sepia(46%) saturate(3625%) hue-rotate(179deg) brightness(85%) contrast(104%); // #babede
 $filter__color-logo-blue: invert(36%) sepia(11%) saturate(2866%) hue-rotate(196deg) brightness(98%) contrast(92%); // #515aa9;
 $filter__color-text-main: invert(34%) sepia(19%) saturate(191%) hue-rotate(172deg) brightness(93%) contrast(88%); // #54595f
+$filter__color-text-main-hover: invert(7%) sepia(20%) saturate(78%) hue-rotate(315deg) brightness(100%) contrast(90%); // #1f1f1f
