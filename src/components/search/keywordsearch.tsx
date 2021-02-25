@@ -310,7 +310,11 @@ const KeywordSearch: React.FunctionComponent = () => {
             )}
             {filterbyshown && (
                 <div
-                    className={loading ? 'container-fluid container-filter-selecton disabled' : 'container-fluid container-filter-selecton'}
+                    className={
+                        loading
+                            ? 'container-fluid container-filter-selection large-panel disabled'
+                            : 'container-fluid container-filter-selection large-panel'
+                    }
                 >
                     <div className="row row-filters">
                         <div className="col-12">

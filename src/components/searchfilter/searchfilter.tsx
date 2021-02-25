@@ -32,22 +32,28 @@ export default function SearchFilter(props: filterProps): JSX.Element {
         }
         setOpen(!open);
     };
-    
+
     useEffect(() => {
         setFilterSelected(filterselected);
     }, [filterselected]);
 
-    return (
-        vtype ? 
-        <div className={open ?  'filter-wrap open' : 'filter-wrap'}>
-            <button type="button" className="link-button filter-title" onClick={() => handleOpen()}>{filtertitle}</button>
+    return vtype ? (
+        <div className={open ? 'filter-wrap open' : 'filter-wrap'}>
+            <button type="button" className="link-button filter-title" onClick={() => handleOpen()}>
+                {filtertitle}
+            </button>
             <div className="filter-list-wrap">
                 <ul className="list">
-                    {filtervalues.map((filter:string, findex: number) => {
+                    {filtervalues.map((filter: string, findex: number) => {
                         const selected = fselected.findIndex((fs) => fs === findex) > -1;
                         return (
-                            <li key={filter}
-                                className={selected ? 'filterValue checked d-flex flex-row list-item' : 'filterValue d-flex flex-row list-item'}
+                            <li
+                                key={filter}
+                                className={
+                                    selected
+                                        ? 'filterValue checked d-flex flex-row align-items-start list-item'
+                                        : 'filterValue d-flex flex-row align-items-start list-item'
+                                }
                                 onClick={() => selectFilterValue(findex)}
                             >
                                 <label htmlFor={filter} className="label">
@@ -59,17 +65,22 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                     })}
                 </ul>
             </div>
-        </div>    
-        :
+        </div>
+    ) : (
         <div className="filter-list-wrap">
             <ul className="list">
-                <li className={fselected.length > 0 ? 'filterValue checked d-flex flex-row list-item' : 'filterValue d-flex flex-row list-item'}
+                <li
+                    className={
+                        fselected.length > 0
+                            ? 'filterValue checked d-flex flex-row align-items-start list-item'
+                            : 'filterValue d-flex flex-row align-items-start list-item'
+                    }
                     onClick={() => handleOpen()}
                 >
                     <label htmlFor={filtertitle} className="label">
                         {filtertitle}
                     </label>
-                    <input type="checkbox" className="checkbox" checked={fselected.length>0} />
+                    <input type="checkbox" className="checkbox" checked={fselected.length > 0} />
                 </li>
             </ul>
         </div>
@@ -80,5 +91,5 @@ interface filterProps {
     filtertitle: string;
     filtervalues: string[];
     filterselected: number[];
-    selectFilters: (arg:unknown) => void;
+    selectFilters: (arg: unknown) => void;
 }
