@@ -80,7 +80,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
         if (storethemefilters.length > 0) {
-            searchParams.theme = storethemefilters.map((fs: number) => themes[language][fs]).join(',');
+            searchParams.themes = storethemefilters.map((fs: number) => themes[language][fs]).join(',');
         }
         if (storeorgfilters.length > 0) {
             searchParams.org = storeorgfilters.map((fs: number) => organisations[language][fs]).join('|');
@@ -500,7 +500,7 @@ interface SearchParams {
     lang: string;
     min: number;
     max: number;
-    theme?: string;
+    themes?: string;
     org?: string;
     type?: string;
     foundational?: 'true';
