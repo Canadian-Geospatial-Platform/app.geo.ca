@@ -1,0 +1,113 @@
+{
+    "app": {
+        "language": "en"
+    },
+    "nav": {
+        "home": "Home",
+        "language": {
+            "key": "fr-CA",
+            "name": "Français"
+        }
+    },
+    "mapnav": {
+        "ariaNavbar": "vertical button group for map navigation",
+        "fullscreen": "Full Screen",
+        "home": "Home",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out"
+    },
+    "mapctrl": {
+        "mouseposition": {
+            "east": "E",
+            "west": "W",
+            "north": "N",
+            "south": "S"
+        },
+        "attribution": "&copy Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources"
+    },
+    "appbar": {
+        "drawer": "Drawer",
+        "close": "Close",
+        "export": "Export",
+        "fullscreen": "Full Screen",
+        "help": "Help",
+        "layers": "Layers",
+        "search": "Geo Search",
+        "keywordsearch": "Keyword Search",
+        "filters": "Filters",
+        "account": "Account",
+        "howto": "How To",
+        "share": "Share",
+        "version": "Access GitHub repo"
+    },
+    "filter": {
+        "filterby": "Filter by",
+        "organisations": "Organisations",
+        "types": "Types",
+        "themes": "Themes",
+        "foundational": "Foundational Layers Only",
+        "otherfilters": "Other Filters",
+        "applyfilters": "Apply Filters",
+        "clearall": "Clear All"
+    },
+    "howto": {
+        "geosearchdescription": "The geoSearch application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map.",
+        "keywordsearchdescription": "The keyword search page can be used if you are not interested in a given geographic area. Enter a keyword, and filter the results based on our advanced filters.",
+        "filtersdescription": "The advanced filters can filter data based on organisation, type, theme, and foundational layers. You can add as many filters as you need and remove them if they are not given you the result you need."
+    },
+    "page": {
+        "ctrl": {
+            "total": "{{index}} of {{total}} records"
+        },
+        "changesearch": "Change the input to search ...",
+        "noresult": "No result",
+        "organisation": "Organisation",
+        "published": "Published",
+        "viewmore": "View More",
+        "showless": "Show Less",
+        "search": "Search ...",
+        "advancedsearchfilters": "Advanced Search Filters",
+        "gotogeosearchpage": "Go To GeoSearch",
+        "viewrecord": "View Record",
+        "aboutthisdataset": "About this dataset",
+        "dataresources": "Data Resources",
+        "contactdata": "Contact Data",
+        "advancedmetadata": "Advanced Metadata",
+        "keywords": "Keywords",
+        "metadata": "Metadata",
+        "datecreated": "Date Created",
+        "datepublished": "Date Published",
+        "temporalcoverage": "Temporal Coverage",
+        "source": "Source(s)",
+        "name": "Name",
+        "type": "Type",
+        "format": "Format",
+        "languages": "Languages",
+        "language": "English",
+        "organization": "Organization",
+        "address": "Address",
+        "individualname": "Individual Name",
+        "role": "Role",
+        "telephone": "Telephone",
+        "fax": "Fax",
+        "email": "Email",
+        "web": "Web",
+        "description": "Description",
+        "status": "Status",
+        "maintenance": "Maintenance",
+        "topiccategory": "Topic Category",
+        "north": "North",
+        "east": "East",
+        "west": "West",
+        "south": "South",
+        "spatialrepresentation": "Spatial Representation",
+        "addtomap": "Add to Map",
+        "viewthedata": "View the data in depth by adding it to a map.",
+        "viewonmap": "View on Map",
+        "addedtomymap": "Added to MyMap",
+        "addtomymap": "Add to MyMap",
+        "ourmetadatais": "Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.",
+        "downloadgeocore": "Download geoCore",
+        "viewhnaprecord": "View HNAP Record"
+    }
+}
