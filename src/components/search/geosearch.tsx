@@ -134,7 +134,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
         max: cnt>0?Math.min(pn*rpp, cnt):pn*rpp
     }
     if (themefilters.length > 0) {
-        searchParams.theme = themefilters.map((fs:number)=>themes[language][fs]).join(",");
+        searchParams.themes = themefilters.map((fs:number)=>themes[language][fs]).join(",");
     }
     if (orgfilters.length > 0) {
         searchParams.org = orgfilters.map((fs:number)=>organisations[language][fs]).join("|");
@@ -311,7 +311,7 @@ interface SearchParams {
     lang: string;
     min: number;
     max: number;
-    theme?: string;
+    themes?: string;
     org?: string;
     type?: string;
     foundational?: 'true';
