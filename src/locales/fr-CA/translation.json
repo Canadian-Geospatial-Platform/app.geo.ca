@@ -4,6 +4,7 @@
     },
     "nav": {
         "home": "Accueil",
+        "search": "Chercher",
         "language": {
             "key": "en-CA",
             "name": "English"
