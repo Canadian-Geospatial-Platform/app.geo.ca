@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-import { getQueryParams } from '../../common/queryparams'; 
+import { getQueryParams } from '../../common/queryparams';
 import Pagination from '../pagination/pagination';
 import { setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
 import organisations from './organisations.json';
@@ -71,7 +71,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
         new L.geoJSON(data).addTo(map);
     }
   };
-  
+
   const handleSelect = (event:string) => {
     // const {selectResult} = this.props;
     const cardOpen = selected === event ? !open : true;
@@ -81,7 +81,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
     setOpen(cardOpen);
     selectResult(result);
   };
-  
+
   const setLoadingStatus = (flag:boolean) => {
     flag &&
     map._handlers.forEach(handler => {
@@ -146,7 +146,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
         searchParams.foundational = "true";
     }
     // console.log(searchParams);
-    axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
+    axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo-stag", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
         // console.log(data);
@@ -196,34 +196,34 @@ const GeoSearch = (showing:boolean):JSX.Element => {
         handleSubmit();
     }
   };
-  
+
   const clearOrgFilter = (filter:number) =>{
     const  newfilter = orgfilters.filter((fs:number)=>fs!==filter);
-    dispatch(setOrgFilter(newfilter)); 
-    setPageNumber(1);     
+    dispatch(setOrgFilter(newfilter));
+    setPageNumber(1);
   };
 
   const clearTypeFilter = (filter:number) =>{
     const  newfilter = typefilters.filter((fs:number)=>fs!==filter);
-    dispatch(setTypeFilter(newfilter)); 
-    setPageNumber(1);     
+    dispatch(setTypeFilter(newfilter));
+    setPageNumber(1);
   };
 
   const clearThemeFilter = (filter:number) =>{
     const  newfilter = themefilters.filter((fs:number)=>fs!==filter);
-    dispatch(setThemeFilter(newfilter)); 
-    setPageNumber(1);     
+    dispatch(setThemeFilter(newfilter));
+    setPageNumber(1);
   };
 
   const clearFound = () =>{
-    dispatch(setFoundational(false)); 
-    setPageNumber(1);     
+    dispatch(setFoundational(false));
+    setPageNumber(1);
   };
-  
+
   useEffect(() => {
     if (showing) {
         handleSearch(initKeyword, initBounds);
-    } 
+    }
   }, [showing, language, pn, orgfilters, typefilters, themefilters, foundational]);
   // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
@@ -247,26 +247,26 @@ const GeoSearch = (showing:boolean):JSX.Element => {
             <div className="searchFilters">
                 <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
                 {typefilters.map((typefilter:number) => (
-                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): undefined}>                                      
+                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? () => clearTypeFilter(typefilter): undefined}>
                         {types[language][typefilter]} <i className="fas fa-times" />
                     </button>
                 ))
                 }
                 {orgfilters.map((orgfilter:number) => (
-                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): undefined}>                     
-                        {organisations[language][orgfilter]} <i className="fas fa-times" />               
+                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? () => clearOrgFilter(orgfilter): undefined}>
+                        {organisations[language][orgfilter]} <i className="fas fa-times" />
                     </button>
                 ))
                 }
                 {themefilters.map((themefilter:number) => (
-                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): undefined}>                    
-                       {themes[language][themefilter]} <i className="fas fa-times" />                                       
+                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? () => clearThemeFilter(themefilter): undefined}>
+                       {themes[language][themefilter]} <i className="fas fa-times" />
                     </button>
                 ))
                 }
-                {foundational && 
-                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? clearFound: undefined}>                    
-                        {t("filter.foundational")} <i className="fas fa-times" />                            
+                {foundational &&
+                    <button type="button" className="btn btn btn-filter" disabled = {loading} onClick={!loading ? clearFound: undefined}>
+                        {t("filter.foundational")} <i className="fas fa-times" />
                     </button>
                 }
                 </div>
@@ -289,7 +289,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
                                 <p className="searchFields"><strong>{t("page.organisation")}:</strong> {result.organisation}</p>
                                 <p className="searchFields"><strong>{t("page.published")}:</strong> {result.published}</p>
                                 <p className="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
-                                
+
                                 <button type="button" className="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>{t("page.viewrecord")} <i className="fas fa-long-arrow-alt-right" /></button>
                             </div>
                         </div>

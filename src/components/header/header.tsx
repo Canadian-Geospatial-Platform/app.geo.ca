@@ -6,7 +6,7 @@ import {useLocation, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../assests/i18n/i18n';
 import logo from '../../assests/img/GeoDotCaBanner.jpg';
-import { getQueryParams } from '../../common/queryparams'; 
+import { getQueryParams } from '../../common/queryparams';
 import './header.scss';
 
 export default function Header(): JSX.Element {
@@ -22,12 +22,12 @@ export default function Header(): JSX.Element {
     const gotoHome = () => {
         if (location.pathname==='/' && queryParams.keyword===undefined) {
             history.go(0);
-        } else {    
+        } else {
             history.push({
                 pathname: '/',
                 search: ''
             });
-        }    
+        }
     }
 
     return (
@@ -35,7 +35,7 @@ export default function Header(): JSX.Element {
             <div className="container-fluid">
                 <div className="row align-items-center">
                     <div className="col-3 header-logo-col">
-                        <img src={logo} alt="" onClick={gotoHome} />
+                        <img src={logo} alt="" onClick={window.open('http://3.97.100.83');} />
                     </div>
                     <div className="col-9 header-nav-col">
                         <nav className="header-nav">

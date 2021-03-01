@@ -93,7 +93,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         }
         // console.log(searchParams);
         axios
-            .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo', { params: searchParams })
+            .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo-stag', { params: searchParams })
             .then((response) => response.data)
             .then((data) => {
                 // console.log(data);

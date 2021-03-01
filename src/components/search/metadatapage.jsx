@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
-import { getQueryParams } from '../../common/queryparams'; 
+import { getQueryParams } from '../../common/queryparams';
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
 import './metadatapage.scss';
@@ -26,18 +26,18 @@ const MetaDataPage = () => {
     const location = useLocation();
     const queryParams = getQueryParams(location.search);
     const {t} = useTranslation();
-    
+
     const mapping = useSelector(state => state.mappingReducer.mapping);
 
-    const dispatch = useDispatch(); 
-    
+    const dispatch = useDispatch();
+
     // console.log(mapping);
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
     const [rid, setID] = useState(queryParams && queryParams.id?queryParams.id.trim():"");
     const language = t("app.language");
-    
+
     const handleOpen = (section) => {
         const newOpen = openSection.map(o=>o);
         const hIndex = openSection.findIndex(os=>os===section);
@@ -49,20 +49,20 @@ const MetaDataPage = () => {
         setOpen(newOpen);
     };
 
-    
+
     const handleRowClick = (url) => {
         window.open(url, "_blank");
     };
 
     const handleSearch = (id) => {
       setLoading(true);
-  
+
       const searchParams = {
           id,
           lang: language,
       };
       // console.log(searchParams);
-      axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id", { params: searchParams})
+      axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id-stag", { params: searchParams})
       .then(response => response.data)
       .then((data) => {
           // console.log(data);
@@ -77,9 +77,9 @@ const MetaDataPage = () => {
           // setKeyword(keyword);
           setLoading(false);
       });
-  
+
     };
-    
+
     const changeMapping = (resultid) => {
         const rIndex = mapping.findIndex(mid => mid === resultid);
         const newMapping = mapping.map(m => m);
@@ -89,14 +89,14 @@ const MetaDataPage = () => {
             newMapping.push(resultid);
         }
         dispatch(setMapping(newMapping));
-    }; 
-  
+    };
+
     useEffect(() => {
       if (rid !== '') {
           handleSearch(rid);
       }
     }, [language, rid]);
-  
+
     return (
         <div className="pageContainer resultPage">
             <div className="resultContainer">
@@ -110,7 +110,7 @@ const MetaDataPage = () => {
                     results.map((result) => {
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-                        // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);      
+                        // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const options = JSON.parse(formattedOption);
                         const contact =   JSON.parse(formattedContact);
                         const coordinates = JSON.parse(result.coordinates);
@@ -214,8 +214,8 @@ const MetaDataPage = () => {
                                     <td>{contact[0].address[language]}</td>
                                     </tr>
                                     <tr>
-                                    <th scope="row">{t("page.individualname")}</th>                                    
-                                    <td>{contact[0].individual[language]}</td>                                    
+                                    <th scope="row">{t("page.individualname")}</th>
+                                    <td>{contact[0].individual[language]}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.role")}</th>
@@ -307,7 +307,7 @@ const MetaDataPage = () => {
                                                 "type": "Feature",
                                                 "properties": {"id": result.id, "tag": "geoViewGeoJSON"},
                                                 "geometry": {"type": "Polygon", "coordinates": coordinates}
-                                                }} />          
+                                                }} />
                                     </MapContainer>
                                 </div>
                             </section>
@@ -329,11 +329,11 @@ const MetaDataPage = () => {
                             </section>
                         </aside>
                     </div>
-                    </div> 
+                    </div>
                     )} ))}
             </div>
         </div>
       );
 }
-  
+
 export default MetaDataPage;
