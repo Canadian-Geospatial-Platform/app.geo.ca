@@ -35,7 +35,7 @@ export default function Header(): JSX.Element {
             <div className="container-fluid">
                 <div className="row align-items-center">
                     <div className="col-3 header-logo-col">
-                        <img src={logo} alt="" onClick={window.open('http://3.97.100.83');} />
+                        <a href="http://3.97.100.83" target="_blank"><img src={logo} alt="" /></a>
                     </div>
                     <div className="col-9 header-nav-col">
                         <nav className="header-nav">
