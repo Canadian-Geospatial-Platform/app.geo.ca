@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require('webpack');
@@ -17,6 +18,7 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'gcpv-main.js',
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json', '.jpg'],

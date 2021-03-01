@@ -10,8 +10,9 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState, createRef, useEffect, ChangeEvent } from "react";
-import {useLocation} from 'react-router';
-import { useDispatch, useSelector} from "react-redux";
+import { useLocation } from 'react-router';
+// import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useMap } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
@@ -134,7 +135,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
         max: cnt>0?Math.min(pn*rpp, cnt):pn*rpp
     }
     if (themefilters.length > 0) {
-        searchParams.theme = themefilters.map((fs:number)=>themes[language][fs]).join(",");
+        searchParams.themes = themefilters.map((fs:number)=>themes[language][fs]).join(",");
     }
     if (orgfilters.length > 0) {
         searchParams.org = orgfilters.map((fs:number)=>organisations[language][fs]).join("|");
@@ -289,8 +290,8 @@ const GeoSearch = (showing:boolean):JSX.Element => {
                                 <p className="searchFields"><strong>{t("page.organisation")}:</strong> {result.organisation}</p>
                                 <p className="searchFields"><strong>{t("page.published")}:</strong> {result.published}</p>
                                 <p className="searchDesc">{result.description.substr(0,240)} {result.description.length>240 ? <span>...</span> : ""}</p>
-                                
                                 <button type="button" className="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>{t("page.viewrecord")} <i className="fas fa-long-arrow-alt-right" /></button>
+                                {/* <Link to={`/result?id=${encodeURI(result.id.trim())}&lang=${language}`} target={`View Record ${result.id.trim()}`}><button type="button" className="btn btn-sm searchButton">{t("page.viewrecord")} <i className="fas fa-long-arrow-alt-right" /></button></Link> */}
                             </div>
                         </div>
                     ))}
@@ -311,7 +312,7 @@ interface SearchParams {
     lang: string;
     min: number;
     max: number;
-    theme?: string;
+    themes?: string;
     org?: string;
     type?: string;
     foundational?: 'true';

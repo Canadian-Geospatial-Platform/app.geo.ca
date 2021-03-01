@@ -1,12 +1,13 @@
+/* eslint-disable prettier/prettier */
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from '../../locales/en-CA/translation.json';
-import fr from '../../locales/fr-CA/translation.json'; 
+import fr from '../../locales/fr-CA/translation.json';
 
 i18n.use(initReactI18next)
     // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
     // learn more: https://github.com/i18next/i18next-http-backend
-    //.use(Backend)
+    // .use(Backend)
     // init i18next
     // for all options read: https://www.i18next.com/overview/configuration-options
     .init({
