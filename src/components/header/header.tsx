@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react/jsx-no-target-blank */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState } from 'react';
@@ -35,12 +37,12 @@ export default function Header(): JSX.Element {
             <div className="container-fluid">
                 <div className="row align-items-center">
                     <div className="col-3 header-logo-col">
-                        <img src={logo} alt="" onClick={gotoHome} />
+                        <a href="http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/" target="_blank"><img src={logo} alt="" /></a>
                     </div>
                     <div className="col-9 header-nav-col">
                         <nav className="header-nav">
                             <ul className="list-group flex-row justify-content-end align-items-center menu-list">
-                                <li className="list-group-item" onClick={gotoHome}>{t('nav.home')}</li>
+                                <li className="list-group-item" onClick={gotoHome}>{t('nav.search')}</li>
                                 <li className="list-group-item" onClick={() => i18n.changeLanguage(t('nav.language.key'))}>{t('nav.language.name')}</li>
                             </ul>
                         </nav>
