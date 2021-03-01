@@ -12,10 +12,13 @@ const config = {
         https: false,
         disableHostCheck: true,
         contentBase: path.resolve(__dirname, 'public'),
-        historyApiFallback: true,
+        historyApiFallback: {
+            index: '/'
+        },
         // contentBase: './dist',
         overlay: true,
         hot: true,
+        inline: true,
         port: 8080,
         compress: true,
         open: true,

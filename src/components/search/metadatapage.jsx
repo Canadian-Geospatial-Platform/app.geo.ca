@@ -12,6 +12,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import {useLocation} from 'react-router';
+// import {useParams} from 'react-router-dom';
 import { useDispatch, useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
@@ -35,9 +36,10 @@ const MetaDataPage = () => {
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
-    const [rid, setID] = useState(queryParams && queryParams.id?queryParams.id.trim():"");
+    const rid = queryParams && queryParams.id?queryParams.id.trim():"";
     const language = t("app.language");
-    
+    // const { rid } = useParams();
+
     const handleOpen = (section) => {
         const newOpen = openSection.map(o=>o);
         const hIndex = openSection.findIndex(os=>os===section);
