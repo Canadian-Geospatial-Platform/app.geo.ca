@@ -9,52 +9,85 @@ import ArrowPre from '@material-ui/icons/ArrowLeft';
 import ArrowFirst from '@material-ui/icons/ArrowBack';
 import './pagination.scss';
 
-export default function Pagination(props:paginationProps): JSX.Element {
+export default function Pagination(props: paginationProps): JSX.Element {
     const { t } = useTranslation();
-    const {rpp, ppg, rcnt, current, selectPage} = props;
-    const pcnt = Math.ceil(rcnt/rpp);
-    const pgcnt = Math.ceil(pcnt/ppg);
-    const cgroup = Math.ceil(current/rpp); 
+    const { rpp, ppg, rcnt, current, selectPage } = props;
+    const pcnt = Math.ceil(rcnt / rpp);
+    const pgcnt = Math.ceil(pcnt / ppg);
+    const cgroup = Math.ceil(current / rpp);
     const pagenumbers = [];
     // eslint-disable-next-line no-plusplus
-    for (let i=(cgroup-1)*ppg+1; i<=Math.min(cgroup*ppg, pcnt); i++) {
+    for (let i = (cgroup - 1) * ppg + 1; i <= Math.min(cgroup * ppg, pcnt); i++) {
         pagenumbers.push(i);
     }
-    const max = Math.min(current*rpp, rcnt);
+    const max = Math.min(current * rpp, rcnt);
     return (
-        <div className="paginationContainer">
-            <div className="total">{t("page.ctrl.total", { index: `${(current-1)*rpp+1} - ${max}`, total: rcnt })}</div>
-            {rcnt > rpp && 
-            <div className="pages">
-            {pgcnt>1 && 
-                <div className={current===1?"buttonContainer  first disabled":"buttonContainer first"} onClick={cgroup>1?() => selectPage((cgroup-1)*rpp):undefined}>
-                    <ArrowFirst className="searchButton" />
-                </div>
-            }
-                <div className={current===1?"buttonContainer previous disabled":"buttonContainer previous"} onClick={current>1?() => selectPage(current-1):undefined}>
-                    <ArrowPre className="searchButton" />
-                </div>
-                <div className="pageList">
-                {pagenumbers.map(pn=>(
-                        <div key={pn}
-                            className = {pn!==current? "pageListItem" : "pageListItem current"}
-                            onClick = {pn!==current?()=>selectPage(pn):undefined}
-                        >
-                            {pn}
-                        </div>
-                    ))}
-                </div>
-                <div className={current===pcnt?"buttonContainer next disabled":"buttonContainer next"} onClick={current<(pcnt+1)?() => selectPage(current+1):undefined}>
-                    <ArrowNext className="searchButton" />
-                </div>
-            {pgcnt>1 &&    
-                <div className={current===pcnt?"buttonContainer last disabled":"buttonContainer last"} onClick={cgroup<(pgcnt+1)?() => selectPage(cgroup*rpp+1):undefined}>
-                    <ArrowLast className="searchButton" />
-                </div>
-            }    
-            </div> }    
-        </div>
-    )
+        <nav className="pagination-container" aria-label="Page navigation pages">
+            <p className="pagination-total text-center">
+                {t('page.ctrl.total', { index: `${(current - 1) * rpp + 1} - ${max}`, total: rcnt })}
+            </p>
+            <ul className="pagination pagination-list justify-content-center">
+                {pgcnt > 1 && (
+                    <li
+                        className={current === 1 ? 'list-item  first disabled' : 'list-item first'}
+                        onClick={cgroup > 1 ? () => selectPage((cgroup - 1) * rpp) : undefined}
+                    >
+                        <a className="page-link" href="#" aria-label="First page">
+                            <i className="fas fa-angle-double-left" aria-hidden="true" title="First page" />
+                            <span className="sr-only">First page</span>
+                        </a>
+                    </li>
+                )}
+                <li
+                    className={current === 1 ? 'list-item previous disabled' : 'list-item previous'}
+                    onClick={current > 1 ? () => selectPage(current - 1) : undefined}
+                >
+                    <a className="page-link" href="#" aria-label="Previous page">
+                        <i className="fas fa-angle-left" aria-hidden="true" title="Previous page" />
+                        <span className="sr-only">Previous page</span>
+                    </a>
+                </li>
+                {pagenumbers.map((pn) => (
+                    <li
+                        key={pn}
+                        className={pn !== current ? 'list-item' : 'list-item current'}
+                        onClick={pn !== current ? () => selectPage(pn) : undefined}
+                    >
+                        <a className="page-link" href="#">
+                            {pn !== current ? (
+                                pn
+                            ) : (
+                                <span>
+                                    {pn} <span className="sr-only">current</span>
+                                </span>
+                            )}
+                        </a>
+                    </li>
+                ))}
+
+                <li
+                    className={current === pcnt ? 'list-item next disabled' : 'list-item next'}
+                    onClick={current < pcnt + 1 ? () => selectPage(current + 1) : undefined}
+                >
+                    <a className="page-link" href="#" aria-label="Next page">
+                        <i className="fas fa-angle-right" aria-hidden="true" title="Next page" />
+                        <span className="sr-only">Next page</span>
+                    </a>
+                </li>
+                {pgcnt > 1 && (
+                    <li
+                        className={current === pcnt ? 'list-item last disabled' : 'list-item last'}
+                        onClick={cgroup < pgcnt + 1 ? () => selectPage(cgroup * rpp + 1) : undefined}
+                    >
+                        <a className="page-link" href="#" aria-label="Last page">
+                            <i className="fas fa-angle-double-right" aria-hidden="true" title="Last page" />
+                            <span className="sr-only">Last page</span>
+                        </a>
+                    </li>
+                )}
+            </ul>
+        </nav>
+    );
 }
 
 interface paginationProps {
@@ -62,5 +95,5 @@ interface paginationProps {
     ppg: number;
     rcnt: number;
     current: number;
-    selectPage(pn:number): unknown; 
+    selectPage(pn: number): unknown;
 }
