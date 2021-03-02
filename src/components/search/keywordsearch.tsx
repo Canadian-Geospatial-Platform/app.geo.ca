@@ -80,7 +80,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
         if (storethemefilters.length > 0) {
-            searchParams.theme = storethemefilters.map((fs: number) => themes[language][fs]).join(',');
+            searchParams.theme = storethemefilters.map((fs: number) => themes[language][fs]).join('|');
         }
         if (storeorgfilters.length > 0) {
             searchParams.org = storeorgfilters.map((fs: number) => organisations[language][fs]).join('|');
@@ -91,7 +91,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         if (storefoundational) {
             searchParams.foundational = 'true';
         }
-        // console.log(searchParams);
+        //console.log(searchParams);
         axios
             .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo', { params: searchParams })
             .then((response) => response.data)

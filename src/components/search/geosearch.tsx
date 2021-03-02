@@ -134,7 +134,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
         max: cnt>0?Math.min(pn*rpp, cnt):pn*rpp
     }
     if (themefilters.length > 0) {
-        searchParams.theme = themefilters.map((fs:number)=>themes[language][fs]).join(",");
+        searchParams.theme = themefilters.map((fs:number)=>themes[language][fs]).join("|");
     }
     if (orgfilters.length > 0) {
         searchParams.org = orgfilters.map((fs:number)=>organisations[language][fs]).join("|");
@@ -145,7 +145,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
     if (foundational) {
         searchParams.foundational = "true";
     }
-    // console.log(searchParams);
+    //console.log(searchParams);
     axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo", { params: searchParams})
     .then(response => response.data)
     .then((data) => {
