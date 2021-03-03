@@ -22,31 +22,49 @@ export default function Pagination(props: paginationProps): JSX.Element {
     }
     const max = Math.min(current * rpp, rcnt);
     return (
-        <nav className="pagination-container" aria-label="Page navigation pages">
+        <nav className="pagination-container" aria-label="Search results pagination">
             <p className="pagination-total text-center">
                 {t('page.ctrl.total', { index: `${(current - 1) * rpp + 1} - ${max}`, total: rcnt })}
             </p>
             <ul className="pagination pagination-list justify-content-center">
                 {pgcnt > 1 && (
                     <li
-                        className={current === 1 ? 'list-item  first disabled' : 'list-item first'}
+                        className={current === 1 ? 'list-item first disabled' : 'list-item first'}
                         onClick={cgroup > 1 ? () => selectPage((cgroup - 1) * rpp) : undefined}
+                        aria-hidden={current === 1 ? 'true' : 'false'}
                     >
-                        <a className="page-link" href="#" aria-label="First page">
-                            <i className="fas fa-angle-double-left" aria-hidden="true" title="First page" />
-                            <span className="sr-only">First page</span>
-                        </a>
+                        {current === 1 && (
+                            <span className="page-link page-link-ico disabled">
+                                <ArrowFirst className="ico-pagination ico-pagination-first" />
+                            </span>
+                        )}
+                        {current !== 1 && (
+                            <a className="page-link page-link-ico" href="#" aria-label="First page">
+                                <ArrowFirst className="ico-pagination ico-pagination-first" />
+                                <span className="sr-only">First page</span>
+                            </a>
+                        )}
                     </li>
                 )}
+
                 <li
                     className={current === 1 ? 'list-item previous disabled' : 'list-item previous'}
                     onClick={current > 1 ? () => selectPage(current - 1) : undefined}
+                    aria-hidden={current === 1 ? 'true' : 'false'}
                 >
-                    <a className="page-link" href="#" aria-label="Previous page">
-                        <i className="fas fa-angle-left" aria-hidden="true" title="Previous page" />
-                        <span className="sr-only">Previous page</span>
-                    </a>
+                    {current === 1 && (
+                        <span className="page-link page-link-ico disabled">
+                            <ArrowPre className="ico-pagination ico-pagination-prev" />
+                        </span>
+                    )}
+                    {current !== 1 && (
+                        <a className="page-link page-link-ico" href="#" aria-label="Previous page">
+                            <ArrowPre className="ico-pagination ico-pagination-prev" />
+                            <span className="sr-only">Previous page</span>
+                        </a>
+                    )}
                 </li>
+
                 {pagenumbers.map((pn) => (
                     <li
                         key={pn}
@@ -58,7 +76,7 @@ export default function Pagination(props: paginationProps): JSX.Element {
                                 pn
                             ) : (
                                 <span>
-                                    {pn} <span className="sr-only">current</span>
+                                    {pn} <span className="sr-only">(current page)</span>
                                 </span>
                             )}
                         </a>
@@ -68,21 +86,37 @@ export default function Pagination(props: paginationProps): JSX.Element {
                 <li
                     className={current === pcnt ? 'list-item next disabled' : 'list-item next'}
                     onClick={current < pcnt + 1 ? () => selectPage(current + 1) : undefined}
+                    aria-hidden={current === pcnt ? 'true' : 'false'}
                 >
-                    <a className="page-link" href="#" aria-label="Next page">
-                        <i className="fas fa-angle-right" aria-hidden="true" title="Next page" />
-                        <span className="sr-only">Next page</span>
-                    </a>
+                    {current === pcnt && (
+                        <span className="page-link page-link-ico">
+                            <ArrowNext className="ico-pagination ico-pagination-next" />
+                        </span>
+                    )}
+                    {current !== pcnt && (
+                        <a className="page-link page-link-ico" href="#" aria-label="Next page">
+                            <ArrowNext className="ico-pagination ico-pagination-next" />
+                            <span className="sr-only">Next page</span>
+                        </a>
+                    )}
                 </li>
                 {pgcnt > 1 && (
                     <li
                         className={current === pcnt ? 'list-item last disabled' : 'list-item last'}
                         onClick={cgroup < pgcnt + 1 ? () => selectPage(cgroup * rpp + 1) : undefined}
+                        aria-hidden={current === pcnt ? 'true' : 'false'}
                     >
-                        <a className="page-link" href="#" aria-label="Last page">
-                            <i className="fas fa-angle-double-right" aria-hidden="true" title="Last page" />
-                            <span className="sr-only">Last page</span>
-                        </a>
+                        {current === pcnt && (
+                            <span className="page-link page-link-ico">
+                                <ArrowLast className="ico-pagination ico-pagination-last" />
+                            </span>
+                        )}
+                        {current !== pcnt && (
+                            <a className="page-link page-link-ico" href="#" aria-label="Last page">
+                                <ArrowLast className="ico-pagination ico-pagination-last" />
+                                <span className="sr-only">Last page</span>
+                            </a>
+                        )}
                     </li>
                 )}
             </ul>

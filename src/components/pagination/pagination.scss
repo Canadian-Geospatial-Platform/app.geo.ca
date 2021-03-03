@@ -1,26 +1,55 @@
 @import '../../assests/css/variables-site/variables-site';
 
 .pagination-container {
-    margin-top: 1rem;
-    padding: 1rem 0;
+    font-size: 0.875rem;
+    padding: 1rem 0 0.5rem 0;
     .pagination-total {
         color: $color__semi-dark;
-        font-weight: 300;
-        font-size: 1rem;
+        margin-bottom: 0.5rem;
     }
     .pagination-list {
+        margin-bottom: 0;
         .list-item {
-            &.hover {
-                background-color: $color__bg-aside;
-                color: $color__bg-aside;
-            }
             &.current {
                 .page-link {
-                    background-color: $color__bg-aside;
+                    background-color: transparent;
+                    color: $color__dark;
+                    font-weight: 600;
                 }
             }
             .page-link {
-                color: $color__semi-dark;
+                background-color: transparent;
+                border: none;
+                color: $color__half_dark;
+                font-weight: 400;
+                transition: all 0.3s ease;
+
+                .ico-pagination {
+                    border: 1px solid $color__logo-blue;
+                    border-radius: 25px;
+                    color: $color__logo-blue;
+                    font-size: 1.375em;
+                    transition: all 0.3s ease;
+                }
+            }
+
+            &.disabled {
+                .page-link {
+                    opacity: 0.5;
+                }
+            }
+            &:not(.disabled) {
+                .page-link {
+                    &:hover {
+                        background-color: transparent;
+                        color: $color__dark;
+                        font-weight: 600;
+                        .ico-pagination {
+                            background-color: $color__logo-blue;
+                            color: $color__light;
+                        }
+                    }
+                }
             }
         }
     }
