@@ -21,7 +21,7 @@ const config = {
         publicPath: '/'
     },
     resolve: {
-        extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json', '.jpg'],
+        extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx'],
         fallback: {
           "fs": false,
           "tls": false,

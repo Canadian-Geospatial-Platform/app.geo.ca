@@ -5,10 +5,12 @@
     "nav": {
         "home": "Home",
         "search": "Search",
+        "mymap": "MyMap",
         "language": {
             "key": "fr-CA",
             "name": "Français"
-        }
+        },
+        "nomap": "Your map is empty, please add data to map"
     },
     "mapnav": {
         "ariaNavbar": "vertical button group for map navigation",

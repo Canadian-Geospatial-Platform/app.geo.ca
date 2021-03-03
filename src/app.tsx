@@ -35,9 +35,7 @@ const store = createStore(reducers, persistedState);
 setupCognito(store, authconfig);
 
 store.subscribe(
-    throttle(() => {
-        saveState(store.getState());
-    }, 1000)
+    throttle(() => saveState(store.getState()), 1000)
 );
 
 // hack for default leaflet icon: https://github.com/Leaflet/Leaflet/issues/4968

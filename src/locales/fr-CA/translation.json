@@ -5,10 +5,12 @@
     "nav": {
         "home": "Accueil",
         "search": "Chercher",
+        "mymap": "MyMap",
         "language": {
             "key": "en-CA",
             "name": "English"
-        }
+        },
+        "nomap": "Votre carte est vide, veuillez ajouter des données à la carte"
     },
     "mapnav": {
         "ariaNavbar": "groupe de buttons vertical pour navigation sur la carte",
