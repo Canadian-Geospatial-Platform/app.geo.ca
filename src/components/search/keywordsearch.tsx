@@ -372,7 +372,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">
                     <div className="col-12">
-                        {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={8} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                     </div>
                 </div>
             </div>
@@ -486,7 +486,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             <div className="container-fluid container-pagination container-pagination-bottom">
                 <div className="row row-pagination row-pagination-bottom">
                     <div className="col-12">
-                        {cnt > 0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={8} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                     </div>
                 </div>
             </div>

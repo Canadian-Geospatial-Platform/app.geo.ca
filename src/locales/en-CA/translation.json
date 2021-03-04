@@ -60,7 +60,12 @@
     },
     "page": {
         "ctrl": {
-            "total": "{{index}} of {{total}} records"
+            "total": "{{index}} of {{total}} records",
+            "currentpage": "Current Page",
+            "previouspage": "Previous Page",
+            "previouspages": "Previous Pages",
+            "nextpage": "Next Page",
+            "nextpages": "Next pages"
         },
         "changesearch": "Change the input to search ...",
         "noresult": "No result",

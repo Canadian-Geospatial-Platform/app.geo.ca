@@ -60,7 +60,12 @@
     },
     "page": {
         "ctrl": {
-            "total": "{{index}} de {{total}} dossiers"
+            "total": "{{index}} de {{total}} dossiers",
+            "currentpage": "Page actuelle",
+            "previouspage": "Page précédente",
+            "previouspages": "Pages précédentes",
+            "nextpage": "Page suivante",
+            "nextpages": "Pages suivantes"
         },
         "changesearch": "Changer l'entrée à rechercher ... ",
         "noresult": "Pas de résultat",

@@ -275,7 +275,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
             </div>
             }
             <div className="container">
-                {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                {cnt>0 && <Pagination rpp={rpp} ppg={8} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                 {loading ?
                     <div className="d-flex justify-content-center">
                     <BeatLoader color="#515AA9" />
@@ -298,7 +298,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
                     ))}
                     </div>
                 )}
-                {cnt>0 && <Pagination rpp={rpp} ppg={10} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                {cnt>0 && <Pagination rpp={rpp} ppg={8} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             </div>
         </div>
     );
