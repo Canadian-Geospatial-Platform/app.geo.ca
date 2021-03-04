@@ -5,10 +5,12 @@
     "nav": {
         "home": "Home",
         "search": "Search",
+        "mymap": "MyMap",
         "language": {
             "key": "fr-CA",
             "name": "Français"
-        }
+        },
+        "nomap": "Your map is empty, please add data to map"
     },
     "mapnav": {
         "ariaNavbar": "vertical button group for map navigation",
@@ -58,7 +60,12 @@
     },
     "page": {
         "ctrl": {
-            "total": "{{index}} of {{total}} records"
+            "total": "{{index}} of {{total}} records",
+            "currentpage": "Current Page",
+            "previouspage": "Previous Page",
+            "previouspages": "Previous Pages",
+            "nextpage": "Next Page",
+            "nextpages": "Next pages"
         },
         "changesearch": "Change the input to search ...",
         "noresult": "No result",

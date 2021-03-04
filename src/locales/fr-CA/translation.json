@@ -5,10 +5,12 @@
     "nav": {
         "home": "Accueil",
         "search": "Chercher",
+        "mymap": "MyMap",
         "language": {
             "key": "en-CA",
             "name": "English"
-        }
+        },
+        "nomap": "Votre carte est vide, veuillez ajouter des données à la carte"
     },
     "mapnav": {
         "ariaNavbar": "groupe de buttons vertical pour navigation sur la carte",
@@ -58,7 +60,12 @@
     },
     "page": {
         "ctrl": {
-            "total": "{{index}} de {{total}} dossiers"
+            "total": "{{index}} de {{total}} dossiers",
+            "currentpage": "Page actuelle",
+            "previouspage": "Page précédente",
+            "previouspages": "Pages précédentes",
+            "nextpage": "Page suivante",
+            "nextpages": "Pages suivantes"
         },
         "changesearch": "Changer l'entrée à rechercher ... ",
         "noresult": "Pas de résultat",
