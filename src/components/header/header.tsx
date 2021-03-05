@@ -4,12 +4,12 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState } from 'react';
-import { useSelector } from "react-redux";
-// import { StoreEnhancer } from 'redux';
+// import { useSelector } from "react-redux";
+import { StoreEnhancer } from 'redux';
 import {useLocation, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../assests/i18n/i18n';
-// import { loadState } from '../../reducers/localStorage';
+import { loadState } from '../../reducers/localStorage';
 import logo from '../../assests/img/GeoDotCaBanner.jpg';
 import { getQueryParams } from '../../common/queryparams'; 
 import './header.scss';
@@ -24,7 +24,7 @@ export default function Header(): JSX.Element {
         i18n.changeLanguage( `${queryParams.lang}-CA` ); 
         setLF(true);
     }
-    const mapping = useSelector(state => state.mappingReducer.mapping);
+    // const mapping = useSelector(state => state.mappingReducer.mapping);
 
     const gotoHome = () => {
         if (location.pathname==='/' && queryParams.keyword===undefined) {
@@ -38,8 +38,8 @@ export default function Header(): JSX.Element {
     }
 
     const viewMyMap = () => {
-        // const localState:StoreEnhancer<unknown,unknown>|undefined = loadState();
-        // const mapping = localState!==undefined ? localState.mappingReducer.mapping : [];
+        const localState:StoreEnhancer<unknown,unknown>|undefined = loadState();
+        const mapping = localState!==undefined ? localState.mappingReducer.mapping : [];
         // console.log(mapping);
         if (mapping.length > 0) {
             window.open(`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t("app.language")}.html?keys=${encodeURI(mapping.join(','))}`, `View MyMap`);
@@ -58,9 +58,9 @@ export default function Header(): JSX.Element {
                     <div className="col-9 header-nav-col">
                         <nav className="header-nav">
                             <ul className="list-group flex-row justify-content-end align-items-center menu-list">
-                                <li className="list-group-item" onClick={gotoHome}>{t('nav.search')}</li>
-                                <li className="list-group-item" onClick={viewMyMap}>{t('nav.mymap')}</li>
-                                <li className="list-group-item" onClick={() => i18n.changeLanguage(t('nav.language.key'))}>{t('nav.language.name')}</li>
+                                <li className="list-group-item"><button type="button" onClick={gotoHome}>{t('nav.search')}</button></li>
+                                <li className="list-group-item"><button type="button" onClick={viewMyMap}>{t('nav.mymap')}</button></li>
+                                <li className="list-group-item"><button type="button" onClick={() => i18n.changeLanguage(t('nav.language.key'))}>{t('nav.language.name')}</button></li>
                             </ul>
                         </nav>
                     </div>
