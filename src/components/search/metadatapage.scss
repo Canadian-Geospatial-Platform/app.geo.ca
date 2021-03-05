@@ -2,7 +2,7 @@
 
 .container-search-result {
     font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     letter-spacing: 0.05em;
     .no-gutters {
         margin-right: 0;
@@ -20,15 +20,11 @@
         color: $color__light;
         background-color: $color__logo-blue-dark;
         font-weight: 300;
-        @media (max-width: 1200px) {
-            order: 2;
-        }
 
+        // Page Title
         .search-result-page-title-wrap {
             width: auto;
             height: auto;
-            margin: 1.5em 5% 1.5em 5%;
-            padding: 1em 0 0.5em 0;
             .btn-back-to-search {
                 color: $color__light;
                 padding-left: 0;
@@ -38,57 +34,84 @@
             }
             .search-result-page-title {
                 color: $color__text-heading;
-                font-size: 2.1em;
                 font-weight: 300;
                 letter-spacing: -0.01em;
                 margin: 0;
                 text-align: left;
             }
+            @media (max-width: $breakpoint__md) {
+                margin: 1em;
+                padding: 0.5em 0;
+                .search-result-page-title {
+                    font-size: 1.875em;
+                }
+            }
+            @media (min-width: $breakpoint__md + 1px) {
+                margin: 1.5em 5% 1.5em 5%;
+                padding: 0.5em 0;
+                .search-result-page-title {
+                    font-size: 2.125em;
+                }
+            }
         }
 
+        // Search Result - Top Content
         .sec-search-result {
             background-color: $color__logo-blue;
-            border-radius: 10px;
+            border-radius: 0.625em;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            margin: 0 5% 1.5em 5%;
-            padding: 2.5em 5% 2em 5%;
-        }
 
-        .sec-title {
-            color: $color__text-heading;
-            margin-bottom: 0.5em;
-            text-transform: uppercase;
-            font-size: 1.75em;
-        }
-
-        .search-result-desc {
-            p {
-                margin-bottom: 0.5rem;
-            }
-        }
-
-        .search-result-keywords {
-            border-top: 1px solid $color__table-border;
-            border-bottom: 1px solid $color__table-border;
-            font-size: 14px;
-            margin: 1em 0 2em 0;
-            padding: 0.75rem 0;
-            p {
-                margin: 0;
-            }
-            strong {
-                display: inline-block;
-                padding-right: 0.5em;
-                color: $color__table-heading;
-                font-weight: normal;
+            .sec-title {
+                color: $color__text-heading;
+                font-size: 1.75em;
+                margin-bottom: 0.5em;
                 text-transform: uppercase;
             }
+
+            .search-result-desc {
+                p {
+                    margin-bottom: 0.5em;
+                }
+            }
+
+            .search-result-keywords {
+                border-top: 1px solid $color__table-border;
+                border-bottom: 1px solid $color__table-border;
+                font-size: 0.875em;
+                margin: 1em 0 2em 0;
+                padding: 0.75em 0;
+                p {
+                    margin: 0;
+                }
+                strong {
+                    display: inline-block;
+                    color: $color__table-heading;
+                    font-weight: normal;
+                    padding-right: 0.5em;
+                    text-transform: uppercase;
+                }
+            }
+
+            @media (max-width: $breakpoint__md) {
+                font-size: 0.875em;
+                margin: 0 1.25em 1.25em 1.25em;
+                padding: 1.25em 1.25em 0 1.25em;
+            }
+            @media (min-width: $breakpoint__md + 1px) {
+                margin: 0 5% 1.5em 5%;
+                padding: 2.5em 5% 1.25em 5%;
+            }
         }
 
+        // Search Result - Tables
         .table-search-result {
             border-color: $color__table-border;
             color: $color__light;
             margin-bottom: 0;
+
+            @media (max-width: $breakpoint__md) {
+                font-size: 0.875em;
+            }
 
             & > :not(caption) > * > * {
                 border-color: $color__table-border;
@@ -106,6 +129,9 @@
                     color: $color__table-heading;
                     a {
                         color: $color__table-heading;
+                        &::before {
+                            filter: $filter__color-table-heading;
+                        }
                     }
                 }
             }
@@ -113,7 +139,7 @@
             caption {
                 caption-side: top;
                 color: $color__light;
-                font-size: 1.3rem;
+                font-size: 1.3em;
                 padding-top: 0;
                 text-transform: uppercase;
                 span {
@@ -162,8 +188,18 @@
                 &:hover {
                     color: $color__table-heading;
                     &::before {
-                        filter: invert(100%) sepia(46%) saturate(3625%) hue-rotate(179deg) brightness(85%) contrast(104%);
+                        filter: $filter__color-table-heading;
                     }
+                }
+                &::before {
+                    content: ' ';
+                    display: inline-block;
+                    background-size: 20px;
+                    height: 20px;
+                    width: 20px;
+                    background: url($ico__bi-link-45deg) center center no-repeat transparent;
+                    margin-right: 20px;
+                    filter: $filter__color-light;
                 }
                 i {
                     display: block;
@@ -173,27 +209,33 @@
                 span {
                     display: block;
                 }
-                &::before {
-                    display: inline-block;
-                    content: ' ';
-                    background-size: 20px;
-                    height: 20px;
-                    width: 20px;
-                    background: url($ico__bi-link-45deg) center center no-repeat transparent;
-                    margin-right: 20px;
-                    filter: $filter__color-light;
+            }
+
+            @media (max-width: $breakpoint__md) {
+                // Add spacing after the element (padding/margin do not work on tbody)
+                tbody::after {
+                    content: '';
+                    display: block;
+                    height: 1.25em;
+                }
+                th,
+                td {
+                    padding: 0.5em;
                 }
             }
         }
         .btn-record-link {
             display: inline-block;
-            background-color: #515aa9;
+            background-color: $color__logo-blue;
             border: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 2em;
             &:hover {
                 color: rgba(255, 255, 255, 0.8);
-                border: 1px solid rgba(255, 255, 255, 0.2);
+                border: 1px solid $color__table-border;
             }
+        }
+        @media (max-width: $breakpoint__xl) {
+            order: 2;
         }
     }
 
@@ -202,13 +244,9 @@
         background-color: $color__bg-aside;
         color: $color__text-aside;
 
-        @media (max-width: 1200px) {
-            order: 1;
-        }
         .sec-search-result {
             background-color: $color__light;
             margin: 0 0 2px 0;
-            padding: 2.5em 5%;
 
             &.search-results-map {
                 height: 300px;
@@ -226,21 +264,22 @@
 
             .section-title {
                 color: $color__heading-aside-title;
-                font-size: 1.4rem;
+                font-size: 1.375em;
                 font-weight: 600;
                 text-transform: uppercase;
             }
 
             .btn-group {
-                margin-top: 0.5rem;
+                margin-top: 0.5em;
                 width: 100%;
+                max-width: $breakpoint__sm;
             }
 
             .btn {
                 background-color: $color__bg-btn-aside;
                 color: $color__text-btn-aside;
-                border-radius: 0.2rem;
-                font-size: 14px;
+                border-radius: 0.2em;
+                font-size: 0.875em;
                 letter-spacing: 0.1em;
                 text-decoration: none;
                 display: inline-block;
@@ -257,6 +296,18 @@
                         background-color: $color__logo-green-dark;
                     }
                 }
+            }
+        }
+        @media (max-width: $breakpoint__md) {
+            order: 1;
+            font-size: 0.875em;
+            .sec-search-result {
+                padding: 2em 1.25em 2em 1.25em;
+            }
+        }
+        @media (min-width: $breakpoint__md + 1px) {
+            .sec-search-result {
+                padding: 2.5em 5%;
             }
         }
     }
