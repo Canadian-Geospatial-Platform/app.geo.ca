@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
+import { loadState } from '../../reducers/localStorage';
 import { getQueryParams } from '../../common/queryparams'; 
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
@@ -83,8 +84,9 @@ const MetaDataPage = () => {
     };
     
     const changeMapping = (resultid) => {
-        const rIndex = mapping.findIndex(mid => mid === resultid);
-        const newMapping = mapping.map(m => m);
+        const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
+        const rIndex = localmapping.findIndex(mid => mid === resultid);
+        const newMapping = localmapping.map(m => m);
         if (rIndex > -1) {
             newMapping.splice(rIndex, 1);
         } else {
@@ -107,7 +109,7 @@ const MetaDataPage = () => {
                     :
                     (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
                     <h1 className="d-flex justify-content-center">
-                        {t("noresult")}
+                        {t("page.noresult")}
                     </h1> :
                     results.map((result) => {
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
@@ -325,8 +327,8 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.metadata")}</h3>
                                 <p>{t("page.ourmetadatais")}</p>
                                 <div className="btn-group">
-                                    <a href={`https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/${  result.id  }.geojson`} className="btn btn-search mr-2" role="button" rel="noreferrer" target="_blank">{t("page.downloadgeocore")}</a>
-                                    <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${  result.id}`} className="btn btn-search" role="button" rel="noreferrer" target="_blank">{t("page.viewhnaprecord")}</a>
+                                    <a href={`https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/${result.id}.geojson`} className="btn btn-search mr-2" role="button" rel="noreferrer" target="_blank">{t("page.downloadgeocore")}</a>
+                                    <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" role="button" rel="noreferrer" target="_blank">{t("page.viewhnaprecord")}</a>
                                 </div>
                             </section>
                         </aside>
