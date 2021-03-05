@@ -29,6 +29,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const rpp = 10;
+    const [sfloaded, setSF] = useState(false);
     const [loading, setLoading] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
     const [pn, setPageNumber] = useState(1);
@@ -190,7 +191,11 @@ const KeywordSearch: React.FunctionComponent = () => {
         dispatch(setTypeFilter(newfilter));
         setType(newfilter);
         setFReset(false);
-        setPageNumber(1);
+        if ( pn > 1) {
+            setPageNumber(1);
+        } else {
+            handleSearch(initKeyword);
+        } 
     };
 
     const clearThemeFilter = (filter: number) => {
@@ -198,23 +203,52 @@ const KeywordSearch: React.FunctionComponent = () => {
         dispatch(setThemeFilter(newfilter));
         setTheme(newfilter);
         setFReset(false);
-        setPageNumber(1);
+        if ( pn > 1) {
+            setPageNumber(1);
+        } else {
+            handleSearch(initKeyword);
+        } 
     };
 
     const clearFound = () => {
         dispatch(setFoundational(false));
         setFound(false);
         setFReset(false);
-        setPageNumber(1);
+        if ( pn > 1) {
+            setPageNumber(1);
+        } else {
+            handleSearch(initKeyword);
+        }    
     };
 
     useEffect(() => {
+        if (!sfloaded) {
+            let oIndex = -1;
+            let tIndex = -1;
+            let thIndex = -1;
+            if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined ) {
+                oIndex = (organisations[language] as string[]).findIndex((os:string)=>os===queryParams.org);
+                tIndex = (types[language] as string[]).findIndex((ts:string)=>ts===queryParams.type);
+                thIndex = (themes[language] as string[]).findIndex((ths:string)=>ths===queryParams.theme);
+            }    
+            if (oIndex >-1 || tIndex>-1 || thIndex>-1) {
+                const ofilter = oIndex >-1 ? [oIndex] : [];
+                const tfilter = tIndex >-1 ? [tIndex] : [];
+                const thfilter = thIndex >-1 ? [thIndex] : [];
+                dispatch(setFilters({ orgfilter: ofilter, typefilter: tfilter, themefilter: thfilter, foundational: false }));
+                setOrg(ofilter);
+                setType(tfilter);
+                setTheme(thfilter);
+                setSF(true);
+            }
+        }
+
         if (!fReset) {
             // console.log(store.getState());
             // saveState(store.getState());
             handleSearch(initKeyword);
         }
-    }, [language, pn, fReset, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
+    }, [language, pn, fReset, sfloaded, queryParams.org, queryParams.type, queryParams.theme, dispatch]);
 
     return (
         <div className="pageContainer keyword-search-page">

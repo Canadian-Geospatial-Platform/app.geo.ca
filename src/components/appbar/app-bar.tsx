@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useState, useRef, useEffect } from 'react';
 import {useLocation, useHistory} from 'react-router';
+import { useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
 
@@ -25,12 +26,15 @@ import AccountIcon from '@material-ui/icons/AccountBox';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import ButtonApp from './button';
 import Version from './buttons/version';
+import { setFilters } from '../../reducers/action';
 import { getQueryParams } from '../../common/queryparams';
 import SearchPanel from '../search/search-panel';
 import FiltersPanel from '../searchfilter/filters-panel';
 import AccountPanel from '../account/account-panel';
 import HowtoPanel from '../howto/howto-panel';
-
+import organisations from '../search/organisations.json';
+import types from '../search/types.json';
+import themes from '../search/themes.json';
 import './app-bar.scss';
 
 const drawerWidth = 200;
@@ -82,12 +86,13 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const { t } = useTranslation();
     const history = useHistory();
     const location = useLocation();
+    const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const classes = useStyles();
     // console.log(queryParams, queryParams.keyword);
     const [open, setOpen] = useState(false);
-    const [panel, setPanel] = useState(queryParams.keyword !== undefined? " search" : "");
-
+    const [panel, setPanel] = useState(( queryParams.keyword !== undefined || queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined ) ? " search" : "");
+    const language = t('app.language');
     const appBar = useRef();
     useEffect(() => {
         // disable events on container
@@ -103,9 +108,34 @@ export function Appbar(props: AppBarProps): JSX.Element {
         setOpen(!open);
     };
 
+    const gotoKeywordSearch = () => {
+        history.push({
+            pathname: '/search',
+            search: queryParams.keyword !== undefined ? `keyword=${queryParams.keyword}`:''
+        });
+    };
+
     useEffect(()=>{
-        setPanel(queryParams.keyword !== undefined? " search" : "");
-    }, [queryParams.keyword])
+        setPanel( (queryParams.keyword !== undefined || queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined ) ? " search" : "");
+        if (queryParams.org !== undefined) {
+            const oIndex = (organisations[language] as string[]).findIndex((os:string)=>os===queryParams.org);
+            if (oIndex >-1) {
+                dispatch(setFilters({ orgfilter: [oIndex], typefilter: [], themefilter: [], foundational: false }));
+            }
+        }
+        if (queryParams.type !== undefined) {
+            const tIndex = (types[language] as string[]).findIndex((ts:string)=>ts===queryParams.type);
+            if (tIndex >-1) {
+                dispatch(setFilters({ orgfilter: [], typefilter: [tIndex], themefilter: [], foundational: false }));
+            }
+        }
+        if (queryParams.theme !== undefined) {
+            const thIndex = (themes[language] as string[]).findIndex((ths:string)=>ths===queryParams.theme);
+            if (thIndex >-1) {
+                dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [thIndex], foundational: false }));
+            }
+        }
+    }, [language, queryParams.keyword, queryParams.org, queryParams.type, queryParams.theme, dispatch])
 
     return (
         <div className={classes.root} ref={appBar}>
@@ -125,7 +155,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                         <Layers key={`${id}-${item.id}`} />
                     ))} */}
                     {search && <ButtonApp tooltip="appbar.search" icon={<SearchIcon />} onClickFunction={()=>setPanel(' search')} />}
-                    {search && <ButtonApp tooltip="appbar.keywordsearch" icon={<KeywordSearchIcon />} onClickFunction={()=>history.push(`/search${location.search}`)} />}
+                    {search && <ButtonApp tooltip="appbar.keywordsearch" icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />}
                     <ButtonApp tooltip="appbar.filters" icon={<FilterIcon />} onClickFunction={()=>setPanel(' filters')} />
                 </List>
                 <Divider className={classes.spacer} />

@@ -27,7 +27,7 @@ export default function Header(): JSX.Element {
     // const mapping = useSelector(state => state.mappingReducer.mapping);
 
     const gotoHome = () => {
-        if (location.pathname==='/' && queryParams.keyword===undefined) {
+        if (location.pathname==='/' && location.search===undefined) {
             history.go(0);
         } else {    
             history.push({
