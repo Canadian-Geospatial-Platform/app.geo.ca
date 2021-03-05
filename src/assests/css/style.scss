@@ -76,6 +76,15 @@ input {
     margin: 5px 0;
 }
 
+button:active {
+    outline: none;
+    border: none;
+}
+
+button:focus {
+    outline:0;
+}
+
 .btn-button {
     color: #fff;
     background-color: #0074d9;
