@@ -76,14 +76,10 @@ input {
     margin: 5px 0;
 }
 
-button:active {
-    outline: none;
-    border: none;
-}
-
-button:focus {
-    outline: none;
-}
+button:focus, button:active {
+    outline: none!important;
+    box-shadow: none!important;
+ }
 
 .btn-button {
     color: #fff;
