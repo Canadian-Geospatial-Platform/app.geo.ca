@@ -31,10 +31,6 @@
                     font-size: 1.375em;
                     transition: all 0.3s ease;
                 }
-                &:active, &:focus {
-                    outline: none;
-                    border: none;
-                }
             }
 
             &.disabled {
