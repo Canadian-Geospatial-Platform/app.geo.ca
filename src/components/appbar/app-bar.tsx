@@ -117,23 +117,14 @@ export function Appbar(props: AppBarProps): JSX.Element {
 
     useEffect(()=>{
         setPanel( (queryParams.keyword !== undefined || queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined ) ? " search" : "");
-        if (queryParams.org !== undefined) {
+        if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
             const oIndex = (organisations[language] as string[]).findIndex((os:string)=>os===queryParams.org);
-            if (oIndex >-1) {
-                dispatch(setFilters({ orgfilter: [oIndex], typefilter: [], themefilter: [], foundational: false }));
-            }
-        }
-        if (queryParams.type !== undefined) {
             const tIndex = (types[language] as string[]).findIndex((ts:string)=>ts===queryParams.type);
-            if (tIndex >-1) {
-                dispatch(setFilters({ orgfilter: [], typefilter: [tIndex], themefilter: [], foundational: false }));
-            }
-        }
-        if (queryParams.theme !== undefined) {
             const thIndex = (themes[language] as string[]).findIndex((ths:string)=>ths===queryParams.theme);
-            if (thIndex >-1) {
-                dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [thIndex], foundational: false }));
-            }
+            const orgfilter = oIndex >-1 ? [oIndex] : [];
+            const typefilter = tIndex >-1 ? [tIndex] : [];
+            const themefilter = thIndex >-1 ? [thIndex] : [];
+            dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
         }
     }, [language, queryParams.keyword, queryParams.org, queryParams.type, queryParams.theme, dispatch])
 

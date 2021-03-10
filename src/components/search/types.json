@@ -1,18 +1,18 @@
 {
     "en": [
-        "Dataset",
-        "Collection",
-        "Application",
         "API",
+        "Application",
+        "Collection",
         "Community",
+        "Dataset",
         "Service"
     ],
     "fr": [
-        "jeuDonnées",
-        "Collection",
-        "Application",
         "API",
+        "Application",
+        "Collection",
         "Communauté",
+        "jeuDonnées",
         "Service"
     ]
 }

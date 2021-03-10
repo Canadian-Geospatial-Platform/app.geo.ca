@@ -223,22 +223,17 @@ const KeywordSearch: React.FunctionComponent = () => {
 
     useEffect(() => {
         if (!sfloaded) {
-            let oIndex = -1;
-            let tIndex = -1;
-            let thIndex = -1;
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined ) {
-                oIndex = (organisations[language] as string[]).findIndex((os:string)=>os===queryParams.org);
-                tIndex = (types[language] as string[]).findIndex((ts:string)=>ts===queryParams.type);
-                thIndex = (themes[language] as string[]).findIndex((ths:string)=>ths===queryParams.theme);
-            }    
-            if (oIndex >-1 || tIndex>-1 || thIndex>-1) {
-                const ofilter = oIndex >-1 ? [oIndex] : [];
-                const tfilter = tIndex >-1 ? [tIndex] : [];
-                const thfilter = thIndex >-1 ? [thIndex] : [];
-                dispatch(setFilters({ orgfilter: ofilter, typefilter: tfilter, themefilter: thfilter, foundational: false }));
-                setOrg(ofilter);
-                setType(tfilter);
-                setTheme(thfilter);
+                const oIndex = (organisations[language] as string[]).findIndex((os:string)=>os===queryParams.org);
+                const tIndex = (types[language] as string[]).findIndex((ts:string)=>ts===queryParams.type);
+                const thIndex = (themes[language] as string[]).findIndex((ths:string)=>ths===queryParams.theme);
+                const orgfilter = oIndex >-1 ? [oIndex] : [];
+                const typefilter = tIndex >-1 ? [tIndex] : [];
+                const themefilter = thIndex >-1 ? [thIndex] : [];
+                dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
+                setOrg(orgfilter);
+                setType(typefilter);
+                setTheme(themefilter);
                 setSF(true);
             }
         }
