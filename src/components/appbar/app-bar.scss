@@ -1,6 +1,9 @@
 .cgp-appbar {
     height: 100%;
-
+    &.leaflet-control {
+        z-index: 1000;
+    }
+    
     .MuiDrawer-paper {
         position: relative !important;
     }
