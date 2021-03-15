@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 // import { useSelector } from "react-redux";
 import { StoreEnhancer } from 'redux';
 import { useLocation, useHistory } from 'react-router';
+import { Collapse, Button } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../assests/i18n/i18n';
 import { loadState } from '../../reducers/localStorage';
@@ -14,12 +15,13 @@ import logo from '../../assests/img/GeoDotCaBanner.jpg';
 import { getQueryParams } from '../../common/queryparams';
 import './header.scss';
 // Reacstrap Collapse - Responsive Navbar
-import { Collapse, Button } from 'reactstrap';
+
 
 export default function Header(): JSX.Element {
     const history = useHistory();
     const { t } = useTranslation();
     const [langFromUrl, setLF] = useState(false);
+    const [collapse, setCollapse] = useState(false);
     const location = useLocation();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     if (!langFromUrl && queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
@@ -29,7 +31,8 @@ export default function Header(): JSX.Element {
     // const mapping = useSelector(state => state.mappingReducer.mapping);
 
     const gotoHome = () => {
-        if (location.pathname === '/' && location.search === undefined) {
+        setCollapse(false);
+        if (location.pathname === '/' && !location.search) {
             history.go(0);
         } else {
             history.push({
@@ -56,7 +59,6 @@ export default function Header(): JSX.Element {
     };
 
     // Reacstrap Collapse - Responsive Navbar
-    const [collapse, setCollapse] = useState(false);
     const toggle = () => setCollapse(!collapse);
 
     return (
