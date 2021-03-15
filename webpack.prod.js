@@ -5,7 +5,11 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 const config = {
-    mode: 'production'
+  output: {
+    path: path.join(__dirname, '/dist'),
+    filename: process.env.production ? 'static/bundle.min.[contenthash].js' : 'static/bundle.min.[hash].js',
+    publicPath: '/'
+  }
 };
 
 module.exports = merge(common, config);
