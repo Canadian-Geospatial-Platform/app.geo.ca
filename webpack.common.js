@@ -12,7 +12,7 @@ const [major, minor, patch] = package.version.split('.');
 const hash = JSON.stringify(childProcess.execSync('git rev-parse HEAD').toString().trim());
 console.log(`Build CGP Viewer: ${major}.${minor}.${patch}`);
 
-const config = {
+const common = {
     entry: path.resolve(__dirname, 'src/app.tsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -75,4 +75,4 @@ const config = {
     ],
 };
 
-module.exports = config;
+module.exports = common;
