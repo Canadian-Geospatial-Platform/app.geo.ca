@@ -4,6 +4,7 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
+/* this is the original dev one */
 const config = {
     mode: 'development',
     devtool: 'source-map',
