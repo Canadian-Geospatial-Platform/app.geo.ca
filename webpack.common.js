@@ -16,7 +16,7 @@ const common = {
     entry: path.resolve(__dirname, 'src/app.tsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'gcpv-main.js',
+        filename: 'index.js',
     },
     resolve: {
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json', '.jpg'],
