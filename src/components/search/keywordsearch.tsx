@@ -29,6 +29,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const rpp = 10;
+    const [ppg, setPPG] = useState(window.innerWidth>600 ? 8 : 6); 
     const [sfloaded, setSF] = useState(false);
     const [loading, setLoading] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
@@ -243,6 +244,14 @@ const KeywordSearch: React.FunctionComponent = () => {
             // saveState(store.getState());
             handleSearch(initKeyword);
         }
+        const handleResize = () => {
+            setPPG(window.innerWidth>600 ? 8 : 6);
+        }
+        window.addEventListener("resize", handleResize);
+        handleResize();
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        }
     }, [language, pn, fReset, sfloaded, queryParams.org, queryParams.type, queryParams.theme, dispatch]);
 
     return (
@@ -401,7 +410,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">
                     <div className="col-12">
-                        {cnt > 0 && <Pagination rpp={rpp} ppg={8} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                     </div>
                 </div>
             </div>
@@ -515,7 +524,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             <div className="container-fluid container-pagination container-pagination-bottom">
                 <div className="row row-pagination row-pagination-bottom">
                     <div className="col-12">
-                        {cnt > 0 && <Pagination rpp={rpp} ppg={8} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                     </div>
                 </div>
             </div>
