@@ -53,4 +53,11 @@
             }
         }
     }
+
+    @media (max-width: $breakpoint__sm) {
+        .list-item.previous,
+        .list-item.next {
+            display: none;
+        }
+    }
 }
