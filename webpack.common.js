@@ -15,8 +15,7 @@ console.log(`Build CGP Viewer: ${major}.${minor}.${patch}`);
 const common = {
     entry: path.resolve(__dirname, 'src/app.tsx'),
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'index.js',
+        path: path.resolve(__dirname, 'dist')
     },
     resolve: {
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json', '.jpg'],
