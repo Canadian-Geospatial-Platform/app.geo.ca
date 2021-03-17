@@ -132,8 +132,8 @@ export function Appbar(props: AppBarProps): JSX.Element {
         <div className={classes.root} ref={appBar}>
             <Drawer
                 variant="permanent"
-                className={open ? classes.drawerOpen : classes.drawerClose}
-                classes={{ paper: open ? classes.drawerOpen : classes.drawerClose }}
+                className={open && panel==='' ? classes.drawerOpen : classes.drawerClose}
+                classes={{ paper: open && panel==='' ? classes.drawerOpen : classes.drawerClose }}
             >
                 <div className={classes.toolbar}>
                     <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
