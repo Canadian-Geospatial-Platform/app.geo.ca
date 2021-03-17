@@ -31,6 +31,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
   const queryParams = getQueryParams(location.search);
   const {t} = useTranslation();
   const rpp = 10;
+  const [ppg, setPPG] = useState(window.innerWidth>600 ? 8 : 6); 
   const inputRef:React.RefObject<HTMLInputElement> = createRef();
   let mapCount = 0;
   const map = useMap();
@@ -225,6 +226,14 @@ const GeoSearch = (showing:boolean):JSX.Element => {
     if (showing) {
         handleSearch(initKeyword, initBounds);
     } 
+    const handleResize = () => {
+        setPPG(window.innerWidth>600 ? 8 : 6);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+        window.removeEventListener("resize", handleResize);
+    }
   }, [showing, language, pn, orgfilters, typefilters, themefilters, foundational]);
   // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
@@ -274,7 +283,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
             </div>
             }
             <div className="container">
-                {cnt>0 && <Pagination rpp={rpp} ppg={8} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                {cnt>0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                 {loading ?
                     <div className="d-flex justify-content-center">
                     <BeatLoader color="#515AA9" />
@@ -297,7 +306,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
                     ))}
                     </div>
                 )}
-                {cnt>0 && <Pagination rpp={rpp} ppg={8} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                {cnt>0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
             </div>
         </div>
     );
