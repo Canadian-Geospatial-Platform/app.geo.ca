@@ -24,31 +24,10 @@
         .MuiCard-root {
             margin: 0;
             display: none;
+            max-width: calc(100vw - 61px);
             .MuiCardContent-root {
                 height: calc(100vh - 158px);
                 overflow-y: auto;
-            }
-        }
-    }
-
-    @media (max-width: $breakpoint__md) {
-        .MuiDrawer-paper.jss5,
-        .MuiDrawer-paper.jss19,
-        .MuiDrawer-paper.jss33,
-        .MuiDrawer-paper.jss47 {
-            width: 100vw;
-        }
-        .cgp-apppanel {
-            .MuiCard-root {
-                width: calc(100vw - 61px);
-                max-width: calc(100vw - 61px);
-                .MuiCardContent-root {
-                    max-width: 100%;
-                    overflow-x: hidden;
-                    .pagination-container {
-                        max-width: calc(100vw - 61px);
-                    }
-                }
             }
         }
     }
