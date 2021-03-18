@@ -3,6 +3,7 @@
 .pagination-container {
     font-size: 0.875rem;
     padding: 1rem 0 0.5rem 0;
+    margin: auto;
     max-width: calc(100vw - 61px);
     .pagination-total {
         color: $color__semi-dark;
@@ -56,10 +57,10 @@
     }
 
     // Hide the prev / next buttons on small devices
-    @media (max-width: $breakpoint__sm) {
+    /* @media (max-width: $breakpoint__sm) {
         .list-item.previous,
         .list-item.next {
             display: none;
         }
-    }
+    } */
 }

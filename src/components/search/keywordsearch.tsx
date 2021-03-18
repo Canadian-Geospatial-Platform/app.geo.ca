@@ -29,7 +29,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const rpp = 10;
-    const [ppg, setPPG] = useState(window.innerWidth>600 ? 8 : 6); 
+    const [ppg, setPPG] = useState(window.innerWidth>600 ? 8 : (window.innerWidth>400? 6 : 4)); 
     const [sfloaded, setSF] = useState(false);
     const [loading, setLoading] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
@@ -245,7 +245,8 @@ const KeywordSearch: React.FunctionComponent = () => {
             handleSearch(initKeyword);
         }
         const handleResize = () => {
-            setPPG(window.innerWidth>600 ? 8 : 6);
+
+            setPPG(window.innerWidth>600 ? 8 : (window.innerWidth>400? 6 : 4));
         }
         window.addEventListener("resize", handleResize);
         handleResize();
