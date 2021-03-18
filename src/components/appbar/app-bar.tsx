@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useState, useRef, useEffect } from 'react';
-import {useLocation, useHistory} from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
@@ -38,6 +38,7 @@ import themes from '../search/themes.json';
 import './app-bar.scss';
 
 const drawerWidth = 200;
+const drawerWidthFull = '100vw';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
         whiteSpace: 'nowrap',
     },
     drawerOpen: {
+        [theme.breakpoints.down('sm')]: {
+            width: drawerWidthFull,
+        },
         width: drawerWidth,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
@@ -91,7 +95,14 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const classes = useStyles();
     // console.log(queryParams, queryParams.keyword);
     const [open, setOpen] = useState(false);
-    const [panel, setPanel] = useState(( queryParams.keyword !== undefined || queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined ) ? " search" : "");
+    const [panel, setPanel] = useState(
+        queryParams.keyword !== undefined ||
+            queryParams.org !== undefined ||
+            queryParams.type !== undefined ||
+            queryParams.theme !== undefined
+            ? ' search'
+            : ''
+    );
     const language = t('app.language');
     const appBar = useRef();
     useEffect(() => {
@@ -111,29 +122,36 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const gotoKeywordSearch = () => {
         history.push({
             pathname: '/search',
-            search: queryParams.keyword !== undefined ? `keyword=${queryParams.keyword}`:''
+            search: queryParams.keyword !== undefined ? `keyword=${queryParams.keyword}` : '',
         });
     };
 
-    useEffect(()=>{
-        setPanel( (queryParams.keyword !== undefined || queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined ) ? " search" : "");
+    useEffect(() => {
+        setPanel(
+            queryParams.keyword !== undefined ||
+                queryParams.org !== undefined ||
+                queryParams.type !== undefined ||
+                queryParams.theme !== undefined
+                ? ' search'
+                : ''
+        );
         if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
-            const oIndex = (organisations[language] as string[]).findIndex((os:string)=>os===queryParams.org);
-            const tIndex = (types[language] as string[]).findIndex((ts:string)=>ts===queryParams.type);
-            const thIndex = (themes[language] as string[]).findIndex((ths:string)=>ths===queryParams.theme);
-            const orgfilter = oIndex >-1 ? [oIndex] : [];
-            const typefilter = tIndex >-1 ? [tIndex] : [];
-            const themefilter = thIndex >-1 ? [thIndex] : [];
+            const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
+            const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
+            const thIndex = (themes[language] as string[]).findIndex((ths: string) => ths === queryParams.theme);
+            const orgfilter = oIndex > -1 ? [oIndex] : [];
+            const typefilter = tIndex > -1 ? [tIndex] : [];
+            const themefilter = thIndex > -1 ? [thIndex] : [];
             dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
         }
-    }, [language, queryParams.keyword, queryParams.org, queryParams.type, queryParams.theme, dispatch])
+    }, [language, queryParams.keyword, queryParams.org, queryParams.type, queryParams.theme, dispatch]);
 
     return (
         <div className={classes.root} ref={appBar}>
             <Drawer
                 variant="permanent"
-                className={open && panel==='' ? classes.drawerOpen : classes.drawerClose}
-                classes={{ paper: open && panel==='' ? classes.drawerOpen : classes.drawerClose }}
+                className={open && panel === '' ? classes.drawerOpen : classes.drawerClose}
+                classes={{ paper: open && panel === '' ? classes.drawerOpen : classes.drawerClose }}
             >
                 <div className={classes.toolbar}>
                     <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
@@ -145,14 +163,16 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     {/* {items.map((item) => (
                         <Layers key={`${id}-${item.id}`} />
                     ))} */}
-                    {search && <ButtonApp tooltip="appbar.search" icon={<SearchIcon />} onClickFunction={()=>setPanel(' search')} />}
-                    {search && <ButtonApp tooltip="appbar.keywordsearch" icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />}
-                    <ButtonApp tooltip="appbar.filters" icon={<FilterIcon />} onClickFunction={()=>setPanel(' filters')} />
+                    {search && <ButtonApp tooltip="appbar.search" icon={<SearchIcon />} onClickFunction={() => setPanel(' search')} />}
+                    {search && (
+                        <ButtonApp tooltip="appbar.keywordsearch" icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
+                    )}
+                    <ButtonApp tooltip="appbar.filters" icon={<FilterIcon />} onClickFunction={() => setPanel(' filters')} />
                 </List>
                 <Divider className={classes.spacer} />
                 <List>
-                    {auth && <ButtonApp tooltip="appbar.account" icon={<AccountIcon />} onClickFunction={()=>setPanel(' account')} />}
-                    <ButtonApp tooltip="appbar.howto" icon={<HelpOutlineIcon />} onClickFunction={()=>setPanel(' howto')} />
+                    {auth && <ButtonApp tooltip="appbar.account" icon={<AccountIcon />} onClickFunction={() => setPanel(' account')} />}
+                    <ButtonApp tooltip="appbar.howto" icon={<HelpOutlineIcon />} onClickFunction={() => setPanel(' howto')} />
                 </List>
                 <Divider />
                 <List className={classes.githubSection}>
@@ -160,10 +180,10 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 </List>
             </Drawer>
             <div className={`cgp-apppanel${panel}`}>
-                {search && <SearchPanel showing={panel===" search"} closeFunction={()=>setPanel('')} />}
-                <FiltersPanel showing={panel===" filters"} closeFunction={()=>setPanel('')} />
-                {auth && <AccountPanel showing={panel===" account"} closeFunction={()=>setPanel('')} />}
-                <HowtoPanel showing={panel===" howto"} closeFunction={()=>setPanel('')} />   
+                {search && <SearchPanel showing={panel === ' search'} closeFunction={() => setPanel('')} />}
+                <FiltersPanel showing={panel === ' filters'} closeFunction={() => setPanel('')} />
+                {auth && <AccountPanel showing={panel === ' account'} closeFunction={() => setPanel('')} />}
+                <HowtoPanel showing={panel === ' howto'} closeFunction={() => setPanel('')} />
             </div>
         </div>
     );
