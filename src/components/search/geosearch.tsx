@@ -31,7 +31,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
   const queryParams = getQueryParams(location.search);
   const {t} = useTranslation();
   const rpp = 10;
-  const [ppg, setPPG] = useState(window.innerWidth>600 ? 8 : (window.innerWidth>400? 6 : 4)); 
+  const [ppg, setPPG] = useState(window.innerWidth>600 ? 8 : (window.innerWidth>400? 5 : 3)); 
   const inputRef:React.RefObject<HTMLInputElement> = createRef();
   let mapCount = 0;
   const map = useMap();
@@ -228,7 +228,7 @@ const GeoSearch = (showing:boolean):JSX.Element => {
         handleSearch(initKeyword, initBounds);
     } 
     const handleResize = () => {
-        setPPG(window.innerWidth>600 ? 8 : (window.innerWidth>400? 6 : 4));
+        setPPG(window.innerWidth>600 ? 8 : (window.innerWidth>400? 5 : 3));
     }
     window.addEventListener("resize", handleResize);
     handleResize();
