@@ -9,12 +9,14 @@ const package = require('./package.json');
 
 // get version numbers and the hash of the current commit
 const [major, minor, patch] = package.version.split('.');
+const hash = JSON.stringify(childProcess.execSync('git rev-parse HEAD').toString().trim());
+console.log(`Build CGP Viewer: ${major}.${minor}.${patch}`);
 
-const common = {
+const config = {
     entry: path.resolve(__dirname, 'src/app.tsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'index.js',
+        filename: 'gcpv-main.js',
     },
     resolve: {
         extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json', '.jpg'],
@@ -60,8 +62,17 @@ const common = {
         new HtmlWebpackPlugin({
             template: './public/index.html',
             title: 'Canadian Geospatial Platform Viewer',
-        })
+        }),
+        new webpack.DefinePlugin({
+            __VERSION__: {
+                major,
+                minor,
+                patch,
+                timestamp: Date.now(),
+                hash,
+            },
+        }),
     ],
 };
 
-module.exports = common;
+module.exports = config;
