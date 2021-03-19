@@ -70,6 +70,7 @@ const config = {
                 patch,
                 timestamp: Date.now(),
                 //hash,
+                //^removed this
             },
         }),
     ],
