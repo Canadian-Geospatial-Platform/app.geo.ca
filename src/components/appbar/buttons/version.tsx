@@ -40,9 +40,6 @@ export default function Version(): JSX.Element {
     function getVersion(): string {
         return `v.${__VERSION__.major}.${__VERSION__.minor}.${__VERSION__.patch}`;
     }
-    //function getHash(): string {
-    //    return `[#${__VERSION__.hash.slice(0, 6)}]`;
-    //}
     function getTimestamp(): string {
         return new Date(__VERSION__.timestamp).toLocaleDateString();
     }
@@ -57,7 +54,6 @@ export default function Version(): JSX.Element {
                     <div className={classes.github}>
                         <span className="cgp-version">
                             {getVersion()}
-        //                    <span className="cgp-hash">{`  ${getHash()}`}</span>
                         </span>
                         <span className="cgp-timestamp">{getTimestamp()}</span>
                     </div>
