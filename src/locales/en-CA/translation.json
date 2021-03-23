@@ -10,7 +10,8 @@
             "key": "fr-CA",
             "name": "Français"
         },
-        "nomap": "Your map is empty, please add data to map"
+        "nomap": "Your map is empty, please add data to map",
+        "logotext": "logo for the Canadian Geospatial Platform"
     },
     "mapnav": {
         "ariaNavbar": "vertical button group for map navigation",
@@ -41,7 +42,8 @@
         "account": "Account",
         "howto": "How To",
         "share": "Share",
-        "version": "Access GitHub repo"
+        "version": "Access GitHub repo",
+        "opendrawer": "Open search toolbox"
     },
     "filter": {
         "filterby": "Filter by",
