@@ -22,83 +22,89 @@ export default function Pagination(props: paginationProps): JSX.Element {
     }
     const max = Math.min(current * rpp, rcnt);
     return (
-        <nav className="pagination-container" aria-label="Search results pagination">
-            <p className="pagination-total text-center">
+        <nav className="pagination-container" aria-label={t('page.ctrl.paginationlabel')}>
+            <p className="pagination-total text-center" role="status">
                 {t('page.ctrl.total', { index: `${(current - 1) * rpp + 1} - ${max}`, total: rcnt })}
             </p>
-            {pcnt > 1 &&
-            <ul className="pagination pagination-list justify-content-center">
-                {pgcnt > 1 && (
-                    <li
-                        className={cgroup === 1 ? 'list-item first disabled' : 'list-item first'}
-                        aria-hidden={cgroup === 1 ? 'true' : 'false'}
-                    >
-                            <button type="button" 
-                                className={cgroup > 1 ? "page-link page-link-ico" : "page-link page-link-ico disabled"} 
-                                onClick={cgroup > 1 ? () => selectPage((cgroup - 1) * ppg) : undefined} 
+            {pcnt > 1 && (
+                <ul className="pagination pagination-list justify-content-center">
+                    {pgcnt > 1 && (
+                        <li
+                            className={cgroup === 1 ? 'list-item first disabled' : 'list-item first'}
+                            aria-hidden={cgroup === 1 ? 'true' : 'false'}
+                        >
+                            <button
+                                type="button"
+                                className={cgroup > 1 ? 'page-link page-link-ico' : 'page-link page-link-ico disabled'}
+                                onClick={cgroup > 1 ? () => selectPage((cgroup - 1) * ppg) : undefined}
                                 aria-label={t('page.ctrl.previouspages')}
                             >
                                 <ArrowFirst className="ico-pagination ico-pagination-first" />
                                 {cgroup > 1 && <span className="sr-only">{t('page.ctrl.previouspages')}</span>}
                             </button>
-                    </li>
-                )}
-                <li
-                    className={current === 1 ? 'list-item previous disabled' : 'list-item previous'}
-                    aria-hidden={current === 1 ? 'true' : 'false'}
-                >
-                    <button type="button" 
-                        className={current > 1 ? "page-link page-link-ico" : "page-link page-link-ico disabled"} 
-                        onClick={current > 1 ? () => selectPage(current - 1) : undefined}
-                        aria-label={t('page.ctrl.previouspage')}
-                    >
-                        <ArrowPre className="ico-pagination ico-pagination-prev" />
-                        {current > 1 && <span className="sr-only">{t('page.ctrl.previouspage')}</span>}
-                    </button>
-                </li>
-
-                {pagenumbers.map((pn) => (
+                        </li>
+                    )}
                     <li
-                        key={pn}
-                        className={pn !== current ? 'list-item' : 'list-item current'}
+                        className={current === 1 ? 'list-item previous disabled' : 'list-item previous'}
+                        aria-hidden={current === 1 ? 'true' : 'false'}
                     >
-                        <button type="button" className="page-link" 
-                            onClick={pn !== current ? () => selectPage(pn) : undefined}
+                        <button
+                            type="button"
+                            className={current > 1 ? 'page-link page-link-ico' : 'page-link page-link-ico disabled'}
+                            onClick={current > 1 ? () => selectPage(current - 1) : undefined}
+                            aria-label={t('page.ctrl.previouspage')}
                         >
-                            {pn}
-                            {pn !== current && <span className="sr-only">({t('page.ctrl.currentpage')})</span>}
+                            <ArrowPre className="ico-pagination ico-pagination-prev" />
+                            {current > 1 && <span className="sr-only">{t('page.ctrl.previouspage')}</span>}
                         </button>
                     </li>
-                ))}
 
-                <li
-                    className={current === pcnt ? 'list-item next disabled' : 'list-item next'}
-                    aria-hidden={current === pcnt ? 'true' : 'false'}
-                >
-                    <button type="button" 
-                        className={current < pcnt ? "page-link page-link-ico" : "page-link page-link-ico disabled"} 
-                        onClick={current < pcnt ? () => selectPage(current + 1) : undefined}
-                        aria-label={t('page.ctrl.nextpage')}
-                    >
-                        <ArrowNext className="ico-pagination ico-pagination-next" />
-                        {current < pcnt && <span className="sr-only">{t('page.ctrl.nextpage')}</span>}
-                    </button>
-                </li>
-                {pgcnt > 1 && (
+                    {pagenumbers.map((pn) => (
+                        <li key={pn} className={pn !== current ? 'list-item' : 'list-item current'}>
+                            <button
+                                type="button"
+                                className="page-link"
+                                aria-label={'Page ' + pn}
+                                onClick={pn !== current ? () => selectPage(pn) : undefined}
+                            >
+                                {pn}
+                                {pn !== current && <span className="sr-only">({t('page.ctrl.currentpage')})</span>}
+                            </button>
+                        </li>
+                    ))}
+
                     <li
-                        className={cgroup === pgcnt ? 'list-item last disabled' : 'list-item last'}
-                        aria-hidden={cgroup === pgcnt ? 'true' : 'false'}
+                        className={current === pcnt ? 'list-item next disabled' : 'list-item next'}
+                        aria-hidden={current === pcnt ? 'true' : 'false'}
                     >
-                        <button type="button"
-                            className={cgroup < pgcnt ? "page-link page-link-ico" : "page-link page-link-ico disabled"} 
-                            onClick={cgroup < pgcnt ? () => selectPage(cgroup * ppg + 1) : undefined}
-                            aria-label={t('page.ctrl.nextpages')}>
-                            <ArrowLast className="ico-pagination ico-pagination-last" />
-                            {cgroup < pgcnt && <span className="sr-only">{t('page.ctrl.nextpages')}</span>}
+                        <button
+                            type="button"
+                            className={current < pcnt ? 'page-link page-link-ico' : 'page-link page-link-ico disabled'}
+                            onClick={current < pcnt ? () => selectPage(current + 1) : undefined}
+                            aria-label={t('page.ctrl.nextpage')}
+                        >
+                            <ArrowNext className="ico-pagination ico-pagination-next" />
+                            {current < pcnt && <span className="sr-only">{t('page.ctrl.nextpage')}</span>}
                         </button>
                     </li>
-                )}
-            </ul>}
+                    {pgcnt > 1 && (
+                        <li
+                            className={cgroup === pgcnt ? 'list-item last disabled' : 'list-item last'}
+                            aria-hidden={cgroup === pgcnt ? 'true' : 'false'}
+                        >
+                            <button
+                                type="button"
+                                className={cgroup < pgcnt ? 'page-link page-link-ico' : 'page-link page-link-ico disabled'}
+                                onClick={cgroup < pgcnt ? () => selectPage(cgroup * ppg + 1) : undefined}
+                                aria-label={t('page.ctrl.nextpages')}
+                            >
+                                <ArrowLast className="ico-pagination ico-pagination-last" />
+                                {cgroup < pgcnt && <span className="sr-only">{t('page.ctrl.nextpages')}</span>}
+                            </button>
+                        </li>
+                    )}
+                </ul>
+            )}
         </nav>
     );
 }

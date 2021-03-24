@@ -65,9 +65,10 @@
             "total": "{{index}} of {{total}} records",
             "currentpage": "Current Page",
             "previouspage": "Previous Page",
-            "previouspages": "Previous Pages",
+            "previouspages": "Previous page group",
             "nextpage": "Next Page",
-            "nextpages": "Next pages"
+            "nextpages": "Next page group",
+            "paginationlabel": "Search results pagination"
         },
         "changesearch": "Change the input to search ...",
         "noresult": "No result",

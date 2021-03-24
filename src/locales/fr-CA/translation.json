@@ -67,7 +67,8 @@
             "previouspage": "Page précédente",
             "previouspages": "Pages précédentes",
             "nextpage": "Page suivante",
-            "nextpages": "Pages suivantes"
+            "nextpages": "Pages suivantes",
+            "paginationlabel": "Pagination de les résultats de recherche"
         },
         "changesearch": "Changer l'entrée à rechercher ... ",
         "noresult": "Pas de résultat",
