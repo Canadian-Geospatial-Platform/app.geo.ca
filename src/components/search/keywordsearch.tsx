@@ -357,9 +357,9 @@ const KeywordSearch: React.FunctionComponent = () => {
                 >
                     <div className="row row-filters">
                         <div className="col-12">
-                            <h2 className="filters-title">
+                            <h3 className="filters-title">
                                 <FilterIcon /> {t('filter.filterby')}:
-                            </h2>
+                            </h3>
                             <div className="filters-wrap">
                                 <SearchFilter
                                     filtertitle={t('filter.organisations')}

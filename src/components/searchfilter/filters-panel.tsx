@@ -84,7 +84,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                     <Typography variant="body2" color="textSecondary" component="div">
                         <div className="container-fluid container-filter-selection small-panel">
                             <div className="row row-filters">
-                                <h2 className="filters-title">{t('filter.filterby')}:</h2>
+                                <h3 className="filters-title">{t('filter.filterby')}:</h3>
                                 <div className="filters-wrap">
                                     <SearchFilter
                                         filtertitle={t('filter.organisations')}
