@@ -30,5 +30,14 @@
                 overflow-y: auto;
             }
         }
+        .panel-title {
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.43em;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            text-align: center;
+        }
     }
 }

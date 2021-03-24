@@ -10,7 +10,8 @@
             "key": "en-CA",
             "name": "English"
         },
-        "nomap": "Votre carte est vide, veuillez ajouter des données à la carte"
+        "nomap": "Votre carte est vide, veuillez ajouter des données à la carte",
+        "logotext": "logo de la Plateforme géospatiale fédérale"
     },
     "mapnav": {
         "ariaNavbar": "groupe de buttons vertical pour navigation sur la carte",
@@ -41,7 +42,8 @@
         "account": "Compte",
         "howto": "Comment",
         "share": "Partager",
-        "version": "Accéder au repo sur GitHub"
+        "version": "Accéder au repo sur GitHub",
+        "opendrawer": "Ouvrir la boîte à outils de recherche"
     },
     "filter": {
         "filterby": "Filtrer par",
