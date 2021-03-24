@@ -17,6 +17,7 @@ import i18n from './assests/i18n/i18n';
 import Header from './components/header/header';
 import { Map } from './components/map/map';
 import KeywordSearch from './components/search/keywordsearch';
+import RampViewer from './components/rampviewer/rampviewer';
 import MetaDataPage from './components/search/metadatapage';
 
 import '../node_modules/leaflet/dist/leaflet.css';
@@ -86,6 +87,7 @@ const Routing = () => {
                 <Switch>
                     <Route exact path="/" component={renderMap} />
                     <Route exact path="/search" component={KeywordSearch} />
+                    <Route exact path="/map" component={RampViewer} />
                     <Route exact path="/result" component={MetaDataPage} />
                     <Route path="/404" render={() => <div>404 - Not Found</div>} />
                     <Redirect to="/404" />

@@ -11,7 +11,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import {useLocation} from 'react-router';
+import {useLocation, useHistory} from 'react-router';
 // import {useParams} from 'react-router-dom';
 import { useDispatch, useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
@@ -25,6 +25,7 @@ import { setMapping } from "../../reducers/action";
 import './metadatapage.scss';
 
 const MetaDataPage = () => {
+    const history = useHistory();
     const location = useLocation();
     const queryParams = getQueryParams(location.search);
     const {t} = useTranslation();
@@ -56,6 +57,17 @@ const MetaDataPage = () => {
     const handleRowClick = (url) => {
         window.open(url, "_blank");
     };
+
+    const gotoRamp = () => {
+        if (location.pathname==='/' && location.search===undefined) {
+            history.go(0);
+        } else {    
+            history.push({
+                pathname: '/map',
+                search: ''
+            });
+        }    
+    }
 
     const handleSearch = (id) => {
       setLoading(true);
@@ -319,7 +331,9 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.addtomap")}</h3>
                                 <p>{t("page.viewthedata")}</p>
                                 <div className="btn-group">
-                                    <a href={`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t("app.language")}.html?keys=${result.id}`} className="btn btn-search mr-2" role="button" rel="noreferrer" target="_blank">{t("page.viewonmap")}</a>
+                                    {/* <a href={`https://viewer-visualiseur.services.geo.ca/fgpv-vpgf/index-${t("app.language")}.html?keys=${result.id}`} className="btn btn-search mr-2" role="button" rel="noreferrer" target="_blank">{t("page.viewonmap")}</a> */}
+                                    {/* //gotoRamp */}
+                                    <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={()=>gotoRamp()}>{t("page.viewonmap")}</button>
                                     <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={()=>changeMapping(result.id)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
                                 </div>
                             </section>
