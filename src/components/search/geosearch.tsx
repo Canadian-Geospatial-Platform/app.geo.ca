@@ -337,7 +337,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                 }
                                 onClick={() => handleSelect(result.id)}
                             >
-                                <p className="searchTitle">{result.title}</p>
+                                <h3 className="searchTitle">{result.title}</h3>
                                 <div>
                                     <p className="searchFields">
                                         <strong>{t('page.organisation')}:</strong> {result.organisation}
