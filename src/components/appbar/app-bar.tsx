@@ -155,7 +155,9 @@ export function Appbar(props: AppBarProps): JSX.Element {
             >
                 <div className={classes.toolbar}>
                     <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
-                        <IconButton onClick={handleDrawerClose}>{!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
+                        <IconButton onClick={handleDrawerClose} aria-label={t('appbar.opendrawer')}>
+                            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        </IconButton>
                     </Tooltip>
                 </div>
                 <Divider />

@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Card, CardHeader, CardContent, Divider, IconButton } from '@material-ui/core';
+import { Card, CardHeader, CardContent, Divider, IconButton, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { DomEvent } from 'leaflet';
@@ -41,15 +41,19 @@ export default function PanelApp(props: PanelAppProps): JSX.Element {
         panel.current.parentElement.style.display = 'block';
     }*/
     //function closePanel(): void {
-        //panel.current.parentElement.style.display = 'none';
+    //panel.current.parentElement.style.display = 'none';
     //}
 
     return (
-        <Card className={classes.root+(showing?" current":"")} ref={panel}>
+        <Card className={classes.root + (showing ? ' current' : '')} ref={panel}>
             <CardHeader
                 className={classes.avatar}
+                title={
+                    <Typography variant={'h2'} className="panel-title">
+                        {t(title)}
+                    </Typography>
+                }
                 avatar={icon}
-                title={t(title)}
                 action={
                     <IconButton aria-label={t('appbar.close')} onClick={closeFunction}>
                         <CloseIcon />
@@ -73,5 +77,5 @@ interface PanelAppProps {
 
 export interface PanelProps {
     showing: boolean;
-    closeFunction: ()=>void;
+    closeFunction: () => void;
 }

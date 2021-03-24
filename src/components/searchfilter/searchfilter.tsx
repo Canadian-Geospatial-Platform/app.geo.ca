@@ -46,6 +46,7 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                 <ul className="list">
                     {filtervalues.map((filter: string, findex: number) => {
                         const selected = fselected.findIndex((fs) => fs === findex) > -1;
+                        let inputID = filter.replace(/ /g, '-').toLowerCase(); // create valid html ids for each label/input pair (lowercase is optional)
                         return (
                             <li
                                 key={filter}
@@ -56,10 +57,10 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                                 }
                                 onClick={() => selectFilterValue(findex)}
                             >
-                                <label htmlFor={filter} className="label">
+                                <label htmlFor={inputID} className="label">
                                     {filter}
                                 </label>
-                                <input type="checkbox" className="checkbox" checked={selected} />
+                                <input id={inputID} type="checkbox" className="checkbox" checked={selected} />
                             </li>
                         );
                     })}
@@ -77,10 +78,15 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                     }
                     onClick={() => handleOpen()}
                 >
-                    <label htmlFor={filtertitle} className="label">
+                    <label htmlFor={filtertitle.replace(/ /g, '-').toLowerCase()} className="label">
                         {filtertitle}
                     </label>
-                    <input type="checkbox" className="checkbox" checked={fselected.length > 0} />
+                    <input
+                        id={filtertitle.replace(/ /g, '-').toLowerCase()}
+                        type="checkbox"
+                        className="checkbox"
+                        checked={fselected.length > 0}
+                    />
                 </li>
             </ul>
         </div>
