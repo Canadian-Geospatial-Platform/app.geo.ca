@@ -33,6 +33,16 @@
                     font-size: 1.375em;
                     transition: all 0.3s ease;
                 }
+                &:focus {
+                    background-color: transparent;
+                    color: $color__dark;
+                    font-weight: 600;
+
+                    .ico-pagination {
+                        background-color: $color__logo-blue;
+                        color: $color__light;
+                    }
+                }
             }
 
             &.disabled {
