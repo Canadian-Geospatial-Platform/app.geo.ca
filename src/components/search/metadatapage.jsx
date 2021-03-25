@@ -177,9 +177,9 @@ const MetaDataPage = () => {
                             <section id="search-result-data-resources" className="sec-search-result sec-search-result-data-resources">
                                 <table className="table table-hover caption-top table-search-result table-data-resources">
                                 <caption>
-                                        <span className={openSection.findIndex(o=>o==='dataresources')<0?"collapse":"expand"} role="button" onClick={()=>handleOpen('dataresources')}>{t("page.dataresources")}</span>
+                                        <button id="data-resources-id" className={openSection.findIndex(o=>o==='dataresources')<0?"table-data-toggle collapse":"table-data-toggle expand"} aria-expanded={openSection.findIndex(o=>o==='dataresources')<0?"false":"true"} aria-controls="tbody-data-resources" role="button" onClick={()=>handleOpen('dataresources')}>{t("page.dataresources")}</button>
                                 </caption>
-                                <tbody id="tbody-data-resources" className={openSection.findIndex(o=>o==='dataresources')<0?"collapse":"collapse show"}>
+                                <tbody id="tbody-data-resources" className={openSection.findIndex(o=>o==='dataresources')<0?"collapse":"collapse show"} aria-labelledby="data-resources-id">
                                     <tr>
                                     <th scope="col">{t("page.name")}</th>
                                     <th scope="col">{t("page.type")}</th>
@@ -206,9 +206,9 @@ const MetaDataPage = () => {
                             <section id="search-result-contact-data" className="sec-search-result sec-search-result-contact-data">
                                 <table className="table table-hover caption-top table-search-result table-contact-data">
                                 <caption>
-                                    <span className={openSection.findIndex(o=>o==='contactdata')<0?"collapse":"expand"} role="button" onClick={()=>handleOpen('contactdata')}>{t("page.contactdata")}</span>
+                                    <button id="conatct-data-id" className={openSection.findIndex(o=>o==='contactdata')<0?"table-data-toggle collapse":"table-data-toggle expand"} role="button" aria-expanded={openSection.findIndex(o=>o==='contactdata')<0?"false":"true"} aria-controls="tbody-contact-data" onClick={()=>handleOpen('contactdata')}>{t("page.contactdata")}</button>
                                 </caption>
-                                <tbody id="tbody-contact-data" className={openSection.findIndex(o=>o==='contactdata')<0?"collapse":"collapse show"}>
+                                <tbody id="tbody-contact-data" className={openSection.findIndex(o=>o==='contactdata')<0?"collapse":"collapse show"} aria-labelledby="conatct-data-id">
                                     <tr>
                                     <th scope="row">{t("page.organization")}</th>
                                     <td>{contact[0].organisation[language]}</td>
@@ -252,9 +252,9 @@ const MetaDataPage = () => {
                             <section id="search-result-adv-meta" className="sec-search-result sec-search-result-adv-meta">
                                 <table className="table table-hover caption-top table-search-result table-adv-meta">
                                 <caption>
-                                    <span className={openSection.findIndex(o=>o==='advdata')<0?"collapse":"expand"} role="button" onClick={()=>handleOpen('advdata')}>{t("page.advancedmetadata")}</span>
+                                    <button id="advanced-data-id" className={openSection.findIndex(o=>o==='advdata')<0?"table-data-toggle collapse":"table-data-toggle expand"} role="button" aria-expanded={openSection.findIndex(o=>o==='advdata')<0?"false":"true"} aria-controls="tbody-adv-meta" onClick={()=>handleOpen('advdata')}>{t("page.advancedmetadata")}</button>
                                 </caption>
-                                <tbody id="tbody-adv-meta" className={openSection.findIndex(o=>o==='advdata')<0?"collapse":"collapse show"}>
+                                <tbody id="tbody-adv-meta" className={openSection.findIndex(o=>o==='advdata')<0?"collapse":"collapse show"} aria-labelledby="advanced-data-id">
                                     <tr>
                                     <th scope="row">{t("page.status")}</th>
                                     <td>{status}</td>

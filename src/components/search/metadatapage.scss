@@ -142,11 +142,18 @@
                 font-size: 1.3em;
                 padding-top: 0;
                 text-transform: uppercase;
-                span {
+                .table-data-toggle {
                     position: relative;
+                    background-color: transparent;
+                    border: none;
                     color: $color__light;
                     display: block;
+                    font-weight: 300;
+                    letter-spacing: 0.05em;
+                    text-align: left;
                     text-decoration: none;
+                    text-transform: uppercase;
+                    width: 100%;
                     cursor: pointer;
                     &:hover {
                         text-decoration: none;
@@ -154,7 +161,7 @@
                     &::after {
                         content: '';
                         position: absolute;
-                        right: 0;
+                        right: 6px;
                         top: 50%;
                         transform: translateY(-50%);
                         display: inline-block;
@@ -164,6 +171,9 @@
                         width: 1em;
                         background-image: url($ico__bi-chevron-down);
                         filter: $filter__color-light;
+                    }
+                    &:focus {
+                        outline: rgba(255, 255, 255, 0.05) solid 1px !important;
                     }
                     &.expand::after {
                         background-image: url($ico__bi-chevron-up);
