@@ -348,7 +348,12 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                     <p className="searchDesc">
                                         {result.description.substr(0, 240)} {result.description.length > 240 ? <span>...</span> : ''}
                                     </p>
-                                    <button type="button" className="btn btn-sm searchButton" onClick={(e) => handleView(e, result.id)}>
+                                    <button
+                                        type="button"
+                                        className="btn btn-sm searchButton"
+                                        onClick={(e) => handleView(e, result.id)}
+                                        aria-label={result.title}
+                                    >
                                         {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                     </button>
                                     {/* <Link to={`/result?id=${encodeURI(result.id.trim())}&lang=${language}`} target={`View Record ${result.id.trim()}`}><button type="button" className="btn btn-sm searchButton">{t("page.viewrecord")} <i className="fas fa-long-arrow-alt-right" /></button></Link> */}

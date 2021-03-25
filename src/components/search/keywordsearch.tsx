@@ -514,7 +514,12 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                 {result.description.substr(0, 240)}{' '}
                                                 {result.description.length > 240 ? <span>...</span> : ''}
                                             </p>
-                                            <button type="button" className="btn btn-search" onClick={() => handleView(result.id)}>
+                                            <button
+                                                type="button"
+                                                className="btn btn-search"
+                                                onClick={() => handleView(result.id)}
+                                                aria-label={result.title}
+                                            >
                                                 {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                             </button>
                                         </div>
