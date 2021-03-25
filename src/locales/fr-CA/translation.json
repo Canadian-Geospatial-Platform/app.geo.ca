@@ -7,6 +7,7 @@
         "search": "Chercher",
         "mymap": "MyMap",
         "language": {
+            "htmllangcode": "en",
             "key": "en-CA",
             "name": "English"
         },

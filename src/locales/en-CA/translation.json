@@ -7,6 +7,7 @@
         "search": "Search",
         "mymap": "MyMap",
         "language": {
+            "htmllangcode": "fr",
             "key": "fr-CA",
             "name": "Français"
         },
