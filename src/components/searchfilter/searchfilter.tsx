@@ -33,9 +33,9 @@ export default function SearchFilter(props: filterProps): JSX.Element {
         setOpen(!open);
     };
 
-    useEffect(() => {
+    /* useEffect(() => {
         setFilterSelected(filterselected);
-    }, [filterselected]);
+    }, [filterselected]); */
 
     return vtype ? (
         <div className={open ? 'filter-wrap open' : 'filter-wrap'}>
@@ -46,7 +46,7 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                 <ul className="list">
                     {filtervalues.map((filter: string, findex: number) => {
                         const selected = fselected.findIndex((fs) => fs === findex) > -1;
-                        let inputID = filter.replace(/ /g, '-').toLowerCase(); // create valid html ids for each label/input pair (lowercase is optional)
+                        const inputID = `filter-${filtertitle.replace(/ /g, '-').toLowerCase()}-${findex}`; // create valid html ids for each label/input pair (lowercase is optional)
                         return (
                             <li
                                 key={filter}
@@ -55,12 +55,11 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                                         ? 'filterValue checked d-flex flex-row align-items-start list-item'
                                         : 'filterValue d-flex flex-row align-items-start list-item'
                                 }
-                                onClick={() => selectFilterValue(findex)}
                             >
                                 <label htmlFor={inputID} className="label">
                                     {filter}
                                 </label>
-                                <input id={inputID} type="checkbox" className="checkbox" checked={selected} />
+                                <input id={inputID} type="checkbox" className="checkbox" checked={selected} onClick={() => selectFilterValue(findex)} />
                             </li>
                         );
                     })}
@@ -76,7 +75,6 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                             ? 'filterValue checked d-flex flex-row align-items-start list-item'
                             : 'filterValue d-flex flex-row align-items-start list-item'
                     }
-                    onClick={() => handleOpen()}
                 >
                     <label htmlFor={filtertitle.replace(/ /g, '-').toLowerCase()} className="label">
                         {filtertitle}
@@ -86,6 +84,7 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                         type="checkbox"
                         className="checkbox"
                         checked={fselected.length > 0}
+                        onClick={handleOpen}
                     />
                 </li>
             </ul>

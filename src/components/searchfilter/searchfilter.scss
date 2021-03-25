@@ -100,13 +100,13 @@
                     .list-item {
                         break-inside: avoid-column; // Prevent list items text from spanning columns
                         margin-bottom: 0.625rem;
-                        cursor: pointer;
                         .label {
                             font-weight: 300;
                             order: 2;
                             line-height: 1.1em;
                             margin: 0;
                             padding: 0;
+                            cursor: pointer;
                         }
                         .checkbox {
                             order: 1;
@@ -114,6 +114,7 @@
                             width: auto;
                             margin: 0.125rem 1rem 0 0;
                             padding: 0;
+                            cursor: pointer;
                         }
                     }
                 }
