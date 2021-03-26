@@ -7,6 +7,7 @@
         "search": "Search",
         "mymap": "MyMap",
         "language": {
+            "htmllangcode": "fr",
             "key": "fr-CA",
             "name": "Français"
         },
@@ -65,16 +66,19 @@
             "total": "{{index}} of {{total}} records",
             "currentpage": "Current Page",
             "previouspage": "Previous Page",
-            "previouspages": "Previous Pages",
+            "previouspages": "Previous page group",
             "nextpage": "Next Page",
-            "nextpages": "Next pages"
+            "nextpages": "Next page group",
+            "paginationlabel": "Search results pagination"
         },
         "changesearch": "Change the input to search ...",
         "noresult": "No result",
         "organisation": "Organisation",
         "published": "Published",
         "viewmore": "View More",
+        "viewmorenotice": "New filters will be placed before this button",
         "showless": "Show Less",
+        "showlessnotice": "Some filters appearing before this button will be removed",
         "search": "Search ...",
         "advancedsearchfilters": "Advanced Search Filters",
         "gotogeosearchpage": "Go To GeoSearch",

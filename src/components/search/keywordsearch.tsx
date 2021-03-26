@@ -29,7 +29,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const rpp = 10;
-    const [ppg, setPPG] = useState(window.innerWidth>600 ? 8 : (window.innerWidth>400? 6 : 4)); 
+    const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 6 : 4);
     const [sfloaded, setSF] = useState(false);
     const [loading, setLoading] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
@@ -192,11 +192,11 @@ const KeywordSearch: React.FunctionComponent = () => {
         dispatch(setTypeFilter(newfilter));
         setType(newfilter);
         setFReset(false);
-        if ( pn > 1) {
+        if (pn > 1) {
             setPageNumber(1);
         } else {
             handleSearch(initKeyword);
-        } 
+        }
     };
 
     const clearThemeFilter = (filter: number) => {
@@ -204,33 +204,33 @@ const KeywordSearch: React.FunctionComponent = () => {
         dispatch(setThemeFilter(newfilter));
         setTheme(newfilter);
         setFReset(false);
-        if ( pn > 1) {
+        if (pn > 1) {
             setPageNumber(1);
         } else {
             handleSearch(initKeyword);
-        } 
+        }
     };
 
     const clearFound = () => {
         dispatch(setFoundational(false));
         setFound(false);
         setFReset(false);
-        if ( pn > 1) {
+        if (pn > 1) {
             setPageNumber(1);
         } else {
             handleSearch(initKeyword);
-        }    
+        }
     };
 
     useEffect(() => {
         if (!sfloaded) {
-            if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined ) {
-                const oIndex = (organisations[language] as string[]).findIndex((os:string)=>os===queryParams.org);
-                const tIndex = (types[language] as string[]).findIndex((ts:string)=>ts===queryParams.type);
-                const thIndex = (themes[language] as string[]).findIndex((ths:string)=>ths===queryParams.theme);
-                const orgfilter = oIndex >-1 ? [oIndex] : [];
-                const typefilter = tIndex >-1 ? [tIndex] : [];
-                const themefilter = thIndex >-1 ? [thIndex] : [];
+            if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
+                const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
+                const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
+                const thIndex = (themes[language] as string[]).findIndex((ths: string) => ths === queryParams.theme);
+                const orgfilter = oIndex > -1 ? [oIndex] : [];
+                const typefilter = tIndex > -1 ? [tIndex] : [];
+                const themefilter = thIndex > -1 ? [thIndex] : [];
                 dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
                 setOrg(orgfilter);
                 setType(typefilter);
@@ -245,14 +245,13 @@ const KeywordSearch: React.FunctionComponent = () => {
             handleSearch(initKeyword);
         }
         const handleResize = () => {
-
-            setPPG(window.innerWidth>600 ? 8 : (window.innerWidth>400? 6 : 4));
-        }
-        window.addEventListener("resize", handleResize);
+            setPPG(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 6 : 4);
+        };
+        window.addEventListener('resize', handleResize);
         handleResize();
         return () => {
-            window.removeEventListener("resize", handleResize);
-        }
+            window.removeEventListener('resize', handleResize);
+        };
     }, [language, pn, fReset, sfloaded, queryParams.org, queryParams.type, queryParams.theme, dispatch]);
 
     return (
@@ -492,6 +491,11 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                             onClick={() => handleKwshowing(result.id)}
                                                         >
                                                             {allkwshowing ? t('page.showless') : t('page.viewmore')}
+                                                            {allkwshowing ? (
+                                                                <span className="sr-only">{t('page.showlessnotice')}</span>
+                                                            ) : (
+                                                                <span className="sr-only">{t('page.viewmorenotice')}</span>
+                                                            )}
                                                         </button>
                                                     )}
                                                 </div>
@@ -510,7 +514,12 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                 {result.description.substr(0, 240)}{' '}
                                                 {result.description.length > 240 ? <span>...</span> : ''}
                                             </p>
-                                            <button type="button" className="btn btn-search" onClick={() => handleView(result.id)}>
+                                            <button
+                                                type="button"
+                                                className="btn btn-search"
+                                                onClick={() => handleView(result.id)}
+                                                aria-label={result.title}
+                                            >
                                                 {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                             </button>
                                         </div>

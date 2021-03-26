@@ -7,6 +7,7 @@
         "search": "Chercher",
         "mymap": "MyMap",
         "language": {
+            "htmllangcode": "en",
             "key": "en-CA",
             "name": "English"
         },
@@ -67,14 +68,17 @@
             "previouspage": "Page précédente",
             "previouspages": "Pages précédentes",
             "nextpage": "Page suivante",
-            "nextpages": "Pages suivantes"
+            "nextpages": "Pages suivantes",
+            "paginationlabel": "Pagination de les résultats de recherche"
         },
         "changesearch": "Changer l'entrée à rechercher ... ",
         "noresult": "Pas de résultat",
         "organisation": "Organisation",
         "published": "Publié",
         "viewmore": "Voir Plus",
+        "viewmorenotice": "Les nouveaux filtres seront placés ci-dessus",
         "showless": "Montrer Moins",
+        "showlessnotice": "Certains filtres apparaissant ci-dessus seront supprimé",
         "search": "Chercher ...",
         "advancedsearchfilters": "Filtres de recherche avancée",
         "gotogeosearchpage": "Aller à GeoSearch",

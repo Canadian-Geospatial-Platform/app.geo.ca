@@ -47,7 +47,11 @@
                 text-decoration: none;
                 transition: background-color 150ms linear, color 150ms linear;
                 cursor: pointer;
-                &:hover {
+                &:hover,
+                &:focus {
+                    color: rgb(5, 179, 170);
+                }
+                &:focus {
                     color: rgb(5, 179, 170);
                 }
             }
@@ -71,6 +75,9 @@
                 border: none;
                 &:hover {
                     background-color: transparent;
+                }
+                &:focus {
+                    outline: $color__header-border solid 1px !important;
                 }
             }
             .navbar-toggler-icon {

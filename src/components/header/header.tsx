@@ -98,7 +98,11 @@ export default function Header(): JSX.Element {
                                         </button>
                                     </li>
                                     <li className="nav-item">
-                                        <button type="button" onClick={() => i18n.changeLanguage(t('nav.language.key'))}>
+                                        <button
+                                            type="button"
+                                            lang={t('nav.language.htmllangcode')}
+                                            onClick={() => i18n.changeLanguage(t('nav.language.key'))}
+                                        >
                                             {t('nav.language.name')}
                                         </button>
                                     </li>
