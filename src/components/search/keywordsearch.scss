@@ -133,7 +133,6 @@
         }
 
         @media (max-width: $breakpoint__lg) {
-
             .col-search-nav {
                 text-align: left;
             }
@@ -234,7 +233,8 @@
                     .btn-keyword {
                         background-color: transparent;
                         color: $color__logo-blue;
-                        &:hover {
+                        &:hover,
+                        &:focus {
                             background-color: $color__logo-blue;
                             color: $color__light;
                         }
@@ -242,7 +242,8 @@
                     .btn-keyword-more {
                         background-color: $color__logo-blue;
                         color: $color__light;
-                        &:hover {
+                        &:hover,
+                        &:focus {
                             background-color: $color__logo-blue-light;
                             color: $color__light;
                         }
