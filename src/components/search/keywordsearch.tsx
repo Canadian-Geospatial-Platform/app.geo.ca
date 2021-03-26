@@ -495,6 +495,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                             type="button"
                                                             className="btn btn-keyword-more"
                                                             onClick={() => handleKwshowing(result.id)}
+                                                            aria-expanded={allkwshowing ? true : false}
                                                         >
                                                             {allkwshowing ? t('page.showless') : t('page.viewmore')}
                                                             {allkwshowing ? (
