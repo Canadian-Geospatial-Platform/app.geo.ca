@@ -279,8 +279,15 @@ const KeywordSearch: React.FunctionComponent = () => {
                             disabled={loading}
                             onChange={handleChange}
                             onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyUp(e)}
+                            aria-label={t('appbar.search')}
                         />
-                        <button className="icon-button" disabled={loading} type="button" onClick={!loading ? handleSubmit : undefined}>
+                        <button
+                            className="icon-button"
+                            disabled={loading}
+                            type="button"
+                            onClick={!loading ? handleSubmit : undefined}
+                            aria-label={t('appbar.search')}
+                        >
                             <SearchIcon />
                         </button>
                     </div>
