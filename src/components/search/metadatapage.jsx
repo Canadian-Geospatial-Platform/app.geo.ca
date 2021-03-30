@@ -319,7 +319,7 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.addtomap")}</h3>
                                 <p>{t("page.viewthedata")}</p>
                                 <div className="btn-group">
-                                    <a href={`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t("app.language")}.html?keys=${result.id}`} className="btn btn-search mr-2" role="button" rel="noreferrer" target="_blank">{t("page.viewonmap")}</a>
+                                    <a href={`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t("app.language")}.html?keys=${result.id}`} className="btn btn-search mr-2" rel="noreferrer" target="_blank">{t("page.viewonmap")}</a>
                                     <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={()=>changeMapping(result.id)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
                                 </div>
                             </section>
@@ -327,8 +327,8 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.metadata")}</h3>
                                 <p>{t("page.ourmetadatais")}</p>
                                 <div className="btn-group">
-                                    <a href={`https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/${result.id}.geojson`} className="btn btn-search mr-2" role="button" rel="noreferrer" target="_blank">{t("page.downloadgeocore")}</a>
-                                    <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" role="button" rel="noreferrer" target="_blank">{t("page.viewhnaprecord")}</a>
+                                    <a href={`https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank">{t("page.downloadgeocore")}</a>
+                                    <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank">{t("page.viewhnaprecord")}</a>
                                 </div>
                             </section>
                         </aside>

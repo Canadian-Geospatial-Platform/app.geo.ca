@@ -1,5 +1,6 @@
 // Global
 $color__light: #fff;
+$color__semi-light: #c2c2c2;
 $color__dark: #000;
 $color__semi-dark: #1f1f1f;
 $color__half_dark: rgba(0, 0, 0, 0.5);
@@ -32,12 +33,13 @@ $color__text-aside: $color__semi-dark;
 $color__heading-aside-title: $color__semi-dark;
 $color__text-btn-aside: $color__light;
 $color__text-btn-aside-hover: $color__light;
-$color__bg-btn-aside: $color__logo-blue;
-$color__bg-btn-aside-hover: $color__logo-blue-dark;
+$color__bg-btn-aside: $color__logo-blue-dark;
+$color__bg-btn-aside-hover: $color__logo-blue-light;
 
 // Colour filters for SVG backgrounds
 // Use this to generate filter colour values from hex: https://codepen.io/sosuke/pen/Pjoqqp
 $filter__color-light: invert(100%) sepia(93%) saturate(0%) hue-rotate(265deg) brightness(105%) contrast(109%); // #fff
+$filter__color-semi-light: invert(100%) sepia(0%) saturate(3355%) hue-rotate(190deg) brightness(106%) contrast(52%); // #c2c2c2
 $filter__color-table-heading: invert(100%) sepia(46%) saturate(3625%) hue-rotate(179deg) brightness(85%) contrast(104%); // #babede
 $filter__color-logo-blue: invert(36%) sepia(11%) saturate(2866%) hue-rotate(196deg) brightness(98%) contrast(92%); // #515aa9;
 $filter__color-text-main: invert(34%) sepia(19%) saturate(191%) hue-rotate(172deg) brightness(93%) contrast(88%); // #54595f

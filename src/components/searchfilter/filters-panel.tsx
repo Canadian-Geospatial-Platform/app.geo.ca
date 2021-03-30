@@ -105,7 +105,12 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         selectFilters={handleTheme}
                                     />
                                     <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
-                                        <button type="button" className="link-button filter-title" onClick={() => setOfOpen(!ofOpen)}>
+                                        <button
+                                            type="button"
+                                            className="link-button filter-title"
+                                            aria-expanded={ofOpen ? 'true' : 'false'}
+                                            onClick={() => setOfOpen(!ofOpen)}
+                                        >
                                             {t('filter.otherfilters')}
                                         </button>
                                         <SearchFilter
