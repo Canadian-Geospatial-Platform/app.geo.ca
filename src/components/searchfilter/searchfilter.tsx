@@ -39,7 +39,7 @@ export default function SearchFilter(props: filterProps): JSX.Element {
 
     return vtype ? (
         <div className={open ? 'filter-wrap open' : 'filter-wrap'}>
-            <button type="button" className="link-button filter-title" onClick={() => handleOpen()}>
+            <button type="button" className="link-button filter-title" aria-expanded={open ? 'true' : 'false'} onClick={() => handleOpen()}>
                 {filtertitle}
             </button>
             <div className="filter-list-wrap">
@@ -59,7 +59,13 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                                 <label htmlFor={inputID} className="label">
                                     {filter}
                                 </label>
-                                <input id={inputID} type="checkbox" className="checkbox" checked={selected} onClick={() => selectFilterValue(findex)} />
+                                <input
+                                    id={inputID}
+                                    type="checkbox"
+                                    className="checkbox"
+                                    checked={selected}
+                                    onClick={() => selectFilterValue(findex)}
+                                />
                             </li>
                         );
                     })}

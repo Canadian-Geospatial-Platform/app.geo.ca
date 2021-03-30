@@ -80,7 +80,8 @@
                         background-image: url($ico__bi-chevron-down);
                         filter: $filter__color-text-main;
                     }
-                    &:hover {
+                    &:hover,
+                    &:focus {
                         color: $color__text-main-hover;
                         &::after {
                             filter: $filter__color-text-main-hover;
@@ -90,7 +91,7 @@
 
                 .filter-list-wrap {
                     @include cgp-hide;
-                    color: $color__dark;
+
                     .list {
                         columns: 2;
                         margin: 0;
@@ -99,11 +100,17 @@
 
                     .list-item {
                         break-inside: avoid-column; // Prevent list items text from spanning columns
-                        margin-bottom: 0.625rem;
+                        color: $color__text-main;
+                        font-weight: 300;
+                        margin-bottom: 0.5rem;
+                        transition: all 0.3s ease;
+                        &:hover,
+                        &:focus-within {
+                            color: $color__dark;
+                        }
                         .label {
-                            font-weight: 300;
                             order: 2;
-                            line-height: 1.1em;
+                            line-height: 1.25em;
                             margin: 0;
                             padding: 0;
                             cursor: pointer;
@@ -138,17 +145,14 @@
             }
 
             .search-btn:not(.disabled) {
-                &:hover {
+                &:hover,
+                &:focus {
                     background-color: transparent;
                     color: $color__logo-blue;
                     border: 1px solid $color__logo-blue;
                 }
             }
         }
-    }
-
-    // Small Panel Search Filters
-    &.small-panel {
     }
 
     // Large Panel Search Filters

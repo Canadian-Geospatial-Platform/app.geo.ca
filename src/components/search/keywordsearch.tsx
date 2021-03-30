@@ -290,6 +290,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                             disabled={loading}
                             type="button"
                             onClick={!loading ? () => setFilterbyshown(!filterbyshown) : undefined}
+                            aria-expanded={filterbyshown ? 'true' : 'false'}
                         >
                             {t('page.advancedsearchfilters')}
                         </button>
@@ -379,7 +380,12 @@ const KeywordSearch: React.FunctionComponent = () => {
                                     selectFilters={handleTheme}
                                 />
                                 <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
-                                    <button type="button" className="link-button filter-title" onClick={() => setOfOpen(!ofOpen)}>
+                                    <button
+                                        type="button"
+                                        className="link-button filter-title"
+                                        aria-expanded={ofOpen ? 'true' : 'false'}
+                                        onClick={() => setOfOpen(!ofOpen)}
+                                    >
                                         {t('filter.otherfilters')}
                                     </button>
                                     <SearchFilter
@@ -489,6 +495,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                             type="button"
                                                             className="btn btn-keyword-more"
                                                             onClick={() => handleKwshowing(result.id)}
+                                                            aria-expanded={allkwshowing ? true : false}
                                                         >
                                                             {allkwshowing ? t('page.showless') : t('page.viewmore')}
                                                             {allkwshowing ? (
