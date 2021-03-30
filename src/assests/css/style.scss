@@ -76,10 +76,11 @@ input {
     margin: 5px 0;
 }
 
-button:focus, button:active {
-    outline: none!important;
-    box-shadow: none!important;
- }
+button:focus,
+button:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
 
 .btn-button {
     color: #fff;
@@ -410,6 +411,9 @@ button:focus, button:active {
             h1 {
                 margin: 20px auto;
                 text-align: center;
+            }
+            .status-indicator {
+                padding: 20px 0;
             }
         }
     }

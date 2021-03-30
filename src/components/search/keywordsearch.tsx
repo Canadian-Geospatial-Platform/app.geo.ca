@@ -428,7 +428,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                 </div>
             </div>
             {/* Results */}
-            <div className="container-fluid container-results">
+            <div className="container-fluid container-results" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
                 <div className="row row-results">
                     {loading ? (
                         <div className="col-12 col-beat-loader">

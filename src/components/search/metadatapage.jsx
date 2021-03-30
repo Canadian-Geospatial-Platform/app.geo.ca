@@ -103,14 +103,16 @@ const MetaDataPage = () => {
   
     return (
         <div className="pageContainer resultPage">
-            <div className="resultContainer">
+            <div className="resultContainer" aria-live="assertive" aria-busy={loading ? "true" : "false"} >
                 {loading ?
-                    <h1 className="d-flex justify-content-center"><BeatLoader color="#515AA9" /></h1>
+                    <div className="d-flex justify-content-center status-indicator">
+                        <BeatLoader color="#515AA9" />
+                    </div>
                     :
                     (!Array.isArray(results) || results.length===0 || results[0].id===undefined ?
-                    <h1 className="d-flex justify-content-center">
+                    <p className="d-flex justify-content-center">
                         {t("page.noresult")}
-                    </h1> :
+                    </p> :
                     results.map((result) => {
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
