@@ -318,7 +318,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                     </div>
                 </div>
             )}
-            <div className="container">
+            <div className="container" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
                 {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
                 {loading ? (
                     <div className="d-flex justify-content-center">
