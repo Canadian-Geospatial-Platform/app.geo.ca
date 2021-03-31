@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>RAMP Viewer tester</h2>
+
+    <p id="demo">Start</p>
+
+    <button type="button" onclick="myFunction()">Try it</button>
+
+    <p>(myFunction is stored in an external file called "myScript.js")</p>
+
+    <div id="fgpmap" is="rv-map" rv-plugins="coordInfo" class="fgpMap ng-scope rv-short rv-large" <!-- rv-config="/fgpv-vpgf/config/canada-world-en.json" -->
+        rv-config="canada-world-en.json" rv-langs="['en-CA']" rv-service-endpoint="https://rcs.open.canada.ca" data-rv-keys="" rv-wait="true" rv-trap-focus="fgpmap" lang="en" rv-focus-status="ACTIVE" style="height: 266px;">
+
+
+        <script src="https://www.w3schools.com/js/myScript.js"></script>
+
+</body>
+
+</html>
+
+<!-- 
+function myFunction() {
+    document.getElementById("demo").innerHTML="changed.";
+} -->
