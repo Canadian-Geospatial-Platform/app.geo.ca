@@ -269,7 +269,7 @@ const RampViewer: React.FunctionComponent = () => {
             {/* Filters / Search Bar */}
             <div className="container-fluid container-search">
                 <div className="row row-search align-items-center">
-                    <div className="col-12 col-search-nav">
+                    {/* <div className="col-12 col-search-nav">
                         <button
                             className="search-nav-button link-button"
                             disabled={loading}
@@ -303,123 +303,31 @@ const RampViewer: React.FunctionComponent = () => {
                         >
                             {t('page.advancedsearchfilters')}
                         </button>
-                    </div>
+                    </div> */}
                 </div>
-            </div>
-            {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
-                <div className="container-fluid container-search-filters-active">
-                    <div className="row row-search-filters-active">
-                        <div className="col-12">
-                            <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
-                                {storetypefilters.map((typefilter: number) => (
-                                    <button
-                                        type="button"
-                                        className="btn btn-filter"
-                                        disabled={loading}
-                                        onClick={!loading ? () => clearTypeFilter(typefilter) : undefined}
-                                    >
-                                        {types[language][typefilter]} <i className="fas fa-times" />
-                                    </button>
-                                ))}
-                                {storeorgfilters.map((orgfilter: number) => (
-                                    <button
-                                        type="button"
-                                        className="btn btn-filter"
-                                        disabled={loading}
-                                        onClick={!loading ? () => clearOrgFilter(orgfilter) : undefined}
-                                    >
-                                        {organisations[language][orgfilter]} <i className="fas fa-times" />
-                                    </button>
-                                ))}
-                                {storethemefilters.map((themefilter: number) => (
-                                    <button
-                                        type="button"
-                                        className="btn btn-filter"
-                                        disabled={loading}
-                                        onClick={!loading ? () => clearThemeFilter(themefilter) : undefined}
-                                    >
-                                        {themes[language][themefilter]} <i className="fas fa-times" />
-                                    </button>
-                                ))}
-                                {storefoundational && (
-                                    <button
-                                        type="button"
-                                        className="btn btn-filter"
-                                        disabled={loading}
-                                        onClick={!loading ? clearFound : undefined}
-                                    >
-                                        {t('filter.foundational')} <i className="fas fa-times" />
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-            {filterbyshown && (
-                <div
-                    className={
-                        loading
-                            ? 'container-fluid container-filter-selection large-panel disabled'
-                            : 'container-fluid container-filter-selection large-panel'
-                    }
-                >
-                    <div className="row row-filters">
-                        <div className="col-12">
-                            <h2 className="filters-title">
-                                <FilterIcon /> {t('filter.filterby')}:
-                            </h2>
-                            <div className="filters-wrap">
-                                <SearchFilter
-                                    filtertitle={t('filter.organisations')}
-                                    filtervalues={organisations[language]}
-                                    filterselected={orgfilters}
-                                    selectFilters={handleOrg}
-                                />
-                                <SearchFilter
-                                    filtertitle={t('filter.types')}
-                                    filtervalues={types[language]}
-                                    filterselected={typefilters}
-                                    selectFilters={handleType}
-                                />
-                                <SearchFilter
-                                    filtertitle={t('filter.themes')}
-                                    filtervalues={themes[language]}
-                                    filterselected={themefilters}
-                                    selectFilters={handleTheme}
-                                />
-                                <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
-                                    <button type="button" className="link-button filter-title" onClick={() => setOfOpen(!ofOpen)}>
-                                        {t('filter.otherfilters')}
-                                    </button>
-                                    <SearchFilter
-                                        filtertitle={t('filter.foundational')}
-                                        filtervalues={[]}
-                                        filterselected={foundational ? [1] : []}
-                                        selectFilters={handleFound}
-                                    />
-                                </div>
-                            </div>
-                            <div className="filter-actions d-flex justify-content-end">
-                                <button
-                                    type="button"
-                                    className={fReset ? 'btn search-btn submit' : 'btn search-btn submit disabled'}
-                                    onClick={fReset ? applyFilters : undefined}
-                                >
-                                    {t('filter.applyfilters')}
-                                </button>
-                                <button type="button" className="btn search-btn clear" onClick={clearAll}>
-                                    {t('filter.clearall')}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-            {/* Pagination - Top */}
+            </div>           
             
+            {/* Need to debug following cv config on AWS serve after consulting with Johann */}        
+            {/* <div 
+         id="fgpmap" 
+         is="rv-map" 
+         rv-plugins="coordInfo" 
+         class="fgpMap ng-scope rv-short rv-large" 
+         rv-config="/fgpv-vpgf/config/canada-world-en.json" 
+         rv-langs="['en-CA']" 
+         rv-service-endpoint="https://rcs.open.canada.ca" 
+         data-rv-keys="" 
+         rv-wait="true" 
+         rv-trap-focus="fgpmap" 
+         lang="en" 
+         rv-focus-status="ACTIVE" 
+         style="height: 266px;">
+
+         </div> */}
+            
+            {/* Pagination - Top */}
             {/* Results */}
-            <div className="container-fluid container-results">
+            {/* <div className="container-fluid container-results">
                 <div className="row row-results">
                     {loading ? (
                         <div className="col-12 col-beat-loader">
@@ -523,7 +431,7 @@ const RampViewer: React.FunctionComponent = () => {
                         })
                     )}
                 </div>
-            </div>
+            </div> */}
             
         </div>
     );
