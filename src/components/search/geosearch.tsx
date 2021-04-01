@@ -320,7 +320,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 </div>
             )}
             <div className="container" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
-                {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={setPageNumber} />}
                 {loading ? (
                     <div className="d-flex justify-content-center">
                         <BeatLoader color="#515AA9" />
@@ -362,7 +362,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                         ))}
                     </div>
                 )}
-                {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={setPageNumber} />}
             </div>
         </div>
     );
