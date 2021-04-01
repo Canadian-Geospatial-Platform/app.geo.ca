@@ -68,7 +68,7 @@ export default function Pagination(props: paginationProps): JSX.Element {
                                 onClick={pn !== current ? () => selectPage(pn) : undefined}
                             >
                                 {pn}
-                                {pn !== current && <span className="sr-only">({t('page.ctrl.currentpage')})</span>}
+                                {pn === current && <span className="sr-only">({t('page.ctrl.currentpage')})</span>}
                             </button>
                         </li>
                     ))}
