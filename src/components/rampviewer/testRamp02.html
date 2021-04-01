@@ -20,13 +20,16 @@
     <link rel="stylesheet" href="rv-styles.css" />
     <!-- <link rel="stylesheet" href="../my-first-plugin.css" /> -->
     <!-- <script src="../my-first-plugin.js"></script> -->
+    <script src="../rv-main.js"></script>
 </head>
 
 <body>
     <!-- <div class="myMap" id="mapMyFirstPlugin" is="rv-map" rv-config="my-first-plugin-config.json" rv-langs='["en-CA", "fr-CA"]' rv-plugins="myFirstPlugin"> -->
 
-    <div id="fgpmap" is="rv-map" rv-plugins="coordInfo" class="fgpMap ng-scope rv-short rv-large" rv-config="canada-world-en.json" rv-langs="['en-CA']" rv-service-endpoint="https://rcs.open.canada.ca" data-rv-keys="" rv-wait="true" rv-trap-focus="fgpmap"
-        lang="en" rv-focus-status="ACTIVE" style="height: 266px;">
+    <!-- <div id="fgpmap" is="rv-map" rv-plugins="coordInfo" class="fgpMap ng-scope rv-short rv-large" rv-config="canada-world-en.json" rv-langs="['en-CA']" rv-service-endpoint="https://rcs.open.canada.ca" data-rv-keys="" rv-wait="true" rv-trap-focus="fgpmap"
+        lang="en" rv-focus-status="ACTIVE" style="height: 266px;"> -->
+
+    <div id="fgpmap" is="rv-map" rv-plugins="chart" class="fgpMap ng-scope rv-short rv-large" rv-config="canada-world-en.json" rv-langs="['en-CA']" data-rv-keys="" rv-wait="true" rv-trap-focus="fgpmap" lang="en" rv-focus-status="ACTIVE" style="height: 266px;">
 
         <noscript>
                 <p>
