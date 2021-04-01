@@ -458,6 +458,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                         (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
                                                         (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
                                                     ]}
+                                                    zoomControl={false}
                                                     zoom={zoom}
                                                 >
                                                     <TileLayer
