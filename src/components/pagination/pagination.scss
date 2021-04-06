@@ -44,8 +44,17 @@
                     }
                 }
             }
-
             &.disabled {
+                .page-link {
+                    &:hover {
+                        cursor: default;
+                    }
+                    &:focus {
+                        color: $color__logo-blue-dark;
+                    }
+                }
+            }
+            &.disabled:not(.current) {
                 .page-link {
                     opacity: 0.5;
                 }
@@ -65,12 +74,4 @@
             }
         }
     }
-
-    // Hide the prev / next buttons on small devices
-    /* @media (max-width: $breakpoint__sm) {
-        .list-item.previous,
-        .list-item.next {
-            display: none;
-        }
-    } */
 }
