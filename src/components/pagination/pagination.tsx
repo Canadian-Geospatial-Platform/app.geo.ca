@@ -11,7 +11,7 @@ import './pagination.scss';
 
 export default function Pagination(props: paginationProps): JSX.Element {
     const { t } = useTranslation();
-    const { rpp, ppg, rcnt, current, selectPage } = props;
+    const { rpp, ppg, rcnt, current, loading, selectPage } = props;
     const pcnt = Math.ceil(rcnt / rpp);
     const pgcnt = Math.ceil(pcnt / ppg);
     const cgroup = Math.ceil(current / ppg);
@@ -24,7 +24,7 @@ export default function Pagination(props: paginationProps): JSX.Element {
     return (
         <nav className="pagination-container" aria-label={t('page.ctrl.paginationlabel')}>
             <p className="pagination-total text-center" role="status">
-                {t('page.ctrl.total', { index: `${(current - 1) * rpp + 1} - ${max}`, total: rcnt })}
+                {!loading && t('page.ctrl.total', { index: `${(current - 1) * rpp + 1} - ${max}`, total: rcnt })}
             </p>
             {pcnt > 1 && (
                 <ul className="pagination pagination-list justify-content-center">
@@ -107,5 +107,6 @@ interface paginationProps {
     ppg: number;
     rcnt: number;
     current: number;
+    loading: boolean;
     selectPage(pn: number): unknown;
 }

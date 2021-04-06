@@ -13,6 +13,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/Filter';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
+import { NavBar } from '../navbar/nav-bar';
 import { getQueryParams } from '../../common/queryparams';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
@@ -423,7 +424,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">
                     <div className="col-12">
-                        {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} loading={loading} />}
                     </div>
                 </div>
             </div>
@@ -458,12 +459,14 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                         (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
                                                         (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
                                                     ]}
+                                                    zoomControl={false}
                                                     zoom={zoom}
                                                 >
                                                     <TileLayer
                                                         url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
                                                         attribution={t('mapctrl.attribution')}
                                                     />
+                                                    <NavBar />
                                                     <GeoJSON
                                                         key={result.id}
                                                         data={{
@@ -548,7 +551,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             <div className="container-fluid container-pagination container-pagination-bottom">
                 <div className="row row-pagination row-pagination-bottom">
                     <div className="col-12">
-                        {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} />}
+                        {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} loading={loading} />}
                     </div>
                 </div>
             </div>
