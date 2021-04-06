@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        overflowX: 'hidden',
+        overflow: 'hidden',
         width: '61px',
     },
     toolbar: {
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white',
     },
     githubSection: {
-        paddingBottom: '30px',
+        paddingBottom: '12px',
     },
 }));
 
