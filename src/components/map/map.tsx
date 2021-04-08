@@ -62,6 +62,9 @@ export function Map(props: MapProps): JSX.Element {
                 });
             }}
         >
+            <div className="leaflet-control cgp-appbar">
+                <Appbar id={id} search={search} auth={auth} />
+            </div>
             {basemaps.map((base) => (
                 <TileLayer key={base.id} url={base.url} attribution={t("mapctrl.attribution")} />
             ))}
@@ -70,9 +73,6 @@ export function Map(props: MapProps): JSX.Element {
             <ScaleControl position="bottomright" imperial={false} />
             <AttributionControl position="bottomleft" />
             <OverviewMap crs={crs} basemaps={basemaps} zoomFactor={mapOptions.zoomFactor} />
-            <div className="leaflet-control cgp-appbar">
-                <Appbar id={id} search={search} auth={auth} />
-            </div>
         </MapContainer>
     );
 }
