@@ -17,6 +17,9 @@
         &.filters,
         &.howto {
             display: block;
+            position: fixed;
+            top: 92px;
+            left: 63px;
             .MuiCard-root.current {
                 display: block;
             }

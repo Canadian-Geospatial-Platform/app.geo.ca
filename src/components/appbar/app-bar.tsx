@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        overflowX: 'hidden',
+        overflow: 'hidden',
         width: '61px',
     },
     toolbar: {
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white',
     },
     githubSection: {
-        paddingBottom: '30px',
+        paddingBottom: '12px',
     },
 }));
 
@@ -169,28 +169,32 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     {/* {items.map((item) => (
                         <Layers key={`${id}-${item.id}`} />
                     ))} */}
-                    {search && <ButtonApp tooltip="appbar.search" icon={<SearchIcon />} onClickFunction={() => setPanel(' search')} />}
+                    {search && <ButtonApp tooltip="appbar.search" current={panel === ' search'} icon={<SearchIcon />} onClickFunction={() => setPanel(' search')} />}
+                    {search && panel === ' search' && <div className={`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search'} closeFunction={() => setPanel('')} /></div>}
                     {search && (
-                        <ButtonApp tooltip="appbar.keywordsearch" icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
+                        <ButtonApp tooltip="appbar.keywordsearch" current={false} icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
                     )}
-                    <ButtonApp tooltip="appbar.filters" icon={<FilterIcon />} onClickFunction={() => setPanel(' filters')} />
+                    <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<FilterIcon />} onClickFunction={() => setPanel(' filters')} />
+                    {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={() => setPanel('')} /></div>}
                 </List>
                 <Divider className={classes.spacer} />
                 <List>
-                    {auth && <ButtonApp tooltip="appbar.account" icon={<AccountIcon />} onClickFunction={() => setPanel(' account')} />}
-                    <ButtonApp tooltip="appbar.howto" icon={<HelpOutlineIcon />} onClickFunction={() => setPanel(' howto')} />
+                    {auth && <ButtonApp tooltip="appbar.account" current={panel === ' account'} icon={<AccountIcon />} onClickFunction={() => setPanel(' account')} />}
+                    {auth && panel === ' account' && <div className={`cgp-apppanel${panel}`}><AccountPanel showing={panel === ' account'} closeFunction={() => setPanel('')} /></div>}
+                    <ButtonApp tooltip="appbar.howto" current={panel === ' howto'} icon={<HelpOutlineIcon />} onClickFunction={() => setPanel(' howto')} />
+                    {panel === ' howto' && <div className={`cgp-apppanel${panel}`}><HowtoPanel showing={panel === ' howto'} closeFunction={() => setPanel('')} /></div>}
                 </List>
                 <Divider />
                 <List className={classes.githubSection}>
                     <Version />
                 </List>
             </Drawer>
-            <div className={`cgp-apppanel${panel}`}>
+            {/* <div className={`cgp-apppanel${panel}`}>
                 {search && <SearchPanel showing={panel === ' search'} closeFunction={() => setPanel('')} />}
                 <FiltersPanel showing={panel === ' filters'} closeFunction={() => setPanel('')} />
                 {auth && <AccountPanel showing={panel === ' account'} closeFunction={() => setPanel('')} />}
                 <HowtoPanel showing={panel === ' howto'} closeFunction={() => setPanel('')} />
-            </div>
+            </div> */}
         </div>
     );
 }
