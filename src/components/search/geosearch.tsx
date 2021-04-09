@@ -327,7 +327,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                     t('page.changesearch')
                 ) : (
                     <div className="row rowDivider">
-                        {results.map((result: SearchResult) => (
+                        {results.map((result: SearchResult, index:number) => (
                             <div
                                 key={result.id}
                                 className={
@@ -346,11 +346,13 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                     <p className="searchDesc">
                                         {result.description.substr(0, 240)} {result.description.length > 240 ? <span>...</span> : ''}
                                     </p>
+                                    <button type="button" className="btn btn-hidden" onClick={() => handleSelect(result.id)} aria-label={result.id} />
                                     <button
                                         type="button"
                                         className="btn btn-sm searchButton"
                                         onClick={(e) => handleView(e, result.id)}
                                         aria-label={result.title}
+                                        // autoFocus = {index===0?true:false}
                                     >
                                         {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                     </button>

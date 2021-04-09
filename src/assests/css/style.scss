@@ -174,7 +174,7 @@ button:active {
     letter-spacing: 0.1em;
     border-radius: 25px;
     border: 1px solid #515aa9;
-    &:hover {
+    &:hover, &:focus {
         background-color: #515aa9;
         color: #ffffff;
     }
@@ -284,9 +284,6 @@ button:active {
 .searchResult {
     box-sizing: border-box;
     border: 2px solid transparent;
-    &.selected {
-        border: 2px solid #0074d9;
-    }
     &:nth-of-type(even) {
         background-color: #f2f2f2;
     }
@@ -396,6 +393,13 @@ button:active {
 
 .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
+}
+.btn.btn-hidden {
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
 }
 
 .pageContainer {
