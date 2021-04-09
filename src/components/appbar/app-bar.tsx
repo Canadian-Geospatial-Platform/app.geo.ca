@@ -75,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'flex-end',
         padding: theme.spacing(0, 1),
+        height: '48px',
     },
     spacer: {
         flexGrow: 1,
@@ -154,6 +155,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 classes={{ paper: open && panel === '' ? classes.drawerOpen : classes.drawerClose }}
             >
                 <div className={classes.toolbar}>
+                { panel === '' &&  
                     <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
                         <IconButton
                             onClick={handleDrawerClose}
@@ -163,6 +165,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     </Tooltip>
+                }    
                 </div>
                 <Divider />
                 <List>
