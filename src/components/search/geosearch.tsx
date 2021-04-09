@@ -85,8 +85,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     const handleSelect = (event: string) => {
         // const {selectResult} = this.props;
         const cardOpen = selected === event ? !open : true;
-        const result =
-            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;
+        const result = Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;
 
         setSelected(event);
         setOpen(cardOpen);
