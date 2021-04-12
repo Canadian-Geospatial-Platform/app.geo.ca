@@ -12,7 +12,9 @@
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
 import { useLocation } from 'react-router';
 // import { Link } from "react-router-dom";
+import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { loadState } from '../../reducers/localStorage';
 import { useMap } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
@@ -20,7 +22,7 @@ import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { getQueryParams } from '../../common/queryparams';
 import Pagination from '../pagination/pagination';
-import { setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
+import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
 import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
@@ -45,11 +47,20 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     // const [modal, setModal] = useState(false);
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const language = t('app.language');
-    const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
+    const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
+    const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
+    const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
+    const storefoundational = useSelector((state) => state.mappingReducer.foundational);
+    const dispatch = useDispatch();
+    const [orgfilters, setOrg] = useState(storeorgfilters);
+    const [typefilters, setType] = useState(storetypefilters);
+    const [themefilters, setTheme] = useState(storethemefilters);
+    const [foundational, setFound] = useState(storefoundational);
+    /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
     const themefilters = useSelector((state) => state.mappingReducer.themefilter);
     const foundational = useSelector((state) => state.mappingReducer.foundational);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); */
 
     const selectResult = (result: SearchResult | undefined) => {
         map.eachLayer((layer: unknown) => {
@@ -134,11 +145,11 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     const handleSearch = (keyword: string, bounds: unknown) => {
         // console.log(GetMappingState());
         !loading && setLoadingStatus(true);
-
-        // const ofilters = useSelector((state) => state.mappingReducer.orgfilter);
-        // const tfilters = useSelector((state) => state.mappingReducer.typefilter);
-        // const thfilters = useSelector((state) => state.mappingReducer.themefilter);
-        // const found = useSelector((state) => state.mappingReducer.foundational);
+        const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
+        const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
+        const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
+        const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+        const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         // const MappingState = getMappingState();
         const searchParams: SearchParams = {
             north: bounds._northEast.lat,
@@ -150,19 +161,20 @@ const GeoSearch = (showing: boolean): JSX.Element => {
             min: (pn - 1) * rpp + 1,
             max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
         };
-        if (themefilters.length > 0) {
-            searchParams.themes = themefilters.map((fs: number) => themes[language][fs]).join('|');
+        if (thfilters.length > 0) {
+            searchParams.themes = thfilters.map((fs: number) => themes[language][fs]).join('|');
         }
-        if (orgfilters.length > 0) {
-            searchParams.org = orgfilters.map((fs: number) => organisations[language][fs]).join('|');
+        if (ofilters.length > 0) {
+            searchParams.org = ofilters.map((fs: number) => organisations[language][fs]).join('|');
         }
-        if (typefilters.length > 0) {
-            searchParams.type = typefilters.map((fs: number) => types[language][fs]).join('|');
+        if (tfilters.length > 0) {
+            searchParams.type = tfilters.map((fs: number) => types[language][fs]).join('|');
         }
-        if (foundational) {
+        if (found) {
             searchParams.foundational = 'true';
         }
         // console.log(searchParams);
+        dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         axios
             .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo', { params: searchParams })
             .then((response) => response.data)
@@ -175,6 +187,10 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 setBounds(bounds);
                 setKeyword(keyword);
                 setLoadingStatus(false);
+                setOrg(ofilters);
+                setType(tfilters);
+                setTheme(thfilters);
+                setFound(found);
                 if (selected !== 'search' && open && res.find((r: SearchResult) => r.id === selected)) {
                     setSelected('search');
                     setOpen(false);
@@ -193,6 +209,10 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 setOpen(false);
                 selectResult(undefined);
                 setLoadingStatus(false);
+                setOrg(ofilters);
+                setType(tfilters);
+                setTheme(thfilters);
+                setFound(found);
                 map.on('moveend', (event) => eventHandler(event, keyword, initBounds));
                 mapCount = 0;
             });
@@ -217,28 +237,32 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     const clearOrgFilter = (filter: number) => {
         const newfilter = orgfilters.filter((fs: number) => fs !== filter);
         dispatch(setOrgFilter(newfilter));
+        setOrg(newfilter);
         setPageNumber(1);
     };
 
     const clearTypeFilter = (filter: number) => {
         const newfilter = typefilters.filter((fs: number) => fs !== filter);
         dispatch(setTypeFilter(newfilter));
+        setType(newfilter);
         setPageNumber(1);
     };
 
     const clearThemeFilter = (filter: number) => {
         const newfilter = themefilters.filter((fs: number) => fs !== filter);
         dispatch(setThemeFilter(newfilter));
+        setTheme(newfilter);
         setPageNumber(1);
     };
 
     const clearFound = () => {
         dispatch(setFoundational(false));
+        setFound(false);
         setPageNumber(1);
     };
 
     useEffect(() => {
-        if (showing) {
+        if (showing && !loading) {
             handleSearch(initKeyword, initBounds);
         }
         const handleResize = () => {
@@ -249,7 +273,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showing, language, pn, orgfilters, typefilters, themefilters, foundational]);
+    }, [showing, language, pn, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
     // console.log(loading, results);
@@ -382,10 +406,6 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         </div>
     );
 };
-
-const GetMappingState = () => {
-    return useSelector((state) => state.mappingReducer);
-}
 
 interface SearchParams {
     keyword: string;
