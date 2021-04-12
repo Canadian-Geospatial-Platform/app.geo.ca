@@ -33,9 +33,9 @@ export default function SearchFilter(props: filterProps): JSX.Element {
         setOpen(!open);
     };
 
-    /* useEffect(() => {
+    useEffect(() => {
         setFilterSelected(filterselected);
-    }, [filterselected]); */
+    }, [filterselected]); 
 
     return vtype ? (
         <div className={open ? 'filter-wrap open' : 'filter-wrap'}>

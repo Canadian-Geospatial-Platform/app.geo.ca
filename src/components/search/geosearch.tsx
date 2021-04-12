@@ -132,8 +132,14 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     };
 
     const handleSearch = (keyword: string, bounds: unknown) => {
+        // console.log(GetMappingState());
         !loading && setLoadingStatus(true);
 
+        // const ofilters = useSelector((state) => state.mappingReducer.orgfilter);
+        // const tfilters = useSelector((state) => state.mappingReducer.typefilter);
+        // const thfilters = useSelector((state) => state.mappingReducer.themefilter);
+        // const found = useSelector((state) => state.mappingReducer.foundational);
+        // const MappingState = getMappingState();
         const searchParams: SearchParams = {
             north: bounds._northEast.lat,
             east: bounds._northEast.lng,
@@ -376,6 +382,10 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         </div>
     );
 };
+
+const GetMappingState = () => {
+    return useSelector((state) => state.mappingReducer);
+}
 
 interface SearchParams {
     keyword: string;
