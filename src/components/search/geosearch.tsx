@@ -333,7 +333,6 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                 className={
                                     selected === result.id && open === true ? 'col-sm-12 searchResult selected' : 'col-sm-12 searchResult'
                                 }
-                                onClick={() => handleSelect(result.id)}
                             >
                                 <h3 className="searchTitle">{result.title}</h3>
                                 <div>
@@ -346,17 +345,26 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                     <p className="searchDesc">
                                         {result.description.substr(0, 240)} {result.description.length > 240 ? <span>...</span> : ''}
                                     </p>
-                                    <button type="button" className="btn btn-hidden" onClick={() => handleSelect(result.id)} aria-label={result.id} />
-                                    <button
-                                        type="button"
-                                        className="btn btn-sm searchButton"
-                                        onClick={(e) => handleView(e, result.id)}
-                                        aria-label={result.title}
-                                        // autoFocus = {index===0?true:false}
-                                    >
-                                        {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
-                                    </button>
-                                    {/* <Link to={`/result?id=${encodeURI(result.id.trim())}&lang=${language}`} target={`View Record ${result.id.trim()}`}><button type="button" className="btn btn-sm searchButton">{t("page.viewrecord")} <i className="fas fa-long-arrow-alt-right" /></button></Link> */}
+                                    <div className="searchResultButtons">
+                                        <button
+                                            type="button"
+                                            className="btn btn-sm searchButton" 
+                                            onClick={() => handleSelect(result.id)} 
+                                            aria-label={result.id} 
+                                            // autoFocus = {index===0?true:false}
+                                        >
+                                            {selected === result.id && open === true? t('page.removefootprint') : t('page.viewfootprint')}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn btn-sm searchButton"
+                                            onClick={(e) => handleView(e, result.id)}
+                                            aria-label={result.title}
+                                            
+                                        >
+                                            {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}
