@@ -83,6 +83,8 @@
         "advancedsearchfilters": "Advanced Search Filters",
         "gotogeosearchpage": "Go To GeoSearch",
         "viewrecord": "View Record",
+        "viewfootprint": "View Footprint",
+        "removefootprint": "Remove Footprint",
         "aboutthisdataset": "About this dataset",
         "dataresources": "Data Resources",
         "contactdata": "Contact Data",
