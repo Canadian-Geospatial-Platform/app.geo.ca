@@ -40,6 +40,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     const [initBounds, setBounds] = useState(map.getBounds());
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState<SearchResult[]>([]);
+    const [cpn, setPn] = useState(false);
     const [pn, setPageNumber] = useState(1);
     const [cnt, setCount] = useState(0);
     const [selected, setSelected] = useState('search');
@@ -136,14 +137,16 @@ const GeoSearch = (showing: boolean): JSX.Element => {
             mapCount++;
             setLoadingStatus(true);
             // setBounds(mbounds);
-            setPageNumber(1);
+            // setPageNumber(1);
             handleSearch(keyword, mbounds);
         }
     };
 
-    const handleSearch = (keyword: string, bounds: unknown) => {
+    const handleSearch = (keyword: string, bounds: unknown, changePn?:boolean) => {
         // console.log(GetMappingState());
         !loading && setLoadingStatus(true);
+        const cpr = changePn ? true:false;
+        const pageNumber = cpr ? pn: 1;
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
@@ -157,8 +160,8 @@ const GeoSearch = (showing: boolean): JSX.Element => {
             west: bounds._southWest.lng,
             keyword,
             lang: language,
-            min: (pn - 1) * rpp + 1,
-            max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
+            min: (pageNumber - 1) * rpp + 1,
+            max: cnt > 0 ? Math.min(pageNumber * rpp, cnt) : pageNumber * rpp,
         };
         if (thfilters.length > 0) {
             searchParams.themes = thfilters.map((fs: number) => themes[language][fs]).join('|');
@@ -183,8 +186,12 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 const rcnt = res.length > 0 ? res[0].total : 0;
                 setResults(res);
                 setCount(rcnt);
+                setPn(cpr);
                 setBounds(bounds);
                 setKeyword(keyword);
+                if (!cpr && pn!==1) {
+                    setPageNumber(1);
+                }
                 setLoadingStatus(false);
                 setOrg(ofilters);
                 setType(tfilters);
@@ -202,6 +209,8 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 console.log(error);
                 setResults([]);
                 setCount(0);
+                setPn(false);
+                setPageNumber(1);
                 setBounds(bounds);
                 setKeyword(keyword);
                 setSelected('search');
@@ -237,27 +246,27 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         const newfilter = orgfilters.filter((fs: number) => fs !== filter);
         dispatch(setOrgFilter(newfilter));
         setOrg(newfilter);
-        setPageNumber(1);
+        // setPageNumber(1);
     };
 
     const clearTypeFilter = (filter: number) => {
         const newfilter = typefilters.filter((fs: number) => fs !== filter);
         dispatch(setTypeFilter(newfilter));
         setType(newfilter);
-        setPageNumber(1);
+        // setPageNumber(1);
     };
 
     const clearThemeFilter = (filter: number) => {
         const newfilter = themefilters.filter((fs: number) => fs !== filter);
         dispatch(setThemeFilter(newfilter));
         setTheme(newfilter);
-        setPageNumber(1);
+        // setPageNumber(1);
     };
 
     const clearFound = () => {
         dispatch(setFoundational(false));
         setFound(false);
-        setPageNumber(1);
+        // setPageNumber(1);
     };
 
     useEffect(() => {
@@ -272,9 +281,13 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showing, language, pn, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
+    }, [showing, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
-
+    useEffect(() => {
+        if (showing && !loading) {
+            handleSearch(initKeyword, initBounds, true);
+        }
+    }, [pn]);
     // console.log(loading, results);
     return (
         <div className="geoSearchContainer">
@@ -357,7 +370,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                     t('page.changesearch')
                 ) : (
                     <div className="row rowDivider">
-                        {results.map((result: SearchResult, index:number) => (
+                        {results.map((result: SearchResult, mindex:number) => (
                             <div
                                 key={result.id}
                                 className={
@@ -381,7 +394,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                             className="btn btn-sm searchButton" 
                                             onClick={() => handleSelect(result.id)} 
                                             aria-label={result.id} 
-                                            // autoFocus = {index===0?true:false}
+                                            autoFocus = {cpn && mindex===0?true:false}
                                         >
                                             {selected === result.id && open === true? t('page.removefootprint') : t('page.viewfootprint')}
                                         </button>

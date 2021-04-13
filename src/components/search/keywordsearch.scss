@@ -20,7 +20,7 @@
             margin: 0;
             padding: 0;
             text-decoration: none;
-            &:hover {
+            &:hover, &:focus {
                 color: $color__light;
                 text-decoration: underline;
             }
@@ -191,6 +191,9 @@
                 &:nth-of-type(even) {
                     background-color: $color__bg-aside;
                 }
+                .row.resultRow {
+                    flex-direction: row-reverse;
+                }
                 .search-title {
                     color: $color__logo-blue;
                     font-size: 1.75rem;
@@ -258,7 +261,7 @@
                     border-radius: 25px;
                     font-size: 0.875rem;
                     letter-spacing: 0.1em;
-                    &:hover {
+                    &:hover, &:focus {
                         background-color: transparent;
                         color: $color__logo-blue;
                         border: 1px solid $color__logo-blue;
