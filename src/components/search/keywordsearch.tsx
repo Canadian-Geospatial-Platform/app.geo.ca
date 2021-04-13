@@ -6,7 +6,9 @@
 
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
 import { useLocation, useHistory } from 'react-router';
+import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { loadState } from '../../reducers/localStorage';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SearchIcon from '@material-ui/icons/Search';
@@ -35,6 +37,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const [loading, setLoading] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
     const [pn, setPageNumber] = useState(1);
+    const [cpn, setPn] = useState(false);
     const [cnt, setCount] = useState(0);
     const [results, setResults] = useState<SearchResult[]>([]);
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
@@ -59,7 +62,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
         setFReset(false);
-        setPageNumber(1);
+        // setPageNumber(1);
     };
 
     const clearAll = () => {
@@ -69,31 +72,41 @@ const KeywordSearch: React.FunctionComponent = () => {
         setFound(false);
         dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
         setFReset(false);
-        setPageNumber(1);
+        // setPageNumber(1);
     };
 
-    const handleSearch = (keyword: string) => {
+    const handleSearch = (keyword: string, changePn?: boolean) => {
         setLoading(true);
+
+        const cpr = changePn ? true:false;
+        const pageNumber = cpr ? pn: 1;
+        const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
+        const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
+        const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
+        const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+        const found = localState !== undefined ? localState.mappingReducer.foundational : false;
 
         const searchParams: SearchParams = {
             keyword,
             keyword_only: 'true',
             lang: language,
-            min: (pn - 1) * rpp + 1,
-            max: cnt > 0 ? Math.min(pn * rpp, cnt) : pn * rpp,
+            min: (pageNumber - 1) * rpp + 1,
+            max: cnt > 0 ? Math.min(pageNumber * rpp, cnt) : pageNumber * rpp,
         };
-        if (storethemefilters.length > 0) {
-            searchParams.themes = storethemefilters.map((fs: number) => themes[language][fs]).join('|');
+
+        if (thfilters.length > 0) {
+            searchParams.themes = thfilters.map((fs: number) => themes[language][fs]).join('|');
         }
-        if (storeorgfilters.length > 0) {
-            searchParams.org = storeorgfilters.map((fs: number) => organisations[language][fs]).join('|');
+        if (ofilters.length > 0) {
+            searchParams.org = ofilters.map((fs: number) => organisations[language][fs]).join('|');
         }
-        if (storetypefilters.length > 0) {
-            searchParams.type = storetypefilters.map((fs: number) => types[language][fs]).join('|');
+        if (tfilters.length > 0) {
+            searchParams.type = tfilters.map((fs: number) => types[language][fs]).join('|');
         }
-        if (storefoundational) {
+        if (found) {
             searchParams.foundational = 'true';
         }
+        dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         // console.log(searchParams);
         axios
             .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo', { params: searchParams })
@@ -103,18 +116,32 @@ const KeywordSearch: React.FunctionComponent = () => {
                 const res = data.Items;
                 const rcnt = res.length > 0 ? res[0].total : 0;
                 setResults(res);
+                setPn(cpr);
                 setCount(rcnt);
+                if (!cpr && pn!==1) {
+                    setPageNumber(1);
+                }
                 setKWShowing([]);
                 setKeyword(keyword);
                 setLoading(false);
+                setOrg(ofilters);
+                setType(tfilters);
+                setTheme(thfilters);
+                setFound(found);
             })
             .catch(() => {
                 // console.log(error);
                 setResults([]);
+                setPn(false);
                 setCount(0);
+                setPageNumber(1);
                 setKWShowing([]);
                 setKeyword(keyword);
                 setLoading(false);
+                setOrg(ofilters);
+                setType(tfilters);
+                setTheme(thfilters);
+                setFound(found);
             });
     };
 
@@ -131,7 +158,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         }
 
         const keyword = (inputRef.current as HTMLInputElement).value;
-        setPageNumber(1);
+        // setPageNumber(1);
         handleSearch(keyword);
     };
 
@@ -185,7 +212,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         dispatch(setOrgFilter(newfilter));
         setOrg(newfilter);
         setFReset(false);
-        setPageNumber(1);
+        // setPageNumber(1);
     };
 
     const clearTypeFilter = (filter: number) => {
@@ -193,11 +220,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         dispatch(setTypeFilter(newfilter));
         setType(newfilter);
         setFReset(false);
-        if (pn > 1) {
-            setPageNumber(1);
-        } else {
-            handleSearch(initKeyword);
-        }
+        // handleSearch(initKeyword);
     };
 
     const clearThemeFilter = (filter: number) => {
@@ -205,22 +228,13 @@ const KeywordSearch: React.FunctionComponent = () => {
         dispatch(setThemeFilter(newfilter));
         setTheme(newfilter);
         setFReset(false);
-        if (pn > 1) {
-            setPageNumber(1);
-        } else {
-            handleSearch(initKeyword);
-        }
+        // handleSearch(initKeyword);
     };
 
     const clearFound = () => {
         dispatch(setFoundational(false));
         setFound(false);
         setFReset(false);
-        if (pn > 1) {
-            setPageNumber(1);
-        } else {
-            handleSearch(initKeyword);
-        }
     };
 
     useEffect(() => {
@@ -240,9 +254,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             }
         }
 
-        if (!fReset) {
-            // console.log(store.getState());
-            // saveState(store.getState());
+        if (!fReset && !loading) {
             handleSearch(initKeyword);
         }
         const handleResize = () => {
@@ -253,8 +265,14 @@ const KeywordSearch: React.FunctionComponent = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [language, pn, fReset, sfloaded, queryParams.org, queryParams.type, queryParams.theme, storeorgfilters, storetypefilters, storethemefilters, storefoundational, dispatch]);
-   // console.log(storeorgfilters, orgfilters);
+    }, [language, fReset, sfloaded, queryParams.org, queryParams.type, queryParams.theme, storeorgfilters, storetypefilters, storethemefilters, storefoundational, dispatch]);
+    
+    useEffect(() => {
+        if (!fReset && !loading) {
+            handleSearch(initKeyword, true);
+        }
+    }, [pn]);
+    // console.log(storeorgfilters, orgfilters);
     return (
         <div className="pageContainer keyword-search-page">
             {/* Filters / Search Bar */}
@@ -438,7 +456,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                     ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
                         <div className="col-12 col-search-message">{t('page.changesearch')}</div>
                     ) : (
-                        results.map((result: SearchResult) => {
+                        results.map((result: SearchResult, mindex:number) => {
                             const coordinates = JSON.parse(result.coordinates);
                             const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                             const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
@@ -452,32 +470,6 @@ const KeywordSearch: React.FunctionComponent = () => {
                             return (
                                 <div key={result.id} className="container-fluid search-result">
                                     <div className="row resultRow">
-                                        <div className="col-lg-4">
-                                            <div className="search-image">
-                                                <MapContainer
-                                                    center={[
-                                                        (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
-                                                        (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
-                                                    ]}
-                                                    zoomControl={false}
-                                                    zoom={zoom}
-                                                >
-                                                    <TileLayer
-                                                        url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
-                                                        attribution={t('mapctrl.attribution')}
-                                                    />
-                                                    <NavBar />
-                                                    <GeoJSON
-                                                        key={result.id}
-                                                        data={{
-                                                            type: 'Feature',
-                                                            properties: { id: result.id, tag: 'geoViewGeoJSON' },
-                                                            geometry: { type: 'Polygon', coordinates },
-                                                        }}
-                                                    />
-                                                </MapContainer>
-                                            </div>
-                                        </div>
                                         <div className="col-lg-8">
                                             <h2 className="search-title">{result.title}</h2>
                                             <div className="search-keywords">
@@ -495,6 +487,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                                 className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
                                                                 key={ki}
                                                                 onClick={() => handleKeyword(keyword)}
+                                                                autoFocus = {cpn && mindex===0 && ki===0?true:false}
                                                             >
                                                                 {keyword}
                                                             </button>
@@ -536,9 +529,36 @@ const KeywordSearch: React.FunctionComponent = () => {
                                                 className="btn btn-search"
                                                 onClick={() => handleView(result.id)}
                                                 aria-label={result.title}
+                                                autoFocus = {cpn && keywords.length===0 && mindex===0?true:false}
                                             >
                                                 {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                             </button>
+                                        </div>
+                                        <div className="col-lg-4">
+                                            <div className="search-image">
+                                                <MapContainer
+                                                    center={[
+                                                        (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
+                                                        (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
+                                                    ]}
+                                                    zoomControl={false}
+                                                    zoom={zoom}
+                                                >
+                                                    <TileLayer
+                                                        url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
+                                                        attribution={t('mapctrl.attribution')}
+                                                    />
+                                                    <NavBar />
+                                                    <GeoJSON
+                                                        key={result.id}
+                                                        data={{
+                                                            type: 'Feature',
+                                                            properties: { id: result.id, tag: 'geoViewGeoJSON' },
+                                                            geometry: { type: 'Polygon', coordinates },
+                                                        }}
+                                                    />
+                                                </MapContainer>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
