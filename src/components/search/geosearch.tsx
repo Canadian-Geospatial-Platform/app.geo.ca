@@ -144,10 +144,11 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     };
 
     const handleSearch = (keyword: string, bounds: unknown, changePn?:boolean) => {
-        // console.log(GetMappingState());
-        !loading && setLoadingStatus(true);
         const cpr = changePn ? true:false;
+        setPn(cpr);
+        !loading && setLoadingStatus(true);
         const pageNumber = cpr ? pn: 1;
+        
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
@@ -187,7 +188,6 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 const rcnt = res.length > 0 ? res[0].total : 0;
                 setResults(res);
                 setCount(rcnt);
-                setPn(cpr);
                 setBounds(bounds);
                 setKeyword(keyword);
                 if (!cpr && pn!==1) {
@@ -233,7 +233,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         }
 
         const keyword = (inputRef.current as HTMLInputElement).value;
-        setPageNumber(1);
+        // setPageNumber(1);
         handleSearch(keyword, initBounds);
     };
 
@@ -269,6 +269,12 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         setFound(false);
         // setPageNumber(1);
     };
+    
+    useEffect(() => {
+        if (showing && !loading) {
+            handleSearch(initKeyword, initBounds, true);
+        }
+    }, [pn]);
 
     useEffect(() => {
         if (showing && !loading) {
@@ -284,11 +290,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         };
     }, [showing, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
-    useEffect(() => {
-        if (showing && !loading) {
-            handleSearch(initKeyword, initBounds, true);
-        }
-    }, [pn]);
+    
     // console.log(loading, results);
     return (
         <div className="geoSearchContainer">
@@ -362,7 +364,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 </div>
             )}
             <div className="container" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
-                {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={setPageNumber} />}
+                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={setPageNumber} />}
                 {loading ? (
                     <div className="d-flex justify-content-center">
                         <BeatLoader color="#515AA9" />
@@ -414,7 +416,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                         ))}
                     </div>
                 )}
-                {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={setPageNumber} />}
+                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={setPageNumber} />}
             </div>
         </div>
     );
