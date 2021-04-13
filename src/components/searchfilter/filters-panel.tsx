@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
+import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { loadState } from '../../reducers/localStorage';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
 import FilterIcon from '@material-ui/icons/Filter';
@@ -65,11 +67,16 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     useEffect(() => {
         // const filteractive = (themefilters.length>0 || orgfilters.length > 0 || typefilters.length > 0);
         if (showing) {
-            setOrg(storeorgfilters);
-            setType(storetypefilters);
-            setTheme(storethemefilters);
-            setFound(storefoundational);
-            setFReset(false);
+            const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
+            const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
+            const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
+            const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+            const found = localState !== undefined ? localState.mappingReducer.foundational : false;
+            setOrg(ofilters);
+            setType(tfilters);
+            setTheme(thfilters);
+            setFound(found);
+            setFReset(true);
         }
     }, [showing, language]);
 
