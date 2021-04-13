@@ -76,9 +76,9 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const handleSearch = (keyword: string, changePn?: boolean) => {
-        setLoading(true);
-
         const cpr = changePn ? true:false;
+        setPn(cpr);
+        setLoading(true);
         const pageNumber = cpr ? pn: 1;
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
@@ -116,7 +116,6 @@ const KeywordSearch: React.FunctionComponent = () => {
                 const res = data.Items;
                 const rcnt = res.length > 0 ? res[0].total : 0;
                 setResults(res);
-                setPn(cpr);
                 setCount(rcnt);
                 if (!cpr && pn!==1) {
                     setPageNumber(1);
@@ -238,6 +237,12 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     useEffect(() => {
+        if (!fReset && !loading) {
+            handleSearch(initKeyword, true);
+        }
+    }, [pn]);
+
+    useEffect(() => {
         if (!sfloaded) {
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
                 const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
@@ -267,11 +272,6 @@ const KeywordSearch: React.FunctionComponent = () => {
         };
     }, [language, fReset, sfloaded, queryParams.org, queryParams.type, queryParams.theme, storeorgfilters, storetypefilters, storethemefilters, storefoundational, dispatch]);
     
-    useEffect(() => {
-        if (!fReset && !loading) {
-            handleSearch(initKeyword, true);
-        }
-    }, [pn]);
     // console.log(storeorgfilters, orgfilters);
     return (
         <div className="pageContainer keyword-search-page">
@@ -442,7 +442,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">
                     <div className="col-12">
-                        {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} loading={loading} />}
+                        {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} loading={loading} />}
                     </div>
                 </div>
             </div>
@@ -571,7 +571,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             <div className="container-fluid container-pagination container-pagination-bottom">
                 <div className="row row-pagination row-pagination-bottom">
                     <div className="col-12">
-                        {cnt > 0 && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} loading={loading} />}
+                        {cnt > 0 && (!loading || cpn ) &&  <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} loading={loading} />}
                     </div>
                 </div>
             </div>
