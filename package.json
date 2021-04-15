@@ -5,8 +5,8 @@
   "private": true,
   "main": "app.tsx",
   "scripts": {
-    "serve": "webpack serve --progress --color --config webpack.prod.js",
-    "start": "webpack --config webpack.prod.js",
+    "serve": "webpack serve --progress --color --config webpack.dev.js",
+    "start": "webpack --config webpack.dev.js",
     "build": "webpack --progress --color --config webpack.prod.js",
     "deploy": "gh-pages -d dist",
     "test": "jest",

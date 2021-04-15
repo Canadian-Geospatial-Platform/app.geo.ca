@@ -11,7 +11,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import {useLocation} from 'react-router';
+import {useLocation, useHistory} from 'react-router';
 // import {useParams} from 'react-router-dom';
 import { useDispatch, useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
@@ -27,6 +27,7 @@ import './metadatapage.scss';
 
 const MetaDataPage = () => {
     const location = useLocation();
+    const history = useHistory();
     const queryParams = getQueryParams(location.search);
     const {t} = useTranslation();
     
@@ -96,6 +97,13 @@ const MetaDataPage = () => {
         dispatch(setMapping(newMapping));
     }; 
   
+    const viewOnMap = (resultid) => {
+        history.push({
+            pathname: '/map',
+            search: `rv=${resultid}`,
+        });
+    }; 
+
     useEffect(() => {
       if (rid !== '') {
           handleSearch(rid);
@@ -324,7 +332,8 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.addtomap")}</h3>
                                 <p>{t("page.viewthedata")}</p>
                                 <div className="btn-group">
-                                    <a href={`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t("app.language")}.html?keys=${result.id}`} className="btn btn-search mr-2" rel="noreferrer" target="_blank">{t("page.viewonmap")}</a>
+                                    {/* <a href={`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t("app.language")}.html?keys=${result.id}`} className="btn btn-search mr-2" rel="noreferrer" target="_blank">{t("page.viewonmap")}</a> */}
+                                    <button type="button" className="btn btn-search mr-2" onClick={()=>viewOnMap(result.id)}>{t("page.viewonmap")}</button>
                                     <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={()=>changeMapping(result.id)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
                                 </div>
                             </section>
