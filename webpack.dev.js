@@ -7,6 +7,7 @@ const common = require('./webpack.common.js');
 
 const config = {
     mode: 'development',
+    devtool: 'source-map',
     devServer: {
         host: process.env.IP,
         https: false,
