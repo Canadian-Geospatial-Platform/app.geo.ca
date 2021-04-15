@@ -42,7 +42,7 @@ const RampViewer = (rv: string): JSX.Element => {
     useEffect(() => {
         // appendScript({scriptToAppend:"https://code.jquery.com/jquery-2.2.4.min.js"}); //, integrity:"sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=", crossorigin:"anonymous"});
         // appendScript({scriptToAppend:"https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Object.entries,Object.values,Array.prototype.find,Array.prototype.findIndex,Array.prototype.values,Array.prototype.includes,HTMLCanvasElement.prototype.toBlob,String.prototype.repeat,String.prototype.codePointAt,String.fromCodePoint,NodeList.prototype.@@iterator,Promise,Promise.prototype.finally"});
-        appendScript({scriptToAppend: "https://climate-viewer.canada.ca/assets/scripts/rv-main.js" });
+        appendScript({scriptToAppend: "/rv-main.js" });
     }, [language]);
 
     return (
