@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import {Route, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
+import {Route, Router, Switch, Redirect} from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore, StoreEnhancer } from 'redux';
 import throttle from 'lodash.throttle';
@@ -81,7 +82,7 @@ const Routing = () => {
     }
 
     return (
-        <Router>
+        <Router history={createBrowserHistory()}>
             <StrictMode>
                 <Header />
                 <Switch>
