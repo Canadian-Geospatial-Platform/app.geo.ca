@@ -18,6 +18,7 @@ import Header from './components/header/header';
 import { Map } from './components/map/map';
 import KeywordSearch from './components/search/keywordsearch';
 import MetaDataPage from './components/search/metadatapage';
+import RampViewer from './components/rampviewer/rampviewer';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assests/css/style.scss';
@@ -52,7 +53,7 @@ const config = jsonConfig? JSON.parse(jsonConfig.replace(/'/g, '"')) : { 'name':
 
 // const center: LatLngTuple = [config.center[0], config.center[1]];
 
-const renderMap: React.FunctionComponent = () => {
+const RenderMap: React.FunctionComponent = () => {
     const center: LatLngTuple = [config.center[0], config.center[1]];
     return (
         <Suspense fallback="loading">
@@ -84,9 +85,10 @@ const Routing = () => {
             <StrictMode>
                 <Header />
                 <Switch>
-                    <Route exact path="/" component={renderMap} />
+                    <Route exact path="/" component={RenderMap} />
                     <Route exact path="/search" component={KeywordSearch} />
                     <Route exact path="/result" component={MetaDataPage} />
+                    <Route exact path="/map" component={RampViewer} />
                     <Route path="/404" render={() => <div>404 - Not Found</div>} />
                     <Redirect to="/404" />
                 </Switch>
