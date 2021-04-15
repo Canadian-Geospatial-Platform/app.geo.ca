@@ -14,7 +14,7 @@ import { useLocation } from 'react-router';
 // import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { getQueryParams } from '../../common/queryparams';
-// import './rv-styles.css';
+// import './rampviewer.scss';
 
 const RampViewer = (rv: string): JSX.Element => {
     const location = useLocation();
@@ -40,13 +40,20 @@ const RampViewer = (rv: string): JSX.Element => {
         document.body.appendChild(script);
     }
     useEffect(() => {
-        // appendScript({scriptToAppend:"https://code.jquery.com/jquery-2.2.4.min.js"}); //, integrity:"sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=", crossorigin:"anonymous"});
-        // appendScript({scriptToAppend:"https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Object.entries,Object.values,Array.prototype.find,Array.prototype.findIndex,Array.prototype.values,Array.prototype.includes,HTMLCanvasElement.prototype.toBlob,String.prototype.repeat,String.prototype.codePointAt,String.fromCodePoint,NodeList.prototype.@@iterator,Promise,Promise.prototype.finally"});
-        appendScript({scriptToAppend: "/rv-main.js" });
+        appendScript({scriptToAppend:"https://code.jquery.com/jquery-2.2.4.min.js"}); //, integrity:"sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=", crossorigin:"anonymous"});
+        appendScript({scriptToAppend:"https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Object.entries,Object.values,Array.prototype.find,Array.prototype.findIndex,Array.prototype.values,Array.prototype.includes,HTMLCanvasElement.prototype.toBlob,String.prototype.repeat,String.prototype.codePointAt,String.fromCodePoint,NodeList.prototype.@@iterator,Promise,Promise.prototype.finally"});
+        appendScript({scriptToAppend: "/assests/js/rv-main.js" });
     }, [language]);
 
+    const rampVeiwerStyle = {
+        display: "flex",
+        width: "100%",
+        height: "calc(100vh - 90px)"
+    }
     return (
-         <div is="rv-map" style={{height: '100%', display:'flex'}} rv-langs='["en-CA", "fr-CA"]'></div>
+        <div style={{height:"100vh", paddingTop:"90px"}}>
+            <div is="rv-map" style={rampVeiwerStyle} rv-langs='["en-CA", "fr-CA"]'></div>
+        </div>
     );
 };
 interface scriptAttr {

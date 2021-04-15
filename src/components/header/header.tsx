@@ -46,12 +46,16 @@ export default function Header(): JSX.Element {
         const mapping = localState !== undefined ? localState.mappingReducer.mapping : [];
         // console.log(mapping);
         if (mapping.length > 0) {
-            window.open(
+            /* window.open(
                 `https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t('app.language')}.html?keys=${encodeURI(
                     mapping.join(',')
                 )}`,
                 `View MyMap`
-            );
+            ); */
+            history.push({
+                pathname: '/map',
+                search: '',
+            });
         } else {
             alert(t('nav.nomap'));
         }
