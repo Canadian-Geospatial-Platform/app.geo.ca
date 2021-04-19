@@ -57,17 +57,19 @@ const RenderMap: React.FunctionComponent = () => {
     const center: LatLngTuple = [config.center[0], config.center[1]];
     return (
         <Suspense fallback="loading">
-            <div className="mapContainer">
-                <Map
-                    id="MainMap"
-                    center={center}
-                    zoom={config.zoom}
-                    projection={config.projection}
-                    language={`${config.language}-CA`}
-                    layers={config.layers}
-                    search={config.search}
-                    auth={config.auth}
-                />
+            <div className="mapPage">
+                <div className="mapContainer">
+                    <Map
+                        id="MainMap"
+                        center={center}
+                        zoom={config.zoom}
+                        projection={config.projection}
+                        language={`${config.language}-CA`}
+                        layers={config.layers}
+                        search={config.search}
+                        auth={config.auth}
+                    />
+                </div>
             </div>
         </Suspense>
     );
