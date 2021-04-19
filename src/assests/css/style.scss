@@ -7,11 +7,14 @@ html {
 body {
     margin: 0;
 }
+.mapPage {
+    height: 100vh;
+    padding-top: 90px;
+}
 
 .mapContainer {
     width: 100%;
     height: calc(100vh - 90px);
-    margin: 90px auto 0 auto;
     display: flex;
 }
 
