@@ -66,6 +66,13 @@ export default function Header(): JSX.Element {
 
     // Reacstrap Collapse - Responsive Navbar
     const toggle = () => setCollapse(!collapse);
+    // console.log(location.pathname);
+    if (location.pathname!=='/map') {
+        const rvScript = document.getElementById("rvJS");
+        if (rvScript) {
+            rvScript.remove();
+        }
+    }
 
     return (
         <header className="header">
