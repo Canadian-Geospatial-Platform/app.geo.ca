@@ -119,7 +119,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
 
   const handleView = (evt:React.MouseEvent<HTMLButtonElement>, id:string) => {
     evt.stopPropagation();
-    window.open(`/result?id=${encodeURI(id.trim())}`, `View Record ${id.trim()}`);
+    window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
   }
 
     const handleChange = (e: ChangeEvent) => {
