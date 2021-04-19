@@ -168,11 +168,11 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const handleView = (id: string) => {
-        window.open(`/result?id=${encodeURI(id.trim())}`, `View Record ${id.trim()}`);
+        window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
     };
 
     const handleKeyword = (keyword: string) => {
-        window.open(`/search?keyword=${encodeURI(keyword.trim())}`, `Search ${keyword.trim()}`);
+        window.open(`/search?keyword=${encodeURI(keyword.trim())}&lang=${language}`, `Search ${keyword.trim()}`);
     };
 
     const handleKwshowing = (rid: string) => {

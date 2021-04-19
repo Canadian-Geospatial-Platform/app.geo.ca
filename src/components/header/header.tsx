@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { useSelector } from "react-redux";
 import { StoreEnhancer } from 'redux';
 import { useLocation, useHistory } from 'react-router';
@@ -23,11 +23,14 @@ export default function Header(): JSX.Element {
     const [collapse, setCollapse] = useState(false);
     const location = useLocation();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
-    if (!langFromUrl && queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
-        i18n.changeLanguage(`${queryParams.lang}-CA`);
-        setLF(true);
-    }
+    
     // const mapping = useSelector(state => state.mappingReducer.mapping);
+    useEffect(() => {
+        if (!langFromUrl && queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
+            i18n.changeLanguage(`${queryParams.lang}-CA`);
+            setLF(true);
+        }
+    }, []);
 
     const gotoHome = () => {
         setCollapse(false);
