@@ -4,7 +4,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const childProcess = require('child_process');
 const package = require('./package.json');
 
@@ -71,6 +71,14 @@ const config = {
                 patch,
                 timestamp: Date.now(),
             },
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { 
+                    from: "public/assests", 
+                    to: "dist/assests"
+                }
+            ]
         }),
     ],
 };
