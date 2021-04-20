@@ -102,8 +102,7 @@ const Routing = () => {
 ReactDOM.render(
     <Provider store={store}>
         <I18nextProvider i18n={i18n}>
-            {/* <Routing /> */}
-            <div>test</div>
+            <Routing />
         </I18nextProvider>
     </Provider>,
     document.getElementById('root')
