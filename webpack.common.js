@@ -10,7 +10,7 @@ const package = require('./package.json');
 
 // get version numbers and the hash of the current commit
 const [major, minor, patch] = package.version.split('.');
-const hash = JSON.stringify(childProcess.execSync('git rev-parse HEAD').toString().trim());
+// const hash = JSON.stringify(childProcess.execSync('git rev-parse HEAD').toString().trim());
 console.log(`Build CGP Viewer: ${major}.${minor}.${patch}`);
 
 const config = {
@@ -20,7 +20,7 @@ const config = {
         filename: 'gcpv-main.js',
     },
     resolve: {
-        extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx'],
+        extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx', '.json', '.jpg'],
         fallback: {
           "fs": false,
           "tls": false,
@@ -70,7 +70,6 @@ const config = {
                 minor,
                 patch,
                 timestamp: Date.now(),
-                hash,
             },
         }),
     ],
