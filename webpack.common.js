@@ -75,8 +75,8 @@ const config = {
         new CopyWebpackPlugin({
             patterns: [
                 { 
-                    from: "public/assests", 
-                    to: "dist/assests"
+                    from: "public/assets", 
+                    to: "dist/assets"
                 }
             ]
         }),
