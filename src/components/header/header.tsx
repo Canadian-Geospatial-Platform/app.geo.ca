@@ -9,9 +9,9 @@ import { StoreEnhancer } from 'redux';
 import { useLocation, useHistory } from 'react-router';
 import { Collapse, Button } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
-import i18n from '../../assests/i18n/i18n';
+import i18n from '../../assets/i18n/i18n';
 import { loadState } from '../../reducers/localStorage';
-import logo from '../../assests/img/GeoDotCaBanner.jpg';
+import logo from '../../assets/img/GeoDotCaBanner.jpg';
 import { getQueryParams } from '../../common/queryparams';
 import './header.scss';
 // Reacstrap Collapse - Responsive Navbar

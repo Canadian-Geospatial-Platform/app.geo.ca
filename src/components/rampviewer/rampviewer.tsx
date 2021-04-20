@@ -42,7 +42,7 @@ const RampViewer = (rv: string): JSX.Element => {
     useEffect(() => {
         const rvScript = document.getElementById("rvJS");
         if (!rvScript) {
-            appendScript({id: "rvJS", scriptToAppend: "/assests/js/rv-main.jsx" });
+            appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.jsx" });
         }
     }, [language]);
 

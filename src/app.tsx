@@ -12,7 +12,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import mappingReducer from './reducers/reducer';
 import { loadState, saveState } from './reducers/localStorage';
-import i18n from './assests/i18n/i18n';
+import i18n from './assets/i18n/i18n';
 
 import Header from './components/header/header';
 import { Map } from './components/map/map';
@@ -21,7 +21,7 @@ import MetaDataPage from './components/search/metadatapage';
 import RampViewer from './components/rampviewer/rampviewer';
 
 import '../node_modules/leaflet/dist/leaflet.css';
-import './assests/css/style.scss';
+import './assets/css/style.scss';
 
 import authconfig from './components/account/cognito-auth/config.json';
 
