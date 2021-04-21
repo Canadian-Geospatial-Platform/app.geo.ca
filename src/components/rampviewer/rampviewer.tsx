@@ -42,7 +42,7 @@ const RampViewer = (rv: string): JSX.Element => {
     useEffect(() => {
         const rvScript = document.getElementById("rvJS");
         if (!rvScript) {
-            appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.jsx" });
+            appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.js" });
         }
     }, [language]);
 
@@ -50,10 +50,21 @@ const RampViewer = (rv: string): JSX.Element => {
         display: "flex",
         width: "100%",
         height: "calc(100vh - 90px)"
-    }
+    };
+    const rvConfig = {
+        "language": language,
+        /* "layers": [
+        {
+          "id": "powerplant100mw-electric",
+          "name": "Electric Transmission Line",
+          "layerType": "esriFeature",
+          "metadataUrl": "http://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=3a1eb6ef-6054-4f9d-b1f6-c30322cd7abf",
+          "url": "http://geoappext.nrcan.gc.ca/arcgis/rest/services/NACEI/energy_infrastructure_of_north_america_en/MapServer/1"
+        },] */
+    };
     return (
         <div className="mapPage">
-            <div is="rv-map" style={rampVeiwerStyle} rv-langs='["en-CA", "fr-CA"]'></div>
+            <div is="rv-map" style={rampVeiwerStyle} rv-langs={`["${language}-CA"]`}></div>
             <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
             <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Object.entries,Object.values,Array.prototype.find,Array.prototype.findIndex,Array.prototype.values,Array.prototype.includes,HTMLCanvasElement.prototype.toBlob,String.prototype.repeat,String.prototype.codePointAt,String.fromCodePoint,NodeList.prototype.@@iterator,Promise,Promise.prototype.finally"></script>
         </div>
