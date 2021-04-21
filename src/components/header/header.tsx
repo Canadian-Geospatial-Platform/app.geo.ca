@@ -11,7 +11,6 @@ import { Collapse, Button } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../assets/i18n/i18n';
 import { loadState } from '../../reducers/localStorage';
-import logo from '../../assets/img/GeoDotCaBanner.jpg';
 import { getQueryParams } from '../../common/queryparams';
 import './header.scss';
 // Reacstrap Collapse - Responsive Navbar
@@ -81,7 +80,7 @@ export default function Header(): JSX.Element {
                     <div className="col-12 header-nav-col">
                         <nav className="navbar navbar-light navbar-expand-lg header-nav">
                             <a href="http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/" target="_blank">
-                                <img src={logo} alt={t('nav.logotext')} />
+                                <img src="/assets/img/GeoDotCaBanner.jpg" alt={t('nav.logotext')} />
                             </a>
 
                             <Button
