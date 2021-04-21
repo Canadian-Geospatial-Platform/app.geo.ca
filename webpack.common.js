@@ -36,7 +36,7 @@ const config = {
     },
     performance: {
         maxEntrypointSize: 2048000,
-        maxAssetSize: 2048000
+        maxAssetSize: 4096000
     },
     module: {
         rules: [
@@ -60,6 +60,15 @@ const config = {
         ],
     },
     plugins: [
+        new CopyWebpackPlugin({
+            patterns: [
+                { 
+                    from: path.resolve(__dirname, 'public/assets'), 
+                    to: path.resolve(__dirname, 'dist/assets'),
+                    force: true
+                }
+            ]
+        }),
         new HtmlWebpackPlugin({
             template: './public/index.html',
             title: 'Canadian Geospatial Platform Viewer',
@@ -71,14 +80,6 @@ const config = {
                 patch,
                 timestamp: Date.now(),
             },
-        }),
-        new CopyWebpackPlugin({
-            patterns: [
-                { 
-                    from: "public/assets", 
-                    to: "dist/assets"
-                }
-            ]
         }),
     ],
 };
