@@ -291,7 +291,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
     
     // console.log(loading, results);
-    console.log(loading, cpn, cnt);
+    // console.log(loading, cpn, cnt);
     return (
         <div className="geoSearchContainer">
             <div className="searchInput">

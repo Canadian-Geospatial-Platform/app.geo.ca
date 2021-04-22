@@ -272,7 +272,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         };
     }, [language, fReset, sfloaded, queryParams.org, queryParams.type, queryParams.theme, storeorgfilters, storetypefilters, storethemefilters, storefoundational, dispatch]);
     
-    console.log(loading, cpn);
+    //console.log(loading, cpn);
     return (
         <div className="pageContainer keyword-search-page">
             {/* Filters / Search Bar */}

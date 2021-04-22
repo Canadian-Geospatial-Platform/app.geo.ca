@@ -54,10 +54,12 @@ export default function Header(): JSX.Element {
                 )}`,
                 `View MyMap`
             ); */
-            history.push({
-                pathname: '/map',
-                search: '',
-            });
+            if (location.pathname!=='/map') {
+                history.push({
+                    pathname: '/map',
+                    search: '',
+                });
+            }    
         } else {
             alert(t('nav.nomap'));
         }
@@ -66,13 +68,30 @@ export default function Header(): JSX.Element {
     // Reacstrap Collapse - Responsive Navbar
     const toggle = () => setCollapse(!collapse);
     // console.log(location.pathname);
-    if (location.pathname!=='/map') {
-        const rvScript = document.getElementById("rvJS");
-        if (rvScript) {
-            rvScript.remove();
+    if (location.pathname==='/map') {
+        const rvMap = document.getElementById("rvMap");
+        if (rvMap) {
+            rvMap.remove();
         }
+    } /*else {    
+        const rvIframe = document.getElementsByName("esri_core_jsonp_iframe");
+        if (rvIframe.length>0) {
+            rvIframe[0].remove();
+        }
+    }*/
+    const jqScript = document.getElementById("jqJS");
+    if (jqScript) {
+        jqScript.remove();
     }
-
+    const pfScript = document.getElementById("pfJS");
+    if (pfScript) {
+        pfScript.remove();
+    }   
+    const rvScript = document.getElementById("rvJS");
+    if (rvScript) {
+        rvScript.remove();
+    }
+    
     return (
         <header className="header">
             <div className="container-fluid">
