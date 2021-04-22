@@ -177,7 +177,8 @@ button:active {
     letter-spacing: 0.1em;
     border-radius: 25px;
     border: 1px solid #515aa9;
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         background-color: #515aa9;
         color: #ffffff;
     }
@@ -307,9 +308,8 @@ button:active {
         }
     }
     .searchDesc {
-        margin-bottom: 0.2em;
+        margin-bottom: 0.6em;
         margin-block-start: 0.5em;
-        //margin-block-end: 1em;
         font-family: 'Open Sans', sans-serif;
         font-size: 1.25em;
         padding-bottom: 0.3em;
@@ -321,7 +321,9 @@ button:active {
         justify-content: flex-end;
         .searchButton {
             float: none;
-            margin-left: 0.1em;
+            &:not(:last-child) {
+                margin-right: 1em;
+            }
         }
     }
     .searchButton {
@@ -391,8 +393,7 @@ button:active {
 }
 
 .rowDivider > .searchResult {
-    padding-bottom: 2em;
-    padding-top: 1.2em;
+    padding: 1.25em;
 }
 
 .rowDividerMd {
