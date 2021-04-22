@@ -143,7 +143,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     };
 
     const handleSearch = (keyword: string, bounds: unknown, changePn?:boolean) => {
-        const cpr = changePn ? true:false;
+        const cpr = changePn===true ? true:false;
         setPn(cpr);
         !loading && setLoadingStatus(true);
         const pageNumber = cpr ? pn: 1;
@@ -291,6 +291,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
     
     // console.log(loading, results);
+    console.log(loading, cpn, cnt);
     return (
         <div className="geoSearchContainer">
             <div className="searchInput">

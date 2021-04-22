@@ -76,7 +76,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const handleSearch = (keyword: string, changePn?: boolean) => {
-        const cpr = changePn ? true:false;
+        const cpr = changePn ===true ? true:false;
         setPn(cpr);
         setLoading(true);
         const pageNumber = cpr ? pn: 1;
@@ -272,7 +272,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         };
     }, [language, fReset, sfloaded, queryParams.org, queryParams.type, queryParams.theme, storeorgfilters, storetypefilters, storethemefilters, storefoundational, dispatch]);
     
-    // console.log(storeorgfilters, orgfilters);
+    console.log(loading, cpn);
     return (
         <div className="pageContainer keyword-search-page">
             {/* Filters / Search Bar */}
