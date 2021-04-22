@@ -11,7 +11,8 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
-// import { Link } from "react-router-dom";
+import { StoreEnhancer } from 'redux';
+import { loadState } from '../../reducers/localStorage';
 import { useTranslation } from 'react-i18next';
 import { getQueryParams } from '../../common/queryparams';
 
@@ -20,6 +21,8 @@ const RampViewer = (rv: string): JSX.Element => {
     const queryParams = getQueryParams(location.search);
     const { t } = useTranslation();
     const language = t('app.language');
+    const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
+    const mapping = localState !== undefined ? localState.mappingReducer.mapping : [];
     
     const appendScript = (attr: scriptAttr) => {
         const script = document.createElement("script");
@@ -43,7 +46,9 @@ const RampViewer = (rv: string): JSX.Element => {
         const mapDiv = document.createElement("div");
         mapDiv.id = attr.id;
         mapDiv.setAttribute("is", attr.is);
-        mapDiv.setAttribute("rv-langs", attr["rv-langs"]);
+        mapDiv.setAttribute("rv-langs", attr.rvLangs);
+        mapDiv.setAttribute("rv-service-endpoint", "https://rcs.open.canada.ca");
+        mapDiv.setAttribute("data-rv-keys", JSON.stringify(attr.rvKeys));
 
         const rvMapPage = document.getElementById("rvMapPage");
         if (rvMapPage) {
@@ -51,10 +56,10 @@ const RampViewer = (rv: string): JSX.Element => {
         }
     }
     useEffect(() => {
-        
+        const rvKeys = queryParams.rvKey ? [queryParams.rvKey]:mapping;
         const rvMap = document.getElementById("rvMap");
         if (!rvMap) {
-            addMapDiv({"id": "rvMap", "is": "rv-map", "rv-langs": `["${language}-CA"]`});
+            addMapDiv({id: "rvMap", is: "rv-map", rvLangs: `["${language}-CA"]`, rvKeys});
         }
         const jqScript = document.getElementById("jqJS");
         if (!jqScript) {
@@ -69,23 +74,10 @@ const RampViewer = (rv: string): JSX.Element => {
             appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.js" });
         }
             
-    }, [language]);
+    }, [language, queryParams.rvKey]);
 
-    const rvConfig = {
-        "language": language,
-        /* "layers": [
-        {
-          "id": "powerplant100mw-electric",
-          "name": "Electric Transmission Line",
-          "layerType": "esriFeature",
-          "metadataUrl": "http://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=3a1eb6ef-6054-4f9d-b1f6-c30322cd7abf",
-          "url": "http://geoappext.nrcan.gc.ca/arcgis/rest/services/NACEI/energy_infrastructure_of_north_america_en/MapServer/1"
-        },] */
-    };
     return (
         <div id="rvMapPage" className="mapPage">
-            {/* <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-            <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Object.entries,Object.values,Array.prototype.find,Array.prototype.findIndex,Array.prototype.values,Array.prototype.includes,HTMLCanvasElement.prototype.toBlob,String.prototype.repeat,String.prototype.codePointAt,String.fromCodePoint,NodeList.prototype.@@iterator,Promise,Promise.prototype.finally"></script> */}
         </div>
     );
 };
@@ -97,8 +89,9 @@ interface scriptAttr {
 }
 
 interface mapAttr {
-    "id": string; 
-    "is": string;
-    "rv-langs": string;
+    id: string; 
+    is: string;
+    rvLangs: string;
+    rvKeys: string[];
 }
 export default RampViewer;

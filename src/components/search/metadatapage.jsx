@@ -100,7 +100,7 @@ const MetaDataPage = () => {
     const viewOnMap = (resultid) => {
         history.push({
             pathname: '/map',
-            search: `rv=${resultid}`,
+            search: `rvKey=${resultid}`,
         });
     }; 
 

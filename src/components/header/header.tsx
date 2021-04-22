@@ -46,7 +46,7 @@ export default function Header(): JSX.Element {
     const viewMyMap = () => {
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const mapping = localState !== undefined ? localState.mappingReducer.mapping : [];
-        // console.log(mapping);
+        
         if (mapping.length > 0) {
             /* window.open(
                 `https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t('app.language')}.html?keys=${encodeURI(
@@ -54,7 +54,7 @@ export default function Header(): JSX.Element {
                 )}`,
                 `View MyMap`
             ); */
-            if (location.pathname!=='/map') {
+            if (location.pathname!=='/map' || queryParams.rvKey) {
                 history.push({
                     pathname: '/map',
                     search: '',
