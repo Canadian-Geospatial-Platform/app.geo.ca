@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import {Route, HashRouter, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
+import { Route, HashRouter, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore, StoreEnhancer } from 'redux';
 import throttle from 'lodash.throttle';
@@ -20,12 +20,14 @@ import KeywordSearch from './components/search/keywordsearch';
 import MetaDataPage from './components/search/metadatapage';
 import RampViewer from './components/rampviewer/rampviewer';
 
+import CgpModal from './components/modal/cgpmodal';
+
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/css/style.scss';
 
 import authconfig from './components/account/cognito-auth/config.json';
 
-const persistedState:StoreEnhancer<unknown,unknown>|undefined = loadState();
+const persistedState: StoreEnhancer<unknown, unknown> | undefined = loadState();
 const reducers = combineReducers({
     cognito,
     mappingReducer,
@@ -35,9 +37,7 @@ const store = createStore(reducers, persistedState);
 // config.group = 'admins'; // Uncomment this to require users to be in a group 'admins'
 setupCognito(store, authconfig);
 
-store.subscribe(
-    throttle(() => saveState(store.getState()), 1000)
-);
+store.subscribe(throttle(() => saveState(store.getState()), 1000));
 
 // hack for default leaflet icon: https://github.com/Leaflet/Leaflet/issues/4968
 // TODO: put somewhere else
@@ -49,7 +49,9 @@ Marker.prototype.options.icon = DefaultIcon;
 // const maps: Element[] = [...document.getElementsByClassName('llwb-map')];
 const mainMap: Element | null = document.getElementById('root');
 const jsonConfig = mainMap && mainMap.getAttribute('data-leaflet');
-const config = jsonConfig? JSON.parse(jsonConfig.replace(/'/g, '"')) : { 'name': 'Web Mercator', 'projection': 3857, 'zoom': 4, 'center': [60,-100], 'language': 'en', 'search': true, 'auth': false};
+const config = jsonConfig
+    ? JSON.parse(jsonConfig.replace(/'/g, '"'))
+    : { name: 'Web Mercator', projection: 3857, zoom: 4, center: [60, -100], language: 'en', search: true, auth: false };
 
 // const center: LatLngTuple = [config.center[0], config.center[1]];
 
@@ -58,6 +60,16 @@ const RenderMap: React.FunctionComponent = () => {
     return (
         <Suspense fallback="loading">
             <div className="mapPage">
+                <CgpModal
+                    className="cgp-modal-dialog"
+                    wrapClassName="cgp-modal-wrap"
+                    modalClassName="cgp-modal"
+                    openOnLoad={true}
+                    center={true}
+                    unmountOnClose={true}
+                    buttonLabel="Close"
+                />
+
                 <div className="mapContainer">
                     <Map
                         id="MainMap"
