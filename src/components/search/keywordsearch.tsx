@@ -331,6 +331,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                             <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
                                 {storetypefilters.map((typefilter: number) => (
                                     <button
+                                        key={`tf-${typefilter}`}
                                         type="button"
                                         className="btn btn-filter"
                                         disabled={loading}
@@ -341,6 +342,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                 ))}
                                 {storeorgfilters.map((orgfilter: number) => (
                                     <button
+                                        key={`of-${orgfilter}`}
                                         type="button"
                                         className="btn btn-filter"
                                         disabled={loading}
@@ -351,6 +353,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                 ))}
                                 {storethemefilters.map((themefilter: number) => (
                                     <button
+                                        key={`thf-${themefilter}`}
                                         type="button"
                                         className="btn btn-filter"
                                         disabled={loading}
