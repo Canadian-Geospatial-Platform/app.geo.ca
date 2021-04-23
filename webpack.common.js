@@ -50,12 +50,16 @@ const config = {
                 use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(png|jpg|gif)$/,
                 use: [
                     {
                         loader: 'file-loader',
                     },
                 ],
+            },
+            {
+                test: /\.svg$/,
+                use: ['@svgr/webpack'],
             },
         ],
     },

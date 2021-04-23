@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Typography } from '@material-ui/core';
+import { Typography, SvgIcon } from '@material-ui/core';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import SearchIcon from '@material-ui/icons/ImageSearch';
 import KeywordSearchIcon from '@material-ui/icons/Search';
-import FilterIcon from '@material-ui/icons/Filter';
+import FilterIcon from '../../assets/icons/filter.svg';
 import { useTranslation } from 'react-i18next';
 
 import PanelApp, { PanelProps } from '../appbar/panel';
@@ -30,7 +30,7 @@ export default function HowtoPanel(props: PanelProps): JSX.Element {
                         </h3>
                         <p>{t('howto.keywordsearchdescription')}</p>
                         <h3 className="section-title">
-                            <FilterIcon /> {t('appbar.filters')}{' '}
+                            <SvgIcon><FilterIcon /></SvgIcon> {t('appbar.filters')}{' '}
                         </h3>
                         <p>{t('howto.filtersdescription')}</p>
                     </Typography>

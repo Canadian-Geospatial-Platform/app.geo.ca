@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadState } from '../../reducers/localStorage';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import SvgIcon from "@material-ui/core/SvgIcon";
 import SearchIcon from '@material-ui/icons/Search';
-import FilterIcon from '@material-ui/icons/Filter';
+import FilterIcon from '../../assets/icons/filter.svg';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { NavBar } from '../navbar/nav-bar';
@@ -384,7 +385,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                     <div className="row row-filters">
                         <div className="col-12">
                             <h3 className="filters-title">
-                                <FilterIcon /> {t('filter.filterby')}:
+                                <SvgIcon><FilterIcon /></SvgIcon> {t('filter.filterby')}:
                             </h3>
                             <div className="filters-wrap">
                                 <SearchFilter

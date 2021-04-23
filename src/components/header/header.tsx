@@ -98,7 +98,7 @@ export default function Header(): JSX.Element {
                 <div className="row align-items-center">
                     <div className="col-12 header-nav-col">
                         <nav className="navbar navbar-light navbar-expand-lg header-nav">
-                            <a href="http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/" target="_blank">
+                            <a href={t('nav.language.websiteLogoLink')} target="_blank" aria-label={t('nav.logoLinktext')}>
                                 <img src="/assets/img/GeoDotCaBanner.jpg" alt={t('nav.logotext')} />
                             </a>
                             <Button

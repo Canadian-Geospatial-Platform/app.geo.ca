@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadState } from '../../reducers/localStorage';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
-import FilterIcon from '@material-ui/icons/Filter';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import FilterIcon from '../../assets/icons/filter.svg';
 
 import PanelApp, { PanelProps } from '../appbar/panel';
 import SearchFilter from './searchfilter';
@@ -85,7 +86,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     return (
         <PanelApp
             title="appbar.filters"
-            icon={<FilterIcon />}
+            icon={<SvgIcon><FilterIcon /></SvgIcon>}
             showing={showing}
             closeFunction={closeFunction}
             content={

@@ -9,10 +9,12 @@
         "language": {
             "htmllangcode": "en",
             "key": "en-CA",
-            "name": "English"
+            "name": "English",
+            "websiteLogoLink": "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/fr/accueil/"
         },
         "nomap": "Votre carte est vide, veuillez ajouter des données à la carte",
-        "logotext": "logo de la Plateforme géospatiale fédérale"
+        "logotext": "logo de la Plateforme géospatiale fédérale",
+        "logoLinktext": "Page d'accueil de la Plateforme géospatiale fédérale"
     },
     "mapnav": {
         "ariaNavbar": "groupe de buttons vertical pour navigation sur la carte",

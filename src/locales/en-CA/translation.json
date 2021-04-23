@@ -9,10 +9,12 @@
         "language": {
             "htmllangcode": "fr",
             "key": "fr-CA",
-            "name": "Français"
+            "name": "Français",
+            "websiteLogoLink": "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/home/"
         },
         "nomap": "Your map is empty, please add data to map",
-        "logotext": "logo for the Canadian Geospatial Platform"
+        "logotext": "logo for the Canadian Geospatial Platform",
+        "logoLinktext": "Canadian Geospatial Platform homepage"
     },
     "mapnav": {
         "ariaNavbar": "vertical button group for map navigation",

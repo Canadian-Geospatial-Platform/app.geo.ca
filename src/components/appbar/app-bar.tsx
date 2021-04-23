@@ -19,9 +19,10 @@ import { DomEvent } from 'leaflet';
 // import Account from './buttons/account';
 // import Howto from './buttons/howto';
 
+import SvgIcon from "@material-ui/core/SvgIcon";
 import SearchIcon from '@material-ui/icons/ImageSearch';
 import KeywordSearchIcon from '@material-ui/icons/Search';
-import FilterIcon from '@material-ui/icons/Filter';
+import FilterIcon from '../../assets/icons/filter.svg';
 import AccountIcon from '@material-ui/icons/AccountBox';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import ButtonApp from './button';
@@ -177,7 +178,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     {search && (
                         <ButtonApp tooltip="appbar.keywordsearch" current={false} icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
                     )}
-                    <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<FilterIcon />} onClickFunction={() => setPanel(' filters')} />
+                    <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<SvgIcon><FilterIcon /></SvgIcon>} onClickFunction={() => setPanel(' filters')} />
                     {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp!==undefined?cp:'')} /></div>}
                 </List>
                 <Divider className={classes.spacer} />
