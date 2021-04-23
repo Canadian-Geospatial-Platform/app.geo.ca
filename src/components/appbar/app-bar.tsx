@@ -178,7 +178,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                         <ButtonApp tooltip="appbar.keywordsearch" current={false} icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
                     )}
                     <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<FilterIcon />} onClickFunction={() => setPanel(' filters')} />
-                    {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={() => setPanel('')} /></div>}
+                    {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp!==undefined?cp:'')} /></div>}
                 </List>
                 <Divider className={classes.spacer} />
                 <List>

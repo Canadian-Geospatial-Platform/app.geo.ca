@@ -322,6 +322,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                     <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
                         {typefilters.map((typefilter: number) => (
                             <button
+                                key={`tf-${typefilter}`}
                                 type="button"
                                 className="btn btn btn-filter"
                                 disabled={loading}
@@ -332,6 +333,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                         ))}
                         {orgfilters.map((orgfilter: number) => (
                             <button
+                                key={`of-${orgfilter}`}
                                 type="button"
                                 className="btn btn btn-filter"
                                 disabled={loading}
@@ -342,6 +344,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                         ))}
                         {themefilters.map((themefilter: number) => (
                             <button
+                                key={`thf-${themefilter}`}
                                 type="button"
                                 className="btn btn btn-filter"
                                 disabled={loading}

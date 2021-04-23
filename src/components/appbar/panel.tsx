@@ -77,5 +77,5 @@ interface PanelAppProps {
 
 export interface PanelProps {
     showing: boolean;
-    closeFunction: () => void;
+    closeFunction: (cp?: string) => void;
 }

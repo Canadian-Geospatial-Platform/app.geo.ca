@@ -101,7 +101,6 @@ export default function Header(): JSX.Element {
                             <a href="http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/" target="_blank">
                                 <img src="/assets/img/GeoDotCaBanner.jpg" alt={t('nav.logotext')} />
                             </a>
-
                             <Button
                                 onClick={toggle}
                                 id="toggler"
