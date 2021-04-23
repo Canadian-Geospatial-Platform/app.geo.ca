@@ -15,8 +15,9 @@ export const loadState = ():StoreEnhancer<unknown,unknown>|undefined => {
 
 export const saveState = (state: unknown):void => {
     try {
+        //console.log(state);
         const serializedState = JSON.stringify(state);
-        // console.log(serializedState, state)
+        //console.log(serializedState)
         localStorage.clear();
         localStorage.setItem('state', serializedState);
     } catch (err) {
