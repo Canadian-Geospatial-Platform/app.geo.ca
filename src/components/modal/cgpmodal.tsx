@@ -13,36 +13,44 @@ const CgpModal = (props: CgpModalProps) => {
     const [modal, setModal] = useState(openOnLoad);
     const { t } = useTranslation();
     const toggle = () => setModal(!modal);
-
-    let cgpShowModal = localStorage.getItem('cgp-show-modal');
-    if (cgpShowModal !== null) {
-        localStorage.setItem('cgp-show-modal', 'false');
-        return;
+    // Local Storage
+    let setLocalStorage = () => {
+        if (localStorage.getItem('cgp-modal-shown') === null) {
+            localStorage.setItem('cgp-modal-shown', 'true');
+        }
+    };
+    let getLocalStorage = () => {
+        let cgpModalShown = localStorage.getItem('cgp-modal-shown');
+        return cgpModalShown === 'true' ? false : true;
+    };
+    if (getLocalStorage()) {
+        return (
+            <Modal
+                isOpen={modal}
+                toggle={toggle}
+                className={className}
+                wrapClassName={wrapClassName}
+                modalClassName={modalClassName}
+                centered={center}
+                unmountOnClose={unmountOnClose}
+                onClosed={setLocalStorage}
+            >
+                <ModalHeader tag="h2" toggle={toggle}>
+                    {t('modalhome.title')}
+                </ModalHeader>
+                <ModalBody tag="div">
+                    <p>{t('modalhome.description')}</p>
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="secondary" onClick={toggle}>
+                        {t('modalhome.buttonlabel')}
+                    </Button>
+                </ModalFooter>
+            </Modal>
+        );
+    } else {
+        return null;
     }
-
-    return (
-        <Modal
-            isOpen={modal}
-            toggle={toggle}
-            className={className}
-            wrapClassName={wrapClassName}
-            modalClassName={modalClassName}
-            centered={center}
-            unmountOnClose={unmountOnClose}
-        >
-            <ModalHeader tag="h2" toggle={toggle}>
-                {t('modalhome.title')}
-            </ModalHeader>
-            <ModalBody tag="div">
-                <p>{t('modalhome.description')}</p>
-            </ModalBody>
-            <ModalFooter>
-                <Button color="secondary" onClick={toggle}>
-                    {t('modalhome.buttonlabel')}
-                </Button>
-            </ModalFooter>
-        </Modal>
-    );
 };
 
 interface CgpModalProps {
