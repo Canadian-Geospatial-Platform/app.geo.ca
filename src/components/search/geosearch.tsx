@@ -162,7 +162,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
             keyword,
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
-            max: cnt > 0 ? Math.min(pageNumber * rpp, cnt) : pageNumber * rpp,
+            max: pageNumber * rpp,
         };
         if (thfilters.length > 0) {
             searchParams.themes = thfilters.map((fs: number) => themes[language][fs]).join('|');

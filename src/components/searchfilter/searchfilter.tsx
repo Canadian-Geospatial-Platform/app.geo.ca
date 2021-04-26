@@ -64,7 +64,7 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                                     type="checkbox"
                                     className="checkbox"
                                     checked={selected}
-                                    onClick={() => selectFilterValue(findex)}
+                                    onChange={() => selectFilterValue(findex)}
                                 />
                             </li>
                         );
@@ -90,7 +90,7 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                         type="checkbox"
                         className="checkbox"
                         checked={fselected.length > 0}
-                        onClick={handleOpen}
+                        onChange={handleOpen}
                     />
                 </li>
             </ul>

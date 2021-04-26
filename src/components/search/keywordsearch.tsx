@@ -92,7 +92,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             keyword_only: 'true',
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
-            max: cnt > 0 ? Math.min(pageNumber * rpp, cnt) : pageNumber * rpp,
+            max: pageNumber * rpp,
         };
 
         if (thfilters.length > 0) {
@@ -331,6 +331,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                             <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
                                 {storetypefilters.map((typefilter: number) => (
                                     <button
+                                        key={`tf-${typefilter}`}
                                         type="button"
                                         className="btn btn-filter"
                                         disabled={loading}
@@ -341,6 +342,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                 ))}
                                 {storeorgfilters.map((orgfilter: number) => (
                                     <button
+                                        key={`of-${orgfilter}`}
                                         type="button"
                                         className="btn btn-filter"
                                         disabled={loading}
@@ -351,6 +353,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                                 ))}
                                 {storethemefilters.map((themefilter: number) => (
                                     <button
+                                        key={`thf-${themefilter}`}
                                         type="button"
                                         className="btn btn-filter"
                                         disabled={loading}

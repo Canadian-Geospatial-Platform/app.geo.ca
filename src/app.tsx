@@ -29,13 +29,13 @@ import authconfig from './components/account/cognito-auth/config.json';
 
 const persistedState: StoreEnhancer<unknown, unknown> | undefined = loadState();
 const reducers = combineReducers({
-    cognito,
+    // cognito,
     mappingReducer,
 });
 // const store = createStore(reducers);
 const store = createStore(reducers, persistedState);
 // config.group = 'admins'; // Uncomment this to require users to be in a group 'admins'
-setupCognito(store, authconfig);
+// setupCognito(store, authconfig);
 
 store.subscribe(throttle(() => saveState(store.getState()), 1000));
 
