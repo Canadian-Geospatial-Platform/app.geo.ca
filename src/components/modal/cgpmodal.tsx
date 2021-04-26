@@ -34,11 +34,13 @@ const CgpModal = (props: CgpModalProps) => {
                 centered={center}
                 unmountOnClose={unmountOnClose}
                 onClosed={setLocalStorage}
+                aria-labelledby="modal-heading"
+                aria-describedby="modal-description"
             >
-                <ModalHeader tag="h2" toggle={toggle}>
+                <ModalHeader id="modal-heading" tag="h2" toggle={toggle}>
                     {t('modalhome.title')}
                 </ModalHeader>
-                <ModalBody tag="div">
+                <ModalBody id="modal-description" tag="div">
                     <p>{t('modalhome.description')}</p>
                 </ModalBody>
                 <ModalFooter>
