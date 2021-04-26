@@ -127,5 +127,10 @@
         "ourmetadatais": "Nos métadonnées sont stockées au format geoCore. Un geojson contenant toutes les métadonnées que vous voyez ici.",
         "downloadgeocore": "Télécharger geoCore",
         "viewhnaprecord": "Enregistrement HNAP"
+    },
+    "modalhome": {
+        "title": "Au sujet de l'application geoSearch",
+        "description": "L'application geoSearch utilise une carte pour rechercher des données sur la zone affichée. Effectuez un panoramique et un zoom sur la carte pour filtrer le contenu en fonction de votre zone d'intérêt. Les résultats seront actualisés en fonction de la zone de la carte.",
+        "buttonlabel": "Fermer"
     }
 }
