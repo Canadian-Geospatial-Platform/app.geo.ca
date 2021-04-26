@@ -67,7 +67,6 @@ const RenderMap: React.FunctionComponent = () => {
                     openOnLoad={true}
                     center={true}
                     unmountOnClose={true}
-                    buttonLabel="Close"
                 />
 
                 <div className="mapContainer">
