@@ -15,12 +15,12 @@ const CgpModal = (props: CgpModalProps) => {
     const toggle = () => setModal(!modal);
     // Local Storage
     let setLocalStorage = () => {
-        if (localStorage.getItem('cgp-modal-shown') === null) {
-            localStorage.setItem('cgp-modal-shown', 'true');
+        if (sessionStorage.getItem('cgp-modal-shown') === null) {
+            sessionStorage.setItem('cgp-modal-shown', 'true');
         }
     };
     let getLocalStorage = () => {
-        let cgpModalShown = localStorage.getItem('cgp-modal-shown');
+        let cgpModalShown = sessionStorage.getItem('cgp-modal-shown');
         return cgpModalShown === 'true' ? false : true;
     };
     if (getLocalStorage()) {
