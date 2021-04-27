@@ -253,11 +253,11 @@ const KeywordSearch: React.FunctionComponent = () => {
                 const typefilter = tIndex > -1 ? [tIndex] : [];
                 const themefilter = thIndex > -1 ? [thIndex] : [];
                 dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
-                // setOrg(orgfilter);
-                // setType(typefilter);
-                // setTheme(themefilter);
-                setSF(true);
+                setOrg(orgfilter);
+                setType(typefilter);
+                setTheme(themefilter);
             }
+            setSF(true);
         } else if (!fReset && !loading) {
             handleSearch(initKeyword);
         }

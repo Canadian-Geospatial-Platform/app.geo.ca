@@ -28,7 +28,7 @@ import types from './types.json';
 import themes from './themes.json';
 import './geosearch.scss';
 
-const GeoSearch = (showing: boolean): JSX.Element => {
+const GeoSearch = (showing: boolean, sf?:boolean): JSX.Element => {
     const location = useLocation();
     const queryParams = getQueryParams(location.search);
     const { t } = useTranslation();
@@ -39,7 +39,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     const map = useMap();
     const [initBounds, setBounds] = useState(map.getBounds());
     const [loading, setLoading] = useState(false);
-    const [sfloaded, setSF] = useState(false);
+    const [sfloaded, setSF] = useState(sf===true?true:false);
     const [results, setResults] = useState<SearchResult[]>([]);
     const [cpn, setPn] = useState(false);
     const [pn, setPageNumber] = useState(1);
@@ -244,21 +244,21 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     };
 
     const clearOrgFilter = (filter: number) => {
-        const newfilter = orgfilters.filter((fs: number) => fs !== filter);
+        const newfilter = storeorgfilters.filter((fs: number) => fs !== filter);
         dispatch(setOrgFilter(newfilter));
         // setOrg(newfilter);
         // setPageNumber(1);
     };
 
     const clearTypeFilter = (filter: number) => {
-        const newfilter = typefilters.filter((fs: number) => fs !== filter);
+        const newfilter = storetypefilters.filter((fs: number) => fs !== filter);
         dispatch(setTypeFilter(newfilter));
         // setType(newfilter);
         // setPageNumber(1);
     };
 
     const clearThemeFilter = (filter: number) => {
-        const newfilter = themefilters.filter((fs: number) => fs !== filter);
+        const newfilter = storethemefilters.filter((fs: number) => fs !== filter);
         dispatch(setThemeFilter(newfilter));
         // setTheme(newfilter);
         // setPageNumber(1);

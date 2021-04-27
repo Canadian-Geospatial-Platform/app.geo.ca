@@ -173,8 +173,8 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     {/* {items.map((item) => (
                         <Layers key={`${id}-${item.id}`} />
                     ))} */}
-                    {search && <ButtonApp tooltip="appbar.search" current={panel === ' search'} icon={<SearchIcon />} onClickFunction={() => setPanel(' search')} />}
-                    {search && panel === ' search' && <div className={`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search'} closeFunction={() => setPanel('')} /></div>}
+                    {search && <ButtonApp tooltip="appbar.search" current={panel === ' search' || panel === ' fsearch'} icon={<SearchIcon />} onClickFunction={() => setPanel(' search')} />}
+                    {search && (panel === ' search' || panel === ' fsearch') && <div className={`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search' || panel === ' fsearch'} sf={panel === ' fsearch'} closeFunction={() => setPanel('')} /></div>}
                     {search && (
                         <ButtonApp tooltip="appbar.keywordsearch" current={false} icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
                     )}

@@ -35,7 +35,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
         setFReset(false);
-        closeFunction(' search');
+        closeFunction(' fsearch');
     };
     const clearAll = () => {
         setOrg([]);
@@ -44,7 +44,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setFound(false);
         dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
         setFReset(false);
-        closeFunction(' search');
+        closeFunction(' fsearch');
     };
 
     const handleOrg = (filters: unknown): void => {

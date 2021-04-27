@@ -13,6 +13,7 @@
     .cgp-apppanel {
         display: none;
         &.search,
+        &.fsearch,
         &.account,
         &.filters,
         &.howto {
