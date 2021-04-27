@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import { Route, HashRouter, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore, StoreEnhancer } from 'redux';
 import throttle from 'lodash.throttle';
