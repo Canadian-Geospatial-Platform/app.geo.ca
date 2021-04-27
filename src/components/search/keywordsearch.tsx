@@ -245,7 +245,6 @@ const KeywordSearch: React.FunctionComponent = () => {
 
     useEffect(() => {
         if (!sfloaded) {
-            console.log(themes);
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
                 const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
                 const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
@@ -253,11 +252,10 @@ const KeywordSearch: React.FunctionComponent = () => {
                 const orgfilter = oIndex > -1 ? [oIndex] : [];
                 const typefilter = tIndex > -1 ? [tIndex] : [];
                 const themefilter = thIndex > -1 ? [thIndex] : [];
-                console.log(themefilter);
                 dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
-                setOrg(orgfilter);
-                setType(typefilter);
-                setTheme(themefilter);
+                // setOrg(orgfilter);
+                // setType(typefilter);
+                // setTheme(themefilter);
                 setSF(true);
             }
         } else if (!fReset && !loading) {

@@ -39,6 +39,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     const map = useMap();
     const [initBounds, setBounds] = useState(map.getBounds());
     const [loading, setLoading] = useState(false);
+    const [sfloaded, setSF] = useState(false);
     const [results, setResults] = useState<SearchResult[]>([]);
     const [cpn, setPn] = useState(false);
     const [pn, setPageNumber] = useState(1);
@@ -53,10 +54,10 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
     const dispatch = useDispatch();
-    const [orgfilters, setOrg] = useState(storeorgfilters);
-    const [typefilters, setType] = useState(storetypefilters);
-    const [themefilters, setTheme] = useState(storethemefilters);
-    const [foundational, setFound] = useState(storefoundational);
+    // const [orgfilters, setOrg] = useState(storeorgfilters);
+    // const [typefilters, setType] = useState(storetypefilters);
+    // const [themefilters, setTheme] = useState(storethemefilters);
+    // const [foundational, setFound] = useState(storefoundational);
     /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
     const themefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -193,10 +194,10 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                     setPageNumber(1);
                 }
                 setLoadingStatus(false);
-                setOrg(ofilters);
-                setType(tfilters);
-                setTheme(thfilters);
-                setFound(found);
+                // setOrg(ofilters);
+                // setType(tfilters);
+                // setTheme(thfilters);
+                // setFound(found);
                 if (selected !== 'search' && open && res.find((r: SearchResult) => r.id === selected)) {
                     setSelected('search');
                     setOpen(false);
@@ -217,10 +218,10 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 setOpen(false);
                 selectResult(undefined);
                 setLoadingStatus(false);
-                setOrg(ofilters);
-                setType(tfilters);
-                setTheme(thfilters);
-                setFound(found);
+                // setOrg(ofilters);
+                // setType(tfilters);
+                // setTheme(thfilters);
+                // setFound(found);
                 map.on('moveend', (event) => eventHandler(event, keyword, initBounds));
                 mapCount = 0;
             });
@@ -245,27 +246,27 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     const clearOrgFilter = (filter: number) => {
         const newfilter = orgfilters.filter((fs: number) => fs !== filter);
         dispatch(setOrgFilter(newfilter));
-        setOrg(newfilter);
+        // setOrg(newfilter);
         // setPageNumber(1);
     };
 
     const clearTypeFilter = (filter: number) => {
         const newfilter = typefilters.filter((fs: number) => fs !== filter);
         dispatch(setTypeFilter(newfilter));
-        setType(newfilter);
+        // setType(newfilter);
         // setPageNumber(1);
     };
 
     const clearThemeFilter = (filter: number) => {
         const newfilter = themefilters.filter((fs: number) => fs !== filter);
         dispatch(setThemeFilter(newfilter));
-        setTheme(newfilter);
+        // setTheme(newfilter);
         // setPageNumber(1);
     };
 
     const clearFound = () => {
         dispatch(setFoundational(false));
-        setFound(false);
+        // setFound(false);
         // setPageNumber(1);
     };
     
@@ -276,7 +277,21 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     }, [pn]);
 
     useEffect(() => {
-        if (showing && !loading) {
+        if (!sfloaded) {
+            if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
+                const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
+                const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
+                const thIndex = (themes[language] as string[]).findIndex((ths: string) => ths === queryParams.theme);
+                const orgfilter = oIndex > -1 ? [oIndex] : [];
+                const typefilter = tIndex > -1 ? [tIndex] : [];
+                const themefilter = thIndex > -1 ? [thIndex] : [];
+                dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
+                // setOrg(orgfilter);
+                // setType(typefilter);
+                // setTheme(themefilter);
+                setSF(true);
+            }
+        } else if (showing && !loading) {
             handleSearch(initKeyword, initBounds);
         }
         const handleResize = () => {
@@ -287,7 +302,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showing, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
+    }, [showing, language, sfloaded, queryParams.org, queryParams.type, queryParams.theme, storeorgfilters, storetypefilters, storethemefilters, storefoundational, dispatch]);
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
     
     // console.log(loading, results);
@@ -317,10 +332,10 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                     <SearchIcon />{' '}
                 </button>
             </div>
-            {typefilters.length + orgfilters.length + themefilters.length + (foundational ? 1 : 0) > 0 && (
+            {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
                 <div className="searchFilters">
                     <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
-                        {typefilters.map((typefilter: number) => (
+                        {storetypefilters.map((typefilter: number) => (
                             <button
                                 key={`tf-${typefilter}`}
                                 type="button"
@@ -331,7 +346,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                 {types[language][typefilter]} <i className="fas fa-times" />
                             </button>
                         ))}
-                        {orgfilters.map((orgfilter: number) => (
+                        {storeorgfilters.map((orgfilter: number) => (
                             <button
                                 key={`of-${orgfilter}`}
                                 type="button"
@@ -342,7 +357,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                 {organisations[language][orgfilter]} <i className="fas fa-times" />
                             </button>
                         ))}
-                        {themefilters.map((themefilter: number) => (
+                        {storethemefilters.map((themefilter: number) => (
                             <button
                                 key={`thf-${themefilter}`}
                                 type="button"
@@ -353,7 +368,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                 {themes[language][themefilter]} <i className="fas fa-times" />
                             </button>
                         ))}
-                        {foundational && (
+                        {storefoundational && (
                             <button
                                 type="button"
                                 className="btn btn btn-filter"
