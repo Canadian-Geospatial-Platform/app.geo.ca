@@ -7,11 +7,16 @@ import React, { useState, useEffect } from 'react';
 // import { useSelector } from "react-redux";
 import { StoreEnhancer } from 'redux';
 import { useLocation, useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
 import { Collapse, Button } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../assets/i18n/i18n';
 import { loadState } from '../../reducers/localStorage';
+import { setFilters } from '../../reducers/action';
 import { getQueryParams } from '../../common/queryparams';
+import organisations from '../search/organisations.json';
+import types from '../search/types.json';
+import themes from '../search/themes.json';
 import './header.scss';
 // Reacstrap Collapse - Responsive Navbar
 
@@ -21,13 +26,26 @@ export default function Header(): JSX.Element {
     const [langFromUrl, setLF] = useState(false);
     const [collapse, setCollapse] = useState(false);
     const location = useLocation();
+    const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
+    const language = t('app.language');
     
     // const mapping = useSelector(state => state.mappingReducer.mapping);
     useEffect(() => {
-        if (!langFromUrl && queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
-            i18n.changeLanguage(`${queryParams.lang}-CA`);
-            setLF(true);
+        if (!langFromUrl) {
+           if (queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
+               i18n.changeLanguage(`${queryParams.lang}-CA`);
+           }
+           if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
+                const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
+                const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
+                const thIndex = (themes[language] as string[]).findIndex((ths: string) => ths === queryParams.theme);
+                const orgfilter = oIndex > -1 ? [oIndex] : [];
+                const typefilter = tIndex > -1 ? [tIndex] : [];
+                const themefilter = thIndex > -1 ? [thIndex] : [];
+                dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
+            } 
+           setLF(true);
         }
     }, []);
 

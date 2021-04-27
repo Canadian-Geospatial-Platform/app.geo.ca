@@ -8,14 +8,14 @@ import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
 import { useLocation, useHistory } from 'react-router';
 import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadState } from '../../reducers/localStorage';
+import axios from 'axios';
+import BeatLoader from 'react-spinners/BeatLoader';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SvgIcon from "@material-ui/core/SvgIcon";
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '../../assets/icons/filter.svg';
-import axios from 'axios';
-import BeatLoader from 'react-spinners/BeatLoader';
+import { loadState } from '../../reducers/localStorage';
 import { NavBar } from '../navbar/nav-bar';
 import { getQueryParams } from '../../common/queryparams';
 import SearchFilter from '../searchfilter/searchfilter';
@@ -34,7 +34,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     const { t } = useTranslation();
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 6 : 4);
-    const [sfloaded, setSF] = useState(false);
+    // const [sfloaded, setSF] = useState(false);
     const [loading, setLoading] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
     const [pn, setPageNumber] = useState(1);
@@ -77,7 +77,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     };
 
     const handleSearch = (keyword: string, changePn?: boolean) => {
-        const cpr = changePn ===true ? true:false;
+        const cpr = changePn===true ? changePn : false;
         setPn(cpr);
         setLoading(true);
         const pageNumber = cpr ? pn: 1;
@@ -86,7 +86,7 @@ const KeywordSearch: React.FunctionComponent = () => {
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
-
+        
         const searchParams: SearchParams = {
             keyword,
             keyword_only: 'true',
@@ -244,7 +244,7 @@ const KeywordSearch: React.FunctionComponent = () => {
     }, [pn]);
 
     useEffect(() => {
-        if (!sfloaded) {
+        /* if (!sfloaded) {
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
                 const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
                 const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
@@ -258,7 +258,9 @@ const KeywordSearch: React.FunctionComponent = () => {
                 setTheme(themefilter);
             }
             setSF(true);
-        } else if (!fReset && !loading) {
+            // handleSearch(initKeyword);
+        } else */
+        if (!fReset && !loading) {
             handleSearch(initKeyword);
         }
         const handleResize = () => {
@@ -269,9 +271,9 @@ const KeywordSearch: React.FunctionComponent = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [language, fReset, sfloaded, queryParams.org, queryParams.type, queryParams.theme, storeorgfilters, storetypefilters, storethemefilters, storefoundational, dispatch]);
+    }, [language, fReset, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
     
-    //console.log(loading, cpn);
+    // console.log(loading, cpn);
     return (
         <div className="pageContainer keyword-search-page">
             {/* Filters / Search Bar */}

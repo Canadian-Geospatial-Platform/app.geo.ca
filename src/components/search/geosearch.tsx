@@ -14,12 +14,12 @@ import { useLocation } from 'react-router';
 // import { Link } from "react-router-dom";
 import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadState } from '../../reducers/localStorage';
+import axios from 'axios';
+import BeatLoader from 'react-spinners/BeatLoader';
 import { useMap } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
-import axios from 'axios';
-import BeatLoader from 'react-spinners/BeatLoader';
+import { loadState } from '../../reducers/localStorage';
 import { getQueryParams } from '../../common/queryparams';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
@@ -28,7 +28,7 @@ import types from './types.json';
 import themes from './themes.json';
 import './geosearch.scss';
 
-const GeoSearch = (showing: boolean, sf?:boolean): JSX.Element => {
+const GeoSearch = (showing: boolean): JSX.Element => {
     const location = useLocation();
     const queryParams = getQueryParams(location.search);
     const { t } = useTranslation();
@@ -39,7 +39,7 @@ const GeoSearch = (showing: boolean, sf?:boolean): JSX.Element => {
     const map = useMap();
     const [initBounds, setBounds] = useState(map.getBounds());
     const [loading, setLoading] = useState(false);
-    const [sfloaded, setSF] = useState(sf===true?true:false);
+    // const [sfloaded, setSF] = useState(sf===true?true:false);
     const [results, setResults] = useState<SearchResult[]>([]);
     const [cpn, setPn] = useState(false);
     const [pn, setPageNumber] = useState(1);
@@ -277,7 +277,7 @@ const GeoSearch = (showing: boolean, sf?:boolean): JSX.Element => {
     }, [pn]);
 
     useEffect(() => {
-        if (!sfloaded) {
+        /* if (!sfloaded) {
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
                 const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
                 const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
@@ -289,9 +289,10 @@ const GeoSearch = (showing: boolean, sf?:boolean): JSX.Element => {
                 // setOrg(orgfilter);
                 // setType(typefilter);
                 // setTheme(themefilter);
-                setSF(true);
+                setSF('true');
             }
-        } else if (showing && !loading) {
+        } else */
+        if (showing && !loading) {
             handleSearch(initKeyword, initBounds);
         }
         const handleResize = () => {
@@ -302,7 +303,7 @@ const GeoSearch = (showing: boolean, sf?:boolean): JSX.Element => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showing, language, sfloaded, queryParams.org, queryParams.type, queryParams.theme, storeorgfilters, storetypefilters, storethemefilters, storefoundational, dispatch]);
+    }, [showing, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
     
     // console.log(loading, results);

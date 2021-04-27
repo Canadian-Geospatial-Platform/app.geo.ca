@@ -19,7 +19,7 @@ export default function SearchPanel(props: PanelProps): JSX.Element {
             content={
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
-                        { GeoSearch(showing, sf) }
+                        { GeoSearch(showing, sf, closeFunction) }
                     </Typography>
                 ) as unknown) as Element
             }
