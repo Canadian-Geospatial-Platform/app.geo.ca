@@ -137,7 +137,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 ? ' search'
                 : ''
         );
-        if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
+        /*if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
             const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
             const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
             const thIndex = (themes[language] as string[]).findIndex((ths: string) => ths === queryParams.theme);
@@ -145,8 +145,8 @@ export function Appbar(props: AppBarProps): JSX.Element {
             const typefilter = tIndex > -1 ? [tIndex] : [];
             const themefilter = thIndex > -1 ? [thIndex] : [];
             dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
-        }
-    }, [language, queryParams.keyword, queryParams.org, queryParams.type, queryParams.theme, dispatch]);
+        }*/
+    }, [language, queryParams.keyword, queryParams.org, queryParams.type, queryParams.theme]);
 
     return (
         <div className={classes.root} ref={appBar}>

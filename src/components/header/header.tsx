@@ -28,18 +28,20 @@ export default function Header(): JSX.Element {
     const location = useLocation();
     const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
-    const language = t('app.language');
+    // const language = t('app.language');
     
     // const mapping = useSelector(state => state.mappingReducer.mapping);
     useEffect(() => {
         if (!langFromUrl) {
+           let clang = i18n.language.substring(0, 2); 
            if (queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
                i18n.changeLanguage(`${queryParams.lang}-CA`);
+               clang = queryParams.lang;
            }
            if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
-                const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
-                const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
-                const thIndex = (themes[language] as string[]).findIndex((ths: string) => ths === queryParams.theme);
+                const oIndex = (queryParams.org!==undefined)?(organisations[clang] as string[]).findIndex((os: string) => os.toLowerCase() === queryParams.org.toLowerCase()) : -1;
+                const tIndex = (queryParams.type!==undefined)?(types[clang] as string[]).findIndex((ts: string) => ts.toLowerCase() === queryParams.type.toLowerCase()) : -1;
+                const thIndex = (queryParams.theme!==undefined)?(themes[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.theme.toLowerCase()) : -1;
                 const orgfilter = oIndex > -1 ? [oIndex] : [];
                 const typefilter = tIndex > -1 ? [tIndex] : [];
                 const themefilter = thIndex > -1 ? [thIndex] : [];

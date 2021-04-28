@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../assets/i18n/i18n';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SvgIcon from "@material-ui/core/SvgIcon";
 import SearchIcon from '@material-ui/icons/Search';
@@ -27,14 +28,14 @@ import themes from './themes.json';
 // import { css } from '@emotion/core';
 import './keywordsearch.scss';
 
-const KeywordSearch: React.FunctionComponent = () => {
+const KeywordSearch = (): JSX.Element => {
     const location = useLocation();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const history = useHistory();
     const { t } = useTranslation();
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 6 : 4);
-    // const [sfloaded, setSF] = useState(false);
+    const [sfloaded, setSF] = useState(false);
     const [loading, setLoading] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
     const [pn, setPageNumber] = useState(1);
@@ -59,7 +60,7 @@ const KeywordSearch: React.FunctionComponent = () => {
 
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
 
-    // console.log(state, dispatch);
+    //console.log(language);
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
         setFReset(false);
@@ -78,6 +79,7 @@ const KeywordSearch: React.FunctionComponent = () => {
 
     const handleSearch = (keyword: string, changePn?: boolean) => {
         const cpr = changePn===true ? changePn : false;
+        const currentLang = (!sfloaded && queryParams.lang !== undefined)?queryParams.lang:language;
         setPn(cpr);
         setLoading(true);
         const pageNumber = cpr ? pn: 1;
@@ -86,23 +88,22 @@ const KeywordSearch: React.FunctionComponent = () => {
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
-        
         const searchParams: SearchParams = {
             keyword,
             keyword_only: 'true',
-            lang: language,
+            lang: currentLang,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
         };
 
         if (thfilters.length > 0) {
-            searchParams.themes = thfilters.map((fs: number) => themes[language][fs]).join('|');
+            searchParams.themes = thfilters.map((fs: number) => themes[currentLang][fs]).join('|');
         }
         if (ofilters.length > 0) {
-            searchParams.org = ofilters.map((fs: number) => organisations[language][fs]).join('|');
+            searchParams.org = ofilters.map((fs: number) => organisations[currentLang][fs]).join('|');
         }
         if (tfilters.length > 0) {
-            searchParams.type = tfilters.map((fs: number) => types[language][fs]).join('|');
+            searchParams.type = tfilters.map((fs: number) => types[currentLang][fs]).join('|');
         }
         if (found) {
             searchParams.foundational = 'true';
@@ -128,6 +129,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                 setType(tfilters);
                 setTheme(thfilters);
                 setFound(found);
+                setSF(true);
             })
             .catch(() => {
                 // console.log(error);
@@ -142,6 +144,7 @@ const KeywordSearch: React.FunctionComponent = () => {
                 setType(tfilters);
                 setTheme(thfilters);
                 setFound(found);
+                setSF(true);
             });
     };
 
@@ -236,7 +239,6 @@ const KeywordSearch: React.FunctionComponent = () => {
         setFound(false);
         setFReset(false);
     };
-
     useEffect(() => {
         if (!fReset && !loading) {
             handleSearch(initKeyword, true);
@@ -260,6 +262,7 @@ const KeywordSearch: React.FunctionComponent = () => {
             setSF(true);
             // handleSearch(initKeyword);
         } else */
+        
         if (!fReset && !loading) {
             handleSearch(initKeyword);
         }

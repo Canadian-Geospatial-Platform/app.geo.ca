@@ -306,7 +306,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     }, [showing, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
     
-    // console.log(loading, results);
+    // console.log(storethemefilters);
     // console.log(loading, cpn, cnt);
     return (
         <div className="geoSearchContainer">
