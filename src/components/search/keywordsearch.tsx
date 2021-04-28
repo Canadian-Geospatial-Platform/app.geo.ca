@@ -77,12 +77,12 @@ const KeywordSearch = (): JSX.Element => {
         // setPageNumber(1);
     };
 
-    const handleSearch = (keyword: string, changePn?: boolean) => {
-        const cpr = changePn===true ? changePn : false;
+    const handleSearch = (keyword: string, pnum?: number) => {
+        const cpr = pnum!==undefined ? true : false;
         const currentLang = (!sfloaded && queryParams.lang !== undefined)?queryParams.lang:language;
         setPn(cpr);
         setLoading(true);
-        const pageNumber = cpr ? pn: 1;
+        const pageNumber = pnum!==undefined ? pnum : 1;
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
@@ -119,9 +119,9 @@ const KeywordSearch = (): JSX.Element => {
                 const rcnt = res.length > 0 ? res[0].total : 0;
                 setResults(res);
                 setCount(rcnt);
-                if (!cpr && pn!==1) {
-                    setPageNumber(1);
-                }
+                // if (!cpr && pn!==1) {
+                setPageNumber(pageNumber);
+                // }
                 setKWShowing([]);
                 setKeyword(keyword);
                 setLoading(false);
@@ -239,30 +239,13 @@ const KeywordSearch = (): JSX.Element => {
         setFound(false);
         setFReset(false);
     };
-    useEffect(() => {
-        if (!fReset && !loading) {
-            handleSearch(initKeyword, true);
-        }
-    }, [pn]);
+    
+    /* const changePageNumber = (pagenumber: number) => {
+        setPageNumber(pagenumber);
+        handleSearch(initKeyword, true);
+    }; */
 
     useEffect(() => {
-        /* if (!sfloaded) {
-            if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
-                const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
-                const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
-                const thIndex = (themes[language] as string[]).findIndex((ths: string) => ths === queryParams.theme);
-                const orgfilter = oIndex > -1 ? [oIndex] : [];
-                const typefilter = tIndex > -1 ? [tIndex] : [];
-                const themefilter = thIndex > -1 ? [thIndex] : [];
-                dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
-                setOrg(orgfilter);
-                setType(typefilter);
-                setTheme(themefilter);
-            }
-            setSF(true);
-            // handleSearch(initKeyword);
-        } else */
-        
         if (!fReset && !loading) {
             handleSearch(initKeyword);
         }
@@ -449,7 +432,7 @@ const KeywordSearch = (): JSX.Element => {
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">
                     <div className="col-12">
-                        {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} loading={loading} />}
+                        {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={(pnum:number)=>handleSearch(initKeyword,pnum)} loading={loading} />}
                     </div>
                 </div>
             </div>
@@ -578,7 +561,7 @@ const KeywordSearch = (): JSX.Element => {
             <div className="container-fluid container-pagination container-pagination-bottom">
                 <div className="row row-pagination row-pagination-bottom">
                     <div className="col-12">
-                        {cnt > 0 && (!loading || cpn ) &&  <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={setPageNumber} loading={loading} />}
+                        {cnt > 0 && (!loading || cpn ) &&  <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={(pnum:number)=>handleSearch(initKeyword,pnum)} loading={loading} />}
                     </div>
                 </div>
             </div>

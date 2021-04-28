@@ -143,11 +143,11 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         }
     };
 
-    const handleSearch = (keyword: string, bounds: unknown, changePn?:boolean) => {
-        const cpr = changePn===true ? true:false;
+    const handleSearch = (keyword: string, bounds: unknown, pnum?:number) => {
+        const cpr = pnum!==undefined ? true:false;
         setPn(cpr);
         !loading && setLoadingStatus(true);
-        const pageNumber = cpr ? pn: 1;
+        const pageNumber = pnum!==undefined ? pnum: 1;
         
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
@@ -190,9 +190,9 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 setCount(rcnt);
                 setBounds(bounds);
                 setKeyword(keyword);
-                if (!cpr && pn!==1) {
-                    setPageNumber(1);
-                }
+                // if (!cpr && pn!==1) {
+                setPageNumber(pageNumber);
+                // }
                 setLoadingStatus(false);
                 // setOrg(ofilters);
                 // setType(tfilters);
@@ -270,11 +270,11 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         // setPageNumber(1);
     };
     
-    useEffect(() => {
+    /* useEffect(() => {
         if (showing && !loading) {
             handleSearch(initKeyword, initBounds, true);
         }
-    }, [pn]);
+    }, [pn]); */
 
     useEffect(() => {
         /* if (!sfloaded) {
@@ -383,7 +383,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                 </div>
             )}
             <div className="container" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
-                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={setPageNumber} />}
+                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
                 {loading ? (
                     <div className="d-flex justify-content-center">
                         <BeatLoader color="#515AA9" />
@@ -435,7 +435,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                         ))}
                     </div>
                 )}
-                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={setPageNumber} />}
+                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
             </div>
         </div>
     );
