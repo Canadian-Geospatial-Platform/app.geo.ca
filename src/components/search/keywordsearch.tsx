@@ -97,13 +97,13 @@ const KeywordSearch = (): JSX.Element => {
         };
 
         if (thfilters.length > 0) {
-            searchParams.themes = thfilters.map((fs: number) => themes[currentLang][fs]).join('|');
+            searchParams.themes = thfilters.map((fs: number) => themes[currentLang][fs].replace(/\'/g,"\'\'")).join('|');
         }
         if (ofilters.length > 0) {
-            searchParams.org = ofilters.map((fs: number) => organisations[currentLang][fs]).join('|');
+            searchParams.org = ofilters.map((fs: number) => organisations[currentLang][fs].replace(/\'/g,"\'\'")).join('|');
         }
         if (tfilters.length > 0) {
-            searchParams.type = tfilters.map((fs: number) => types[currentLang][fs]).join('|');
+            searchParams.type = tfilters.map((fs: number) => types[currentLang][fs].replace(/\'/g,"\'\'")).join('|');
         }
         if (found) {
             searchParams.foundational = 'true';

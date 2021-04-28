@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { StoreEnhancer } from 'redux';
 import { useLocation, useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { Collapse, Button } from 'reactstrap';
+import { Collapse, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../assets/i18n/i18n';
 import { loadState } from '../../reducers/localStorage';
@@ -23,11 +23,15 @@ import './header.scss';
 export default function Header(): JSX.Element {
     const history = useHistory();
     const { t } = useTranslation();
-    const [langFromUrl, setLF] = useState(false);
-    const [collapse, setCollapse] = useState(false);
     const location = useLocation();
     const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
+    const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
+    const [langFromUrl, setLF] = useState(false);
+    const [collapse, setCollapse] = useState(false);
+    const mapping = localState !== undefined ? localState.mappingReducer.mapping : []
+    const [mnum, setMapping] = useState(mapping.length);
+    const [showmappinglist, setSML] = useState(false)
     // const language = t('app.language');
     
     // const mapping = useSelector(state => state.mappingReducer.mapping);
@@ -64,10 +68,8 @@ export default function Header(): JSX.Element {
     };
 
     const viewMyMap = () => {
-        const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
-        const mapping = localState !== undefined ? localState.mappingReducer.mapping : [];
-        
-        if (mapping.length > 0) {
+        const cmapping = localState !== undefined ? localState.mappingReducer.mapping : [];
+        if (cmapping.length > 0) {
             /* window.open(
                 `https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t('app.language')}.html?keys=${encodeURI(
                     mapping.join(',')
@@ -83,6 +85,12 @@ export default function Header(): JSX.Element {
         } else {
             alert(t('nav.nomap'));
         }
+    };
+
+    const showMapping = () => {
+        const cmapping = localState !== undefined ? localState.mappingReducer.mapping : [];
+        console.log(cmapping.length);
+        setMapping(cmapping.length);
     };
 
     // Reacstrap Collapse - Responsive Navbar
@@ -111,7 +119,7 @@ export default function Header(): JSX.Element {
     if (rvScript) {
         rvScript.remove();
     }
-    
+    console.log(mnum);
     return (
         <header className="header">
             <div className="container-fluid">
@@ -144,9 +152,12 @@ export default function Header(): JSX.Element {
                                         </button>
                                     </li>
                                     <li className="nav-item">
-                                        <button type="button" onClick={viewMyMap}>
+                                        <button type="button" onClick={viewMyMap} onFocus={showMapping} onMouseOver={showMapping}>
                                             {t('nav.mymap')}
                                         </button>
+                                        {/* <button type="button" onClick={() => setSML(true)} onFocus={showMapping} onMouseOver={showMapping}>
+                                            ({mnum})
+                                        </button>  */}
                                     </li>
                                     <li className="nav-item">
                                         <button

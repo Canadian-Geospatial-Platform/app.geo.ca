@@ -166,13 +166,13 @@ const GeoSearch = (showing: boolean): JSX.Element => {
             max: pageNumber * rpp,
         };
         if (thfilters.length > 0) {
-            searchParams.themes = thfilters.map((fs: number) => themes[language][fs]).join('|');
+            searchParams.themes = thfilters.map((fs: number) => themes[language][fs].replace(/\'/g,"\'\'")).join('|');
         }
         if (ofilters.length > 0) {
-            searchParams.org = ofilters.map((fs: number) => organisations[language][fs]).join('|');
+            searchParams.org = ofilters.map((fs: number) => organisations[language][fs].replace(/\'/g,"\'\'")).join('|');
         }
         if (tfilters.length > 0) {
-            searchParams.type = tfilters.map((fs: number) => types[language][fs]).join('|');
+            searchParams.type = tfilters.map((fs: number) => types[language][fs].replace(/\'/g,"\'\'")).join('|');
         }
         if (found) {
             searchParams.foundational = 'true';
