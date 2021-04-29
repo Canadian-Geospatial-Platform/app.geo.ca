@@ -7,6 +7,11 @@ html {
 body {
     margin: 0;
 }
+
+body.modal-open .cgp-appbar.leaflet-control {
+    z-index: 1000;
+}
+
 .mapPage {
     height: 100vh;
     padding-top: 90px;

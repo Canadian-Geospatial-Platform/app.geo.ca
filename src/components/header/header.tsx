@@ -14,6 +14,7 @@ import i18n from '../../assets/i18n/i18n';
 import { loadState } from '../../reducers/localStorage';
 import { setFilters } from '../../reducers/action';
 import { getQueryParams } from '../../common/queryparams';
+import MappingModal from './mappingmodal';
 import organisations from '../search/organisations.json';
 import types from '../search/types.json';
 import themes from '../search/themes.json';
@@ -29,7 +30,7 @@ export default function Header(): JSX.Element {
     const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
     const [langFromUrl, setLF] = useState(false);
     const [collapse, setCollapse] = useState(false);
-    const mapping = localState !== undefined ? localState.mappingReducer.mapping : []
+    const mapping = localState !== undefined ? localState.mappingReducer.mapping : [];
     const [mnum, setMapping] = useState(mapping.length);
     const [showmappinglist, setSML] = useState(false)
     // const language = t('app.language');
@@ -122,6 +123,14 @@ export default function Header(): JSX.Element {
     console.log(mnum);
     return (
         <header className="header">
+            <MappingModal
+                className="mapping-modal-dialog"
+                wrapClassName="mapping-modal-wrap"
+                modalClassName="mapping-modal"
+                openOnLoad={showmappinglist}
+                center={true}
+                unmountOnClose={true}
+            />
             <div className="container-fluid">
                 <div className="row align-items-center">
                     <div className="col-12 header-nav-col">
@@ -155,7 +164,7 @@ export default function Header(): JSX.Element {
                                         <button type="button" onClick={viewMyMap} onFocus={showMapping} onMouseOver={showMapping}>
                                             {t('nav.mymap')}
                                         </button>
-                                        {/* <button type="button" onClick={() => setSML(true)} onFocus={showMapping} onMouseOver={showMapping}>
+                                        {/* <button id="mcntBtn" type="button" onClick={() => setSML(true)} onFocus={showMapping} onMouseOver={showMapping}>
                                             ({mnum})
                                         </button>  */}
                                     </li>
