@@ -14,6 +14,7 @@ import mappingReducer from './reducers/reducer';
 import { loadState, saveState } from './reducers/localStorage';
 import i18n from './assets/i18n/i18n';
 
+import { getQueryParams } from './common/queryparams';
 import Header from './components/header/header';
 import { Map } from './components/map/map';
 import KeywordSearch from './components/search/keywordsearch';
@@ -52,8 +53,8 @@ const jsonConfig = mainMap && mainMap.getAttribute('data-leaflet');
 const config = jsonConfig
     ? JSON.parse(jsonConfig.replace(/'/g, '"'))
     : { name: 'Web Mercator', projection: 3857, zoom: 4, center: [60, -100], language: 'en', search: true, auth: false };
-
 // const center: LatLngTuple = [config.center[0], config.center[1]];
+const queryParams: { [key: string]: string } = getQueryParams(window.location.href.substr(window.location.href.indexOf("?")));
 
 const RenderMap: React.FunctionComponent = () => {
     const center: LatLngTuple = [config.center[0], config.center[1]];
@@ -68,14 +69,13 @@ const RenderMap: React.FunctionComponent = () => {
                     center={true}
                     unmountOnClose={true}
                 />
-
                 <div className="mapContainer">
                     <Map
                         id="MainMap"
                         center={center}
                         zoom={config.zoom}
                         projection={config.projection}
-                        language={`${config.language}-CA`}
+                        language={i18n.language}
                         layers={config.layers}
                         search={config.search}
                         auth={config.auth}
@@ -87,8 +87,7 @@ const RenderMap: React.FunctionComponent = () => {
 };
 
 const Routing = () => {
-    const { language } = config;
-
+    const language = queryParams.lang!==undefined ? queryParams.lang : config.language;
     if (language !== i18n.language.substring(0, 2)) {
         i18n.changeLanguage(`${language}-CA`);
     }

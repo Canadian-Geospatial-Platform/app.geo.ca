@@ -4,6 +4,7 @@ import { useLocation, useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
+import { useMap } from 'react-leaflet';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, List, Divider, IconButton, Tooltip, Fade } from '@material-ui/core';
@@ -11,6 +12,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import { DomEvent } from 'leaflet';
+import { Basemap, BasemapOptions } from '../../common/basemap';
 
 // import Layers from './buttons/layers';
 // import Search from './buttons/search';
@@ -27,15 +29,11 @@ import AccountIcon from '@material-ui/icons/AccountBox';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import ButtonApp from './button';
 import Version from './buttons/version';
-import { setFilters } from '../../reducers/action';
 import { getQueryParams } from '../../common/queryparams';
 import SearchPanel from '../search/search-panel';
 import FiltersPanel from '../searchfilter/filters-panel';
 import AccountPanel from '../account/account-panel';
 import HowtoPanel from '../howto/howto-panel';
-import organisations from '../search/organisations.json';
-import types from '../search/types.json';
-import themes from '../search/themes.json';
 import './app-bar.scss';
 
 const drawerWidth = 200;
@@ -107,15 +105,25 @@ export function Appbar(props: AppBarProps): JSX.Element {
     );
     const language = t('app.language');
     const appBar = useRef();
+    const map = useMap();
     useEffect(() => {
         // disable events on container
         DomEvent.disableClickPropagation(appBar.current.children[0] as HTMLElement);
         DomEvent.disableScrollPropagation(appBar.current.children[0] as HTMLElement);
     }, []);
 
-    // side menu items
-    // const items = [{ divider: true }, { id: 'layers' }, { divider: true }, { id: 'fullscreen' }, { id: 'help' }];
-    // const items = [{ id: 'legend' }];
+    useEffect(() => {
+        const basemap: Basemap = new Basemap(`${language}-CA`);
+        const basemaps: BasemapOptions[] = basemap.wmCBMT;
+        map.eachLayer((layer: unknown) => {
+            console.log(layer);
+            map.removeLayer(layer);
+        }); 
+        basemaps.forEach(base=>{
+            L.tileLayer(base.url).addTo(map);
+        })   
+        
+    }, [language]);
 
     const handleDrawerClose = () => {
         setOpen(!open);
@@ -137,16 +145,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 ? ' search'
                 : ''
         );
-        /*if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
-            const oIndex = (organisations[language] as string[]).findIndex((os: string) => os === queryParams.org);
-            const tIndex = (types[language] as string[]).findIndex((ts: string) => ts === queryParams.type);
-            const thIndex = (themes[language] as string[]).findIndex((ths: string) => ths === queryParams.theme);
-            const orgfilter = oIndex > -1 ? [oIndex] : [];
-            const typefilter = tIndex > -1 ? [tIndex] : [];
-            const themefilter = thIndex > -1 ? [thIndex] : [];
-            dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
-        }*/
-    }, [language, queryParams.keyword, queryParams.org, queryParams.type, queryParams.theme]);
+    }, [queryParams.keyword, queryParams.org, queryParams.type, queryParams.theme]);
 
     return (
         <div className={classes.root} ref={appBar}>

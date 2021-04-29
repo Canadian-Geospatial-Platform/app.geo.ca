@@ -31,7 +31,7 @@ export function Map(props: MapProps): JSX.Element {
 
     // get map option from slected basemap projection
     const mapOptions: MapOptions = getMapOptions(projection);
-
+    
     return (
         <MapContainer
             center={center}

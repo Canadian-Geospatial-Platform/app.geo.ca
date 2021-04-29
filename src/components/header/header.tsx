@@ -5,7 +5,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect } from 'react';
 // import { useSelector } from "react-redux";
-import { StoreEnhancer } from 'redux';
 import { useLocation, useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { Collapse, Button } from 'reactstrap';
@@ -30,6 +29,7 @@ export default function Header(): JSX.Element {
     const [langFromUrl, setLF] = useState(false);
     const [collapse, setCollapse] = useState(false);
     const [showmappinglist, setSML] = useState(false);
+    
     useEffect(() => {
         if (!langFromUrl) {
            let clang = i18n.language.substring(0, 2); 

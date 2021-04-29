@@ -22,6 +22,7 @@ const CgpModal = (props: CgpModalProps) => {
     let getLocalStorage = () => {
         let cgpModalShown = sessionStorage.getItem('cgp-modal-shown');
         return cgpModalShown === 'true' ? false : true;
+        // return true;
     };
     if (getLocalStorage()) {
         return (
