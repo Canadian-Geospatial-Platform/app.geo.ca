@@ -8,13 +8,13 @@ import React, { useState, useEffect } from 'react';
 import { StoreEnhancer } from 'redux';
 import { useLocation, useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { Collapse, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Collapse, Button } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../assets/i18n/i18n';
 import { loadState } from '../../reducers/localStorage';
 import { setFilters } from '../../reducers/action';
 import { getQueryParams } from '../../common/queryparams';
-import MappingModal from './mappingmodal';
+import MappingModal from '../modal/mappingmodal';
 import organisations from '../search/organisations.json';
 import types from '../search/types.json';
 import themes from '../search/themes.json';
@@ -27,15 +27,9 @@ export default function Header(): JSX.Element {
     const location = useLocation();
     const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
-    const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
     const [langFromUrl, setLF] = useState(false);
     const [collapse, setCollapse] = useState(false);
-    const mapping = localState !== undefined ? localState.mappingReducer.mapping : [];
-    const [mnum, setMapping] = useState(mapping.length);
-    const [showmappinglist, setSML] = useState(false)
-    // const language = t('app.language');
-    
-    // const mapping = useSelector(state => state.mappingReducer.mapping);
+    const [showmappinglist, setSML] = useState(false);
     useEffect(() => {
         if (!langFromUrl) {
            let clang = i18n.language.substring(0, 2); 
@@ -69,14 +63,8 @@ export default function Header(): JSX.Element {
     };
 
     const viewMyMap = () => {
-        const cmapping = localState !== undefined ? localState.mappingReducer.mapping : [];
+        const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
         if (cmapping.length > 0) {
-            /* window.open(
-                `https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t('app.language')}.html?keys=${encodeURI(
-                    mapping.join(',')
-                )}`,
-                `View MyMap`
-            ); */
             if (location.pathname!=='/map' || queryParams.rvKey) {
                 history.push({
                     pathname: '/map',
@@ -89,9 +77,8 @@ export default function Header(): JSX.Element {
     };
 
     const showMapping = () => {
-        const cmapping = localState !== undefined ? localState.mappingReducer.mapping : [];
-        console.log(cmapping.length);
-        setMapping(cmapping.length);
+        const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
+        document.getElementById("mcntBtn").innerText=cmapping.length.toString();
     };
 
     // Reacstrap Collapse - Responsive Navbar
@@ -120,7 +107,6 @@ export default function Header(): JSX.Element {
     if (rvScript) {
         rvScript.remove();
     }
-    console.log(mnum);
     return (
         <header className="header">
             <MappingModal
@@ -128,6 +114,8 @@ export default function Header(): JSX.Element {
                 wrapClassName="mapping-modal-wrap"
                 modalClassName="mapping-modal"
                 openOnLoad={showmappinglist}
+                toggle={()=>setSML(!showmappinglist)}
+                onClosed = {showMapping}
                 center={true}
                 unmountOnClose={true}
             />
@@ -161,12 +149,12 @@ export default function Header(): JSX.Element {
                                         </button>
                                     </li>
                                     <li className="nav-item">
-                                        <button type="button" onClick={viewMyMap} onFocus={showMapping} onMouseOver={showMapping}>
+                                        <button id="myMapBtn" type="button" onClick={viewMyMap} onFocus={showMapping} onMouseOver={showMapping}>
                                             {t('nav.mymap')}
-                                        </button>
-                                        {/* <button id="mcntBtn" type="button" onClick={() => setSML(true)} onFocus={showMapping} onMouseOver={showMapping}>
-                                            ({mnum})
-                                        </button>  */}
+                                        </button> :
+                                        <button id="mcntBtn" type="button" onClick={() => setSML(true)} onFocus={showMapping} onMouseOver={showMapping}>
+                                            {loadState() !== undefined?loadState().mappingReducer.mapping.length:0}
+                                        </button> 
                                     </li>
                                     <li className="nav-item">
                                         <button

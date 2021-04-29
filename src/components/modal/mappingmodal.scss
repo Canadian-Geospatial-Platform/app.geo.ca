@@ -23,7 +23,7 @@
             opacity: 1;
             font-weight: 400;
             font-size: 1.5em;
-            margin: -0.75rem -1rem -1rem auto;
+            margin: -1.5rem -1rem -1rem auto;
             text-shadow: none;
 
             &:hover {
@@ -35,6 +35,12 @@
     .modal-body {
         padding: 1em 1.5rem 0.5em 1.5rem;
         font-size: 1.0625rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        button {
+            margin: 0.5em;
+        }
     }
 
     .modal-footer {

@@ -128,9 +128,15 @@
         "downloadgeocore": "Télécharger geoCore",
         "viewhnaprecord": "Enregistrement HNAP"
     },
-    "modalhome": {
-        "title": "Au sujet de l'application geoSearch",
-        "description": "L'application geoSearch utilise une carte pour rechercher des données sur la zone affichée. Effectuez un panoramique et un zoom sur la carte pour filtrer le contenu en fonction de votre zone d'intérêt. Les résultats seront actualisés en fonction de la zone de la carte.",
-        "buttonlabel": "Fermer"
+    "modal": {
+        "buttonlabel": "Fermer",
+        "home": {
+            "title": "Au sujet de l'application geoSearch",
+            "description": "L'application geoSearch utilise une carte pour rechercher des données sur la zone affichée. Effectuez un panoramique et un zoom sur la carte pour filtrer le contenu en fonction de votre zone d'intérêt. Les résultats seront actualisés en fonction de la zone de la carte."
+        },
+        "mapping": {
+            "title": "Ajouté à MyMap",
+            "noadded": "Pas de résultat"
+        }
     }
 }

@@ -54,6 +54,12 @@
                 &:focus {
                     color: rgb(5, 179, 170);
                 }
+                &#myMapBtn {
+                    padding-right: 0.1em;
+                }
+                &#mcntBtn {
+                    padding-left: 0.1em;
+                }
             }
         }
     }

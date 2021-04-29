@@ -38,14 +38,14 @@ const CgpModal = (props: CgpModalProps) => {
                 aria-describedby="modal-description"
             >
                 <ModalHeader id="modal-heading" tag="h2" toggle={toggle}>
-                    {t('modalhome.title')}
+                    {t('modal.home.title')}
                 </ModalHeader>
                 <ModalBody id="modal-description" tag="div">
-                    <p>{t('modalhome.description')}</p>
+                    <p>{t('modal.home.description')}</p>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="secondary" onClick={toggle}>
-                        {t('modalhome.buttonlabel')}
+                        {t('modal.buttonlabel')}
                     </Button>
                 </ModalFooter>
             </Modal>

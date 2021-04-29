@@ -128,9 +128,15 @@
         "downloadgeocore": "Download geoCore",
         "viewhnaprecord": "View HNAP Record"
     },
-    "modalhome": {
-        "title": "About the geoSearch application",
-        "description": "The geoSearch application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map.",
-        "buttonlabel": "Close"
+    "modal": {
+        "buttonlabel": "Close",
+        "home": {
+            "title": "About the geoSearch application",
+            "description": "The geoSearch application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map."
+        },
+        "mapping": {
+            "title": "Added to MyMap",
+            "noadded": "No result added"
+        }
     }
 }
