@@ -50,35 +50,36 @@ const RampViewer = (rv: string): JSX.Element => {
         mapDiv.setAttribute("rv-service-endpoint", "https://rcs.open.canada.ca");
         mapDiv.setAttribute("data-rv-keys", JSON.stringify(attr.rvKeys));
 
-        const rvMapPage = document.getElementById("rvMapPage");
-        if (rvMapPage) {
-            rvMapPage.prepend(mapDiv);
+        // const rvMapPage = document.getElementById("rvMapPage");
+        const rvMap = document.getElementById("rvMap");
+        if (rvMap) {
+            rvMap.replaceWith(mapDiv);
+        } else {
+            const rvMapPage = document.getElementById("rvMapPage");
+            if (rvMapPage) {
+                rvMapPage.prepend(mapDiv);
+            }
         }
     }
     useEffect(() => {
         const rvKeys = queryParams.rvKey ? [queryParams.rvKey]:mapping;
-        const rvMap = document.getElementById("rvMap");
-        if (!rvMap) {
-            addMapDiv({id: "rvMap", is: "rv-map", rvLangs: `["${language}-CA"]`, rvKeys});
-        }
+        addMapDiv({id: "rvMap", is: "rv-map", rvLangs: `["${language}-CA"]`, rvKeys});
          
-        const jqScript = document.getElementById("jqJS");
-        if (!jqScript) {
-            appendScript({id: "jqJS", scriptToAppend: "https://code.jquery.com/jquery-2.2.4.min.js", integrity: "sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=", crossorigin: "anonymous" });
-        }
-        const pfScript = document.getElementById("pfJS");
-        if (!pfScript) {
-            appendScript({id: "pfJS", scriptToAppend: "https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Object.entries,Object.values,Array.prototype.find,Array.prototype.findIndex,Array.prototype.values,Array.prototype.includes,HTMLCanvasElement.prototype.toBlob,String.prototype.repeat,String.prototype.codePointAt,String.fromCodePoint,NodeList.prototype.@@iterator,Promise,Promise.prototype.finally" });
-        } 
         const rvScript = document.getElementById("rvJS");
         if (!rvScript) {
             appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.js" });
         }
             
-    }, [language, queryParams.rvKey]);
+    }, [language]);
 
     return (
-        <div id="rvMapPage" className="mapPage" />
+        <div id="rvMapPage" className="mapPage">
+            <div id="rvMap" is="rv-map" 
+                 rv-langs={`["${language}-CA"]`} 
+                 rv-service-endpoint="https://rcs.open.canada.ca" 
+                 data-rv-keys={queryParams.rvKey ? JSON.stringify([queryParams.rvKey]):JSON.stringify(mapping)} 
+            />
+        </div>
     );
 };
 interface scriptAttr {

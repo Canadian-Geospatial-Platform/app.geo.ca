@@ -64,7 +64,7 @@ export default function Header(): JSX.Element {
     };
 
     const viewMyMap = () => {
-        if (location.pathname !== '/map') {
+        // if (location.pathname !== '/map') {
             const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
             if (cmapping.length > 0) {
                 if (location.pathname!=='/map' || queryParams.rvKey) {
@@ -76,7 +76,7 @@ export default function Header(): JSX.Element {
             } else {
                 alert(t('nav.nomap'));
             }
-        }   
+        // }   
     };
 
     const showMapping = () => {
@@ -91,26 +91,7 @@ export default function Header(): JSX.Element {
     // Reacstrap Collapse - Responsive Navbar
     const toggle = () => setCollapse(!collapse);
     // console.log(location.pathname);
-    if (location.pathname==='/map') {
-        const rvMap = document.getElementById("rvMap");
-        if (rvMap) {
-            rvMap.remove();
-        }
-    } /* else {    
-        const rvIframe = document.getElementsByName("esri_core_jsonp_iframe");
-        if (rvIframe.length>0) {
-            rvIframe[0].remove();
-        }
-    } */
      
-    const jqScript = document.getElementById("jqJS");
-    if (jqScript) {
-        jqScript.remove();
-    }
-    const pfScript = document.getElementById("pfJS");
-    if (pfScript) {
-        pfScript.remove();
-    }   
     const rvScript = document.getElementById("rvJS");
     if (rvScript) {
         rvScript.remove();
@@ -158,7 +139,7 @@ export default function Header(): JSX.Element {
                                         <button id="myMapBtn" type="button" onClick={viewMyMap} onFocus={showMapping} onMouseOver={showMapping}>
                                             {t('nav.mymap')}
                                         </button>
-                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={location.pathname !== '/map' ? () => setSML(true) : undefined} onFocus={showMapping} onMouseOver={showMapping}>
+                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={() => setSML(true)} onFocus={showMapping} onMouseOver={showMapping}>
                                             {loadState() !== undefined?loadState().mappingReducer.mapping.length:0}
                                         </button> 
                                     </li>

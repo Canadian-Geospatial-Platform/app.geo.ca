@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* jshint esversion: 6 */
+/* eslint-disable jsx-a11y/no-redundant-roles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react/jsx-no-target-blank */
@@ -188,7 +189,7 @@ const MetaDataPage = () => {
                             <section id="search-result-data-resources" className="sec-search-result sec-search-result-data-resources">
                                 <table className="table table-hover caption-top table-search-result table-data-resources">
                                 <caption>
-                                        <button id="data-resources-id" className={openSection.findIndex(o=>o==='dataresources')<0?"table-data-toggle collapse":"table-data-toggle expand"} aria-expanded={openSection.findIndex(o=>o==='dataresources')<0?"false":"true"} aria-controls="tbody-data-resources" role="button" onClick={()=>handleOpen('dataresources')}>{t("page.dataresources")}</button>
+                                        <button id="data-resources-id" type="button" className={openSection.findIndex(o=>o==='dataresources')<0?"table-data-toggle collapse":"table-data-toggle expand"} aria-expanded={openSection.findIndex(o=>o==='dataresources')<0?"false":"true"} aria-controls="tbody-data-resources" role="button" onClick={()=>handleOpen('dataresources')}>{t("page.dataresources")}</button>
                                 </caption>
                                 <tbody id="tbody-data-resources" className={openSection.findIndex(o=>o==='dataresources')<0?"collapse":"collapse show"} aria-labelledby="data-resources-id">
                                     <tr>
