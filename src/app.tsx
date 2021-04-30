@@ -65,9 +65,9 @@ const RenderMap: React.FunctionComponent = () => {
                     className="cgp-modal-dialog"
                     wrapClassName="cgp-modal-wrap"
                     modalClassName="cgp-modal"
-                    openOnLoad={true}
-                    center={true}
-                    unmountOnClose={true}
+                    openOnLoad
+                    center
+                    unmountOnClose
                 />
                 <div className="mapContainer">
                     <Map

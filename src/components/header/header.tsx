@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-alert */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -48,7 +49,7 @@ export default function Header(): JSX.Element {
             } 
            setLF(true);
         }
-    }, []);
+    }, [dispatch, langFromUrl, queryParams.lang, queryParams.org, queryParams.theme, queryParams.type]);
 
     const gotoHome = () => {
         setCollapse(false);
@@ -63,22 +64,28 @@ export default function Header(): JSX.Element {
     };
 
     const viewMyMap = () => {
-        const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
-        if (cmapping.length > 0) {
-            if (location.pathname!=='/map' || queryParams.rvKey) {
-                history.push({
-                    pathname: '/map',
-                    search: '',
-                });
-            }    
-        } else {
-            alert(t('nav.nomap'));
-        }
+        if (location.pathname !== '/map') {
+            const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
+            if (cmapping.length > 0) {
+                if (location.pathname!=='/map' || queryParams.rvKey) {
+                    history.push({
+                        pathname: '/map',
+                        search: '',
+                    });
+                }    
+            } else {
+                alert(t('nav.nomap'));
+            }
+        }   
     };
 
     const showMapping = () => {
         const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
-        document.getElementById("mcntBtn").innerText=cmapping.length.toString();
+        const mcntButton = document.getElementById("mcntBtn");
+        if (mcntButton) {
+            mcntButton.innerText=cmapping.length.toString();
+            mcntButton.className = cmapping.length>0 ? "show" : "hidden";
+        }
     };
 
     // Reacstrap Collapse - Responsive Navbar
@@ -89,12 +96,13 @@ export default function Header(): JSX.Element {
         if (rvMap) {
             rvMap.remove();
         }
-    } /*else {    
+    } /* else {    
         const rvIframe = document.getElementsByName("esri_core_jsonp_iframe");
         if (rvIframe.length>0) {
             rvIframe[0].remove();
         }
-    }*/
+    } */
+     
     const jqScript = document.getElementById("jqJS");
     if (jqScript) {
         jqScript.remove();
@@ -116,8 +124,8 @@ export default function Header(): JSX.Element {
                 openOnLoad={showmappinglist}
                 toggle={()=>setSML(!showmappinglist)}
                 onClosed = {showMapping}
-                center={true}
-                unmountOnClose={true}
+                center
+                unmountOnClose
             />
             <div className="container-fluid">
                 <div className="row align-items-center">
@@ -136,9 +144,7 @@ export default function Header(): JSX.Element {
                                 aria-expanded={collapse}
                                 aria-label="Toggle navigation"
                             >
-                                <span
-                                    className={collapse ? 'navbar-toggler-icon nav-bar-open' : 'navbar-toggler-icon nav-bar-closed'}
-                                ></span>
+                                <span className={collapse ? 'navbar-toggler-icon nav-bar-open' : 'navbar-toggler-icon nav-bar-closed'} />
                             </Button>
 
                             <Collapse isOpen={collapse} className="navbar-collapse navbar-wrap">
@@ -151,8 +157,8 @@ export default function Header(): JSX.Element {
                                     <li className="nav-item">
                                         <button id="myMapBtn" type="button" onClick={viewMyMap} onFocus={showMapping} onMouseOver={showMapping}>
                                             {t('nav.mymap')}
-                                        </button> :
-                                        <button id="mcntBtn" type="button" onClick={() => setSML(true)} onFocus={showMapping} onMouseOver={showMapping}>
+                                        </button>
+                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={location.pathname !== '/map' ? () => setSML(true) : undefined} onFocus={showMapping} onMouseOver={showMapping}>
                                             {loadState() !== undefined?loadState().mappingReducer.mapping.length:0}
                                         </button> 
                                     </li>

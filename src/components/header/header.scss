@@ -58,7 +58,19 @@
                     padding-right: 0.1em;
                 }
                 &#mcntBtn {
-                    padding-left: 0.1em;
+                    width: 24px;
+                    height: 24px;
+                    font-size: 0.85em;
+                    box-sizing: border-box;
+                    padding: 0;
+                    background-color: #dc3545;
+                    color: #fff;
+                    font-weight: 600;
+                    border-radius: 50%;
+                    vertical-align: super;
+                    &.hidden {
+                        visibility: hidden;
+                    }
                 }
             }
         }

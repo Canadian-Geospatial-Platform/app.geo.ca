@@ -1,32 +1,24 @@
 /* eslint-disable prettier/prettier */
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
 import { useMap } from 'react-leaflet';
+import { DomEvent } from 'leaflet';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, List, Divider, IconButton, Tooltip, Fade } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
-import { DomEvent } from 'leaflet';
-import { Basemap, BasemapOptions } from '../../common/basemap';
-
-// import Layers from './buttons/layers';
-// import Search from './buttons/search';
-// import KeywordSearch from './buttons/keywordsearch';
-// import Filter from './buttons/filters';
-// import Account from './buttons/account';
-// import Howto from './buttons/howto';
-
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import SvgIcon from "@material-ui/core/SvgIcon";
 import SearchIcon from '@material-ui/icons/ImageSearch';
 import KeywordSearchIcon from '@material-ui/icons/Search';
-import FilterIcon from '../../assets/icons/filter.svg';
 import AccountIcon from '@material-ui/icons/AccountBox';
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import FilterIcon from '../../assets/icons/filter.svg';
+
+import { Basemap, BasemapOptions } from '../../common/basemap';
 import ButtonApp from './button';
 import Version from './buttons/version';
 import { getQueryParams } from '../../common/queryparams';
@@ -86,11 +78,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Appbar(props: AppBarProps): JSX.Element {
-    const { id, search, auth } = props;
+    const { search, auth } = props;
     const { t } = useTranslation();
     const history = useHistory();
     const location = useLocation();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const classes = useStyles();
     // console.log(queryParams, queryParams.keyword);
@@ -116,14 +108,14 @@ export function Appbar(props: AppBarProps): JSX.Element {
         const basemap: Basemap = new Basemap(`${language}-CA`);
         const basemaps: BasemapOptions[] = basemap.wmCBMT;
         map.eachLayer((layer: unknown) => {
-            console.log(layer);
+            // console.log(layer);
             map.removeLayer(layer);
         }); 
         basemaps.forEach(base=>{
             L.tileLayer(base.url).addTo(map);
         })   
         
-    }, [language]);
+    }, [language, map]);
 
     const handleDrawerClose = () => {
         setOpen(!open);
@@ -203,7 +195,6 @@ export function Appbar(props: AppBarProps): JSX.Element {
 }
 
 interface AppBarProps {
-    id: string;
     search: boolean;
     auth: boolean;
 }
