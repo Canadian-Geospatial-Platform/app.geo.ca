@@ -10,7 +10,7 @@
             "htmllangcode": "en",
             "key": "en-CA",
             "name": "English",
-            "websiteLogoLink": "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/fr/accueil/"
+            "websiteLogoLink": "https://stage.geo.ca/fr/accueil/"
         },
         "nomap": "Votre carte est vide, veuillez ajouter des données à la carte",
         "logotext": "logo de la Plateforme géospatiale fédérale",

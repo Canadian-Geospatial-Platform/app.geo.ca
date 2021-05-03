@@ -21,7 +21,7 @@ import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import { NavBar } from '../navbar/nav-bar';
 import { loadState } from '../../reducers/localStorage';
-import { getQueryParams } from '../../common/queryparams'; 
+import { getQueryParams } from '../../common/queryparams';
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
 import './metadatapage.scss';
@@ -31,11 +31,11 @@ const MetaDataPage = () => {
     const history = useHistory();
     const queryParams = getQueryParams(location.search);
     const {t} = useTranslation();
-    
+
     const mapping = useSelector(state => state.mappingReducer.mapping);
 
-    const dispatch = useDispatch(); 
-    
+    const dispatch = useDispatch();
+
     // console.log(mapping);
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
@@ -55,20 +55,20 @@ const MetaDataPage = () => {
         setOpen(newOpen);
     };
 
-    
+
     const handleRowClick = (url) => {
         window.open(url, "_blank");
     };
 
     const handleSearch = (id) => {
       setLoading(true);
-  
+
       const searchParams = {
           id,
           lang: language,
       };
       // console.log(searchParams);
-      axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id", { params: searchParams})
+      axios.get("https://geocore-stage.api.geo.ca/staging/id", { params: searchParams})
       .then(response => response.data)
       .then((data) => {
           // console.log(data);
@@ -83,9 +83,9 @@ const MetaDataPage = () => {
           // setKeyword(keyword);
           setLoading(false);
       });
-  
+
     };
-    
+
     const changeMapping = (resultid) => {
         const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
         const rIndex = localmapping.findIndex(mid => mid === resultid);
@@ -96,21 +96,21 @@ const MetaDataPage = () => {
             newMapping.push(resultid);
         }
         dispatch(setMapping(newMapping));
-    }; 
-  
+    };
+
     const viewOnMap = (resultid) => {
         history.push({
             pathname: '/map',
             search: `rvKey=${resultid}`,
         });
-    }; 
+    };
 
     useEffect(() => {
       if (rid !== '') {
           handleSearch(rid);
       }
     }, [language, rid]);
-  
+
     return (
         <div className="pageContainer resultPage">
             <div className="resultContainer" aria-live="assertive" aria-busy={loading ? "true" : "false"} >
@@ -126,7 +126,7 @@ const MetaDataPage = () => {
                     results.map((result) => {
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-                        // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);      
+                        // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const options = JSON.parse(formattedOption);
                         const contact =   JSON.parse(formattedContact);
                         const coordinates = JSON.parse(result.coordinates);
@@ -230,8 +230,8 @@ const MetaDataPage = () => {
                                     <td>{contact[0].address[language]}</td>
                                     </tr>
                                     <tr>
-                                    <th scope="row">{t("page.individualname")}</th>                                    
-                                    <td>{contact[0].individual[language]}</td>                                    
+                                    <th scope="row">{t("page.individualname")}</th>
+                                    <td>{contact[0].individual[language]}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.role")}</th>
@@ -325,7 +325,7 @@ const MetaDataPage = () => {
                                                 "type": "Feature",
                                                 "properties": {"id": result.id, "tag": "geoViewGeoJSON"},
                                                 "geometry": {"type": "Polygon", "coordinates": coordinates}
-                                                }} />          
+                                                }} />
                                     </MapContainer>
                                 </div>
                             </section>
@@ -342,17 +342,17 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.metadata")}</h3>
                                 <p>{t("page.ourmetadatais")}</p>
                                 <div className="btn-group">
-                                    <a href={`https://cgp-meta-l1-geojson-dev.s3.ca-central-1.amazonaws.com/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank">{t("page.downloadgeocore")}</a>
+                                    <a href={`https://geocore-metadata-staging.s3.ca-central-1.amazonaws.com/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank">{t("page.downloadgeocore")}</a>
                                     <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank">{t("page.viewhnaprecord")}</a>
                                 </div>
                             </section>
                         </aside>
                     </div>
-                    </div> 
+                    </div>
                     )} ))}
             </div>
         </div>
       );
 }
-  
+
 export default MetaDataPage;

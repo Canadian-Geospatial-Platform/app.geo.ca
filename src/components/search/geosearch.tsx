@@ -148,7 +148,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         setPn(cpr);
         !loading && setLoadingStatus(true);
         const pageNumber = pnum!==undefined ? pnum: 1;
-        
+
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
@@ -180,7 +180,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         // console.log(searchParams);
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         axios
-            .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo', { params: searchParams })
+            .get('https://geocore-stage.api.geo.ca/staging/search', { params: searchParams })
             .then((response) => response.data)
             .then((data) => {
                 // console.log(data);
@@ -269,7 +269,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         // setFound(false);
         // setPageNumber(1);
     };
-    
+
     /* useEffect(() => {
         if (showing && !loading) {
             handleSearch(initKeyword, initBounds, true);
@@ -305,7 +305,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         };
     }, [showing, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
-    
+
     // console.log(storethemefilters);
     // console.log(loading, cpn, cnt);
     return (
@@ -413,9 +413,9 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                     <div className="searchResultButtons">
                                         <button
                                             type="button"
-                                            className="btn btn-sm searchButton" 
-                                            onClick={() => handleSelect(result.id)} 
-                                            aria-label={result.id} 
+                                            className="btn btn-sm searchButton"
+                                            onClick={() => handleSelect(result.id)}
+                                            aria-label={result.id}
                                             autoFocus = {cpn && mindex===0?true:false}
                                         >
                                             {selected === result.id && open === true? t('page.removefootprint') : t('page.viewfootprint')}
@@ -425,7 +425,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
                                             className="btn btn-sm searchButton"
                                             onClick={(e) => handleView(e, result.id)}
                                             aria-label={result.title}
-                                            
+
                                         >
                                             {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                         </button>

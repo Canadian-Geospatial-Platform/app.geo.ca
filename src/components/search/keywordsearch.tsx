@@ -111,7 +111,7 @@ const KeywordSearch = (): JSX.Element => {
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         // console.log(searchParams);
         axios
-            .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo', { params: searchParams })
+            .get('https://geocore-stage.api.geo.ca/staging/search', { params: searchParams })
             .then((response) => response.data)
             .then((data) => {
                 // console.log(data);
@@ -239,7 +239,7 @@ const KeywordSearch = (): JSX.Element => {
         setFound(false);
         setFReset(false);
     };
-    
+
     /* const changePageNumber = (pagenumber: number) => {
         setPageNumber(pagenumber);
         handleSearch(initKeyword, true);
@@ -258,7 +258,7 @@ const KeywordSearch = (): JSX.Element => {
             window.removeEventListener('resize', handleResize);
         };
     }, [language, fReset, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
-    
+
     // console.log(loading, cpn);
     return (
         <div className="pageContainer keyword-search-page">
