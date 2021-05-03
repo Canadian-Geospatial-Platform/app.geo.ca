@@ -54,7 +54,11 @@ export default function Header(): JSX.Element {
     const gotoHome = () => {
         setCollapse(false);
         if (location.pathname === '/' && !location.search) {
-            history.go(0);
+            if (i18n.language.substring(0, 2)==='en') {
+                history.go(0);
+            } else {
+                window.location.href=`/?lang=${i18n.language.substring(0, 2)}`;
+            }    
         } else {
             history.push({
                 pathname: '/',

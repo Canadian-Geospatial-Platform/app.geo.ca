@@ -87,7 +87,7 @@ const RenderMap: React.FunctionComponent = () => {
 };
 
 const Routing = () => {
-    const language = queryParams.lang!==undefined ? queryParams.lang : config.language;
+    const language = queryParams.lang!==undefined ? queryParams.lang : i18n.language.substring(0, 2);
     if (language !== i18n.language.substring(0, 2)) {
         i18n.changeLanguage(`${language}-CA`);
     }
