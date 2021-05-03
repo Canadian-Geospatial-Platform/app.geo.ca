@@ -144,10 +144,10 @@ export default function Header(): JSX.Element {
                                         </button>
                                     </li>
                                     <li className="nav-item">
-                                        <button id="myMapBtn" type="button" onClick={viewMyMap} onFocus={showMapping} onMouseOver={showMapping}>
+                                        <button id="myMapBtn" type="button" onClick={viewMyMap}>
                                             {t('nav.mymap')}
                                         </button>
-                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={() => setSML(true)} onFocus={showMapping} onMouseOver={showMapping}>
+                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={() => setSML(true)}>
                                             {loadState() !== undefined?loadState().mappingReducer.mapping.length:0}
                                         </button> 
                                     </li>
