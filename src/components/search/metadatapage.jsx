@@ -33,7 +33,6 @@ const MetaDataPage = () => {
     const {t} = useTranslation();
     
     const mapping = useSelector(state => state.mappingReducer.mapping);
-
     const dispatch = useDispatch(); 
     
     // console.log(mapping);
@@ -41,6 +40,7 @@ const MetaDataPage = () => {
     const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
     const rid = queryParams && queryParams.id?queryParams.id.trim():"";
+    const inMapping = rid!=="" ? mapping.findIndex((mid)=>mid===rid)>-1 : false;
     const language = t("app.language");
     // const { rid } = useParams();
 
@@ -85,9 +85,19 @@ const MetaDataPage = () => {
       });
   
     };
+
+    const showMapping = () => {
+        const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
+        const mcntButton = document.getElementById("mcntBtn");
+        if (mcntButton) {
+            mcntButton.innerText=cmapping.length.toString();
+            mcntButton.className = cmapping.length>0 ? "show" : "hidden";
+        }
+    };
     
     const changeMapping = (resultid) => {
         const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
+        // const changeId = resultid 
         const rIndex = localmapping.findIndex(mid => mid === resultid);
         const newMapping = localmapping.map(m => m);
         if (rIndex > -1) {
@@ -96,6 +106,7 @@ const MetaDataPage = () => {
             newMapping.push(resultid);
         }
         dispatch(setMapping(newMapping));
+        showMapping();
     }; 
   
     const viewOnMap = (resultid) => {
@@ -104,11 +115,24 @@ const MetaDataPage = () => {
             search: `rvKey=${resultid}`,
         });
     }; 
+    const getInMapping = () => {
+       const cinMapping = (loadState()!==undefined && rid!=="") ? loadState().mappingReducer.mapping.findIndex((mid)=>mid===rid)>-1 : false;
+       const ammButton = document.getElementById("addMyMap");
+        if (ammButton) {
+            ammButton.className = cinMapping?"btn btn-search btn-added":"btn btn-search";
+            ammButton.innerText = cinMapping ? t("page.addedtomymap"):t("page.addtomymap");
+        }
+    };
 
     useEffect(() => {
       if (rid !== '') {
           handleSearch(rid);
       }
+      
+      window.addEventListener('storage', getInMapping);
+      return () => {
+            window.removeEventListener('storage', getInMapping);
+      }; 
     }, [language, rid]);
   
     return (
@@ -136,7 +160,6 @@ const MetaDataPage = () => {
                         const maintenance = result.maintenance.split(';')[langInd];
                         const type = result.type.split(';')[langInd];
                         const spatialRepresentation = result.spatialRepresentation.split(';')[langInd];
-                        const inMapping = (mapping.findIndex((mid)=>mid===result.id)>-1);
                         const dist = Math.max(Math.abs(coordinates[0][2][1] - coordinates[0][0][1])/15, Math.abs(coordinates[0][1][0] - coordinates[0][0][0])/30);
                         const resolution = (40.7436654315252*dist*11132);
                         const zoom = Math.max(Math.log2(3600000/resolution), 1);
@@ -335,7 +358,7 @@ const MetaDataPage = () => {
                                 <div className="btn-group">
                                     {/* <a href={`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t("app.language")}.html?keys=${result.id}`} className="btn btn-search mr-2" rel="noreferrer" target="_blank">{t("page.viewonmap")}</a> */}
                                     <button type="button" className="btn btn-search mr-2" onClick={()=>viewOnMap(result.id)}>{t("page.viewonmap")}</button>
-                                    <button type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={()=>changeMapping(result.id)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
+                                    <button id="addMyMap" type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={()=>changeMapping(result.id)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
                                 </div>
                             </section>
                             <section className="sec-search-result search-results-section search-results-misc-data">

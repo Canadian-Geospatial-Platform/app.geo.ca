@@ -20,6 +20,7 @@ const MappingModal = (props: MappingModalProps) => {
         const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
         const newMapping = localmapping.filter((m:string) => m!==mid);
         dispatch(setMapping(newMapping));
+        onClosed();
     };
     return (
         <Modal
