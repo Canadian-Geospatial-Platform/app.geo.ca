@@ -111,7 +111,7 @@ const KeywordSearch = (): JSX.Element => {
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         // console.log(searchParams);
         axios
-            .get('https://geocore-stage.api.geo.ca/staging/search', { params: searchParams })
+            .get('https://geocore-stage.api.geo.ca/search', { params: searchParams })
             .then((response) => response.data)
             .then((data) => {
                 // console.log(data);

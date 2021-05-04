@@ -180,7 +180,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
         // console.log(searchParams);
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         axios
-            .get('https://geocore-stage.api.geo.ca/staging/search', { params: searchParams })
+            .get('https://geocore-stage.api.geo.ca/search', { params: searchParams })
             .then((response) => response.data)
             .then((data) => {
                 // console.log(data);

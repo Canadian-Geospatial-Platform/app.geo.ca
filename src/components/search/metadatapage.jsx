@@ -68,7 +68,7 @@ const MetaDataPage = () => {
           lang: language,
       };
       // console.log(searchParams);
-      axios.get("https://geocore-stage.api.geo.ca/staging/id", { params: searchParams})
+      axios.get("https://geocore-stage.api.geo.ca/id", { params: searchParams})
       .then(response => response.data)
       .then((data) => {
           // console.log(data);
