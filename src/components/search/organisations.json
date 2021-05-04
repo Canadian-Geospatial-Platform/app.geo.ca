@@ -1,8 +1,11 @@
 {
     "en": [
         "Agriculture and Agri-Food Canada",
+        "Canadian Food Inspection Agency",
+        "Canadian Northern Exonomic Development Agency",
         "Canadian Nuclear Safety Commission",
         "Canadian Space Agency",
+        "Crown-Indigenous and Northern Affairs Canada",
         "Elections Canada",
         "Employment and Social Development Canada",
         "Environment and Climate Change Canada",
@@ -11,32 +14,43 @@
         "Government of British Columbia",
         "Government of Ontario",
         "Government and Municipalities of Québec",
+        "Health Canada",
         "Impact Assessment Agency of Canada",
-        "Indigenous and Northern Affairs Canada",
         "National Defence",
+        "National Research Council Canada",
         "Natural Resources Canada",
         "Parks Canada",
         "Public Health Agency of Canada",
-        "Statistics Canada"
+        "Public Safety Canada",
+        "Statistics Canada",
+        "Transport Canada",
+        "Veterans Affairs"
     ],
     "fr": [
         "Agriculture et Agroalimentaire Canada",
+        "Agence Canadienne de Développement économique du Nord",
         "Commission canadienne de sûreté nucléaire",
         "Agence spatiale canadienne",
         "Élections Canada",
         "Emploi et Développement social Canada",
         "Environnement et Changement climatique Canada",
         "Pêches et Océans Canada",
+        "Santé Canada",
         "Gouvernement de l'Alberta",
         "Gouvernement de la Colombie-Britannique",
         "Gouvernement de l'Ontario",
         "Gouvernement et municipalités du Québec",
         "Agence d'évaluation d'impact du Canada",
+        "Agence canadienne d'inspection des aliments",
         "Affaires autochtones et du Nord Canada",
         "Défense nationale",
+        "Conseil national de recherches du Canada",
         "Ressources naturelles Canada",
         "Parcs Canada",
+        "Sécurité publique Canada",
         "Agence de la santé publique du Canada",
-        "Statistique Canada"
+        "Statistique Canada",
+        "Transports Canada",
+        "Anciens combattants"
     ]
 }
