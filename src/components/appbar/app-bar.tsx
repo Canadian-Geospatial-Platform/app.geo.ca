@@ -86,6 +86,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const classes = useStyles();
     // console.log(queryParams, queryParams.keyword);
+    const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const [open, setOpen] = useState(false);
     const [panel, setPanel] = useState(
         queryParams.keyword !== undefined ||
@@ -124,7 +125,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const gotoKeywordSearch = () => {
         history.push({
             pathname: '/search',
-            search: queryParams.keyword !== undefined ? `keyword=${queryParams.keyword}` : '',
+            search: initKeyword !== '' ? `keyword=${initKeyword}` : '',
         });
     };
 
@@ -165,7 +166,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                         <Layers key={`${id}-${item.id}`} />
                     ))} */}
                     {search && <ButtonApp tooltip="appbar.search" current={panel === ' search'} icon={<SearchIcon />} onClickFunction={() => setPanel(' search')} />}
-                    {search && (panel === ' search') && <div className={`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search'} closeFunction={() => setPanel('')} /></div>}
+                    {search && (panel === ' search') && <div className={`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search'} initKeyword={initKeyword} setKeyword={setKeyword} closeFunction={() => setPanel('')} /></div>}
                     {search && (
                         <ButtonApp tooltip="appbar.keywordsearch" current={false} icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
                     )}
