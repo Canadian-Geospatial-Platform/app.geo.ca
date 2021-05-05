@@ -37,12 +37,12 @@ export default function PanelApp(props: PanelAppProps): JSX.Element {
     }, []);
 
     // TODO: first draf to open close the custom appbar pnael component. Make this cleaner
-    /*if (typeof panel.current !== 'undefined') {
+    /* if (typeof panel.current !== 'undefined') {
         panel.current.parentElement.style.display = 'block';
-    }*/
-    //function closePanel(): void {
-    //panel.current.parentElement.style.display = 'none';
-    //}
+    } 
+    function closePanel(): void {
+    panel.current.parentElement.style.display = 'none';
+    } */
 
     return (
         <Card className={classes.root + (showing ? ' current' : '')} ref={panel}>
@@ -77,5 +77,7 @@ interface PanelAppProps {
 
 export interface PanelProps {
     showing: boolean;
+    initKeyword?: string;
+    setKeyword?: (kw: string) => void;
     closeFunction: (cp?: string) => void;
 }

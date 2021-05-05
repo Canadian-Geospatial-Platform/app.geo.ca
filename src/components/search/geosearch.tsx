@@ -20,7 +20,7 @@ import { useMap } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
 import { loadState } from '../../reducers/localStorage';
-import { getQueryParams } from '../../common/queryparams';
+// import { getQueryParams } from '../../common/queryparams';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
 import organisations from './organisations.json';
@@ -28,9 +28,10 @@ import types from './types.json';
 import themes from './themes.json';
 import './geosearch.scss';
 
-const GeoSearch = (showing: boolean): JSX.Element => {
-    const location = useLocation();
-    const queryParams = getQueryParams(location.search);
+const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?: string): JSX.Element => {
+    // const location = useLocation();
+    // const queryParams = getQueryParams(location.search);
+    // const {showing, setKeyword, initKeyword } = props;
     const { t } = useTranslation();
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
@@ -47,7 +48,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
     const [selected, setSelected] = useState('search');
     const [open, setOpen] = useState(false);
     // const [modal, setModal] = useState(false);
-    const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
+    // const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const language = t('app.language');
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
@@ -166,7 +167,7 @@ const GeoSearch = (showing: boolean): JSX.Element => {
             max: pageNumber * rpp,
         };
         if (thfilters.length > 0) {
-            searchParams.themes = thfilters.map((fs: number) => themes[language][fs].replace(/\'/g,"\'\'")).join('|');
+            searchParams.theme = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'")).join('|');
         }
         if (ofilters.length > 0) {
             searchParams.org = ofilters.map((fs: number) => organisations[language][fs].replace(/\'/g,"\'\'")).join('|');
@@ -450,7 +451,7 @@ interface SearchParams {
     lang: string;
     min: number;
     max: number;
-    themes?: string;
+    theme?: string;
     org?: string;
     type?: string;
     foundational?: 'true';

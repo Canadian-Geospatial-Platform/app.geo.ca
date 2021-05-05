@@ -97,7 +97,7 @@ const KeywordSearch = (): JSX.Element => {
         };
 
         if (thfilters.length > 0) {
-            searchParams.themes = thfilters.map((fs: number) => themes[currentLang][fs].replace(/\'/g,"\'\'")).join('|');
+            searchParams.theme = thfilters.map((fs: number) => themes[currentLang][fs].toLowerCase().replace(/\'/g,"\'\'")).join('|');
         }
         if (ofilters.length > 0) {
             searchParams.org = ofilters.map((fs: number) => organisations[currentLang][fs].replace(/\'/g,"\'\'")).join('|');
@@ -575,7 +575,7 @@ interface SearchParams {
     lang: string;
     min: number;
     max: number;
-    themes?: string;
+    theme?: string;
     org?: string;
     type?: string;
     foundational?: 'true';

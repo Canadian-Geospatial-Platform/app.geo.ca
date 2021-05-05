@@ -31,30 +31,14 @@ export default function Header(): JSX.Element {
     const [collapse, setCollapse] = useState(false);
     const [showmappinglist, setSML] = useState(false);
     
-    useEffect(() => {
-        if (!langFromUrl) {
-           let clang = i18n.language.substring(0, 2); 
-           if (queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
-               i18n.changeLanguage(`${queryParams.lang}-CA`);
-               clang = queryParams.lang;
-           }
-           if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
-                const oIndex = (queryParams.org!==undefined)?(organisations[clang] as string[]).findIndex((os: string) => os.toLowerCase() === queryParams.org.toLowerCase()) : -1;
-                const tIndex = (queryParams.type!==undefined)?(types[clang] as string[]).findIndex((ts: string) => ts.toLowerCase() === queryParams.type.toLowerCase()) : -1;
-                const thIndex = (queryParams.theme!==undefined)?(themes[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.theme.toLowerCase()) : -1;
-                const orgfilter = oIndex > -1 ? [oIndex] : [];
-                const typefilter = tIndex > -1 ? [tIndex] : [];
-                const themefilter = thIndex > -1 ? [thIndex] : [];
-                dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
-            } 
-           setLF(true);
-        }
-    }, [dispatch, langFromUrl, queryParams.lang, queryParams.org, queryParams.theme, queryParams.type]);
-
     const gotoHome = () => {
         setCollapse(false);
         if (location.pathname === '/' && !location.search) {
-            history.go(0);
+            if (i18n.language.substring(0, 2)==='en') {
+                history.go(0);
+            } else {
+                window.location.href=`/?lang=${i18n.language.substring(0, 2)}`;
+            }    
         } else {
             history.push({
                 pathname: '/',
@@ -96,6 +80,30 @@ export default function Header(): JSX.Element {
     if (rvScript) {
         rvScript.remove();
     }
+
+    useEffect(() => {
+        if (!langFromUrl) {
+           let clang = i18n.language.substring(0, 2); 
+           if (queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
+               i18n.changeLanguage(`${queryParams.lang}-CA`);
+               clang = queryParams.lang;
+           }
+           if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
+                const oIndex = (queryParams.org!==undefined)?(organisations[clang] as string[]).findIndex((os: string) => os.toLowerCase() === queryParams.org.toLowerCase()) : -1;
+                const tIndex = (queryParams.type!==undefined)?(types[clang] as string[]).findIndex((ts: string) => ts.toLowerCase() === queryParams.type.toLowerCase()) : -1;
+                const thIndex = (queryParams.theme!==undefined)?(themes[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.theme.toLowerCase()) : -1;
+                const orgfilter = oIndex > -1 ? [oIndex] : [];
+                const typefilter = tIndex > -1 ? [tIndex] : [];
+                const themefilter = thIndex > -1 ? [thIndex] : [];
+                dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
+            } 
+           setLF(true);
+        }
+        window.addEventListener('storage', showMapping);
+        return () => {
+            window.removeEventListener('storage', showMapping);
+        }; 
+    }, [dispatch, langFromUrl, queryParams.lang, queryParams.org, queryParams.theme, queryParams.type]);
     return (
         <header className="header">
             <MappingModal
@@ -136,10 +144,10 @@ export default function Header(): JSX.Element {
                                         </button>
                                     </li>
                                     <li className="nav-item">
-                                        <button id="myMapBtn" type="button" onClick={viewMyMap} onFocus={showMapping} onMouseOver={showMapping}>
+                                        <button id="myMapBtn" type="button" onClick={viewMyMap}>
                                             {t('nav.mymap')}
                                         </button>
-                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={() => setSML(true)} onFocus={showMapping} onMouseOver={showMapping}>
+                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={() => setSML(true)}>
                                             {loadState() !== undefined?loadState().mappingReducer.mapping.length:0}
                                         </button> 
                                     </li>
