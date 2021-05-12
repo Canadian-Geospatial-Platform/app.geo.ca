@@ -47,22 +47,6 @@ export default function Header(): JSX.Element {
         }
     };
 
-    const viewMyMap = () => {
-        // if (location.pathname !== '/map') {
-            const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
-            if (cmapping.length > 0) {
-                if (location.pathname!=='/map' || queryParams.rvKey) {
-                    history.push({
-                        pathname: '/map',
-                        search: '',
-                    });
-                }    
-            } else {
-                alert(t('nav.nomap'));
-            }
-        // }   
-    };
-
     const showMapping = () => {
         const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
         const mcntButton = document.getElementById("mcntBtn");
@@ -72,6 +56,27 @@ export default function Header(): JSX.Element {
         }
     };
 
+    const viewMyMap = () => {
+        // const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
+        // if (cmapping.length > 0) {
+        if (location.pathname!=='/map' || queryParams.rvKey) {
+            history.push({
+                pathname: '/map',
+                search: '',
+            });
+        }
+        /* } else {
+            alert(t('nav.nomap'));
+        } */
+    };
+
+    const toggleML = () => {
+        const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
+        if (showmappinglist && cmapping.length > 0) {
+            viewMyMap();
+        }
+        setSML(!showmappinglist);
+    }    
     // Reacstrap Collapse - Responsive Navbar
     const toggle = () => setCollapse(!collapse);
     // console.log(location.pathname);
@@ -79,6 +84,10 @@ export default function Header(): JSX.Element {
     const rvScript = document.getElementById("rvJS");
     if (rvScript) {
         rvScript.remove();
+    }
+    const rvSVG = document.getElementById("SvgjsSvg1004");
+    if (rvSVG) {
+        rvSVG.remove();
     }
 
     useEffect(() => {
@@ -111,7 +120,7 @@ export default function Header(): JSX.Element {
                 wrapClassName="mapping-modal-wrap"
                 modalClassName="mapping-modal"
                 openOnLoad={showmappinglist}
-                toggle={()=>setSML(!showmappinglist)}
+                toggle={toggleML}
                 onClosed = {showMapping}
                 center
                 unmountOnClose
@@ -144,7 +153,7 @@ export default function Header(): JSX.Element {
                                         </button>
                                     </li>
                                     <li className="nav-item">
-                                        <button id="myMapBtn" type="button" onClick={viewMyMap}>
+                                        <button id="myMapBtn" type="button" onClick={() => setSML(true)}>
                                             {t('nav.mymap')}
                                         </button>
                                         <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={() => setSML(true)}>

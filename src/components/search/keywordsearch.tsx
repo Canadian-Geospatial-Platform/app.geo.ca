@@ -60,7 +60,7 @@ const KeywordSearch = (): JSX.Element => {
 
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
 
-    //console.log(language);
+    // console.log(language);
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
         setFReset(false);
@@ -78,7 +78,7 @@ const KeywordSearch = (): JSX.Element => {
     };
 
     const handleSearch = (keyword: string, pnum?: number) => {
-        const cpr = pnum!==undefined ? true : false;
+        const cpr = pnum!==undefined;
         const currentLang = (!sfloaded && queryParams.lang !== undefined)?queryParams.lang:language;
         setPn(cpr);
         setLoading(true);
