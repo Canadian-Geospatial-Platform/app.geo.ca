@@ -138,7 +138,9 @@
         },
         "mapping": {
             "title": "Ajouté à MyMap",
-            "noadded": "Pas de résultat"
+            "noadded": "Pas de résultat",
+            "gotomymap": "Aller à MyMap",
+            "cancel": "Annuler"
         }
     }
 }

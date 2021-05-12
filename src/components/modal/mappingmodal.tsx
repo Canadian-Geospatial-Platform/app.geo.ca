@@ -5,22 +5,37 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import { useDispatch, useSelector} from "react-redux";
+import { useLocation, useHistory } from 'react-router';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
+import { getQueryParams } from '../../common/queryparams';
 import { loadState } from '../../reducers/localStorage';
 import { setMapping } from "../../reducers/action";
 import './mappingmodal.scss';
 
 const MappingModal = (props: MappingModalProps) => {
     const { className, center, wrapClassName, modalClassName, openOnLoad, toggle, onClosed, unmountOnClose } = props;
+    const history = useHistory();
+    const location = useLocation();
     const { t } = useTranslation();
     const mapping = useSelector(state => state.mappingReducer.mapping);
     const dispatch = useDispatch();
+    const queryParams: { [key: string]: string } = getQueryParams(location.search);
+
     const removeMapping = (mid:string) => {
         const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
         const newMapping = localmapping.filter((m:string) => m!==mid);
         dispatch(setMapping(newMapping));
         onClosed();
+    };
+    const gotoMyMap = () => {
+        toggle();
+        if (location.pathname!=='/map' || queryParams.rvKey) {
+            history.push({
+                pathname: '/map',
+                search: '',
+            });
+        }
     };
     return (
         <Modal
@@ -52,8 +67,12 @@ const MappingModal = (props: MappingModalProps) => {
                 ) ) : t('modal.mapping.noadded')}
             </ModalBody>
             <ModalFooter>
+                {loadState()!==undefined && loadState().mappingReducer.mapping.length>0 && 
+                <Button color="secondary" onClick={gotoMyMap}>
+                    {t('modal.mapping.gotomymap')}
+                </Button> }
                 <Button color="secondary" onClick={toggle}>
-                    {t('modal.buttonlabel')}
+                    {t('modal.mapping.cancel')}
                 </Button>
             </ModalFooter>
         </Modal>
