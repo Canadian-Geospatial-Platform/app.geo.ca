@@ -23,8 +23,8 @@ import './header.scss';
 
 export default function Header(): JSX.Element {
     const history = useHistory();
-    const { t } = useTranslation();
     const location = useLocation();
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const [langFromUrl, setLF] = useState(false);
@@ -56,7 +56,7 @@ export default function Header(): JSX.Element {
         }
     };
 
-    const viewMyMap = () => {
+    /* const viewMyMap = () => {
         // const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
         // if (cmapping.length > 0) {
         if (location.pathname!=='/map' || queryParams.rvKey) {
@@ -65,18 +65,18 @@ export default function Header(): JSX.Element {
                 search: '',
             });
         }
-        /* } else {
-            alert(t('nav.nomap'));
-        } */
+        // } else {
+        //    alert(t('nav.nomap'));
+        // } 
     };
 
     const toggleML = () => {
         const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
         if (showmappinglist && cmapping.length > 0) {
-            viewMyMap();
+            // viewMyMap();
         }
         setSML(!showmappinglist);
-    }    
+    } */
     // Reacstrap Collapse - Responsive Navbar
     const toggle = () => setCollapse(!collapse);
     // console.log(location.pathname);
@@ -120,7 +120,7 @@ export default function Header(): JSX.Element {
                 wrapClassName="mapping-modal-wrap"
                 modalClassName="mapping-modal"
                 openOnLoad={showmappinglist}
-                toggle={toggleML}
+                toggle={()=>setSML(!showmappinglist)}
                 onClosed = {showMapping}
                 center
                 unmountOnClose
