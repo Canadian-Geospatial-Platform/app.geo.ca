@@ -40,6 +40,12 @@
         justify-content: center;
         button {
             margin: 0.5em;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            white-space: pre-wrap;
+            text-align: left;
         }
     }
 
