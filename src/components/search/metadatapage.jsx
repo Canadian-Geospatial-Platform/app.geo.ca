@@ -22,6 +22,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { NavBar } from '../navbar/nav-bar';
 import { loadState } from '../../reducers/localStorage';
 import { getQueryParams } from '../../common/queryparams'; 
+import { envglobals } from '../../common/envglobals';
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
 import './metadatapage.scss';
@@ -68,7 +69,7 @@ const MetaDataPage = () => {
           lang: language,
       };
       // console.log(searchParams);
-      axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id", { params: searchParams})
+      axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: searchParams})
       .then(response => response.data)
       .then((data) => {
           // console.log(data);

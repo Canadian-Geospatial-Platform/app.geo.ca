@@ -18,6 +18,7 @@ import MappingModal from '../modal/mappingmodal';
 import organisations from '../search/organisations.json';
 import types from '../search/types.json';
 import themes from '../search/themes.json';
+import { envglobals } from '../../common/envglobals';
 import './header.scss';
 // Reacstrap Collapse - Responsive Navbar
 
@@ -30,14 +31,15 @@ export default function Header(): JSX.Element {
     const [langFromUrl, setLF] = useState(false);
     const [collapse, setCollapse] = useState(false);
     const [showmappinglist, setSML] = useState(false);
+    const clanguage = t('app.language');
     
     const gotoHome = () => {
         setCollapse(false);
         if (location.pathname === '/' && !location.search) {
-            if (i18n.language.substring(0, 2)==='en') {
+            if (clanguage==='en') {
                 history.go(0);
             } else {
-                window.location.href=`/?lang=${i18n.language.substring(0, 2)}`;
+                window.location.href=`/?lang=${clanguage}`;
             }    
         } else {
             history.push({
@@ -92,8 +94,8 @@ export default function Header(): JSX.Element {
 
     useEffect(() => {
         if (!langFromUrl) {
-           let clang = i18n.language.substring(0, 2); 
-           if (queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
+           let clang = clanguage; 
+           if (queryParams.lang !== undefined && clang !== queryParams.lang) {
                i18n.changeLanguage(`${queryParams.lang}-CA`);
                clang = queryParams.lang;
            }
@@ -113,6 +115,7 @@ export default function Header(): JSX.Element {
             window.removeEventListener('storage', showMapping);
         }; 
     }, [dispatch, langFromUrl, queryParams.lang, queryParams.org, queryParams.theme, queryParams.type]);
+
     return (
         <header className="header">
             <MappingModal
@@ -129,7 +132,7 @@ export default function Header(): JSX.Element {
                 <div className="row align-items-center">
                     <div className="col-12 header-nav-col">
                         <nav className="navbar navbar-light navbar-expand-lg header-nav">
-                            <a href={t('nav.language.websiteLogoLink')} target="_blank" aria-label={t('nav.logoLinktext')}>
+                            <a href={envglobals().LOGO_SITE_LINK_URL[i18n.language]} target="_blank" aria-label={t('nav.logoLinktext')}>
                                 <img src="/assets/img/GeoDotCaBanner.jpg" alt={t('nav.logotext')} />
                             </a>
                             <Button

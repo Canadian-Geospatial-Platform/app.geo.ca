@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { useTranslation } from 'react-i18next';
-import i18n from '../../assets/i18n/i18n';
+// import i18n from '../../assets/i18n/i18n';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SvgIcon from "@material-ui/core/SvgIcon";
 import SearchIcon from '@material-ui/icons/Search';
@@ -19,6 +19,7 @@ import FilterIcon from '../../assets/icons/filter.svg';
 import { loadState } from '../../reducers/localStorage';
 import { NavBar } from '../navbar/nav-bar';
 import { getQueryParams } from '../../common/queryparams';
+import { envglobals } from '../../common/envglobals';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
@@ -110,8 +111,7 @@ const KeywordSearch = (): JSX.Element => {
         }
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         // console.log(searchParams);
-        axios
-            .get('https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo', { params: searchParams })
+        axios.get(`${envglobals().APP_API_DOMAIN_URL}/geo`, { params: searchParams })
             .then((response) => response.data)
             .then((data) => {
                 // console.log(data);
