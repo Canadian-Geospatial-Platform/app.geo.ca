@@ -5,13 +5,15 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const DotEnv = require('dotenv-webpack');
+
 // const childProcess = require('child_process');
 const package = require('./package.json');
 
 // get version numbers and the hash of the current commit
 const [major, minor, patch] = package.version.split('.');
 // const hash = JSON.stringify(childProcess.execSync('git rev-parse HEAD').toString().trim());
-// console.log(`Build CGP Viewer: ${major}.${minor}.${patch}`);
+console.log(`Build CGP Viewer: ${major}.${minor}.${patch}`);
 
 const config = {
     entry: path.resolve(__dirname, 'src/app.tsx'),
@@ -84,7 +86,7 @@ const config = {
                 patch,
                 timestamp: Date.now(),
             },
-        }),
+        })
     ],
 };
 

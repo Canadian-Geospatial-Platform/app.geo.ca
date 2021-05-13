@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import BeatLoader from "react-spinners/BeatLoader";
 import axios from "axios";
 import { getQueryParams } from '../../common/queryparams';
+import { envglobals } from '../../common/envglobals';
 import { loadState } from '../../reducers/localStorage';
 import { setMapping } from "../../reducers/action";
 import './mappingmodal.scss';
@@ -54,7 +55,7 @@ const MappingModal = (props: MappingModalProps) => {
                 lang: language,
             };
             promises.push(
-                axios.get("https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/id", { params: searchParams})
+                axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: searchParams})
                 .then(response => response.data)
                 .then((data) => {
                     const res = data.Items[0];
