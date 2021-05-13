@@ -132,7 +132,7 @@ export default function Header(): JSX.Element {
                 <div className="row align-items-center">
                     <div className="col-12 header-nav-col">
                         <nav className="navbar navbar-light navbar-expand-lg header-nav">
-                            <a href={envglobals().LOGO_SITE_LINK_URL[i18n.language]} target="_blank" aria-label={t('nav.logoLinktext')}>
+                            <a href={envglobals().LOGO_SITE_LINK_URL[clanguage]} target="_blank" aria-label={t('nav.logoLinktext')}>
                                 <img src="/assets/img/GeoDotCaBanner.jpg" alt={t('nav.logotext')} />
                             </a>
                             <Button
