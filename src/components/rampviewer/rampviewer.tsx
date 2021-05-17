@@ -16,7 +16,7 @@ import { loadState } from '../../reducers/localStorage';
 import { useTranslation } from 'react-i18next';
 import { getQueryParams } from '../../common/queryparams';
 
-const RampViewer = (rv: string): JSX.Element => {
+const RampViewer = (): JSX.Element => {
     const location = useLocation();
     const queryParams = getQueryParams(location.search);
     const { t } = useTranslation();
@@ -38,8 +38,17 @@ const RampViewer = (rv: string): JSX.Element => {
         if (attr.crossorigin) {
             script.crossorigin = attr.crossorigin;
         }
-        //script.async = true;
-        document.body.appendChild(script);
+        // script.async = true;
+        if (attr.beforeElementName) {
+            const beforeEl = document.getElementsByName(attr.beforeElementName);
+            if (beforeEl.length>0) {
+                document.body.insertBefore(script, beforeEl[0]);
+            } else {
+                document.body.appendChild(script);
+            }
+        } else {
+            document.body.appendChild(script);
+        }    
     }
 
     const addMapDiv = (attr: mapAttr) => {
@@ -62,14 +71,14 @@ const RampViewer = (rv: string): JSX.Element => {
         }
     }
     useEffect(() => {
+        // console.log("rvmap refresh");
+        const rvScript = document.getElementById("rvJS");
+        if (rvScript) {
+            rvScript.remove();
+        }
         const rvKeys = queryParams.rvKey ? [queryParams.rvKey]:mapping;
         addMapDiv({id: "rvMap", is: "rv-map", rvLangs: `["${language}-CA"]`, rvKeys});
-         
-        const rvScript = document.getElementById("rvJS");
-        if (!rvScript) {
-            appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.js" });
-        }
-            
+        appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.js" });
     }, [language]);
 
     return (
@@ -87,6 +96,7 @@ interface scriptAttr {
     scriptToAppend?:string;
     integrity?:string;
     crossorigin?:string;
+    beforeElementName?: string;
 }
 
 interface mapAttr {
