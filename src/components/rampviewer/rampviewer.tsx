@@ -12,8 +12,8 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { StoreEnhancer } from 'redux';
-import { loadState } from '../../reducers/localStorage';
 import { useTranslation } from 'react-i18next';
+import { loadState } from '../../reducers/localStorage';
 import { getQueryParams } from '../../common/queryparams';
 
 const RampViewer = (): JSX.Element => {
