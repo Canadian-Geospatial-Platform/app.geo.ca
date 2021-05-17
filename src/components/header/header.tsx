@@ -94,7 +94,7 @@ export default function Header(): JSX.Element {
 
     useEffect(() => {
         if (!langFromUrl) {
-           let clang = clanguage; 
+           let clang:string = clanguage; 
            if (queryParams.lang !== undefined && clang !== queryParams.lang) {
                i18n.changeLanguage(`${queryParams.lang}-CA`);
                clang = queryParams.lang;
@@ -110,10 +110,12 @@ export default function Header(): JSX.Element {
             } 
            setLF(true);
         }
+        
         window.addEventListener('storage', showMapping);
         return () => {
             window.removeEventListener('storage', showMapping);
         }; 
+        
     }, [dispatch, langFromUrl, queryParams.lang, queryParams.org, queryParams.theme, queryParams.type]);
 
     return (
@@ -156,10 +158,10 @@ export default function Header(): JSX.Element {
                                         </button>
                                     </li>
                                     <li className="nav-item">
-                                        <button id="myMapBtn" type="button" onClick={() => setSML(true)}>
+                                        <button id="myMapBtn" type="button" onClick={()=>setSML(true)}>
                                             {t('nav.mymap')}
                                         </button>
-                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={() => setSML(true)}>
+                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={()=>setSML(true)}>
                                             {loadState() !== undefined?loadState().mappingReducer.mapping.length:0}
                                         </button> 
                                     </li>

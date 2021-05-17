@@ -18,7 +18,7 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging"
                 };
-            case "poduction":
+            case "production":
                 return {
                     LOGO_SITE_LINK_URL: { 
                         en: "https://stage.geo.ca/home/",

@@ -7,7 +7,7 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector} from "react-redux";
 import { useLocation, useHistory } from 'react-router';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import BeatLoader from "react-spinners/BeatLoader";
 import axios from "axios";
@@ -79,50 +79,49 @@ const MappingModal = (props: MappingModalProps) => {
     useEffect(() => { getMappingList() }, [openOnLoad, mapping, language]);    
     // console.log(mappingList);
     return (
-        <Modal
-            isOpen={openOnLoad}
-            toggle={toggle}
-            className={className}
-            wrapClassName={wrapClassName}
-            modalClassName={modalClassName}
-            centered={center}
-            unmountOnClose={unmountOnClose}
-            onClosed={onClosed}
-            aria-labelledby="modal-heading"
-            aria-describedby="modal-description"
-        >
-            <ModalHeader id="modal-heading" tag="h2" toggle={toggle}>
-                {t('modal.mapping.title')}
-            </ModalHeader>
-            <ModalBody id="modal-description" tag="div">
-            {loading ?
-                <div className="d-flex justify-content-center status-indicator">
-                    <BeatLoader color="#515AA9" />
+        <div tabindex="-1" style={{position: "fixed", zIndex: "1050", display: openOnLoad?"block":"none"}}>
+            <div className="mapping-modal-wrap">
+                <div className="modal mapping-modal fade show" role="dialog" tabindex="-1" style={{display: openOnLoad?"block":"none"}}>
+                    <div aria-labelledby="modal-heading" aria-describedby="modal-description" className="modal-dialog mapping-modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                            <div id="modal-heading" className="modal-header">
+                                <h2 className="modal-title">
+                                    {t('modal.mapping.title')}
+                                </h2>
+                                <button type="button" className="close" aria-label="Close" onClick={toggle}><span aria-hidden="true">×</span></button>
+                            </div>
+                            <div id="modal-description" className="modal-body">
+                            {loading ?
+                                <div className="d-flex justify-content-center status-indicator">
+                                    <BeatLoader color="#515AA9" />
+                                </div>
+                                : 
+                                (mappingList.length>0 ?
+                                    mappingList.map((ml: SearchResult, mindex: number) => (
+                                        <button
+                                            key={`ml-${mindex}`}
+                                            type="button"
+                                            className="btn btn btn-filter"
+                                            onClick={() => removeMapping(ml.id)}
+                                        >
+                                            {ml.title} <i className="fas fa-times" />
+                                        </button> 
+                                    ) ) : t('modal.mapping.noadded') )
+                            }
+                        </div>
+                        <div className="modal-footer">
+                        {loadState()!==undefined && loadState().mappingReducer.mapping.length>0 && !loading &&
+                            <button  type="button" className="btn btn-secondary" onClick={gotoMyMap}>
+                                {t('modal.mapping.gotomymap')}
+                            </button> }
+                            <button type="button" className="btn btn-secondary" onClick={toggle}>{t('modal.mapping.cancel')}</button>
+                        </div>
+                    </div>
                 </div>
-                : 
-                (mappingList.length>0 ?
-                    mappingList.map((ml: SearchResult, mindex: number) => (
-                        <button
-                            key={`ml-${mindex}`}
-                            type="button"
-                            className="btn btn btn-filter"
-                            onClick={() => removeMapping(ml.id)}
-                        >
-                            {ml.title} <i className="fas fa-times" />
-                        </button> 
-                    ) ) : t('modal.mapping.noadded') )
-            }
-            </ModalBody>
-            <ModalFooter>
-                {loadState()!==undefined && loadState().mappingReducer.mapping.length>0 && 
-                <Button color="secondary" onClick={gotoMyMap}>
-                    {t('modal.mapping.gotomymap')}
-                </Button> }
-                <Button color="secondary" onClick={toggle}>
-                    {t('modal.mapping.cancel')}
-                </Button>
-            </ModalFooter>
-        </Modal>
+            </div>
+            <div className="modal-backdrop fade show" />
+        </div>
+        </div>
     );
 };
 

@@ -56,7 +56,7 @@ const config = jsonConfig
 // const center: LatLngTuple = [config.center[0], config.center[1]];
 const queryParams: { [key: string]: string } = getQueryParams(window.location.href.substr(window.location.href.indexOf("?")));
 
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 
 const RenderMap: React.FunctionComponent = () => {
     const center: LatLngTuple = [config.center[0], config.center[1]];
