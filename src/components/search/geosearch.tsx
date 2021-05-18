@@ -116,7 +116,7 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
 
   const handleView = (evt:React.MouseEvent<HTMLButtonElement>, id:string) => {
     evt.stopPropagation();
-    window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
+    window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `_blank`);
   }
 
     const handleChange = (e: ChangeEvent) => {

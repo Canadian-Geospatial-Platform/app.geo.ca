@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-alert */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/control-has-associated-label */
@@ -87,9 +88,13 @@ export default function Header(): JSX.Element {
     if (rvScript) {
         rvScript.remove();
     }
-    const rvSVG = document.getElementById("SvgjsSvg1004");
-    if (rvSVG) {
-        rvSVG.remove();
+    const rvSVG = document.getElementsByTagName("svg");
+    if (rvSVG.length>0) {
+        for (const item of rvSVG) {
+            if (item.id && item.id.indexOf("SvgjsSvg")===0) {
+                item.remove();
+            }
+        }
     }
 
     useEffect(() => {
@@ -127,8 +132,6 @@ export default function Header(): JSX.Element {
                 openOnLoad={showmappinglist}
                 toggle={()=>setSML(!showmappinglist)}
                 onClosed = {showMapping}
-                center
-                unmountOnClose
             />
             <div className="container-fluid">
                 <div className="row align-items-center">
