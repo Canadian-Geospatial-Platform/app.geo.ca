@@ -18,7 +18,7 @@ import { setMapping } from "../../reducers/action";
 import './mappingmodal.scss';
 
 const MappingModal = (props: MappingModalProps) => {
-    const { className, center, wrapClassName, modalClassName, openOnLoad, toggle, onClosed, unmountOnClose } = props;
+    const { className, wrapClassName, modalClassName, openOnLoad, toggle, onClosed } = props;
     const history = useHistory();
     const location = useLocation();
     const { t } = useTranslation();
@@ -38,12 +38,20 @@ const MappingModal = (props: MappingModalProps) => {
     };
     const gotoMyMap = () => {
         toggle();
-        if (location.pathname!=='/map' || queryParams.rvKey) {
+        if (location.pathname!=='/map') {
             history.push({
                 pathname: '/map',
                 search: '',
             });
-        }
+        } else if ( queryParams.rvKey ) {
+            window.location.href="/map";
+        } else {
+            window.location.reload();
+        }    
+    };
+
+    const gotoView = (id: string) => {
+        window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `_blank`);
     };
 
     const getMappingList = () => {
@@ -80,9 +88,9 @@ const MappingModal = (props: MappingModalProps) => {
     // console.log(mappingList);
     return (
         <div tabindex="-1" style={{position: "fixed", zIndex: "1050", display: openOnLoad?"block":"none"}}>
-            <div className="mapping-modal-wrap">
-                <div className="modal mapping-modal fade show" role="dialog" tabindex="-1" style={{display: openOnLoad?"block":"none"}}>
-                    <div aria-labelledby="modal-heading" aria-describedby="modal-description" className="modal-dialog mapping-modal-dialog modal-dialog-centered" role="document">
+            <div className={wrapClassName}>
+                <div className={`modal ${modalClassName} fade show`} role="dialog" tabindex="-1" style={{display: openOnLoad?"block":"none"}}>
+                    <div aria-labelledby="modal-heading" aria-describedby="modal-description" className={`modal-dialog ${className} modal-dialog-centered`} role="document">
                         <div className="modal-content">
                             <div id="modal-heading" className="modal-header">
                                 <h2 className="modal-title">
@@ -98,14 +106,10 @@ const MappingModal = (props: MappingModalProps) => {
                                 : 
                                 (mappingList.length>0 ?
                                     mappingList.map((ml: SearchResult, mindex: number) => (
-                                        <button
-                                            key={`ml-${mindex}`}
-                                            type="button"
-                                            className="btn btn btn-filter"
-                                            onClick={() => removeMapping(ml.id)}
-                                        >
-                                            {ml.title} <i className="fas fa-times" />
-                                        </button> 
+                                        <div key={`ml-${mindex}`} className="mapping-list-item">
+                                            <button  className="btn link-button" type="button" onClick={() => gotoView(ml.id)}>{ml.title}</button> 
+                                            <button  className="btn" type="button" onClick={() => removeMapping(ml.id)}><i className="fas fa-times" /></button>
+                                        </div> 
                                     ) ) : t('modal.mapping.noadded') )
                             }
                         </div>
@@ -127,13 +131,11 @@ const MappingModal = (props: MappingModalProps) => {
 
 interface MappingModalProps {
     className: string;
-    center: boolean;
     wrapClassName: string;
     modalClassName: string;
     openOnLoad: boolean;
     toggle: any;
     onClosed: any;
-    unmountOnClose: boolean;
 }
 
 interface SearchResult {
