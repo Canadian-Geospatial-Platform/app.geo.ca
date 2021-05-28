@@ -209,7 +209,7 @@
 
                 .search-desc {
                     font-size: 1rem;
-                    margin-bottom: 2.5rem;
+                    margin-bottom: 1.5rem;
                 }
 
                 .btn-group-keywords {
@@ -261,6 +261,7 @@
                     border-radius: 25px;
                     font-size: 0.875rem;
                     letter-spacing: 0.1em;
+                    margin-bottom: 1em;
                     &:hover, &:focus {
                         background-color: transparent;
                         color: $color__logo-blue;
