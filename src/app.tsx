@@ -56,6 +56,8 @@ const config = jsonConfig
 // const center: LatLngTuple = [config.center[0], config.center[1]];
 const queryParams: { [key: string]: string } = getQueryParams(window.location.href.substr(window.location.href.indexOf("?")));
 
+// console.log(process.env.NODE_ENV);
+
 const RenderMap: React.FunctionComponent = () => {
     const center: LatLngTuple = [config.center[0], config.center[1]];
     return (
@@ -94,7 +96,7 @@ const Routing = () => {
 
     return (
         <Router>
-            <StrictMode>
+            {/* <StrictMode> */}
                 <Header />
                 <Switch>
                     <Route exact path="/" component={RenderMap} />
@@ -104,7 +106,7 @@ const Routing = () => {
                     <Route path="/404" render={() => <div>404 - Not Found</div>} />
                     <Redirect to="/404" />
                 </Switch>
-            </StrictMode>
+            {/* </StrictMode> */}
         </Router>
     );
 };

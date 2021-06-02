@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-alert */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/control-has-associated-label */
@@ -18,26 +19,28 @@ import MappingModal from '../modal/mappingmodal';
 import organisations from '../search/organisations.json';
 import types from '../search/types.json';
 import themes from '../search/themes.json';
+import { envglobals } from '../../common/envglobals';
 import './header.scss';
 // Reacstrap Collapse - Responsive Navbar
 
 export default function Header(): JSX.Element {
     const history = useHistory();
-    const { t } = useTranslation();
     const location = useLocation();
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const [langFromUrl, setLF] = useState(false);
     const [collapse, setCollapse] = useState(false);
     const [showmappinglist, setSML] = useState(false);
+    const clanguage = t('app.language');
     
     const gotoHome = () => {
         setCollapse(false);
         if (location.pathname === '/' && !location.search) {
-            if (i18n.language.substring(0, 2)==='en') {
+            if (clanguage==='en') {
                 history.go(0);
             } else {
-                window.location.href=`/?lang=${i18n.language.substring(0, 2)}`;
+                window.location.href=`/?lang=${clanguage}`;
             }    
         } else {
             history.push({
@@ -45,22 +48,6 @@ export default function Header(): JSX.Element {
                 search: '',
             });
         }
-    };
-
-    const viewMyMap = () => {
-        // if (location.pathname !== '/map') {
-            const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
-            if (cmapping.length > 0) {
-                if (location.pathname!=='/map' || queryParams.rvKey) {
-                    history.push({
-                        pathname: '/map',
-                        search: '',
-                    });
-                }    
-            } else {
-                alert(t('nav.nomap'));
-            }
-        // }   
     };
 
     const showMapping = () => {
@@ -72,6 +59,27 @@ export default function Header(): JSX.Element {
         }
     };
 
+    /* const viewMyMap = () => {
+        // const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
+        // if (cmapping.length > 0) {
+        if (location.pathname!=='/map' || queryParams.rvKey) {
+            history.push({
+                pathname: '/map',
+                search: '',
+            });
+        }
+        // } else {
+        //    alert(t('nav.nomap'));
+        // } 
+    };
+
+    const toggleML = () => {
+        const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
+        if (showmappinglist && cmapping.length > 0) {
+            // viewMyMap();
+        }
+        setSML(!showmappinglist);
+    } */
     // Reacstrap Collapse - Responsive Navbar
     const toggle = () => setCollapse(!collapse);
     // console.log(location.pathname);
@@ -80,11 +88,19 @@ export default function Header(): JSX.Element {
     if (rvScript) {
         rvScript.remove();
     }
+    const rvSVG = document.getElementsByTagName("svg");
+    if (rvSVG.length>0) {
+        for (const item of rvSVG) {
+            if (item.id && item.id.indexOf("SvgjsSvg")===0) {
+                item.remove();
+            }
+        }
+    }
 
     useEffect(() => {
         if (!langFromUrl) {
-           let clang = i18n.language.substring(0, 2); 
-           if (queryParams.lang !== undefined && i18n.language.substring(0, 2) !== queryParams.lang) {
+           let clang:string = clanguage; 
+           if (queryParams.lang !== undefined && clang !== queryParams.lang) {
                i18n.changeLanguage(`${queryParams.lang}-CA`);
                clang = queryParams.lang;
            }
@@ -99,11 +115,14 @@ export default function Header(): JSX.Element {
             } 
            setLF(true);
         }
+        
         window.addEventListener('storage', showMapping);
         return () => {
             window.removeEventListener('storage', showMapping);
         }; 
+        
     }, [dispatch, langFromUrl, queryParams.lang, queryParams.org, queryParams.theme, queryParams.type]);
+
     return (
         <header className="header">
             <MappingModal
@@ -113,14 +132,12 @@ export default function Header(): JSX.Element {
                 openOnLoad={showmappinglist}
                 toggle={()=>setSML(!showmappinglist)}
                 onClosed = {showMapping}
-                center
-                unmountOnClose
             />
             <div className="container-fluid">
                 <div className="row align-items-center">
                     <div className="col-12 header-nav-col">
                         <nav className="navbar navbar-light navbar-expand-lg header-nav">
-                            <a href={t('nav.language.websiteLogoLink')} target="_blank" aria-label={t('nav.logoLinktext')}>
+                            <a href={envglobals().LOGO_SITE_LINK_URL[clanguage]} target="_blank" aria-label={t('nav.logoLinktext')}>
                                 <img src="/assets/img/GeoDotCaBanner.jpg" alt={t('nav.logotext')} />
                             </a>
                             <Button
@@ -144,10 +161,10 @@ export default function Header(): JSX.Element {
                                         </button>
                                     </li>
                                     <li className="nav-item">
-                                        <button id="myMapBtn" type="button" onClick={viewMyMap}>
+                                        <button id="myMapBtn" type="button" onClick={()=>setSML(true)}>
                                             {t('nav.mymap')}
                                         </button>
-                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={() => setSML(true)}>
+                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={()=>setSML(true)}>
                                             {loadState() !== undefined?loadState().mappingReducer.mapping.length:0}
                                         </button> 
                                     </li>

@@ -12,7 +12,7 @@ i18n.use(initReactI18next)
     // init i18next
     // for all options read: https://www.i18next.com/overview/configuration-options
     .init({
-        debug: true,
+        debug: process.env.NODE_ENV==='development',
         lng: 'en-CA',
         fallbackLng: 'en-CA',
         whitelist: ['en-CA', 'fr-CA', 'en', 'fr'],

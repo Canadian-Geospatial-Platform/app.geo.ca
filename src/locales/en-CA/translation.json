@@ -9,8 +9,7 @@
         "language": {
             "htmllangcode": "fr",
             "key": "fr-CA",
-            "name": "Français",
-            "websiteLogoLink": "https://stage.geo.ca/home/"
+            "name": "Français"
         },
         "nomap": "Your map is empty, please add data to map",
         "logotext": "logo for the Canadian Geospatial Platform",
@@ -138,7 +137,9 @@
         },
         "mapping": {
             "title": "Added to MyMap",
-            "noadded": "No result added"
+            "noadded": "No result added",
+            "gotomymap": "Go To MyMap",
+            "cancel": "Cancel"
         }
     }
 }

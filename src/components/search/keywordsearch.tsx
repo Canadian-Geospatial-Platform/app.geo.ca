@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { useTranslation } from 'react-i18next';
-import i18n from '../../assets/i18n/i18n';
+// import i18n from '../../assets/i18n/i18n';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import SvgIcon from "@material-ui/core/SvgIcon";
 import SearchIcon from '@material-ui/icons/Search';
@@ -19,6 +19,7 @@ import FilterIcon from '../../assets/icons/filter.svg';
 import { loadState } from '../../reducers/localStorage';
 import { NavBar } from '../navbar/nav-bar';
 import { getQueryParams } from '../../common/queryparams';
+import { envglobals } from '../../common/envglobals';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
@@ -60,7 +61,7 @@ const KeywordSearch = (): JSX.Element => {
 
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
 
-    //console.log(language);
+    // console.log(language);
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
         setFReset(false);
@@ -78,7 +79,7 @@ const KeywordSearch = (): JSX.Element => {
     };
 
     const handleSearch = (keyword: string, pnum?: number) => {
-        const cpr = pnum!==undefined ? true : false;
+        const cpr = pnum!==undefined;
         const currentLang = (!sfloaded && queryParams.lang !== undefined)?queryParams.lang:language;
         setPn(cpr);
         setLoading(true);
@@ -110,8 +111,7 @@ const KeywordSearch = (): JSX.Element => {
         }
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         // console.log(searchParams);
-        axios
-            .get(' https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging/search', { params: searchParams })
+        axios.get(envglobals().APP_API_SEARCH_URL, { params: searchParams })
             .then((response) => response.data)
             .then((data) => {
                 // console.log(data);
@@ -172,11 +172,11 @@ const KeywordSearch = (): JSX.Element => {
     };
 
     const handleView = (id: string) => {
-        window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
+        window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `_blank`);
     };
 
     const handleKeyword = (keyword: string) => {
-        window.open(`/search?keyword=${encodeURI(keyword.trim())}&lang=${language}`, `Search ${keyword.trim()}`);
+        window.open(`/search?keyword=${encodeURI(keyword.trim())}&lang=${language}`, `_blank`);
     };
 
     const handleKwshowing = (rid: string) => {

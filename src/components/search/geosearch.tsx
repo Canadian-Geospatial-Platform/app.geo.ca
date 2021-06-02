@@ -10,8 +10,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
-import { useLocation } from 'react-router';
-// import { Link } from "react-router-dom";
 import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -20,7 +18,7 @@ import { useMap } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
 import { loadState } from '../../reducers/localStorage';
-// import { getQueryParams } from '../../common/queryparams';
+import { envglobals } from '../../common/envglobals';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
 import organisations from './organisations.json';
@@ -29,9 +27,6 @@ import themes from './themes.json';
 import './geosearch.scss';
 
 const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?: string): JSX.Element => {
-    // const location = useLocation();
-    // const queryParams = getQueryParams(location.search);
-    // const {showing, setKeyword, initKeyword } = props;
     const { t } = useTranslation();
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
@@ -121,7 +116,7 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
 
   const handleView = (evt:React.MouseEvent<HTMLButtonElement>, id:string) => {
     evt.stopPropagation();
-    window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `View Record ${id.trim()}`);
+    window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `_blank`);
   }
 
     const handleChange = (e: ChangeEvent) => {
@@ -180,8 +175,7 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
         }
         // console.log(searchParams);
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
-        axios
-            .get(' https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging/search', { params: searchParams })
+        axios.get(envglobals().APP_API_SEARCH_URL, { params: searchParams })
             .then((response) => response.data)
             .then((data) => {
                 // console.log(data);

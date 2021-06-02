@@ -5,7 +5,9 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const childProcess = require('child_process');
+// const DotEnv = require('dotenv-webpack');
+
+// const childProcess = require('child_process');
 const package = require('./package.json');
 
 // get version numbers and the hash of the current commit
@@ -84,7 +86,7 @@ const config = {
                 patch,
                 timestamp: Date.now(),
             },
-        }),
+        })
     ],
 };
 

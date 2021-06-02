@@ -9,8 +9,7 @@
         "language": {
             "htmllangcode": "en",
             "key": "en-CA",
-            "name": "English",
-            "websiteLogoLink": "https://stage.geo.ca/fr/accueil/"
+            "name": "English"
         },
         "nomap": "Votre carte est vide, veuillez ajouter des données à la carte",
         "logotext": "logo de la Plateforme géospatiale fédérale",
@@ -138,7 +137,9 @@
         },
         "mapping": {
             "title": "Ajouté à MyMap",
-            "noadded": "Pas de résultat"
+            "noadded": "Pas de résultat",
+            "gotomymap": "Aller à MyMap",
+            "cancel": "Annuler"
         }
     }
 }
