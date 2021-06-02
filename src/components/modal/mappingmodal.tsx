@@ -57,23 +57,25 @@ const MappingModal = (props: MappingModalProps) => {
     const getMappingList = () => {
         setLoading(true);
         const promises = [];
-        loadState().mappingReducer.mapping.forEach((mid: string)=>{
-            const searchParams = {
-                id: mid,
-                lang: language,
-            };
-            promises.push(
-                axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: searchParams})
-                .then(response => response.data)
-                .then((data) => {
-                    const res = data.Items[0];
-                    return {id:res.id, title: res.title };
-                })
-                .catch(error=>{
-                    return {id:'', title: '', error };
-                })
-            );
-        });
+        if (loadState()!==undefined && loadState().mappingReducer && loadState().mappingReducer.mapping && Array.isArray(loadState().mappingReducer.mapping)) {
+            loadState().mappingReducer.mapping.forEach((mid: string)=>{
+                const searchParams = {
+                    id: mid,
+                    lang: language,
+                };
+                promises.push(
+                    axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: searchParams})
+                    .then(response => response.data)
+                    .then((data) => {
+                        const res = data.Items[0];
+                        return {id:res.id, title: res.title };
+                    })
+                    .catch(error=>{
+                        return {id:'', title: '', error };
+                    })
+                );
+            });
+        }    
         const result = Promise.all(promises);
         result.then(
             (mlist: SearchResult[]) => {
@@ -87,9 +89,9 @@ const MappingModal = (props: MappingModalProps) => {
     useEffect(() => { getMappingList() }, [openOnLoad, mapping, language]);    
     // console.log(mappingList);
     return (
-        <div tabindex="-1" style={{position: "fixed", zIndex: "1050", display: openOnLoad?"block":"none"}}>
+        <div tabIndex="-1" style={{position: "fixed", zIndex: "1050", display: openOnLoad?"block":"none"}}>
             <div className={wrapClassName}>
-                <div className={`modal ${modalClassName} fade show`} role="dialog" tabindex="-1" style={{display: openOnLoad?"block":"none"}}>
+                <div className={`modal ${modalClassName} fade show`} role="dialog" tabIndex="-1" style={{display: openOnLoad?"block":"none"}}>
                     <div aria-labelledby="modal-heading" aria-describedby="modal-description" className={`modal-dialog ${className} modal-dialog-centered`} role="document">
                         <div className="modal-content">
                             <div id="modal-heading" className="modal-header">
