@@ -116,7 +116,7 @@ const MappingModal = (props: MappingModalProps) => {
                             }
                         </div>
                         <div className="modal-footer">
-                        {loadState()!==undefined && loadState().mappingReducer.mapping.length>0 && !loading &&
+                        {loadState()!==undefined && loadState().mappingReducer && loadState().mappingReducer.mapping && Array.isArray(loadState().mappingReducer.mapping) && loadState().mappingReducer.mapping.length>0 && !loading &&
                             <button  type="button" className="btn btn-secondary" onClick={gotoMyMap}>
                                 {t('modal.mapping.gotomymap')}
                             </button> }
