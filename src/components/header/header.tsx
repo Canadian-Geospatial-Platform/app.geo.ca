@@ -104,14 +104,14 @@ export default function Header(): JSX.Element {
                i18n.changeLanguage(`${queryParams.lang}-CA`);
                clang = queryParams.lang;
            }
-           if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
+           if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined || queryParams.foundational !== undefined) {
                 const oIndex = (queryParams.org!==undefined)?(organisations[clang] as string[]).findIndex((os: string) => os.toLowerCase() === queryParams.org.toLowerCase()) : -1;
                 const tIndex = (queryParams.type!==undefined)?(types[clang] as string[]).findIndex((ts: string) => ts.toLowerCase() === queryParams.type.toLowerCase()) : -1;
                 const thIndex = (queryParams.theme!==undefined)?(themes[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.theme.toLowerCase()) : -1;
                 const orgfilter = oIndex > -1 ? [oIndex] : [];
                 const typefilter = tIndex > -1 ? [tIndex] : [];
                 const themefilter = thIndex > -1 ? [thIndex] : [];
-                dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: false }));
+                dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: queryParams.foundational!==undefined && queryParams.foundational ==='y'}));
             } 
            setLF(true);
         }

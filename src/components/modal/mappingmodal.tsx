@@ -75,7 +75,7 @@ const MappingModal = (props: MappingModalProps) => {
                     })
                 );
             });
-        }
+        }    
         const result = Promise.all(promises);
         result.then(
             (mlist: SearchResult[]) => {
