@@ -23,6 +23,7 @@ import { NavBar } from '../navbar/nav-bar';
 import { loadState } from '../../reducers/localStorage';
 import { getQueryParams } from '../../common/queryparams'; 
 import { envglobals } from '../../common/envglobals';
+import {analyticPost} from '../../common/analytic';
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
 import './metadatapage.scss';
@@ -44,6 +45,13 @@ const MetaDataPage = () => {
     const inMapping = rid!=="" ? mapping.findIndex((mid)=>mid===rid)>-1 : false;
     const language = t("app.language");
     // const { rid } = useParams();
+
+    const viewParams = {
+        uuid: rid, 
+        loc: '/result',
+        lang: language,
+        type: 'use'
+    };
 
     const handleOpen = (section) => {
         const newOpen = openSection.map(o=>o);
@@ -105,17 +113,34 @@ const MetaDataPage = () => {
             newMapping.splice(rIndex, 1);
         } else {
             newMapping.push(resultid);
+            viewParams.event = 'map';
+            analyticPost(viewParams);
         }
         dispatch(setMapping(newMapping));
         showMapping();
     }; 
   
     const viewOnMap = (resultid) => {
+        viewParams.event = 'map';
+        analyticPost(viewParams);
         history.push({
             pathname: '/map',
             search: `rvKey=${resultid}`,
         });
-    }; 
+    };
+    
+    const handleMetaDataBtn = (mdEvent) => {
+        viewParams.event = mdEvent;
+        analyticPost(viewParams);
+    };
+    
+    const resourceClick = (rname, rtype) => {
+        viewParams.event = 'resource';
+        viewParams.resource_name = rname;
+        viewParams.resource_type = rtype;
+        analyticPost(viewParams);
+    }
+    
     const getInMapping = () => {
        const cinMapping = (loadState()!==undefined && rid!=="") ? loadState().mappingReducer.mapping.findIndex((mid)=>mid===rid)>-1 : false;
        const ammButton = document.getElementById("addMyMap");
@@ -227,7 +252,7 @@ const MetaDataPage = () => {
                                         return (
                                             <tr className="table-row-link" key={oi} onClick={()=>handleRowClick(option.url)}>
                                             <td>
-                                                <a className="table-cell-link" href={option.url} target="_blank">{option.name[language]}</a>
+                                                <a className="table-cell-link" href={option.url} target="_blank" onClick={()=>resourceClick(option.name[language], desc[0])}>{option.name[language]}</a>
                                             </td>
                                             <td>{desc[0]}</td>
                                             <td>{desc[1]}</td>
@@ -366,8 +391,8 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.metadata")}</h3>
                                 <p>{t("page.ourmetadatais")}</p>
                                 <div className="btn-group">
-                                    <a href={`https://geocore-metadata-staging.s3.ca-central-1.amazonaws.com/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank">{t("page.downloadgeocore")}</a>
-                                    <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank">{t("page.viewhnaprecord")}</a>
+                                    <a href={`https://geocore-metadata-staging.s3.ca-central-1.amazonaws.com/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
+                                    <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('hnap')}>{t("page.viewhnaprecord")}</a>
                                 </div>
                             </section>
                         </aside>

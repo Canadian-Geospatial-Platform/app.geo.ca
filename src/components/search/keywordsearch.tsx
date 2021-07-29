@@ -20,6 +20,7 @@ import { loadState } from '../../reducers/localStorage';
 import { NavBar } from '../navbar/nav-bar';
 import { getQueryParams } from '../../common/queryparams';
 import { envglobals } from '../../common/envglobals';
+import {analyticPost, AnalyticParams} from '../../common/analytic';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
@@ -58,6 +59,7 @@ const KeywordSearch = (): JSX.Element => {
     const [filterbyshown, setFilterbyshown] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
     const language = t('app.language');
+    const [analyticParams, setAnalyticParams] = useState({loc: '/search', lang: language, type: 'search', event: 'search'});
 
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
 
@@ -97,22 +99,43 @@ const KeywordSearch = (): JSX.Element => {
             max: pageNumber * rpp,
         };
 
+        const aParams = Object.assign(analyticParams);
+        aParams.search = keyword;
         if (thfilters.length > 0) {
-            searchParams.theme = thfilters.map((fs: number) => themes[currentLang][fs].toLowerCase().replace(/\'/g,"\'\'")).join('|');
+            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            searchParams.theme = themeArray.join('|');
+            aParams.theme = themeArray;
+        } else if (aParams.theme) {
+            delete aParams.theme;
         }
         if (ofilters.length > 0) {
-            searchParams.org = ofilters.map((fs: number) => organisations[currentLang][fs].replace(/\'/g,"\'\'")).join('|');
+            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            searchParams.org = orgArray.join('|');
+            aParams.org = orgArray;
+        } else if (aParams.org) {
+            delete aParams.org;
         }
         if (tfilters.length > 0) {
-            searchParams.type = tfilters.map((fs: number) => types[currentLang][fs].replace(/\'/g,"\'\'")).join('|');
+            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            searchParams.type = typeArray.join('|');
+            aParams.type_filter = typeArray;
+        } else if (aParams.type_filter) {
+            delete aParams.type_filter;
         }
         if (found) {
             searchParams.foundational = 'true';
+            aParams.foundational = 'true';
+        } else if (aParams.foundational) {
+            delete aParams.foundational;
         }
+
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         // console.log(searchParams);
         axios.get(envglobals().APP_API_SEARCH_URL, { params: searchParams })
-            .then((response) => response.data)
+            .then((response) =>  {
+                analyticPost(analyticParams);
+                return response.data;
+            })
             .then((data) => {
                 // console.log(data);
                 const res = data.Items;
@@ -124,6 +147,7 @@ const KeywordSearch = (): JSX.Element => {
                 // }
                 setKWShowing([]);
                 setKeyword(keyword);
+                setAnalyticParams(aParams);
                 setLoading(false);
                 setOrg(ofilters);
                 setType(tfilters);
@@ -139,6 +163,7 @@ const KeywordSearch = (): JSX.Element => {
                 setPageNumber(1);
                 setKWShowing([]);
                 setKeyword(keyword);
+                setAnalyticParams(aParams);
                 setLoading(false);
                 setOrg(ofilters);
                 setType(tfilters);
@@ -172,6 +197,28 @@ const KeywordSearch = (): JSX.Element => {
     };
 
     const handleView = (id: string) => {
+        const viewParams: AnalyticParams = {
+            uuid: id, 
+            loc: '/search',
+            lang: language,
+            type: 'access',
+            event: 'view'
+        };
+    
+        viewParams.search = analyticParams.search;
+        if (analyticParams.theme) {
+            viewParams.theme = analyticParams.theme;
+        }
+        if (analyticParams.org) {
+            viewParams.org = analyticParams.org;
+        }
+        if (analyticParams.type_filter) {
+            viewParams.type_filter = analyticParams.type_filter;
+        }
+        if (analyticParams.foundational) {
+            viewParams.foundational = analyticParams.foundational;
+        }
+        analyticPost(viewParams);
         window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `_blank`);
     };
 
