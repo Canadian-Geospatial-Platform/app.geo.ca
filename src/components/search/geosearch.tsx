@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
 import { loadState } from '../../reducers/localStorage';
 import { envglobals } from '../../common/envglobals';
+import {analyticPost, AnalyticParams} from '../../common/analytic';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
 import organisations from './organisations.json';
@@ -45,6 +46,8 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
     // const [modal, setModal] = useState(false);
     // const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const language = t('app.language');
+
+    const [analyticParams, setAnalyticParams] = useState({loc: '/', lang: language, type: 'search', event: 'search'});
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -85,7 +88,29 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
                     coordinates: JSON.parse(result.coordinates),
                 },
             };
+            const selectedParams: AnalyticParams = {
+                search: analyticParams.search,
+                geo: analyticParams.geo,
+                uuid: result.id, 
+                loc: '/',
+                lang: language,
+                type: 'access',
+                event: 'footprint'
+            };
 
+            if (analyticParams.theme) {
+                selectedParams.theme = analyticParams.theme;
+            }
+            if (analyticParams.org) {
+                selectedParams.org = analyticParams.org;
+            }
+            if (analyticParams.type_filter) {
+                selectedParams.type_filter = analyticParams.type_filter;
+            }
+            if (analyticParams.foundational) {
+                selectedParams.foundational = analyticParams.foundational;
+            }
+            analyticPost(selectedParams);
             // eslint-disable-next-line new-cap
             new L.geoJSON(data).addTo(map);
         }
@@ -116,6 +141,29 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
 
   const handleView = (evt:React.MouseEvent<HTMLButtonElement>, id:string) => {
     evt.stopPropagation();
+    const viewParams: AnalyticParams = {
+        search: analyticParams.search,
+        geo: analyticParams.geo,
+        uuid: id, 
+        loc: '/',
+        lang: language,
+        type: 'access',
+        event: 'view'
+    };
+
+    if (analyticParams.theme) {
+        viewParams.theme = analyticParams.theme;
+    }
+    if (analyticParams.org) {
+        viewParams.org = analyticParams.org;
+    }
+    if (analyticParams.type_filter) {
+        viewParams.type_filter = analyticParams.type_filter;
+    }
+    if (analyticParams.foundational) {
+        viewParams.foundational = analyticParams.foundational;
+    }
+    analyticPost(viewParams);
     window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `_blank`);
   }
 
@@ -161,22 +209,49 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
         };
+        const aParams = Object.assign(analyticParams);
+        aParams.search = keyword;
+        aParams.geo = bounds;
+       
         if (thfilters.length > 0) {
-            searchParams.theme = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'")).join('|');
+            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            searchParams.theme = themeArray.join('|');
+            aParams.theme = themeArray;
+        } else if (aParams.theme) {
+            delete aParams.theme;
         }
+
         if (ofilters.length > 0) {
-            searchParams.org = ofilters.map((fs: number) => organisations[language][fs].replace(/\'/g,"\'\'")).join('|');
+            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            searchParams.org = orgArray.join('|');
+            aParams.org = orgArray;
+        } else if (aParams.org) {
+            delete aParams.org;
         }
+
         if (tfilters.length > 0) {
-            searchParams.type = tfilters.map((fs: number) => types[language][fs].replace(/\'/g,"\'\'")).join('|');
+            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            searchParams.type = typeArray.join('|');
+            aParams.type_filter = typeArray;
+        } else if (aParams.type_filter) {
+            delete aParams.type_filter;
         }
+
         if (found) {
             searchParams.foundational = 'true';
+            aParams.foundational = 'true';
+        } else if (aParams.foundational) {
+            delete aParams.foundational;
         }
+        
         // console.log(searchParams);
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
+        
         axios.get(envglobals().APP_API_SEARCH_URL, { params: searchParams })
-            .then((response) => response.data)
+            .then((response) => {
+                analyticPost(aParams);
+                return response.data;
+            })
             .then((data) => {
                 // console.log(data);
                 const res = data.Items;
@@ -184,6 +259,7 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
                 setResults(res);
                 setCount(rcnt);
                 setBounds(bounds);
+                setAnalyticParams(aParams);
                 setKeyword(keyword);
                 // if (!cpr && pn!==1) {
                 setPageNumber(pageNumber);
@@ -208,6 +284,7 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
                 setPn(false);
                 setPageNumber(1);
                 setBounds(bounds);
+                setAnalyticParams(aParams);
                 setKeyword(keyword);
                 setSelected('search');
                 setOpen(false);
