@@ -15,6 +15,7 @@ import { StoreEnhancer } from 'redux';
 import { useTranslation } from 'react-i18next';
 import { loadState } from '../../reducers/localStorage';
 import { getQueryParams } from '../../common/queryparams';
+import defaultMapConfig from './canada-world-config.json';
 
 const RampViewer = (): JSX.Element => {
     const location = useLocation();
@@ -56,7 +57,8 @@ const RampViewer = (): JSX.Element => {
         mapDiv.id = attr.id;
         mapDiv.setAttribute("is", attr.is);
         mapDiv.setAttribute("rv-langs", attr.rvLangs);
-        mapDiv.setAttribute("rv-service-endpoint", "https://rcs.open.canada.ca");
+        mapDiv.setAttribute("rv-service-endpoint", "https://maps.canada.ca/geonetwork/srv/api/");
+        mapDiv.setAttribute("rv-config", JSON.stringify(defaultMapConfig[language]));
         mapDiv.setAttribute("data-rv-keys", JSON.stringify(attr.rvKeys));
 
         // const rvMapPage = document.getElementById("rvMapPage");
@@ -85,7 +87,8 @@ const RampViewer = (): JSX.Element => {
         <div id="rvMapPage" className="mapPage">
             <div id="rvMap" is="rv-map" 
                  rv-langs={`["${language}-CA"]`} 
-                 rv-service-endpoint="https://rcs.open.canada.ca" 
+                 rv-service-endpoint="https://gcgeo.gc.ca/geonetwork/srv/api/"
+                 rv-config={JSON.stringify(defaultMapConfig[language])} 
                  data-rv-keys={queryParams.rvKey ? JSON.stringify([queryParams.rvKey]):JSON.stringify(mapping)} 
             />
         </div>
