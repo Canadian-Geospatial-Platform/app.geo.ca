@@ -18,7 +18,7 @@ import { setMapping } from "../../reducers/action";
 import './mappingmodal.scss';
 
 const MappingModal = (props: MappingModalProps) => {
-    const { className, wrapClassName, modalClassName, openOnLoad, toggle, onClosed } = props;
+    const { className, wrapClassName, modalClassName, isTestDemo, openOnLoad, toggle, onClosed } = props;
     const history = useHistory();
     const location = useLocation();
     const { t } = useTranslation();
@@ -26,6 +26,12 @@ const MappingModal = (props: MappingModalProps) => {
     const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const language = t("app.language");
+    const demoMapping = [
+        {id: "012d26bc-b741-449f-95e3-0114d2432473", title: "012d26bc-b741-449f-95e3-0114d2432473"},
+        {id: "0083baf1-8145-4207-a84f-3d85ef2943a5", title: "0083baf1-8145-4207-a84f-3d85ef2943a5"},
+        {id: "000183ed-8864-42f0-ae43-c4313a860720", title: "000183ed-8864-42f0-ae43-c4313a860720"},
+        {id: "01612b53-98a2-4c30-bba5-be74adfc0611", title: "01612b53-98a2-4c30-bba5-be74adfc0611"},
+        {id: "01779d10-7a9a-4d9c-8b5c-80acc30dda81", title: "01779d10-7a9a-4d9c-8b5c-80acc30dda81"}];
 
     const [mappingList, setMappingList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -41,53 +47,59 @@ const MappingModal = (props: MappingModalProps) => {
         if (location.pathname!=='/map') {
             history.push({
                 pathname: '/map',
-                search: '',
+                search: isTestDemo?'test=y':'',
             });
         } else if ( queryParams.rvKey ) {
-            window.location.href="/map";
+            window.location.href=`/map${isTestDemo?'?test=y':''}`;
         } else {
             window.location.reload();
         }    
     };
 
     const gotoView = (id: string) => {
-        window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `_blank`);
+        window.open(`/${isTestDemo?"map?rvKey":"result?id"}=${encodeURI(id.trim())}&lang=${language}`, `_blank`);
     };
 
-    const getMappingList = () => {
+    const getMappingList = (testDemo: boolean) => {
         setLoading(true);
-        const promises = [];
-        if (loadState()!==undefined && loadState().mappingReducer && loadState().mappingReducer.mapping && Array.isArray(loadState().mappingReducer.mapping)) {
-            loadState().mappingReducer.mapping.forEach((mid: string)=>{
-                const searchParams = {
-                    id: mid,
-                    lang: language,
-                };
-                promises.push(
-                    axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: searchParams})
-                    .then(response => response.data)
-                    .then((data) => {
-                        const res = data.Items[0];
-                        return {id:res.id, title: res.title };
-                    })
-                    .catch(error=>{
-                        return {id:'', title: '', error };
-                    })
-                );
-            });
+        setMappingList([]);
+        if (testDemo) {
+            setMappingList(demoMapping); 
+            setLoading(false);
+        } else {
+            const promises = [];
+            if (loadState()!==undefined && loadState().mappingReducer && loadState().mappingReducer.mapping && Array.isArray(loadState().mappingReducer.mapping)) {
+                loadState().mappingReducer.mapping.forEach((mid: string)=>{
+                    const searchParams = {
+                        id: mid,
+                        lang: language,
+                    };
+                    promises.push(
+                        axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: searchParams})
+                        .then(response => response.data)
+                        .then((data) => {
+                            const res = data.Items[0];
+                            return {id:res.id, title: res.title };
+                        })
+                        .catch(error=>{
+                            return {id:'', title: '', error };
+                        })
+                    );
+                });
+            }    
+            const result = Promise.all(promises);
+            result.then(
+                (mlist: SearchResult[]) => {
+                    setMappingList(mlist); 
+                    setLoading(false);
+                }
+            ); 
+            // return result;
         }    
-        const result = Promise.all(promises);
-        result.then(
-            (mlist: SearchResult[]) => {
-               setMappingList(mlist); 
-               setLoading(false);
-            }
-        ); 
-        return result;
     };
 
-    useEffect(() => { getMappingList() }, [openOnLoad, mapping, language]);    
-    // console.log(mappingList);
+    useEffect(() => { getMappingList(isTestDemo) }, [openOnLoad, mapping, language, isTestDemo ]);    
+    console.log(isTestDemo, mappingList);
     return (
         <div tabIndex="-1" style={{position: "fixed", zIndex: "1050", display: openOnLoad?"block":"none"}}>
             <div className={wrapClassName}>
@@ -120,6 +132,7 @@ const MappingModal = (props: MappingModalProps) => {
                             <button  type="button" className="btn btn-secondary" onClick={gotoMyMap}>
                                 {t('modal.mapping.gotomymap')}
                             </button> }
+                        {isTestDemo && <button  type="button" className="btn btn-secondary" onClick={gotoMyMap}>Goto Demo</button>}    
                             <button type="button" className="btn btn-secondary" onClick={toggle}>{t('modal.mapping.cancel')}</button>
                         </div>
                     </div>
@@ -135,6 +148,7 @@ interface MappingModalProps {
     className: string;
     wrapClassName: string;
     modalClassName: string;
+    isTestDemo: boolean;
     openOnLoad: boolean;
     toggle: any;
     onClosed: any;
