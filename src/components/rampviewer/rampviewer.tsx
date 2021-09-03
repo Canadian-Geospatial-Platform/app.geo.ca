@@ -23,8 +23,15 @@ const RampViewer = (): JSX.Element => {
     const { t } = useTranslation();
     const language = t('app.language');
     const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
-    const mapping = localState !== undefined ? localState.mappingReducer.mapping : [];
     
+    const testDemo = (queryParams.test === 'y');
+    const demoMapping = [
+        "012d26bc-b741-449f-95e3-0114d2432473",
+        "0083baf1-8145-4207-a84f-3d85ef2943a5",
+        "000183ed-8864-42f0-ae43-c4313a860720",
+        "01612b53-98a2-4c30-bba5-be74adfc0611",
+        "01779d10-7a9a-4d9c-8b5c-80acc30dda81"];
+    const mapping = testDemo?demoMapping:(localState !== undefined ? localState.mappingReducer.mapping : []);
     const appendScript = (attr: scriptAttr) => {
         const script = document.createElement("script");
         if (attr.id) {
@@ -81,7 +88,7 @@ const RampViewer = (): JSX.Element => {
         const rvKeys = queryParams.rvKey ? [queryParams.rvKey]:mapping;
         addMapDiv({id: "rvMap", is: "rv-map", rvLangs: `["${language}-CA"]`, rvKeys});
         appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.js" });
-    }, [language]);
+    }, [language, testDemo]);
 
     return (
         <div id="rvMapPage" className="mapPage">

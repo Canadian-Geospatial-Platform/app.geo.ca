@@ -32,6 +32,7 @@ export default function Header(): JSX.Element {
     const [langFromUrl, setLF] = useState(false);
     const [collapse, setCollapse] = useState(false);
     const [showmappinglist, setSML] = useState(false);
+    const [showmappingDemo, setSMD] = useState(false);
     const clanguage = t('app.language');
     
     const gotoHome = () => {
@@ -129,8 +130,9 @@ export default function Header(): JSX.Element {
                 className="mapping-modal-dialog"
                 wrapClassName="mapping-modal-wrap"
                 modalClassName="mapping-modal"
+                isTestDemo={showmappingDemo}
                 openOnLoad={showmappinglist}
-                toggle={()=>setSML(!showmappinglist)}
+                toggle={()=>{setSML(!showmappinglist); setSMD(false)}}
                 onClosed = {showMapping}
             />
             <div className="container-fluid">
@@ -179,6 +181,7 @@ export default function Header(): JSX.Element {
                                     </li>
                                 </ul>
                             </Collapse>
+                            <button className="demo" type="button" onClick={()=>{setSMD(true); setSML(true)}}>MapDemo</button>
                         </nav>
                     </div>
                 </div>
