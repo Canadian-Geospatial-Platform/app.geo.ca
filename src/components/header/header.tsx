@@ -181,7 +181,7 @@ export default function Header(): JSX.Element {
                                     </li>
                                 </ul>
                             </Collapse>
-                            <button className="demo" type="button" onClick={()=>{setSMD(true); setSML(true)}}>MapDemo</button>
+                            {/* <button className="demo" type="button" onClick={()=>{setSMD(true); setSML(true)}}>MapDemo</button> */}
                         </nav>
                     </div>
                 </div>

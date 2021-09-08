@@ -429,7 +429,8 @@ button:active {
 .pageContainer {
     width: 100%;
     height: 100%;
-    margin: 90px auto 0 auto; // 90px top margin to clear the page header
+    margin: 0 auto; 
+    padding-top: 90px; // 90px top margin to clear the page header
     font-family: 'Open Sans';
     font-size: 14px;
     color: #54595f;
