@@ -177,7 +177,13 @@ const MetaDataPage = () => {
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-                        const options = JSON.parse(formattedOption);
+                        const originalOpt = JSON.parse(formattedOption);
+                        const options= [];
+                        originalOpt.forEach(o=>{
+                            if (o.protocol!=="null" && o.url!=="null") {
+                                options.push(o);
+                            }
+                        });
                         const contact =   JSON.parse(formattedContact);
                         const coordinates = JSON.parse(result.coordinates);
 
