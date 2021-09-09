@@ -38,7 +38,7 @@ const MappingModal = (props: MappingModalProps) => {
 
     const removeMapping = (mid:string) => {
         const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
-        const newMapping = localmapping.filter((m:string) => m!==mid);
+        const newMapping = localmapping.filter((m) => m.id!==mid);
         dispatch(setMapping(newMapping));
         onClosed();
     };
