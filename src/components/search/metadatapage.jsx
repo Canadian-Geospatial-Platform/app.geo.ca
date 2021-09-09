@@ -177,13 +177,7 @@ const MetaDataPage = () => {
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-                        const originalOpt = JSON.parse(formattedOption);
-                        const options= [];
-                        originalOpt.forEach(o=>{
-                            if (o.protocol!=="null" && o.url!=="null") {
-                                options.push(o);
-                            }
-                        });
+                        const options = JSON.parse(formattedOption);
                         const contact =   JSON.parse(formattedContact);
                         const coordinates = JSON.parse(result.coordinates);
 
@@ -253,7 +247,7 @@ const MetaDataPage = () => {
                                     <th scope="col">{t("page.format")}</th>
                                     <th scope="col">{t("page.languages")}</th>
                                     </tr>
-                                    {options.map((option, oi) => {
+                                    {options.filter(o=>{return o.protocol!=="null" && o.url!=="null"}).map((option, oi) => {
                                         const desc = option.description[language].split(";");
                                         return (
                                             <tr className="table-row-link" key={oi} onClick={()=>handleRowClick(option.url)}>
