@@ -31,7 +31,7 @@ const RampViewer = (): JSX.Element => {
         "000183ed-8864-42f0-ae43-c4313a860720",
         "01612b53-98a2-4c30-bba5-be74adfc0611",
         "01779d10-7a9a-4d9c-8b5c-80acc30dda81"];
-    const mapping = testDemo?demoMapping:(localState !== undefined ? localState.mappingReducer.mapping : []);
+    const mapping = testDemo?demoMapping:(localState !== undefined ? localState.mappingReducer.mapping.map(m=>m.id) : []);
     const appendScript = (attr: scriptAttr) => {
         const script = document.createElement("script");
         if (attr.id) {

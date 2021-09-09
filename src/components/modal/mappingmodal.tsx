@@ -66,8 +66,14 @@ const MappingModal = (props: MappingModalProps) => {
         if (testDemo) {
             setMappingList(demoMapping); 
             setLoading(false);
+        } else if (loadState()!==undefined && loadState().mappingReducer && loadState().mappingReducer.mapping && Array.isArray(loadState().mappingReducer.mapping)) {
+            const mlist = loadState().mappingReducer.mapping.map(m=>{return {id:m.id, title: m.title[language]}});
+            setMappingList(mlist); 
+            setLoading(false);
         } else {
-            const promises = [];
+            setLoading(false);
+        }
+            /* const promises = [];
             if (loadState()!==undefined && loadState().mappingReducer && loadState().mappingReducer.mapping && Array.isArray(loadState().mappingReducer.mapping)) {
                 loadState().mappingReducer.mapping.forEach((mid: string)=>{
                     const searchParams = {
@@ -93,13 +99,13 @@ const MappingModal = (props: MappingModalProps) => {
                     setMappingList(mlist); 
                     setLoading(false);
                 }
-            ); 
+            ); */
             // return result;
-        }    
+        // }    
     };
 
     useEffect(() => { getMappingList(isTestDemo) }, [openOnLoad, mapping, language, isTestDemo ]);    
-    console.log(isTestDemo, mappingList);
+    //console.log(isTestDemo, mappingList);
     return (
         <div tabIndex="-1" style={{position: "fixed", zIndex: "1050", display: openOnLoad?"block":"none"}}>
             <div className={wrapClassName}>

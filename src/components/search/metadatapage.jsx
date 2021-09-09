@@ -39,10 +39,10 @@ const MetaDataPage = () => {
     
     // console.log(mapping);
     const [loading, setLoading] = useState(true);
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState({});
     const [openSection, setOpen] = useState([]);
     const rid = queryParams && queryParams.id?queryParams.id.trim():"";
-    const inMapping = rid!=="" ? mapping.findIndex((mid)=>mid===rid)>-1 : false;
+    const inMapping = rid!=="" ? mapping.findIndex((m)=>m.id===rid)>-1 : false;
     const language = t("app.language");
     // const { rid } = useParams();
 
@@ -81,10 +81,23 @@ const MetaDataPage = () => {
       .then(response => response.data)
       .then((data) => {
           // console.log(data);
-          const res = data.Items;
-          setResults(res);
-          // setKeyword(keyword);
-          setLoading(false);
+          const res = data.Items[0];
+          axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: {id, lang: language==='en'?'fr':'en'}})
+            .then(subres => subres.data)
+            .then((subdata) => {
+                // console.log(data);
+                const subres = subdata.Items[0];
+                setResults([{...res, ...{mappingtitle:{en:language==='en'?res.title:subres.title,fr:language==='en'?subres.title:res.title}}}]);
+                // setKeyword(keyword);
+                setLoading(false);
+            })
+            .catch(error=>{
+                // console.log(error);
+                setResults([{...res, ...{mappingtitle:{en:res.title,fr:res.title}}}]);
+                // setKeyword(keyword);
+                setLoading(false);
+            });
+          
       })
       .catch(error=>{
           // console.log(error);
@@ -107,12 +120,15 @@ const MetaDataPage = () => {
     const changeMapping = (resultid) => {
         const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
         // const changeId = resultid 
-        const rIndex = localmapping.findIndex(mid => mid === resultid);
+        const rIndex = localmapping.findIndex(m => m.id === resultid);
         const newMapping = localmapping.map(m => m);
         if (rIndex > -1) {
             newMapping.splice(rIndex, 1);
         } else {
-            newMapping.push(resultid);
+            newMapping.push({
+                id: resultid,
+                title: results[0].mappingtitle 
+            });
             viewParams.event = 'map';
             analyticPost(viewParams);
         }
@@ -142,7 +158,7 @@ const MetaDataPage = () => {
     }
     
     const getInMapping = () => {
-       const cinMapping = (loadState()!==undefined && rid!=="") ? loadState().mappingReducer.mapping.findIndex((mid)=>mid===rid)>-1 : false;
+       const cinMapping = (loadState()!==undefined && rid!=="") ? loadState().mappingReducer.mapping.findIndex((m)=>m.id===rid)>-1 : false;
        const ammButton = document.getElementById("addMyMap");
         if (ammButton) {
             ammButton.className = cinMapping?"btn btn-search btn-added":"btn btn-search";

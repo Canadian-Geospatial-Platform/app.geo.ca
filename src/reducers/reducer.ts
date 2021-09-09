@@ -2,11 +2,19 @@
 import {ActionType, Action, BooleanAction, FilterAction, FiltersAction } from './action';
 
 export interface mappingState {
-    mapping: string[];
+    mapping: mappingObj[];
     orgfilter: number[];
     typefilter: number[];
     themefilter: number[];
     foundational: boolean;
+}
+export interface mappingObj {
+    id: string;
+    title: mappingTitle;
+}
+export interface mappingTitle {
+    en: string;
+    fr: string;
 }
 
 const defaultState: mappingState = { 

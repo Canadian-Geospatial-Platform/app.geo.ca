@@ -1,3 +1,5 @@
+import { mappingObj } from "./reducer";
+
 /* eslint-disable prettier/prettier */
 export enum ActionType {
     SET_MAPPING = 'setMapping',
@@ -10,7 +12,7 @@ export enum ActionType {
 
 export interface Action {
     type: ActionType.SET_MAPPING;
-    payload: string[];
+    payload: mappingObj[];
 }
 
 interface Filters {
@@ -35,7 +37,7 @@ export interface FiltersAction {
 }
 
 // export type Action = { type: ActionType.ADD_MAPPING, payload: idstring } | { type: ActionType.DEL_MAPPING, payload: idstring } | { type: ActionType.CLEAR_MAPPING };
-export function setMapping(mlist:string[]):Action {
+export function setMapping(mlist:mappingObj[]):Action {
     return {type: ActionType.SET_MAPPING, payload: mlist};
 } 
 
