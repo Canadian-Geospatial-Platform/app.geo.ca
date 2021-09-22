@@ -54,7 +54,7 @@
         "organisations": "Organisations",
         "types": "Types",
         "themes": "Themes",
-        "foundational": "Foundational Layers Only",
+        "foundational": "Foundational Data Only",
         "otherfilters": "Other Filters",
         "applyfilters": "Apply Filters",
         "clearall": "Clear All"
