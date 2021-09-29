@@ -7,7 +7,11 @@ import { envglobals } from './envglobals';
 
 export const analyticPost = (aParams: AnalyticParams) => {
     // console.log(aParams);
-    axios.post(envglobals().APP_API_ANALYTIC_URL, { params: aParams }).then((response)=>{
+    axios.post(
+        envglobals().APP_API_ANALYTIC_URL, 
+        { params: aParams }, 
+        { headers: {APIKey: 'TEYVxDSEmB6qsRbouShBJ1xTd9JNtQ4F87ru3pMt'} }
+    ).then((response)=>{
         console.log(response);
     });  
 }
