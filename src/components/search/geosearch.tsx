@@ -90,7 +90,7 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
             };
             const selectedParams: AnalyticParams = {
                 search: analyticParams.search,
-                geo: analyticParams.geo,
+                geo: JSON.stringify(analyticParams.geo),
                 uuid: result.id, 
                 loc: '/',
                 lang: language,
@@ -143,7 +143,7 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
     evt.stopPropagation();
     const viewParams: AnalyticParams = {
         search: analyticParams.search,
-        geo: analyticParams.geo,
+        geo: JSON.stringify(analyticParams.geo),
         uuid: id, 
         loc: '/',
         lang: language,
@@ -211,7 +211,7 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
         };
         const aParams = Object.assign(analyticParams);
         aParams.search = keyword;
-        aParams.geo = bounds;
+        aParams.geo = JSON.stringify(bounds);
        
         if (thfilters.length > 0) {
             const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
