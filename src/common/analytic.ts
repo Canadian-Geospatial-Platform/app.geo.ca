@@ -4,15 +4,20 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import { envglobals } from './envglobals';
+import apiKey from '../security/apikey.json';
 
 export const analyticPost = (aParams: AnalyticParams) => {
     // console.log(aParams);
     axios.post(
         envglobals().APP_API_ANALYTIC_URL, 
         aParams, 
-        { headers: { 'x-api-key': 'TEYVxDSEmB6qsRbouShBJ1xTd9JNtQ4F87ru3pMt'} }
+        { 
+          headers: { 
+            'x-api-key': apiKey
+          }
+        }
     ).then((response)=>{
-        console.log(response);
+        // console.log(response);
     });  
 }
 
