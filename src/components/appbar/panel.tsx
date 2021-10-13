@@ -77,7 +77,9 @@ interface PanelAppProps {
 
 export interface PanelProps {
     showing: boolean;
+    ksOnly?: boolean;
     initKeyword?: string;
+    setKSOnly?: (kso: boolean) => void;
     setKeyword?: (kw: string) => void;
     closeFunction: (cp?: string) => void;
 }

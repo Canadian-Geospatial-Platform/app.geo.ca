@@ -2,6 +2,7 @@
 
 .cgp-appbar {
     height: calc(100% - 20px);
+    transition: .4s;
     &.leaflet-control {
         z-index: 1100;
     }
@@ -28,7 +29,11 @@
         .MuiCard-root {
             margin: 0;
             display: none;
+            transition: .4s;
             max-width: calc(100vw - 61px);
+            .MuiCardHeader-root {
+                transition: .4s;
+            }
             .MuiCardContent-root {
                 height: calc(100vh - 163px);
                 overflow-y: auto;
@@ -42,6 +47,23 @@
         .section-title {
             font-size: 1.5rem;
             text-align: center;
+        }
+        &.search.ks-only {
+            height: 100%;
+            left: 0;
+            right: 0;
+            .MuiCard-root {
+                width: 100%;
+                max-width: none;
+                .MuiCardHeader-root {
+                    height: 0;
+                    display: none;
+                }
+                .MuiCardContent-root {
+                    height: calc(100vh - 93px);
+                    overflow-y: auto;
+                }
+            }
         }
     }
 }

@@ -13,8 +13,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import SvgIcon from "@material-ui/core/SvgIcon";
-import SearchIcon from '@material-ui/icons/ImageSearch';
-import KeywordSearchIcon from '@material-ui/icons/Search';
+// import SearchIcon from '@material-ui/icons/ImageSearch';
+import SearchIcon from '@material-ui/icons/Search';
 import AccountIcon from '@material-ui/icons/AccountBox';
 import FilterIcon from '../../assets/icons/filter.svg';
 
@@ -31,12 +31,13 @@ import './app-bar.scss';
 const drawerWidth = 200;
 const drawerWidthFull = '100vw';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = (kso) => makeStyles((theme) => ({
     root: {
         display: 'flex',
         height: '100%',
-        width: '60px',
+        width: kso? '100vw':'60px',
         border: '2px solid rgba(0, 0, 0, 0.2)',
+        transition: '.4s',
     },
     drawer: {
         width: drawerWidth,
@@ -59,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflow: 'hidden',
-        width: '61px',
+        width: kso?'0':'61px',
     },
     toolbar: {
         display: 'flex',
@@ -84,10 +85,11 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const location = useLocation();
     // const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
-    const classes = useStyles();
     // console.log(queryParams, queryParams.keyword);
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const [open, setOpen] = useState(false);
+    const [ksOnly, setKSOnly] = useState(false);
+    const classes = useStyles(ksOnly)();
     const [panel, setPanel] = useState(
         queryParams.keyword !== undefined ||
             queryParams.org !== undefined ||
@@ -166,10 +168,10 @@ export function Appbar(props: AppBarProps): JSX.Element {
                         <Layers key={`${id}-${item.id}`} />
                     ))} */}
                     {search && <ButtonApp tooltip="appbar.search" current={panel === ' search'} icon={<SearchIcon />} onClickFunction={() => setPanel(' search')} />}
-                    {search && (panel === ' search') && <div className={`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search'} initKeyword={initKeyword} setKeyword={setKeyword} closeFunction={() => setPanel('')} /></div>}
-                    {search && (
+                    {search && (panel === ' search' || ksOnly) && <div className={ksOnly?'cgp-apppanel search ks-only':`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search' || ksOnly} initKeyword={initKeyword} ksOnly={ksOnly} setKSOnly={setKSOnly} setKeyword={setKeyword} closeFunction={() => setPanel('')} /></div>}
+                    {/* {search && (
                         <ButtonApp tooltip="appbar.keywordsearch" current={false} icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
-                    )}
+                    )} */}
                     <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<SvgIcon><FilterIcon /></SvgIcon>} onClickFunction={() => setPanel(' filters')} />
                     {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp!==undefined?cp:'')} /></div>}
                 </List>
