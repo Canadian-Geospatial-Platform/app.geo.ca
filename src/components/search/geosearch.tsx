@@ -27,7 +27,7 @@ import types from './types.json';
 import themes from './themes.json';
 import './geosearch.scss';
 
-const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?: string): JSX.Element => {
+const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>void, setKSOnly: (kso:boolean)=>void, initKeyword?: string): JSX.Element => {
     const { t } = useTranslation();
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
@@ -401,9 +401,13 @@ const GeoSearch = (showing: boolean, setKeyword: (kw:string)=>void, initKeyword?
                     disabled={loading}
                     onClick={!loading ? handleSubmit : undefined}
                 >
-                    {' '}
-                    <SearchIcon />{' '}
+                    <SearchIcon />
                 </button>
+                <span>{t('appbar.keywordonly')}</span>
+                <label className="switch">
+                    <input type="checkbox" checked={ksOnly} onChange={()=>setKSOnly(!ksOnly)} />
+                    <span className="slider round"></span>
+                </label>
             </div>
             {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
                 <div className="searchFilters">

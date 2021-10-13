@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Typography } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/ImageSearch';
+import SearchIcon from '@material-ui/icons/Search';
 
 import PanelApp, {PanelProps} from '../appbar/panel';
 import GeoSearch from './geosearch';
@@ -8,7 +8,7 @@ import GeoSearch from './geosearch';
 export default function SearchPanel(props: PanelProps): JSX.Element {
     // TODO: access Leaflat map from custom component to use inside panel event
     // TODO: register and unregister events when panel open and close
-    const { showing, initKeyword, setKeyword, closeFunction } = props;
+    const { showing, initKeyword, ksOnly, setKeyword, setKSOnly, closeFunction } = props;
     
     return (
         <PanelApp
@@ -19,7 +19,7 @@ export default function SearchPanel(props: PanelProps): JSX.Element {
             content={
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
-                        { GeoSearch(showing, setKeyword, initKeyword) }
+                        { GeoSearch(showing, ksOnly, setKeyword, setKSOnly, initKeyword) }
                     </Typography>
                 ) as unknown) as Element
             }

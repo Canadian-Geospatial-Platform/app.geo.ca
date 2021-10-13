@@ -42,6 +42,7 @@
         "layers": "Couches",
         "search": "Geo Chercher",
         "keywordsearch": "Recherche par mot clé",
+        "keywordonly": "Mot clé uniquement",
         "filters": "Filtres",
         "account": "Compte",
         "howto": "Comment",

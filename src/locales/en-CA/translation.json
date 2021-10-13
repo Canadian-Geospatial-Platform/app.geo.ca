@@ -42,6 +42,7 @@
         "layers": "Layers",
         "search": "Geo Search",
         "keywordsearch": "Keyword Search",
+        "keywordonly": "Keyword Only",
         "filters": "Filters",
         "account": "Account",
         "howto": "How To",
