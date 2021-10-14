@@ -50,6 +50,7 @@
         }
         &.search.ks-only {
             height: 100%;
+            top: 90px;
             left: 0;
             right: 0;
             .MuiCard-root {
@@ -63,6 +64,7 @@
                     height: calc(100vh - 93px);
                     padding: 0;
                     overflow-y: auto;
+                    overflow-x: hidden;
                 }
             }
         }
