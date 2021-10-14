@@ -14,12 +14,16 @@ import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { useMap } from 'react-leaflet';
+import { useMap, MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
+import SvgIcon from "@material-ui/core/SvgIcon";
+import FilterIcon from '../../assets/icons/filter.svg';
 import { loadState } from '../../reducers/localStorage';
+import { NavBar } from '../navbar/nav-bar';
 import { envglobals } from '../../common/envglobals';
 import {analyticPost, AnalyticParams} from '../../common/analytic';
+import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
 import organisations from './organisations.json';
@@ -53,10 +57,14 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
     const dispatch = useDispatch();
-    // const [orgfilters, setOrg] = useState(storeorgfilters);
-    // const [typefilters, setType] = useState(storetypefilters);
-    // const [themefilters, setTheme] = useState(storethemefilters);
-    // const [foundational, setFound] = useState(storefoundational);
+    const [orgfilters, setOrg] = useState(storeorgfilters);
+    const [typefilters, setType] = useState(storetypefilters);
+    const [themefilters, setTheme] = useState(storethemefilters);
+    const [foundational, setFound] = useState(storefoundational);
+    const [fReset, setFReset] = useState(false);
+    const [filterbyshown, setFilterbyshown] = useState(false);
+    const [ofOpen, setOfOpen] = useState(false);
+    const [allkw, setKWShowing] = useState<string[]>([]);
     /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
     const themefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -306,7 +314,11 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
 
         const keyword = (inputRef.current as HTMLInputElement).value;
         // setPageNumber(1);
-        handleSearch(keyword, initBounds);
+        if (ksOnly) {
+            handleKOSearch(keyword);
+        } else {
+            handleSearch(keyword, initBounds);
+        }    
     };
 
     const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -314,7 +326,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             handleSubmit();
         }
     };
-
+/*
     const clearOrgFilter = (filter: number) => {
         const newfilter = storeorgfilters.filter((fs: number) => fs !== filter);
         dispatch(setOrgFilter(newfilter));
@@ -341,12 +353,181 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         // setFound(false);
         // setPageNumber(1);
     };
+*/
+ 
+    const applyFilters = () => {
+        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
+        setFReset(false);
+        // setPageNumber(1);
+    };
 
-    /* useEffect(() => {
-        if (showing && !loading) {
-            handleSearch(initKeyword, initBounds, true);
+    const clearAll = () => {
+        setOrg([]);
+        setType([]);
+        setTheme([]);
+        setFound(false);
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
+        setFReset(false);
+        // setPageNumber(1);
+    };
+
+    const handleKOSearch = (keyword: string, pnum?: number) => {
+        const cpr = pnum!==undefined;
+        // const currentLang = (!sfloaded && queryParams.lang !== undefined)?queryParams.lang:language;
+        setPn(cpr);
+        setLoading(true);
+        const pageNumber = pnum!==undefined ? pnum : 1;
+        const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
+        const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
+        const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
+        const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+        const found = localState !== undefined ? localState.mappingReducer.foundational : false;
+        const searchParams: KOSearchParams = {
+            keyword,
+            keyword_only: 'true',
+            lang: language,
+            min: (pageNumber - 1) * rpp + 1,
+            max: pageNumber * rpp,
+        };
+
+        const aParams = Object.assign(analyticParams);
+        aParams.search = keyword;
+        if (thfilters.length > 0) {
+            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            searchParams.theme = themeArray.join('|');
+            aParams.theme = themeArray;
+        } else if (aParams.theme) {
+            delete aParams.theme;
         }
-    }, [pn]); */
+        if (ofilters.length > 0) {
+            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            searchParams.org = orgArray.join('|');
+            aParams.org = orgArray;
+        } else if (aParams.org) {
+            delete aParams.org;
+        }
+        if (tfilters.length > 0) {
+            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            searchParams.type = typeArray.join('|');
+            aParams.type_filter = typeArray;
+        } else if (aParams.type_filter) {
+            delete aParams.type_filter;
+        }
+        if (found) {
+            searchParams.foundational = 'true';
+            aParams.foundational = 'true';
+        } else if (aParams.foundational) {
+            delete aParams.foundational;
+        }
+
+        dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
+        // console.log(searchParams);
+        axios.get(envglobals().APP_API_SEARCH_URL, { params: searchParams })
+            .then((response) =>  {
+                analyticPost(analyticParams);
+                return response.data;
+            })
+            .then((data) => {
+                // console.log(data);
+                const res = data.Items;
+                const rcnt = res.length > 0 ? res[0].total : 0;
+                setResults(res);
+                setCount(rcnt);
+                // if (!cpr && pn!==1) {
+                setPageNumber(pageNumber);
+                // }
+                setKWShowing([]);
+                setKeyword(keyword);
+                setAnalyticParams(aParams);
+                setLoading(false);
+                setOrg(ofilters);
+                setType(tfilters);
+                setTheme(thfilters);
+                setFound(found);
+                // setSF(true);
+            })
+            .catch(() => {
+                // console.log(error);
+                setResults([]);
+                setPn(false);
+                setCount(0);
+                setPageNumber(1);
+                setKWShowing([]);
+                setKeyword(keyword);
+                setAnalyticParams(aParams);
+                setLoading(false);
+                setOrg(ofilters);
+                setType(tfilters);
+                setTheme(thfilters);
+                setFound(found);
+                // setSF(true);
+            });
+    };
+
+    const handleKwshowing = (rid: string) => {
+        const newOpen = allkw.map((o: string) => o);
+        const hIndex = allkw.findIndex((os) => os === rid);
+        if (hIndex < 0) {
+            newOpen.push(rid);
+        } else {
+            newOpen.splice(hIndex, 1);
+        }
+        setKWShowing(newOpen);
+    };
+
+    const handleKeyword = (keyword: string) => {
+        window.open(`/?keyword=${encodeURI(keyword.trim())}&lang=${language}`, `_blank`);
+    };
+
+    const handleOrg = (filters: unknown): void => {
+        setFReset(true);
+        setOrg(filters);
+    };
+
+    const handleType = (filters: unknown): void => {
+        setFReset(true);
+        setType(filters);
+    };
+
+    const handleTheme = (filters: unknown): void => {
+        setFReset(true);
+        setTheme(filters);
+    };
+
+    const handleFound = (found: unknown): void => {
+        setFReset(true);
+        setFound(found);
+    };
+
+    const clearOrgFilter = (filter: number) => {
+        const newfilter = orgfilters.filter((fs: number) => fs !== filter);
+        dispatch(setOrgFilter(newfilter));
+        setOrg(newfilter);
+        setFReset(false);
+        // setPageNumber(1);
+    };
+
+    const clearTypeFilter = (filter: number) => {
+        const newfilter = typefilters.filter((fs: number) => fs !== filter);
+        dispatch(setTypeFilter(newfilter));
+        setType(newfilter);
+        setFReset(false);
+        // handleSearch(initKeyword);
+    };
+
+    const clearThemeFilter = (filter: number) => {
+        const newfilter = themefilters.filter((fs: number) => fs !== filter);
+        dispatch(setThemeFilter(newfilter));
+        setTheme(newfilter);
+        setFReset(false);
+        // handleSearch(initKeyword);
+    };
+
+    const clearFound = () => {
+        dispatch(setFoundational(false));
+        setFound(false);
+        setFReset(false);
+    };
 
     useEffect(() => {
         /* if (!sfloaded) {
@@ -364,8 +545,15 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 setSF('true');
             }
         } else */
+        
         if (showing && !loading) {
-            handleSearch(initKeyword, initBounds);
+            if (ksOnly) {
+                if (!fReset) {
+                    handleKOSearch(initKeyword);
+                }    
+            } else {
+                handleSearch(initKeyword, initBounds);
+            }    
         }
         const handleResize = () => {
             setPPG(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
@@ -375,42 +563,56 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showing, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
+    }, [showing, ksOnly, fReset, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
     // console.log(storethemefilters);
     // console.log(loading, cpn, cnt);
     return (
         <div className="geoSearchContainer">
-            <div className="searchInput">
-                <input
-                    placeholder={t('page.search')}
-                    id="search-input"
-                    type="search"
-                    ref={inputRef}
-                    disabled={loading}
-                    value={initKeyword}
-                    onChange={handleChange}
-                    onKeyUp={(e) => handleKeyUp(e)}
-                    aria-label={t('appbar.search')}
-                />
-                <button
-                    type="button"
-                    className="icon-button"
-                    aria-label={t('appbar.search')}
-                    disabled={loading}
-                    onClick={!loading ? handleSubmit : undefined}
-                >
-                    <SearchIcon />
-                </button>
-                <span>{t('appbar.keywordonly')}</span>
-                <label className="switch">
-                    <input type="checkbox" checked={ksOnly} onChange={()=>setKSOnly(!ksOnly)} />
-                    <span className="slider round"></span>
-                </label>
+            <div className={ksOnly?"container-fluid container-search":"searchInput"}>
+                <div className={ksOnly?"col-12 col-search-input":"searchInput"}>
+                    <input
+                        placeholder={t('page.search')}
+                        id="search-input"
+                        type="search"
+                        ref={inputRef}
+                        disabled={loading}
+                        value={initKeyword}
+                        onChange={handleChange}
+                        onKeyUp={(e) => handleKeyUp(e)}
+                        aria-label={t('appbar.search')}
+                    />
+                    <button
+                        type="button"
+                        className="icon-button"
+                        aria-label={t('appbar.search')}
+                        disabled={loading}
+                        onClick={!loading ? handleSubmit : undefined}
+                    >
+                        <SearchIcon />
+                    </button>
+                </div>
+                <div className={ksOnly?"col-12 col-advanced-filters-button":"searchInput"}>    
+                    <span>{t('appbar.keywordonly')}</span>
+                    <label className="switch">
+                        <input type="checkbox" disabled={loading} checked={ksOnly} onChange={()=>setKSOnly(!ksOnly)} />
+                        <span className="slider round"></span>
+                    </label>
+                {ksOnly && <button
+                        className={filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'}
+                        disabled={loading}
+                        type="button"
+                        onClick={!loading ? () => setFilterbyshown(!filterbyshown) : undefined}
+                        aria-expanded={filterbyshown ? 'true' : 'false'}
+                    >
+                        {t('page.advancedsearchfilters')}
+                    </button>
+                }    
+                </div>
             </div>
             {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
-                <div className="searchFilters">
+                <div className={ksOnly?"container-fluid container-search-filters-active":"searchFilters"}>
                     <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
                         {storetypefilters.map((typefilter: number) => (
                             <button
@@ -458,17 +660,192 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     </div>
                 </div>
             )}
-            <div className="container" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
-                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
+            {ksOnly && filterbyshown && (
+                <div
+                    className={
+                        loading
+                            ? 'container-fluid container-filter-selection large-panel disabled'
+                            : 'container-fluid container-filter-selection large-panel'
+                    }
+                >
+                    <div className="row row-filters">
+                        <div className="col-12">
+                            <h3 className="filters-title">
+                                <SvgIcon><FilterIcon /></SvgIcon> {t('filter.filterby')}:
+                            </h3>
+                            <div className="filters-wrap">
+                                <SearchFilter
+                                    filtertitle={t('filter.organisations')}
+                                    filtervalues={organisations[language]}
+                                    filterselected={orgfilters}
+                                    selectFilters={handleOrg}
+                                />
+                                <SearchFilter
+                                    filtertitle={t('filter.types')}
+                                    filtervalues={types[language]}
+                                    filterselected={typefilters}
+                                    selectFilters={handleType}
+                                />
+                                <SearchFilter
+                                    filtertitle={t('filter.themes')}
+                                    filtervalues={themes[language]}
+                                    filterselected={themefilters}
+                                    selectFilters={handleTheme}
+                                />
+                                <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
+                                    <button
+                                        type="button"
+                                        className="link-button filter-title"
+                                        aria-expanded={ofOpen ? 'true' : 'false'}
+                                        onClick={() => setOfOpen(!ofOpen)}
+                                    >
+                                        {t('filter.otherfilters')}
+                                    </button>
+                                    <SearchFilter
+                                        filtertitle={t('filter.foundational')}
+                                        filtervalues={[]}
+                                        filterselected={foundational ? [1] : []}
+                                        selectFilters={handleFound}
+                                    />
+                                </div>
+                            </div>
+                            <div className="filter-actions d-flex justify-content-end">
+                                <button
+                                    type="button"
+                                    className={fReset ? 'btn search-btn submit' : 'btn search-btn submit disabled'}
+                                    onClick={fReset ? applyFilters : undefined}
+                                >
+                                    {t('filter.applyfilters')}
+                                </button>
+                                <button type="button" className="btn search-btn clear" onClick={clearAll}>
+                                    {t('filter.clearall')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <div className={ksOnly?"container-fluid container-results":"container"} aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
+                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
                 {loading ? (
-                    <div className="d-flex justify-content-center">
-                        <BeatLoader color="#515AA9" />
+                    <div className="col-12 col-beat-loader">
+                        <BeatLoader color="#515aa9" />
                     </div>
                 ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
-                    t('page.changesearch')
+                    <div className="col-12 col-search-message">{t('page.changesearch')}</div>
                 ) : (
-                    <div className="row rowDivider">
-                        {results.map((result: SearchResult, mindex:number) => (
+                    <div className="row row-results rowDivider">
+                    {ksOnly?
+                        results.map((result: SearchResult, mindex:number) => {
+                            const coordinates = JSON.parse(result.coordinates);
+                            const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
+                            const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
+                            const dist = Math.max(
+                                Math.abs(coordinates[0][2][1] - coordinates[0][0][1]),
+                                Math.abs(coordinates[0][1][0] - coordinates[0][0][0])
+                            );
+                            const resolution = (40.7436654315252 * dist * 11132) / 15;
+                            const zoom = Math.max(Math.log2(3600000 / resolution), 1);
+                            // console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
+                            return (
+                                <div key={result.id} className="container-fluid search-result">
+                                    <div className="row resultRow">
+                                        <div className="col-lg-8">
+                                            <h2 className="search-title">{result.title}</h2>
+                                            <div className="search-keywords">
+                                                <div
+                                                    className={
+                                                        allkwshowing ? 'btn-group btn-group-keywords' : 'btn-group btn-group-keywords less'
+                                                    }
+                                                    role="toolbar"
+                                                    aria-label="Keywords"
+                                                >
+                                                    {keywords.map((keyword, ki) => {
+                                                        return (
+                                                            <button
+                                                                type="button"
+                                                                className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
+                                                                key={ki}
+                                                                onClick={() => handleKeyword(keyword)}
+                                                                autoFocus = {cpn && mindex===0 && ki===0?true:false}
+                                                            >
+                                                                {keyword}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                    {keywords.length > 5 && (
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-keyword-more"
+                                                            onClick={() => handleKwshowing(result.id)}
+                                                            aria-expanded={allkwshowing}
+                                                        >
+                                                            {allkwshowing ? t('page.showless') : t('page.viewmore')}
+                                                            {allkwshowing ? (
+                                                                <span className="sr-only">{t('page.showlessnotice')}</span>
+                                                            ) : (
+                                                                <span className="sr-only">{t('page.viewmorenotice')}</span>
+                                                            )}
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="search-meta">
+                                                <ul className="list list-unstyled">
+                                                    <li className="list-item">
+                                                        <strong>{t('page.organisation')}:</strong> {result.organisation}
+                                                    </li>
+                                                    <li className="list-item">
+                                                        <strong>{t('page.published')}:</strong> {result.published}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <p className="search-desc">
+                                                {result.description.substr(0, 240)}{' '}
+                                                {result.description.length > 240 ? <span>...</span> : ''}
+                                            </p>
+                                            <button
+                                                type="button"
+                                                className="btn btn-search"
+                                                onClick={(e) => handleView(e, result.id)}
+                                                aria-label={result.title}
+                                                autoFocus = {cpn && keywords.length===0 && mindex===0?true:false}
+                                            >
+                                                {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
+                                            </button>
+                                        </div>
+                                        <div className="col-lg-4">
+                                            <div className="search-image">
+                                                <MapContainer
+                                                    center={[
+                                                        (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
+                                                        (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
+                                                    ]}
+                                                    zoomControl={false}
+                                                    zoom={zoom}
+                                                >
+                                                    <TileLayer
+                                                        url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
+                                                        attribution={t('mapctrl.attribution')}
+                                                    />
+                                                    <NavBar />
+                                                    <GeoJSON
+                                                        key={result.id}
+                                                        data={{
+                                                            type: 'Feature',
+                                                            properties: { id: result.id, tag: 'geoViewGeoJSON' },
+                                                            geometry: { type: 'Polygon', coordinates },
+                                                        }}
+                                                    />
+                                                </MapContainer>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                        :
+                        results.map((result: SearchResult, mindex:number) => (
                             <div
                                 key={result.id}
                                 className={
@@ -511,7 +888,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                         ))}
                     </div>
                 )}
-                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
+                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
             </div>
         </div>
     );
@@ -523,6 +900,17 @@ interface SearchParams {
     east: number;
     south: number;
     west: number;
+    lang: string;
+    min: number;
+    max: number;
+    theme?: string;
+    org?: string;
+    type?: string;
+    foundational?: 'true';
+}
+interface KOSearchParams {
+    keyword: string;
+    keyword_only: 'true' | 'false';
     lang: string;
     min: number;
     max: number;
