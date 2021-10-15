@@ -36,7 +36,8 @@
             }
             .MuiCardContent-root {
                 height: calc(100vh - 163px);
-                overflow-y: auto;
+                overflow-y: scroll;
+                overflow-x: hidden;
             }
         }
         .panel-title {
@@ -63,8 +64,6 @@
                 .MuiCardContent-root {
                     height: calc(100vh - 93px);
                     padding: 0;
-                    overflow-y: auto;
-                    overflow-x: hidden;
                 }
             }
         }
