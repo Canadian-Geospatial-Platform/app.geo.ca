@@ -50,8 +50,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     // const [modal, setModal] = useState(false);
     // const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const language = t('app.language');
-
-    const [analyticParams, setAnalyticParams] = useState({loc: '/', lang: language, type: 'search', event: 'search'});
+    const analyticParams = {loc: '/', lang: language, type: 'search', event: 'search'};
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -140,7 +139,6 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 handler.disable();
             });
         setLoading(flag);
-
         !flag &&
             map._handlers.forEach((handler) => {
                 handler.enable();
@@ -183,14 +181,12 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     const eventHandler = (event: unknown, keyword: string, bounds: unknown) => {
         const mbounds = event.target.getBounds();
         // console.log(mbounds,bounds);
-        map.off('moveend', eventHandler);
+        map.off('moveend');
         // console.log('status:', loading, 'keyword', keyword,initKeyword);
         if (!loading && mapCount === 0 && !Object.is(mbounds, bounds)) {
             // console.log('research:', loading, keyword, mapCount);
             mapCount++;
             setLoadingStatus(true);
-            // setBounds(mbounds);
-            // setPageNumber(1);
             handleSearch(keyword, mbounds);
         }
     };
@@ -267,7 +263,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 setResults(res);
                 setCount(rcnt);
                 setBounds(bounds);
-                setAnalyticParams(aParams);
+                // setAnalyticParams(aParams);
                 setKeyword(keyword);
                 // if (!cpr && pn!==1) {
                 setPageNumber(pageNumber);
@@ -292,10 +288,10 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 setPn(false);
                 setPageNumber(1);
                 setBounds(bounds);
-                setAnalyticParams(aParams);
+                // setAnalyticParams(aParams);
                 setKeyword(keyword);
                 setSelected('search');
-                setOpen(false);
+                setOpen(false); 
                 selectResult(undefined);
                 setLoadingStatus(false);
                 // setOrg(ofilters);
@@ -355,6 +351,11 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     };
 */
  
+    const ksToggle = (kso: boolean) => {
+        kso && map.off('moveend');
+        setKSOnly(kso);
+    }
+
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
         setFReset(false);
@@ -438,7 +439,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 // }
                 setKWShowing([]);
                 setKeyword(keyword);
-                setAnalyticParams(aParams);
+                // setAnalyticParams(aParams);
                 setLoading(false);
                 setOrg(ofilters);
                 setType(tfilters);
@@ -454,7 +455,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 setPageNumber(1);
                 setKWShowing([]);
                 setKeyword(keyword);
-                setAnalyticParams(aParams);
+                // setAnalyticParams(aParams);
                 setLoading(false);
                 setOrg(ofilters);
                 setType(tfilters);
@@ -547,6 +548,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         } else */
         
         if (showing && !loading) {
+            // console.log(fReset);
             if (ksOnly) {
                 if (!fReset) {
                     handleKOSearch(initKeyword);
@@ -570,7 +572,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     // console.log(loading, cpn, cnt);
     return (
         <div className="geoSearchContainer">
-            <div className={ksOnly?"container-fluid container-search":"searchInput"}>
+            <div className={ksOnly?"container-fluid container-search input-container":"searchInput input-container"}>
                 <div className={ksOnly?"col-12 col-search-input":"searchInput"}>
                     <input
                         placeholder={t('page.search')}
@@ -593,10 +595,10 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                         <SearchIcon />
                     </button>
                 </div>
-                <div className={ksOnly?"col-12 col-advanced-filters-button":"searchInput"}>    
+                <div className={ksOnly?"col-12 col-advanced-filters-button":"col-advanced-filters-button"}>    
                     <span>{t('appbar.keywordonly')}</span>
                     <label className="switch">
-                        <input type="checkbox" disabled={loading} checked={ksOnly} onChange={()=>setKSOnly(!ksOnly)} />
+                        <input type="checkbox" disabled={loading} checked={ksOnly} onChange={()=>ksToggle(!ksOnly)} />
                         <span className="slider round"></span>
                     </label>
                 {ksOnly && <button
@@ -725,7 +727,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     </div>
                 </div>
             )}
-            <div className={ksOnly?"container-fluid container-results":"container"} aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
+            <div className="container-fluid container-results" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
                 {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
                 {loading ? (
                     <div className="col-12 col-beat-loader">
@@ -735,8 +737,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     <div className="col-12 col-search-message">{t('page.changesearch')}</div>
                 ) : (
                     <div className="row row-results rowDivider">
-                    {ksOnly?
-                        results.map((result: SearchResult, mindex:number) => {
+                    {ksOnly?results.map((result: SearchResult, mindex:number) => {
                             const coordinates = JSON.parse(result.coordinates);
                             const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                             const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
@@ -750,8 +751,9 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                             return (
                                 <div key={result.id} className="container-fluid search-result">
                                     <div className="row resultRow">
-                                        <div className="col-lg-8">
+                                        <div className={ksOnly?"col-lg-8":"col-lg-12"}>
                                             <h2 className="search-title">{result.title}</h2>
+                                            {ksOnly && 
                                             <div className="search-keywords">
                                                 <div
                                                     className={
@@ -789,7 +791,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                         </button>
                                                     )}
                                                 </div>
-                                            </div>
+                                            </div> }
                                             <div className="search-meta">
                                                 <ul className="list list-unstyled">
                                                     <li className="list-item">
@@ -804,15 +806,17 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                 {result.description.substr(0, 240)}{' '}
                                                 {result.description.length > 240 ? <span>...</span> : ''}
                                             </p>
-                                            <button
-                                                type="button"
-                                                className="btn btn-search"
-                                                onClick={(e) => handleView(e, result.id)}
-                                                aria-label={result.title}
-                                                autoFocus = {cpn && keywords.length===0 && mindex===0?true:false}
-                                            >
-                                                {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
-                                            </button>
+                                            <div className="search-result-buttons">
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-search"
+                                                    onClick={(e) => handleView(e, result.id)}
+                                                    aria-label={result.title}
+                                                    autoFocus = {cpn && keywords.length===0 && mindex===0?true:false}
+                                                >
+                                                    {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
+                                                </button>
+                                            </div>    
                                         </div>
                                         <div className="col-lg-4">
                                             <div className="search-image">
@@ -839,11 +843,11 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                     />
                                                 </MapContainer>
                                             </div>
-                                        </div>
+                                        </div> 
                                     </div>
                                 </div>
                             )
-                        })
+                        }) 
                         :
                         results.map((result: SearchResult, mindex:number) => (
                             <div
@@ -885,7 +889,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        )) }
                     </div>
                 )}
                 {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
