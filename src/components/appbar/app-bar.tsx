@@ -81,22 +81,21 @@ const useStyles = (kso) => makeStyles((theme) => ({
 export function Appbar(props: AppBarProps): JSX.Element {
     const { search, auth } = props;
     const { t } = useTranslation();
-    const history = useHistory();
+    // const history = useHistory();
     const location = useLocation();
     // const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     // console.log(queryParams, queryParams.keyword);
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const [open, setOpen] = useState(false);
-    const [ksOnly, setKSOnly] = useState(false);
+    const [ksOnly, setKSOnly] = useState(queryParams.ksonly !== undefined);
     const classes = useStyles(ksOnly)();
     const [panel, setPanel] = useState(
-        queryParams.keyword !== undefined ||
-            queryParams.org !== undefined ||
-            queryParams.type !== undefined ||
-            queryParams.theme !== undefined
-            ? ' search'
-            : ''
+       (queryParams.keyword !== undefined ||
+        queryParams.ksonly !== undefined ||
+        queryParams.org !== undefined ||
+        queryParams.type !== undefined ||
+        queryParams.theme !== undefined) ? ' search' : ''
     );
     const language = t('app.language');
     const appBar = useRef();
@@ -124,23 +123,23 @@ export function Appbar(props: AppBarProps): JSX.Element {
         setOpen(!open);
     };
 
-    const gotoKeywordSearch = () => {
+    /* const gotoKeywordSearch = () => {
         history.push({
             pathname: '/search',
             search: initKeyword !== '' ? `keyword=${initKeyword}` : '',
         });
-    };
+    }; */
 
     useEffect(() => {
         setPanel(
-            queryParams.keyword !== undefined ||
-                queryParams.org !== undefined ||
-                queryParams.type !== undefined ||
-                queryParams.theme !== undefined
-                ? ' search'
-                : ''
+           (queryParams.keyword !== undefined ||
+            queryParams.ksonly !== undefined ||
+            queryParams.org !== undefined || 
+            queryParams.type !== undefined ||
+            queryParams.theme !== undefined) ? ' search' : ''
         );
-    }, [queryParams.keyword, queryParams.org, queryParams.type, queryParams.theme]);
+        setKSOnly(queryParams.ksonly !== undefined);
+    }, [queryParams.keyword, queryParams.ksonly, queryParams.org, queryParams.type, queryParams.theme]);
 
     return (
         <div className={classes.root} ref={appBar}>

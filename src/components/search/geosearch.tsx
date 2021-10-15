@@ -477,7 +477,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     };
 
     const handleKeyword = (keyword: string) => {
-        window.open(`/?keyword=${encodeURI(keyword.trim())}&lang=${language}`, `_blank`);
+        window.open(`/?keyword=${encodeURI(keyword.trim())}&ksonly&lang=${language}`, `_blank`);
     };
 
     const handleOrg = (filters: unknown): void => {

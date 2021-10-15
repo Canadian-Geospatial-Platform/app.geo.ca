@@ -61,7 +61,7 @@
         "clearall": "Tout Effacer"
     },
     "howto": {
-        "geosearchdescription": "L'application geoSearch utilise une carte pour rechercher des données sur la zone affichée. Effectuez un panoramique et un zoom sur la carte pour filtrer le contenu en fonction de votre zone d'intérêt. Les résultats seront actualisés en fonction de la zone de la carte.",
+        "geosearchdescription": "L'application geoSearch utilise une carte pour rechercher des données dans la zone indiquée. Effectuez un panoramique et un zoom sur la carte pour filtrer le contenu en fonction de la zone qui vous intéresse. Les résultats seront rafraîchis en fonction de la zone de la carte. Si vous n'êtes pas intéressé par une zone géographique donnée. Cliquez sur le bouton Mot-clé uniquement, saisissez un mot-clé et filtrez les résultats à l'aide de nos filtres avancés.",
         "keywordsearchdescription": "La page de recherche par mot-clé peut être utilisée si vous n'êtes pas intéressé par une zone géographique donnée. Saisissez un mot-clé et filtrez les résultats en fonction de nos filtres avancés.",
         "filtersdescription": "Les filtres avancés peuvent filtrer les données en fonction de l'organisation, du type, du thème et des couches fondamentales. Vous pouvez ajouter autant de filtres que nécessaire et les supprimer s'ils ne vous donnent pas le résultat dont vous avez besoin."
     },
