@@ -50,6 +50,15 @@
             font-size: 1.5rem;
             text-align: center;
         }
+        &.analytics {
+            .MuiCard-root {
+                width: calc(100vw - 61px);
+                max-width: none;
+                .MuiCardContent-root {
+                    height: calc(100vh - 142px);
+                }    
+            }    
+        }
         &.search.ks-only {
             height: 100%;
             top: 90px;
