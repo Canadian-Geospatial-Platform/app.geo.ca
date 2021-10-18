@@ -23,7 +23,7 @@ import { NavBar } from '../navbar/nav-bar';
 import { loadState } from '../../reducers/localStorage';
 import { getQueryParams } from '../../common/queryparams'; 
 import { envglobals } from '../../common/envglobals';
-import {analyticPost} from '../../common/analytic';
+import {analyticPost, analyticGet} from '../../common/analytic';
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
 import './metadatapage.scss';
@@ -82,21 +82,50 @@ const MetaDataPage = () => {
       .then((data) => {
           // console.log(data);
           const res = data.Items[0];
-          axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: {id, lang: language==='en'?'fr':'en'}})
-            .then(subres => subres.data)
-            .then((subdata) => {
-                // console.log(data);
-                const subres = subdata.Items[0];
-                setResults([{...res, ...{mappingtitle:{en:language==='en'?res.title:subres.title,fr:language==='en'?subres.title:res.title}}}]);
-                // setKeyword(keyword);
-                setLoading(false);
-            })
-            .catch(error=>{
-                // console.log(error);
-                setResults([{...res, ...{mappingtitle:{en:res.title,fr:res.title}}}]);
-                // setKeyword(keyword);
-                setLoading(false);
-            });
+          res.last = 1;
+          res.all = 1;
+          analyticGet(
+              '10', 
+              {uuid:id, lang: language},
+              (analyticRes) => {
+                  res.last = analyticRes.Items["30"];
+                  res.all = analyticRes.Items.all; 
+                  axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: {id, lang: language==='en'?'fr':'en'}})
+                        .then(subres => subres.data)
+                        .then((subdata) => {
+                            // console.log(data);
+                            const subres = subdata.Items[0];
+                            setResults([{...res, ...{mappingtitle:{en:language==='en'?res.title:subres.title,fr:language==='en'?subres.title:res.title}}}]);
+                            // setKeyword(keyword);
+                            setLoading(false);
+                        })
+                        .catch(error=>{
+                            // console.log(error);
+                            setResults([{...res, ...{mappingtitle:{en:res.title,fr:res.title}}}]);
+                            // setKeyword(keyword);
+                            setLoading(false);
+                        });
+              },
+              (analyticErr) => {
+                // console.log(analyticErr); 
+                axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: {id, lang: language==='en'?'fr':'en'}})
+                      .then(subres => subres.data)
+                      .then((subdata) => {
+                          // console.log(data);
+                          const subres = subdata.Items[0];
+                          setResults([{...res, ...{mappingtitle:{en:language==='en'?res.title:subres.title,fr:language==='en'?subres.title:res.title}}}]);
+                          // setKeyword(keyword);
+                          setLoading(false);
+                      })
+                      .catch(error=>{
+                          // console.log(error);
+                          setResults([{...res, ...{mappingtitle:{en:res.title,fr:res.title}}}]);
+                          // setKeyword(keyword);
+                          setLoading(false);
+                      });
+             }
+          );
+          
           
       })
       .catch(error=>{
@@ -193,7 +222,13 @@ const MetaDataPage = () => {
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-                        const options = JSON.parse(formattedOption);
+                        const options = JSON.parse(formattedOption)
+                                        .filter(o=>{return o.protocol!=="null" && o.url!=="null"})
+                                        .map((option) => {
+                                            const desc = option.description[language].split(";");
+                                            return {name:option.name[language], type:desc[0], format: desc[1]}; 
+                                        });   
+                        const activeMap = options.findIndex((o)=> o.type === 'WMS' || o.type==='Web Service') > -1;                
                         const contact =   JSON.parse(formattedContact);
                         const coordinates = JSON.parse(result.coordinates);
 
@@ -263,15 +298,15 @@ const MetaDataPage = () => {
                                     <th scope="col">{t("page.format")}</th>
                                     <th scope="col">{t("page.languages")}</th>
                                     </tr>
-                                    {options.filter(o=>{return o.protocol!=="null" && o.url!=="null"}).map((option, oi) => {
-                                        const desc = option.description[language].split(";");
+                                    {options.map((option, oi) => {
+                                        // const desc = option.description[language].split(";");
                                         return (
                                             <tr className="table-row-link" key={oi} onClick={()=>handleRowClick(option.url)}>
                                             <td>
-                                                <a className="table-cell-link" href={option.url} target="_blank" onClick={()=>resourceClick(option.name[language], desc[0])}>{option.name[language]}</a>
+                                                <a className="table-cell-link" href={option.url} target="_blank" onClick={()=>resourceClick(option.name, option.type)}>{option.name}</a>
                                             </td>
-                                            <td>{desc[0]}</td>
-                                            <td>{desc[1]}</td>
+                                            <td>{option.type}</td>
+                                            <td>{option.format}</td>
                                             <td>{t("page.language")}</td>
                                             </tr>
                                         );
@@ -394,21 +429,30 @@ const MetaDataPage = () => {
                                     </MapContainer>
                                 </div>
                             </section>
-                            <section className="sec-search-result search-results-section search-results-misc-data">
+              {activeMap && <section className="sec-search-result search-results-section search-results-misc-data">
                                 <h3 className="section-title">{t("page.addtomap")}</h3>
                                 <p>{t("page.viewthedata")}</p>
                                 <div className="btn-group">
-                                    {/* <a href={`https://viewer-visualiseur-dev.services.geo.ca/fgpv-vpgf/index-${t("app.language")}.html?keys=${result.id}`} className="btn btn-search mr-2" rel="noreferrer" target="_blank">{t("page.viewonmap")}</a> */}
                                     <button type="button" className="btn btn-search mr-2" onClick={()=>viewOnMap(result.id)}>{t("page.viewonmap")}</button>
                                     <button id="addMyMap" type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={()=>changeMapping(result.id)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
                                 </div>
-                            </section>
+                            </section> }
                             <section className="sec-search-result search-results-section search-results-misc-data">
                                 <h3 className="section-title">{t("page.metadata")}</h3>
                                 <p>{t("page.ourmetadatais")}</p>
                                 <div className="btn-group">
                                     <a href={`https://geocore-metadata-staging.s3.ca-central-1.amazonaws.com/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
                                     <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('hnap')}>{t("page.viewhnaprecord")}</a>
+                                </div>
+                            </section>
+                            <section className="sec-search-result search-results-section search-results-analytics-data ">
+                                <div>
+                                    <h5>{t("page.last30")}</h5>
+                                    <p>{result.last}</p>
+                                </div>
+                                <div>
+                                    <h5>{t("page.alltime")}</h5>
+                                    <p>{result.all}</p>
                                 </div>
                             </section>
                         </aside>

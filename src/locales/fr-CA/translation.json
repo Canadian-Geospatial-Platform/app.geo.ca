@@ -44,6 +44,7 @@
         "keywordsearch": "Recherche par mot clé",
         "keywordonly": "Mot clé uniquement",
         "filters": "Filtres",
+        "analytics": "Analytics",
         "account": "Compte",
         "howto": "Comment",
         "share": "Partager",
@@ -59,6 +60,9 @@
         "otherfilters": "Autres Filtres",
         "applyfilters": "Appliquer des Filtres",
         "clearall": "Tout Effacer"
+    },
+    "analytic": {
+        "title": "Analytics"
     },
     "howto": {
         "geosearchdescription": "L'application geoSearch utilise une carte pour rechercher des données dans la zone indiquée. Effectuez un panoramique et un zoom sur la carte pour filtrer le contenu en fonction de la zone qui vous intéresse. Les résultats seront rafraîchis en fonction de la zone de la carte. Si vous n'êtes pas intéressé par une zone géographique donnée. Cliquez sur le bouton Mot-clé uniquement, saisissez un mot-clé et filtrez les résultats à l'aide de nos filtres avancés.",
@@ -128,7 +132,9 @@
         "addtomymap": "Ajouter à MyMap",
         "ourmetadatais": "Nos métadonnées sont stockées au format geoCore. Un geojson contenant toutes les métadonnées que vous voyez ici.",
         "downloadgeocore": "Télécharger geoCore",
-        "viewhnaprecord": "Enregistrement HNAP"
+        "viewhnaprecord": "Enregistrement HNAP",
+        "last30": "Nombre d'accès au cours des 30 derniers jours",
+        "alltime": "Nombre d'accès en tout temps" 
     },
     "modal": {
         "buttonlabel": "Fermer",
