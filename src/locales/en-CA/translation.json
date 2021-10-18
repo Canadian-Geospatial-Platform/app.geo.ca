@@ -44,6 +44,7 @@
         "keywordsearch": "Keyword Search",
         "keywordonly": "Keyword Only",
         "filters": "Filters",
+        "analytics": "Analytics",
         "account": "Account",
         "howto": "How To",
         "share": "Share",
@@ -59,6 +60,9 @@
         "otherfilters": "Other Filters",
         "applyfilters": "Apply Filters",
         "clearall": "Clear All"
+    },
+    "analytic": {
+        "title": "Analytics"
     },
     "howto": {
         "geosearchdescription": "The geoSearch application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map. If you are not interested in a given geographic area. Click on the Keyword Only toggle, enter a keyword, and filter the results based on our advanced filters.",
@@ -128,7 +132,9 @@
         "addtomymap": "Add to MyMap",
         "ourmetadatais": "Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.",
         "downloadgeocore": "Download geoCore",
-        "viewhnaprecord": "View HNAP Record"
+        "viewhnaprecord": "View HNAP Record",
+        "last30": "Number of accesses last 30 days",
+        "alltime": "Number of accesses all time" 
     },
     "modal": {
         "buttonlabel": "Close",

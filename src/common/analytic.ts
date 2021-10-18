@@ -6,7 +6,7 @@ import axios from 'axios';
 import { envglobals } from './envglobals';
 import apiKey from '../security/apikey.json';
 
-export const analyticPost = (aParams: AnalyticParams) => {
+export const analyticPost = (aParams: AnalyticParams, successFunc?: any, errorFunc?: any) => {
     // console.log(aParams);
     axios.post(
         envglobals().APP_API_ANALYTIC_URL, 
@@ -16,9 +16,24 @@ export const analyticPost = (aParams: AnalyticParams) => {
             'x-api-key': apiKey
           }
         }
-    ).then((response)=>{
-        // console.log(response);
-    });  
+    ).then((response)=>typeof successFunc === 'function'?successFunc(response):{}
+    ).catch((error)=>typeof errorFunc === 'function'?errorFunc(error):{});
+  
+}
+
+export const analyticGet = (endpointUrl: string, aParams: LastAllParams, successFunc?: any, errorFunc?: any) => {
+    // console.log(aParams);
+    axios.get(
+        `${envglobals().APP_API_ANALYTIC_URL}/${endpointUrl}`, 
+        { 
+          params: aParams,  
+          headers: { 
+            'x-api-key': apiKey
+          }
+        }
+    ).then((response)=>typeof successFunc === 'function'?successFunc(response):{}
+    ).catch((error)=>typeof errorFunc === 'function'?errorFunc(error):{});
+  
 }
 
 export interface AnalyticParams {
@@ -35,4 +50,9 @@ export interface AnalyticParams {
     lang: 'en'|'fr';
     type: 'access'|'use'|'search';
     event: 'search'|'view'|'map'|'footprint'|'geocore'|'resource'|'hnap';
+}
+
+export interface LastAllParams {
+    lang?: 'en'|'fr';
+    org?: string[];
 }

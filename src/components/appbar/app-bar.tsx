@@ -17,6 +17,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import SearchIcon from '@material-ui/icons/Search';
 import AccountIcon from '@material-ui/icons/AccountBox';
 import FilterIcon from '../../assets/icons/filter.svg';
+import AnalyticIcon from '../../assets/icons/analytic.svg';
 
 import { Basemap, BasemapOptions } from '../../common/basemap';
 import ButtonApp from './button';
@@ -24,6 +25,7 @@ import Version from './buttons/version';
 import { getQueryParams } from '../../common/queryparams';
 import SearchPanel from '../search/search-panel';
 import FiltersPanel from '../searchfilter/filters-panel';
+import AnalyticPanel from '../analytic/analytic-panel';
 import AccountPanel from '../account/account-panel';
 import HowtoPanel from '../howto/howto-panel';
 import './app-bar.scss';
@@ -173,6 +175,8 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     )} */}
                     <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<SvgIcon><FilterIcon /></SvgIcon>} onClickFunction={() => setPanel(' filters')} />
                     {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp!==undefined?cp:'')} /></div>}
+                    <ButtonApp tooltip="appbar.analytics" current={panel === ' analytics'} icon={<SvgIcon><AnalyticIcon /></SvgIcon>} onClickFunction={() => setPanel(' analytics')} />
+                    {panel === ' analytics' && <div className={`cgp-apppanel${panel}`}><AnalyticPanel showing={panel === ' analytics'} closeFunction={() => setPanel('')} /></div>}
                 </List>
                 <Divider className={classes.spacer} />
                 <List>

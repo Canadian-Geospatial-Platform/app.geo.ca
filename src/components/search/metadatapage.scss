@@ -284,6 +284,29 @@
                 }
             }
 
+            &.search-results-analytics-data {
+                background-color: transparent;
+                display: flex;
+                justify-content: space-between;
+                >div {
+                    box-sizing: border-box;
+                    width: calc(50% - 5px);
+                    background-color: $color__light;
+                    border: solid 1px $color__text-aside;
+                    border-radius: 5px;
+                    padding: 10px;
+                    text-align: center;
+                    >h5 {
+                        font-size: 0.875em;
+                        font-weight: 600;
+                    }
+                    >p {
+                        font-size: 1em;
+                        font-weight: bold; 
+                    }
+                }
+            }
+
             .section-title {
                 color: $color__heading-aside-title;
                 font-size: 1.375em;
