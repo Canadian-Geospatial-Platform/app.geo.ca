@@ -13,6 +13,7 @@
 
     .cgp-apppanel {
         display: none;
+        transition: .4s;
         &.search,
         &.fsearch,
         &.account,
@@ -51,9 +52,13 @@
             text-align: center;
         }
         &.analytics {
+            top: 90px;
             .MuiCard-root {
                 width: calc(100vw - 61px);
                 max-width: none;
+                .MuiCardHeader-root {
+                    padding: 8px 10px 2px;
+                }    
                 .MuiCardContent-root {
                     height: calc(100vh - 142px);
                 }    
