@@ -88,8 +88,9 @@ const MetaDataPage = () => {
               '10', 
               {uuid:id, lang: language},
               (analyticRes) => {
-                  res.last = analyticRes.Items["30"];
-                  res.all = analyticRes.Items.all; 
+                  // console.log("res", analyticRes);
+                  res.last = analyticRes.data["30"];
+                  res.all = analyticRes.data.all; 
                   axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: {id, lang: language==='en'?'fr':'en'}})
                         .then(subres => subres.data)
                         .then((subdata) => {
@@ -429,14 +430,14 @@ const MetaDataPage = () => {
                                     </MapContainer>
                                 </div>
                             </section>
-              {activeMap && <section className="sec-search-result search-results-section search-results-misc-data">
+                            <section className="sec-search-result search-results-section search-results-misc-data">
                                 <h3 className="section-title">{t("page.addtomap")}</h3>
                                 <p>{t("page.viewthedata")}</p>
                                 <div className="btn-group">
-                                    <button type="button" className="btn btn-search mr-2" onClick={()=>viewOnMap(result.id)}>{t("page.viewonmap")}</button>
-                                    <button id="addMyMap" type="button" className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={()=>changeMapping(result.id)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
+                                    <button type="button" className="btn btn-search mr-2" disabled={!activeMap} onClick={activeMap?()=>viewOnMap(result.id):null}>{t("page.viewonmap")}</button>
+                                    <button id="addMyMap" type="button"  disabled={!activeMap} className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={activeMap?()=>changeMapping(result.id):null}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
                                 </div>
-                            </section> }
+                            </section>
                             <section className="sec-search-result search-results-section search-results-misc-data">
                                 <h3 className="section-title">{t("page.metadata")}</h3>
                                 <p>{t("page.ourmetadatais")}</p>
