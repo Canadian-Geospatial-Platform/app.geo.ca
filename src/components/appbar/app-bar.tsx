@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-nested-ternary */
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router';
 // import { useDispatch } from 'react-redux';
@@ -33,11 +34,11 @@ import './app-bar.scss';
 const drawerWidth = 200;
 const drawerWidthFull = '100vw';
 
-const useStyles = (kso) => makeStyles((theme) => ({
+const useStyles = (panel: string) => makeStyles((theme) => ({
     root: {
         display: 'flex',
-        height: '100%',
-        width: kso? '100vw':'60px',
+        height: panel==='analytic'? 'calc( 100vh - 91px )' : '100%',
+        width: panel==='ks' ? '100vw':'60px',
         border: '2px solid rgba(0, 0, 0, 0.2)',
         transition: '.4s',
     },
@@ -62,7 +63,7 @@ const useStyles = (kso) => makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflow: 'hidden',
-        width: kso?'0':'61px',
+        width: panel==='ks' ?'0':'61px',
     },
     toolbar: {
         display: 'flex',
@@ -91,7 +92,6 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const [open, setOpen] = useState(false);
     const [ksOnly, setKSOnly] = useState(queryParams.ksonly !== undefined);
-    const classes = useStyles(ksOnly)();
     const [panel, setPanel] = useState(
        (queryParams.keyword !== undefined ||
         queryParams.ksonly !== undefined ||
@@ -99,6 +99,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
         queryParams.type !== undefined ||
         queryParams.theme !== undefined) ? ' search' : ''
     );
+    const classes = useStyles(ksOnly?'ks':(panel===' analytics'?'analytic':''))();
     const language = t('app.language');
     const appBar = useRef();
     const map = useMap();

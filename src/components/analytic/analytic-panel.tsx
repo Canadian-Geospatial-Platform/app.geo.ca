@@ -4,6 +4,7 @@ import { Typography, SvgIcon } from '@material-ui/core';
 import AnalyticIcon from '../../assets/icons/analytic.svg';
 
 import PanelApp, { PanelProps } from '../appbar/panel';
+import Analytic from './analytic';
 
 export default function AnalyticPanel(props: PanelProps): JSX.Element {
     const { showing, closeFunction } = props;
@@ -18,7 +19,7 @@ export default function AnalyticPanel(props: PanelProps): JSX.Element {
             content={
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
-                        <p>{t('analytic.title')}</p>
+                        { Analytic({}) }
                     </Typography>
                 ) as unknown) as Element
             }
