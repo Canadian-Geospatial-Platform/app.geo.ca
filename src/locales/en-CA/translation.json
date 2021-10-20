@@ -67,8 +67,17 @@
         "searchlastmonth": "Number of searches last month",
         "accessthismonth": "Number of accesses this month",
         "accesslastmonth": "Number of accesses last month",
+        "topsearcheslastmonth": "Top 10 Searches in the Last 30 Days",
+        "topaccesslastmonth": "Top 10 Accessed Content in the Last 30 Days",
+        "topaccessalltime": "Top 10 Accessed Content all time",
+        "topaccessbyorg": "Top 10 Accessed Content by Contributor",
         "loadingfailed": "Loading number failed",
-        "tryagain": "try again"
+        "norecord": "No record",
+        "tryagain": "try again",
+        "submit": "Submit",
+        "headerrank": "Rank",
+        "headertitle": "Title",
+        "headertotal": "Total Access"
     },
     "howto": {
         "geosearchdescription": "The geoSearch application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map. If you are not interested in a given geographic area. Click on the Keyword Only toggle, enter a keyword, and filter the results based on our advanced filters.",

@@ -229,7 +229,7 @@ const MetaDataPage = () => {
                                             const desc = option.description[language].split(";");
                                             return {name:option.name[language], type:desc[0], format: desc[1]}; 
                                         });   
-                        const activeMap = options.findIndex((o)=> o.type === 'WMS' || o.type==='Web Service') > -1;                
+                        const activeMap = options.findIndex((o)=> o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE') > -1;                
                         const contact =   JSON.parse(formattedContact);
                         const coordinates = JSON.parse(result.coordinates);
 
@@ -442,7 +442,7 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.metadata")}</h3>
                                 <p>{t("page.ourmetadatais")}</p>
                                 <div className="btn-group">
-                                    <a href={`https://geocore-metadata-staging.s3.ca-central-1.amazonaws.com/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
+                                    <a href={`${envglobals().APP_GEOCORE_URL}/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
                                     <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('hnap')}>{t("page.viewhnaprecord")}</a>
                                 </div>
                             </section>

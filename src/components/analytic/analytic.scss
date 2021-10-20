@@ -3,9 +3,11 @@
 .analytic-container {
     color: $color__text-aside;
     .analytic-results-data {
+        max-width: $breakpoint__md;
         background-color: transparent;
         display: flex;
         justify-content: space-between;
+        margin: auto;
         >div {
             box-sizing: border-box;
             width: calc(25% - 5px);
@@ -26,6 +28,139 @@
                 >span {
                     font-size: 0.875em;
                     font-weight: 500;  
+                }
+            }
+        }
+    }
+    .analytic-rank-data {
+        width: 100%;
+        max-width: $breakpoint__md;
+        box-sizing: border-box;
+        margin: 2em auto;
+        text-align: center;
+        >h5 {
+            width: auto;
+            font-size: 0.875em;
+            font-weight: 600;
+        }
+        >.analytic-rank-buttons {
+            max-width: $breakpoint__sm;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 2em auto 2.5em;
+            >button {
+                width:100px;
+                height: 25px;
+                margin: 5px;
+            }
+        } 
+        >.analytic-rank-list {
+            width: 100%;
+            .rank-list-box {
+                width: 100%;
+                box-sizing: border-box;
+                border: solid 1px $color__text-aside;
+                border-radius: 5px;
+                padding: 1.2em;
+                margin: 1em auto 2.5em;
+                >div {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 0.875em;
+                    font-weight: 600;
+                    margin: 2px 0;
+                    >div {
+                        padding: 0;
+                        width: calc(100% - 160px);
+                        text-align: left;
+                        &:first-child, &:last-child {
+                            width:80px;
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+            .analytic-filters-setting {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                position: relative;
+                font-size: 0.875em;
+                font-weight: 600;
+                >button.btn-button {
+                    height: 30px;
+                }
+                >.analytic-filters-list {
+                    width: calc( 100% - 90px);
+                    border: solid 1px $color__text-aside;
+                    border-radius: 3px;
+                    position: relative;
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    box-sizing: border-box;
+                    padding: 0.2em 2.2em 0.2em 0.2em;
+                    >button {
+                        margin: 1px;
+                        font-size: 0.875em;
+                        font-weight: 600;
+                        &.advanced-filters-button.link-button {
+                            position: absolute;
+                            right: 1.2em;
+                            width: 1em;
+                            height: 1em;
+                            background-repeat: no-repeat;
+                            background-size: 1em;
+                            height: 1em;
+                            width: 1em;
+                            background-image: url($ico__bi-chevron-down);
+                            &.open {
+                                background-image: url($ico__bi-chevron-up);
+                            }
+                        }
+                    }
+                }
+                .filter-wrap {
+                    position: absolute;
+                    top:100%;
+                    left: 0;
+                    width: calc( 100% - 90px);
+                    height: 200px;
+                    overflow-y: scroll;
+                    border: solid 1px $color__text-aside;
+                    background-color: $color__light;
+                    box-sizing: border-box;
+                    transition: 0.4s;
+                    >.filter-list-wrap {
+                       >ul.list {
+                            padding: 0px;
+                            box-sizing: border-box;
+                            >li {
+                                box-sizing: border-box;
+                                padding: 0 40px;
+                                margin: 0.3em 0;
+                                >input[type=checkbox] {
+                                    display:none;
+                                }
+                                >label {
+                                    margin-bottom: 0;
+                                    width: 100%;
+                                    text-align: left;
+                                }
+                                &:hover {
+                                    >label {
+                                        color: $color__light;
+                                    }     
+                                    background-color: $color__logo-grey;
+                                }
+                                &.checked {
+                                    background-color: $color__semi-light;
+                                }
+                            }
+                       } 
+                    }
                 }
             }
         }

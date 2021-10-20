@@ -79,7 +79,9 @@ export interface PanelProps {
     showing: boolean;
     ksOnly?: boolean;
     initKeyword?: string;
+    analyticOrg?: number[];
     setKSOnly?: (kso: boolean) => void;
     setKeyword?: (kw: string) => void;
+    setAnalyticOrg?: (ao: number[]) => void;
     closeFunction: (cp?: string) => void;
 }
