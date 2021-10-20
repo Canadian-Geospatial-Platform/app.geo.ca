@@ -74,6 +74,7 @@
         "loadingfailed": "Échec du chargement du numéro",
         "norecord": "Aucun enregistrement",
         "tryagain": "réessayer",
+        "selectorg": "Veuillez sélectionner un contributeur",
         "submit": "Soumettre",
         "headerrank": "Rang",
         "headertitle": "Titre",
