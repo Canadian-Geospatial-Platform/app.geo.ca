@@ -3,12 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadState } from '../../reducers/localStorage';
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import FilterIcon from '../../assets/icons/filter.svg';
-
+import { loadState } from '../../reducers/localStorage';
 import PanelApp, { PanelProps } from '../appbar/panel';
 import SearchFilter from './searchfilter';
 import organisations from '../search/organisations.json';

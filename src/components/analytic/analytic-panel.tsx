@@ -7,7 +7,7 @@ import PanelApp, { PanelProps } from '../appbar/panel';
 import Analytic from './analytic';
 
 export default function AnalyticPanel(props: PanelProps): JSX.Element {
-    const { showing, closeFunction } = props;
+    const { showing, analyticOrg, setAnalyticOrg, closeFunction } = props;
     const { t } = useTranslation();
 
     return (
@@ -19,7 +19,7 @@ export default function AnalyticPanel(props: PanelProps): JSX.Element {
             content={
                 ((
                     <Typography variant="body2" color="textSecondary" component="div">
-                        { Analytic({}) }
+                        { Analytic({analyticOrg, setAnalyticOrg}) }
                     </Typography>
                 ) as unknown) as Element
             }

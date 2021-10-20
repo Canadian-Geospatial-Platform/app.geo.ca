@@ -10,7 +10,8 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev",
                     APP_API_SEARCH_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/geo",
-                    APP_API_ANALYTIC_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/analytics"
+                    APP_API_ANALYTIC_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/analytics",
+                    APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
                 };
             case "stage":
                 return {
@@ -20,7 +21,8 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging",
                     APP_API_SEARCH_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging/search",
-                    APP_API_ANALYTIC_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/staging/analytics"
+                    APP_API_ANALYTIC_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/staging/analytics",
+                    APP_GEOCORE_URL: "https://geocore-stage.metadata.geo.ca"
                 };
             case "production":
                 return {
@@ -30,7 +32,8 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging",
                     APP_API_SEARCH_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging/search",
-                    APP_API_ANALYTIC_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/staging/analytics"
+                    APP_API_ANALYTIC_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/staging/analytics",
+                    APP_GEOCORE_URL: "https://geocore.metadata.geo.ca"
                 };    
             default:
                 return {
@@ -40,7 +43,8 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging",
                     APP_API_SEARCH_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging/search",
-                    APP_API_ANALYTIC_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/analytics"
+                    APP_API_ANALYTIC_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev/analytics",
+                    APP_GEOCORE_URL: "https://geocore-stage.metadata.geo.ca"
                 };
         };
 }; 
@@ -53,6 +57,7 @@ interface globalValues {
     APP_API_DOMAIN_URL: string;
     APP_API_SEARCH_URL: string;
     APP_API_ANALYTIC_URL: string;
+    APP_GEOCORE_URL: string
 }
 
 

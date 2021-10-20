@@ -90,6 +90,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
     // console.log(queryParams, queryParams.keyword);
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
+    const [analyticOrg, setAnalyticOrg] = useState([]);
     const [open, setOpen] = useState(false);
     const [ksOnly, setKSOnly] = useState(queryParams.ksonly !== undefined);
     const [panel, setPanel] = useState(
@@ -177,7 +178,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<SvgIcon><FilterIcon /></SvgIcon>} onClickFunction={() => setPanel(' filters')} />
                     {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp!==undefined?cp:'')} /></div>}
                     <ButtonApp tooltip="appbar.analytics" current={panel === ' analytics'} icon={<SvgIcon><AnalyticIcon /></SvgIcon>} onClickFunction={() => setPanel(' analytics')} />
-                    {panel === ' analytics' && <div className={`cgp-apppanel${panel}`}><AnalyticPanel showing={panel === ' analytics'} closeFunction={() => setPanel('')} /></div>}
+                    {panel === ' analytics' && <div className={`cgp-apppanel${panel}`}><AnalyticPanel showing={panel === ' analytics'} analyticOrg={analyticOrg} setAnalyticOrg={setAnalyticOrg} closeFunction={() => setPanel('')} /></div>}
                 </List>
                 <Divider className={classes.spacer} />
                 <List>
