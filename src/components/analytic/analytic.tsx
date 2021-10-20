@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/control-has-associated-label */
@@ -177,6 +178,10 @@ export default function Analytic(props: analyticProps): JSX.Element {
         setRAOLoading(true); 
         setAnalyticOrg(orgSelected); 
     }
+
+    const handleView = (url: string) => {
+        window.open(encodeURI(url.trim()), `_blank`);
+    };
     
     useEffect(() => {
         if (nstLoading) {
@@ -227,6 +232,9 @@ export default function Analytic(props: analyticProps): JSX.Element {
     }, [raoLoading]);
 
     useEffect(() => {
+        // setRSLLoading(true);
+        // setRALLoading(true);
+        // setRAALoading(true);
         if (orgSelected.length>0) {
             setRAOLoading(true);
         } 
@@ -285,9 +293,11 @@ export default function Analytic(props: analyticProps): JSX.Element {
                 <div className="analytic-rank-buttons">
                     {rslLoading ? 
                         <BeatLoader color="#515AA9" />
-                        : (rankSL===null ? 
+                        : (!Array.isArray(rankSL) ? 
                             <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>setRSLLoading(true)}>{t("analytic.tryagain")}</button></span> 
-                            :rankSL.map((rank, ri) => <button type="button" key={ri}>{ri+1}</button>)
+                            :(rankSL.length===0?
+                                <span>{t("analytic.norecord")}, <button type="button" className="link-button" onClick={()=>setRSLLoading(true)}>{t("analytic.tryagain")}</button></span> 
+                                :rankSL.map((rank, ri) => <button type="button" key={ri} onClick={()=>handleView(`/?keyword=${rank.search===undefined?'':rank.search}`)}>{ri+1}</button>))
                           )
                     }
                 </div>        
@@ -297,7 +307,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
                 <div className="analytic-rank-list">
                 {ralLoading ? 
                     <BeatLoader color="#515AA9" />
-                    : (rankAL === null ? 
+                    : (!Array.isArray(rankAL)? 
                         <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>setRALLoading(true)}>{t("analytic.tryagain")}</button></span> 
                         :<div className="rank-list-box">
                             <div className="rank-list-header">
@@ -305,11 +315,13 @@ export default function Analytic(props: analyticProps): JSX.Element {
                                 <div>{t("analytic.headertitle")}</div>
                                 <div>{t("analytic.headertotal")}</div>
                             </div>
-                            {Array.isArray(rankAL) && rankAL.map((rank, ri) => {
-                            return (
+                        {rankAL.length===0?
+                            <div><span>{t("analytic.norecord")}, <button type="button" className="link-button" onClick={()=>setRALLoading(true)}>{t("analytic.tryagain")}</button></span></div> 
+                            :rankAL.map((rank, ri) => {
+                                return (
                                 <div key={ri} className="rank-list-data">
                                     <div>{ri+1}</div>
-                                    <div>{rank.title}</div>
+                                    <div><button type="button" className="btn link-button" onClick={()=>handleView(`/result?id=${rank.id}&lang=${language}`)}>{rank.title}</button></div>
                                     <div>{rank.acceses}</div>
                                 </div>    
                                 )    
@@ -324,7 +336,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
                 <div className="analytic-rank-list">
                 {raaLoading ? 
                         <BeatLoader color="#515AA9" />
-                        : (rankAA === null ? 
+                        : (!Array.isArray(rankAA) ? 
                             <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>setRAALoading(true)}>{t("analytic.tryagain")}</button></span> 
                            :<div className="rank-list-box">
                                 <div className="rank-list-header">
@@ -332,12 +344,14 @@ export default function Analytic(props: analyticProps): JSX.Element {
                                     <div>{t("analytic.headertitle")}</div>
                                     <div>{t("analytic.headertotal")}</div>
                                 </div>
-                                {Array.isArray(rankAA) && rankAA.map((rank, ri) => {
+                           {rankAA.length===0?
+                            <div><span>{t("analytic.norecord")}, <button type="button" className="link-button" onClick={()=>setRAALoading(true)}>{t("analytic.tryagain")}</button></span></div> 
+                            :rankAA.map((rank, ri) => {
                                 return (
                                     <div key={ri} className="rank-list-data">
                                         <div>{ri+1}</div>
-                                        <div>{rank.title}</div>
-                                        <div>{rank.accesses}</div>
+                                        <div><button type="button" className="btn link-button"onClick={()=>handleView(`/result?id=${rank.id}&lang=${language}`)}>{rank.title}</button></div>
+                                        <div>{rank.acceses}</div>
                                     </div>    
                                     )    
                                 })}
@@ -351,7 +365,9 @@ export default function Analytic(props: analyticProps): JSX.Element {
                 <div className="analytic-rank-list">
                     <div className="analytic-filters-setting">
                         <div className="analytic-filters-list">    
-                            {orgSelected.map((orgfilter: number) => (
+                            {orgSelected.length === 0 ?
+                            <span>{t("analytic.selectorg")}</span>
+                            :orgSelected.map((orgfilter: number) => (
                                 <button
                                     key={`of-${orgfilter}`}
                                     type="button"
@@ -387,19 +403,22 @@ export default function Analytic(props: analyticProps): JSX.Element {
                     </div>    
                 {raoLoading ? 
                         <BeatLoader color="#515AA9" />
-                        : (rankAO === null ? 
+                        : (!Array.isArray(rankAO) ? 
                             <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>setRAOLoading(true)}>{t("analytic.tryagain")}</button></span> 
-                           :<div className="rank-list-box">
+                           : orgSelected.length > 0 &&
+                            <div className="rank-list-box">
                                 <div className="rank-list-header">
                                     <div>{t("analytic.headerrank")}</div>
                                     <div>{t("analytic.headertitle")}</div>
                                     <div>{t("analytic.headertotal")}</div>
                                 </div>
-                                {Array.isArray(rankAO) && rankAO.map((rank, ri) => {
+                            {rankAO.length===0?
+                                <div><span>{t("analytic.norecord")}, <button type="button" className="link-button" onClick={()=>setRAOLoading(true)}>{t("analytic.tryagain")}</button></span></div> 
+                                :rankAO.map((rank, ri) => {
                                 return (
                                     <div key={ri} className="rank-list-data">
                                         <div>{ri+1}</div>
-                                        <div>{rank.title}</div>
+                                        <div><button type="button" className="btn link-button"onClick={()=>handleView(`/result?id=${rank.id}&lang=${language}`)}>{rank.title}</button></div>
                                         <div>{rank.acceses}</div>
                                     </div>    
                                     )    

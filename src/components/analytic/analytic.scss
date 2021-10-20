@@ -75,6 +75,11 @@
                         padding: 0;
                         width: calc(100% - 160px);
                         text-align: left;
+                        >.link-button {
+                            font-size: 0.875em;
+                            font-weight: 600;
+                            margin: 0;
+                        }
                         &:first-child, &:last-child {
                             width:80px;
                             text-align: center;
@@ -93,7 +98,7 @@
                     height: 30px;
                 }
                 >.analytic-filters-list {
-                    width: calc( 100% - 90px);
+                    width: calc( 100% - 100px);
                     border: solid 1px $color__text-aside;
                     border-radius: 3px;
                     position: relative;
@@ -126,7 +131,7 @@
                     position: absolute;
                     top:100%;
                     left: 0;
-                    width: calc( 100% - 90px);
+                    width: calc( 100% - 100px);
                     height: 200px;
                     overflow-y: scroll;
                     border: solid 1px $color__text-aside;
