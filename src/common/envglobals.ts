@@ -1,13 +1,25 @@
 /* eslint-disable prettier/prettier */
 
 export function envglobals() : globalValues {
+        const { hostname }= window.location;
+        // console.log(hostname);
         const endpoints = {
             SEARCH: "/geo",
             METADATA: "/id",
             ANALYTIC: "/analytics"
         }
-        switch(process.env.NODE_ENV) {
-            case "development":
+        switch(hostname) {
+            case "localhost":
+                return {
+                    LOGO_SITE_LINK_URL: { 
+                        en: "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/home/",
+                        fr: "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/fr/accueil/"
+                    },    
+                    APP_API_DOMAIN_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev",
+                    APP_API_ENDPOINTS: endpoints,
+                    APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
+                };
+            case "app-dev.geo.ca":
                 return {
                     LOGO_SITE_LINK_URL: { 
                         en: "https://dev.geo.ca/home/index.html",
@@ -17,7 +29,7 @@ export function envglobals() : globalValues {
                     APP_API_ENDPOINTS: endpoints,
                     APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
                 };
-            case "stage":
+            case "app-stage.geo.ca":
                 return {
                     LOGO_SITE_LINK_URL: { 
                         en: "https://stage.geo.ca/home/index.html",
@@ -27,7 +39,7 @@ export function envglobals() : globalValues {
                     APP_API_ENDPOINTS: endpoints,
                     APP_GEOCORE_URL: "https://geocore-stage.metadata.geo.ca"
                 };
-            case "production":
+            case "app.geo.ca":
                 return {
                     LOGO_SITE_LINK_URL: { 
                         en: "https://geo.ca/home/index.html",
