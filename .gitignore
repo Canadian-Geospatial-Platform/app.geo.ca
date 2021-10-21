@@ -1,4 +1,3 @@
 node_modules/
 dist/
 src/security/
-src/common/envglobals_local.ts
