@@ -19,8 +19,7 @@ export function envglobals() : globalValues {
                     APP_API_ENDPOINTS: endpoints,
                     APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
                 };
-            case "app-dev.geo.ca":
-            case "dev.d2de69n0psakgs.amplifyapp.com/":    
+            case "app-dev.geo.ca":   
                 return {
                     LOGO_SITE_LINK_URL: { 
                         en: "https://dev.geo.ca/home/index.html",
@@ -53,12 +52,12 @@ export function envglobals() : globalValues {
             default:
                 return {
                     LOGO_SITE_LINK_URL: { 
-                        en: "https://stage.geo.ca/home/",
-                        fr: "https://stage.geo.ca/fr/accueil/"
+                        en: "https://dev.geo.ca/home/index.html",
+                        fr: "https://dev.geo.ca/fr/accueil/index.html"
                     },    
-                    APP_API_DOMAIN_URL: "https://geocore-stage.api.geo.ca",
+                    APP_API_DOMAIN_URL: "https://geocore-dev.api.geo.ca",
                     APP_API_ENDPOINTS: endpoints,
-                    APP_GEOCORE_URL: "https://geocore-stage.metadata.geo.ca"
+                    APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
                 };
         };
 }; 
