@@ -10,8 +10,8 @@ export function envglobals() : globalValues {
             case "development":
                 return {
                     LOGO_SITE_LINK_URL: { 
-                        en: "http://dev.geo.ca/home/",
-                        fr: "http://dev.geo.ca/fr/accueil/"
+                        en: "https://dev.geo.ca/home/index.html",
+                        fr: "https://dev.geo.ca/fr/accueil/index.html"
                     },    
                     APP_API_DOMAIN_URL: "https://geocore-dev.api.geo.ca",
                     APP_API_ENDPOINTS: endpoints,
@@ -20,8 +20,8 @@ export function envglobals() : globalValues {
             case "stage":
                 return {
                     LOGO_SITE_LINK_URL: { 
-                        en: "https://stage.geo.ca/home/",
-                        fr: "https://stage.geo.ca/fr/accueil/"
+                        en: "https://stage.geo.ca/home/index.html",
+                        fr: "https://stage.geo.ca/fr/accueil/index.html"
                     },    
                     APP_API_DOMAIN_URL: "https://geocore-stage.api.geo.ca",
                     APP_API_ENDPOINTS: endpoints,
@@ -30,8 +30,8 @@ export function envglobals() : globalValues {
             case "production":
                 return {
                     LOGO_SITE_LINK_URL: { 
-                        en: "https://geo.ca/home/",
-                        fr: "https://geo.ca/fr/accueil/"
+                        en: "https://geo.ca/home/index.html",
+                        fr: "https://geo.ca/fr/accueil/index.html"
                     },    
                     APP_API_DOMAIN_URL: "https://geocore.api.geo.ca",
                     APP_API_ENDPOINTS: endpoints,
