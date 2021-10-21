@@ -10,10 +10,10 @@ export function envglobals() : globalValues {
             case "development":
                 return {
                     LOGO_SITE_LINK_URL: { 
-                        en: "http://dev.geo.ca/home/",
-                        fr: "http://dev.geo.ca/fr/accueil/"
+                        en: "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/home/",
+                        fr: "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/fr/accueil/"
                     },    
-                    APP_API_DOMAIN_URL: "https://geocore-dev.api.geo.ca",
+                    APP_API_DOMAIN_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev",
                     APP_API_ENDPOINTS: endpoints,
                     APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
                 };
@@ -23,17 +23,17 @@ export function envglobals() : globalValues {
                         en: "https://stage.geo.ca/home/",
                         fr: "https://stage.geo.ca/fr/accueil/"
                     },    
-                    APP_API_DOMAIN_URL: "https://geocore-stage.api.geo.ca",
+                    APP_API_DOMAIN_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging",
                     APP_API_ENDPOINTS: endpoints,
                     APP_GEOCORE_URL: "https://geocore-stage.metadata.geo.ca"
                 };
             case "production":
                 return {
                     LOGO_SITE_LINK_URL: { 
-                        en: "https://geo.ca/home/",
-                        fr: "https://geo.ca/fr/accueil/"
+                        en: "https://stage.geo.ca/home/",
+                        fr: "https://stage.geo.ca/fr/accueil/"
                     },    
-                    APP_API_DOMAIN_URL: "https://geocore.api.geo.ca",
+                    APP_API_DOMAIN_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging",
                     APP_API_ENDPOINTS: endpoints,
                     APP_GEOCORE_URL: "https://geocore.metadata.geo.ca"
                 };    
@@ -43,7 +43,7 @@ export function envglobals() : globalValues {
                         en: "https://stage.geo.ca/home/",
                         fr: "https://stage.geo.ca/fr/accueil/"
                     },    
-                    APP_API_DOMAIN_URL: "https://geocore-stage.api.geo.ca",
+                    APP_API_DOMAIN_URL: "https://bkbu8krpzc.execute-api.ca-central-1.amazonaws.com/staging",
                     APP_API_ENDPOINTS: endpoints,
                     APP_GEOCORE_URL: "https://geocore-stage.metadata.geo.ca"
                 };

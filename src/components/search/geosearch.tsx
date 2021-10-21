@@ -31,6 +31,7 @@ import types from './types.json';
 import themes from './themes.json';
 import './geosearch.scss';
 
+const EnvGlobals = envglobals();
 const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>void, setKSOnly: (kso:boolean)=>void, initKeyword?: string): JSX.Element => {
     const { t } = useTranslation();
     const rpp = 10;
@@ -251,7 +252,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         // console.log(searchParams);
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         
-        axios.get(envglobals().APP_API_SEARCH_URL, { params: searchParams })
+        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
             .then((response) => {
                 analyticPost(aParams);
                 return response.data;
@@ -423,7 +424,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
 
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         // console.log(searchParams);
-        axios.get(envglobals().APP_API_SEARCH_URL, { params: searchParams })
+        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
             .then((response) =>  {
                 analyticPost(analyticParams);
                 return response.data;

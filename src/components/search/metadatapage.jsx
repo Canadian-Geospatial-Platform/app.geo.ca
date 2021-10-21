@@ -28,6 +28,8 @@ import {analyticPost, analyticGet} from '../../common/analytic';
 import { setMapping } from "../../reducers/action";
 import './metadatapage.scss';
 
+const EnvGlobals = envglobals();
+
 const MetaDataPage = () => {
     const location = useLocation();
     const history = useHistory();
@@ -77,7 +79,7 @@ const MetaDataPage = () => {
           lang: language,
       };
       // console.log(searchParams);
-      axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: searchParams})
+      axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: searchParams})
       .then(response => response.data)
       .then((data) => {
           // console.log(data);
@@ -91,7 +93,7 @@ const MetaDataPage = () => {
                   // console.log("res", analyticRes);
                   res.last = analyticRes.data["30"];
                   res.all = analyticRes.data.all; 
-                  axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: {id, lang: language==='en'?'fr':'en'}})
+                  axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: {id, lang: language==='en'?'fr':'en'}})
                         .then(subres => subres.data)
                         .then((subdata) => {
                             // console.log(data);
@@ -109,7 +111,7 @@ const MetaDataPage = () => {
               },
               (analyticErr) => {
                 // console.log(analyticErr); 
-                axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: {id, lang: language==='en'?'fr':'en'}})
+                axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: {id, lang: language==='en'?'fr':'en'}})
                       .then(subres => subres.data)
                       .then((subdata) => {
                           // console.log(data);
@@ -442,7 +444,7 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.metadata")}</h3>
                                 <p>{t("page.ourmetadatais")}</p>
                                 <div className="btn-group">
-                                    <a href={`${envglobals().APP_GEOCORE_URL}/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
+                                    <a href={`${Envglobals.APP_GEOCORE_URL}/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
                                     <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('hnap')}>{t("page.viewhnaprecord")}</a>
                                 </div>
                             </section>

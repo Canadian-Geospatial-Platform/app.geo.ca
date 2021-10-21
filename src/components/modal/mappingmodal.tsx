@@ -10,9 +10,9 @@ import { useLocation, useHistory } from 'react-router';
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import BeatLoader from "react-spinners/BeatLoader";
-import axios from "axios";
+// import axios from "axios";
 import { getQueryParams } from '../../common/queryparams';
-import { envglobals } from '../../common/envglobals';
+// import { envglobals } from '../../common/envglobals';
 import { loadState } from '../../reducers/localStorage';
 import { setMapping } from "../../reducers/action";
 import './mappingmodal.scss';
@@ -81,7 +81,7 @@ const MappingModal = (props: MappingModalProps) => {
                         lang: language,
                     };
                     promises.push(
-                        axios.get(`${envglobals().APP_API_DOMAIN_URL}/id`, { params: searchParams})
+                        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINT.METADATA}`, { params: searchParams})
                         .then(response => response.data)
                         .then((data) => {
                             const res = data.Items[0];
