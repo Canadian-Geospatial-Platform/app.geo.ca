@@ -20,6 +20,7 @@ export function envglobals() : globalValues {
                     APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
                 };
             case "app-dev.geo.ca":
+            case "dev.d2de69n0psakgs.amplifyapp.com/":    
                 return {
                     LOGO_SITE_LINK_URL: { 
                         en: "https://dev.geo.ca/home/index.html",
