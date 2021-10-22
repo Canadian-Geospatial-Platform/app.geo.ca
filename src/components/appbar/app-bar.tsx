@@ -88,7 +88,6 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const location = useLocation();
     // const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
-    // console.log(queryParams, queryParams.keyword);
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const [analyticOrg, setAnalyticOrg] = useState([]);
     const [open, setOpen] = useState(false);
@@ -98,7 +97,8 @@ export function Appbar(props: AppBarProps): JSX.Element {
         queryParams.ksonly !== undefined ||
         queryParams.org !== undefined ||
         queryParams.type !== undefined ||
-        queryParams.theme !== undefined) ? ' search' : ''
+        queryParams.theme !== undefined) ? ' search' : 
+        (queryParams.analytic !== undefined?' analytics':'')
     );
     const classes = useStyles(ksOnly?'ks':(panel===' analytics'?'analytic':''))();
     const language = t('app.language');
@@ -116,11 +116,11 @@ export function Appbar(props: AppBarProps): JSX.Element {
         map.eachLayer((layer: unknown) => {
             // console.log(layer);
             map.removeLayer(layer);
-        });
+        }); 
         basemaps.forEach(base=>{
             L.tileLayer(base.url).addTo(map);
-        })
-
+        })   
+        
     }, [language, map]);
 
     const handleDrawerClose = () => {
@@ -138,12 +138,13 @@ export function Appbar(props: AppBarProps): JSX.Element {
         setPanel(
            (queryParams.keyword !== undefined ||
             queryParams.ksonly !== undefined ||
-            queryParams.org !== undefined ||
+            queryParams.org !== undefined || 
             queryParams.type !== undefined ||
-            queryParams.theme !== undefined) ? ' search' : ''
+            queryParams.theme !== undefined) ? ' search' : 
+            (queryParams.analytic !== undefined?' analytics':'')
         );
         setKSOnly(queryParams.ksonly !== undefined);
-    }, [queryParams.keyword, queryParams.ksonly, queryParams.org, queryParams.type, queryParams.theme]);
+    }, [queryParams.keyword, queryParams.ksonly, queryParams.org, queryParams.type, queryParams.theme, queryParams.analytic]);
 
     return (
         <div className={classes.root} ref={appBar}>
@@ -153,7 +154,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 classes={{ paper: open && panel === '' ? classes.drawerOpen : classes.drawerClose }}
             >
                 <div className={classes.toolbar}>
-                { panel === '' &&
+                { panel === '' &&  
                     <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
                         <IconButton
                             onClick={handleDrawerClose}
@@ -163,7 +164,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     </Tooltip>
-                }
+                }    
                 </div>
                 <Divider />
                 <List>
@@ -177,7 +178,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     )} */}
                     <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<SvgIcon><FilterIcon /></SvgIcon>} onClickFunction={() => setPanel(' filters')} />
                     {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp!==undefined?cp:'')} /></div>}
-                    {/*<ButtonApp tooltip="appbar.analytics" current={panel === ' analytics'} icon={<SvgIcon><AnalyticIcon /></SvgIcon>} onClickFunction={() => setPanel(' analytics')} /> */}
+                    {/* <ButtonApp tooltip="appbar.analytics" current={panel === ' analytics'} icon={<SvgIcon><AnalyticIcon /></SvgIcon>} onClickFunction={() => setPanel(' analytics')} /> */}
                     {panel === ' analytics' && <div className={`cgp-apppanel${panel}`}><AnalyticPanel showing={panel === ' analytics'} analyticOrg={analyticOrg} setAnalyticOrg={setAnalyticOrg} closeFunction={() => setPanel('')} /></div>}
                 </List>
                 <Divider className={classes.spacer} />
