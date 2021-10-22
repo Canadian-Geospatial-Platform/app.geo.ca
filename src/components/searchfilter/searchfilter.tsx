@@ -6,14 +6,17 @@ import React, { useState, useEffect } from 'react';
 import './searchfilter.scss';
 
 export default function SearchFilter(props: filterProps): JSX.Element {
-    const { filtertitle, filtervalues, filterselected, selectFilters } = props;
-    const [fselected, setFilterSelected] = useState(filterselected);
+    const { filtertitle, filtervalues, filterselected, selectFilters, singleselect } = props;
+    const [fselected, setFilterSelected] = useState(singleselect?[filterselected[0]]:filterselected);
     const [open, setOpen] = useState(false);
     const vtype = filtervalues.length > 0;
     const selectFilterValue = (findex: number) => {
         const newselected = fselected.map((fs) => fs);
         const selectedIndex = fselected.findIndex((fs) => fs === findex);
         if (selectedIndex < 0) {
+            if (singleselect) {
+                newselected.splice(0,1);
+            }
             newselected.push(findex);
         } else {
             newselected.splice(selectedIndex, 1);
@@ -39,9 +42,9 @@ export default function SearchFilter(props: filterProps): JSX.Element {
 
     return vtype ? (
         <div className={open ? 'filter-wrap open' : 'filter-wrap'}>
-            <button type="button" className="link-button filter-title" aria-expanded={open ? 'true' : 'false'} onClick={() => handleOpen()}>
+            {filtertitle !== "" && <button type="button" className="link-button filter-title" aria-expanded={open ? 'true' : 'false'} onClick={() => handleOpen()}>
                 {filtertitle}
-            </button>
+            </button> }
             <div className="filter-list-wrap">
                 <ul className="list">
                     {filtervalues.map((filter: string, findex: number) => {
@@ -103,4 +106,5 @@ interface filterProps {
     filtervalues: string[];
     filterselected: number[];
     selectFilters: (arg: unknown) => void;
+    singleselect?: boolean;
 }

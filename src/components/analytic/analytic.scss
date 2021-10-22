@@ -3,7 +3,7 @@
 .analytic-container {
     color: $color__text-aside;
     .analytic-results-data {
-        max-width: $breakpoint__md;
+        max-width: $breakpoint__lg;
         background-color: transparent;
         display: flex;
         justify-content: space-between;
@@ -17,16 +17,16 @@
             padding: 10px;
             text-align: center;
             >h5 {
-                font-size: 0.875em;
+                font-size: 1em;
                 font-weight: 600;
                 max-width: 133px;
                 margin: 0 auto 0.5rem
             }
             >p {
-                font-size: 1em;
+                font-size: 1.5em;
                 font-weight: bold; 
                 >span {
-                    font-size: 0.875em;
+                    font-size: 1em;
                     font-weight: 500;  
                 }
             }
@@ -34,25 +34,27 @@
     }
     .analytic-rank-data {
         width: 100%;
-        max-width: $breakpoint__md;
+        max-width: $breakpoint__lg;
         box-sizing: border-box;
         margin: 2em auto;
         text-align: center;
         >h5 {
             width: auto;
-            font-size: 0.875em;
+            font-size: 1.125em;
             font-weight: 600;
         }
         >.analytic-rank-buttons {
-            max-width: $breakpoint__sm;
+            max-width: $breakpoint__lg;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin: 2em auto 2.5em;
+            margin: 0.5em auto 1.2em;
             >button {
-                width:100px;
-                height: 25px;
+                min-width: 18%;
+                height: 35px;
                 margin: 5px;
+                font-size: 1.2em;
+                font-weight: 500;
             }
         } 
         >.analytic-rank-list {
@@ -62,26 +64,34 @@
                 box-sizing: border-box;
                 border: solid 1px $color__text-aside;
                 border-radius: 5px;
-                padding: 1.2em;
-                margin: 1em auto 2.5em;
+                padding: 1em;
+                margin: 0.5em auto 1em;
                 >div {
                     width: 100%;
                     display: flex;
                     justify-content: space-between;
-                    font-size: 0.875em;
+                    align-items: center;
+                    font-size: 1.125em;
                     font-weight: 600;
-                    margin: 2px 0;
+                    margin: 0.5em 0;
                     >div {
                         padding: 0;
-                        width: calc(100% - 160px);
+                        width: calc(100% - 200px);
                         text-align: left;
                         >.link-button {
-                            font-size: 0.875em;
+                            font-size: 1.125em;
                             font-weight: 600;
                             margin: 0;
+                            max-width: 100%;
+                            white-space: pre-wrap;
+                            text-align: left;
                         }
-                        &:first-child, &:last-child {
+                        &:first-child {
                             width:80px;
+                            text-align: center;
+                        }
+                        &:last-child {
+                            width: 120px;
                             text-align: center;
                         }
                     }
@@ -92,8 +102,14 @@
                 display: flex;
                 justify-content: space-between;
                 position: relative;
-                font-size: 0.875em;
+                font-size: 1.125em;
                 font-weight: 600;
+                margin-bottom: 0.5em;
+                &.en {
+                    >.analytic-filters-list, >.filter-wrap {
+                        width: calc( 100% - 80px); 
+                    }
+                }
                 >button.btn-button {
                     height: 30px;
                 }
@@ -107,19 +123,25 @@
                     align-items: center;
                     box-sizing: border-box;
                     padding: 0.2em 2.2em 0.2em 0.2em;
+                    >span {
+                        padding-left: 1em;
+                    }
                     >button {
                         margin: 1px;
-                        font-size: 0.875em;
+                        font-size: 1em;
                         font-weight: 600;
+                        padding: 0.1em 0.5em;
+                        z-index: 1;
                         &.advanced-filters-button.link-button {
                             position: absolute;
-                            right: 1.2em;
-                            width: 1em;
-                            height: 1em;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            z-index: 0;
                             background-repeat: no-repeat;
                             background-size: 1em;
-                            height: 1em;
-                            width: 1em;
+                            background-position: calc(100% - 10px);
                             background-image: url($ico__bi-chevron-down);
                             &.open {
                                 background-image: url($ico__bi-chevron-up);
@@ -127,24 +149,25 @@
                         }
                     }
                 }
-                .filter-wrap {
+                >.filter-wrap {
                     position: absolute;
                     top:100%;
                     left: 0;
                     width: calc( 100% - 100px);
-                    height: 200px;
+                    height: 220px;
                     overflow-y: scroll;
                     border: solid 1px $color__text-aside;
                     background-color: $color__light;
                     box-sizing: border-box;
                     transition: 0.4s;
+                    margin-bottom: 1em;
                     >.filter-list-wrap {
                        >ul.list {
                             padding: 0px;
                             box-sizing: border-box;
                             >li {
                                 box-sizing: border-box;
-                                padding: 0 40px;
+                                padding: 0 30px;
                                 margin: 0.3em 0;
                                 >input[type=checkbox] {
                                     display:none;
