@@ -29,7 +29,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     const [rslLoading, setRSLLoading] = useState(true);
     const [ralLoading, setRALLoading] = useState(true);
     const [raaLoading, setRAALoading] = useState(true);
-    const [raoLoading, setRAOLoading] = useState(orgSelected.length>0);
+    const [raoLoading, setRAOLoading] = useState(orgSelected.length>0 ? true : null);
     const [rankSL, setRANKSL] = useState([]);
     const [rankAL, setRANKAL] = useState([]);
     const [rankAA, setRANKAA] = useState([]);
@@ -120,7 +120,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     const getRAL = () => {
         analyticGet(
             '4', 
-            {},
+            { lang: language },
             (analyticRes) => {
                 setRANKAL(analyticRes.data);
                 setRALLoading(false);
@@ -135,7 +135,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     const getRAA = () => {
         analyticGet(
             '5', 
-            {},
+            { lang: language },
             (analyticRes) => {
                 setRANKAA(analyticRes.data);
                 setRAALoading(false);
@@ -233,8 +233,8 @@ export default function Analytic(props: analyticProps): JSX.Element {
 
     useEffect(() => {
         // setRSLLoading(true);
-        // setRALLoading(true);
-        // setRAALoading(true);
+        setRALLoading(true);
+        setRAALoading(true);
         if (orgSelected.length>0) {
             setRAOLoading(true);
         } 
@@ -297,7 +297,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
                             <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>setRSLLoading(true)}>{t("analytic.tryagain")}</button></span> 
                             :(rankSL.length===0?
                                 <span>{t("analytic.norecord")}, <button type="button" className="link-button" onClick={()=>setRSLLoading(true)}>{t("analytic.tryagain")}</button></span> 
-                                :rankSL.map((rank, ri) => <button type="button" key={ri} onClick={()=>handleView(`/?keyword=${rank.search===undefined?'':rank.search}`)}>{ri+1}</button>))
+                                :rankSL.map((rank, ri) => <button type="button" key={ri} onClick={()=>handleView(`/?keyword=${rank.search===undefined?'':rank.search}&lang=${language}`)}>{ri+1}: {rank.search}</button>))
                           )
                     }
                 </div>        
@@ -363,8 +363,15 @@ export default function Analytic(props: analyticProps): JSX.Element {
             <section className="sec-analytic-result analytic-results-section analytic-rank-data">
                 <h5>{t("analytic.topaccessbyorg")}</h5>
                 <div className="analytic-rank-list">
-                    <div className="analytic-filters-setting">
+                    <div className={`analytic-filters-setting ${language}`}>
                         <div className="analytic-filters-list">    
+                            <button
+                                className={filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'}
+                                disabled={raoLoading}
+                                type="button"
+                                onClick={!raoLoading ? () => setFilterbyshown(!filterbyshown) : undefined}
+                                aria-expanded={filterbyshown ? 'true' : 'false'}
+                            />
                             {orgSelected.length === 0 ?
                             <span>{t("analytic.selectorg")}</span>
                             :orgSelected.map((orgfilter: number) => (
@@ -378,13 +385,6 @@ export default function Analytic(props: analyticProps): JSX.Element {
                                     {organisations[language][orgfilter]} <i className="fas fa-times" />
                                 </button>
                             ))}
-                            <button
-                                className={filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'}
-                                disabled={raoLoading}
-                                type="button"
-                                onClick={!raoLoading ? () => setFilterbyshown(!filterbyshown) : undefined}
-                                aria-expanded={filterbyshown ? 'true' : 'false'}
-                            />
                         </div>
                         <button
                             type="button"
@@ -399,13 +399,14 @@ export default function Analytic(props: analyticProps): JSX.Element {
                             filtervalues={organisations[language]}
                             filterselected={orgSelected}
                             selectFilters={handleOrg}
+                            singleselect={true}
                         />}
                     </div>    
                 {raoLoading ? 
                         <BeatLoader color="#515AA9" />
                         : (!Array.isArray(rankAO) ? 
                             <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>setRAOLoading(true)}>{t("analytic.tryagain")}</button></span> 
-                           : orgSelected.length > 0 &&
+                           : raoLoading!==null && orgSelected.length > 0 &&
                             <div className="rank-list-box">
                                 <div className="rank-list-header">
                                     <div>{t("analytic.headerrank")}</div>
