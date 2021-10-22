@@ -77,7 +77,7 @@ export default function SearchFilter(props: filterProps): JSX.Element {
         </div>
     ) : (
         <div className="filter-list-wrap">
-            <ul className="list">
+            <ul className="list single">
                 <li
                     className={
                         fselected.length > 0

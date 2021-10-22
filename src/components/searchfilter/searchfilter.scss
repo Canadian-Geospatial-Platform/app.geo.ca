@@ -96,6 +96,9 @@
                         columns: 2;
                         margin: 0;
                         padding: 0;
+                        &.single {
+                            columns: 1; 
+                        }
                     }
 
                     .list-item {
