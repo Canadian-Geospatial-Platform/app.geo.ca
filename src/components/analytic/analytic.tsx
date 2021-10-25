@@ -34,7 +34,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     const [rankAL, setRANKAL] = useState([]);
     const [rankAA, setRANKAA] = useState([]);
     const [rankAO, setRANKAO] = useState([]);
-    const [errMsg, setErrMsg] = useState([]);
+    // const [errMsg, setErrMsg] = useState([]);
     
     const { t } = useTranslation();
     const language = t("app.language");
@@ -49,7 +49,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
               // console.log(analyticErr); 
-              setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+              // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
               setNSTNUM(-1);
               setNSTLoading(false);
            }
@@ -66,7 +66,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
               // console.log(analyticErr); 
-              setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+              // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
               setNSLNUM(-1);
               setNSLLoading(false);
            }
@@ -83,7 +83,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
               // console.log(analyticErr); 
-              setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+              // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
               setNATNUM(-1);
               setNATLoading(false);
            }
@@ -100,7 +100,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
               // console.log(analyticErr); 
-              setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+              // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
               setNALNUM(-1);
               setNALLoading(false);
            }
@@ -117,7 +117,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
               // console.log(analyticErr); 
-              setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+              // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
               setRANKSL(null);
               setRSLLoading(false);
            }
@@ -133,7 +133,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
               // console.log(analyticErr); 
-              setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+              // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
               setRANKAL(null);
               setRALLoading(false);
            }
@@ -149,7 +149,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
               // console.log(analyticErr); 
-              setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+              // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
               setRANKAA(null);
               setRAALoading(false);
            }
@@ -165,7 +165,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
               // console.log(analyticErr); 
-              setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+              // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
               setRANKAO(null);
               setRAOLoading(false);
            }
@@ -438,11 +438,11 @@ export default function Analytic(props: analyticProps): JSX.Element {
                     }
                 </div>
             </section>
-            <section className="sec-analytic-errormsg error-debug">
-                    {errMsg.map((err, ei)=>{
-                        return <div key={ei}>{err}</div>
-                    })}
-            </section>
+            {/* <section className="sec-analytic-errormsg error-debug">
+                {Array.isArray(errMsg) && errMsg.map((err, ei)=>{
+                    return <div key={ei}>{err}</div>
+                })}
+            </section> */}
         </div>
     );
 }
