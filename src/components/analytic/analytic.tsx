@@ -306,7 +306,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
                             <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>setRSLLoading(true)}>{t("analytic.tryagain")}</button></span> 
                             :(rankSL.length===0?
                                 <span>{t("analytic.norecord")}, <button type="button" className="link-button" onClick={()=>setRSLLoading(true)}>{t("analytic.tryagain")}</button></span> 
-                                :rankSL.map((rank, ri) => <button type="button" key={ri} onClick={()=>handleView(`/?keyword=${rank.search===undefined?'':rank.search}&lang=${language}`)}>{ri+1}: {rank.search}</button>))
+                                :rankSL.map((rank, ri) => <button type="button" key={ri} onClick={()=>handleView(`/?keyword=${rank.search===undefined?'':rank.search}&lang=${language}`)}>{rank.search}</button>))
                           )
                     }
                 </div>        
