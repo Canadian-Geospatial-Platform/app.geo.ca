@@ -435,11 +435,11 @@ export default function Analytic(props: analyticProps): JSX.Element {
                                 })}
                             </div>    
                           )
-                    }
+                    } 
                 </div>
             </section>
             <section className="sec-analytic-errormsg">
-                    {errMsg.map((err, ei)=>{
+                    {Array.isArray(errMsg) && errMsg.map((err, ei)=>{
                         return <div key={ei}>{err}</div>
                     })}
             </section>
