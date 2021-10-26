@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { combineReducers, createStore, StoreEnhancer } from 'redux';
 import throttle from 'lodash.throttle';
 import { I18nextProvider } from 'react-i18next';
-import { setupCognito, cognito } from 'react-cognito';
+// import { setupCognito, cognito } from 'react-cognito';
 import { Icon, Marker, LatLngTuple } from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -17,7 +17,7 @@ import i18n from './assets/i18n/i18n';
 import { getQueryParams } from './common/queryparams';
 import Header from './components/header/header';
 import { Map } from './components/map/map';
-import KeywordSearch from './components/search/keywordsearch';
+// import KeywordSearch from './components/search/keywordsearch';
 import MetaDataPage from './components/search/metadatapage';
 import RampViewer from './components/rampviewer/rampviewer';
 
@@ -26,7 +26,7 @@ import CgpModal from './components/modal/cgpmodal';
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/css/style.scss';
 
-import authconfig from './components/account/cognito-auth/config.json';
+// import authconfig from './components/account/cognito-auth/config.json';
 
 const persistedState: StoreEnhancer<unknown, unknown> | undefined = loadState();
 const reducers = combineReducers({

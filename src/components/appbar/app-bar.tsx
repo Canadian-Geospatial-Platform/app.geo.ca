@@ -144,6 +144,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
             (queryParams.analytic !== undefined?' analytics':'')
         );
         setKSOnly(queryParams.ksonly !== undefined);
+        // document.getElementById("app-left-bar").classList.add("test");
     }, [queryParams.keyword, queryParams.ksonly, queryParams.org, queryParams.type, queryParams.theme, queryParams.analytic]);
 
     return (

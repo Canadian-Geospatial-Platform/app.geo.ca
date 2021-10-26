@@ -444,7 +444,7 @@ const MetaDataPage = () => {
                                 <h3 className="section-title">{t("page.metadata")}</h3>
                                 <p>{t("page.ourmetadatais")}</p>
                                 <div className="btn-group">
-                                    <a href={`${Envglobals.APP_GEOCORE_URL}/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
+                                    <a href={`${EnvGlobals.APP_GEOCORE_URL}/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
                                     <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('hnap')}>{t("page.viewhnaprecord")}</a>
                                 </div>
                             </section>

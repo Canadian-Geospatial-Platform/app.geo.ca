@@ -63,7 +63,7 @@ export function Map(props: MapProps): JSX.Element {
                 });
             }}
         >
-            <div className="leaflet-control cgp-appbar">
+            <div id="app-left-bar" className="leaflet-control cgp-appbar">
                 <Appbar search={search} auth={auth} />
             </div>
             {basemaps.map((base) => (
