@@ -216,7 +216,7 @@
                 border-bottom-right-radius: 75px;
                 height: 30px;
                 width: 33px;
-                &:hover {
+                &:hover, &:focus {
                     cursor: pointer;
                 }
                 &:disabled {
@@ -380,4 +380,11 @@
             }
         }
     }
+    .searching-cover {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: calc(100vw - 510px);
+        height: calc(100% + 20px);
+    } 
 }

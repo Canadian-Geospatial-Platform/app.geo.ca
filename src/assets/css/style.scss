@@ -150,7 +150,9 @@ button:active {
 }
 
 .btn-button:hover,
-.icon-button:hover {
+.btn-button:focus,
+.icon-button:hover,
+.icon-button:focus {
     color: #fff;
     background-color: #5a6268;
     border-color: #545b62;

@@ -55,6 +55,13 @@
                 margin: 5px;
                 font-size: 1.2em;
                 font-weight: 500;
+                // background-color: transparent;
+                // color: $color__logo-blue;
+                &:hover,
+                &:focus {
+                    background-color: $color__logo-blue;
+                    color: $color__light;
+                }
             }
         } 
         >.analytic-rank-list {
@@ -136,8 +143,9 @@
                             position: absolute;
                             top: 0;
                             left: 0;
-                            width: 100%;
-                            height: 100%;
+                            width: calc(100% - 2px);
+                            height: calc(100% - 2px);
+                            border-radius: 2px;
                             z-index: 0;
                             background-repeat: no-repeat;
                             background-size: 1em;
@@ -145,6 +153,9 @@
                             background-image: url($ico__bi-chevron-down);
                             &.open {
                                 background-image: url($ico__bi-chevron-up);
+                            }
+                            &:hover, &:focus {
+                                background-color: $color__bg-aside;
                             }
                         }
                     }

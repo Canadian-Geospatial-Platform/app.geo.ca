@@ -895,6 +895,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 )}
                 {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
             </div>
+            {!ksOnly && loading && <div className="searching-cover" />}
         </div>
     );
 };
