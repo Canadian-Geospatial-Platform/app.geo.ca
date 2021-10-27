@@ -84,3 +84,16 @@
         }
     }
 }
+
+#app-left-bar.cgp-appbar.kso-show {
+    .MuiListItem-button {
+        display: none;
+    }
+}
+
+#app-left-bar.cgp-appbar.analytic-show ~ div, 
+#app-left-bar.cgp-appbar.analytic-show ~ span,
+#app-left-bar.cgp-appbar.kso-show ~ div, 
+#app-left-bar.cgp-appbar.kso-show ~ span {
+    display: none;
+}

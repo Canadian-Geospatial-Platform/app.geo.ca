@@ -155,7 +155,7 @@
                                 background-image: url($ico__bi-chevron-up);
                             }
                             &:hover, &:focus {
-                                background-color: $color__bg-aside;
+                                background-color: rgba(0,0,0,0.03);
                             }
                         }
                     }

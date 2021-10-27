@@ -143,8 +143,8 @@ button:active {
     margin: 0;
     &:disabled {
         color: #fff;
-        background-color: #5a6268;
-        border-color: #545b62;
+        background-color: $color__logo-grey!important;
+        border-color: $color__logo-grey!important;
         cursor: text;
     }
 }
@@ -154,8 +154,8 @@ button:active {
 .icon-button:hover,
 .icon-button:focus {
     color: #fff;
-    background-color: #5a6268;
-    border-color: #545b62;
+    background-color: $color__logo-grey!important;
+    border-color: $color__text-main!important;
 }
 
 .link-button {
@@ -262,14 +262,6 @@ button:active {
         border-bottom-right-radius: 75px;
         height: 30px;
         width: 33px;
-        &:hover {
-            cursor: pointer;
-        }
-        &:disabled {
-            background-color: #5a6268;
-            border-color: #545b62;
-            cursor: text;
-        }
     }
     
 }

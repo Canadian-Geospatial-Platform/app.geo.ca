@@ -144,8 +144,23 @@ export function Appbar(props: AppBarProps): JSX.Element {
             (queryParams.analytic !== undefined?' analytics':'')
         );
         setKSOnly(queryParams.ksonly !== undefined);
-        // document.getElementById("app-left-bar").classList.add("test");
     }, [queryParams.keyword, queryParams.ksonly, queryParams.org, queryParams.type, queryParams.theme, queryParams.analytic]);
+
+    useEffect(() => {
+        const appBarEl = document.getElementById("app-left-bar");
+        if (panel === ' analytics') {
+            appBarEl.classList.add("analytic-show"); 
+        } else {
+            appBarEl.classList.remove("analytic-show");
+        }
+
+        if (ksOnly) {
+            appBarEl.classList.add("kso-show"); 
+        } else {
+            appBarEl.classList.remove("kso-show");
+        }
+        // document.getElementById("app-left-bar").classList.add("test");
+    }, [panel, ksOnly]);
 
     return (
         <div className={classes.root} ref={appBar}>

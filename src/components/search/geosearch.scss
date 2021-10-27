@@ -124,8 +124,13 @@
             background-color: $color__light;
         }
 
-        input:focus + .slider {
-            box-shadow: 0 0 2px $color__icon-btn-bg;
+        input:focus + .slider, input:hover + .slider {
+            box-shadow: 0 0 3px $color__icon-btn-bg;
+        }
+
+        input:checked:focus + .slider, input:checked:hover + .slider {
+            box-shadow: 0 0 3px $color__semi-light;
+            background-color: $color__semi-light;
         }
         
         input:checked + .slider:before {
@@ -216,14 +221,6 @@
                 border-bottom-right-radius: 75px;
                 height: 30px;
                 width: 33px;
-                &:hover, &:focus {
-                    cursor: pointer;
-                }
-                &:disabled {
-                    background-color: #5a6268;
-                    border-color: #545b62;
-                    cursor: text;
-                }
             }
         }
 
