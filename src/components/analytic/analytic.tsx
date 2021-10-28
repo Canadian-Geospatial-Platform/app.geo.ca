@@ -331,7 +331,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
                                 <div key={ri} className="rank-list-data">
                                     <div>{ri+1}</div>
                                     <div><button type="button" className="btn link-button" onClick={()=>handleView(`/result?id=${rank.id}&lang=${language}`)}>{rank.title}</button></div>
-                                    <div>{rank.acceses}</div>
+                                    <div>{rank.accesses}</div>
                                 </div>    
                                 )    
                             })}
