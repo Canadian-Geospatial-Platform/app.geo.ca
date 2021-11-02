@@ -41,7 +41,7 @@ const MetaDataPage = () => {
     
     // console.log(mapping);
     const [loading, setLoading] = useState(true);
-    const [results, setResults] = useState({});
+    const [results, setResults] = useState([]);
     const [openSection, setOpen] = useState([]);
     const rid = queryParams && queryParams.id?queryParams.id.trim():"";
     const inMapping = rid!=="" ? mapping.findIndex((m)=>m.id===rid)>-1 : false;
@@ -84,6 +84,8 @@ const MetaDataPage = () => {
       .then((data) => {
           // console.log(data);
           const res = data.Items[0];
+          res.title = language==='en' ? res.title_en : res.title_fr;
+          res.mappingtitle = { en: res.title_en, fr: res.title_fr };
           res.last = 1;
           res.all = 1;
           analyticGet(
@@ -93,7 +95,9 @@ const MetaDataPage = () => {
                   // console.log("res", analyticRes);
                   res.last = analyticRes.data["30"];
                   res.all = analyticRes.data.all; 
-                  axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: {id, lang: language==='en'?'fr':'en'}})
+                  setResults([res]);
+                  setLoading(false);
+                  /* axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: {id, lang: language==='en'?'fr':'en'}})
                         .then(subres => subres.data)
                         .then((subdata) => {
                             // console.log(data);
@@ -107,11 +111,13 @@ const MetaDataPage = () => {
                             setResults([{...res, ...{mappingtitle:{en:res.title,fr:res.title}}}]);
                             // setKeyword(keyword);
                             setLoading(false);
-                        });
+                        }); */
               },
               (analyticErr) => {
+                setResults([res]);
+                setLoading(false);  
                 // console.log(analyticErr); 
-                axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: {id, lang: language==='en'?'fr':'en'}})
+                /* axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: {id, lang: language==='en'?'fr':'en'}})
                       .then(subres => subres.data)
                       .then((subdata) => {
                           // console.log(data);
@@ -125,7 +131,7 @@ const MetaDataPage = () => {
                           setResults([{...res, ...{mappingtitle:{en:res.title,fr:res.title}}}]);
                           // setKeyword(keyword);
                           setLoading(false);
-                      });
+                      }); */
              }
           );
           
@@ -229,9 +235,9 @@ const MetaDataPage = () => {
                                         .filter(o=>{return o.protocol!=="null" && o.url!=="null"})
                                         .map((option) => {
                                             const desc = option.description[language].split(";");
-                                            return {name:option.name[language], type:desc[0], format: desc[1]}; 
+                                            return {name:option.name[language], type:desc[0], format: desc[1], url: option.url}; 
                                         });   
-                        const activeMap = options.findIndex((o)=> o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE') > -1;                
+                        const activeMap = options.findIndex((o)=> o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE' || o.type.toUpperCase() === 'SERVICE WEB') > -1;                
                         const contact =   JSON.parse(formattedContact);
                         const coordinates = JSON.parse(result.coordinates);
 

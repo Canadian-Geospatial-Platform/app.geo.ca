@@ -209,12 +209,6 @@ export function Appbar(props: AppBarProps): JSX.Element {
                     <Version />
                 </List>
             </Drawer>
-            {/* <div className={`cgp-apppanel${panel}`}>
-                {search && <SearchPanel showing={panel === ' search'} closeFunction={() => setPanel('')} />}
-                <FiltersPanel showing={panel === ' filters'} closeFunction={() => setPanel('')} />
-                {auth && <AccountPanel showing={panel === ' account'} closeFunction={() => setPanel('')} />}
-                <HowtoPanel showing={panel === ' howto'} closeFunction={() => setPanel('')} />
-            </div> */}
         </div>
     );
 }
