@@ -204,7 +204,7 @@ const MetaDataPage = () => {
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const options = JSON.parse(formattedOption)
-                                        .filter(o=>{return o.protocol!==null && o.url!==null})
+                                        .filter(o=>{return o.protocol!==null && o.url!==null && o.protocol!=='null' && o.url!=='null'})
                                         .map((option) => {
                                             const desc = option.description[language].split(";");
                                             return {name:option.name[language], type:desc[0], format: desc[1], url: option.url}; 
@@ -312,7 +312,7 @@ const MetaDataPage = () => {
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.individualname")}</th>
-                                    <td>{contact[0].individual!==null && contact[0].individual[language]}</td>
+                                    <td>{contact[0].individual!==null && contact[0].individual!=='null' && contact[0].individual[language]}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.role")}</th>
@@ -324,7 +324,7 @@ const MetaDataPage = () => {
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.fax")}</th>
-                                    <td>{contact[0].fax!==null && contact[0].fax[language]}</td>
+                                    <td>{contact[0].fax!==null && contact[0].fax!=='null' && contact[0].fax[language]}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.email")}</th>
@@ -332,11 +332,11 @@ const MetaDataPage = () => {
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.web")}</th>
-                                    <td>{contact[0].onlineResource.onlineResource!==null && <a href={contact[0].onlineResource.onlineResource} className="table-cell-link" target="_blank">{contact[0].onlineResource.onlineResource}</a>}</td>
+                                    <td>{contact[0].onlineresource.onlineresource!==null && contact[0].onlineresource.onlineresource!=='null' && <a href={contact[0].onlineresource.onlineresource} className="table-cell-link" target="_blank">{contact[0].onlineresource.onlineresource}</a>}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.description")}</th>
-                                    <td>{contact[0].onlineResource.onlineResource_Description!==null && contact[0].onlineResource.onlineResource_Description}</td>
+                                    <td>{contact[0].onlineresource.onlineresource_description!==null && contact[0].onlineresource.onlineresource_description!=='null' && contact[0].onlineresource.onlineresource_description}</td>
                                     </tr>
                                 </tbody>
                                 </table>
