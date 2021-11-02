@@ -4,7 +4,7 @@
     },
     "nav": {
         "home": "Accueil",
-        "search": "Chercher",
+        "search": "Recherche",
         "mymap": "MyMap",
         "language": {
             "htmllangcode": "en",
@@ -40,7 +40,7 @@
         "fullscreen": "Plein écran",
         "help": "Aide",
         "layers": "Couches",
-        "search": "Geo Chercher",
+        "search": "Recherche",
         "keywordsearch": "Recherche par mot clé",
         "keywordonly": "Mot clé uniquement",
         "filters": "Filtres",
