@@ -42,6 +42,8 @@ const MetaDataPage = () => {
     // console.log(mapping);
     const [loading, setLoading] = useState(true);
     const [results, setResults] = useState([]);
+    const [analyticLoading, setAnalyticLoading] = useState(true);
+    const [analyticRes, setAnalytic] = useState({'30': 1, 'all': 1});
     const [openSection, setOpen] = useState([]);
     const rid = queryParams && queryParams.id?queryParams.id.trim():"";
     const inMapping = rid!=="" ? mapping.findIndex((m)=>m.id===rid)>-1 : false;
@@ -86,65 +88,34 @@ const MetaDataPage = () => {
           const res = data.Items[0];
           res.title = language==='en' ? res.title_en : res.title_fr;
           res.mappingtitle = { en: res.title_en, fr: res.title_fr };
-          res.last = 1;
-          res.all = 1;
-          analyticGet(
-              '10', 
-              {uuid:id, lang: language},
-              (analyticRes) => {
-                  // console.log("res", analyticRes);
-                  res.last = analyticRes.data["30"];
-                  res.all = analyticRes.data.all; 
-                  setResults([res]);
-                  setLoading(false);
-                  /* axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: {id, lang: language==='en'?'fr':'en'}})
-                        .then(subres => subres.data)
-                        .then((subdata) => {
-                            // console.log(data);
-                            const subres = subdata.Items[0];
-                            setResults([{...res, ...{mappingtitle:{en:language==='en'?res.title:subres.title,fr:language==='en'?subres.title:res.title}}}]);
-                            // setKeyword(keyword);
-                            setLoading(false);
-                        })
-                        .catch(error=>{
-                            // console.log(error);
-                            setResults([{...res, ...{mappingtitle:{en:res.title,fr:res.title}}}]);
-                            // setKeyword(keyword);
-                            setLoading(false);
-                        }); */
-              },
-              (analyticErr) => {
-                setResults([res]);
-                setLoading(false);  
-                // console.log(analyticErr); 
-                /* axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: {id, lang: language==='en'?'fr':'en'}})
-                      .then(subres => subres.data)
-                      .then((subdata) => {
-                          // console.log(data);
-                          const subres = subdata.Items[0];
-                          setResults([{...res, ...{mappingtitle:{en:language==='en'?res.title:subres.title,fr:language==='en'?subres.title:res.title}}}]);
-                          // setKeyword(keyword);
-                          setLoading(false);
-                      })
-                      .catch(error=>{
-                          // console.log(error);
-                          setResults([{...res, ...{mappingtitle:{en:res.title,fr:res.title}}}]);
-                          // setKeyword(keyword);
-                          setLoading(false);
-                      }); */
-             }
-          );
-          
-          
+            setResults([res]);
+            setLoading(false);
       })
       .catch(error=>{
           // console.log(error);
           setResults([]);
-          // setKeyword(keyword);
           setLoading(false);
       });
 
     };
+
+    const handleAnalytic = (id) => {
+        setAnalyticLoading(true);
+  
+        analyticGet(
+            '10', 
+            {uuid:id, lang: language},
+            (res) => {
+                // console.log("res", res);
+                setAnalytic(res.data);
+                setAnalyticLoading(false);
+            },
+            (analyticErr) => {
+                setAnalytic({});
+                setAnalyticLoading(false);            }
+        );
+  
+      };
 
     const showMapping = () => {
         const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
@@ -207,6 +178,7 @@ const MetaDataPage = () => {
     useEffect(() => {
       if (rid !== '') {
           handleSearch(rid);
+          handleAnalytic(rid);
       }
       
       window.addEventListener('storage', getInMapping);
@@ -232,7 +204,7 @@ const MetaDataPage = () => {
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const options = JSON.parse(formattedOption)
-                                        .filter(o=>{return o.protocol!=="null" && o.url!=="null"})
+                                        .filter(o=>{return o.protocol!==null && o.url!==null})
                                         .map((option) => {
                                             const desc = option.description[language].split(";");
                                             return {name:option.name[language], type:desc[0], format: desc[1], url: option.url}; 
@@ -340,7 +312,7 @@ const MetaDataPage = () => {
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.individualname")}</th>
-                                    <td>{contact[0].individual[language]}</td>
+                                    <td>{contact[0].individual!==null && contact[0].individual[language]}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.role")}</th>
@@ -352,7 +324,7 @@ const MetaDataPage = () => {
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.fax")}</th>
-                                    <td>{contact[0].fax[language]}</td>
+                                    <td>{contact[0].fax!==null && contact[0].fax[language]}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.email")}</th>
@@ -360,11 +332,11 @@ const MetaDataPage = () => {
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.web")}</th>
-                                    <td>{contact[0].onlineresource.onlineresource!=="null"? <a href={contact[0].onlineresource.onlineresource} className="table-cell-link">{contact[0].onlineresource.onlineresource}</a>: 'null'}</td>
+                                    <td>{contact[0].onlineResource.onlineResource!==null && <a href={contact[0].onlineResource.onlineResource} className="table-cell-link" target="_blank">{contact[0].onlineResource.onlineResource}</a>}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.description")}</th>
-                                    <td>{contact[0].onlineresource.onlineresource_description!=="null" && contact[0].onlineresource.onlineresource_description}</td>
+                                    <td>{contact[0].onlineResource.onlineResource_Description!==null && contact[0].onlineResource.onlineResource_Description}</td>
                                     </tr>
                                 </tbody>
                                 </table>
@@ -457,11 +429,23 @@ const MetaDataPage = () => {
                             <section className="sec-search-result search-results-section search-results-analytics-data ">
                                 <div>
                                     <h5>{t("page.last30")}</h5>
-                                    <p>{result.last}</p>
+                                    <p>{analyticLoading ? 
+                                        <BeatLoader color="#515AA9" />
+                                        : ( !analyticRes["30"] ? 
+                                            <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
+                                            :analyticRes["30"]
+                                        )}
+                                    </p>
                                 </div>
                                 <div>
                                     <h5>{t("page.alltime")}</h5>
-                                    <p>{result.all}</p>
+                                    <p>{analyticLoading ? 
+                                        <BeatLoader color="#515AA9" />
+                                        : ( !analyticRes.all ? 
+                                            <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
+                                            :analyticRes.all
+                                        )}
+                                    </p>
                                 </div>
                             </section>
                         </aside>
