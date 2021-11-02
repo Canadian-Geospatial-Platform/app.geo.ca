@@ -304,39 +304,39 @@ const MetaDataPage = () => {
                                 <tbody id="tbody-contact-data" className={openSection.findIndex(o=>o==='contactdata')<0?"collapse":"collapse show"} aria-labelledby="conatct-data-id">
                                     <tr>
                                     <th scope="row">{t("page.organization")}</th>
-                                    <td>{contact[0].organisation[language]}</td>
+                                    <td>{!!contact[0].organisation && !!contact[0].organisation[language] && contact[0].organisation[language] !== 'null' ? contact[0].organisation[language] : 'N/A'}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.address")}</th>
-                                    <td>{contact[0].address[language]}</td>
+                                    <td>{!!contact[0].address && !!contact[0].address[language] && contact[0].address[language] !== 'null' ? contact[0].address[language] : 'N/A'}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.individualname")}</th>
-                                    <td>{contact[0].individual!==null && contact[0].individual!=='null' && contact[0].individual[language]}</td>
+                                    <td>{!!contact[0].individual && !!contact[0].individual[language] && contact[0].individual[language] !== 'null' ? contact[0].individual[language] : 'N/A'}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.role")}</th>
-                                    <td>{contact[0].role[language]}</td>
+                                    <td>{!!contact[0].role!==null && !!contact[0].role[language] && contact[0].role[language] !== 'null' ? contact[0].role[language] : 'N/A'}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.telephone")}</th>
-                                    <td>{contact[0].telephone[language]}</td>
+                                    <td>{!!contact[0].telephone && !!contact[0].telephone[language] && contact[0].telephone[language] !== 'null' ? contact[0].telephone[language] : 'N/A'}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.fax")}</th>
-                                    <td>{contact[0].fax!==null && contact[0].fax!=='null' && contact[0].fax[language]}</td>
+                                    <td>{!!contact[0].fax && !!contact[0].fax[language] && contact[0].fax[language] !== 'null' ? contact[0].fax[language] : 'N/A'}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.email")}</th>
-                                    <td>{contact[0].email[language]}</td>
+                                    <td>{!!contact[0].email && !!contact[0].email[language] && contact[0].email[language] !== 'null' ? contact[0].email[language] : 'N/A'}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.web")}</th>
-                                    <td>{contact[0].onlineresource.onlineresource!==null && contact[0].onlineresource.onlineresource!=='null' && <a href={contact[0].onlineresource.onlineresource} className="table-cell-link" target="_blank">{contact[0].onlineresource.onlineresource}</a>}</td>
+                                    <td>{!!contact[0].onlineresource && !!contact[0].onlineresource.onlineresource && contact[0].onlineresource.onlineresource!=='null' ? <a href={contact[0].onlineresource.onlineresource} className="table-cell-link" target="_blank">{contact[0].onlineresource.onlineresource}</a> : 'N/A'}</td>
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.description")}</th>
-                                    <td>{contact[0].onlineresource.onlineresource_description!==null && contact[0].onlineresource.onlineresource_description!=='null' && contact[0].onlineresource.onlineresource_description}</td>
+                                    <td>{!!contact[0].onlineresource && !!contact[0].onlineresource.onlineresource_description && contact[0].onlineresource.onlineresource_description!=='null' ? contact[0].onlineresource.onlineresource_description : 'N/A'}</td>
                                     </tr>
                                 </tbody>
                                 </table>
