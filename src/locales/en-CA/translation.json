@@ -53,7 +53,7 @@
     },
     "filter": {
         "filterby": "Filter by",
-        "organisations": "Organisations",
+        "organisations": "Organizations",
         "types": "Types",
         "themes": "Themes",
         "foundational": "Foundation Data",
@@ -83,7 +83,7 @@
     "howto": {
         "geosearchdescription": "The geoSearch application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map. If you are not interested in a given geographic area. Click on the Keyword Only toggle, enter a keyword, and filter the results based on our advanced filters.",
         "keywordsearchdescription": "The keyword search page can be used if you are not interested in a given geographic area. Enter a keyword, and filter the results based on our advanced filters.",
-        "filtersdescription": "The advanced filters can filter data based on organisation, type, theme, and foundational layers. You can add as many filters as you need and remove them if they are not given you the result you need."
+        "filtersdescription": "The advanced filters can filter data based on organization, type, theme, and foundational layers. You can add as many filters as you need and remove them if they are not given you the result you need."
     },
     "page": {
         "ctrl": {
@@ -97,7 +97,7 @@
         },
         "changesearch": "Change the input to search ...",
         "noresult": "No result",
-        "organisation": "Organisation",
+        "organisation": "Organization",
         "published": "Published",
         "viewmore": "View More",
         "viewmorenotice": "New filters will be placed before this button",
