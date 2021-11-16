@@ -437,34 +437,37 @@ const MetaDataPage = () => {
                                 </div>
                             </section>
                             <section className="sec-search-result search-results-section search-results-analytics-data">
-                                <div>
-                                    <h5>{t("page.last30")}</h5>
-                                    <p>{analyticLoading ? 
-                                        <BeatLoader color="#515AA9" />
-                                        : ( isNaN(analyticRes["30"]) ? 
-                                            <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
-                                            :analyticRes["30"]
-                                        )}
-                                    </p>
-                                </div>
-                                <div>
-                                    <h5>{t("page.alltime")}</h5>
-                                    <p>{analyticLoading ? 
-                                        <BeatLoader color="#515AA9" />
-                                        : ( isNaN(analyticRes.all) ? 
-                                            <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
-                                            :analyticRes.all
-                                        )}
-                                    </p>
+                                <h3 className="section-title">Number of Accesses</h3>
+                                <div className="card-wrap">
+                                    <div className="card">
+                                        <h4 className="card-title">{t("page.last30")}</h4>
+                                        <p className="card-count">{analyticLoading ? 
+                                            <BeatLoader color="#515AA9" />
+                                            : ( isNaN(analyticRes["30"]) ? 
+                                                <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
+                                                :analyticRes["30"]
+                                            )}
+                                        </p>
+                                    </div>
+                                    <div className="card">
+                                    <h4 className="card-title">{t("page.alltime")}</h4>
+                                        <p className="card-count">{analyticLoading ? 
+                                            <BeatLoader color="#515AA9" />
+                                            : ( isNaN(analyticRes.all) ? 
+                                                <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
+                                                :analyticRes.all
+                                            )}
+                                        </p>
+                                    </div>
                                 </div>
                             </section>
                             <section className="sec-search-result search-results-section search-results-share-buttons">
-                                <h3>{t("page.share")}</h3>
+                                <h3 className="section-title">{t("page.share")}</h3>
                                 <div className="btn-group">
-                                    <FacebookShareButton url={encodeURI(window.location.href)}><FacebookIcon size={32} round={true} /></FacebookShareButton>
-                                    <TwitterShareButton url={encodeURI(window.location.href)}><TwitterIcon size={32} round={true} /></TwitterShareButton>
-                                    <LinkedinShareButton url={encodeURI(window.location.href)}><LinkedinIcon size={32} round={true} /></LinkedinShareButton>
-                                    <EmailShareButton url={encodeURI(window.location.href)}><EmailIcon size={32} round={true} /></EmailShareButton>
+                                    <FacebookShareButton url={encodeURI(window.location.href)}><FacebookIcon size={50} round /></FacebookShareButton>
+                                    <TwitterShareButton url={encodeURI(window.location.href)}><TwitterIcon size={50} round /></TwitterShareButton>
+                                    <LinkedinShareButton url={encodeURI(window.location.href)}><LinkedinIcon size={50} round /></LinkedinShareButton>
+                                    <EmailShareButton url={encodeURI(window.location.href)}><EmailIcon size={50} round /></EmailShareButton>
                                 </div>
                             </section>
                         </aside>

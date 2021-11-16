@@ -285,37 +285,74 @@
             }
 
             &.search-results-analytics-data {
-                background-color: transparent;
-                display: flex;
-                justify-content: space-between;
-                >div {
-                    box-sizing: border-box;
-                    width: calc(50% - 5px);
-                    background-color: $color__light;
-                    border: solid 1px $color__text-aside;
-                    border-radius: 5px;
-                    padding: 12px;
-                    text-align: center;
-                    >h5 {
-                        font-size: 0.875em;
-                        font-weight: 600;
+                background-color: $color__bg-aside;
+                background-color: $color__light;
+                margin: 0 0 2px 0;
+
+                .card-wrap {
+                    .card {
+                        margin: 0 0.5em 1em 0;
+                        padding: 1em;
+                        text-align: center;
+
+                        .card-title {
+                            color: $color__semi-dark;
+                            font-size: 16px;
+                            font-weight: 600;
+                            margin-bottom: 0.25em;
+                            text-transform: uppercase;
+                        }
+
+                        .card-count {
+                            color: $color__logo-blue-light;
+                            font-size: 2em;
+                            line-height: 1.1em;
+                            font-weight: 600;
+                            margin: auto 0 0 0;
+                        }
                     }
-                    >p {
-                        font-size: 1em;
-                        font-weight: bold; 
+                }
+                @media (max-width: $breakpoint__md) {
+                    .card-wrap {
+                        .card {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                @media (min-width: $breakpoint__md + 1) {
+                    .card-wrap {
+                        display: flex;
+                        .card {
+                            width: calc(50% - 2px);
+                        }
                     }
                 }
             }
 
             &.search-results-share-buttons {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+                padding: 2em 5%;
+                width: 100%;
+                .section-title {
+                    margin: 0 0.75em 0 0;
+                }
                 .btn-group {
-                    display:flex;
-                    justify-content: center;
-                    >button {
-                        margin: 0 0.875em;
+                    display: flex;
+                    margin-top: 0;
+                    width: auto;
+                    > button {
+                        margin: 0 0.5em;
                     }
                 }
 
+                @media (min-width: $breakpoint__xl) {
+                    position: absolute;
+                    bottom: 0;
+                }
             }
 
             .section-title {
@@ -328,7 +365,7 @@
             .btn-group {
                 margin-top: 0.5em;
                 width: 100%;
-                max-width: $breakpoint__sm;
+                // max-width: $breakpoint__sm;
             }
 
             .btn {
