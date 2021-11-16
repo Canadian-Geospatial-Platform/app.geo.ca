@@ -403,73 +403,77 @@ const MetaDataPage = () => {
                             </section>
                         </main>
                         <aside className="col col-12 col-xl-4 aside">
-                            <section className="sec-search-result search-results-section search-results-map">
-                                <div className="ratio ratio-16x9">
-                                <MapContainer
-                                        center={[(coordinates[0][2][1]+coordinates[0][0][1])/2, (coordinates[0][1][0]+coordinates[0][0][0])/2]}
-                                        zoom={zoom}
-                                        zoomControl={false}
-                                    >
-                                        <TileLayer url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution={t("mapctrl.attribution")} />
-                                        <NavBar />
-                                        <GeoJSON key={result.id} data={{
-                                                "type": "Feature",
-                                                "properties": {"id": result.id, "tag": "geoViewGeoJSON"},
-                                                "geometry": {"type": "Polygon", "coordinates": coordinates}
-                                                }} />
-                                    </MapContainer>
-                                </div>
-                            </section>
-                            <section className="sec-search-result search-results-section search-results-misc-data">
-                                <h3 className="section-title">{t("page.addtomap")}</h3>
-                                <p>{t("page.viewthedata")}</p>
-                                <div className="btn-group">
-                                    <button type="button" className="btn btn-search mr-2" disabled={!activeMap} onClick={activeMap?()=>viewOnMap(result.id):null}>{t("page.viewonmap")}</button>
-                                    <button id="addMyMap" type="button"  disabled={!activeMap} className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={activeMap?()=>changeMapping(result.id):null}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
-                                </div>
-                            </section>
-                            <section className="sec-search-result search-results-section search-results-misc-data">
-                                <h3 className="section-title">{t("page.metadata")}</h3>
-                                <p>{t("page.ourmetadatais")}</p>
-                                <div className="btn-group">
-                                    <a href={`${EnvGlobals.APP_GEOCORE_URL}/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
-                                    <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('hnap')}>{t("page.viewhnaprecord")}</a>
-                                </div>
-                            </section>
-                            <section className="sec-search-result search-results-section search-results-analytics-data">
-                                <h3 className="section-title">Number of Accesses</h3>
-                                <div className="card-wrap">
-                                    <div className="card">
-                                        <h4 className="card-title">{t("page.last30")}</h4>
-                                        <p className="card-count">{analyticLoading ? 
-                                            <BeatLoader color="#515AA9" />
-                                            : ( isNaN(analyticRes["30"]) ? 
-                                                <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
-                                                :analyticRes["30"]
-                                            )}
-                                        </p>
+                            <div className="top-sections">
+                                <section className="sec-search-result search-results-section search-results-map">
+                                    <div className="ratio ratio-16x9">
+                                    <MapContainer
+                                            center={[(coordinates[0][2][1]+coordinates[0][0][1])/2, (coordinates[0][1][0]+coordinates[0][0][0])/2]}
+                                            zoom={zoom}
+                                            zoomControl={false}
+                                        >
+                                            <TileLayer url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution={t("mapctrl.attribution")} />
+                                            <NavBar />
+                                            <GeoJSON key={result.id} data={{
+                                                    "type": "Feature",
+                                                    "properties": {"id": result.id, "tag": "geoViewGeoJSON"},
+                                                    "geometry": {"type": "Polygon", "coordinates": coordinates}
+                                                    }} />
+                                        </MapContainer>
                                     </div>
-                                    <div className="card">
-                                    <h4 className="card-title">{t("page.alltime")}</h4>
-                                        <p className="card-count">{analyticLoading ? 
-                                            <BeatLoader color="#515AA9" />
-                                            : ( isNaN(analyticRes.all) ? 
-                                                <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
-                                                :analyticRes.all
-                                            )}
-                                        </p>
+                                </section>
+                                <section className="sec-search-result search-results-section search-results-misc-data">
+                                    <h3 className="section-title">{t("page.addtomap")}</h3>
+                                    <p>{t("page.viewthedata")}</p>
+                                    <div className="btn-group">
+                                        <button type="button" className="btn btn-search mr-2" disabled={!activeMap} onClick={activeMap?()=>viewOnMap(result.id):null}>{t("page.viewonmap")}</button>
+                                        <button id="addMyMap" type="button"  disabled={!activeMap} className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={activeMap?()=>changeMapping(result.id):null}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
                                     </div>
-                                </div>
-                            </section>
-                            <section className="sec-search-result search-results-section search-results-share-buttons">
-                                <h3 className="section-title">{t("page.share")}</h3>
-                                <div className="btn-group">
-                                    <FacebookShareButton url={encodeURI(window.location.href)}><FacebookIcon size={50} round /></FacebookShareButton>
-                                    <TwitterShareButton url={encodeURI(window.location.href)}><TwitterIcon size={50} round /></TwitterShareButton>
-                                    <LinkedinShareButton url={encodeURI(window.location.href)}><LinkedinIcon size={50} round /></LinkedinShareButton>
-                                    <EmailShareButton url={encodeURI(window.location.href)}><EmailIcon size={50} round /></EmailShareButton>
-                                </div>
-                            </section>
+                                </section>
+                                <section className="sec-search-result search-results-section search-results-misc-data">
+                                    <h3 className="section-title">{t("page.metadata")}</h3>
+                                    <p>{t("page.ourmetadatais")}</p>
+                                    <div className="btn-group">
+                                        <a href={`${EnvGlobals.APP_GEOCORE_URL}/${result.id}.geojson`} className="btn btn-search mr-2" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('geocore')}>{t("page.downloadgeocore")}</a>
+                                        <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('hnap')}>{t("page.viewhnaprecord")}</a>
+                                    </div>
+                                </section>
+                                <section className="sec-search-result search-results-section search-results-analytics-data">
+                                    <h3 className="section-title">{t("page.numberofacesses")}</h3>
+                                    <div className="card-wrap">
+                                        <div className="card">
+                                            <h4 className="card-title">{t("page.last30")}</h4>
+                                            <p className="card-count">{analyticLoading ? 
+                                                <BeatLoader color="#515AA9" />
+                                                : ( isNaN(analyticRes["30"]) ? 
+                                                    <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
+                                                    :analyticRes["30"]
+                                                )}
+                                            </p>
+                                        </div>
+                                        <div className="card">
+                                        <h4 className="card-title">{t("page.alltime")}</h4>
+                                            <p className="card-count">{analyticLoading ? 
+                                                <BeatLoader color="#515AA9" />
+                                                : ( isNaN(analyticRes.all) ? 
+                                                    <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
+                                                    :analyticRes.all
+                                                )}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div className="bottom-sections">
+                                <section className="sec-search-result search-results-section search-results-share-buttons">
+                                    <h3 className="section-title">{t("page.share")}</h3>
+                                    <div className="btn-group">
+                                        <FacebookShareButton url={encodeURI(window.location.href)}><FacebookIcon size={50} round /></FacebookShareButton>
+                                        <TwitterShareButton url={encodeURI(window.location.href)}><TwitterIcon size={50} round /></TwitterShareButton>
+                                        <LinkedinShareButton url={encodeURI(window.location.href)}><LinkedinIcon size={50} round /></LinkedinShareButton>
+                                        <EmailShareButton url={encodeURI(window.location.href)}><EmailIcon size={50} round /></EmailShareButton>
+                                    </div>
+                                </section>
+                            </div>
                         </aside>
                     </div>
                     </div>

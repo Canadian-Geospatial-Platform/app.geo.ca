@@ -265,7 +265,9 @@
     .aside {
         background-color: $color__bg-aside;
         color: $color__text-aside;
-
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         .sec-search-result {
             background-color: $color__light;
             margin: 0 0 2px 0;
@@ -347,11 +349,6 @@
                     > button {
                         margin: 0 0.5em;
                     }
-                }
-
-                @media (min-width: $breakpoint__xl) {
-                    position: absolute;
-                    bottom: 0;
                 }
             }
 

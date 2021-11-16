@@ -149,8 +149,9 @@
         "ourmetadatais": "Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.",
         "downloadgeocore": "Download geoCore",
         "viewhnaprecord": "View HNAP Record",
-        "last30": "Number of accesses last 30 days",
-        "alltime": "Number of accesses all time",
+        "numberofacesses": "Number of Accesses",
+        "last30": "Last 30 days",
+        "alltime": "All time",
         "share": "Share"
     },
     "modal": {

@@ -149,8 +149,9 @@
         "ourmetadatais": "Nos métadonnées sont stockées au format geoCore. Un geojson contenant toutes les métadonnées que vous voyez ici.",
         "downloadgeocore": "Télécharger geoCore",
         "viewhnaprecord": "Enregistrement HNAP",
-        "last30": "Nombre d'accès au cours des 30 derniers jours",
-        "alltime": "Nombre d'accès en tout temps",
+        "numberofacesses": "Nombre d'accès",
+        "last30": "Les 30 derniers jours",
+        "alltime": "Tout le temps",
         "share": "Partager" 
     },
     "modal": {
