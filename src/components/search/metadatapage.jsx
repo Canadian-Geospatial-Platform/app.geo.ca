@@ -441,7 +441,7 @@ const MetaDataPage = () => {
                                     <h5>{t("page.last30")}</h5>
                                     <p>{analyticLoading ? 
                                         <BeatLoader color="#515AA9" />
-                                        : ( !analyticRes["30"] ? 
+                                        : ( isNaN(analyticRes["30"]) ? 
                                             <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
                                             :analyticRes["30"]
                                         )}
@@ -451,7 +451,7 @@ const MetaDataPage = () => {
                                     <h5>{t("page.alltime")}</h5>
                                     <p>{analyticLoading ? 
                                         <BeatLoader color="#515AA9" />
-                                        : ( !analyticRes.all ? 
+                                        : ( isNaN(analyticRes.all) ? 
                                             <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
                                             :analyticRes.all
                                         )}
