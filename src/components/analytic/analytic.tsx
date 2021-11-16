@@ -480,39 +480,43 @@ export default function Analytic(props: analyticProps): JSX.Element {
                     <h2 className="sec-title">{t('analytic.topaccessbyorg')}</h2>
 
                     <div className={`analytic-filters-setting ${language}`}>
-                        <div className="analytic-filters-list">
-                            <button
-                                className={
-                                    filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'
-                                }
-                                disabled={raoLoading}
-                                type="button"
-                                onClick={!raoLoading ? () => setFilterbyshown(!filterbyshown) : undefined}
-                                aria-expanded={filterbyshown ? 'true' : 'false'}
-                            />
-                            {orgSelected.length === 0 ? (
-                                <span className="advanced-filters-button-label">{t('analytic.selectorg')}</span>
-                            ) : (
-                                orgSelected.map((orgfilter: number) => (
-                                    <button
-                                        key={`of-${orgfilter}`}
-                                        type="button"
-                                        className="btn btn-filter advanced-filters-button-filter"
-                                        disabled={raoLoading}
-                                        onClick={!raoLoading ? () => clearOrgFilter(orgfilter) : undefined}
-                                    >
-                                        {organisations[language][orgfilter]} <i className="fas fa-times" />
-                                    </button>
-                                ))
-                            )}
-                            <button
-                                type="button"
-                                className="btn advanced-filters-button-submit"
-                                disabled={orgSelected.length === 0 || raoLoading}
-                                onClick={!raoLoading && orgSelected.length > 0 ? submitClick : undefined}
-                            >
-                                {t('analytic.submit')}
-                            </button>
+                        <div className="analytic-filters-wrap">
+                            <div className="analytic-filters-list">
+                                <button
+                                    className={
+                                        filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'
+                                    }
+                                    disabled={raoLoading}
+                                    type="button"
+                                    onClick={!raoLoading ? () => setFilterbyshown(!filterbyshown) : undefined}
+                                    aria-expanded={filterbyshown ? 'true' : 'false'}
+                                />
+                                {orgSelected.length === 0 ? (
+                                    <span className="advanced-filters-button-label">{t('analytic.selectorg')}</span>
+                                ) : (
+                                    orgSelected.map((orgfilter: number) => (
+                                        <button
+                                            key={`of-${orgfilter}`}
+                                            type="button"
+                                            className="btn btn-filter advanced-filters-button-filter"
+                                            disabled={raoLoading}
+                                            onClick={!raoLoading ? () => clearOrgFilter(orgfilter) : undefined}
+                                        >
+                                            {organisations[language][orgfilter]} <i className="fas fa-times" />
+                                        </button>
+                                    ))
+                                )}
+                            </div>
+                            <div className="analytic-filters-list-submit">
+                                <button
+                                    type="button"
+                                    className="btn advanced-filters-button-submit"
+                                    disabled={orgSelected.length === 0 || raoLoading}
+                                    onClick={!raoLoading && orgSelected.length > 0 ? submitClick : undefined}
+                                >
+                                    {t('analytic.submit')}
+                                </button>
+                            </div>
                         </div>
 
                         {filterbyshown && (
