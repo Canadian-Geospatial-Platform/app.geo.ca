@@ -44,7 +44,7 @@
         "keywordsearch": "Recherche par mot clé",
         "keywordonly": "Mot clé uniquement",
         "filters": "Filtres",
-        "analytics": "Analytics",
+        "analytics": "Analytique",
         "account": "Compte",
         "howto": "Comment",
         "share": "Partager",
@@ -62,7 +62,8 @@
         "clearall": "Tout Effacer"
     },
     "analytic": {
-        "title": "Analytics",
+        "title": "Analytique",
+        "summary": "Sommaire",
         "searchthismonth": "Nombre de recherches ce mois-ci",
         "searchlastmonth": "Nombre de recherches le mois dernier",
         "accessthismonth": "Nombre d'accès ce mois-ci",

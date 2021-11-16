@@ -256,7 +256,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
         <div className="analytics-container">
             <section className="sec-analytics-results sec-analytics-results-summary">
                 <div className="sec-inner-wrap">
-                    <h2 className="sec-title">Summary</h2>
+                    <h2 className="sec-title">{t('analytic.summary')}</h2>
                     <div className="card-wrap">
                         <div className="analytics-summary-card">
                             <h3 className="summary-card-title">{t('analytic.searchthismonth')}</h3>

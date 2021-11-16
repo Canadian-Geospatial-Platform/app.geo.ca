@@ -63,6 +63,7 @@
     },
     "analytic": {
         "title": "Analytics",
+        "summary": "Summary",
         "searchthismonth": "Number of searches this month",
         "searchlastmonth": "Number of searches last month",
         "accessthismonth": "Number of accesses this month",
