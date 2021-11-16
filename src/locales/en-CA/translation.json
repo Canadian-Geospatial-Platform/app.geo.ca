@@ -150,7 +150,8 @@
         "downloadgeocore": "Download geoCore",
         "viewhnaprecord": "View HNAP Record",
         "last30": "Number of accesses last 30 days",
-        "alltime": "Number of accesses all time" 
+        "alltime": "Number of accesses all time",
+        "share": "Share"
     },
     "modal": {
         "buttonlabel": "Close",

@@ -150,7 +150,8 @@
         "downloadgeocore": "Télécharger geoCore",
         "viewhnaprecord": "Enregistrement HNAP",
         "last30": "Nombre d'accès au cours des 30 derniers jours",
-        "alltime": "Nombre d'accès en tout temps" 
+        "alltime": "Nombre d'accès en tout temps",
+        "share": "Partager" 
     },
     "modal": {
         "buttonlabel": "Fermer",

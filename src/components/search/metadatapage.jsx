@@ -19,6 +19,16 @@ import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
+import {
+    EmailShareButton,
+    FacebookShareButton,
+    LinkedinShareButton,
+    TwitterShareButton,
+    EmailIcon,
+    FacebookIcon,
+    LinkedinIcon,
+    TwitterIcon
+  } from "react-share";
 import { NavBar } from '../navbar/nav-bar';
 import { loadState } from '../../reducers/localStorage';
 import { getQueryParams } from '../../common/queryparams'; 
@@ -107,7 +117,7 @@ const MetaDataPage = () => {
             {uuid:id, lang: language},
             (res) => {
                 // console.log("res", res);
-                setAnalytic(res.data);
+                setAnalytic(JSON.parse(res.data));
                 setAnalyticLoading(false);
             },
             (analyticErr) => {
@@ -426,7 +436,7 @@ const MetaDataPage = () => {
                                     <a href={`https://csw.open.canada.ca/geonetwork/srv/csw?service=CSW&version=2.0.2&request=GetRecordById&outputSchema=csw:IsoRecord&ElementSetName=full&id=${result.id}`} className="btn btn-search" rel="noreferrer" target="_blank" onClick={()=>handleMetaDataBtn('hnap')}>{t("page.viewhnaprecord")}</a>
                                 </div>
                             </section>
-                            <section className="sec-search-result search-results-section search-results-analytics-data ">
+                            <section className="sec-search-result search-results-section search-results-analytics-data">
                                 <div>
                                     <h5>{t("page.last30")}</h5>
                                     <p>{analyticLoading ? 
@@ -446,6 +456,15 @@ const MetaDataPage = () => {
                                             :analyticRes.all
                                         )}
                                     </p>
+                                </div>
+                            </section>
+                            <section className="sec-search-result search-results-section search-results-share-buttons">
+                                <h3>{t("page.share")}</h3>
+                                <div className="btn-group">
+                                    <FacebookShareButton url={encodeURI(window.location.href)}><FacebookIcon size={32} round={true} /></FacebookShareButton>
+                                    <TwitterShareButton url={encodeURI(window.location.href)}><TwitterIcon size={32} round={true} /></TwitterShareButton>
+                                    <LinkedinShareButton url={encodeURI(window.location.href)}><LinkedinIcon size={32} round={true} /></LinkedinShareButton>
+                                    <EmailShareButton url={encodeURI(window.location.href)}><EmailIcon size={32} round={true} /></EmailShareButton>
                                 </div>
                             </section>
                         </aside>

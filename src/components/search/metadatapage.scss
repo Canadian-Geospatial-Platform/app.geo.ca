@@ -307,6 +307,17 @@
                 }
             }
 
+            &.search-results-share-buttons {
+                .btn-group {
+                    display:flex;
+                    justify-content: center;
+                    >button {
+                        margin: 0 0.875em;
+                    }
+                }
+
+            }
+
             .section-title {
                 color: $color__heading-aside-title;
                 font-size: 1.375em;
