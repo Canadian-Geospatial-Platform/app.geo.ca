@@ -29,7 +29,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     const [rslLoading, setRSLLoading] = useState(true);
     const [ralLoading, setRALLoading] = useState(true);
     const [raaLoading, setRAALoading] = useState(true);
-    const [raoLoading, setRAOLoading] = useState(orgSelected.length > 0 ? true : null);
+    const [raoLoading, setRAOLoading] = useState(orgSelected > -1 ? true : null);
     const [rankSL, setRANKSL] = useState([]);
     const [rankAL, setRANKAL] = useState([]);
     const [rankAA, setRANKAA] = useState([]);
@@ -160,10 +160,11 @@ export default function Analytic(props: analyticProps): JSX.Element {
             '9',
             {
                 lang: language,
-                org: JSON.stringify(orgSelected.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g, "''"))),
+                // org: JSON.stringify(orgSelected.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g, "''"))),
+                org: organisations[language][orgSelected].toLowerCase().replace(/\'/g, "''"),
             },
             (analyticRes) => {
-                setRANKAO(analyticRes.data);
+                setRANKAO(Array.isArray(analyticRes.data)?analyticRes.data:[]);
                 setRAOLoading(false);
             },
             (analyticErr) => {
@@ -175,13 +176,13 @@ export default function Analytic(props: analyticProps): JSX.Element {
         );
     };
 
-    const handleOrg = (filters: unknown): void => {
+    const handleOrg = (filters: number[]): void => {
         // setFReset(true);
-        setOrg(filters);
+        setOrg(filters.length>0?filters[0]:-1);
     };
     const clearOrgFilter = (filter: number) => {
-        const newfilter = orgSelected.filter((fs: number) => fs !== filter);
-        setOrg(newfilter);
+        // const newfilter = orgSelected.filter((fs: number) => fs !== filter);
+        setOrg(-1);
         // setPageNumber(1);
     };
 
@@ -483,6 +484,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
                         <div className="analytic-filters-wrap">
                             <div className="analytic-filters-list">
                                 <button
+                                    id="handle-filters-list"
                                     className={
                                         filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'
                                     }
@@ -491,28 +493,25 @@ export default function Analytic(props: analyticProps): JSX.Element {
                                     onClick={!raoLoading ? () => setFilterbyshown(!filterbyshown) : undefined}
                                     aria-expanded={filterbyshown ? 'true' : 'false'}
                                 />
-                                {orgSelected.length === 0 ? (
+                                {orgSelected === -1 ? (
                                     <span className="advanced-filters-button-label">{t('analytic.selectorg')}</span>
                                 ) : (
-                                    orgSelected.map((orgfilter: number) => (
-                                        <button
-                                            key={`of-${orgfilter}`}
-                                            type="button"
-                                            className="btn btn-filter advanced-filters-button-filter"
-                                            disabled={raoLoading}
-                                            onClick={!raoLoading ? () => clearOrgFilter(orgfilter) : undefined}
-                                        >
-                                            {organisations[language][orgfilter]} <i className="fas fa-times" />
-                                        </button>
-                                    ))
+                                    <button
+                                        type="button"
+                                        className="btn btn-filter advanced-filters-button-filter"
+                                        disabled={raoLoading}
+                                        onClick={!raoLoading ? () => clearOrgFilter(orgSelected) : undefined}
+                                    >
+                                        {organisations[language][orgSelected]} <i className="fas fa-times" />
+                                    </button>
                                 )}
                             </div>
                             <div className="analytic-filters-list-submit">
                                 <button
                                     type="button"
                                     className="btn advanced-filters-button-submit"
-                                    disabled={orgSelected.length === 0 || raoLoading}
-                                    onClick={!raoLoading && orgSelected.length > 0 ? submitClick : undefined}
+                                    disabled={orgSelected === -1 || raoLoading}
+                                    onClick={!raoLoading && orgSelected > -1 ? submitClick : undefined}
                                 >
                                     {t('analytic.submit')}
                                 </button>
@@ -523,7 +522,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
                             <SearchFilter
                                 filtertitle=""
                                 filtervalues={organisations[language]}
-                                filterselected={orgSelected}
+                                filterselected={[orgSelected]}
                                 selectFilters={handleOrg}
                                 singleselect
                             />
@@ -540,7 +539,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
                         </span>
                     ) : (
                         raoLoading !== null &&
-                        orgSelected.length > 0 && (
+                        orgSelected > -1 && (
                             <table className="anayltics-table table caption-top">
                                 <thead className="table-header">
                                     <tr className="table-row">
@@ -594,6 +593,6 @@ export default function Analytic(props: analyticProps): JSX.Element {
 }
 
 interface analyticProps {
-    analyticOrg: number[];
-    setAnalyticOrg: (ao: number[]) => void;
+    analyticOrg: number;
+    setAnalyticOrg: (ao: number) => void;
 }
