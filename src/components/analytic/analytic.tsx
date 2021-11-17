@@ -366,7 +366,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             </section>
             <section className="sec-analytics-results sec-analytics-results-table sec-analytics-results-search-last-month">
                 <div className="sec-inner-wrap">
-                    <h2 className="sec-title">{t('analytic.searchlastmonth')}</h2>
+                    <h2 className="sec-title">{t('analytic.topaccesslastmonth')}</h2>
 
                     {ralLoading ? (
                         <BeatLoader color="#ffffff" />
