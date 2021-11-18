@@ -34,14 +34,14 @@ export default function Analytic(props: analyticProps): JSX.Element {
     const [rankAL, setRANKAL] = useState([]);
     const [rankAA, setRANKAA] = useState([]);
     const [rankAO, setRANKAO] = useState([]);
-    const [errMsg, setErrMsg] = useState([]);
-    const [errLoading, setErrLoading] = useState(true);
+    // const [errMsg, setErrMsg] = useState([]);
+    // const [errLoading, setErrLoading] = useState(true);
 
     const { t } = useTranslation();
     const language = t('app.language');
 
     const getNST = () => {
-        setErrLoading(false);
+        // setErrLoading(false);
         analyticGet(
             '2',
             {},
@@ -51,16 +51,16 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
                 // console.log(analyticErr);
-                setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+                // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
                 setNSTNUM(-1);
                 setNSTLoading(false);
-                setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
+                // setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
             }
         );
     };
 
     const getNSL = () => {
-        setErrLoading(false);
+        // setErrLoading(false);
         analyticGet(
             '6',
             {},
@@ -70,18 +70,18 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
                 // console.log(analyticErr);
-                setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+                // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
                 setNSLNUM(-1);
                 setNSLLoading(false);
             },
             ()=>{
-                setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
+                // setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
             }
         );
     };
 
     const getNAT = () => {
-        setErrLoading(false);
+        // setErrLoading(false);
         analyticGet(
             '3',
             {},
@@ -91,18 +91,18 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
                 // console.log(analyticErr);
-                setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+                // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
                 setNATNUM(-1);
                 setNATLoading(false);
             },
             ()=>{
-                setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
+                // setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
             }
         );
     };
 
     const getNAL = () => {
-        setErrLoading(false);
+        // setErrLoading(false);
         analyticGet(
             '7',
             {},
@@ -112,18 +112,18 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
                 // console.log(analyticErr);
-                setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+                // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
                 setNALNUM(-1);
                 setNALLoading(false);
             },
             ()=>{
-                setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
+                // setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
             }
         );
     };
 
     const getRSL = () => {
-        setErrLoading(false);
+        // setErrLoading(false);
         analyticGet(
             '1',
             {},
@@ -133,17 +133,17 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
                 // console.log(analyticErr);
-                setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+                // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
                 setRANKSL(null);
                 setRSLLoading(false);
             },
             ()=>{
-                setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
+                // setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
             }
         );
     };
     const getRAL = () => {
-        setErrLoading(false);
+        // setErrLoading(false);
         analyticGet(
             '4',
             { lang: language },
@@ -153,17 +153,17 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
                 // console.log(analyticErr);
-                setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+                // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
                 setRANKAL(null);
                 setRALLoading(false);
             },
             ()=>{
-                setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
+                // setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
             }
         );
     };
     const getRAA = () => {
-        setErrLoading(false);
+        // setErrLoading(false);
         analyticGet(
             '5',
             { lang: language },
@@ -173,17 +173,17 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
                 // console.log(analyticErr);
-                setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+                // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
                 setRANKAA(null);
                 setRAALoading(false);
             },
             ()=>{
-                setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
+                // setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
             }
         );
     };
     const getRAO = () => {
-        setErrLoading(false);
+        // setErrLoading(false);
         analyticGet(
             '9',
             {
@@ -197,12 +197,9 @@ export default function Analytic(props: analyticProps): JSX.Element {
             },
             (analyticErr) => {
                 // console.log(analyticErr);
-                setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
+                // setErrMsg(errMsg.push(JSON.stringify(analyticErr)));
                 setRANKAO(null);
                 setRAOLoading(false);
-            },
-            ()=>{
-                setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
             }
         );
     };
@@ -614,13 +611,13 @@ export default function Analytic(props: analyticProps): JSX.Element {
                     )}
                 </div>
             </section>
-            {errLoading && 
+            {/* {errLoading && 
             <section className="sec-analytic-errormsg error-debug">
                 {Array.isArray(errMsg) && errMsg.map((err, ei)=>{
                     return <div key={ei}>{err}</div>
                 })}
             </section>
-            }
+            } */}
         </div>
     );
 }
