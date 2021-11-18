@@ -28,10 +28,7 @@ export const analyticGet = (endpointUrl: string, aParams: LastAllParams, success
     axios.get(
         `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.ANALYTIC}/${endpointUrl}`, 
         { 
-          params: aParams,  
-          headers: { 
-            'x-api-key': apiKey
-          }
+          params: aParams
         }
     ).then((response)=>typeof successFunc === 'function'?successFunc(response):{}
     ).catch((error)=>typeof errorFunc === 'function'?errorFunc(error):{});
