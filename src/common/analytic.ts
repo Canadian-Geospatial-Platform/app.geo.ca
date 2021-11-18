@@ -23,7 +23,7 @@ export const analyticPost = (aParams: AnalyticParams, successFunc?: any, errorFu
   
 }
 
-export const analyticGet = (endpointUrl: string, aParams: LastAllParams, successFunc?: any, errorFunc?: any) => {
+export const analyticGet = (endpointUrl: string, aParams: LastAllParams, successFunc?: any, errorFunc?: any, finallyFunc?: any) => {
     // console.log(aParams);
     axios.get(
         `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.ANALYTIC}/${endpointUrl}`, 
@@ -31,7 +31,9 @@ export const analyticGet = (endpointUrl: string, aParams: LastAllParams, success
           params: aParams
         }
     ).then((response)=>typeof successFunc === 'function'?successFunc(response):{}
-    ).catch((error)=>typeof errorFunc === 'function'?errorFunc(error):{});
+    ).catch((error)=>typeof errorFunc === 'function'?errorFunc(error):{}
+    ).finally(()=>typeof finallyFunc === 'function'?finallyFunc():{});
+
   
 }
 
