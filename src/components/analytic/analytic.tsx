@@ -41,6 +41,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     const language = t('app.language');
 
     const getNST = () => {
+        setErrLoading(false);
         analyticGet(
             '2',
             {},
@@ -59,6 +60,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     };
 
     const getNSL = () => {
+        setErrLoading(false);
         analyticGet(
             '6',
             {},
@@ -79,6 +81,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     };
 
     const getNAT = () => {
+        setErrLoading(false);
         analyticGet(
             '3',
             {},
@@ -99,6 +102,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     };
 
     const getNAL = () => {
+        setErrLoading(false);
         analyticGet(
             '7',
             {},
@@ -119,6 +123,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
     };
 
     const getRSL = () => {
+        setErrLoading(false);
         analyticGet(
             '1',
             {},
@@ -138,6 +143,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
         );
     };
     const getRAL = () => {
+        setErrLoading(false);
         analyticGet(
             '4',
             { lang: language },
@@ -157,6 +163,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
         );
     };
     const getRAA = () => {
+        setErrLoading(false);
         analyticGet(
             '5',
             { lang: language },
@@ -176,6 +183,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
         );
     };
     const getRAO = () => {
+        setErrLoading(false);
         analyticGet(
             '9',
             {
@@ -606,7 +614,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
                     )}
                 </div>
             </section>
-            {!errLoading && 
+            {errLoading && 
             <section className="sec-analytic-errormsg error-debug">
                 {Array.isArray(errMsg) && errMsg.map((err, ei)=>{
                     return <div key={ei}>{err}</div>
