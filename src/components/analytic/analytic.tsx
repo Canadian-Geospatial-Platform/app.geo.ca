@@ -128,7 +128,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             '1',
             {},
             (analyticRes) => {
-                setRANKSL(analyticRes.data.Items);
+                setRANKSL(Array.isArray(analyticRes.data.Items)?analyticRes.data.Items:[]);
                 setRSLLoading(false);
             },
             (analyticErr) => {
@@ -148,7 +148,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             '4',
             { lang: language },
             (analyticRes) => {
-                setRANKAL(analyticRes.data);
+                setRANKAL(Array.isArray(analyticRes.data)?analyticRes.data:[]);
                 setRALLoading(false);
             },
             (analyticErr) => {
@@ -168,7 +168,7 @@ export default function Analytic(props: analyticProps): JSX.Element {
             '5',
             { lang: language },
             (analyticRes) => {
-                setRANKAA(analyticRes.data);
+                setRANKAA(Array.isArray(analyticRes.data)?analyticRes.data:[]);
                 setRAALoading(false);
             },
             (analyticErr) => {
