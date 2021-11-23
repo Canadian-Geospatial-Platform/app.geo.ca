@@ -219,7 +219,23 @@ const MetaDataPage = () => {
                                         .map((option) => {
                                             const desc = option.description[language].split(";");
                                             return {name:option.name[language], type:desc[0], format: desc[1], url: option.url}; 
-                                        });   
+                                        });  
+
+                        const tcRange = ['N/A', 'N/A'];
+                        result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").forEach((date)=>{
+                            const dateStr=date.trim().split("=");
+                            console.log(dateStr);
+                            if (dateStr[1]!==undefined && dateStr[1].toLowerCase()!=='null') {
+                                if (dateStr[0].toLowerCase()==='begin') {
+                                    tcRange[0] = dateStr[1];
+                                }
+                                if (dateStr[0].toLowerCase()==='end') {
+                                    tcRange[1] = dateStr[1];
+                                }
+                                
+                            }
+                        });                
+                                        
                         const activeMap = options.findIndex((o)=> o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE' || o.type.toUpperCase() === 'SERVICE WEB') > -1;                
                         const contact =   JSON.parse(formattedContact);
                         const coordinates = JSON.parse(result.coordinates);
@@ -265,11 +281,9 @@ const MetaDataPage = () => {
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.temporalcoverage")}</th>
-                                    <td> { result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").map((date, ki)=>{
-                                            const showing = date.substring(date.indexOf("=") + 1);
-                                            return (
-                                                <span key={ki}>{showing.toLowerCase()==="null" ? "N/A" : showing} </span>
-                                            )})}
+                                    <td> { tcRange.map((date, ki)=>(
+                                                <span key={ki}>{date} </span>
+                                            ))}
                                     </td>
                                     </tr>
                                     <tr>
