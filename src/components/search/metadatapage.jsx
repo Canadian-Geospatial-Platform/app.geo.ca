@@ -213,6 +213,7 @@ const MetaDataPage = () => {
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+                        console.log(result.temporalExtent);
                         const options = JSON.parse(formattedOption)
                                         .filter(o=>{return o.protocol!==null && o.url!==null && o.protocol!=='null' && o.url!=='null'})
                                         .map((option) => {
@@ -264,9 +265,11 @@ const MetaDataPage = () => {
                                     </tr>
                                     <tr>
                                     <th scope="row">{t("page.temporalcoverage")}</th>
-                                    <td> { result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").map((date, ki)=>(
-                                                <span key={ki}>{date.substring(date.indexOf("=") + 1)} </span>
-                                            ))}
+                                    <td> { result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").map((date, ki)=>{
+                                            const showing = date.substring(date.indexOf("=") + 1);
+                                            return (
+                                                <span key={ki}>{showing.toLowerCase()==="null" ? "N/A" : showing} </span>
+                                            )})}
                                     </td>
                                     </tr>
                                     <tr>
