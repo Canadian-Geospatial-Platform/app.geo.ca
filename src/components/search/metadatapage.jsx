@@ -224,7 +224,6 @@ const MetaDataPage = () => {
                         const tcRange = ['N/A', 'N/A'];
                         result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").forEach((date)=>{
                             const dateStr=date.trim().split("=");
-                            console.log(dateStr);
                             if (dateStr[1]!==undefined && dateStr[1].toLowerCase()!=='null') {
                                 if (dateStr[0].toLowerCase()==='begin') {
                                     tcRange[0] = dateStr[1];
