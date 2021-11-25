@@ -32,7 +32,7 @@ import themes from './themes.json';
 import './geosearch.scss';
 
 const EnvGlobals = envglobals();
-const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>void, setKSOnly: (kso:boolean)=>void, initKeyword?: string): JSX.Element => {
+const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>void, setKSOnly: (kso:boolean)=>void, initKeyword: string): JSX.Element => {
     const { t } = useTranslation();
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
@@ -179,20 +179,21 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         setKeyword((e.target as HTMLInputElement).value);
     };
 
-    const eventHandler = (event: unknown, keyword: string, bounds: unknown) => {
+    const eventHandler = (event: unknown, passkw: string) => {
         const mbounds = event.target.getBounds();
         // console.log(mbounds,bounds);
-        map.off('moveend');
-        // console.log('status:', loading, 'keyword', keyword,initKeyword);
-        if (!loading && mapCount === 0 && !Object.is(mbounds, bounds)) {
+        // console.log(passkw);
+        // map.off('moveend');
+        if (!loading && mapCount === 0 && !Object.is(mbounds, initBounds)) {
             // console.log('research:', loading, keyword, mapCount);
             mapCount++;
             setLoadingStatus(true);
-            handleSearch(keyword, mbounds);
+            handleSearch(passkw, mbounds);
         }
     };
-
+    
     const handleSearch = (keyword: string, bounds: unknown, pnum?:number) => {
+        map.off('moveend');
         const cpr = pnum!==undefined ? true:false;
         setPn(cpr);
         !loading && setLoadingStatus(true);
@@ -263,13 +264,13 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 const rcnt = res.length > 0 ? res[0].total : 0;
                 setResults(res);
                 setCount(rcnt);
-                setBounds(bounds);
+                // setBounds(bounds);
                 // setAnalyticParams(aParams);
-                setKeyword(keyword);
+                // setKeyword(keyword);
                 // if (!cpr && pn!==1) {
                 setPageNumber(pageNumber);
                 // }
-                setLoadingStatus(false);
+                // setLoadingStatus(false);
                 // setOrg(ofilters);
                 // setType(tfilters);
                 // setTheme(thfilters);
@@ -279,8 +280,8 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     setOpen(false);
                     selectResult(undefined);
                 }
-                map.on('moveend', (event) => eventHandler(event, keyword, initBounds));
-                mapCount = 0;
+                // map.on('moveend', (event) => eventHandler(event));
+                // mapCount = 0;
             })
             .catch((error) => {
                 console.log(error);
@@ -288,18 +289,24 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 setCount(0);
                 setPn(false);
                 setPageNumber(1);
-                setBounds(bounds);
+                // setBounds(bounds);
                 // setAnalyticParams(aParams);
-                setKeyword(keyword);
+                // setKeyword(keyword);
                 setSelected('search');
                 setOpen(false); 
                 selectResult(undefined);
-                setLoadingStatus(false);
+                // setLoadingStatus(false);
                 // setOrg(ofilters);
                 // setType(tfilters);
                 // setTheme(thfilters);
                 // setFound(found);
-                map.on('moveend', (event) => eventHandler(event, keyword, initBounds));
+                
+            }).finally(()=>{
+                setBounds(bounds);
+                setKeyword(keyword);
+                setKWShowing([]);
+                setLoadingStatus(false);
+                map.on('moveend', (event) => eventHandler(event, keyword));
                 mapCount = 0;
             });
     };
@@ -438,14 +445,14 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 // if (!cpr && pn!==1) {
                 setPageNumber(pageNumber);
                 // }
-                setKWShowing([]);
-                setKeyword(keyword);
+                // setKWShowing([]);
+                // setKeyword(keyword);
                 // setAnalyticParams(aParams);
-                setLoading(false);
-                setOrg(ofilters);
-                setType(tfilters);
-                setTheme(thfilters);
-                setFound(found);
+                // setLoading(false);
+                // setOrg(ofilters);
+                // setType(tfilters);
+                // setTheme(thfilters);
+                // setFound(found);
                 // setSF(true);
             })
             .catch(() => {
@@ -454,15 +461,23 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 setPn(false);
                 setCount(0);
                 setPageNumber(1);
+                // setKWShowing([]);
+                // setKeyword(keyword);
+                // setAnalyticParams(aParams);
+                // setLoading(false);
+                // setOrg(ofilters);
+                // setType(tfilters);
+                // setTheme(thfilters);
+                // setFound(found);
+                // setSF(true);
+            }).finally(()=>{
                 setKWShowing([]);
                 setKeyword(keyword);
-                // setAnalyticParams(aParams);
                 setLoading(false);
                 setOrg(ofilters);
                 setType(tfilters);
                 setTheme(thfilters);
                 setFound(found);
-                // setSF(true);
             });
     };
 
