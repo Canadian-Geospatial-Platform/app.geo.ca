@@ -1,0 +1,171 @@
+{
+    "app": {
+        "language": "en"
+    },
+    "nav": {
+        "home": "Home",
+        "search": "Search",
+        "mymap": "MyMap",
+        "language": {
+            "htmllangcode": "fr",
+            "key": "fr-CA",
+            "name": "Français"
+        },
+        "nomap": "Your map is empty, please add data to map",
+        "logotext": "logo for the Canadian Geospatial Platform",
+        "logoLinktext": "Canadian Geospatial Platform homepage"
+    },
+    "mapnav": {
+        "ariaNavbar": "vertical button group for map navigation",
+        "fullscreen": "Full Screen",
+        "home": "Home",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out"
+    },
+    "mapctrl": {
+        "mouseposition": {
+            "east": "E",
+            "west": "W",
+            "north": "N",
+            "south": "S"
+        },
+        "lccurl": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3978/MapServer/WMTS/tile/1.0.0/CBMT_TXT_3978/default/default028mm/{z}/{y}/{x}.jpg",
+        "wburl": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_TXT_3857/default/default028mm/{z}/{y}/{x}.png",
+        "attribution": "&copy Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources"
+    },
+    "appbar": {
+        "drawer": "Drawer",
+        "close": "Close",
+        "export": "Export",
+        "fullscreen": "Full Screen",
+        "help": "Help",
+        "layers": "Layers",
+        "search": "Search",
+        "keywordsearch": "Keyword Search",
+        "keywordonly": "Keyword Only",
+        "filters": "Filters",
+        "analytics": "Analytics",
+        "account": "Account",
+        "howto": "How To",
+        "share": "Share",
+        "version": "Access GitHub repo",
+        "opendrawer": "Open search toolbox"
+    },
+    "filter": {
+        "filterby": "Filter by",
+        "organisations": "Organizations",
+        "types": "Types",
+        "themes": "Themes",
+        "foundational": "Foundation Data",
+        "otherfilters": "Other Filters",
+        "applyfilters": "Apply Filters",
+        "clearall": "Clear All"
+    },
+    "analytic": {
+        "title": "Analytics",
+        "summary": "Summary",
+        "searchthismonth": "Number of searches this month",
+        "searchlastmonth": "Number of searches last month",
+        "accessthismonth": "Number of accesses this month",
+        "accesslastmonth": "Number of accesses last month",
+        "topsearcheslastmonth": "Top 10 Searches in the Last 30 Days",
+        "topaccesslastmonth": "Top 10 Accessed Content in the Last 30 Days",
+        "topaccessalltime": "Top 10 Accessed Content all time",
+        "topaccessbyorg": "Top 10 Accessed Content by Contributor",
+        "loadingfailed": "Loading number failed",
+        "norecord": "No record",
+        "tryagain": "try again",
+        "selectorg": "Please select contributor",
+        "submit": "Submit",
+        "headerrank": "Rank",
+        "headertitle": "Title",
+        "headertotal": "Total Access"
+    },
+    "howto": {
+        "geosearchdescription": "The geoSearch application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map. If you are not interested in a given geographic area. Click on the Keyword Only toggle, enter a keyword, and filter the results based on our advanced filters.",
+        "keywordsearchdescription": "The keyword search page can be used if you are not interested in a given geographic area. Enter a keyword, and filter the results based on our advanced filters.",
+        "filtersdescription": "The advanced filters can filter data based on organization, type, theme, and foundational layers. You can add as many filters as you need and remove them if they are not given you the result you need."
+    },
+    "page": {
+        "ctrl": {
+            "total": "{{index}} of {{total}} records",
+            "currentpage": "Current Page",
+            "previouspage": "Previous Page",
+            "previouspages": "Previous page group",
+            "nextpage": "Next Page",
+            "nextpages": "Next page group",
+            "paginationlabel": "Search results pagination"
+        },
+        "changesearch": "Change the input to search ...",
+        "noresult": "No result",
+        "organisation": "Organization",
+        "published": "Published",
+        "viewmore": "View More",
+        "viewmorenotice": "New filters will be placed before this button",
+        "showless": "Show Less",
+        "showlessnotice": "Some filters appearing before this button will be removed",
+        "search": "Search ...",
+        "advancedsearchfilters": "Advanced Search Filters",
+        "gotogeosearchpage": "Go To GeoSearch",
+        "viewrecord": "View Record",
+        "viewfootprint": "View Footprint",
+        "removefootprint": "Remove Footprint",
+        "aboutthisdataset": "About this dataset",
+        "dataresources": "Data Resources",
+        "contactdata": "Contact Data",
+        "advancedmetadata": "Advanced Metadata",
+        "keywords": "Keywords",
+        "metadata": "Metadata",
+        "datecreated": "Date Created",
+        "datepublished": "Date Published",
+        "temporalcoverage": "Temporal Coverage",
+        "source": "Source(s)",
+        "name": "Name",
+        "type": "Type",
+        "format": "Format",
+        "languages": "Languages",
+        "language": "English",
+        "organization": "Organization",
+        "address": "Address",
+        "individualname": "Individual Name",
+        "role": "Role",
+        "telephone": "Telephone",
+        "fax": "Fax",
+        "email": "Email",
+        "web": "Web",
+        "description": "Description",
+        "status": "Status",
+        "maintenance": "Maintenance",
+        "topiccategory": "Topic Category",
+        "north": "North",
+        "east": "East",
+        "west": "West",
+        "south": "South",
+        "spatialrepresentation": "Spatial Representation",
+        "addtomap": "Add to Map",
+        "viewthedata": "View the data in depth by adding it to a map.",
+        "viewonmap": "View on Map",
+        "addedtomymap": "Added to MyMap",
+        "addtomymap": "Add to MyMap",
+        "ourmetadatais": "Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.",
+        "downloadgeocore": "Download geoCore",
+        "viewhnaprecord": "View HNAP Record",
+        "numberofacesses": "Number of Accesses",
+        "last30": "Last 30 days",
+        "alltime": "All time",
+        "share": "Share"
+    },
+    "modal": {
+        "buttonlabel": "Close",
+        "home": {
+            "title": "About the geoSearch application",
+            "description": "The geoSearch application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map."
+        },
+        "mapping": {
+            "title": "Added to MyMap",
+            "noadded": "No result added",
+            "gotomymap": "Go To MyMap",
+            "cancel": "Cancel"
+        }
+    }
+}
