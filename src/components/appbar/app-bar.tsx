@@ -13,6 +13,7 @@ import { Drawer, List, Divider, IconButton, Tooltip, Fade } from '@material-ui/c
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import AddIcon from '@material-ui/icons/Add';
 import SvgIcon from "@material-ui/core/SvgIcon";
 // import SearchIcon from '@material-ui/icons/ImageSearch';
 import SearchIcon from '@material-ui/icons/Search';
@@ -203,7 +204,9 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 <List>
                     {auth && <ButtonApp tooltip="appbar.account" current={panel === ' account'} icon={<AccountIcon />} onClickFunction={() => setPanel(' account')} />}
                     {auth && panel === ' account' && <div className={`cgp-apppanel${panel}`}><AccountPanel showing={panel === ' account'} closeFunction={() => setPanel('')} /></div>}
-                    <ButtonApp tooltip="appbar.howto" current={panel === ' howto'} icon={<HelpOutlineIcon />} onClickFunction={() => setPanel(' howto')} />
+                     <ButtonApp tooltip="appbar.addmap" current={panel === ' addmap'} icon={<AddIcon />} onClickFunction={() => setPanel(' add map')} />
+                    {panel === ' addmap' && <div className={`cgp-apppanel${panel}`}><HowtoPanel showing={panel === ' addmap'} closeFunction={() => setPanel('')} /></div>}
+                   <ButtonApp tooltip="appbar.howto" current={panel === ' howto'} icon={<HelpOutlineIcon />} onClickFunction={() => setPanel(' howto')} />
                     {panel === ' howto' && <div className={`cgp-apppanel${panel}`}><HowtoPanel showing={panel === ' howto'} closeFunction={() => setPanel('')} /></div>}
                 </List>
                 <Divider />
