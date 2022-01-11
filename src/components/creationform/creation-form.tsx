@@ -2,28 +2,39 @@ import React, { useState } from 'react';
 import './creation-form.css';
 
 function CreationForm() {
-  const [count, setCount] = useState(0)
-  
-  function test2(x: string): number {
-    console.log(x)
-    console.log(parseInt(x))
-    return parseInt(x)//parseInt(x)
+  const [formData, setFormData] = useState({})
+   const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setFormData(values => ({...values, [name]: value}))
   }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(JSON.stringify(formData));
+  }
+ 
   return (
     <div className="creation-form">
-      <header className="creation-form-header">
-        <p onClick={() => setCount(test2(count + "8" + 1))}>
-          Edit <code>src/creation-form.tsx</code> and save { count } to reload.
-        </p>
-        <a
-          className="creation-form-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <form onSubmit={handleSubmit}>
+      <label>Enter your name:
+      <input 
+        type="text" 
+        name="username" 
+        value={formData.username || ""} 
+        onChange={handleChange}
+      />
+      </label>
+      <label>Enter your age:
+        <input 
+          type="number" 
+          name="age" 
+          value={formData.age || ""} 
+          onChange={handleChange}
+        />
+        </label>
+        <input type="submit" />
+    </form>
     </div>
   );
 }
