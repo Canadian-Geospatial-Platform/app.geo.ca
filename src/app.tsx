@@ -20,6 +20,7 @@ import { Map } from './components/map/map';
 // import KeywordSearch from './components/search/keywordsearch';
 import MetaDataPage from './components/search/metadatapage';
 import RampViewer from './components/rampviewer/rampviewer';
+import CreationForm from './components/creationform/creation-form';
 
 import CgpModal from './components/modal/cgpmodal';
 
@@ -103,6 +104,7 @@ const Routing = () => {
                     {/* <Route exact path="/search" component={KeywordSearch} /> */}
                     <Route exact path="/result" component={MetaDataPage} />
                     <Route exact path="/map" component={RampViewer} />
+                    <Route exact path="/creationform" component={CreationForm} />
                     <Route path="/404" render={() => <div>404 - Not Found</div>} />
                     <Redirect to="/404" />
                 </Switch>
