@@ -15,8 +15,9 @@ function CreationForm() {
   }
  
   return (
-    <div className="creation-form">
+    <div className="creation-form form-group">
     <form onSubmit={handleSubmit}>
+    <div className="form-group">
       <label>Enter your name:
       <input 
         type="text" 
@@ -25,6 +26,8 @@ function CreationForm() {
         onChange={handleChange}
       />
       </label>
+    </div>
+    <div className="form-group">
       <label>Enter your age:
         <input 
           type="number" 
@@ -33,6 +36,7 @@ function CreationForm() {
           onChange={handleChange}
         />
         </label>
+      </div>
         <input type="submit" />
     </form>
     </div>
