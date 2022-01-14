@@ -176,7 +176,13 @@
       "metadatarecordinformation": "Metadata Record Information",
       "fileidentifier": "File Identifier",
       "datestamp": "Date Stamp",
-      "hierarchylevel": "Hierarchy Level"
+      "hierarchylevel": "Hierarchy Level",
+      "contact": "Contact",
+      "individualname": "Individual Name",
+      "organisation": "Organisation",
+      "governmentofcanadaorganisation": "Government of Canada Organisation",
+      "branchsectordivision":"Branch\/Sector\/Division",
+      "positionname":"Position Name"
     }
     }
 }

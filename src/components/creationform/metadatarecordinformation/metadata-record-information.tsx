@@ -6,26 +6,26 @@ function CreationFormMetadataRecordInformationSection(props): JSX.Element {
 
     return (
         <div>
-                <h1>{t('creationform.basicview.metadatarecordinformation')}</h1>
-                <div className="form-group">
-                    <label>
-                      {t('creationform.basicview.fileidentifier')}:
-                        <input type="text" name="fileidentifier" value={props.formData.fileidentifier || ''} onChange={props.handleChange} />
-                    </label>
-                    </div>
-                    <div className="form-group">
-                    <label>
-                      {t('creationform.basicview.datestamp')}:
-                        <input type="text" name="datestamp" value={props.formData.datestamp || ''} onChange={props.handleChange} />
-                    </label>
-                </div>
+            <h1>{t('creationform.basicview.metadatarecordinformation')}</h1>
+            <div className="form-group">
+                <label>
+                    {t('creationform.basicview.fileidentifier')}:
+                    <input type="text" name="fileidentifier" value={props.formData.fileidentifier || ''} onChange={props.handleChange} />
+                </label>
+            </div>
+            <div className="form-group">
+                <label>
+                    {t('creationform.basicview.datestamp')}:
+                    <input type="text" name="datestamp" value={props.formData.datestamp || ''} onChange={props.handleChange} />
+                </label>
+            </div>
 
-                <div className="form-group">
-                    <label>
-                      {t('creationform.basicview.hierarchylevel')}:
-                        <input type="text" name="hierarchylevel" value={props.formData.hierarchylevel || ''} onChange={props.handleChange} />
-                    </label>
-                </div>
+            <div className="form-group">
+                <label>
+                    {t('creationform.basicview.hierarchylevel')}:
+                    <input type="text" name="hierarchylevel" value={props.formData.hierarchylevel || ''} onChange={props.handleChange} />
+                </label>
+            </div>
         </div>
     );
 }

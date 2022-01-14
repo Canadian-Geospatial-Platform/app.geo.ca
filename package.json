@@ -11,8 +11,8 @@
     "deploy": "gh-pages -d dist",
     "test": "jest",
     "update_test": "jest --updateSnapshot",
-    "lint": "eslint 'src/**/*.{ts,tsx,js}' 'tests/**/*.{ts,tsx,js}'",
-    "fix": "eslint 'src/**/*.{ts,tsx,js}' 'tests/**/*.{ts,tsx,js}' --fix"
+    "lint": "eslint 'src/**/*.{ts,tsx,js}'",
+    "fix": "eslint 'src/**/*.{ts,tsx,js}' --fix"
   },
   "license": "MIT",
   "repository": {

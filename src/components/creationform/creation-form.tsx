@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import './creation-form.css';
-import CreationFormMetadataRecordInformationSection from './metadatarecordinformation/metadata-record-information.tsx'
+import CreationFormMetadataRecordInformationSection from './metadatarecordinformation/metadata-record-information';
+import Contact from './contact/contact';
 
 function CreationForm(): JSX.Element {
-    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         fileidentifier: '',
         datestamp: Date.now(),
@@ -18,13 +17,14 @@ function CreationForm(): JSX.Element {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        alert(JSON.stringify(formData));
+        /* eslint-disable */ alert(JSON.stringify(formData)); /* eslint-enable */
     };
 
     return (
         <div className="creation-form">
             <form onSubmit={handleSubmit}>
                 <CreationFormMetadataRecordInformationSection formData={formData} handleChange={handleChange} />
+                <Contact formData={formData} handleChange={handleChange} />
                 <input type="submit" />
             </form>
         </div>
