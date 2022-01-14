@@ -6,17 +6,24 @@ function CreationFormMetadataRecordInformationSection(props): JSX.Element {
 
     return (
         <div>
-                <h2>{t('nav.home')}</h2>
+                <h1>{t('creationform.basicview.metadatarecordinformation')}</h1>
                 <div className="form-group">
                     <label>
-                        File Identifier:
-                        <input type="text" name="t2" value={props.formData.t2 || ''} onChange={props.handleChange} />
+                      {t('creationform.basicview.fileidentifier')}:
+                        <input type="text" name="fileidentifier" value={props.formData.fileidentifier || ''} onChange={props.handleChange} />
+                    </label>
+                    </div>
+                    <div className="form-group">
+                    <label>
+                      {t('creationform.basicview.datestamp')}:
+                        <input type="text" name="datestamp" value={props.formData.datestamp || ''} onChange={props.handleChange} />
                     </label>
                 </div>
+
                 <div className="form-group">
                     <label>
-                        Hierarchy Level:
-                        <input type="text" name="t1" value={props.formData.t1 || ''} onChange={props.handleChange} />
+                      {t('creationform.basicview.hierarchylevel')}:
+                        <input type="text" name="hierarchylevel" value={props.formData.hierarchylevel || ''} onChange={props.handleChange} />
                     </label>
                 </div>
         </div>

@@ -168,5 +168,15 @@
             "gotomymap": "Go To MyMap",
             "cancel": "Cancel"
         }
+    },
+    "creationform": {
+      "advancedview": {
+      },
+    "basicview": {
+      "metadatarecordinformation": "Metadata Record Information",
+      "fileidentifier": "File Identifier",
+      "datestamp": "Date Stamp",
+      "hierarchylevel": "Hierarchy Level"
+    }
     }
 }
