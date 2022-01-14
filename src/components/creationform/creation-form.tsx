@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './creation-form.css';
+import CreationFormMetadataRecordInformationSection from './metadatarecordinformation/metadata-record-information.tsx'
 
 function CreationForm(): JSX.Element {
     const { t } = useTranslation();
@@ -8,6 +9,8 @@ function CreationForm(): JSX.Element {
         fileidentifier: '',
         datestamp: Date.now(),
         hierarchylevel: '',
+        t1: '',
+        t2: 'fd'
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +39,7 @@ function CreationForm(): JSX.Element {
                         <input type="text" name="hierarchylevel" value={formData.hierarchylevel || ''} onChange={handleChange} />
                     </label>
                 </div>
+                <CreationFormMetadataRecordInformationSection formData={formData} handleChange={handleChange} />
                 <input type="submit" />
             </form>
         </div>
