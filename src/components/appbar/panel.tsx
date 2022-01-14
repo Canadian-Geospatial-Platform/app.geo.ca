@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-//import { render } from 'react-dom';
+// import { render } from 'react-dom';
 
 import { useTranslation } from 'react-i18next';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -49,7 +49,7 @@ export default function PanelApp(props: PanelAppProps): JSX.Element {
             <CardHeader
                 className={classes.avatar}
                 title={
-                    <Typography variant={'h2'} className="panel-title">
+                    <Typography variant="h2" className="panel-title">
                         {t(title)}
                     </Typography>
                 }

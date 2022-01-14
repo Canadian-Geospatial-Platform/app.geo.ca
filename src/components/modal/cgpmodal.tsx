@@ -14,14 +14,14 @@ const CgpModal = (props: CgpModalProps) => {
     const { t } = useTranslation();
     const toggle = () => setModal(!modal);
     // Local Storage
-    let setLocalStorage = () => {
+    const setLocalStorage = () => {
         if (sessionStorage.getItem('cgp-modal-shown') === null) {
             sessionStorage.setItem('cgp-modal-shown', 'true');
         }
     };
-    let getLocalStorage = () => {
-        let cgpModalShown = sessionStorage.getItem('cgp-modal-shown');
-        return cgpModalShown === 'true' ? false : true;
+    const getLocalStorage = () => {
+        const cgpModalShown = sessionStorage.getItem('cgp-modal-shown');
+        return cgpModalShown !== 'true';
         // return true;
     };
     if (getLocalStorage()) {
@@ -51,9 +51,9 @@ const CgpModal = (props: CgpModalProps) => {
                 </ModalFooter>
             </Modal>
         );
-    } else {
+    } 
         return null;
-    }
+    
 };
 
 interface CgpModalProps {

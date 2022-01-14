@@ -1,4 +1,3 @@
-
 import { useTranslation } from 'react-i18next';
 
 import { ButtonGroup } from '@material-ui/core';
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         bottom: '30px',
         pointerEvents: 'auto',
-    }
+    },
 }));
 
 export function NavBar(): JSX.Element {

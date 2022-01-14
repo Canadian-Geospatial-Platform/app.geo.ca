@@ -60,8 +60,8 @@ export default function Pagination(props: paginationProps): JSX.Element {
                             <button
                                 type="button"
                                 className="page-link"
-                                aria-label={'Page ' + pn}
-                                aria-disabled={pn === current ? true : false}
+                                aria-label={`Page ${  pn}`}
+                                aria-disabled={pn === current}
                                 onClick={pn !== current ? () => selectPage(pn) : undefined}
                             >
                                 {pn}

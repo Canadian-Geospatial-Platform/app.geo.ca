@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
             // backgroundColor: '#fff',
             color: '#000',
         },
-    }
+    },
 }));
 
 export default function ButtonApp(props: ButtonAppProps): JSX.Element {
@@ -27,7 +27,7 @@ export default function ButtonApp(props: ButtonAppProps): JSX.Element {
 
     return (
         <Tooltip title={t(tooltip)} placement="right" TransitionComponent={Fade}>
-            <ListItem button onClick={onClickFunction} className={current? classes.listItemCurrent: classes.listItem}>
+            <ListItem button onClick={onClickFunction} className={current ? classes.listItemCurrent : classes.listItem}>
                 <ListItemIcon className={classes.listItemColor}>{icon}</ListItemIcon>
                 {typeof content === 'undefined' ? <ListItemText className={classes.listItemColor} primary={t(tooltip)} /> : content}
             </ListItem>

@@ -1,4 +1,4 @@
-import { mappingObj } from "./reducer";
+import { mappingObj } from './reducer';
 
 /* eslint-disable prettier/prettier */
 export enum ActionType {
