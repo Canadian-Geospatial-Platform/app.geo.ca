@@ -36,7 +36,6 @@ function CreationForm(): JSX.Element {
                     formData={formData}
                     handleChange={handleChange}
                     keyName="genericselect"
-                    keyValue={formData.generictext}
                     values={selectvalues}
                 />
                 <input type="submit" />
