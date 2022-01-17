@@ -31,7 +31,7 @@ function CreationForm(): JSX.Element {
             <form onSubmit={handleSubmit}>
                 <CreationFormMetadataRecordInformationSection formData={formData} handleChange={handleChange} />
                 <Contact formData={formData} handleChange={handleChange} />
-                <GenericTextInput formData={formData} handleChange={handleChange} keyName="generictext" keyValue={formData.generictext}  />
+                <GenericTextInput formData={formData} handleChange={handleChange} keyName="generictext" />
                 <GenericSelectInput
                     formData={formData}
                     handleChange={handleChange}
