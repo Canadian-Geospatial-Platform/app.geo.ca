@@ -3,13 +3,15 @@ import { useTranslation } from 'react-i18next';
 
 function GenericSelectInput(props: any): JSX.Element {
     const { t } = useTranslation();
-    const { keyName, keyValue, handleChange, formData } = props;
+    const { keyName, handleChange, formData, values } = props;
 
     return (
         <div className="form-group">
             <label htmlFor={keyName}>
-                 {t('creationform.basicview.' + keyName)}:
-                <input type="select" name={keyName} value={keyValue || ''} onChange={handleChange} />
+                {t(`creationform.basicview.${keyName}`)}:
+                <select name={keyName} onChange={handleChange}>
+                    {values.map(v => (<option value={v}>{v}</option>))}
+                </select>
             </label>
         </div>
     );

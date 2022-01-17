@@ -24,17 +24,20 @@ function CreationForm(): JSX.Element {
         /* eslint-disable */ alert(JSON.stringify(formData)); /* eslint-enable */
     };
 
+    const selectvalues=["avc", "dvc"];
+
     return (
         <div className="creation-form">
             <form onSubmit={handleSubmit}>
                 <CreationFormMetadataRecordInformationSection formData={formData} handleChange={handleChange} />
                 <Contact formData={formData} handleChange={handleChange} />
-                <GenericTextInput formData={formData} handleChange={handleChange} keyName="generictext" keyValue={formData.generictext} />
+                <GenericTextInput formData={formData} handleChange={handleChange} keyName="generictext" keyValue={formData.generictext}  />
                 <GenericSelectInput
                     formData={formData}
                     handleChange={handleChange}
                     keyName="genericselect"
-                    keyValue={formData.genericselect}
+                    keyValue={formData.generictext}
+                    values={selectvalues}
                 />
                 <input type="submit" />
             </form>

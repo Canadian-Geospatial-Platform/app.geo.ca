@@ -8,7 +8,7 @@ function GenericTextInput(props: any): JSX.Element {
     return (
         <div className="form-group">
             <label htmlFor={keyName}>
-                 {t('creationform.basicview.' + keyName)}:
+                {t(`creationform.basicview.${keyName}`)}:
                 <input type="text" name={keyName} value={keyValue || ''} onChange={handleChange} />
             </label>
         </div>
