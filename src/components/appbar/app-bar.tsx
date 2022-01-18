@@ -196,7 +196,7 @@ export function Appbar(): JSX.Element {
 
                         // display the button panels in the list
                         return (
-                            <div key={groupName}>
+                            <div key={groupName} id={`appbar-${groupName}`}>
                                 {Object.keys(buttonPanels).map((buttonId) => {
                                     const buttonPanel = buttonPanels[buttonId];
 
@@ -232,7 +232,7 @@ export function Appbar(): JSX.Element {
 
                 // display the panels in the list
                 return (
-                    <div key={groupName}>
+                    <div key={groupName} id={`appbarpanel-${groupName}`}>
                         {Object.keys(buttonPanels).map((buttonId) => {
                             const buttonPanel = buttonPanels[buttonId];
 

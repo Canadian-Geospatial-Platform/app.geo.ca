@@ -150,7 +150,7 @@ export function NavBar(): JSX.Element {
 
                 // display the panels in the list
                 return (
-                    <div key={groupName}>
+                    <div key={groupName} id={`navbarpanel-${groupName}`}>
                         {Object.keys(buttons).map((buttonId) => {
                             const buttonPanel = buttons[buttonId];
 
@@ -173,34 +173,36 @@ export function NavBar(): JSX.Element {
                     const buttons = buttonPanelApi.navBarButtons[groupName];
 
                     return (
-                        <ButtonGroup key={groupName} orientation="vertical" aria-label={t('mapnav.arianavbar')} variant="contained">
-                            {Object.keys(buttons).map((buttonId) => {
-                                const buttonPanel: TypeButtonPanel = buttons[buttonId];
-                                // eslint-disable-next-line no-nested-ternary
-                                return buttonPanel.button.visible ? (
-                                    !buttonPanel.panel ? (
-                                        <ButtonMapNav
-                                            key={buttonPanel.button.id}
-                                            tooltip={buttonPanel.button.tooltip}
-                                            icon={buttonPanel.button.icon}
-                                            onClickFunction={() => {
-                                                if (buttonPanel.button.callback) buttonPanel.button.callback();
-                                            }}
-                                        />
-                                    ) : (
-                                        <ButtonMapNav
-                                            key={buttonPanel.button.id}
-                                            tooltip={buttonPanel.button.tooltip}
-                                            icon={buttonPanel.button.icon}
-                                            onClickFunction={() => {
-                                                setButtonPanelId(buttonPanel.button.id);
-                                                openClosePanel(!panelOpen);
-                                            }}
-                                        />
-                                    )
-                                ) : null;
-                            })}
-                        </ButtonGroup>
+                        <div key={`div-${groupName}`} id={`navbar-${groupName}`}>
+                            <ButtonGroup key={groupName} orientation="vertical" aria-label={t('mapnav.arianavbar')} variant="contained">
+                                {Object.keys(buttons).map((buttonId) => {
+                                    const buttonPanel: TypeButtonPanel = buttons[buttonId];
+                                    // eslint-disable-next-line no-nested-ternary
+                                    return buttonPanel.button.visible ? (
+                                        !buttonPanel.panel ? (
+                                            <ButtonMapNav
+                                                key={buttonPanel.button.id}
+                                                tooltip={buttonPanel.button.tooltip}
+                                                icon={buttonPanel.button.icon}
+                                                onClickFunction={() => {
+                                                    if (buttonPanel.button.callback) buttonPanel.button.callback();
+                                                }}
+                                            />
+                                        ) : (
+                                            <ButtonMapNav
+                                                key={buttonPanel.button.id}
+                                                tooltip={buttonPanel.button.tooltip}
+                                                icon={buttonPanel.button.icon}
+                                                onClickFunction={() => {
+                                                    setButtonPanelId(buttonPanel.button.id);
+                                                    openClosePanel(!panelOpen);
+                                                }}
+                                            />
+                                        )
+                                    ) : null;
+                                })}
+                            </ButtonGroup>
+                        </div>
                     );
                 })}
                 <ButtonGroup orientation="vertical" aria-label={t('mapnav.arianavbar')} variant="contained">

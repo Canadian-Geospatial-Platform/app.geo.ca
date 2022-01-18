@@ -180,8 +180,8 @@
                             {
                                 id: 'label',
                                 type: 'label',
-                                url: 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/xxxx_TXT_3978/MapServer/WMTS/tile/1.0.0/xxxx_TXT_3978/default/default028mm/{z}/{y}/{x}.jpg'.replaceAll(
-                                    'xxxx',
+                                url: 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/xxxx_TXT_3978/MapServer/WMTS/tile/1.0.0/xxxx_TXT_3978/default/default028mm/{z}/{y}/{x}.jpg'.replace(
+                                    /xxxx/g,
                                     t('layer.type')
                                 ),
                                 opacity: 1,

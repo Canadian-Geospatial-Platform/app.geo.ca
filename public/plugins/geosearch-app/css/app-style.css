@@ -1,0 +1,154 @@
+body.geosearch-app {
+  margin: 0;
+  padding: 0 !important;
+  font-family: "Open Sans", sans-serif;
+}
+body.geosearch-app .mapContainer {
+  width: 100%;
+  height: 100vh;
+  padding-top: 90px;
+}
+body.geosearch-app .mapContainer .llwp-map {
+  width: 100%;
+  height: calc(100vh - 90px);
+}
+body.geosearch-app #navbar-app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #fff;
+  border-bottom: 1px solid #dcdcdc;
+  box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.27);
+  height: 90px;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+body.geosearch-app #navbar-app-header > div {
+  height: 90px;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+body.geosearch-app #navbar-app-header > div > button {
+  width: auto;
+  min-width: 100px;
+  border: none;
+  color: #3d3d3d;
+  background-color: transparent;
+  text-decoration: none;
+  transition: background-color 150ms linear, color 150ms linear;
+  text-transform: unset;
+  cursor: pointer;
+}
+body.geosearch-app #navbar-app-header > div > button > span.MuiButton-label > div {
+  font-size: 13px !important;
+}
+body.geosearch-app #navbar-app-header > div > button:hover, body.geosearch-app #navbar-app-header > div > button:focus {
+  color: #05b3aa;
+}
+body.geosearch-app #navbar-app-header > div > button:focus {
+  color: #05b3aa;
+}
+body.geosearch-app #navbar-app-header > div > button:first-child {
+  padding: 0;
+  width: 150px;
+  margin-left: 25px;
+  margin-right: calc(100% - 475px);
+}
+body.geosearch-app #navbar-app-header > div > button:first-child img {
+  max-height: 62px;
+  cursor: pointer;
+}
+body.geosearch-app #navbar-app-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+body.geosearch-app #navbar-app-header .header-nav {
+  background-color: #fff;
+  font-family: "Noto Sans", Noto Sans;
+  font-size: 0.875em;
+  text-transform: uppercase;
+}
+body.geosearch-app #navbar-app-header .header-nav .nav-item {
+  border: none;
+  color: #3d3d3d;
+  text-decoration: none;
+}
+body.geosearch-app #navbar-app-header .header-nav .nav-item button {
+  border: none;
+  color: #3d3d3d;
+  background-color: transparent;
+  text-decoration: none;
+  transition: background-color 150ms linear, color 150ms linear;
+  cursor: pointer;
+}
+body.geosearch-app #navbar-app-header .header-nav .nav-item button:hover, body.geosearch-app #navbar-app-header .header-nav .nav-item button:focus {
+  color: #05b3aa;
+}
+body.geosearch-app #navbar-app-header .header-nav .nav-item button:focus {
+  color: #05b3aa;
+}
+body.geosearch-app #navbar-app-header .header-nav .nav-item button#myMapBtn {
+  padding-right: 0.1em;
+}
+body.geosearch-app #navbar-app-header .header-nav .nav-item button#mcntBtn {
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  padding: 0;
+  font-size: 0.85em;
+  line-height: 24px;
+  text-align: center;
+  background-color: #dc3545;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 50%;
+  vertical-align: super;
+}
+body.geosearch-app #navbar-app-header .header-nav .nav-item button#mcntBtn.hidden {
+  visibility: hidden;
+}
+@media (max-width: 992px) {
+  body.geosearch-app #navbar-app-header .header-nav .navbar-wrap {
+    position: absolute;
+    top: 83px;
+    left: 0;
+    background-color: #fff;
+    border-top: 1px solid #dcdcdc;
+    font-size: 1.25rem;
+    height: 100vh;
+    width: 100%;
+    padding: 0.5em 1em 1em 1em;
+  }
+  body.geosearch-app #navbar-app-header .header-nav .navbar-toggler {
+    border: none;
+  }
+  body.geosearch-app #navbar-app-header .header-nav .navbar-toggler:hover {
+    background-color: transparent;
+  }
+  body.geosearch-app #navbar-app-header .header-nav .navbar-toggler:focus {
+    outline: #dcdcdc solid 1px !important;
+  }
+  body.geosearch-app #navbar-app-header .header-nav .navbar-toggler-icon.nav-bar-open {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='currentColor' class='bi bi-x' viewBox='0 0 16 16' id='x'%3E%3Cpath d='M4.646 4.646a.5.5 0 01.708 0L8 7.293l2.646-2.647a.5.5 0 01.708.708L8.707 8l2.647 2.646a.5.5 0 01-.708.708L8 8.707l-2.646 2.647a.5.5 0 01-.708-.708L7.293 8 4.646 5.354a.5.5 0 010-.708z'%3E%3C/path%3E%3C/svg%3E");
+  }
+  body.geosearch-app #navbar-app-header .header-nav .nav-item {
+    border-bottom: 1px solid #dcdcdc;
+  }
+  body.geosearch-app #navbar-app-header .header-nav .nav-item button {
+    width: 100%;
+    padding: 1em;
+    text-align: left;
+  }
+}
+@media (min-width: 993px) {
+  body.geosearch-app #navbar-app-header .header-nav .nav-item button {
+    padding: 0.85em 1.85em;
+  }
+}
+
+/*# sourceMappingURL=app-style.css.map */

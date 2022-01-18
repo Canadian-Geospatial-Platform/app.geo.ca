@@ -136,7 +136,7 @@ export class Basemap {
                 basemapLayers.push({
                     id: 'label',
                     type: 'label',
-                    url: this.basemapsList[this.projection].label.replaceAll('xxxx', this.language === 'en-CA' ? 'CBMT' : 'CBCT'),
+                    url: this.basemapsList[this.projection].label.replace(/xxxx/g, this.language === 'en-CA' ? 'CBMT' : 'CBCT'),
                     options: this.basemapLayerOptions,
                     opacity: 1,
                     basemapPaneName: this.basemapsPaneName,
