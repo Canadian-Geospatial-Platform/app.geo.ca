@@ -32,7 +32,7 @@
             <div
                 id="UC1"
                 class="llwp-map"
-                data-leaflet="{ 'name': 'LCC', 'projection': 3978, 'zoom': 4, 'center': [60,-100], 'language': 'en-CA', 'basemapOptions': { 'id': 'transport', 'shaded': true, 'labeled': true }, 'layers': [], 'plugins': ['NavLogo', 'NavHome', 'NavMap', 'NavLang', 'geoSearchAppPanelHowto'] }"
+                data-leaflet="{ 'name': 'LCC', 'projection': 3978, 'zoom': 4, 'center': [60,-100], 'language': 'en-CA', 'basemapOptions': { 'id': 'transport', 'shaded': true, 'labeled': true }, 'layers': [], 'plugins': ['CgpModal', 'NavLogo', 'NavHome', 'NavMap', 'NavLang', 'geoSearchAppPanelHowto'] }"
             ></div>
             <!-- <p>This map is in LLC projection with an English interface.</p>
             <p><strong>Configuraion Snippet:</strong></p>
@@ -54,9 +54,9 @@
                 // cgpv.api.addPlugin('NavHome', window.plugins['NavHome'], {
                 //     mapId: 'UC1',
                 // });
-                cgpv.api.addPlugin('CgpModal', window.plugins['CgpModal'], {
+                /*cgpv.api.addPlugin('CgpModal', window.plugins['CgpModal'], {
                     mapId: 'UC1',
-                });
+                });*/
 
                 /* window.cgpv.api.event.emit('snackbar/open', 'UC1', {
                         message: {
