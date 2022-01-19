@@ -59,7 +59,7 @@ const MetaDataPage = () => {
     const inMapping = rid!=="" ? mapping.findIndex((m)=>m.id===rid)>-1 : false;
     const language = t("app.language");
     // const { rid } = useParams();
-
+    const dsLang = {'eng': 'English', 'fra': 'Français', 'eng,fra': 'ENG & FRA'};
     const viewParams = {
         uuid: rid, 
         loc: '/result',
@@ -218,7 +218,7 @@ const MetaDataPage = () => {
                                         .filter(o=>{return o.protocol!==null && o.url!==null && o.protocol!=='null' && o.url!=='null'})
                                         .map((option) => {
                                             const desc = option.description[language].split(";");
-                                            return {name:option.name[language], type:desc[0], format: desc[1], url: option.url}; 
+                                            return {name:option.name[language], type:desc[0], format: desc[1], language: dsLang[desc[2]], url: option.url}; 
                                         });  
 
                         const tcRange = ['N/A', 'N/A'];
@@ -314,7 +314,7 @@ const MetaDataPage = () => {
                                             </td>
                                             <td>{option.type}</td>
                                             <td>{option.format}</td>
-                                            <td>{t("page.language")}</td>
+                                            <td>{option.language}</td>
                                             </tr>
                                         );
                                     })}

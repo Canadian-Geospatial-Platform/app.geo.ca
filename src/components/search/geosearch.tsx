@@ -217,7 +217,8 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         };
         const aParams = Object.assign(analyticParams);
         aParams.search = keyword;
-        aParams.geo = JSON.stringify(bounds);
+        // aParams.geo = JSON.stringify(bounds);
+        aParams.geo = [[bounds._northEast.lat, bounds._northEast.lng], [bounds._southWest.lat, bounds._southWest.lng]];
        
         if (thfilters.length > 0) {
             const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
