@@ -1,3 +1,4 @@
+// This file should be modified to use the generic components available
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

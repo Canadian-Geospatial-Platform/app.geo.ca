@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import './creation-form.css';
-import CreationFormMetadataRecordInformationSection from './metadatarecordinformation/metadata-record-information';
-import Contact from './contact/contact';
 import GenericTextInput from './generictextinput/generic-text-input';
 import GenericSelectInput from './genericselectinput/generic-select-input';
+import GenericTagInput from './generictaginput/generic-tag-input';
 
 function CreationForm(): JSX.Element {
     const [formData, setFormData] = useState({
@@ -12,11 +11,19 @@ function CreationForm(): JSX.Element {
         hierarchylevel: '',
         generictext: '',
         genericselect: '',
+        generictag: [{key: 't1'}, {key: 't2'}],
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData((values) => ({ ...values, [name]: value }));
+    };
+
+    const handleArrayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, keyCode } = event.target;
+        console.log(event.elements)
+        if (keyCode !== 36)
+        setFormData((values) => ({ ...values, [name]: formData.[name].concat(({key: value})) }));
     };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,9 +35,6 @@ function CreationForm(): JSX.Element {
 
     return (
         <div className="creation-form">
-            <form onSubmit={handleSubmit}>
-                <CreationFormMetadataRecordInformationSection formData={formData} handleChange={handleChange} />
-                <Contact formData={formData} handleChange={handleChange} />
                 <GenericTextInput formData={formData} handleChange={handleChange} keyName="generictext" />
                 <GenericSelectInput
                     formData={formData}
@@ -38,8 +42,8 @@ function CreationForm(): JSX.Element {
                     keyName="genericselect"
                     values={selectvalues}
                 />
-                <input type="submit" />
-            </form>
+                <GenericTagInput formData={formData} handleChange={handleArrayChange} keyName="generictag" />
+                <button onClick={handleSubmit}>asdf</button>
         </div>
     );
 }
