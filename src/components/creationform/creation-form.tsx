@@ -21,8 +21,9 @@ function CreationForm(): JSX.Element {
 
     const handleArrayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, keyCode } = event.target;
-        console.log(event.elements)
-        if (keyCode !== 36)
+        const { charCode } = event;
+        
+        if (charCode === 13)
         setFormData((values) => ({ ...values, [name]: formData.[name].concat(({key: value})) }));
     };
 
