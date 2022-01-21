@@ -60,6 +60,9 @@ const MetaDataPage = () => {
     const language = t("app.language");
     // const { rid } = useParams();
     const dsLang = {'eng': 'English', 'fra': 'Français', 'eng,fra': 'ENG & FRA'};
+    const licenceOrgs = 
+        { "en": ["Canada", "Alberta", "British Columbia", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Quebec", "Yukon", "Prince Edward Island"],
+          "fr": ["Canada", "Alberta", "Colombie-Britannique", "Terre-Neuve-et-Labrador", "Nouvelle-Écosse", "Ontario", "Québec", "Yukon", "Île-du-Prince-Édouard"] };
     const viewParams = {
         uuid: rid, 
         loc: '/result',
@@ -210,6 +213,7 @@ const MetaDataPage = () => {
                         {t("page.noresult")}
                     </p> :
                     results.map((result) => {
+                        // console.log(result);
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         // const formattedCoordinates = result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.coordinates.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
@@ -218,7 +222,7 @@ const MetaDataPage = () => {
                                         .filter(o=>{return o.protocol!==null && o.url!==null && o.protocol!=='null' && o.url!=='null'})
                                         .map((option) => {
                                             const desc = option.description[language].split(";");
-                                            return {name:option.name[language], type:desc[0], format: desc[1], language: dsLang[desc[2]], url: option.url}; 
+                                            return {name:option.name[language], type:desc[0], format: desc[1], language: desc[2].toLowerCase()==='zxx'?t('page.nlcontent') :dsLang[desc[2]], url: option.url}; 
                                         });  
 
                         const tcRange = ['N/A', 'N/A'];
@@ -247,7 +251,10 @@ const MetaDataPage = () => {
                         const dist = Math.max(Math.abs(coordinates[0][2][1] - coordinates[0][0][1])/15, Math.abs(coordinates[0][1][0] - coordinates[0][0][0])/30);
                         const resolution = (40.7436654315252*dist*11132);
                         const zoom = Math.max(Math.log2(3600000/resolution), 1);
+                        const useL = result.useLimits.match(/^(.+) [–|-] (.+)\((.+)\)$/);
+                        const showDisclaimer=Array.isArray(useL) && licenceOrgs[language].findIndex(p => p.toLowerCase() === useL[2].trim().toLowerCase())>-1;
                         // console.log(contact, options);
+                        
                         return (
                         <div key={result.id} className="container-search-result container-search-result-two-col">
                         <div className="row no-gutters">
@@ -289,6 +296,25 @@ const MetaDataPage = () => {
                                     <th scope="row">{t("page.source")}</th>
                                     <td>{contact[0].organisation[language]}</td>
                                     </tr>
+                                    <tr>
+                                    <th scope="row">{t("page.uselimits")}</th>
+                                    <td>{useL===null ? result.useLimits : 
+                                            [1].map((x)=>{ 
+                                                return (
+                                        <div key={x}>
+                                            {useL[1]} - {useL[2]}<a className="table-cell-text-link" href={useL[3]} target="_blank">{useL[3]}</a>
+                                        </div>)})}
+                                    </td>
+                                    </tr>
+                                    {showDisclaimer && 
+                                    <tr>
+                                    <th scope="row">{t("page.disclaimer")}</th>
+                                    <td>
+                                        <p>{t("page.dcheader")}{useL[2]}</p>
+                                        <p>{t("page.dcp1")}</p>
+                                        <p>{t("page.dcp2.text1")}<a className="table-cell-text-link" href={t("page.dcp2.link1.url")} target="_blank">{t("page.dcp2.link1.text")}</a>{t("page.dcp2.text2")}<a className="table-cell-text-link" href={t("page.dcp2.link2.url")} target="_blank">{t("page.dcp2.link2.text")}</a>{t("page.dcp2.text3")}</p>
+                                    </td>
+                                    </tr>}
                                 </tbody>
                                 </table>
                             </section>

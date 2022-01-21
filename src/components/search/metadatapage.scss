@@ -202,6 +202,17 @@
                 text-transform: uppercase;
             }
 
+            .table-cell-text-link {
+                color: $color__link;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                text-decoration: underline;
+                &:hover {
+                    color: $color__table-heading;
+                    text-decoration: underline;
+                }
+            }
+
             .table-cell-link {
                 display: flex;
                 color: $color__link;
