@@ -1,52 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import './creation-form.css';
-import GenericTextInput from './generictextinput/generic-text-input';
-import GenericSelectInput from './genericselectinput/generic-select-input';
-import GenericTagInput from './generictaginput/generic-tag-input';
 
-function CreationForm(): JSX.Element {
-    const [formData, setFormData] = useState({
-        fileidentifier: '',
-        datestamp: Date.now(),
-        hierarchylevel: '',
-        generictext: '',
-        genericselect: '',
-        generictag: [{key: 't1'}, {key: 't2'}],
-    });
+function FormikCreationForm(): JSX.Element {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setValue
+    } = useForm();
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormData((values) => ({ ...values, [name]: value }));
-    };
+  // Append geojson data to the simple input fields and submit the result to the server
+  const onSubmit = (data) => {
+    data.map = {geojson: "abc", geojs2: "abcdd"}
+    console.log(data)
+  };
 
-    const handleArrayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, keyCode } = event.target;
-        const { charCode } = event;
-        
-        if (charCode === 13)
-        setFormData((values) => ({ ...values, [name]: formData.[name].concat(({key: value})) }));
-    };
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        /* eslint-disable */ alert(JSON.stringify(formData)); /* eslint-enable */
-    };
-
-    const selectvalues=["avc", "dvc"];
+  // Fetch an object from the server and prefil the form with the values. Will allow users to save and reload incomplete forms and view/edit complet ones.
+  const loadData = (data) => {
+    setValue('firstName', 'Value loaded from server')
+  }
 
     return (
         <div className="creation-form">
-                <GenericTextInput formData={formData} handleChange={handleChange} keyName="generictext" />
-                <GenericSelectInput
-                    formData={formData}
-                    handleChange={handleChange}
-                    keyName="genericselect"
-                    values={selectvalues}
-                />
-                <GenericTagInput formData={formData} handleChange={handleArrayChange} keyName="generictag" />
-                <button onClick={handleSubmit}>asdf</button>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <input {...register('firstName')} /> {/* register an input */}
+                <input {...register('lastName', { required: true })} />
+                {errors.lastName && <p>Last name is required.</p>}
+                <input {...register('age', { pattern: /\d+/ })} />
+                {errors.age && <p>Please enter number for age.</p>}
+                <input type="submit" />
+            </form>
+            <button onClick={loadData}>Load Values from Server</button>
         </div>
     );
 }
 
-export default CreationForm;
+export default FormikCreationForm;
