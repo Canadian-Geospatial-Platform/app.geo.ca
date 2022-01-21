@@ -18,7 +18,7 @@ function CreationForm(): JSX.Element {
     };
 
     // Fetch an object from the server and prefil the form with the values. Will allow users to save and reload incomplete forms and view/edit complet ones.
-    const loadData = (data) => {
+    const loadData = () => {
         // Simulates getting data from server and ovewriting field values
         setValue('firstName', 'Value loaded from server');
     };
