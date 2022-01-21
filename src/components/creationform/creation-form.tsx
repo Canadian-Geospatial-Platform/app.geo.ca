@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import './creation-form.css';
 
-function FormikCreationForm(): JSX.Element {
+function CreationForm(): JSX.Element {
     const {
         register,
         handleSubmit,
@@ -12,12 +12,14 @@ function FormikCreationForm(): JSX.Element {
 
   // Append geojson data to the simple input fields and submit the result to the server
   const onSubmit = (data) => {
+    // Simulates adding geojson data from geoview
     data.map = {geojson: "abc", geojs2: "abcdd"}
     console.log(data)
   };
 
   // Fetch an object from the server and prefil the form with the values. Will allow users to save and reload incomplete forms and view/edit complet ones.
   const loadData = (data) => {
+    // Simulates getting data from server and ovewriting field values
     setValue('firstName', 'Value loaded from server')
   }
 
@@ -36,4 +38,4 @@ function FormikCreationForm(): JSX.Element {
     );
 }
 
-export default FormikCreationForm;
+export default CreationForm;
