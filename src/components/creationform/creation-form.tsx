@@ -7,21 +7,21 @@ function CreationForm(): JSX.Element {
         register,
         handleSubmit,
         formState: { errors },
-        setValue
+        setValue,
     } = useForm();
 
-  // Append geojson data to the simple input fields and submit the result to the server
-  const onSubmit = (data) => {
-    // Simulates adding geojson data from geoview
-    data.map = {geojson: "abc", geojs2: "abcdd"}
-    console.log(data)
-  };
+    // Append geojson data to the simple input fields and submit the result to the server
+    const onSubmit = (data) => {
+        // Simulates adding geojson data from geoview
+        data.map = { geojson: 'abc', geojs2: 'abcdd' };
+        console.log(data);
+    };
 
-  // Fetch an object from the server and prefil the form with the values. Will allow users to save and reload incomplete forms and view/edit complet ones.
-  const loadData = (data) => {
-    // Simulates getting data from server and ovewriting field values
-    setValue('firstName', 'Value loaded from server')
-  }
+    // Fetch an object from the server and prefil the form with the values. Will allow users to save and reload incomplete forms and view/edit complet ones.
+    const loadData = (data) => {
+        // Simulates getting data from server and ovewriting field values
+        setValue('firstName', 'Value loaded from server');
+    };
 
     return (
         <div className="creation-form">
