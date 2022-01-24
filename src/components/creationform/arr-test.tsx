@@ -1,6 +1,7 @@
 // This is here as a reference implementation of an array form field
 import * as React from 'react';
 import { useForm, useFieldArray, useWatch, Control } from 'react-hook-form';
+import './creation-form.css';
 
 type FormValues = {
     cart: {
@@ -38,12 +39,12 @@ function ArrTest(): JSX.Element {
     const onSubmit = (data: FormValues) => console.log(data);
 
     return (
-        <div>
+        <div class="creation-form">
             <form onSubmit={handleSubmit(onSubmit)}>
                 {fields.map((field, index) => {
                     return (
-                        <div key={field.id}>
-                            <section className="section" key={field.id}>
+                        <div class="custom-tag container" key={field.id}>
+                            <div key={field.id}>
                                 <input
                                     placeholder="name"
                                     {...register(`cart.${index}.name` as const, {
@@ -51,28 +52,10 @@ function ArrTest(): JSX.Element {
                                     })}
                                     className={errors?.cart?.[index]?.name ? 'error' : ''}
                                 />
-                                <input
-                                    placeholder="quantity"
-                                    type="number"
-                                    {...register(`cart.${index}.quantity` as const, {
-                                        valueAsNumber: true,
-                                        required: true,
-                                    })}
-                                    className={errors?.cart?.[index]?.quantity ? 'error' : ''}
-                                />
-                                <input
-                                    placeholder="value"
-                                    type="number"
-                                    {...register(`cart.${index}.price` as const, {
-                                        valueAsNumber: true,
-                                        required: true,
-                                    })}
-                                    className={errors?.cart?.[index]?.price ? 'error' : ''}
-                                />
-                                <button type="button" onClick={() => remove(index)}>
+                                <button type="button" class="btn btn-primary" onClick={() => remove(index)}>
                                     DELETE
                                 </button>
-                            </section>
+                        </div>
                         </div>
                     );
                 })}
