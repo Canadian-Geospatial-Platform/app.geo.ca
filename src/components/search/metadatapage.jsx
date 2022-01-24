@@ -61,8 +61,8 @@ const MetaDataPage = () => {
     // const { rid } = useParams();
     const dsLang = {'eng': 'English', 'fra': 'Français', 'eng,fra': 'ENG & FRA'};
     const licenceOrgs = 
-        { "en": ["Canada", "Alberta", "British Columbia", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Quebec", "Yukon", "Prince Edward Island"],
-          "fr": ["Canada", "Alberta", "Colombie-Britannique", "Terre-Neuve-et-Labrador", "Nouvelle-Écosse", "Ontario", "Québec", "Yukon", "Île-du-Prince-Édouard"] };
+        { "en": ["Canada", "Alberta", "British Columbia", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Quebec", "Yukon", "Prince Edward Island", "New Brunswick"],
+          "fr": ["Canada", "Alberta", "Colombie-Britannique", "Terre-Neuve-et-Labrador", "Nouvelle-Écosse", "Ontario", "Québec", "Yukon", "Île-du-Prince-Édouard", "Nouveau-Brunswick"] };
     const viewParams = {
         uuid: rid, 
         loc: '/result',
