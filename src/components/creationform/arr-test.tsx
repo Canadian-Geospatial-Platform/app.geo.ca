@@ -39,11 +39,13 @@ function ArrTest(): JSX.Element {
     const onSubmit = (data: FormValues) => console.log(data);
 
     return (
-        <div class="creation-form">
+        <div className="creation-form">
             <form onSubmit={handleSubmit(onSubmit)}>
                 {fields.map((field, index) => {
                     return (
-                        <div class="custom-tag container" key={field.id}>
+                        <div className="d-flex custom-tag">
+    <div className="mr-auto">
+                        <div className="" key={field.id}>
                             <div key={field.id}>
                                 <input
                                     placeholder="name"
@@ -52,10 +54,22 @@ function ArrTest(): JSX.Element {
                                     })}
                                     className={errors?.cart?.[index]?.name ? 'error' : ''}
                                 />
-                                <button type="button" class="btn btn-primary" onClick={() => remove(index)}>
+                                <div>                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        <div className="">
+                                <button type="button" className="btn btn-primary" onClick={() => remove(index)}>
+                                    DELETE
+                                </button>
+                                </div>
+                                <div className="">
+                                <button type="button" className="btn btn-primary my-auto" onClick={() => remove(index)}>
                                     DELETE
                                 </button>
                         </div>
+
+
                         </div>
                     );
                 })}
