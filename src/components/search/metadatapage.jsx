@@ -222,7 +222,7 @@ const MetaDataPage = () => {
                                         .filter(o=>{return o.protocol!==null && o.url!==null && o.protocol!=='null' && o.url!=='null'})
                                         .map((option) => {
                                             const desc = option.description[language].split(";");
-                                            return {name:option.name[language], type:desc[0], format: desc[1], language: desc[2].toLowerCase()==='zxx'?t('page.nlcontent') :dsLang[desc[2]], url: option.url}; 
+                                            return {name:option.name[language], type:desc[0], format: desc[1], language: t(`page.${desc[2].toLowerCase().replace(',', '')}`), url: option.url}; 
                                         });  
 
                         const tcRange = ['N/A', 'N/A'];
