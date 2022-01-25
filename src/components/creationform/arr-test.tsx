@@ -32,11 +32,11 @@ function ArrTest(): JSX.Element {
         formState: { errors },
     } = useForm<FormValues>({
         defaultValues: {
-            cart: [{ name: 'test', quantity: 1, price: 23 }],
+            cart: [{ name: 'test dfsaf', editmode: false, quantity: 1, price: 23 }],
         },
         mode: 'onBlur',
     });
-    const { fields, append, remove } = useFieldArray({
+    const { fields, append, remove, update } = useFieldArray({
         name: 'cart',
         control,
     });
@@ -47,10 +47,11 @@ function ArrTest(): JSX.Element {
             <form onSubmit={handleSubmit(onSubmit)}>
                 {fields.map((field, index) => {
                     return (
-                        <div className="d-flex align-items-stretch custom-tag">
+                        <div key={field.id} className="d-flex align-items-stretch custom-tag">
                             <div className="mr-auto">
-                                <div className="" key={field.id}>
-                                    <div key={field.id}>
+                                <div>
+                                    {!field.editmode && field.name}
+                                    {field.editmode && (
                                         <input
                                             placeholder="name"
                                             {...register(`cart.${index}.name` as const, {
@@ -58,11 +59,17 @@ function ArrTest(): JSX.Element {
                                             })}
                                             className={errors?.cart?.[index]?.name ? 'error' : ''}
                                         />
-                                        <div> </div>
-                                    </div>
+                                    )}
+                                    <div> </div>
                                 </div>
                             </div>
-                            <div className="icon" onClick={() => remove(index)}>
+                            <div
+                                className="icon"
+                                onClick={() => {
+                                    field.editmode = !field.editmode;
+                                    update(index, field);
+                                }}
+                            >
                                 <EditIcon />
                             </div>
                             <span className="icon" onClick={() => remove(index)}>
