@@ -48,26 +48,26 @@ function ArrTest(): JSX.Element {
                 {fields.map((field, index) => {
                     return (
                         <div className="d-flex align-items-stretch custom-tag">
-    <div className="mr-auto">
-                        <div className="" key={field.id}>
-                            <div key={field.id}>
-                                <input
-                                    placeholder="name"
-                                    {...register(`cart.${index}.name` as const, {
-                                        required: true,
-                                    })}
-                                    className={errors?.cart?.[index]?.name ? 'error' : ''}
-                                />
-                                <div>                        </div>
-                        </div>
-                        </div>
-                        </div>
-                                <div className="icon" onClick={() => remove(index)}>
-                                  <EditIcon className="align-middle"/>
+                            <div className="mr-auto">
+                                <div className="" key={field.id}>
+                                    <div key={field.id}>
+                                        <input
+                                            placeholder="name"
+                                            {...register(`cart.${index}.name` as const, {
+                                                required: true,
+                                            })}
+                                            className={errors?.cart?.[index]?.name ? 'error' : ''}
+                                        />
+                                        <div> </div>
+                                    </div>
                                 </div>
-                                <span className="icon" onClick={() => remove(index)}>
-                                <ClearIcon className="align-middle"/>
-                                </span>
+                            </div>
+                            <div className="icon" onClick={() => remove(index)}>
+                                <EditIcon />
+                            </div>
+                            <span className="icon" onClick={() => remove(index)}>
+                                <ClearIcon />
+                            </span>
                         </div>
                     );
                 })}
