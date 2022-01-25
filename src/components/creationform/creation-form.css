@@ -13,3 +13,12 @@
   border-radius: 5rem;
   padding: 1rem;
 }
+
+.icon {
+  cursor: pointer;
+}
+
+.icon .MuiSvgIcon-root {
+  height: 100%;
+  background-color: red;
+}

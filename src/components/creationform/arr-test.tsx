@@ -1,6 +1,10 @@
 // This is here as a reference implementation of an array form field
 import * as React from 'react';
 import { useForm, useFieldArray, useWatch, Control } from 'react-hook-form';
+import EditIcon from '@material-ui/icons/Edit';
+import ClearIcon from '@material-ui/icons/Clear';
+import CheckIcon from '@material-ui/icons/Check';
+import CancelIcon from '@material-ui/icons/Cancel';
 import './creation-form.css';
 
 type FormValues = {
@@ -43,7 +47,7 @@ function ArrTest(): JSX.Element {
             <form onSubmit={handleSubmit(onSubmit)}>
                 {fields.map((field, index) => {
                     return (
-                        <div className="d-flex custom-tag">
+                        <div className="d-flex align-items-stretch custom-tag">
     <div className="mr-auto">
                         <div className="" key={field.id}>
                             <div key={field.id}>
@@ -58,18 +62,12 @@ function ArrTest(): JSX.Element {
                         </div>
                         </div>
                         </div>
-                        <div className="">
-                                <button type="button" className="btn btn-primary" onClick={() => remove(index)}>
-                                    DELETE
-                                </button>
+                                <div className="icon" onClick={() => remove(index)}>
+                                  <EditIcon className="align-middle"/>
                                 </div>
-                                <div className="">
-                                <button type="button" className="btn btn-primary my-auto" onClick={() => remove(index)}>
-                                    DELETE
-                                </button>
-                        </div>
-
-
+                                <span className="icon" onClick={() => remove(index)}>
+                                <ClearIcon className="align-middle"/>
+                                </span>
                         </div>
                     );
                 })}
