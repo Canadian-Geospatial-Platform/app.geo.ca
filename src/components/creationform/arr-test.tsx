@@ -5,6 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
 import CancelIcon from '@material-ui/icons/Cancel';
+import Pill from './pill';
 import './creation-form.css';
 
 type FormValues = {
@@ -41,21 +42,22 @@ function ArrTest(): JSX.Element {
         control,
     });
     const onSubmit = (data: FormValues) => console.log(data);
+    const [editMode, setEditMode] = useState(false);
+    const [backupName, setBackupName] = useState('');
 
     return (
         <div className="creation-form">
+            <Pill />
             <form onSubmit={handleSubmit(onSubmit)}>
                 {fields.map((field, index) => {
-                    const [editMode, setEditMode] = useState(false);
-                    const [backupName, setBackupName] = useState('');
                     return (
                         <div key={field.id} className="d-flex align-items-stretch custom-tag">
                             <div className="mr-auto">
                                 <div>
-                                    {field.name}
+                                    {`cart.${index}.name`}
                                     <input
                                         placeholder="name"
-                                        {...register(`cart.${index}.name` as const, {
+                                        {...register(`cart.${index}.name`, {
                                             required: true,
                                         })}
                                         className={errors?.cart?.[index]?.name ? 'error' : ''}
