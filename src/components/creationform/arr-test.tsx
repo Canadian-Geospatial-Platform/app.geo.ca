@@ -1,5 +1,5 @@
 // This is here as a reference implementation of an array form field
-import * as React from 'react';
+import { useState } from 'react';
 import { useForm, useFieldArray, useWatch, Control } from 'react-hook-form';
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -32,7 +32,7 @@ function ArrTest(): JSX.Element {
         formState: { errors },
     } = useForm<FormValues>({
         defaultValues: {
-            cart: [{ name: 'test dfsaf', editmode: false, quantity: 1, price: 23 }],
+            cart: [{ name: 'test dfsaf', quantity: 1, price: 23 }],
         },
         mode: 'onBlur',
     });
@@ -46,35 +46,63 @@ function ArrTest(): JSX.Element {
         <div className="creation-form">
             <form onSubmit={handleSubmit(onSubmit)}>
                 {fields.map((field, index) => {
+                    const [editMode, setEditMode] = useState(false);
+                    const [backupName, setBackupName] = useState('');
                     return (
                         <div key={field.id} className="d-flex align-items-stretch custom-tag">
                             <div className="mr-auto">
                                 <div>
-                                    {!field.editmode && field.name}
-                                    {field.editmode && (
-                                        <input
-                                            placeholder="name"
-                                            {...register(`cart.${index}.name` as const, {
-                                                required: true,
-                                            })}
-                                            className={errors?.cart?.[index]?.name ? 'error' : ''}
-                                        />
-                                    )}
+                                    {field.name}
+                                    <input
+                                        placeholder="name"
+                                        {...register(`cart.${index}.name` as const, {
+                                            required: true,
+                                        })}
+                                        className={errors?.cart?.[index]?.name ? 'error' : ''}
+                                    />
                                     <div> </div>
                                 </div>
                             </div>
-                            <div
-                                className="icon"
-                                onClick={() => {
-                                    field.editmode = !field.editmode;
-                                    update(index, field);
-                                }}
-                            >
-                                <EditIcon />
-                            </div>
-                            <span className="icon" onClick={() => remove(index)}>
-                                <ClearIcon />
-                            </span>
+                            {!editMode && (
+                                <div
+                                    className="icon"
+                                    onClick={() => {
+                                        setBackupName(field.name);
+                                        update(index, field);
+                                        setEditMode(!editMode);
+                                    }}
+                                >
+                                    <EditIcon />
+                                </div>
+                            )}
+                            {!editMode && (
+                                <span className="icon" onClick={() => remove(index)}>
+                                    <ClearIcon />
+                                </span>
+                            )}
+                            {editMode && (
+                                <span
+                                    className="icon"
+                                    onClick={() => {
+                                        update(index, field);
+                                        setEditMode(!editMode);
+                                    }}
+                                >
+                                    <CheckIcon />
+                                </span>
+                            )}
+
+                            {editMode && (
+                                <span
+                                    className="icon"
+                                    onClick={() => {
+                                        update(index, field);
+                                        setEditMode(!editMode);
+                                    }}
+                                >
+                                    <CancelIcon />
+                                </span>
+                            )}
                         </div>
                     );
                 })}
