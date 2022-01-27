@@ -19,16 +19,17 @@ function Pill({ setname, field, remove, index }): JSX.Element {
                     <div
                         className="icon"
                         onClick={() => {
-                            // setBackupName(props.name);
                             setEditMode(!editMode);
                         }}
                     >
                         <EditIcon />
                     </div>
-                    <span className="icon"  onClick={() => {
-                          remove(index)
+                    <span
+                        className="icon"
+                        onClick={() => {
+                            remove(index);
                         }}
->
+                    >
                         <ClearIcon />
                     </span>
                 </>
@@ -36,15 +37,19 @@ function Pill({ setname, field, remove, index }): JSX.Element {
             {editMode && (
                 <>
                     <div className="mr-auto">
-                      <input defaultValue={field.name} onChange={(e) => { console.log(e.target.value);setFieldValue(e.target.value);console.log(fieldValue)}}/>
+                        <input
+                            defaultValue={field.name}
+                            onChange={(e) => {
+                                setFieldValue(e.target.value);
+                            }}
+                        />
                     </div>
                     <span
                         className="icon"
                         onClick={() => {
-                            setEditMode(!editMode);
-                            console.log(field);
                             field.name = fieldValue;
                             setname(index, field);
+                            setEditMode(!editMode);
                         }}
                     >
                         <CheckIcon />

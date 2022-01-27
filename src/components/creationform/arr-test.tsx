@@ -9,41 +9,26 @@ import Pill from './pill';
 import './creation-form.css';
 
 type FormValues = {
-    cart: {
+    tags: {
         name: string;
-        price: number;
-        quantity: number;
     }[];
-};
-
-const Total = ({ control }: { control: Control<FormValues> }) => {
-    const formValues = useWatch({
-        name: 'cart',
-        control,
-    });
-    const total = formValues.reduce((acc, current) => acc + (current.price || 0) * (current.quantity || 0), 0);
-    return <p>Total Amount: {total}</p>;
 };
 
 function ArrTest(): JSX.Element {
     const {
-        register,
         control,
         handleSubmit,
         formState: { errors },
     } = useForm<FormValues>({
         defaultValues: {
-            cart: [{ name: 'test dfsaf', quantity: 1, price: 23 }],
+            tags: [],
         },
-        mode: 'onBlur',
     });
     const { fields, append, remove, update } = useFieldArray({
-        name: 'cart',
+        name: 'tags',
         control,
     });
     const onSubmit = (data: FormValues) => console.log(data);
-    const [editMode, setEditMode] = useState(false);
-    const [backupName, setBackupName] = useState('');
 
     function setname(index, field) {
         update(index, field);
@@ -55,20 +40,16 @@ function ArrTest(): JSX.Element {
                 {fields.map((field, index) => {
                     return (
                         <div key={field.id} className="d-flex align-items-stretch custom-tag">
-                            <Pill index={index} setname={setname} field={field} remove={remove}/>
+                            <Pill index={index} setname={setname} field={field} remove={remove} />
                         </div>
                     );
                 })}
-
-                <Total control={control} />
 
                 <button
                     type="button"
                     onClick={() =>
                         append({
                             name: '',
-                            quantity: 0,
-                            price: 0,
                         })
                     }
                 >
