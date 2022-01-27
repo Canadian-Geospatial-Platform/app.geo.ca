@@ -12,10 +12,10 @@ function Pill({ setname, field, remove, index }): JSX.Element {
     const [fieldValue, setFieldValue] = useState(field.name);
 
     return (
-        <div className="d-flex align-items-stretch custom-tag">
+        <div className="d-flex align-items-stretch custom-tag p-2">
             {!editMode && (
                 <>
-                    <div className="mr-auto">{field.name}</div>
+                    <div className="mr-auto px-2 my-auto">{field.name}</div>
                     <div
                         className="icon"
                         onClick={() => {

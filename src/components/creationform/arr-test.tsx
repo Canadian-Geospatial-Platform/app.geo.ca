@@ -1,9 +1,6 @@
 // This is here as a reference implementation of an array form field
 import { useForm, useFieldArray } from 'react-hook-form';
-import EditIcon from '@material-ui/icons/Edit';
-import ClearIcon from '@material-ui/icons/Clear';
-import CheckIcon from '@material-ui/icons/Check';
-import CancelIcon from '@material-ui/icons/Cancel';
+import AddIcon from '@material-ui/icons/Add';
 import Pill from './pill';
 import './creation-form.css';
 
@@ -34,27 +31,18 @@ function ArrTest(): JSX.Element {
     }
 
     return (
-        <div className="creation-form">
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {fields.map((field, index) => {
-                    return (
-                        <div key={field.id} className="d-flex align-items-stretch custom-tag">
-                            <Pill index={index} setname={setname} field={field} remove={remove} />
-                        </div>
-                    );
-                })}
+        <div className="vertical-center">
+            <form className="container" onSubmit={handleSubmit(onSubmit)}>
+                <div className="row d-flex flex-row">
+                    <AddIcon className="custom-tag m-2" onClick={() => append({})} />
 
-                <button
-                    type="button"
-                    onClick={() =>
-                        append({
-                            name: '',
-                        })
-                    }
-                >
-                    APPEND
-                </button>
-                <input type="submit" />
+                    {fields.map((field, index) => {
+                        return <Pill key={field.id} index={index} setname={setname} field={field} remove={remove} />;
+                    })}
+                </div>
+                <div className="row">
+                    <input type="submit" />
+                </div>
             </form>
         </div>
     );

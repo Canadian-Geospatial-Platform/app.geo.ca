@@ -1,17 +1,8 @@
-.creation-form {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
-
 .custom-tag {
   background-color: green;
-  border-radius: 5rem;
-  padding: 1rem;
+  border-radius: 3rem;
+  color: yellow;
+  font-size: 1.2rem;
 }
 
 .icon {
@@ -20,5 +11,11 @@
 
 .icon .MuiSvgIcon-root {
   height: 100%;
-  background-color: red;
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+  display: flex;
+  align-items: center;
 }
