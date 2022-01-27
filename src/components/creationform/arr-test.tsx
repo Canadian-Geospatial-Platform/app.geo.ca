@@ -1,6 +1,6 @@
 // This is here as a reference implementation of an array form field
 import { useState } from 'react';
-import { useForm, useFieldArray, useWatch, Control } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
