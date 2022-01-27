@@ -7,7 +7,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CancelIcon from '@material-ui/icons/Cancel';
 import './creation-form.css';
 
-function Pill({ setname, field }): JSX.Element {
+function Pill({ setname, field, remove, index }): JSX.Element {
     const [editMode, setEditMode] = useState(false);
     const [fieldValue, setFieldValue] = useState(field.name);
 
@@ -25,7 +25,10 @@ function Pill({ setname, field }): JSX.Element {
                     >
                         <EditIcon />
                     </div>
-                    <span className="icon">
+                    <span className="icon"  onClick={() => {
+                          remove(index)
+                        }}
+>
                         <ClearIcon />
                     </span>
                 </>
@@ -41,7 +44,7 @@ function Pill({ setname, field }): JSX.Element {
                             setEditMode(!editMode);
                             console.log(field);
                             field.name = fieldValue;
-                            setname(0, field);
+                            setname(index, field);
                         }}
                     >
                         <CheckIcon />

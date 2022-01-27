@@ -46,8 +46,6 @@ function ArrTest(): JSX.Element {
     const [backupName, setBackupName] = useState('');
 
     function setname(index, field) {
-        console.log(name);
-        console.log(name);
         update(index, field);
     }
 
@@ -57,7 +55,7 @@ function ArrTest(): JSX.Element {
                 {fields.map((field, index) => {
                     return (
                         <div key={field.id} className="d-flex align-items-stretch custom-tag">
-                            <Pill setname={setname} field={field} />
+                            <Pill index={index} setname={setname} field={field} remove={remove}/>
                         </div>
                     );
                 })}
