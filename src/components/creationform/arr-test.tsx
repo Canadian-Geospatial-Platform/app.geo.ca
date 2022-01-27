@@ -33,8 +33,8 @@ function ArrTest(): JSX.Element {
     return (
         <div className="vertical-center">
             <form className="container" onSubmit={handleSubmit(onSubmit)}>
-                <div className="row d-flex flex-row">
-                    <AddIcon className="custom-tag m-2" onClick={() => append({})} />
+                <div className="row d-flex flex-row align-items-center">
+                    <AddIcon className="custom-tag mx-2 my-auto" onClick={() => append({})} />
 
                     {fields.map((field, index) => {
                         return <Pill key={field.id} index={index} setname={setname} field={field} remove={remove} />;
