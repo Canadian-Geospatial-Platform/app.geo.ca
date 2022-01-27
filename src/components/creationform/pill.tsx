@@ -9,7 +9,7 @@ import './creation-form.css';
 
 function Pill({ setname, field }): JSX.Element {
     const [editMode, setEditMode] = useState(false);
-    const [fieldValue, setFieldValue] = useState('');
+    const [fieldValue, setFieldValue] = useState(field.name);
 
     return (
         <div className="d-flex align-items-stretch custom-tag">
@@ -33,7 +33,7 @@ function Pill({ setname, field }): JSX.Element {
             {editMode && (
                 <>
                     <div className="mr-auto">
-                      <input placeholder="name" onChange={(e) => { console.log(e.target.value);setFieldValue(e.target.value);console.log(fieldValue)}}/>
+                      <input defaultValue={field.name} onChange={(e) => { console.log(e.target.value);setFieldValue(e.target.value);console.log(fieldValue)}}/>
                     </div>
                     <span
                         className="icon"
