@@ -7,62 +7,58 @@ import CheckIcon from '@material-ui/icons/Check';
 import CancelIcon from '@material-ui/icons/Cancel';
 import './creation-form.css';
 
-function Pill({setname, field}): JSX.Element {
-  const [editMode, setEditMode] = useState(false);
-  const [backupName, setBackupName] = useState('');
+function Pill({ setname, field }): JSX.Element {
+    const [editMode, setEditMode] = useState(false);
+    const [fieldValue, setFieldValue] = useState('');
 
     return (
-       <div className="d-flex align-items-stretch custom-tag">
-          <div className="mr-auto">
-              <div>
-                  <input
-                      placeholder="name"
-                  />
-                  <div> </div>
-              </div>
-          </div>
-          {!editMode && (
-            <>
-              <div
-                  className="icon"
-                  onClick={() => {
-                      // setBackupName(props.name);
-                      setEditMode(!editMode);
-                  }}
-              >
-                  <EditIcon />
-              </div>
-              <span className="icon" >
-                  <ClearIcon />
-              </span>
-            </>
-          )}
-          {editMode && (
-            <>
-              <span
-                  className="icon"
-                  onClick={() => {
-                      setEditMode(!editMode);
-                      console.log(field)
-                      field.name = "updatedname"
-                      setname(0, field);
-                  }}
-              >
-                  <CheckIcon />
-              </span>
-          
-          
-              <span
-                  className="icon"
-                  onClick={() => {
-                      setEditMode(!editMode);
-                  }}
-              >
-                  <CancelIcon />
-              </span>
-            </>
-          )}
-      </div>)
+        <div className="d-flex align-items-stretch custom-tag">
+            {!editMode && (
+                <>
+                    <div className="mr-auto">{field.name}</div>
+                    <div
+                        className="icon"
+                        onClick={() => {
+                            // setBackupName(props.name);
+                            setEditMode(!editMode);
+                        }}
+                    >
+                        <EditIcon />
+                    </div>
+                    <span className="icon">
+                        <ClearIcon />
+                    </span>
+                </>
+            )}
+            {editMode && (
+                <>
+                    <div className="mr-auto">
+                      <input placeholder="name" onChange={(e) => { console.log(e.target.value);setFieldValue(e.target.value);console.log(fieldValue)}}/>
+                    </div>
+                    <span
+                        className="icon"
+                        onClick={() => {
+                            setEditMode(!editMode);
+                            console.log(field);
+                            field.name = fieldValue;
+                            setname(0, field);
+                        }}
+                    >
+                        <CheckIcon />
+                    </span>
+
+                    <span
+                        className="icon"
+                        onClick={() => {
+                            setEditMode(!editMode);
+                        }}
+                    >
+                        <CancelIcon />
+                    </span>
+                </>
+            )}
+        </div>
+    );
 }
 
 export default Pill;

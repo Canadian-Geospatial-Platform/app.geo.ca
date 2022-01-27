@@ -45,11 +45,11 @@ function ArrTest(): JSX.Element {
     const [editMode, setEditMode] = useState(false);
     const [backupName, setBackupName] = useState('');
 
-  function setname (index, field){
-    console.log(name)
-    console.log(name)
-    update(index, field)
-  };
+    function setname(index, field) {
+        console.log(name);
+        console.log(name);
+        update(index, field);
+    }
 
     return (
         <div className="creation-form">
@@ -57,59 +57,7 @@ function ArrTest(): JSX.Element {
                 {fields.map((field, index) => {
                     return (
                         <div key={field.id} className="d-flex align-items-stretch custom-tag">
-                          <Pill setname={setname} field={field}/>
-                            <div className="mr-auto">
-                                <div>
-                                    <input
-                                        placeholder="name"
-                                        {...register(`cart.${index}.name`, {
-                                            required: true,
-                                        })}
-                                        className={errors?.cart?.[index]?.name ? 'error' : ''}
-                                    />
-                                    <div> </div>
-                                </div>
-                            </div>
-                            {!editMode && (
-                                <div
-                                    className="icon"
-                                    onClick={() => {
-                                        setBackupName(field.name);
-                                        update(index, field);
-                                        setEditMode(!editMode);
-                                    }}
-                                >
-                                    <EditIcon />
-                                </div>
-                            )}
-                            {!editMode && (
-                                <span className="icon" onClick={() => remove(index)}>
-                                    <ClearIcon />
-                                </span>
-                            )}
-                            {editMode && (
-                                <span
-                                    className="icon"
-                                    onClick={() => {
-                                        update(index, field);
-                                        setEditMode(!editMode);
-                                    }}
-                                >
-                                    <CheckIcon />
-                                </span>
-                            )}
-
-                            {editMode && (
-                                <span
-                                    className="icon"
-                                    onClick={() => {
-                                        update(index, field);
-                                        setEditMode(!editMode);
-                                    }}
-                                >
-                                    <CancelIcon />
-                                </span>
-                            )}
+                            <Pill setname={setname} field={field} />
                         </div>
                     );
                 })}
