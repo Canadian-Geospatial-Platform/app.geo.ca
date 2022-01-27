@@ -7,7 +7,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CancelIcon from '@material-ui/icons/Cancel';
 import './creation-form.css';
 
-function Pill(props): JSX.Element {
+function Pill({setname, field}): JSX.Element {
   const [editMode, setEditMode] = useState(false);
   const [backupName, setBackupName] = useState('');
 
@@ -15,7 +15,6 @@ function Pill(props): JSX.Element {
        <div className="d-flex align-items-stretch custom-tag">
           <div className="mr-auto">
               <div>
-                  {props.name}
                   <input
                       placeholder="name"
                   />
@@ -27,7 +26,7 @@ function Pill(props): JSX.Element {
               <div
                   className="icon"
                   onClick={() => {
-                      setBackupName(props.name);
+                      // setBackupName(props.name);
                       setEditMode(!editMode);
                   }}
               >
@@ -44,6 +43,9 @@ function Pill(props): JSX.Element {
                   className="icon"
                   onClick={() => {
                       setEditMode(!editMode);
+                      console.log(field)
+                      field.name = "updatedname"
+                      setname(0, field);
                   }}
               >
                   <CheckIcon />

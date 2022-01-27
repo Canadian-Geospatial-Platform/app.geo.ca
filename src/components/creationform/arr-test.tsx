@@ -45,16 +45,21 @@ function ArrTest(): JSX.Element {
     const [editMode, setEditMode] = useState(false);
     const [backupName, setBackupName] = useState('');
 
+  function setname (index, field){
+    console.log(name)
+    console.log(name)
+    update(index, field)
+  };
+
     return (
         <div className="creation-form">
-            <Pill />
             <form onSubmit={handleSubmit(onSubmit)}>
                 {fields.map((field, index) => {
                     return (
                         <div key={field.id} className="d-flex align-items-stretch custom-tag">
+                          <Pill setname={setname} field={field}/>
                             <div className="mr-auto">
                                 <div>
-                                    {`cart.${index}.name`}
                                     <input
                                         placeholder="name"
                                         {...register(`cart.${index}.name`, {
