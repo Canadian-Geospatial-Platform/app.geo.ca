@@ -52,10 +52,10 @@ export function envglobals() : globalValues {
             default:
                 return {
                     LOGO_SITE_LINK_URL: { 
-                        en: "https://dev.geo.ca/home/index.html",
-                        fr: "https://dev.geo.ca/fr/accueil/index.html"
+                        en: "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/home/",
+                        fr: "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/fr/accueil/"
                     },    
-                    APP_API_DOMAIN_URL: "https://geocore-dev.api.geo.ca",
+                    APP_API_DOMAIN_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev",
                     APP_API_ENDPOINTS: endpoints,
                     APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
                 };
