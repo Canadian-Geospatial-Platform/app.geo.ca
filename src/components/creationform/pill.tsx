@@ -11,6 +11,13 @@ function Pill({ setname, field, remove, index }): JSX.Element {
     const [editMode, setEditMode] = useState(false);
     const [fieldValue, setFieldValue] = useState(field.name);
 
+    const updateName = (e) => {
+        e && e.preventDefault();
+        field.name = fieldValue;
+        setname(index, field);
+        setEditMode(!editMode);
+    };
+
     return (
         <div className="d-flex align-items-stretch custom-tag px-3 py-1 m-1">
             {!editMode && (
@@ -42,16 +49,12 @@ function Pill({ setname, field, remove, index }): JSX.Element {
                             onChange={(e) => {
                                 setFieldValue(e.target.value);
                             }}
+                            onKeyPress={(e) => {
+                                e.key === 'Enter' && updateName(e);
+                            }}
                         />
                     </div>
-                    <span
-                        className="icon"
-                        onClick={() => {
-                            field.name = fieldValue;
-                            setname(index, field);
-                            setEditMode(!editMode);
-                        }}
-                    >
+                    <span className="icon" onClick={updateName}>
                         <CheckIcon />
                     </span>
 

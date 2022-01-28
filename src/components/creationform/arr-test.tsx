@@ -10,7 +10,7 @@ type FormValues = {
     }[];
 };
 
-function ArrTest(): JSX.Element {
+function Tags(): JSX.Element {
     const {
         control,
         handleSubmit,
@@ -32,7 +32,13 @@ function ArrTest(): JSX.Element {
 
     return (
         <div className="vertical-center">
-            <form className="container" onSubmit={handleSubmit(onSubmit)}>
+            <form
+                className="container"
+                onSubmit={(e) => {
+                    console.log('sub');
+                    e.preventDefault();
+                }}
+            >
                 <div className="row d-flex flex-row align-items-center">
                     <AddIcon className="custom-tag mx-2 my-auto" onClick={() => append({})} />
 
@@ -41,11 +47,11 @@ function ArrTest(): JSX.Element {
                     })}
                 </div>
                 <div className="row">
-                    <input type="submit" />
+                    <input type="submit" onClick={handleSubmit(onSubmit)} />
                 </div>
             </form>
         </div>
     );
 }
 
-export default ArrTest;
+export default Tags;
