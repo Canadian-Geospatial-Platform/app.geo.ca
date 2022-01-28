@@ -1,12 +1,13 @@
 .custom-tag {
-  background-color: green;
+  background-color: #2E8B57;
   border-radius: 3rem;
-  color: yellow;
+  color: #F9E9CC;
   font-size: 1.4rem;
 }
 
 .icon {
   cursor: pointer;
+  margin-left: 0.1rem;
 }
 
 .icon .MuiSvgIcon-root {
