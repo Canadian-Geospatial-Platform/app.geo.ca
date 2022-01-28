@@ -59,10 +59,9 @@ const MetaDataPage = () => {
     const inMapping = rid!=="" ? mapping.findIndex((m)=>m.id===rid)>-1 : false;
     const language = t("app.language");
     // const { rid } = useParams();
-    const dsLang = {'eng': 'English', 'fra': 'Français', 'eng,fra': 'ENG & FRA'};
     const licenceOrgs = 
-        { "en": ["Canada", "Alberta", "British Columbia", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Quebec", "Yukon", "Prince Edward Island", "New Brunswick"],
-          "fr": ["Canada", "Alberta", "Colombie-Britannique", "Terre-Neuve-et-Labrador", "Nouvelle-Écosse", "Ontario", "Québec", "Yukon", "Île-du-Prince-Édouard", "Nouveau-Brunswick"] };
+        { "en": ["Alberta", "British Columbia", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Quebec", "Yukon", "Prince Edward Island", "New Brunswick"],
+          "fr": ["Alberta", "Colombie-Britannique", "Terre-Neuve-et-Labrador", "Nouvelle-Écosse", "Ontario", "Québec", "Yukon", "Île-du-Prince-Édouard", "Nouveau-Brunswick"] };
     const viewParams = {
         uuid: rid, 
         loc: '/result',
