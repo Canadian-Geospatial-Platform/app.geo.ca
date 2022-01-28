@@ -44,6 +44,7 @@ function Pill({ setname, field, remove, index }): JSX.Element {
                 <>
                     <div className="mr-auto">
                         <input
+                            autoFocus
                             defaultValue={field.name}
                             onChange={(e) => {
                                 setFieldValue(e.target.value);
