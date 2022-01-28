@@ -4,10 +4,9 @@ import AddIcon from '@material-ui/icons/Add';
 import Pill from './pill';
 import './creation-form.css';
 
+type Tag = { name: string };
 type FormValues = {
-    tags: {
-        name: string;
-    }[];
+    tags: [Tag];
 };
 
 function Tags(): JSX.Element {
@@ -26,7 +25,7 @@ function Tags(): JSX.Element {
     });
     const onSubmit = (data: FormValues) => console.log(data);
 
-    function setname(index, field) {
+    function setname(index: number, field: Tag) {
         update(index, field);
     }
 

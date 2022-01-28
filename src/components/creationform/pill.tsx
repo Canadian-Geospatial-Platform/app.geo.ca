@@ -1,6 +1,5 @@
 // This is here as a reference implementation of an array form field
 import { useState } from 'react';
-import { useForm, useFieldArray, useWatch, Control } from 'react-hook-form';
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
@@ -11,7 +10,7 @@ function Pill({ setname, field, remove, index }): JSX.Element {
     const [editMode, setEditMode] = useState(false);
     const [fieldValue, setFieldValue] = useState(field.name);
 
-    const updateName = (e) => {
+    const updateName = (e: Event) => {
         e && e.preventDefault();
         field.name = fieldValue;
         setname(index, field);
@@ -50,7 +49,7 @@ function Pill({ setname, field, remove, index }): JSX.Element {
                                 setFieldValue(e.target.value);
                             }}
                             onKeyPress={(e) => {
-                                e.key === 'Enter' && updateName(e);
+                                if (e.key === 'Enter') updateName(e);
                             }}
                         />
                     </div>
