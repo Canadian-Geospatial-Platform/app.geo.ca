@@ -64,6 +64,11 @@ body.modal-open .cgp-appbar.leaflet-control {
     font-weight: 500;
     background-color: rgba(255, 255, 255, 0.8) !important;
     min-height: 20px !important;
+    &.leaflet-control {
+        >a {
+            display: none;
+        }
+    }
 }
 
 .leaflet-control-mouseposition {
