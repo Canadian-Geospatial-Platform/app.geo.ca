@@ -14,7 +14,7 @@ import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { useMap, MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import { useMap, MapContainer, TileLayer, GeoJSON, AttributionControl } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
 import SvgIcon from "@material-ui/core/SvgIcon";
@@ -844,11 +844,13 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                     ]}
                                                     zoomControl={false}
                                                     zoom={zoom}
+                                                    attributionControl={false}
                                                 >
                                                     <TileLayer
                                                         url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
                                                         attribution={t('mapctrl.attribution')}
                                                     />
+                                                    <AttributionControl position="bottomleft" prefix={false} />
                                                     <NavBar />
                                                     <GeoJSON
                                                         key={result.id}
