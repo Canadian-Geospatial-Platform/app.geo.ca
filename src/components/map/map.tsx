@@ -72,7 +72,7 @@ export function Map(props: MapProps): JSX.Element {
             <NavBar />
             <MousePosition />
             <ScaleControl position="bottomright" imperial={false} />
-            <AttributionControl position="bottomleft" />
+            <AttributionControl position="bottomleft" prefix={false} />
             <OverviewMap crs={crs} basemaps={basemaps} zoomFactor={mapOptions.zoomFactor} />
         </MapContainer>
     );
