@@ -187,6 +187,11 @@ const MetaDataPage = () => {
         }
     };
 
+    const textParagraphOutput = (paraText) => {
+        const paraArray = paraText.split('\\n');
+        return paraArray.map((pt, i) => pt.trim().length>0 ? <p key={`pt${i}`}>{pt}</p> : <br /> );
+    }
+
     useEffect(() => {
       if (rid !== '') {
           handleSearch(rid);
@@ -266,7 +271,7 @@ const MetaDataPage = () => {
                             <section id="search-result-about" className="sec-search-result sec-search-result-about">
                                 <h2 className="sec-title">{t("page.aboutthisdataset")}</h2>
                                 <div className="search-result-desc">
-                                <p>{result.description}</p>
+                                    {textParagraphOutput(result.description)}
                                 </div>
                                 <div className="search-result-keywords">
                                     <p><strong>{t("page.keywords")}: </strong> {result.keywords.substring(0, result.keywords.length - 2)}</p>
