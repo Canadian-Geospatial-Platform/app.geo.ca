@@ -7,11 +7,11 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import './creation-form.css';
 
 function Pill({ setname, field, remove, index }): JSX.Element {
-    const [editMode, setEditMode] = useState(false);
     const [fieldValue, setFieldValue] = useState(field.name);
+    const [editMode, setEditMode] = useState(false);
 
-    const updateName = (e: Event) => {
-        e && e.preventDefault();
+    const updateName = (e) => {
+                                if(e)e.preventDefault();
         field.name = fieldValue;
         setname(index, field);
         setEditMode(!editMode);
@@ -50,7 +50,11 @@ function Pill({ setname, field, remove, index }): JSX.Element {
                                 setFieldValue(e.target.value);
                             }}
                             onKeyPress={(e) => {
-                                if (e.key === 'Enter') updateName(e);
+                              if (e.key === 'Enter') { 
+                                console.log('before' + editMode)
+                                updateName(e); 
+                                console.log('after' + editMode)
+                              }
                             }}
                         />
                     </div>
