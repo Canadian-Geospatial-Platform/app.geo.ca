@@ -189,7 +189,7 @@ const MetaDataPage = () => {
 
     const textParagraphOutput = (paraText) => {
         const paraArray = paraText.split('\\n');
-        return paraArray.map((pt, i) => pt.trim().length>0 ? <p key={`pt${i}`}>{pt}</p> : <br /> );
+        return paraArray.map((pt, i) => pt.trim().length>0 ? <p key={`pt${i}`}>{pt}</p> : <br key={`pt${i}`} /> );
     }
 
     useEffect(() => {
@@ -216,7 +216,7 @@ const MetaDataPage = () => {
                     <p className="d-flex justify-content-center">
                         {t("page.noresult")}
                     </p> :
-                    results.map((result) => {
+                    results.map((result, rmIndex) => {
                         // console.log(result);
                         const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                         const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
@@ -260,7 +260,7 @@ const MetaDataPage = () => {
                         // console.log(contact, options);
                         
                         return (
-                        <div key={result.id} className="container-search-result container-search-result-two-col">
+                        <div key={`rm-${rmIndex}`} className="container-search-result container-search-result-two-col">
                         <div className="row no-gutters">
                         <main className="col col-12 col-xl-8 main">
                             {/* Header */}
@@ -274,7 +274,7 @@ const MetaDataPage = () => {
                                     {textParagraphOutput(result.description)}
                                 </div>
                                 <div className="search-result-keywords">
-                                    <p><strong>{t("page.keywords")}: </strong> {result.keywords.substring(0, result.keywords.length - 2)}</p>
+                                    <p><strong>{t("page.keywords")}: </strong> {result.keywords}</p>
                                 </div>
                                 <table className="table table-hover caption-top table-search-result table-meta">
                                 <caption>
