@@ -17,7 +17,8 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev",
                     APP_API_ENDPOINTS: endpoints,
-                    APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
+                    APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca",
+                    SITE_NAME: "localhost"
                 };
             case "app-dev.geo.ca":   
                 return {
@@ -27,7 +28,8 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://geocore-dev.api.geo.ca",
                     APP_API_ENDPOINTS: endpoints,
-                    APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
+                    APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca",
+                    SITE_NAME: "dev.geo.ca"
                 };
             case "app-stage.geo.ca":
                 return {
@@ -37,7 +39,8 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://geocore-stage.api.geo.ca",
                     APP_API_ENDPOINTS: endpoints,
-                    APP_GEOCORE_URL: "https://geocore-stage.metadata.geo.ca"
+                    APP_GEOCORE_URL: "https://geocore-stage.metadata.geo.ca",
+                    SITE_NAME: "stage.geo.ca"
                 };
             case "app.geo.ca":
                 return {
@@ -47,7 +50,8 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://geocore.api.geo.ca",
                     APP_API_ENDPOINTS: endpoints,
-                    APP_GEOCORE_URL: "https://geocore.metadata.geo.ca"
+                    APP_GEOCORE_URL: "https://geocore.metadata.geo.ca",
+                    SITE_NAME: "geo.ca"
                 };    
             default:
                 return {
@@ -57,7 +61,8 @@ export function envglobals() : globalValues {
                     },    
                     APP_API_DOMAIN_URL: "https://hqdatl0f6d.execute-api.ca-central-1.amazonaws.com/dev",
                     APP_API_ENDPOINTS: endpoints,
-                    APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca"
+                    APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca",
+                    SITE_NAME: "dev.geo.ca"
                 };
         };
 }; 
@@ -73,7 +78,8 @@ interface globalValues {
         METADATA: string;
         ANALYTIC: string;
     };
-    APP_GEOCORE_URL: string
+    APP_GEOCORE_URL: string;
+    SITE_NAME: string;
 }
 
 

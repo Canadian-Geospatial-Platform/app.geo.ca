@@ -210,7 +210,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             east: bounds._northEast.lng,
             south: bounds._southWest.lat,
             west: bounds._southWest.lng,
-            keyword,
+            keyword: keyword.replace(/"/g, '\\"'),
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
@@ -393,7 +393,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         const searchParams: KOSearchParams = {
-            keyword,
+            keyword: keyword.replace(/"/g, '\\"'),
             keyword_only: 'true',
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
