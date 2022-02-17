@@ -217,6 +217,8 @@ const MetaDataPage = () => {
                     const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                     const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                     const formattedgraphicOverview = result.graphicOverview.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.graphicOverview.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+                    const graphicOverview = formattedgraphicOverview!==null && formattedgraphicOverview!=='' ? JSON.parse(formattedgraphicOverview) : {overviewFileName: ''};
+                    const imageFile = graphicOverview.overviewFileName;
                     const options = JSON.parse(formattedOption)
                                     .filter(o=>{return o.protocol!==null && o.url!==null && o.protocol!=='null' && o.url!=='null'})
                                     .map((option) => {
@@ -260,7 +262,7 @@ const MetaDataPage = () => {
                         <meta property="og:title" content={result.title} />
                         <meta property="og:description" content={result.description} />
                         <meta property="og:type" content="website" />
-                        <meta property="og:image" content={JSON.parse(formattedgraphicOverview).overviewFileName} />
+                        <meta property="og:image" content={imageFile} />
                         <meta property="og:site_name" content={EnvGlobals.SITE_NAME} />
                         <meta property="og:locale" content={`${language}-CA`} />
                         <meta property="og:url" content={window.location.href} />
@@ -269,7 +271,7 @@ const MetaDataPage = () => {
                         <meta name="twitter:title" content={result.title} />
                         <meta name="twitter:description" content={result.description} />
                         <meta name="twitter:site" content="" />
-                        <meta name="twitter:image" content={JSON.parse(formattedgraphicOverview).overviewFileName} />
+                        <meta name="twitter:image" content={imageFile} />
                     </Helmet>    
                     <div className="row no-gutters">
                     <main className="col col-12 col-xl-8 main">
