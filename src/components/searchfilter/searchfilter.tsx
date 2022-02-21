@@ -10,6 +10,15 @@ export default function SearchFilter(props: filterProps): JSX.Element {
     const [fselected, setFilterSelected] = useState(singleselect?[filterselected[0]]:filterselected);
     const [open, setOpen] = useState(false);
     const vtype = filtervalues.length > 0;
+    const filterShowing = filtervalues.map(
+        (f:string, i:number) => {
+          return {"filter": f, "findex": i};
+        }).sort(
+         (a, b) => { 
+            if (a.filter < b.filter) return -1;
+            if (a.filter > b.filter) return 1; 
+            return 0;
+         });
     const selectFilterValue = (findex: number) => {
         const newselected = fselected.map((fs) => fs);
         const selectedIndex = fselected.findIndex((fs) => fs === findex);
@@ -47,12 +56,12 @@ export default function SearchFilter(props: filterProps): JSX.Element {
             </button> }
             <div className="filter-list-wrap">
                 <ul className="list">
-                    {filtervalues.map((filter: string, findex: number) => {
-                        const selected = fselected.findIndex((fs) => fs === findex) > -1;
-                        const inputID = `filter-${filtertitle.replace(/ /g, '-').toLowerCase()}-${findex}`; // create valid html ids for each label/input pair (lowercase is optional)
+                    {filterShowing.map((f: {filter: string, findex: number}) => {
+                        const selected = fselected.findIndex((fs) => fs === f.findex) > -1;
+                        const inputID = `filter-${filtertitle.replace(/ /g, '-').toLowerCase()}-${f.findex}`; // create valid html ids for each label/input pair (lowercase is optional)
                         return (
                             <li
-                                key={filter}
+                                key={`filter-${f.findex}`}
                                 className={
                                     selected
                                         ? 'filterValue checked d-flex flex-row align-items-start list-item'
@@ -60,14 +69,14 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                                 }
                             >
                                 <label htmlFor={inputID} className="label">
-                                    {filter}
+                                    {f.filter}
                                 </label>
                                 <input
                                     id={inputID}
                                     type="checkbox"
                                     className="checkbox"
                                     checked={selected}
-                                    onChange={() => selectFilterValue(findex)}
+                                    onChange={() => selectFilterValue(f.findex)}
                                 />
                             </li>
                         );
