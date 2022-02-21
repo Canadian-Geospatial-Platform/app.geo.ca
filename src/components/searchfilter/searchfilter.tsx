@@ -3,19 +3,22 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import './searchfilter.scss';
 
 export default function SearchFilter(props: filterProps): JSX.Element {
     const { filtertitle, filtervalues, filterselected, selectFilters, singleselect } = props;
     const [fselected, setFilterSelected] = useState(singleselect?[filterselected[0]]:filterselected);
     const [open, setOpen] = useState(false);
+    const { t } = useTranslation();
+    const language = t('app.language');
     const vtype = filtervalues.length > 0;
     const filterShowing = filtervalues.map(
         (f:string, i:number) => {
           return {"filter": f, "findex": i};
         }).sort(
          (a, b) => { 
-            return a.filter.toLowerCase().localeCompare(b.filter.toLowerCase());
+            return a.filter.toLowerCase().localeCompare(b.filter.toLowerCase(), language);
          });
     const selectFilterValue = (findex: number) => {
         const newselected = fselected.map((fs) => fs);
