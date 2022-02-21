@@ -15,9 +15,7 @@ export default function SearchFilter(props: filterProps): JSX.Element {
           return {"filter": f, "findex": i};
         }).sort(
          (a, b) => { 
-            if (a.filter < b.filter) return -1;
-            if (a.filter > b.filter) return 1; 
-            return 0;
+            return a.filter.toLowerCase().localeCompare(b.filter.toLowerCase());
          });
     const selectFilterValue = (findex: number) => {
         const newselected = fselected.map((fs) => fs);
