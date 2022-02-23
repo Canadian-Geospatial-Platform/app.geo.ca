@@ -91,6 +91,10 @@ export default function Header(): JSX.Element {
     if (rvScript) {
         rvScript.remove();
     }
+    const rvApiScript = document.getElementById("rvApi");
+    if (rvApiScript) {
+        rvApiScript.remove();
+    }
     const rvSVG = document.getElementsByTagName("svg");
     if (rvSVG.length>0) {
         for (const item of rvSVG) {

@@ -88,7 +88,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const location = useLocation();
     // const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
-    const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
+    const [initKeyword, setKeyword] = useState( queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const [analyticOrg, setAnalyticOrg] = useState(-1);
     const [open, setOpen] = useState(false);
     const [ksOnly, setKSOnly] = useState(queryParams.ksonly !== undefined);

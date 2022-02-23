@@ -46,7 +46,7 @@ const MetaDataPage = () => {
     const history = useHistory();
     const queryParams = getQueryParams(location.search);
     const {t} = useTranslation();
-
+     
     const mapping = useSelector(state => state.mappingReducer.mapping);
     const dispatch = useDispatch(); 
     
@@ -162,6 +162,15 @@ const MetaDataPage = () => {
             search: `rvKey=${resultid}`,
         });
     };
+
+    const backtoSearch = () => {
+        const {stateKO, stateKeyword, statePn, stateBounds } = location.state;
+        history.push({
+            pathname: '/',
+            search: `keyword=${encodeURI( stateKeyword.trim() )}${stateKO ? '&ksonly' : ''}`,
+            state: {statePn, stateBounds}
+        });
+    }
     
     const handleMetaDataBtn = (mdEvent) => {
         viewParams.event = mdEvent;
@@ -216,9 +225,9 @@ const MetaDataPage = () => {
                 [metaresult].map((result, rmIndex) => {
                     const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
                     const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
-                    const formattedgraphicOverview = result.graphicOverview.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.graphicOverview.replace(/\\"/g, '"').replace(/["]+/g, '"').length-1);
+                    const formattedgraphicOverview = result.graphicOverview.replace(/\\"/g, '"').replace(/["]+/g, '"');
                     const graphicOverview = formattedgraphicOverview!==null && formattedgraphicOverview!=='' ? JSON.parse(formattedgraphicOverview) : {overviewFileName: ''};
-                    const imageFile = graphicOverview.overviewFileName;
+                    const imageFile = graphicOverview.map(o=>o.overviewFileName).join(',');
                     const options = JSON.parse(formattedOption)
                                     .filter(o=>{return o.protocol!==null && o.url!==null && o.protocol!=='null' && o.url!=='null'})
                                     .map((option) => {
@@ -278,6 +287,13 @@ const MetaDataPage = () => {
                         {/* Header */}
                         <div className="search-result-page-title-wrap">
                             <h1 className="search-result-page-title">{result.title}</h1>
+                            <button
+                                className="search-nav-button link-button"
+                                type="button"
+                                onClick={backtoSearch}
+                            >
+                                {t('page.gotogeosearchpage')}
+                            </button>
                         </div>
                         {/* About */}
                         <section id="search-result-about" className="sec-search-result sec-search-result-about">

@@ -85,9 +85,14 @@ const RampViewer = (): JSX.Element => {
         if (rvScript) {
             rvScript.remove();
         }
+        const rvApiScript = document.getElementById("rvApi");
+        if (rvApiScript) {
+            rvApiScript.remove();
+        }
         const rvKeys = queryParams.rvKey ? [queryParams.rvKey]:mapping;
         addMapDiv({id: "rvMap", is: "rv-map", rvLangs: `["${language}-CA"]`, rvKeys});
         appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.js" });
+        appendScript({id: "rvApi", scriptToAppend: "/assets/js/legacy-api.js" });
     }, [language, testDemo]);
 
     return (

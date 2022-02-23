@@ -12,6 +12,7 @@
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
 import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { useMap, MapContainer, TileLayer, GeoJSON, AttributionControl } from 'react-leaflet';
@@ -34,6 +35,11 @@ import './geosearch.scss';
 const EnvGlobals = envglobals();
 const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>void, setKSOnly: (kso:boolean)=>void, initKeyword: string): JSX.Element => {
     const { t } = useTranslation();
+    const history = useHistory();
+    const location = useLocation();
+    const {statePn, stateBounds} = location.state !== undefined ? location.state : {};
+    const [stateLoaded, setStateLoaded] = useState(false);
+    
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
@@ -171,7 +177,16 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         viewParams.foundational = analyticParams.foundational;
     }
     analyticPost(viewParams);
-    window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, `_blank`);
+    history.push({
+        pathname: '/result', 
+        search:`id=${encodeURI(id.trim())}&lang=${language}`, 
+        state: {
+            stateKO: ksOnly,
+            stateKeyword: initKeyword,
+            statePn: pn, 
+            stateBounds: initBounds
+        }
+    });
   }
 
     const handleChange = (e: ChangeEvent) => {
@@ -568,11 +583,12 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             // console.log(fReset);
             if (ksOnly) {
                 if (!fReset) {
-                    handleKOSearch(initKeyword);
+                    handleKOSearch(initKeyword, !stateLoaded? statePn : undefined);
                 }    
             } else {
-                handleSearch(initKeyword, initBounds);
-            }    
+                handleSearch(initKeyword, (!stateLoaded && stateBounds !==undefined) ? stateBounds : initBounds, !stateLoaded? statePn : undefined);
+            }  
+            setStateLoaded(true);  
         }
         const handleResize = () => {
             setPPG(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
@@ -582,7 +598,8 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showing, ksOnly, fReset, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
+    }, [showing, ksOnly, fReset, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational, stateLoaded]);
+    
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
     // console.log(storethemefilters);
