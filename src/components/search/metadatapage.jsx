@@ -286,7 +286,6 @@ const MetaDataPage = () => {
                     <main className="col col-12 col-xl-8 main">
                         {/* Header */}
                         <div className="search-result-page-title-wrap">
-                            <h1 className="search-result-page-title">{result.title}</h1>
                             <button
                                 className="search-nav-button link-button"
                                 type="button"
@@ -294,6 +293,7 @@ const MetaDataPage = () => {
                             >
                                 {t('page.gotogeosearchpage')}
                             </button>
+                            <h1 className="search-result-page-title">{result.title}</h1>
                         </div>
                         {/* About */}
                         <section id="search-result-about" className="sec-search-result sec-search-result-about">
