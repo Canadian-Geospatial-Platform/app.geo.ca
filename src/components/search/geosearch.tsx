@@ -768,7 +768,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                         <BeatLoader color="#515aa9" />
                     </div>
                 ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
-                    <div className="col-12 col-search-message">{t('page.changesearch')}</div>
+                    <div className="col-12 col-search-message">{t('page.noresult')}</div>
                 ) : (
                     <div className="row row-results rowDivider">
                     {ksOnly?results.map((result: SearchResult, mindex:number) => {
