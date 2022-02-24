@@ -31,7 +31,7 @@
         },
         "lccurl": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBCT_TXT_3978/MapServer/WMTS/tile/1.0.0/CBCT_TXT_3978/default/default028mm/{z}/{y}/{x}.jpg",
         "wburl": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBCT_TXT_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBCT_TXT_3857/default/default028mm/{z}/{y}/{x}.png",
-        "attribution": "&copy Sa Majesté la Reine du Chef du Canada, représentée par le ministre des Ressources naturelles"
+        "attribution": "v.1.0.4 &copy Sa Majesté la Reine du Chef du Canada, représentée par le ministre des Ressources naturelles"
     },
     "appbar": {
         "drawer": "Tiroir",
