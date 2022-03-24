@@ -1,0 +1,13 @@
+@mixin cgp-show {
+    visibility: visible;
+    opacity: 1;
+    max-height: unset;
+    transition: visibility 0s linear 0s, opacity 1s ease-in-out, max-height 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+@mixin cgp-hide {
+    visibility: hidden;
+    opacity: 0;
+    max-height: 0;
+    transition: visibility 0s linear 0s, opacity 1s ease-in-out, max-height 0.5s cubic-bezier(0, 1, 0, 1);
+}

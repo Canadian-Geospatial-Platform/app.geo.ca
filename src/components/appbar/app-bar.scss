@@ -1,0 +1,99 @@
+@import '../../assets/css/variables-site/variables-site';
+
+.cgp-appbar {
+    height: calc(100% - 20px);
+    transition: .4s;
+    &.leaflet-control {
+        z-index: 1100;
+    }
+
+    .MuiDrawer-paper {
+        position: relative !important;
+    }
+
+    .cgp-apppanel {
+        display: none;
+        transition: .4s;
+        &.search,
+        &.fsearch,
+        &.account,
+        &.filters,
+        &.analytics,
+        &.howto {
+            display: block;
+            position: fixed;
+            top: 92px;
+            left: 63px;
+            .MuiCard-root.current {
+                display: block;
+            }
+        }
+        .MuiCard-root {
+            margin: 0;
+            display: none;
+            transition: .4s;
+            max-width: calc(100vw - 61px);
+            .MuiCardHeader-root {
+                transition: .4s;
+            }
+            .MuiCardContent-root {
+                height: calc(100vh - 163px);
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+        }
+        .panel-title {
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.43em;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        &.analytics {
+            top: 90px;
+            .MuiCard-root {
+                width: calc(100vw - 61px);
+                max-width: none;
+                .MuiCardHeader-root {
+                    padding: 8px 10px 2px;
+                }    
+                .MuiCardContent-root {
+                    height: calc(100vh - 142px);
+                }    
+            }    
+        }
+        &.search.ks-only {
+            height: 100%;
+            top: 90px;
+            left: 0;
+            right: 0;
+            .MuiCard-root {
+                width: 100%;
+                max-width: none;
+                .MuiCardHeader-root {
+                    height: 0;
+                    display: none;
+                }
+                .MuiCardContent-root {
+                    height: calc(100vh - 93px);
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+
+#app-left-bar.cgp-appbar.kso-show {
+    .MuiListItem-button {
+        display: none;
+    }
+}
+
+#app-left-bar.cgp-appbar.analytic-show ~ div, 
+#app-left-bar.cgp-appbar.analytic-show ~ span,
+#app-left-bar.cgp-appbar.kso-show ~ div, 
+#app-left-bar.cgp-appbar.kso-show ~ span {
+    display: none;
+}
