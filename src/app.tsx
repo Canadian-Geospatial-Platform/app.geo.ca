@@ -1,3 +1,5 @@
+/*Updated for Version 1.0.4*/
+
 /* eslint-disable prettier/prettier */
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
