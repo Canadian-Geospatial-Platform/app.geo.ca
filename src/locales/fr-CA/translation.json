@@ -130,7 +130,15 @@
             "link2": { "url": "http://laws-lois.justice.gc.ca/fra/lois/O-3.01/", "text": "Loi sur les langues officielles"},
             "text3": ", et qu'ils pourraient ne pas être accessibles aux personnes handicapées. Les renseignements offerts pourraient être uniquement disponibles dans la langue utilisée dans le site en question. En ce qui concerne la protection des renseignements personnels, les visiteurs devraient vérifier les politiques de confidentialité de ce site Web non gouvernemental avant de fournir leurs renseignements personnels."
           },
-
+        "dwhheader": "Mis à disposition par le Moissonneur web de l'Infrastructure canadienne de données géospatiales",
+        "dwh0": "Ce service Web est généré à partir d'un moissonneur de services Web géospatiaux développé pour l'Infrastructure canadienne de données géospatiales. Il est en développement continu et mis à jour chaque semaine. Ces enregistrements sont susceptibles d'être modifiés en fonction de la disponibilité du point de terminaison de service géré par des parties externes.",
+        "dwh1": "Ces ressources ne sont pas contrôlées par le gouvernement du Canada, et l'hyperlien est fourni uniquement pour la facilité d'utilisation des visiteurs de notre site Web. Nous ne sommes pas responsables de l'exactitude, l'actualité et la fiabilité du contenu. Le gouvernement du Canada n'offre aucune garantie à cet égard et n'est pas responsable des renseignements trouvés par l'entremise de ce lien.",
+        "dwh2": { "text1": "Les visiteurs devraient également savoir que les renseignements offerts par l'entremise de ce site Web ne sont pas gérés par le gouvernement du Canada et ne relèvent pas de la ",
+            "link1": { "url" : "http://laws-lois.justice.gc.ca/fra/lois/P-21/index.html", "text" : "Loi sur la protection des renseignements personnels"},
+            "text2": " ni de la ",
+            "link2": { "url": "http://laws-lois.justice.gc.ca/fra/lois/O-3.01/", "text": "Loi sur les langues officielles"},
+            "text3": ", et qu'ils pourraient ne pas être accessibles aux personnes handicapées. Les renseignements offerts pourraient être uniquement disponibles dans la langue utilisée dans le site en question. En ce qui concerne la protection des renseignements personnels, les visiteurs devraient vérifier les politiques de confidentialité de ce site Web non gouvernemental avant de fournir leurs renseignements personnels."
+          },
         "name": "Nom",
         "type": "Type",
         "format": "Format",
@@ -168,7 +176,7 @@
         "numberofacesses": "Nombre d'accès",
         "last30": "Les 30 derniers jours",
         "alltime": "Tout le temps",
-        "share": "Partager" 
+        "share": "Partager"
     },
     "modal": {
         "buttonlabel": "Fermer",

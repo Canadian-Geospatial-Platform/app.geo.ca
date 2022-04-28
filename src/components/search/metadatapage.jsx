@@ -32,7 +32,7 @@ import {
   } from "react-share";
 import { NavBar } from '../navbar/nav-bar';
 import { loadState } from '../../reducers/localStorage';
-import { getQueryParams } from '../../common/queryparams'; 
+import { getQueryParams } from '../../common/queryparams';
 import { envglobals } from '../../common/envglobals';
 import {analyticPost, analyticGet} from '../../common/analytic';
 // import { css } from "@emotion/core";
@@ -46,10 +46,10 @@ const MetaDataPage = () => {
     const history = useHistory();
     const queryParams = getQueryParams(location.search);
     const {t} = useTranslation();
-     
+
     const mapping = useSelector(state => state.mappingReducer.mapping);
-    const dispatch = useDispatch(); 
-    
+    const dispatch = useDispatch();
+
     const [loading, setLoading] = useState(true);
     const [metaresult, setResult] = useState(null);
     const [analyticLoading, setAnalyticLoading] = useState(true);
@@ -58,11 +58,11 @@ const MetaDataPage = () => {
     const rid = queryParams && queryParams.id?queryParams.id.trim():"";
     const inMapping = rid!=="" ? mapping.findIndex((m)=>m.id===rid)>-1 : false;
     const language = t("app.language");
-    const licenceOrgs = 
+    const licenceOrgs =
         { "en": ["Alberta", "British Columbia", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Quebec", "Yukon", "Prince Edward Island", "New Brunswick"],
           "fr": ["Alberta", "Colombie-Britannique", "Terre-Neuve-et-Labrador", "Nouvelle-Écosse", "Ontario", "Québec", "Yukon", "Île-du-Prince-Édouard", "Nouveau-Brunswick"] };
     const viewParams = {
-        uuid: rid, 
+        uuid: rid,
         loc: '/result',
         lang: language,
         type: 'use'
@@ -91,7 +91,7 @@ const MetaDataPage = () => {
           id,
           lang: language,
       };
-      
+
       axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: searchParams})
       .then(response => response.data)
       .then((data) => {
@@ -111,9 +111,9 @@ const MetaDataPage = () => {
 
     const handleAnalytic = (id) => {
         setAnalyticLoading(true);
-  
+
         analyticGet(
-            '10', 
+            '10',
             {uuid:id, lang: language},
             (res) => {
                 setAnalytic(JSON.parse(res.data));
@@ -123,7 +123,7 @@ const MetaDataPage = () => {
                 setAnalytic({});
                 setAnalyticLoading(false);            }
         );
-  
+
       };
 
     const showMapping = () => {
@@ -134,10 +134,10 @@ const MetaDataPage = () => {
             mcntButton.className = cmapping.length>0 ? "show" : "hidden";
         }
     };
-    
+
     const changeMapping = (resultid) => {
         const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
-        // const changeId = resultid 
+        // const changeId = resultid
         const rIndex = localmapping.findIndex(m => m.id === resultid);
         const newMapping = localmapping.map(m => m);
         if (rIndex > -1) {
@@ -145,15 +145,15 @@ const MetaDataPage = () => {
         } else {
             newMapping.push({
                 id: resultid,
-                title: metaresult.mappingtitle 
+                title: metaresult.mappingtitle
             });
             viewParams.event = 'map';
             analyticPost(viewParams);
         }
         dispatch(setMapping(newMapping));
         showMapping();
-    }; 
-  
+    };
+
     const viewOnMap = (resultid) => {
         viewParams.event = 'map';
         analyticPost(viewParams);
@@ -171,19 +171,19 @@ const MetaDataPage = () => {
             state: {statePn, stateBounds}
         });
     }
-    
+
     const handleMetaDataBtn = (mdEvent) => {
         viewParams.event = mdEvent;
         analyticPost(viewParams);
     };
-    
+
     const resourceClick = (rname, rtype) => {
         viewParams.event = 'resource';
         viewParams.resource_name = rname;
         viewParams.resource_type = rtype;
         analyticPost(viewParams);
     }
-    
+
     const getInMapping = () => {
        const cinMapping = (loadState()!==undefined && rid!=="") ? loadState().mappingReducer.mapping.findIndex((m)=>m.id===rid)>-1 : false;
        const ammButton = document.getElementById("addMyMap");
@@ -203,11 +203,11 @@ const MetaDataPage = () => {
           handleSearch(rid);
           handleAnalytic(rid);
       }
-      
+
       window.addEventListener('storage', getInMapping);
       return () => {
             window.removeEventListener('storage', getInMapping);
-      }; 
+      };
     }, [language, rid]);
 
     return (
@@ -232,8 +232,8 @@ const MetaDataPage = () => {
                                     .filter(o=>{return o.protocol!==null && o.url!==null && o.protocol!=='null' && o.url!=='null'})
                                     .map((option) => {
                                         const desc = option.description[language].split(";");
-                                        return {name:option.name[language], type:desc[0], format: desc[1], language: t(`page.${desc[2].toLowerCase().replace(',', '')}`), url: option.url}; 
-                                    });  
+                                        return {name:option.name[language], type:desc[0], format: desc[1], language: t(`page.${desc[2].toLowerCase().replace(',', '')}`), url: option.url};
+                                    });
 
                     const tcRange = ['N/A', 'N/A'];
                     result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").forEach((date)=>{
@@ -245,11 +245,11 @@ const MetaDataPage = () => {
                             if (dateStr[0].toLowerCase()==='end') {
                                 tcRange[1] = dateStr[1];
                             }
-                            
+
                         }
-                    });                
-                                    
-                    const activeMap = options.findIndex((o)=> o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE' || o.type.toUpperCase() === 'SERVICE WEB') > -1;                
+                    });
+
+                    const activeMap = options.findIndex((o)=> o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE' || o.type.toUpperCase() === 'SERVICE WEB') > -1;
                     const contact =   JSON.parse(formattedContact);
                     const coordinates = JSON.parse(result.coordinates);
 
@@ -263,8 +263,9 @@ const MetaDataPage = () => {
                     const zoom = Math.max(Math.log2(3600000/resolution), 1);
                     const useL = result.useLimits.match(/^(.+) [–|-] (.+)\((.+)\)$/);
                     const showDisclaimer=Array.isArray(useL) && licenceOrgs[language].findIndex(p => p.toLowerCase() === useL[2].trim().toLowerCase())>-1;
+                    const showWHDisclaimer = result.source_system_name.includes('(CGDI)');
                     // console.log(contact, options);
-                    
+
                     return (
                     <div key={`rm-${rmIndex}`} className="container-search-result container-search-result-two-col">
                     <Helmet>
@@ -281,7 +282,7 @@ const MetaDataPage = () => {
                         <meta name="twitter:description" content={result.description} />
                         <meta name="twitter:site" content="" />
                         <meta name="twitter:image" content={imageFile} />
-                    </Helmet>    
+                    </Helmet>
                     <div className="row no-gutters">
                     <main className="col col-12 col-xl-8 main">
                         {/* Header */}
@@ -330,21 +331,31 @@ const MetaDataPage = () => {
                                 </tr>
                                 <tr>
                                 <th scope="row">{t("page.uselimits")}</th>
-                                <td>{useL===null ? result.useLimits : 
-                                        [1].map((x)=>{ 
+                                <td>{useL===null ? result.useLimits :
+                                        [1].map((x)=>{
                                             return (
                                     <div key={x}>
                                         {useL[1]} - {useL[2]}<a className="table-cell-text-link" href={useL[3]} target="_blank">{useL[3]}</a>
                                     </div>)})}
                                 </td>
                                 </tr>
-                                {showDisclaimer && 
+                                {showDisclaimer &&
                                 <tr>
                                 <th scope="row">{t("page.disclaimer")}</th>
                                 <td>
                                     <p>{t("page.dcheader")}{useL[2]}</p>
                                     <p>{t("page.dcp1")}</p>
                                     <p>{t("page.dcp2.text1")}<a className="table-cell-text-link" href={t("page.dcp2.link1.url")} target="_blank">{t("page.dcp2.link1.text")}</a>{t("page.dcp2.text2")}<a className="table-cell-text-link" href={t("page.dcp2.link2.url")} target="_blank">{t("page.dcp2.link2.text")}</a>{t("page.dcp2.text3")}</p>
+                                </td>
+                                </tr>}
+                                {showWHDisclaimer &&
+                                <tr>
+                                <th scope="row">{t("page.disclaimer")}</th>
+                                <td>
+                                    <p>{t("page.dwhheader")}</p>
+                                    <p>{t("page.dwh0")}</p>
+                                    <p>{t("page.dwh1")}</p>
+                                    <p>{t("page.dwh2.text1")}<a className="table-cell-text-link" href={t("page.dwh2.link1.url")} target="_blank">{t("page.dwh2.link1.text")}</a>{t("page.dwh2.text2")}<a className="table-cell-text-link" href={t("page.dwh2.link2.url")} target="_blank">{t("page.dwh2.link2.text")}</a>{t("page.dwh2.text3")}</p>
                                 </td>
                                 </tr>}
                             </tbody>
@@ -518,20 +529,20 @@ const MetaDataPage = () => {
                                 <div className="card-wrap">
                                     <div className="card">
                                         <h4 className="card-title">{t("page.last30")}</h4>
-                                        <p className="card-count">{analyticLoading ? 
+                                        <p className="card-count">{analyticLoading ?
                                             <BeatLoader color="#515AA9" />
-                                            : ( isNaN(analyticRes["30"]) ? 
-                                                <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
+                                            : ( isNaN(analyticRes["30"]) ?
+                                                <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span>
                                                 :analyticRes["30"]
                                             )}
                                         </p>
                                     </div>
                                     <div className="card">
                                     <h4 className="card-title">{t("page.alltime")}</h4>
-                                        <p className="card-count">{analyticLoading ? 
+                                        <p className="card-count">{analyticLoading ?
                                             <BeatLoader color="#515AA9" />
-                                            : ( isNaN(analyticRes.all) ? 
-                                                <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span> 
+                                            : ( isNaN(analyticRes.all) ?
+                                                <span>{t("analytic.loadingfailed")}, <button type="button" className="link-button" onClick={()=>handleAnalytic(rid)}>{t("analytic.tryagain")}</button></span>
                                                 :analyticRes.all
                                             )}
                                         </p>
