@@ -31,7 +31,7 @@
         },
         "lccurl": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3978/MapServer/WMTS/tile/1.0.0/CBMT_TXT_3978/default/default028mm/{z}/{y}/{x}.jpg",
         "wburl": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_TXT_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_TXT_3857/default/default028mm/{z}/{y}/{x}.png",
-        "attribution": "v.1.0.4 &copy Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources"
+        "attribution": "v.1.0.5 &copy Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources"
     },
     "appbar": {
         "drawer": "Drawer",
