@@ -147,6 +147,7 @@
         "eng": "Anglais",
         "fra": "Français",
         "engfra": "Français et Anglais",
+        "unk": "inconnu",
         "zxx": "Pas de contenu linguistique",
         "organization": "Organisation",
         "address": "Adresse",

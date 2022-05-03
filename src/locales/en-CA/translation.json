@@ -147,6 +147,7 @@
         "eng": "English",
         "fra": "French",
         "engfra": "English and French",
+        "unk": "Unknown",
         "zxx": "'No linguistic content",
         "organization": "Organization",
         "address": "Address",
