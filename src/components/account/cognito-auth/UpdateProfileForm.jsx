@@ -2,7 +2,6 @@ import React, {useState}  from 'react';
 //import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useStore } from 'react-redux';
-import { updateAttributes } from 'react-cognito';
 
 const UpdateProfileForm = () => {
   const store = useStore();

@@ -1,15 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  CognitoState,
-//  Logout,
-  Login,
-  NewPasswordRequired,
-  EmailVerification,
-  PasswordReset,
-  Confirm,
-} from 'react-cognito';
 import Logout from './Logout';
 //import LogoutButton from './LogoutButton';
 import LoginForm from './LoginForm';

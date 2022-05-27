@@ -61,7 +61,6 @@
     "lodash.throttle": "^4.1.1",
     "proj4leaflet": "1.0.2",
     "react": "^17.0.1",
-    "react-cognito": "^1.5.4",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "react-i18next": "11.8.0",

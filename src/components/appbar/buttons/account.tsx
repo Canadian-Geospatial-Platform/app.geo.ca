@@ -7,7 +7,6 @@ import { useMap } from 'react-leaflet';
 import AccountPanel from '../../account/account-panel';
 import ButtonApp from '../button';
 
-import { setupCognito, cognito } from 'react-cognito';
 import { combineReducers, createStore } from 'redux';
 import config from '../../account/cognito-auth/config.json';
 

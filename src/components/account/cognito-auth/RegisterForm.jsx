@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 //import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import { useStore } from 'react-redux';
-import { registerUser } from 'react-cognito';
 import axios from "axios";
 //import { LinkedCameraTwoTone } from '@material-ui/icons';
 

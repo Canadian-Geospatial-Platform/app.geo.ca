@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Action } from 'react-cognito';
 import { useStore } from 'react-redux';
 import LogoutButton from './LogoutButton';
  
