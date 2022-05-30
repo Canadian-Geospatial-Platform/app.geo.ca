@@ -6,7 +6,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector} from "react-redux";
-import { useLocation, useHistory } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import BeatLoader from "react-spinners/BeatLoader";
@@ -19,7 +19,7 @@ import './mappingmodal.scss';
 
 const MappingModal = (props: MappingModalProps) => {
     const { className, wrapClassName, modalClassName, isTestDemo, openOnLoad, toggle, onClosed } = props;
-    const history = useHistory();
+    const history = useNavigate();
     const location = useLocation();
     const { t } = useTranslation();
     const mapping = useSelector(state=>state.mappingReducer.mapping);

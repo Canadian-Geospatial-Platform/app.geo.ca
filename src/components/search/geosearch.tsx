@@ -12,7 +12,7 @@
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
 import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { useMap, MapContainer, TileLayer, GeoJSON, AttributionControl } from 'react-leaflet';
@@ -35,7 +35,7 @@ import './geosearch.scss';
 const EnvGlobals = envglobals();
 const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>void, setKSOnly: (kso:boolean)=>void, initKeyword: string): JSX.Element => {
     const { t } = useTranslation();
-    const history = useHistory();
+    const history = useNavigate();
     const location = useLocation();
     const {statePn, stateBounds} = location.state !== undefined ? location.state : {};
     const [stateLoaded, setStateLoaded] = useState(false);

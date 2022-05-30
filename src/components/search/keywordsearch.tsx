@@ -5,7 +5,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
-import { useLocation, useHistory } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { StoreEnhancer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -35,7 +35,7 @@ const EnvGlobals = envglobals();
 const KeywordSearch = (): JSX.Element => {
     const location = useLocation();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);
-    const history = useHistory();
+    const history = useNavigate();
     const { t } = useTranslation();
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 6 : 4);

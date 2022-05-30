@@ -13,7 +13,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Helmet from 'react-helmet';
-import {useLocation, useHistory} from 'react-router';
+import {useLocation, useNavigate} from 'react-router';
 // import {useParams} from 'react-router-dom';
 import { useDispatch, useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
@@ -43,7 +43,7 @@ const EnvGlobals = envglobals();
 
 const MetaDataPage = () => {
     const location = useLocation();
-    const history = useHistory();
+    const history = useNavigate();
     const queryParams = getQueryParams(location.search);
     const {t} = useTranslation();
      

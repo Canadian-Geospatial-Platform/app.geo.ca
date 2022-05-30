@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 //import PropTypes from 'prop-types';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from 'react-redux';
 import axios from "axios";
 //import { LinkedCameraTwoTone } from '@material-ui/icons';
@@ -8,7 +8,7 @@ import axios from "axios";
 const RegisterForm = () => {
   const store = useStore();
   const state = store.getState();
-  const history = useHistory();
+  const history = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [emailAddr, setEmail] = useState("");

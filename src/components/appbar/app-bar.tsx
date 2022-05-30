@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-nested-ternary */
 import { useState, useRef, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router';
+import { useLocation } from 'react-router';
 // import { useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
@@ -84,7 +84,6 @@ const useStyles = (panel: string) => makeStyles((theme) => ({
 export function Appbar(props: AppBarProps): JSX.Element {
     const { search, auth } = props;
     const { t } = useTranslation();
-    // const history = useHistory();
     const location = useLocation();
     // const dispatch = useDispatch();
     const queryParams: { [key: string]: string } = getQueryParams(location.search);

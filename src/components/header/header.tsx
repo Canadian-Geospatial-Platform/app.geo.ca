@@ -7,7 +7,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect } from 'react';
 // import { useSelector } from "react-redux";
-import { useLocation, useHistory } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { Collapse, Button } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,7 @@ import './header.scss';
 const EnvGlobals = envglobals();
 
 export default function Header(): JSX.Element {
-    const history = useHistory();
+    const history = useNavigate();
     const location = useLocation();
     const { t } = useTranslation();
     const dispatch = useDispatch();

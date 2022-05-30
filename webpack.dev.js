@@ -11,10 +11,7 @@ const config = {
     devServer: {
         host: process.env.IP,
         https: false,
-        disableHostCheck: true,
-        contentBase: path.resolve(__dirname, 'public'),
         historyApiFallback: true,
-        overlay: true,
         hot: true,
         port: 8001,
         compress: true,

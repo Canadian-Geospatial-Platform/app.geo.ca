@@ -2,7 +2,6 @@ import L from 'leaflet';
 
 // TODO: look at a bundler for esri-leaflet: https://github.com/esri/esri-leaflet-bundler
 import { featureLayer, dynamicMapLayer } from 'esri-leaflet';
-import 'esri-leaflet-renderers';
 
 // TODO: this needs cleaning some layer type like WMS are part of react-leaflet and can be use as a component
 /**

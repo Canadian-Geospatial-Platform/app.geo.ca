@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore, StoreEnhancer } from 'redux';
 import throttle from 'lodash.throttle';
@@ -97,14 +97,14 @@ const Routing = () => {
         <Router>
             {/* <StrictMode> */}
                 <Header />
-                <Switch>
+                <Route>
                     <Route exact path="/" component={RenderMap} />
                     {/* <Route exact path="/search" component={KeywordSearch} /> */}
                     <Route exact path="/result" component={MetaDataPage} />
                     <Route exact path="/map" component={RampViewer} />
                     <Route path="/404" render={() => <div>404 - Not Found</div>} />
-                    <Redirect to="/404" />
-                </Switch>
+                    <Navigate to="/404" />
+                </Route>
             {/* </StrictMode> */}
         </Router>
     );
