@@ -16,7 +16,7 @@ const [major, minor, patch] = package.version.split('.');
 console.log(`Build CGP Viewer: ${major}.${minor}.${patch}`);
 
 const config = {
-    entry: path.resolve(__dirname, 'src/app.tsx'),
+    entry: path.resolve(__dirname, 'src/index.tsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'gcpv-main.js',
@@ -77,7 +77,7 @@ const config = {
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html',
-            title: 'Canadian Geospatial Platform Viewer',
+            title: 'Canadian Geospatial Platform Viewer'
         }),
         new webpack.DefinePlugin({
             __VERSION__: {
