@@ -6,12 +6,12 @@ export function getQueryParams(querystring: string):{ [key: string]: string } {
         querystring
             .substr(1)
             .split('&')
+            .replace(/\+/g, ' ')
             .forEach((q: string) => {
                 const item = q.split('=');
                 /* const item = item_split.replace(/\+/g, ' ');*/
                 queryParams[item[0]] = decodeURI(item[1]);
             });
-        console.log(querystring);
     }
     return queryParams;
 }
