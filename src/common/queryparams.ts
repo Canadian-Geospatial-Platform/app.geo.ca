@@ -8,10 +8,10 @@ export function getQueryParams(querystring: string):{ [key: string]: string } {
             .split('&')
             .forEach((q: string) => {
                 const item = q.split('=');
-                console.log(typeof item);
                 /* const item = item_split.replace(/\+/g, ' ');*/
                 queryParams[item[0]] = decodeURI(item[1]);
             });
+        console.log(querystring);
     }
     return queryParams;
 }
