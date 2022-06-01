@@ -49,12 +49,13 @@
         "howto": "Comment",
         "share": "Partager",
         "version": "Accéder au repo sur GitHub",
-        "opendrawer": "Ouvrir la boîte à outils de recherche"
+        "opendrawer": "Ouvrir la boîte à outils de recherche",
+        "searchoperators": "Opérateurs de recherche"
     },
     "filter": {
         "filterby": "Filtrer par",
         "organisations": "Organisations",
-        "types": "Les Thème",
+        "types": "Les Thèmes",
         "themes": "Thèmes",
         "foundational": "Données de base du Canada",
         "otherfilters": "Autres Filtres",
@@ -84,7 +85,8 @@
     "howto": {
         "geosearchdescription": "L'application recherche utilise une carte pour rechercher des données dans la zone indiquée. Effectuez un panoramique et un zoom sur la carte pour filtrer le contenu en fonction de la zone qui vous intéresse. Les résultats seront rafraîchis en fonction de la zone de la carte. Si vous n'êtes pas intéressé par une zone géographique donnée. Cliquez sur le bouton Mot-clé uniquement, saisissez un mot-clé et filtrez les résultats à l'aide de nos filtres avancés.",
         "keywordsearchdescription": "La page de recherche par mot-clé peut être utilisée si vous n'êtes pas intéressé par une zone géographique donnée. Saisissez un mot-clé et filtrez les résultats en fonction de nos filtres avancés.",
-        "filtersdescription": "Les filtres avancés peuvent filtrer les données en fonction de l'organisation, du type, du thème et des couches fondamentales. Vous pouvez ajouter autant de filtres que nécessaire et les supprimer s'ils ne vous donnent pas le résultat dont vous avez besoin."
+        "filtersdescription": "Les filtres avancés peuvent filtrer les données en fonction de l'organisation, du type, du thème et des couches fondamentales. Vous pouvez ajouter autant de filtres que nécessaire et les supprimer s'ils ne vous donnent pas le résultat dont vous avez besoin.",
+        "searchoperators": "GEO.ca prend en charge une série d'opérateurs de recherche qui peuvent vous aider à trouver plus rapidement les données dont vous avez besoin. Si vous recherchez une correspondance exacte avec votre terme de recherche, placez-le entre guillemets. Cela renverra uniquement les résultats qui correspondent exactement à votre terme . Par exemple. -'\"Mon terme de recherche\"'. Si vous souhaitez que l'enregistrement contienne plusieurs termes de recherche, incluez ET dans la zone de recherche. Par exemple. - '\"Ma recherche ET Terme\"'. Enfin, si vous souhaitez inclure plusieurs termes de recherche tels que '\"Recherche OU Terme\"', incluez un espace entre les termes et notre système inclura automatiquement les enregistrements avec l'un ou l'autre terme de recherche."
     },
     "page": {
         "ctrl": {
@@ -113,7 +115,7 @@
         "aboutthisdataset": "À propos de cet ensemble de données",
         "dataresources": "Ressources de Données",
         "contactdata": "Données de Contact",
-        "advancedmetadata": "Métadonnées Avancées",
+        "advancedmetadata": "Métadonnées avancées",
         "keywords": "Mots clés",
         "metadata": "Métadonnées",
         "datecreated": "Date Créée",
@@ -151,16 +153,16 @@
         "zxx": "Pas de contenu linguistique",
         "organization": "Organisation",
         "address": "Adresse",
-        "individualname": "Nom individuel",
+        "individualname": "Nom de la personne",
         "role": "Rôle",
         "telephone": "Téléphone",
-        "fax": "Fax",
-        "email": "E-mail",
+        "fax": "Télécopieur",
+        "email": "Courriel",
         "web": "Web",
         "description": "Description",
-        "status": "Statut",
-        "maintenance": "Maintenance",
-        "topiccategory": "Catégorie de Sujet",
+        "status": "État",
+        "maintenance": "Fréquence de mise à jour",
+        "topiccategory": "Catégorie thématique",
         "north": "Nord",
         "east": "Est",
         "west": "Ouest",
@@ -177,7 +179,8 @@
         "numberofacesses": "Nombre d'accès",
         "last30": "Les 30 derniers jours",
         "alltime": "Tout le temps",
-        "share": "Partager"
+        "share": "Partager",
+        "id": "Identifiant"
     },
     "modal": {
         "buttonlabel": "Fermer",

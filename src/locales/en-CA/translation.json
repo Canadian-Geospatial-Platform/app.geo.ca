@@ -49,7 +49,8 @@
         "howto": "How To",
         "share": "Share",
         "version": "Access GitHub repo",
-        "opendrawer": "Open search toolbox"
+        "opendrawer": "Open search toolbox",
+        "searchoperators": "Search Operators"
     },
     "filter": {
         "filterby": "Filter by",
@@ -84,7 +85,8 @@
     "howto": {
         "geosearchdescription": "The search application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map. If you are not interested in a given geographic area. Click on the Keyword Only toggle, enter a keyword, and filter the results based on our advanced filters.",
         "keywordsearchdescription": "The keyword search page can be used if you are not interested in a given geographic area. Enter a keyword, and filter the results based on our advanced filters.",
-        "filtersdescription": "The advanced filters can filter data based on organization, type, theme, and foundational layers. You can add as many filters as you need and remove them if they are not given you the result you need."
+        "filtersdescription": "The advanced filters can filter data based on organization, type, theme, and foundational layers. You can add as many filters as you need and remove them if they are not given you the result you need.",
+        "searchoperators": "GEO.ca supports a series of search operators which can help you find the data you need faster. If you are looking for an exact match to your search term, enclose it in quotation marks. This will return only the results that exactly match your term . E.g. -’ \"My Search Term\"’. If you require the record to contain multiple search terms, include AND within the search box. E.g. - ‘My Search AND Term’. Finally, if you want to include multiple search terms such as ‘Search OR Term’, include a space between the terms and our system will automatically include records with one or the other search term."
     },
     "page": {
         "ctrl": {
@@ -113,7 +115,7 @@
         "aboutthisdataset": "About this dataset",
         "dataresources": "Data Resources",
         "contactdata": "Contact Data",
-        "advancedmetadata": "Advanced Metadata",
+        "advancedmetadata": "Advanced metadata",
         "keywords": "Keywords",
         "metadata": "Metadata",
         "datecreated": "Date Created",
@@ -177,7 +179,8 @@
         "numberofacesses": "Number of Accesses",
         "last30": "Last 30 days",
         "alltime": "All time",
-        "share": "Share"
+        "share": "Share",
+        "id": "ID"
     },
     "modal": {
         "buttonlabel": "Close",

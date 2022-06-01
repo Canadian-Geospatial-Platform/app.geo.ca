@@ -478,7 +478,7 @@ const MetaDataPage = () => {
                                 <td>{maintenance}</td>
                                 </tr> }
                                 <tr>
-                                <th scope="row">ID</th>
+                                <th scope="row">{t("page.id")}</th>
                                 <td>{result.id}</td>
                                 </tr>
                                 {showWHDisclaimer ?

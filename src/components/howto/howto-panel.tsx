@@ -34,6 +34,9 @@ export default function HowtoPanel(props: PanelProps): JSX.Element {
                             <SvgIcon><FilterIcon /></SvgIcon> {t('appbar.filters')}{' '}
                         </h3>
                         <p>{t('howto.filtersdescription')}</p>
+                        <h3 className="section-title">{t('appbar.searchoperators')}
+                        </h3>
+                        <p>{t(howto.searchoperators)}</p>
                     </Typography>
                 ) as unknown) as Element
             }

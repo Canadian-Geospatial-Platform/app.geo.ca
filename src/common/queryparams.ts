@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 export function getQueryParams(querystring: string):{ [key: string]: string } {
     const queryParams: { [key: string]: string } = {};
-    
+
     if (querystring && querystring !== '') {
         querystring
             .substr(1)
@@ -9,6 +9,7 @@ export function getQueryParams(querystring: string):{ [key: string]: string } {
             .forEach((q: string) => {
                 const item = q.split('=');
                 queryParams[item[0]] = decodeURI(item[1]);
+                console.log(queryParams);
             });
     }
     return queryParams;
