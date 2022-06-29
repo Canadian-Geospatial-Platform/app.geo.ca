@@ -135,24 +135,22 @@ const MetaDataPage = () => {
         }
     };
 
-    const changeMapping = (resultid) => {
-        const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
-        // const changeId = resultid
-        const rIndex = localmapping.findIndex(m => m.id === resultid);
-        const newMapping = localmapping.map(m => m);
-        if (rIndex > -1) {
-            newMapping.splice(rIndex, 1);
-        } else {
-            newMapping.push({
-                id: resultid,
-                title: metaresult.mappingtitle
-            });
-            viewParams.event = 'map';
-            analyticPost(viewParams);
+    const changeMapping = (resultId) => {
+        const localMapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
+
+        // if the map is already in mapCart, return early
+        if (localMapping.find(e => e.id === resultId ) != undefined) {
+           return
         }
+        
+        const newMapping = localMapping.concat([{
+                id: resultId,
+                title: metaresult.mappingtitle
+            }])
+        analyticPost('map');
         dispatch(setMapping(newMapping));
         showMapping();
-    };
+        }
 
     const viewOnMap = (resultid) => {
         viewParams.event = 'map';
