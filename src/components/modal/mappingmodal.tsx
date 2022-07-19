@@ -105,7 +105,7 @@ const MappingModal = (props: MappingModalProps) => {
     };
 
     useEffect(() => { getMappingList(isTestDemo) }, [openOnLoad, mapping, language, isTestDemo ]);    
-    //console.log(isTestDemo, mappingList);
+    // console.log(isTestDemo, mappingList);
     return (
         <div tabIndex="-1" style={{position: "fixed", zIndex: "1050", display: openOnLoad?"block":"none"}}>
             <div className={wrapClassName}>

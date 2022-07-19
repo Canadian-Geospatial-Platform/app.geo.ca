@@ -11,8 +11,8 @@
     "deploy": "gh-pages -d dist",
     "test": "jest",
     "update_test": "jest --updateSnapshot",
-    "lint": "eslint 'src/**/*.{ts,tsx,js}' 'tests/**/*.{ts,tsx,js}'",
-    "fix": "eslint 'src/**/*.{ts,tsx,js}' 'tests/**/*.{ts,tsx,js}' --fix"
+    "lint": "eslint 'src/**/*.{ts,tsx,js}'",
+    "fix": "eslint 'src/**/*.{ts,tsx,js}' --fix"
   },
   "license": "MIT",
   "repository": {
@@ -41,6 +41,7 @@
     "@material-ui/core": "^4.11.1",
     "@material-ui/icons": "^4.9.1",
     "@react-leaflet/core": "1.0.2",
+    "@reduxjs/toolkit": "^1.8.2",
     "@svgr/webpack": "^5.5.0",
     "@types/lodash.throttle": "^4.1.6",
     "@types/node": "^14.14.20",

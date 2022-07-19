@@ -84,7 +84,7 @@ export function OverviewMap(props: OverviewProps): JSX.Element {
                     DomEvent.disableScrollPropagation(cgpMap.getContainer());
                 }}
             >
-                {basemaps.map((base: { id: string | number | null | undefined; url: string; }) => (
+                {basemaps.map((base: { id: string | number | null | undefined; url: string }) => (
                     <TileLayer key={base.id} url={base.url} />
                 ))}
                 <MinimapBounds parentMap={parentMap} zoomFactor={zoomFactor} />

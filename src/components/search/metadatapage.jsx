@@ -35,6 +35,7 @@ import { loadState } from '../../reducers/localStorage';
 import { getQueryParams } from '../../common/queryparams';
 import { envglobals } from '../../common/envglobals';
 import {analyticPost, analyticGet} from '../../common/analytic';
+import {mapCartPost} from '../../common/map';
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
 import './metadatapage.scss';
@@ -148,6 +149,7 @@ const MetaDataPage = () => {
                 title: metaresult.mappingtitle
             }])
         analyticPost('map');
+        mapCartPost(newMapping)
         dispatch(setMapping(newMapping));
         showMapping();
         }

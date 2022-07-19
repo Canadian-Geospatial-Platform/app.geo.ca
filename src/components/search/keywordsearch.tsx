@@ -527,7 +527,7 @@ const KeywordSearch = (): JSX.Element => {
                                                                 className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
                                                                 key={ki}
                                                                 onClick={() => handleKeyword(keyword)}
-                                                                autoFocus = {cpn && mindex===0 && ki===0?true:false}
+                                                                autoFocus = {!!(cpn && mindex===0 && ki===0)}
                                                             >
                                                                 {keyword}
                                                             </button>
@@ -538,7 +538,7 @@ const KeywordSearch = (): JSX.Element => {
                                                             type="button"
                                                             className="btn btn-keyword-more"
                                                             onClick={() => handleKwshowing(result.id)}
-                                                            aria-expanded={allkwshowing ? true : false}
+                                                            aria-expanded={!!allkwshowing}
                                                         >
                                                             {allkwshowing ? t('page.showless') : t('page.viewmore')}
                                                             {allkwshowing ? (
@@ -569,7 +569,7 @@ const KeywordSearch = (): JSX.Element => {
                                                 className="btn btn-search"
                                                 onClick={() => handleView(result.id)}
                                                 aria-label={result.title}
-                                                autoFocus = {cpn && keywords.length===0 && mindex===0?true:false}
+                                                autoFocus = {!!(cpn && keywords.length===0 && mindex===0)}
                                             >
                                                 {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                             </button>

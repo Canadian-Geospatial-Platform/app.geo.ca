@@ -209,7 +209,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     
     const handleSearch = (keyword: string, bounds: unknown, pnum?:number) => {
         map.off('moveend');
-        const cpr = pnum!==undefined ? true:false;
+        const cpr = pnum!==undefined;
         setPn(cpr);
         !loading && setLoadingStatus(true);
         const pageNumber = pnum!==undefined ? pnum: 1;
@@ -633,7 +633,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     <span>{t('appbar.keywordonly')}</span>
                     <label className="switch">
                         <input type="checkbox" disabled={loading} checked={ksOnly} onChange={()=>ksToggle(!ksOnly)} />
-                        <span className="slider round"></span>
+                        <span className="slider round" />
                     </label>
                 {ksOnly && <button
                         className={filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'}
@@ -803,7 +803,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                                 className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
                                                                 key={ki}
                                                                 onClick={() => handleKeyword(keyword)}
-                                                                autoFocus = {cpn && mindex===0 && ki===0?true:false}
+                                                                autoFocus = {!!(cpn && mindex===0 && ki===0)}
                                                             >
                                                                 {keyword}
                                                             </button>
@@ -846,7 +846,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                     className="btn btn-search"
                                                     onClick={(e) => handleView(e, result.id)}
                                                     aria-label={result.title}
-                                                    autoFocus = {cpn && keywords.length===0 && mindex===0?true:false}
+                                                    autoFocus = {!!(cpn && keywords.length===0 && mindex===0)}
                                                 >
                                                     {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                                 </button>
@@ -909,7 +909,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                             className="btn btn-sm searchButton"
                                             onClick={() => handleSelect(result.id)}
                                             aria-label={result.id}
-                                            autoFocus = {cpn && mindex===0?true:false}
+                                            autoFocus = {!!(cpn && mindex===0)}
                                         >
                                             {selected === result.id && open === true? t('page.removefootprint') : t('page.viewfootprint')}
                                         </button>
