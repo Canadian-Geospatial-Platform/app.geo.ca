@@ -142,7 +142,7 @@ const MetaDataPage = () => {
         if (localMapping.find(e => e.id === resultId ) != undefined) {
            return
         }
-        
+
         const newMapping = localMapping.concat([{
                 id: resultId,
                 title: metaresult.mappingtitle
@@ -525,7 +525,7 @@ const MetaDataPage = () => {
                                         zoomControl={false}
                                         attributionControl={false}
                                     >
-                                        <TileLayer url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution={t("mapctrl.attribution")} />
+                                        <TileLayer url="https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution={t("mapctrl.attribution")} />
                                         <AttributionControl position="bottomleft" prefix={false} />
                                         <NavBar />
                                         <GeoJSON key={result.id} data={{

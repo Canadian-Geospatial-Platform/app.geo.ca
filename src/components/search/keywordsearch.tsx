@@ -585,7 +585,7 @@ const KeywordSearch = (): JSX.Element => {
                                                     zoom={zoom}
                                                 >
                                                     <TileLayer
-                                                        url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
+                                                        url="https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
                                                         attribution={t('mapctrl.attribution')}
                                                     />
                                                     <NavBar />

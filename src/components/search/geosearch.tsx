@@ -39,7 +39,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     const location = useLocation();
     const {statePn, stateBounds} = location.state !== undefined ? location.state : {};
     const [stateLoaded, setStateLoaded] = useState(false);
-    
+
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
@@ -105,7 +105,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             const selectedParams: AnalyticParams = {
                 search: analyticParams.search,
                 geo: JSON.stringify(analyticParams.geo),
-                uuid: result.id, 
+                uuid: result.id,
                 loc: '/',
                 lang: language,
                 type: 'access',
@@ -157,7 +157,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     const viewParams: AnalyticParams = {
         search: analyticParams.search,
         geo: JSON.stringify(analyticParams.geo),
-        uuid: id, 
+        uuid: id,
         loc: '/',
         lang: language,
         type: 'access',
@@ -178,12 +178,12 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     }
     analyticPost(viewParams);
     history.push({
-        pathname: '/result', 
-        search:`id=${encodeURI(id.trim())}&lang=${language}`, 
+        pathname: '/result',
+        search:`id=${encodeURI(id.trim())}&lang=${language}`,
         state: {
             stateKO: ksOnly,
             stateKeyword: initKeyword,
-            statePn: pn, 
+            statePn: pn,
             stateBounds: initBounds
         }
     });
@@ -206,7 +206,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             handleSearch(passkw, mbounds);
         }
     };
-    
+
     const handleSearch = (keyword: string, bounds: unknown, pnum?:number) => {
         map.off('moveend');
         const cpr = pnum!==undefined ? true:false;
@@ -234,7 +234,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         aParams.search = keyword;
         // aParams.geo = JSON.stringify(bounds);
         aParams.geo = [[bounds._northEast.lat, bounds._northEast.lng], [bounds._southWest.lat, bounds._southWest.lng]];
-       
+
         if (thfilters.length > 0) {
             const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
             searchParams.theme = themeArray.join('|');
@@ -265,10 +265,10 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         } else if (aParams.foundational) {
             delete aParams.foundational;
         }
-        
+
         // console.log(searchParams);
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
-        
+
         axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
             .then((response) => {
                 analyticPost(aParams);
@@ -309,14 +309,14 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 // setAnalyticParams(aParams);
                 // setKeyword(keyword);
                 setSelected('search');
-                setOpen(false); 
+                setOpen(false);
                 selectResult(undefined);
                 // setLoadingStatus(false);
                 // setOrg(ofilters);
                 // setType(tfilters);
                 // setTheme(thfilters);
                 // setFound(found);
-                
+
             }).finally(()=>{
                 setBounds(bounds);
                 setKeyword(keyword);
@@ -338,7 +338,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             handleKOSearch(keyword);
         } else {
             handleSearch(keyword, initBounds);
-        }    
+        }
     };
 
     const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -374,7 +374,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         // setPageNumber(1);
     };
 */
- 
+
     const ksToggle = (kso: boolean) => {
         kso && map.off('moveend');
         setKSOnly(kso);
@@ -578,17 +578,17 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 setSF('true');
             }
         } else */
-        
+
         if (showing && !loading) {
             // console.log(fReset);
             if (ksOnly) {
                 if (!fReset) {
                     handleKOSearch(initKeyword, !stateLoaded? statePn : undefined);
-                }    
+                }
             } else {
                 handleSearch(initKeyword, (!stateLoaded && stateBounds !==undefined) ? stateBounds : initBounds, !stateLoaded? statePn : undefined);
-            }  
-            setStateLoaded(true);  
+            }
+            setStateLoaded(true);
         }
         const handleResize = () => {
             setPPG(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
@@ -599,7 +599,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             window.removeEventListener('resize', handleResize);
         };
     }, [showing, ksOnly, fReset, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational, stateLoaded]);
-    
+
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
     // console.log(storethemefilters);
@@ -629,7 +629,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                         <SearchIcon />
                     </button>
                 </div>
-                <div className={ksOnly?"col-12 col-advanced-filters-button":"col-advanced-filters-button"}>    
+                <div className={ksOnly?"col-12 col-advanced-filters-button":"col-advanced-filters-button"}>
                     <span>{t('appbar.keywordonly')}</span>
                     <label className="switch">
                         <input type="checkbox" disabled={loading} checked={ksOnly} onChange={()=>ksToggle(!ksOnly)} />
@@ -644,7 +644,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     >
                         {t('page.advancedsearchfilters')}
                     </button>
-                }    
+                }
                 </div>
             </div>
             {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
@@ -787,7 +787,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                     <div className="row resultRow">
                                         <div className={ksOnly?"col-lg-8":"col-lg-12"}>
                                             <h2 className="search-title">{result.title}</h2>
-                                            {ksOnly && 
+                                            {ksOnly &&
                                             <div className="search-keywords">
                                                 <div
                                                     className={
@@ -850,7 +850,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                 >
                                                     {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                                 </button>
-                                            </div>    
+                                            </div>
                                         </div>
                                         <div className="col-lg-4">
                                             <div className="search-image">
@@ -864,7 +864,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                     attributionControl={false}
                                                 >
                                                     <TileLayer
-                                                        url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
+                                                        url="https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
                                                         attribution={t('mapctrl.attribution')}
                                                     />
                                                     <AttributionControl position="bottomleft" prefix={false} />
@@ -879,11 +879,11 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                     />
                                                 </MapContainer>
                                             </div>
-                                        </div> 
+                                        </div>
                                     </div>
                                 </div>
                             )
-                        }) 
+                        })
                         :
                         results.map((result: SearchResult, mindex:number) => (
                             <div

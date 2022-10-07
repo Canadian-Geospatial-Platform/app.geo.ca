@@ -29,8 +29,8 @@
             "north": "N",
             "south": "S"
         },
-        "lccurl": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBCT_TXT_3978/MapServer/WMTS/tile/1.0.0/CBCT_TXT_3978/default/default028mm/{z}/{y}/{x}.jpg",
-        "wburl": "https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBCT_TXT_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBCT_TXT_3857/default/default028mm/{z}/{y}/{x}.png",
+        "lccurl": "https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBCT_TXT_3978/MapServer/WMTS/tile/1.0.0/CBCT_TXT_3978/default/default028mm/{z}/{y}/{x}.jpg",
+        "wburl": "https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBCT_TXT_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBCT_TXT_3857/default/default028mm/{z}/{y}/{x}.png",
         "attribution": "v.1.0.5 &copy Sa Majesté la Reine du Chef du Canada, représentée par le ministre des Ressources naturelles"
     },
     "appbar": {
