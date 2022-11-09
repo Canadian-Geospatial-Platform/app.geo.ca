@@ -6,6 +6,7 @@ export function envglobals() : globalValues {
         const endpoints = {
             SEARCH: "/geo",
             METADATA: "/id",
+            COLLECTIONS: "/collections",
             ANALYTIC: "/analytics"
         }
         switch(hostname) {

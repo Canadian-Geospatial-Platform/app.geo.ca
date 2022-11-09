@@ -84,6 +84,44 @@ const MetaDataPage = () => {
         window.open(url, "_blank");
     };
 
+    const handleRelatedClick = (e, id) => {
+        const {stateKO, stateKeyword, statePn, stateBounds } = location.state;
+        e.stopPropagation();
+        /* const viewParams: AnalyticParams = {
+            search: analyticParams.search,
+            geo: JSON.stringify(analyticParams.geo),
+            uuid: id,
+            loc: '/',
+            lang: language,
+            type: 'access',
+            event: 'view'
+        };
+    
+        if (analyticParams.theme) {
+            viewParams.theme = analyticParams.theme;
+        }
+        if (analyticParams.org) {
+            viewParams.org = analyticParams.org;
+        }
+        if (analyticParams.type_filter) {
+            viewParams.type_filter = analyticParams.type_filter;
+        }
+        if (analyticParams.foundational) {
+            viewParams.foundational = analyticParams.foundational;
+        }
+        analyticPost(viewParams); */
+        history.push({
+            pathname: '/result',
+            search:`id=${encodeURI(id.trim())}&lang=${language}`,
+            state: {
+                stateKO,
+                stateKeyword,
+                statePn,
+                stateBounds,
+                back_id: id
+            }
+        });
+      }
     const handleSearch = (id) => {
       setLoading(true);
 
@@ -98,14 +136,36 @@ const MetaDataPage = () => {
           const res = data.Items[0];
           res.title = language==='en' ? res.title_en : res.title_fr;
           res.mappingtitle = { en: res.title_en, fr: res.title_fr };
-            setResult(res);
-            setLoading(false);
+          // get related products  
+          axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.COLLECTIONS}`, { params: {id}})
+            .then((collectionres) => {
+                const related = [];
+                if (collectionres.parent !== null) {
+                    related.push({...collectionres.parent, ...{'type': 'parent'}});
+                };
+                if (collectionres.sibling_count > 0) {
+                    collectionres.sibling.forEach(s => {
+                        related.push({...s, ...{'type': 'member'}});
+                    }); 
+                }
+                res.related = related;
+                setResult(res);
+                setLoading(false);
+            })
+            .catch(error=>{
+                // console.log(error);
+                res.related = [];
+                setResult(res);
+                setLoading(false);
+            });
       })
       .catch(error=>{
           // console.log(error);
           setResult(null);
           setLoading(false);
       });
+
+      
 
     };
 
@@ -162,12 +222,25 @@ const MetaDataPage = () => {
     };
 
     const backtoSearch = () => {
-        const {stateKO, stateKeyword, statePn, stateBounds } = location.state;
-        history.push({
-            pathname: '/',
-            search: `keyword=${encodeURI( stateKeyword.trim() )}${stateKO ? '&ksonly' : ''}`,
-            state: {statePn, stateBounds}
-        });
+        const {stateKO, stateKeyword, statePn, stateBounds, back_id } = location.state;
+        if (back_id !== undefined && back_id !== null ) {
+            history.push({
+                pathname: '/result',
+                search:`id=${encodeURI(back_id.trim())}&lang=${language}`,
+                state: {
+                    stateKO,
+                    stateKeyword,
+                    statePn,
+                    stateBounds
+                }
+            });
+        } else {
+            history.push({
+                pathname: '/',
+                search: `keyword=${encodeURI( stateKeyword.trim() )}${stateKO ? '&ksonly' : ''}`,
+                state: {statePn, stateBounds}
+            });
+        }
     }
 
     const handleMetaDataBtn = (mdEvent) => {
@@ -367,6 +440,32 @@ const MetaDataPage = () => {
                             </tbody>
                             </table>
                         </section>
+                        { (result.related.length > 0) && 
+                        <section id="search-result-related-products" className="sec-search-result sec-search-result-related-products">
+                            <table className="table table-hover caption-top table-search-result table-related-products">
+                            <caption>
+                                    <button id="related-products-id" type="button" className={openSection.findIndex(o=>o==='relatedproducts')<0?"table-data-toggle collapse":"table-data-toggle expand"} aria-expanded={openSection.findIndex(o=>o==='relatedproducts')<0?"false":"true"} aria-controls="tbody-data-resources" role="button" onClick={()=>handleOpen('relatedproducts')}>{t("page.relatedproducts")}</button>
+                            </caption>
+                            <tbody id="tbody-related-products" className={openSection.findIndex(o=>o==='relatedproducts')<0?"collapse":"collapse show"} aria-labelledby="related-products-id">
+                                <tr>
+                                <th scope="col">{t("page.name")}</th>
+                                <th scope="col">{t("page.type")}</th>
+                                </tr>
+                                {result.related.map((relatedp, ri) => {
+                                    // const desc = option.description[language].split(";");
+                                    return (
+                                        <tr className="table-row-link" key={ri} onClick={()=>handleRelatedClick(e, id)}>
+                                        <td>
+                                            <a className="table-cell-link" onClick={()=>handleRelatedClick(e, id)}>{(language === 'en') ? relatedp.description_en : relatedp.description_fr}</a>
+                                        </td>
+                                        <td>{t(`page.${relatedp.type}`)}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                            </table>
+                        </section>
+                        }
                         {/* Data Resources */}
                         <section id="search-result-data-resources" className="sec-search-result sec-search-result-data-resources">
                             <table className="table table-hover caption-top table-search-result table-data-resources">
