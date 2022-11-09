@@ -45,6 +45,7 @@ const MetaDataPage = () => {
     const location = useLocation();
     const history = useHistory();
     const queryParams = getQueryParams(location.search);
+    const {stateKO, stateKeyword, statePn, stateBounds, backId } = location.state;
     const {t} = useTranslation();
 
     const mapping = useSelector(state => state.mappingReducer.mapping);
@@ -85,7 +86,6 @@ const MetaDataPage = () => {
     };
 
     const handleRelatedClick = (e, id) => {
-        const {stateKO, stateKeyword, statePn, stateBounds } = location.state;
         e.stopPropagation();
         /* const viewParams: AnalyticParams = {
             search: analyticParams.search,
@@ -118,7 +118,7 @@ const MetaDataPage = () => {
                 stateKeyword,
                 statePn,
                 stateBounds,
-                back_id: id
+                backId: rid
             }
         });
       }
@@ -138,15 +138,16 @@ const MetaDataPage = () => {
           res.mappingtitle = { en: res.title_en, fr: res.title_fr };
           // get related products  
           axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.COLLECTIONS}`, { params: {id}})
-            .then((collectionres) => {
+            .then((collectionres) => collectionres.data)
+            .then((cdata) => {
                 const related = [];
-                if (collectionres.parent !== null) {
-                    related.push({...collectionres.parent, ...{'type': 'parent'}});
+                if (cdata.parent !== null) {
+                    related.push({...cdata.parent, ...{'type': 'parent'}});
                 };
-                if (collectionres.sibling_count > 0) {
-                    collectionres.sibling.forEach(s => {
+                if (cdata.sibling_count > 0) {
+                    cdata.sibling.forEach(s => {
                         related.push({...s, ...{'type': 'member'}});
-                    }); 
+                    });
                 }
                 res.related = related;
                 setResult(res);
@@ -155,6 +156,17 @@ const MetaDataPage = () => {
             .catch(error=>{
                 // console.log(error);
                 res.related = [];
+                /* const testres = {"statusCode": 200, "sibling_count": 5, "self": {"id": "085024ac-5a48-427a-a2ea-d62af73f2142", "description_en": "Canada's National Earthquake Scenario Catalogue", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre"}, "parent": null, "sibling": [{"id": "26c57e53-2646-491b-b385-5813b23d8a96", "description_en": "Canada's National Earthquake Scenario Catalogue - Cascadia Interface Best Fault - Magnitude 9.0", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Meilleure faille de l'interface Cascadia - Magnitude 9,0"}, {"id": "53183b8c-cd09-4f3d-bcbc-b023dea3990c", "description_en": "Canada's National Earthquake Scenario Catalogue - Leech River Full Fault - Magnitude 7.3", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Faille compl\u00e8te de Leech River - Magnitude 7,3"}, {"id": "9a1d59b4-da0b-4792-a645-44b4ef70a219", "description_en": "Canada's National Earthquake Scenario Catalogue - Val-de-bois - Magnitude 7.5", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Val-de-bois - Magnitude 7,5"}, {"id": "bdbab8a6-c101-4db3-8165-214f1ef7cfe8", "description_en": "Canada's National Earthquake Scenario Catalogue - Georgia Strait Fault - Magnitude 7.0", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Faille du d\u00e9troit de Georgia - Magnitude 7,0"}, {"id": "ecfbe426-d9f2-46b7-9620-ad8032f19b4f", "description_en": "Canada's National Earthquake Scenario Catalogue - Sidney - Magnitude 7.1", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Sidney - Magnitude 7,3"}]};
+                const related = [];
+                if (testres.parent !== null) {
+                    related.push({...testres.parent, ...{'type': 'parent'}});
+                };
+                if (testres.sibling_count > 0) {
+                    testres.sibling.forEach(s => {
+                        related.push({...s, ...{'type': 'member'}});
+                    }); 
+                }
+                res.related = related; */
                 setResult(res);
                 setLoading(false);
             });
@@ -222,11 +234,10 @@ const MetaDataPage = () => {
     };
 
     const backtoSearch = () => {
-        const {stateKO, stateKeyword, statePn, stateBounds, back_id } = location.state;
-        if (back_id !== undefined && back_id !== null ) {
+        if (backId !== undefined && backId !== null ) {
             history.push({
                 pathname: '/result',
-                search:`id=${encodeURI(back_id.trim())}&lang=${language}`,
+                search:`id=${encodeURI(backId.trim())}&lang=${language}`,
                 state: {
                     stateKO,
                     stateKeyword,
@@ -363,7 +374,7 @@ const MetaDataPage = () => {
                                 type="button"
                                 onClick={backtoSearch}
                             >
-                                {t('page.gotogeosearchpage')}
+                                {backId !== undefined && backId !== null? t('page.backtorelated') : t('page.gotogeosearchpage')}
                             </button>
                             <h1 className="search-result-page-title">{result.title}</h1>
                         </div>
@@ -448,15 +459,15 @@ const MetaDataPage = () => {
                             </caption>
                             <tbody id="tbody-related-products" className={openSection.findIndex(o=>o==='relatedproducts')<0?"collapse":"collapse show"} aria-labelledby="related-products-id">
                                 <tr>
-                                <th scope="col">{t("page.name")}</th>
-                                <th scope="col">{t("page.type")}</th>
+                                <th scope="col" className="col-5">{t("page.name")}</th>
+                                <th scope="col" className="col-1">{t("page.type")}</th>
                                 </tr>
                                 {result.related.map((relatedp, ri) => {
                                     // const desc = option.description[language].split(";");
                                     return (
-                                        <tr className="table-row-link" key={ri} onClick={(e)=>handleRelatedClick(e, id)}>
+                                        <tr className="table-row-link" key={ri} onClick={(e)=>handleRelatedClick(e, relatedp.id)}>
                                         <td>
-                                            <a className="table-cell-link" onClick={(e)=>handleRelatedClick(e, id)}>{relatedp[`description_${language}`]}</a>
+                                            <a className="table-cell-link" onClick={(e)=>handleRelatedClick(e, relatedp.id)}>{relatedp[`description_${language}`]}</a>
                                         </td>
                                         <td>{t(`page.${relatedp.type}`)}</td>
                                         </tr>
