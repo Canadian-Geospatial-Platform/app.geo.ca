@@ -454,9 +454,9 @@ const MetaDataPage = () => {
                                 {result.related.map((relatedp, ri) => {
                                     // const desc = option.description[language].split(";");
                                     return (
-                                        <tr className="table-row-link" key={ri} onClick={()=>handleRelatedClick(e, id)}>
+                                        <tr className="table-row-link" key={ri} onClick={(e)=>handleRelatedClick(e, id)}>
                                         <td>
-                                            <a className="table-cell-link" onClick={()=>handleRelatedClick(e, id)}>{(language === 'en') ? relatedp.description_en : relatedp.description_fr}</a>
+                                            <a className="table-cell-link" onClick={(e)=>handleRelatedClick(e, id)}>{relatedp[`description_${language}`]}</a>
                                         </td>
                                         <td>{t(`page.${relatedp.type}`)}</td>
                                         </tr>
