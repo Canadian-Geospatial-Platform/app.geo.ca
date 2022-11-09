@@ -45,7 +45,11 @@ const MetaDataPage = () => {
     const location = useLocation();
     const history = useHistory();
     const queryParams = getQueryParams(location.search);
-    const {stateKO, stateKeyword, statePn, stateBounds, backId } = location.state;
+    const stateKO = location.state && location.state.stateKO ? location.state.stateKO : false;
+    const stateKeyword = location.state && location.state.stateKeyword ? location.state.stateKeyword : '';
+    const statePn = location.state && location.state.statePn ? location.state.statePn : 1;
+    const stateBounds = location.state && location.state.stateBounds ? location.state.stateBounds : undefined; 
+    const backArr = location.state && Array.isArray(location.state.backId) ? location.state.backId : [];
     const {t} = useTranslation();
 
     const mapping = useSelector(state => state.mappingReducer.mapping);
@@ -110,6 +114,7 @@ const MetaDataPage = () => {
             viewParams.foundational = analyticParams.foundational;
         }
         analyticPost(viewParams); */
+        backArr.unshift(rid);
         history.push({
             pathname: '/result',
             search:`id=${encodeURI(id.trim())}&lang=${language}`,
@@ -118,7 +123,7 @@ const MetaDataPage = () => {
                 stateKeyword,
                 statePn,
                 stateBounds,
-                backId: rid
+                backId: backArr
             }
         });
       }
@@ -156,17 +161,6 @@ const MetaDataPage = () => {
             .catch(error=>{
                 // console.log(error);
                 res.related = [];
-                /* const testres = {"statusCode": 200, "sibling_count": 5, "self": {"id": "085024ac-5a48-427a-a2ea-d62af73f2142", "description_en": "Canada's National Earthquake Scenario Catalogue", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre"}, "parent": null, "sibling": [{"id": "26c57e53-2646-491b-b385-5813b23d8a96", "description_en": "Canada's National Earthquake Scenario Catalogue - Cascadia Interface Best Fault - Magnitude 9.0", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Meilleure faille de l'interface Cascadia - Magnitude 9,0"}, {"id": "53183b8c-cd09-4f3d-bcbc-b023dea3990c", "description_en": "Canada's National Earthquake Scenario Catalogue - Leech River Full Fault - Magnitude 7.3", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Faille compl\u00e8te de Leech River - Magnitude 7,3"}, {"id": "9a1d59b4-da0b-4792-a645-44b4ef70a219", "description_en": "Canada's National Earthquake Scenario Catalogue - Val-de-bois - Magnitude 7.5", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Val-de-bois - Magnitude 7,5"}, {"id": "bdbab8a6-c101-4db3-8165-214f1ef7cfe8", "description_en": "Canada's National Earthquake Scenario Catalogue - Georgia Strait Fault - Magnitude 7.0", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Faille du d\u00e9troit de Georgia - Magnitude 7,0"}, {"id": "ecfbe426-d9f2-46b7-9620-ad8032f19b4f", "description_en": "Canada's National Earthquake Scenario Catalogue - Sidney - Magnitude 7.1", "description_fr": "Catalogue national de sc\u00e9narios de tremblement de terre - Sidney - Magnitude 7,3"}]};
-                const related = [];
-                if (testres.parent !== null) {
-                    related.push({...testres.parent, ...{'type': 'parent'}});
-                };
-                if (testres.sibling_count > 0) {
-                    testres.sibling.forEach(s => {
-                        related.push({...s, ...{'type': 'member'}});
-                    }); 
-                }
-                res.related = related; */
                 setResult(res);
                 setLoading(false);
             });
@@ -211,8 +205,8 @@ const MetaDataPage = () => {
         const localMapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
 
         // if the map is already in mapCart, return early
-        if (localMapping.find(e => e.id === resultId ) != undefined) {
-           return
+        if (localMapping.find(e => e.id === resultId ) !== undefined) {
+           return;
         }
 
         const newMapping = localMapping.concat([{
@@ -234,15 +228,18 @@ const MetaDataPage = () => {
     };
 
     const backtoSearch = () => {
-        if (backId !== undefined && backId !== null ) {
+        if (Array.isArray(backArr) && backArr.length>0 ) {
+            const back_id = backArr[0];
+            backArr.shift();
             history.push({
                 pathname: '/result',
-                search:`id=${encodeURI(backId.trim())}&lang=${language}`,
+                search:`id=${encodeURI(back_id.trim())}&lang=${language}`,
                 state: {
                     stateKO,
                     stateKeyword,
                     statePn,
-                    stateBounds
+                    stateBounds,
+                    backId: backArr
                 }
             });
         } else {
@@ -374,7 +371,7 @@ const MetaDataPage = () => {
                                 type="button"
                                 onClick={backtoSearch}
                             >
-                                {backId !== undefined && backId !== null? t('page.backtorelated') : t('page.gotogeosearchpage')}
+                                {(Array.isArray(backArr) && backArr.length>0)? t('page.backtorelated') : t('page.gotogeosearchpage')}
                             </button>
                             <h1 className="search-result-page-title">{result.title}</h1>
                         </div>
