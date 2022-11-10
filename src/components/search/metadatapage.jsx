@@ -37,6 +37,7 @@ import { envglobals } from '../../common/envglobals';
 import {analyticPost, analyticGet} from '../../common/analytic';
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
+import InfoModal from '../modal/infomodal';
 import './metadatapage.scss';
 
 const EnvGlobals = envglobals();
@@ -60,6 +61,7 @@ const MetaDataPage = () => {
     const [analyticLoading, setAnalyticLoading] = useState(true);
     const [analyticRes, setAnalytic] = useState({'30': 1, 'all': 1});
     const [openSection, setOpen] = useState([]);
+    const [mapGreyOut, setGreyMap] = useState(false);
     const rid = queryParams && queryParams.id?queryParams.id.trim():"";
     const inMapping = rid!=="" ? mapping.findIndex((m)=>m.id===rid)>-1 : false;
     const language = t("app.language");
@@ -329,6 +331,7 @@ const MetaDataPage = () => {
                     });
 
                     const activeMap = options.findIndex((o)=> o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE' || o.type.toUpperCase() === 'SERVICE WEB') > -1;
+                    const mapButtonClass = activeMap? 'btn btn-search' : 'btn btn-search disabled';
                     const contact =   JSON.parse(formattedContact);
                     const coordinates = JSON.parse(result.coordinates);
 
@@ -363,6 +366,16 @@ const MetaDataPage = () => {
                         <meta name="twitter:image" content={imageFile} />
                     </Helmet>
                     <div className="row no-gutters">
+                    {!activeMap && mapGreyOut &&
+                    <InfoModal
+                        className="info-modal-dialog"
+                        wrapClassName="info-modal-wrap"
+                        modalClassName="info-modal"
+                        openOnLoad={ mapGreyOut===true }
+                        onClose = {()=>setGreyMap(false)}
+                        title = {t('page.greymaptitle')}
+                        infotext = {t('page.greymapinfo')}
+                    />}    
                     <main className="col col-12 col-xl-8 main">
                         {/* Header */}
                         <div className="search-result-page-title-wrap">
@@ -645,10 +658,10 @@ const MetaDataPage = () => {
                             </section>
                             <section className="sec-search-result search-results-section search-results-misc-data">
                                 <h3 className="section-title">{t("page.addtomap")}</h3>
-                                <p>{t("page.viewthedata")}</p>
+                                <p>{activeMap? t("page.viewthedata") : t("page.greymapinfo")}</p>
                                 <div className="btn-group">
-                                    <button type="button" className="btn btn-search mr-2" disabled={!activeMap} onClick={activeMap?()=>viewOnMap(result.id):null}>{t("page.viewonmap")}</button>
-                                    <button id="addMyMap" type="button"  disabled={!activeMap} className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={activeMap?()=>changeMapping(result.id):null}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
+                                    <button type="button" className={`${mapButtonClass} mr-2`} onClick={activeMap?()=>viewOnMap(result.id):()=>setGreyMap(true)}>{t("page.viewonmap")}</button>
+                                    <button id="addMyMap" type="button" className={inMapping?`${mapButtonClass} btn-added`:mapButtonClass} onClick={activeMap?()=>changeMapping(result.id):()=>setGreyMap(true)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
                                 </div>
                             </section>
                             <section className="sec-search-result search-results-section search-results-misc-data">

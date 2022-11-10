@@ -184,7 +184,9 @@
         "last30": "Last 30 days",
         "alltime": "All time",
         "share": "Share",
-        "id": "ID"
+        "id": "ID",
+        "greymaptitle": "No Viewable",
+        "greymapinfo": "This record has no viewable component."
     },
     "modal": {
         "buttonlabel": "Close",
