@@ -202,17 +202,6 @@
                 text-transform: uppercase;
             }
 
-            .table-cell-text-link {
-                color: $color__link;
-                text-decoration: none;
-                transition: all 0.3s ease;
-                text-decoration: underline;
-                &:hover {
-                    color: $color__table-heading;
-                    text-decoration: underline;
-                }
-            }
-
             .table-cell-link {
                 display: flex;
                 color: $color__link;
@@ -265,6 +254,16 @@
             &:hover {
                 color: rgba(255, 255, 255, 0.8);
                 border: 1px solid $color__table-border;
+            }
+        }
+        .table-cell-text-link {
+            color: $color__link;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-decoration: underline;
+            &:hover {
+                color: $color__table-heading;
+                text-decoration: underline;
             }
         }
         @media (max-width: $breakpoint__xl) {

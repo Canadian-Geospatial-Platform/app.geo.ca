@@ -274,10 +274,20 @@ const MetaDataPage = () => {
         }
     };
 
+    const convertDesc = (paraText) => {
+        return paraText.replace(/\*\*(.*?)\*\*/g, (i, match) => {
+                return `<b>${match}</b>`;        
+            }).replace(/\[(.*?)\]\(https:\/\/(.*?)\)/g, (i, match, match2) => {
+                return `<a class="table-cell-text-link" href="https://${match2}" target="_blank">${match}</a>`;
+            });
+    }
+
     const textParagraphOutput = (paraText) => {
         const paraArray = paraText.split('\\n');
-        return paraArray.map((pt, i) => pt.trim().length>0 ? <p key={`pt${i}`}>{pt}</p> : <br key={`pt${i}`} /> );
+        return paraArray.map((pt, i) => pt.trim().length>0 ? <p key={`pt${i}`} dangerouslySetInnerHTML={{__html: convertDesc(pt)}} /> : <br key={`pt${i}`} /> );
     }
+
+    
 
     useEffect(() => {
       if (rid !== '') {
@@ -401,34 +411,46 @@ const MetaDataPage = () => {
                             <caption>
                                 {t("page.metadata")}
                             </caption>
+                            {showDisclaimer ?
                             <tbody id="tbody-meta">
-                            {showWHDisclaimer ?
-                              <span></span> :
+                                <tr>
+                                <th scope="row">{t("page.disclaimer")}</th>
+                                <td>
+                                    <p>{t("page.dcheader")}{useL[2]}</p>
+                                    <p>{t("page.dcp1")}</p>
+                                    <p>{t("page.dcp2.text1")}<a className="table-cell-text-link" href={t("page.dcp2.link1.url")} target="_blank">{t("page.dcp2.link1.text")}</a>{t("page.dcp2.text2")}<a className="table-cell-text-link" href={t("page.dcp2.link2.url")} target="_blank">{t("page.dcp2.link2.text")}</a>{t("page.dcp2.text3")}</p>
+                                </td>
+                                </tr>
+                                <tr>
+                                <th scope="row">{t("page.disclaimer")}</th>
+                                <td>
+                                    <p>{t("page.dwhheader")}</p>
+                                    <p>{t("page.dwh0")}</p>
+                                    <p>{t("page.dwh1")}</p>
+                                    <p>{t("page.dwh2.text1")}<a className="table-cell-text-link" href={t("page.dwh2.link1.url")} target="_blank">{t("page.dwh2.link1.text")}</a>{t("page.dwh2.text2")}<a className="table-cell-text-link" href={t("page.dwh2.link2.url")} target="_blank">{t("page.dwh2.link2.text")}</a>{t("page.dwh2.text3")}</p>
+                                </td>
+                                </tr>
+                            </tbody>:
+                            <tbody id="tbody-meta">
                                 <tr>
                                 <th scope="row">{t("page.datecreated")}</th>
                                 <td>{result.created}</td>
-                                </tr> }
-                            {showWHDisclaimer ?
-                              <span></span> :
+                                </tr>
                                 <tr>
                                 <th scope="row">{t("page.datepublished")}</th>
                                 <td>{result.published}</td>
-                                </tr> }
-                            {showWHDisclaimer ?
-                              <span></span> :
+                                </tr>
                                 <tr>
                                 <th scope="row">{t("page.temporalcoverage")}</th>
                                 <td> { tcRange.map((date, ki)=>(
                                             <span key={ki}>{date} </span>
                                         ))}
                                 </td>
-                                </tr> }
+                                </tr>
                                 <tr>
                                 <th scope="row">{t("page.source")}</th>
                                 <td>{contact[0].organisation[language]}</td>
                                 </tr>
-                            {showWHDisclaimer ?
-                              <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.uselimits")}</th>
                                 <td>{useL===null ? result.useLimits :
@@ -438,27 +460,9 @@ const MetaDataPage = () => {
                                         {useL[1]} - {useL[2]}<a className="table-cell-text-link" href={useL[3]} target="_blank">{useL[3]}</a>
                                     </div>)})}
                                 </td>
-                                </tr> }
-                            {showDisclaimer &&
-                                <tr>
-                                <th scope="row">{t("page.disclaimer")}</th>
-                                <td>
-                                    <p>{t("page.dcheader")}{useL[2]}</p>
-                                    <p>{t("page.dcp1")}</p>
-                                    <p>{t("page.dcp2.text1")}<a className="table-cell-text-link" href={t("page.dcp2.link1.url")} target="_blank">{t("page.dcp2.link1.text")}</a>{t("page.dcp2.text2")}<a className="table-cell-text-link" href={t("page.dcp2.link2.url")} target="_blank">{t("page.dcp2.link2.text")}</a>{t("page.dcp2.text3")}</p>
-                                </td>
-                                </tr>}
-                            {showWHDisclaimer &&
-                                <tr>
-                                <th scope="row">{t("page.disclaimer")}</th>
-                                <td>
-                                    <p>{t("page.dwhheader")}</p>
-                                    <p>{t("page.dwh0")}</p>
-                                    <p>{t("page.dwh1")}</p>
-                                    <p>{t("page.dwh2.text1")}<a className="table-cell-text-link" href={t("page.dwh2.link1.url")} target="_blank">{t("page.dwh2.link1.text")}</a>{t("page.dwh2.text2")}<a className="table-cell-text-link" href={t("page.dwh2.link2.url")} target="_blank">{t("page.dwh2.link2.text")}</a>{t("page.dwh2.text3")}</p>
-                                </td>
-                                </tr>}
+                                </tr>
                             </tbody>
+                            }
                             </table>
                         </section>
                         { (result.related.length > 0) && 
@@ -527,54 +531,41 @@ const MetaDataPage = () => {
                                 <th scope="row">{t("page.organization")}</th>
                                 <td>{!!contact[0].organisation && !!contact[0].organisation[language] && contact[0].organisation[language] !== 'null' ? contact[0].organisation[language] : 'N/A'}</td>
                                 </tr>
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                {!showWHDisclaimer &&
+                                <>
                                 <tr>
                                 <th scope="row">{t("page.address")}</th>
                                 <td>{!!contact[0].address && !!contact[0].address[language] && contact[0].address[language] !== 'null' ? contact[0].address[language] : 'N/A'}</td>
-                                </tr> }
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                </tr> 
                                 <tr>
                                 <th scope="row">{t("page.individualname")}</th>
                                 <td>{!!contact[0].individual && !!contact[0].individual[language] && contact[0].individual[language] !== 'null' ? contact[0].individual[language] : 'N/A'}</td>
-                                </tr> }
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                </tr> 
                                 <tr>
                                 <th scope="row">{t("page.role")}</th>
                                 <td>{!!contact[0].role!==null && !!contact[0].role[language] && contact[0].role[language] !== 'null' ? contact[0].role[language] : 'N/A'}</td>
-                                </tr> }
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                </tr> 
                                 <tr>
                                 <th scope="row">{t("page.telephone")}</th>
                                 <td>{!!contact[0].telephone && !!contact[0].telephone[language] && contact[0].telephone[language] !== 'null' ? contact[0].telephone[language] : 'N/A'}</td>
-                                </tr> }
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                </tr>
                                 <tr>
                                 <th scope="row">{t("page.fax")}</th>
                                 <td>{!!contact[0].fax && !!contact[0].fax[language] && contact[0].fax[language] !== 'null' ? contact[0].fax[language] : 'N/A'}</td>
-                                </tr> }
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                </tr> 
                                 <tr>
                                 <th scope="row">{t("page.email")}</th>
                                 <td>{!!contact[0].email && !!contact[0].email[language] && contact[0].email[language] !== 'null' ? contact[0].email[language] : 'N/A'}</td>
-                                </tr> }
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                </tr> 
                                 <tr>
                                 <th scope="row">{t("page.web")}</th>
                                 <td>{!!contact[0].onlineresource && !!contact[0].onlineresource.onlineresource && contact[0].onlineresource.onlineresource!=='null' ? <a href={contact[0].onlineresource.onlineresource} className="table-cell-link" target="_blank">{contact[0].onlineresource.onlineresource}</a> : 'N/A'}</td>
-                                </tr> }
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                </tr> 
                                 <tr>
                                 <th scope="row">{t("page.description")}</th>
                                 <td>{!!contact[0].onlineresource && !!contact[0].onlineresource.onlineresource_description && contact[0].onlineresource.onlineresource_description!=='null' ? contact[0].onlineresource.onlineresource_description : 'N/A'}</td>
-                                </tr> }
+                                </tr>
+                                </> }
                             </tbody>
                             </table>
                         </section>
@@ -589,8 +580,7 @@ const MetaDataPage = () => {
                                 <th scope="row">{t("page.status")}</th>
                                 <td>{status}</td>
                                 </tr>
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                {!showWHDisclaimer &&
                                 <tr>
                                 <th scope="row">{t("page.maintenance")}</th>
                                 <td>{maintenance}</td>
@@ -599,8 +589,7 @@ const MetaDataPage = () => {
                                 <th scope="row">{t("page.id")}</th>
                                 <td>{result.id}</td>
                                 </tr>
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                {!showWHDisclaimer &&
                                 <tr>
                                 <th scope="row">{t("page.topiccategory")}</th>
                                 <td>{result.topicCategory}</td>
@@ -625,8 +614,7 @@ const MetaDataPage = () => {
                                 <th scope="row">{t("page.south")}</th>
                                 <td>{coordinates[0][0][1].toString()}</td>
                                 </tr>
-                                {showWHDisclaimer ?
-                                  <span></span> :
+                                {!showWHDisclaimer &&
                                 <tr>
                                 <th scope="row">{t("page.spatialrepresentation")}</th>
                                 <td>{spatialRepresentation}</td>
