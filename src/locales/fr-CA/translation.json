@@ -185,7 +185,7 @@
         "alltime": "Tout le temps",
         "share": "Partager",
         "id": "Identifiant"        ,
-        "greymaptitle": "Non visible",
+        "greymaptitle": "Pas de contenu visible",
         "greymapinfo": "Cet enregistrement n'a pas d'élément visible."
     },
     "modal": {
