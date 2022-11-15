@@ -1,7 +1,7 @@
 {
   "name": "geo-view",
   "version": "0.1.0",
-  "description": "Lightweight viewer based on Leaflet and React for the Canadian Geospatial Platform",
+  "description": "Lightweight viewer based on Leaflet and React for the GEO.CA",
   "private": true,
   "main": "app.tsx",
   "scripts": {
