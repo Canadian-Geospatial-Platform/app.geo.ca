@@ -77,7 +77,7 @@ const config = {
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html',
-            title: 'Canadian Geospatial Platform Viewer',
+            title: 'GEO.CA Viewer',
         }),
         new webpack.DefinePlugin({
             __VERSION__: {
