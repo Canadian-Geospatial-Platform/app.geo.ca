@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { combineReducers, createStore, StoreEnhancer } from 'redux';
 import throttle from 'lodash.throttle';
 import { I18nextProvider } from 'react-i18next';
-import { setupCognito, cognito } from 'react-cognito';
+// import { setupCognito, cognito } from 'react-cognito';
 import { Icon, Marker, LatLngTuple } from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -26,17 +26,17 @@ import CgpModal from './components/modal/cgpmodal';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/css/style.scss';
-import authconfig from './components/account/cognito-auth/config.json';
+// import authconfig from './components/account/cognito-auth/config.json';
 
 const persistedState: StoreEnhancer<unknown, unknown> | undefined = loadState();
 const reducers = combineReducers({
-    cognito,
+    // cognito,
     mappingReducer,
 });
 // const store = createStore(reducers);
 const store = createStore(reducers, persistedState);
 // config.group = 'admins'; // Uncomment this to require users to be in a group 'admins'
-setupCognito(store, authconfig);
+// setupCognito(store, authconfig);
 
 store.subscribe(throttle(() => saveState(store.getState()), 1000));
 
