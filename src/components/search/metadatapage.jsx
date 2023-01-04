@@ -156,6 +156,11 @@ const MetaDataPage = () => {
                         related.push({...s, ...{'type': 'member'}});
                     });
                 }
+                if (cdata.child_count > 0) {
+                    cdata.child.forEach(s => {
+                        related.push({...s, ...{'type': 'member'}});
+                    });
+                }
                 res.related = related;
                 setResult(res);
                 setLoading(false);
