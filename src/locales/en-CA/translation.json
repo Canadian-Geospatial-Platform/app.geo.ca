@@ -50,7 +50,15 @@
         "share": "Share",
         "version": "Access GitHub repo",
         "opendrawer": "Open search toolbox",
-        "searchoperators": "Search Operators"
+        "searchoperators": "Search Operators",
+        "sortby": {
+            "label": "Sort by",
+            "select": "Select",
+            "relevance": "Relevance",
+            "date": "Date",
+            "popularity": "Popularity",
+            "title": "Title"
+        }
     },
     "filter": {
         "filterby": "Filter by",
@@ -130,21 +138,23 @@
         "disclaimer": "Disclaimer",
         "dcheader": "Made available by the Government of ",
         "dcp1": "These resources are not under the control of the Government of Canada and the link is provided solely for the convenience of our website visitors. We are not responsible for the accuracy, currency or reliability of the content of this website. The Government of Canada does not offer any guarantee in that regard and is not responsible for the information found through this link.",
-        "dcp2": { "text1": "Visitors should also be aware that information offered by this non-Government of Canada site is not subject to the ",
-                  "link1": { "url" : "http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html", "text" : "Privacy Act"},
-                  "text2": " or the ",
-                  "link2": { "url": "http://laws-lois.justice.gc.ca/eng/acts/O-3.01/", "text": "Official Languages Act"},
-                  "text3": " and may not be accessible to persons with disabilities. The information offered may be available only in the language used by the site. With respect to privacy, visitors should research the privacy policies of this non-government website before providing personal information."
-                },
+        "dcp2": {
+            "text1": "Visitors should also be aware that information offered by this non-Government of Canada site is not subject to the ",
+            "link1": { "url": "http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html", "text": "Privacy Act" },
+            "text2": " or the ",
+            "link2": { "url": "http://laws-lois.justice.gc.ca/eng/acts/O-3.01/", "text": "Official Languages Act" },
+            "text3": " and may not be accessible to persons with disabilities. The information offered may be available only in the language used by the site. With respect to privacy, visitors should research the privacy policies of this non-government website before providing personal information."
+        },
         "dwhheader": "Made available by the Canadian Geospatial Data Infrastructure Web Harvester ",
         "dwh0": "This web service is generated from a geospatial web services harvester developed for the Canadian Geospatial Data Infrastructure. It is in continual development and updated weekly. These records are subject to change based on the availability of the service endpoint maintained by external parties.",
         "dwh1": "These resources are not under the control of the Government of Canada and the link is provided solely for the convenience of our website visitors. We are not responsible for the accuracy, currency or reliability of the content of this website. The Government of Canada does not offer any guarantee in that regard and is not responsible for the information found through this link.",
-        "dwh2": { "text1": "Visitors should also be aware that information offered by this non-Government of Canada site is not subject to the ",
-                  "link1": { "url" : "http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html", "text" : "Privacy Act"},
-                  "text2": " or the ",
-                  "link2": { "url": "http://laws-lois.justice.gc.ca/eng/acts/O-3.01/", "text": "Official Languages Act"},
-                  "text3": " and may not be accessible to persons with disabilities. The information offered may be available only in the language used by the site. With respect to privacy, visitors should research the privacy policies of this non-government website before providing personal information."
-                },
+        "dwh2": {
+            "text1": "Visitors should also be aware that information offered by this non-Government of Canada site is not subject to the ",
+            "link1": { "url": "http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html", "text": "Privacy Act" },
+            "text2": " or the ",
+            "link2": { "url": "http://laws-lois.justice.gc.ca/eng/acts/O-3.01/", "text": "Official Languages Act" },
+            "text3": " and may not be accessible to persons with disabilities. The information offered may be available only in the language used by the site. With respect to privacy, visitors should research the privacy policies of this non-government website before providing personal information."
+        },
         "name": "Name",
         "type": "Type",
         "format": "Format",
