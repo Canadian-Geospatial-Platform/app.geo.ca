@@ -688,14 +688,18 @@ const GeoSearch = (
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
 
         axios
-            .get(`http://localhost:3000/sorting`, { params: searchParams })
+            .get(`${EnvGlobals.JSON_SERVER_URL}${EnvGlobals.APP_API_ENDPOINTS.SORTBY}`, { params: {_sort:'created', _order:'desc'} })
             .then((response) => {
                 analyticPost(aParams);
                 return response.data;
             })
             .then((data) => {
                 // console.log(data);
-                const res = data.Items;
+                const res: [] = data.Items;
+                //testing 
+                res.sort((a,b)=>{
+                    if (a.created>b.created) return -1; if (a.created<b.created) return 1; return 0; });
+                console.log(res);
                 const rcnt = res.length > 0 ? res[0].total : 0;
                 setResults(res);
                 setCount(rcnt);
@@ -745,7 +749,7 @@ const GeoSearch = (
             });
     };
 
-    const [sortbyValue, setSortbyValue] = useState('0');
+    const [sortbyValue, setSortbyValue] = useState('relevance');
     const sortingOptions: SortingOptionInfo[] = [
         { label: 'appbar.sortby.relevance', value: 'relevance' },
         { label: 'appbar.sortby.date', value: 'date' },
@@ -784,13 +788,16 @@ const GeoSearch = (
                     </button>
                 </div>
                 <div className={ksOnly ? 'col-12 col-advanced-filters-button' : 'col-advanced-filters-button'}>
-                    <span>{t('appbar.keywordonly')}</span>
-                    <label className="switch">
-                        <input type="checkbox" disabled={loading} checked={ksOnly} onChange={() => ksToggle(!ksOnly)} />
-                        <span className="slider round"></span>
-                    </label>
+                    <div className="geo-padding-right-30">
+                        <span>{t('appbar.keywordonly')}</span>
+                        <label className="switch">
+                            <input type="checkbox" disabled={loading} checked={ksOnly} onChange={() => ksToggle(!ksOnly)} />
+                            <span className="slider round"></span>
+                        </label>
+                    </div>
+                    <div className="geo-padding-right-30">
                     {!loading && (
-                        <Sorting
+                        <Sorting                            
                             label="appbar.sortby.label"
                             labelClassName="sorting-label"
                             selectClassName="sorting-select"
@@ -801,6 +808,7 @@ const GeoSearch = (
                             onSorting={handleSorting}
                         />
                     )}
+                    </div>
 
                     {ksOnly && (
                         <button

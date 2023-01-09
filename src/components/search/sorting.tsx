@@ -6,10 +6,13 @@ import { useTranslation } from 'react-i18next';
 const styles = {
     formControl: {
         width: 'auto',
-        marginLeft: '5px',
+        marginLeft: '5px',        
     },
     select: {
-        width: 'auto',
+        
+        fontFamily: 'Open Sans',
+        fontSize: '0.875rem',
+        color: '#54595f',
     },
     divcontrol: {
         display: 'flex',
@@ -19,9 +22,17 @@ const styles = {
     label: {
         marginTop: '5px',
         display: 'flex',
+        fontFamily: 'Open Sans',
+        fontSize: '0.875rem',
+        color: '#54595f',
     },
     icon: {
         fill: 'white',
+    },
+    option:{
+        fontFamily: 'Open Sans',
+        fontSize: '0.875rem',
+        color: '#54595f',
     },
     root: {
         color: 'white',
@@ -80,7 +91,7 @@ export default function Sorting(props: SortingProps): JSX.Element {
                         native
                         value={defaultValue}
                         onChange={onChange}
-                        className={`${selectClassName}`}
+                        className={`${classes.select} ${selectClassName}`}
                         inputProps={{
                             name: 'sortby',
                             id: 'sortby-select',
@@ -89,11 +100,8 @@ export default function Sorting(props: SortingProps): JSX.Element {
                             },
                         }}
                     >
-                        <option value="0" disabled>
-                            {t('appbar.sortby.select')}
-                        </option>
                         {options.map((op, index) => (
-                            <option className={`${optionClassName}`} key={index} value={op.value}>
+                            <option className={`${classes.option} ${optionClassName}`} key={index} value={op.value}>
                                 {t(op.label)}
                             </option>
                         ))}
