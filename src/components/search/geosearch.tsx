@@ -688,7 +688,7 @@ const GeoSearch = (
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
 
         axios
-            .get(`${EnvGlobals.JSON_SERVER_URL}${EnvGlobals.APP_API_ENDPOINTS.SORTBY}`, { params: {_sort:'created', _order:'desc'} })
+            .get(`${EnvGlobals.JSON_SERVER_URL}${EnvGlobals.APP_API_ENDPOINTS.SORTBY}`, { params: { _sort: 'created', _order: 'desc' } })
             .then((response) => {
                 analyticPost(aParams);
                 return response.data;
@@ -696,10 +696,14 @@ const GeoSearch = (
             .then((data) => {
                 // console.log(data);
                 const res: [] = data.Items;
-                //testing 
-                res.sort((a,b)=>{
-                    if (a.created>b.created) return -1; if (a.created<b.created) return 1; return 0; });
+                //testing
+                res.sort((a, b) => {
+                    if (a.published > b.published) return -1;
+                    if (a.published < b.published) return 1;
+                    return 0;
+                });
                 console.log(res);
+
                 const rcnt = res.length > 0 ? res[0].total : 0;
                 setResults(res);
                 setCount(rcnt);
@@ -796,18 +800,18 @@ const GeoSearch = (
                         </label>
                     </div>
                     <div className="geo-padding-right-30">
-                    {!loading && (
-                        <Sorting                            
-                            label="appbar.sortby.label"
-                            labelClassName="sorting-label"
-                            selectClassName="sorting-select"
-                            optionClassName="sorting-option"
-                            iconClassName="sorting-icon"
-                            defaultValue={sortbyValue}
-                            options={sortingOptions}
-                            onSorting={handleSorting}
-                        />
-                    )}
+                        {!loading && (
+                            <Sorting
+                                label="appbar.sortby.label"
+                                labelClassName="sorting-label"
+                                selectClassName="sorting-select"
+                                optionClassName="sorting-option"
+                                iconClassName="sorting-icon"
+                                defaultValue={sortbyValue}
+                                options={sortingOptions}
+                                onSorting={handleSorting}
+                            />
+                        )}
                     </div>
 
                     {ksOnly && (

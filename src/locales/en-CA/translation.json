@@ -66,6 +66,7 @@
         "types": "Types",
         "themes": "Themes",
         "foundational": "Foundation Data",
+        "spatial": "Spatial",
         "otherfilters": "Other Filters",
         "applyfilters": "Apply Filters",
         "clearall": "Clear All"
