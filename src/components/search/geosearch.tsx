@@ -390,6 +390,7 @@ const GeoSearch = (
     const ksToggle = (kso: boolean) => {
         kso && map.off('moveend');
         setKSOnly(kso);
+        setSortbyValue('relevance');
     };
 
     const applyFilters = () => {
