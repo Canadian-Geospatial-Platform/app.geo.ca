@@ -78,6 +78,7 @@ const GeoSearch = (
     const [filterbyshown, setFilterbyshown] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
+    const [sortbyValue, setSortbyValue] = useState('title');
     /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
     const themefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -237,6 +238,7 @@ const GeoSearch = (
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
+            sort: sortbyValue
         };
         const aParams = Object.assign(analyticParams);
         aParams.search = keyword;
@@ -389,8 +391,7 @@ const GeoSearch = (
 
     const ksToggle = (kso: boolean) => {
         kso && map.off('moveend');
-        setKSOnly(kso);
-        setSortbyValue('relevance');
+        setKSOnly(kso);        
     };
 
     const applyFilters = () => {
@@ -426,6 +427,7 @@ const GeoSearch = (
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
+            sort: sortbyValue
         };
 
         const aParams = Object.assign(analyticParams);
@@ -623,149 +625,29 @@ const GeoSearch = (
 
     // console.log(storethemefilters);
     // console.log(loading, cpn, cnt);
-    const handleSortFilter = (sortby: string, bounds: unknown, pnum?: number) => {
-        map.off('moveend');
-        const cpr = pnum !== undefined ? true : false;
-        setPn(cpr);
-        !loading && setLoadingStatus(true);
-        const pageNumber = pnum !== undefined ? pnum : 1;
-
-        const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
-        const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
-        const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
-        const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
-        const found = localState !== undefined ? localState.mappingReducer.foundational : false;
-        // const MappingState = getMappingState();
-        const searchParams: SearchParams = {
-            north: bounds._northEast.lat,
-            east: bounds._northEast.lng,
-            south: bounds._southWest.lat,
-            west: bounds._southWest.lng,
-            keyword: initKeyword.replace(/"/g, '\\"'),
-            lang: language,
-            min: (pageNumber - 1) * rpp + 1,
-            max: pageNumber * rpp,
-        };
-        const aParams = Object.assign(analyticParams);
-        aParams.search = initKeyword;
-        // aParams.geo = JSON.stringify(bounds);
-        aParams.geo = [
-            [bounds._northEast.lat, bounds._northEast.lng],
-            [bounds._southWest.lat, bounds._southWest.lng],
-        ];
-
-        if (thfilters.length > 0) {
-            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g, "''"));
-            searchParams.theme = themeArray.join('|');
-            aParams.theme = themeArray;
-        } else if (aParams.theme) {
-            delete aParams.theme;
+    const handleSortFilter = () => {
+        const keyword = (inputRef.current as HTMLInputElement).value;
+        if(ksOnly){
+            handleKOSearch(keyword);
+        }else{
+            handleSearch(keyword, initBounds);
         }
-
-        if (ofilters.length > 0) {
-            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g, "''"));
-            searchParams.org = orgArray.join('|');
-            aParams.org = orgArray;
-        } else if (aParams.org) {
-            delete aParams.org;
-        }
-
-        if (tfilters.length > 0) {
-            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g, "''"));
-            searchParams.type = typeArray.join('|');
-            aParams.type_filter = typeArray;
-        } else if (aParams.type_filter) {
-            delete aParams.type_filter;
-        }
-
-        if (found) {
-            searchParams.foundational = 'true';
-            aParams.foundational = 'true';
-        } else if (aParams.foundational) {
-            delete aParams.foundational;
-        }
-
-        // console.log(searchParams);
-        dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
-
-        axios
-            .get(`${EnvGlobals.JSON_SERVER_URL}${EnvGlobals.APP_API_ENDPOINTS.SORTBY}`, { params: { _sort: 'created', _order: 'desc' } })
-            .then((response) => {
-                analyticPost(aParams);
-                return response.data;
-            })
-            .then((data) => {
-                // console.log(data);
-                const res: [] = data.Items;
-                //testing
-                res.sort((a, b) => {
-                    if (a.published > b.published) return -1;
-                    if (a.published < b.published) return 1;
-                    return 0;
-                });
-                console.log(res);
-
-                const rcnt = res.length > 0 ? res[0].total : 0;
-                setResults(res);
-                setCount(rcnt);
-                // setBounds(bounds);
-                // setAnalyticParams(aParams);
-                // setKeyword(keyword);
-                // if (!cpr && pn!==1) {
-                setPageNumber(pageNumber);
-                // }
-                // setLoadingStatus(false);
-                // setOrg(ofilters);
-                // setType(tfilters);
-                // setTheme(thfilters);
-                // setFound(found);
-                if (selected !== 'search' && open && res.find((r: SearchResult) => r.id === selected)) {
-                    setSelected('search');
-                    setOpen(false);
-                    selectResult(undefined);
-                }
-                // map.on('moveend', (event) => eventHandler(event));
-                // mapCount = 0;
-            })
-            .catch((error) => {
-                console.log(error);
-                setResults([]);
-                setCount(0);
-                setPn(false);
-                setPageNumber(1);
-                // setBounds(bounds);
-                // setAnalyticParams(aParams);
-                // setKeyword(keyword);
-                setSelected('search');
-                setOpen(false);
-                selectResult(undefined);
-                // setLoadingStatus(false);
-                // setOrg(ofilters);
-                // setType(tfilters);
-                // setTheme(thfilters);
-                // setFound(found);
-            })
-            .finally(() => {
-                setBounds(bounds);
-                setKWShowing([]);
-                setLoadingStatus(false);
-                map.on('moveend', (event) => eventHandler(event, keyword));
-                mapCount = 0;
-            });
     };
 
-    const [sortbyValue, setSortbyValue] = useState('relevance');
+    
     const sortingOptions: SortingOptionInfo[] = [
         { label: 'appbar.sortby.relevance', value: 'relevance' },
-        { label: 'appbar.sortby.date', value: 'date' },
-        { label: 'appbar.sortby.popularity', value: 'popularity' },
+        { label: 'appbar.sortby.date.desc', value: 'date-desc' },
+        { label: 'appbar.sortby.date.asc', value: 'date-asc' },
+        { label: 'appbar.sortby.popularity.desc', value: 'popularity-desc' },
+        { label: 'appbar.sortby.popularity.asc', value: 'popularity-asc' },
         { label: 'appbar.sortby.title', value: 'title' },
     ];
 
     const handleSorting = (value: string) => {
         setSortbyValue(value);
         console.log('sorting by', value);
-        !loading && handleSortFilter(value, initBounds);
+        !loading && handleSortFilter();
     };
     return (
         <div className="geoSearchContainer">
@@ -793,14 +675,14 @@ const GeoSearch = (
                     </button>
                 </div>
                 <div className={ksOnly ? 'col-12 col-advanced-filters-button' : 'col-advanced-filters-button'}>
-                    <div className="geo-padding-right-30">
+                    <div className={ksOnly?'geo-padding-right-30':'geo-padding-right-10'}>
                         <span>{t('appbar.keywordonly')}</span>
                         <label className="switch">
                             <input type="checkbox" disabled={loading} checked={ksOnly} onChange={() => ksToggle(!ksOnly)} />
                             <span className="slider round"></span>
                         </label>
                     </div>
-                    <div className="geo-padding-right-30">
+                    <div className={ksOnly? "geo-padding-right-30":"geo-padding-right-5"}>
                         {!loading && (
                             <Sorting
                                 label="appbar.sortby.label"
@@ -1164,6 +1046,7 @@ interface SearchParams {
     org?: string;
     type?: string;
     foundational?: 'true';
+    sort?:string;
 }
 interface KOSearchParams {
     keyword: string;
@@ -1175,6 +1058,7 @@ interface KOSearchParams {
     org?: string;
     type?: string;
     foundational?: 'true';
+    sort?:string;
 }
 
 interface SearchResult {

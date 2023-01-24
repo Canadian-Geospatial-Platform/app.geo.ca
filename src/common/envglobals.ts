@@ -79,8 +79,7 @@ interface globalValues {
     APP_API_ENDPOINTS: {
         SEARCH: string;
         METADATA: string;
-        ANALYTIC: string;
-        SORTBY: string;
+        ANALYTIC: string;        
     };
     APP_GEOCORE_URL: string;
     SITE_NAME: string;

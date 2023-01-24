@@ -55,8 +55,14 @@
             "label": "Trier par",
             "select": "sélectionner",
             "relevance": "Pertinence",
-            "date": "Date",
-            "popularity": "Popularité",
+            "date": {
+                "desc":"Date newest to oldest",
+                "asc":"Date oldest to newest"
+            },
+            "popularity": {
+                "desc": "Popularité newest to oldest",
+                "asc": "Popularité oldest to newest"
+            },
             "title": "Titre"
         }
     },
