@@ -26,10 +26,11 @@ import { envglobals } from '../../common/envglobals';
 import { analyticPost, AnalyticParams } from '../../common/analytic';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
-import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
+import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setSpatialFilter, setFoundational } from '../../reducers/action';
 import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
+import spatials from './spatials.json';
 import './geosearch.scss';
 import Sorting, { SortingOptionInfo } from './sorting';
 
@@ -68,11 +69,13 @@ const GeoSearch = (
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
+    const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
     const dispatch = useDispatch();
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
+    const [spatialfilters, setSpatial] = useState(storespatialfilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
     const [filterbyshown, setFilterbyshown] = useState(false);
@@ -227,6 +230,7 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+        const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         // const MappingState = getMappingState();
         const searchParams: SearchParams = {
@@ -238,7 +242,7 @@ const GeoSearch = (
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
-            sort: sortbyValue
+            sort: sortbyValue,
         };
         const aParams = Object.assign(analyticParams);
         aParams.search = keyword;
@@ -272,6 +276,14 @@ const GeoSearch = (
             delete aParams.type_filter;
         }
 
+        if (spafilters.length > 0) {
+            const spatialArray = spafilters.map((fs: number) => spatials[language][fs].toLowerCase().replace(/\'/g, "''"));
+            searchParams.spatial = spatialArray.join('|');
+            aParams.spatial = spatialArray;
+        } else if (aParams.type_filter) {
+            delete aParams.spatial;
+        }
+
         if (found) {
             searchParams.foundational = 'true';
             aParams.foundational = 'true';
@@ -280,7 +292,15 @@ const GeoSearch = (
         }
 
         // console.log(searchParams);
-        dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
+        dispatch(
+            setFilters({
+                orgfilter: ofilters,
+                typefilter: tfilters,
+                themefilter: thfilters,
+                spatialfilter: spafilters,
+                foundational: found,
+            })
+        );
 
         axios
             .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
@@ -391,11 +411,19 @@ const GeoSearch = (
 
     const ksToggle = (kso: boolean) => {
         kso && map.off('moveend');
-        setKSOnly(kso);        
+        setKSOnly(kso);
     };
 
     const applyFilters = () => {
-        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
+        dispatch(
+            setFilters({
+                orgfilter: orgfilters,
+                typefilter: typefilters,
+                themefilter: themefilters,
+                spatialfilter: spatialfilters,
+                foundational,
+            })
+        );
         setFReset(false);
         // setPageNumber(1);
     };
@@ -404,8 +432,9 @@ const GeoSearch = (
         setOrg([]);
         setType([]);
         setTheme([]);
+        setSpatial([]);
         setFound(false);
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false }));
         setFReset(false);
         // setPageNumber(1);
     };
@@ -420,6 +449,7 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+        const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         const searchParams: KOSearchParams = {
             keyword: keyword.replace(/"/g, '\\"'),
@@ -427,7 +457,7 @@ const GeoSearch = (
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
-            sort: sortbyValue
+            sort: sortbyValue,
         };
 
         const aParams = Object.assign(analyticParams);
@@ -453,6 +483,13 @@ const GeoSearch = (
         } else if (aParams.type_filter) {
             delete aParams.type_filter;
         }
+        if (spafilters.length > 0) {
+            const spatialArray = spafilters.map((fs: number) => spatials[language][fs].toLowerCase().replace(/\'/g, "''"));
+            searchParams.spatial = spatialArray.join('|');
+            aParams.spatial = spatialArray;
+        } else if (aParams.spatial) {
+            delete aParams.spatial;
+        }
         if (found) {
             searchParams.foundational = 'true';
             aParams.foundational = 'true';
@@ -460,7 +497,15 @@ const GeoSearch = (
             delete aParams.foundational;
         }
 
-        dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
+        dispatch(
+            setFilters({
+                orgfilter: ofilters,
+                typefilter: tfilters,
+                themefilter: thfilters,
+                spatialfilter: spafilters,
+                foundational: found,
+            })
+        );
         // console.log(searchParams);
         axios
             .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
@@ -544,6 +589,11 @@ const GeoSearch = (
         setTheme(filters);
     };
 
+    const handleSpatial = (filters: unknown): void => {
+        setFReset(true);
+        setSpatial(filters);
+    };
+
     const handleFound = (found: unknown): void => {
         setFReset(true);
         setFound(found);
@@ -573,6 +623,13 @@ const GeoSearch = (
         // handleSearch(initKeyword);
     };
 
+    const clearSpatialFilter = (filter: number) => {
+        const newfilter = spatialfilters.filter((fs: number) => fs !== filter);
+        dispatch(setSpatialFilter(newfilter));
+        setSpatial(newfilter);
+        setFReset(false);
+        // handleSearch(initKeyword);
+    };
     const clearFound = () => {
         dispatch(setFoundational(false));
         setFound(false);
@@ -619,7 +676,18 @@ const GeoSearch = (
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showing, ksOnly, fReset, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational, stateLoaded]);
+    }, [
+        showing,
+        ksOnly,
+        fReset,
+        language,
+        storeorgfilters,
+        storetypefilters,
+        storethemefilters,
+        storespatialfilters,
+        storefoundational,
+        stateLoaded,
+    ]);
 
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
@@ -627,14 +695,13 @@ const GeoSearch = (
     // console.log(loading, cpn, cnt);
     const handleSortFilter = () => {
         const keyword = (inputRef.current as HTMLInputElement).value;
-        if(ksOnly){
+        if (ksOnly) {
             handleKOSearch(keyword);
-        }else{
+        } else {
             handleSearch(keyword, initBounds);
         }
     };
 
-    
     const sortingOptions: SortingOptionInfo[] = [
         { label: 'appbar.sortby.relevance', value: 'relevance' },
         { label: 'appbar.sortby.date.desc', value: 'date-desc' },
@@ -675,14 +742,14 @@ const GeoSearch = (
                     </button>
                 </div>
                 <div className={ksOnly ? 'col-12 col-advanced-filters-button' : 'col-advanced-filters-button'}>
-                    <div className={ksOnly?'geo-padding-right-30':'geo-padding-right-10'}>
+                    <div className={ksOnly ? 'geo-padding-right-30' : 'geo-padding-right-10'}>
                         <span>{t('appbar.keywordonly')}</span>
                         <label className="switch">
                             <input type="checkbox" disabled={loading} checked={ksOnly} onChange={() => ksToggle(!ksOnly)} />
                             <span className="slider round"></span>
                         </label>
                     </div>
-                    <div className={ksOnly? "geo-padding-right-30":"geo-padding-right-5"}>
+                    <div className={ksOnly ? 'geo-padding-right-30' : 'geo-padding-right-5'}>
                         {!loading && (
                             <Sorting
                                 label="appbar.sortby.label"
@@ -710,7 +777,12 @@ const GeoSearch = (
                     )}
                 </div>
             </div>
-            {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
+            {storetypefilters.length +
+                storeorgfilters.length +
+                storethemefilters.length +
+                storespatialfilters.length +
+                (storefoundational ? 1 : 0) >
+                0 && (
                 <div className={ksOnly ? 'container-fluid container-search-filters-active' : 'searchFilters'}>
                     <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
                         {storetypefilters.map((typefilter: number) => (
@@ -744,6 +816,17 @@ const GeoSearch = (
                                 onClick={!loading ? () => clearThemeFilter(themefilter) : undefined}
                             >
                                 {themes[language][themefilter]} <i className="fas fa-times" />
+                            </button>
+                        ))}
+                        {storespatialfilters.map((spatialfilter: number) => (
+                            <button
+                                key={`spaf-${spatialfilter}`}
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? () => clearSpatialFilter(spatialfilter) : undefined}
+                            >
+                                {spatials[language][spatialfilter]} <i className="fas fa-times" />
                             </button>
                         ))}
                         {storefoundational && (
@@ -788,12 +871,20 @@ const GeoSearch = (
                                     filterselected={typefilters}
                                     selectFilters={handleType}
                                 />
+
+                                <SearchFilter
+                                    filtertitle={t('filter.spatial')}
+                                    filtervalues={spatials[language]}
+                                    filterselected={spatialfilters}
+                                    selectFilters={handleSpatial}
+                                />
                                 <SearchFilter
                                     filtertitle={t('filter.themes')}
                                     filtervalues={themes[language]}
                                     filterselected={themefilters}
                                     selectFilters={handleTheme}
                                 />
+
                                 <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
                                     <button
                                         type="button"
@@ -1045,8 +1136,9 @@ interface SearchParams {
     theme?: string;
     org?: string;
     type?: string;
+    spatial?: string;
     foundational?: 'true';
-    sort?:string;
+    sort?: string;
 }
 interface KOSearchParams {
     keyword: string;
@@ -1058,7 +1150,8 @@ interface KOSearchParams {
     org?: string;
     type?: string;
     foundational?: 'true';
-    sort?:string;
+    sort?: string;
+    spatial?: string;
 }
 
 interface SearchResult {

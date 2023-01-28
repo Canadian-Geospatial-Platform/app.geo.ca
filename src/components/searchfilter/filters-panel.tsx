@@ -13,6 +13,7 @@ import SearchFilter from './searchfilter';
 import organisations from '../search/organisations.json';
 import types from '../search/types.json';
 import themes from '../search/themes.json';
+import spatials from '../search/spatials.json';
 import { setFilters } from '../../reducers/action';
 
 export default function FilterPanel(props: PanelProps): JSX.Element {
@@ -22,17 +23,27 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
+    const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
     const dispatch = useDispatch();
     const language = t('app.language');
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
+    const [spatialfilters, setSpatial] = useState(storespatialfilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
     // console.log(state, dispatch);
     const applyFilters = () => {
-        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
+        dispatch(
+            setFilters({
+                orgfilter: orgfilters,
+                typefilter: typefilters,
+                themefilter: themefilters,
+                spatialfilter: spatialfilters,
+                foundational,
+            })
+        );
         setFReset(false);
         closeFunction(' search');
     };
@@ -40,8 +51,9 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setOrg([]);
         setType([]);
         setTheme([]);
+        setSpatial([]);
         setFound(false);
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false }));
         setFReset(false);
         closeFunction(' search');
     };
@@ -61,6 +73,11 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setTheme(filters);
     };
 
+    const handleSpatial = (filters: unknown): void => {
+        setFReset(true);
+        setSpatial(filters);
+    };
+
     const handleFound = (found: unknown): void => {
         setFReset(true);
         setFound(found);
@@ -73,10 +90,12 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
             const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
             const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+            const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
             const found = localState !== undefined ? localState.mappingReducer.foundational : false;
             setOrg(ofilters);
             setType(tfilters);
             setTheme(thfilters);
+            setSpatial(spafilters);
             setFound(found);
             setFReset(true);
         }
@@ -85,7 +104,11 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     return (
         <PanelApp
             title="appbar.filters"
-            icon={<SvgIcon><FilterIcon /></SvgIcon>}
+            icon={
+                <SvgIcon>
+                    <FilterIcon />
+                </SvgIcon>
+            }
             showing={showing}
             closeFunction={closeFunction}
             content={
@@ -107,12 +130,20 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         filterselected={typefilters}
                                         selectFilters={handleType}
                                     />
+
+                                    <SearchFilter
+                                        filtertitle={t('filter.spatial')}
+                                        filtervalues={spatials[language]}
+                                        filterselected={spatialfilters}
+                                        selectFilters={handleSpatial}
+                                    />
                                     <SearchFilter
                                         filtertitle={t('filter.themes')}
                                         filtervalues={themes[language]}
                                         filterselected={themefilters}
                                         selectFilters={handleTheme}
                                     />
+
                                     <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
                                         <button
                                             type="button"

@@ -13,20 +13,21 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import { useTranslation } from 'react-i18next';
 // import i18n from '../../assets/i18n/i18n';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
-import SvgIcon from "@material-ui/core/SvgIcon";
+import SvgIcon from '@material-ui/core/SvgIcon';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '../../assets/icons/filter.svg';
 import { loadState } from '../../reducers/localStorage';
 import { NavBar } from '../navbar/nav-bar';
 import { getQueryParams } from '../../common/queryparams';
 import { envglobals } from '../../common/envglobals';
-import {analyticPost, AnalyticParams} from '../../common/analytic';
+import { analyticPost, AnalyticParams } from '../../common/analytic';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
-import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
+import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setSpatialFilter, setFoundational } from '../../reducers/action';
 import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
+import spatials from './spatials.json';
 // import { css } from '@emotion/core';
 import './keywordsearch.scss';
 
@@ -52,22 +53,32 @@ const KeywordSearch = (): JSX.Element => {
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
+    const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
     const dispatch = useDispatch();
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
+    const [spatialfilters, setSpatial] = useState(storespatialfilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
     const [filterbyshown, setFilterbyshown] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
     const language = t('app.language');
-    const [analyticParams, setAnalyticParams] = useState({loc: '/search', lang: language, type: 'search', event: 'search'});
+    const [analyticParams, setAnalyticParams] = useState({ loc: '/search', lang: language, type: 'search', event: 'search' });
 
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
 
     // console.log(language);
     const applyFilters = () => {
-        dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
+        dispatch(
+            setFilters({
+                orgfilter: orgfilters,
+                typefilter: typefilters,
+                themefilter: themefilters,
+                spatialfilter: spatialfilters,
+                foundational,
+            })
+        );
         setFReset(false);
         // setPageNumber(1);
     };
@@ -77,21 +88,22 @@ const KeywordSearch = (): JSX.Element => {
         setType([]);
         setTheme([]);
         setFound(false);
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], foundational: false }));
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false }));
         setFReset(false);
         // setPageNumber(1);
     };
 
     const handleSearch = (keyword: string, pnum?: number) => {
-        const cpr = pnum!==undefined;
-        const currentLang = (!sfloaded && queryParams.lang !== undefined)?queryParams.lang:language;
+        const cpr = pnum !== undefined;
+        const currentLang = !sfloaded && queryParams.lang !== undefined ? queryParams.lang : language;
         setPn(cpr);
         setLoading(true);
-        const pageNumber = pnum!==undefined ? pnum : 1;
+        const pageNumber = pnum !== undefined ? pnum : 1;
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+        const spafilters = localState !== undefined ? localState.mappingReducer.spafilter : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         const searchParams: SearchParams = {
             keyword,
@@ -104,25 +116,32 @@ const KeywordSearch = (): JSX.Element => {
         const aParams = Object.assign(analyticParams);
         aParams.search = keyword;
         if (thfilters.length > 0) {
-            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.theme = themeArray.join('|');
             aParams.theme = themeArray;
         } else if (aParams.theme) {
             delete aParams.theme;
         }
         if (ofilters.length > 0) {
-            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.org = orgArray.join('|');
             aParams.org = orgArray;
         } else if (aParams.org) {
             delete aParams.org;
         }
         if (tfilters.length > 0) {
-            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.type = typeArray.join('|');
             aParams.type_filter = typeArray;
         } else if (aParams.type_filter) {
             delete aParams.type_filter;
+        }
+        if (spafilters.length > 0) {
+            const spatialArray = spafilters.map((fs: number) => spatials[language][fs].toLowerCase().replace(/\'/g, "''"));
+            searchParams.type = spatialArray.join('|');
+            aParams.spatial = spatialArray;
+        } else if (aParams.spatial) {
+            delete aParams.spatial;
         }
         if (found) {
             searchParams.foundational = 'true';
@@ -131,11 +150,20 @@ const KeywordSearch = (): JSX.Element => {
             delete aParams.foundational;
         }
 
-        dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
+        dispatch(
+            setFilters({
+                orgfilter: ofilters,
+                typefilter: tfilters,
+                themefilter: thfilters,
+                spatialfilter: spafilters,
+                foundational: found,
+            })
+        );
 
         // console.log(searchParams);
-        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
-            .then((response) =>  {
+        axios
+            .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
+            .then((response) => {
                 analyticPost(analyticParams);
                 return response.data;
             })
@@ -155,6 +183,7 @@ const KeywordSearch = (): JSX.Element => {
                 setOrg(ofilters);
                 setType(tfilters);
                 setTheme(thfilters);
+                setSpatial(spafilters);
                 setFound(found);
                 setSF(true);
             })
@@ -171,6 +200,7 @@ const KeywordSearch = (): JSX.Element => {
                 setOrg(ofilters);
                 setType(tfilters);
                 setTheme(thfilters);
+                setSpatial(spafilters);
                 setFound(found);
                 setSF(true);
             });
@@ -201,13 +231,13 @@ const KeywordSearch = (): JSX.Element => {
 
     const handleView = (id: string) => {
         const viewParams: AnalyticParams = {
-            uuid: id, 
+            uuid: id,
             loc: '/search',
             lang: language,
             type: 'access',
-            event: 'view'
+            event: 'view',
         };
-    
+
         viewParams.search = analyticParams.search;
         if (analyticParams.theme) {
             viewParams.theme = analyticParams.theme;
@@ -255,6 +285,11 @@ const KeywordSearch = (): JSX.Element => {
         setTheme(filters);
     };
 
+    const handleSpatial = (filters: unknown): void => {
+        setFReset(true);
+        setSpatial(filters);
+    };
+
     const handleFound = (found: unknown): void => {
         setFReset(true);
         setFound(found);
@@ -284,6 +319,14 @@ const KeywordSearch = (): JSX.Element => {
         // handleSearch(initKeyword);
     };
 
+    const clearSpatialFilter = (filter: number) => {
+        const newfilter = spatialfilters.filter((fs: number) => fs !== filter);
+        dispatch(setSpatialFilter(newfilter));
+        setSpatial(newfilter);
+        setFReset(false);
+        // handleSearch(initKeyword);
+    };
+
     const clearFound = () => {
         dispatch(setFoundational(false));
         setFound(false);
@@ -307,7 +350,7 @@ const KeywordSearch = (): JSX.Element => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [language, fReset, storeorgfilters, storetypefilters, storethemefilters, storefoundational]);
+    }, [language, fReset, storeorgfilters, storetypefilters, storethemefilters, storespatialfilters, storefoundational]);
 
     // console.log(loading, cpn);
     return (
@@ -360,7 +403,12 @@ const KeywordSearch = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
+            {storetypefilters.length +
+                storeorgfilters.length +
+                storethemefilters.length +
+                storespatialfilters.length +
+                (storefoundational ? 1 : 0) >
+                0 && (
                 <div className="container-fluid container-search-filters-active">
                     <div className="row row-search-filters-active">
                         <div className="col-12">
@@ -398,6 +446,17 @@ const KeywordSearch = (): JSX.Element => {
                                         {themes[language][themefilter]} <i className="fas fa-times" />
                                     </button>
                                 ))}
+                                {storespatialfilters.map((spatialfilter: number) => (
+                                    <button
+                                        key={`spaf-${spatialfilter}`}
+                                        type="button"
+                                        className="btn btn-filter"
+                                        disabled={loading}
+                                        onClick={!loading ? () => clearSpatialFilter(spatialfilter) : undefined}
+                                    >
+                                        {spatials[language][spatialfilter]} <i className="fas fa-times" />
+                                    </button>
+                                ))}
                                 {storefoundational && (
                                     <button
                                         type="button"
@@ -424,7 +483,10 @@ const KeywordSearch = (): JSX.Element => {
                     <div className="row row-filters">
                         <div className="col-12">
                             <h3 className="filters-title">
-                                <SvgIcon><FilterIcon /></SvgIcon> {t('filter.filterby')}:
+                                <SvgIcon>
+                                    <FilterIcon />
+                                </SvgIcon>{' '}
+                                {t('filter.filterby')}:
                             </h3>
                             <div className="filters-wrap">
                                 <SearchFilter
@@ -439,12 +501,21 @@ const KeywordSearch = (): JSX.Element => {
                                     filterselected={typefilters}
                                     selectFilters={handleType}
                                 />
+
+                                <SearchFilter
+                                    filtertitle={t('filter.spatial')}
+                                    filtervalues={spatials[language]}
+                                    filterselected={spatialfilters}
+                                    selectFilters={handleSpatial}
+                                />
+
                                 <SearchFilter
                                     filtertitle={t('filter.themes')}
                                     filtervalues={themes[language]}
                                     filterselected={themefilters}
                                     selectFilters={handleTheme}
                                 />
+
                                 <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
                                     <button
                                         type="button"
@@ -482,7 +553,16 @@ const KeywordSearch = (): JSX.Element => {
             <div className="container-fluid container-pagination container-pagination-top">
                 <div className="row row-pagination row-pagination-top">
                     <div className="col-12">
-                        {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={(pnum:number)=>handleSearch(initKeyword,pnum)} loading={loading} />}
+                        {cnt > 0 && (!loading || cpn) && (
+                            <Pagination
+                                rpp={rpp}
+                                ppg={ppg}
+                                rcnt={cnt}
+                                current={pn}
+                                selectPage={(pnum: number) => handleSearch(initKeyword, pnum)}
+                                loading={loading}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
@@ -496,7 +576,7 @@ const KeywordSearch = (): JSX.Element => {
                     ) : !Array.isArray(results) || results.length === 0 || results[0].id === undefined ? (
                         <div className="col-12 col-search-message">{t('page.noresult')}</div>
                     ) : (
-                        results.map((result: SearchResult, mindex:number) => {
+                        results.map((result: SearchResult, mindex: number) => {
                             const coordinates = JSON.parse(result.coordinates);
                             const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                             const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
@@ -527,7 +607,7 @@ const KeywordSearch = (): JSX.Element => {
                                                                 className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
                                                                 key={ki}
                                                                 onClick={() => handleKeyword(keyword)}
-                                                                autoFocus = {cpn && mindex===0 && ki===0?true:false}
+                                                                autoFocus={cpn && mindex === 0 && ki === 0 ? true : false}
                                                             >
                                                                 {keyword}
                                                             </button>
@@ -569,7 +649,7 @@ const KeywordSearch = (): JSX.Element => {
                                                 className="btn btn-search"
                                                 onClick={() => handleView(result.id)}
                                                 aria-label={result.title}
-                                                autoFocus = {cpn && keywords.length===0 && mindex===0?true:false}
+                                                autoFocus={cpn && keywords.length === 0 && mindex === 0 ? true : false}
                                             >
                                                 {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                             </button>
@@ -611,7 +691,16 @@ const KeywordSearch = (): JSX.Element => {
             <div className="container-fluid container-pagination container-pagination-bottom">
                 <div className="row row-pagination row-pagination-bottom">
                     <div className="col-12">
-                        {cnt > 0 && (!loading || cpn ) &&  <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} selectPage={(pnum:number)=>handleSearch(initKeyword,pnum)} loading={loading} />}
+                        {cnt > 0 && (!loading || cpn) && (
+                            <Pagination
+                                rpp={rpp}
+                                ppg={ppg}
+                                rcnt={cnt}
+                                current={pn}
+                                selectPage={(pnum: number) => handleSearch(initKeyword, pnum)}
+                                loading={loading}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
@@ -628,6 +717,7 @@ interface SearchParams {
     theme?: string;
     org?: string;
     type?: string;
+    spatial?: string;
     foundational?: 'true';
 }
 
