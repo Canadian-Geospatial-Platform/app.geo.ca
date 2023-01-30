@@ -238,7 +238,7 @@ const GeoSearch = (
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
-            sort: sortbyValue
+            sort: sortbyValue,
         };
         const aParams = Object.assign(analyticParams);
         aParams.search = keyword;
@@ -391,7 +391,7 @@ const GeoSearch = (
 
     const ksToggle = (kso: boolean) => {
         kso && map.off('moveend');
-        setKSOnly(kso);        
+        setKSOnly(kso);
     };
 
     const applyFilters = () => {
@@ -427,7 +427,7 @@ const GeoSearch = (
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
-            sort: sortbyValue
+            sort: sortbyValue,
         };
 
         const aParams = Object.assign(analyticParams);
@@ -619,7 +619,18 @@ const GeoSearch = (
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showing, ksOnly, fReset, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational, stateLoaded]);
+    }, [
+        showing,
+        ksOnly,
+        sortbyValue,
+        fReset,
+        language,
+        storeorgfilters,
+        storetypefilters,
+        storethemefilters,
+        storefoundational,
+        stateLoaded,
+    ]);
 
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
@@ -627,14 +638,13 @@ const GeoSearch = (
     // console.log(loading, cpn, cnt);
     const handleSortFilter = () => {
         const keyword = (inputRef.current as HTMLInputElement).value;
-        if(ksOnly){
+        if (ksOnly) {
             handleKOSearch(keyword);
-        }else{
+        } else {
             handleSearch(keyword, initBounds);
         }
     };
 
-    
     const sortingOptions: SortingOptionInfo[] = [
         { label: 'appbar.sortby.relevance', value: 'relevance' },
         { label: 'appbar.sortby.date.desc', value: 'date-desc' },
@@ -647,7 +657,7 @@ const GeoSearch = (
     const handleSorting = (value: string) => {
         setSortbyValue(value);
         console.log('sorting by', value);
-        !loading && handleSortFilter();
+        // !loading && handleSortFilter();
     };
     return (
         <div className="geoSearchContainer">
@@ -675,14 +685,14 @@ const GeoSearch = (
                     </button>
                 </div>
                 <div className={ksOnly ? 'col-12 col-advanced-filters-button' : 'col-advanced-filters-button'}>
-                    <div className={ksOnly?'geo-padding-right-30':'geo-padding-right-10'}>
+                    <div className={ksOnly ? 'geo-padding-right-30' : 'geo-padding-right-10'}>
                         <span>{t('appbar.keywordonly')}</span>
                         <label className="switch">
                             <input type="checkbox" disabled={loading} checked={ksOnly} onChange={() => ksToggle(!ksOnly)} />
                             <span className="slider round"></span>
                         </label>
                     </div>
-                    <div className={ksOnly? "geo-padding-right-30":"geo-padding-right-5"}>
+                    <div className={ksOnly ? 'geo-padding-right-30' : 'geo-padding-right-5'}>
                         {!loading && (
                             <Sorting
                                 label="appbar.sortby.label"
@@ -1046,7 +1056,7 @@ interface SearchParams {
     org?: string;
     type?: string;
     foundational?: 'true';
-    sort?:string;
+    sort?: string;
 }
 interface KOSearchParams {
     keyword: string;
@@ -1058,7 +1068,7 @@ interface KOSearchParams {
     org?: string;
     type?: string;
     foundational?: 'true';
-    sort?:string;
+    sort?: string;
 }
 
 interface SearchResult {
