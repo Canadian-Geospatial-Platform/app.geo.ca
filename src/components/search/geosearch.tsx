@@ -679,12 +679,12 @@ const GeoSearch = (
     }, [
         showing,
         ksOnly,
+        sortbyValue,
         fReset,
         language,
         storeorgfilters,
         storetypefilters,
         storethemefilters,
-        storespatialfilters,
         storefoundational,
         stateLoaded,
     ]);
@@ -714,7 +714,7 @@ const GeoSearch = (
     const handleSorting = (value: string) => {
         setSortbyValue(value);
         console.log('sorting by', value);
-        !loading && handleSortFilter();
+        // !loading && handleSortFilter();
     };
     return (
         <div className="geoSearchContainer">
