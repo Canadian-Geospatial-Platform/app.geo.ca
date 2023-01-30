@@ -72,6 +72,11 @@ const config = {
                     from: path.resolve(__dirname, 'public/assets'), 
                     to: path.resolve(__dirname, 'dist/assets'),
                     force: true
+                },
+                { 
+                    from: path.resolve(__dirname, 'public/root'), 
+                    to: path.resolve(__dirname, 'dist/'),
+                    force: true
                 }
             ]
         }),
