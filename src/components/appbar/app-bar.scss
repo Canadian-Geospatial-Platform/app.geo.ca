@@ -51,7 +51,7 @@
             font-size: 1.5rem;
             text-align: center;
         }
-        &.analytics {
+        &.analytics, &.account {
             top: 90px;
             .MuiCard-root {
                 width: calc(100vw - 61px);

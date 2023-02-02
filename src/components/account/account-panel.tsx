@@ -2,6 +2,7 @@ import { Typography } from '@material-ui/core';
 import AccountIcon from '@material-ui/icons/AccountBox';
 
 import PanelApp, {PanelProps} from '../appbar/panel';
+import Account from './account';
 // import Dashboard from './cognito-auth/Dashboard';
 
 export default function AccountPanel(props: PanelProps): JSX.Element {
@@ -17,9 +18,7 @@ export default function AccountPanel(props: PanelProps): JSX.Element {
             closeFunction = {closeFunction}
             content={
                 ((
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Account
-                    </Typography>
+                    <Account />
                 ) as unknown) as Element
             }
         />

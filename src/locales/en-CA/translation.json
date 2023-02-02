@@ -82,6 +82,24 @@
         "headertitle": "Title",
         "headertotal": "Total Access"
     },
+    "account": {
+        "title": "Account",
+        "announcements": "Announcements",
+        "announcementTitle": "{New Feature Alert!}",
+        "announcementDesc": "{GEO.CA ia proud to announce our user dashboard! Here you can find the lastest announcements, reasources and data from your communities, and you can now save search results and records! Check it out below!}",
+        "latestCommunityAnnouncement": "Latest Community Announcements",
+        "latestCommunityAnnouncementTitle": "{This is Community Announcement!}",
+        "latestCommunityAnnouncementDesc": "{This is where the community announcement is made!}",
+        "communityTitle":"Community",
+        "communityName":"{This is community name}",
+        "latestCommunityData": "Latest Community Data",
+        "dataTitle":"{Data Title}",
+        "dataDescription":"{Data description truncated}",
+        "latestCommunityResources": "Latest Community Resources",
+        "resourceTitle":"{Resource Title}",
+        "resourceDescription":"{Resource description truncated}",
+        "savedSearches":"Saved Searches"
+    },
     "howto": {
         "geosearchdescription": "The search application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map. If you are not interested in a given geographic area. Click on the Keyword Only toggle, enter a keyword, and filter the results based on our advanced filters.",
         "keywordsearchdescription": "The keyword search page can be used if you are not interested in a given geographic area. Enter a keyword, and filter the results based on our advanced filters.",
