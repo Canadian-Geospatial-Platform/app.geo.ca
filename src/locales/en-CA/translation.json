@@ -98,7 +98,8 @@
         "latestCommunityResources": "Latest Community Resources",
         "resourceTitle":"{Resource Title}",
         "resourceDescription":"{Resource description truncated}",
-        "savedSearches":"Saved Searches"
+        "savedSearches":"Saved Searches",
+        "savedRecords":"Saved Records"
     },
     "howto": {
         "geosearchdescription": "The search application uses a map to search data over the area shown. Pan and zoom the map to filter the content based on your area of interest. The results will refresh based on the area of the map. If you are not interested in a given geographic area. Click on the Keyword Only toggle, enter a keyword, and filter the results based on our advanced filters.",

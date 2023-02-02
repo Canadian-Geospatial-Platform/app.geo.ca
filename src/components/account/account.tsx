@@ -129,6 +129,45 @@ const Account = () => {
             </section>
             <section className="sec-analytics-results sec-analytics-results-summary">
                 <div className="sec-inner-wrap">
+                    <h2 className="sec-title no-margin"> {t('account.latestCommunityResources')}
+                    </h2>
+                    <div className="sec-inner-wrap no-margin" >
+                        <div className="card-wrap">
+                            <h4 className="summary-card-title">
+                                {t('account.dataTitle')}
+                            </h4>
+                        </div>
+                        <div className="card-wrap">
+                            {/* {nstLoading ? (
+                                    <BeatLoader color="#ffffff" />
+                                ) : nstNum < 0 ? (
+                                    <div className="loading-failed">
+                                        {t('analytic.loadingfailed')},{' '}
+                                        <button type="button" className="link-button" onClick={() => setNSTLoading(true)}>
+                                            {t('analytic.tryagain')}
+                                        </button>
+                                    </div>
+                                ) : ( */}
+                            <div >
+                                {/* {nstNum} */}
+                                {t('account.dataDescription')}
+                            </div>
+                            {/* )} */}
+                        </div>
+
+                        <div className="card-wrap">
+                            <div className="width-50-per text-left padding-left-15">
+                                {t('account.communityTitle')}: {t('account.communityName')}
+                            </div>
+                            <div className="width-50-per text-right padding-right-15">
+                                <a href='#' className='color-light'>Go to Record</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section className="sec-analytics-results sec-analytics-results-summary">
+                <div className="sec-inner-wrap">
                     <div className="sec-inner-wrap no-margin no-border">
                         <div className="card-wrap">
                             <div className="width-50-per">
@@ -151,7 +190,7 @@ const Account = () => {
                                 <div className="sec-inner-wrap no-margin" >
                                     <div className="card-wrap">
                                         <h4 className="summary-card-title">
-                                            {t('account.savedSearches')}
+                                            {t('account.savedRecords')}
                                         </h4>
                                     </div>
                                     <div className="card-wrap">
