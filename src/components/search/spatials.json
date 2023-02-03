@@ -1,4 +1,4 @@
 {
-    "en": ["Viewable(4536)", "Non-viewable(2389)"],
-    "fr": ["Viewable(4536)", "Non-viewable(2389)"]
+    "en": ["viewable-on-map", "not-viewable-on-map"],
+    "fr": ["viewable-on-map", "not-viewable-on-map"]
 }

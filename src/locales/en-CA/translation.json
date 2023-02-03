@@ -56,12 +56,12 @@
             "select": "Select",
             "relevance": "Relevance",
             "date": {
-                "desc":"Date newest to oldest",
+                "desc": "Date newest to oldest",
                 "asc": "Date oldest to newest"
             },
             "popularity": {
                 "desc": "Popularity most to least",
-                "asc":"Popularity least to most"
+                "asc": "Popularity least to most"
             },
             "title": "Title"
         }
@@ -75,7 +75,13 @@
         "spatial": "Viewable on a Map",
         "otherfilters": "Other Filters",
         "applyfilters": "Apply Filters",
-        "clearall": "Clear All"
+        "clearall": "Clear All",
+        "label": {
+            "spatial": {
+                "viewable-on-map": "Viewable({{param}})",
+                "not-viewable-on-map": "Non-viewable({{param}})"
+            }
+        }
     },
     "analytic": {
         "title": "Analytics",

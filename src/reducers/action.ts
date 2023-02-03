@@ -1,3 +1,4 @@
+import { SpatialData } from '../app';
 import { mappingObj } from './reducer';
 
 /* eslint-disable prettier/prettier */
@@ -9,6 +10,7 @@ export enum ActionType {
     SET_SPATIAL = 'setSpatial',
     SET_FOUND = 'setFoundational',
     SET_FILTERS = 'setFilters',
+    SET_SPATIALDATA = 'setSpatialData',
 }
 
 export interface Action {
@@ -38,6 +40,10 @@ export interface FiltersAction {
     payload: Filters;
 }
 
+export interface SpatialAction {
+    type: ActionType.SET_SPATIALDATA;
+    payload: SpatialData;
+}
 // export type Action = { type: ActionType.ADD_MAPPING, payload: idstring } | { type: ActionType.DEL_MAPPING, payload: idstring } | { type: ActionType.CLEAR_MAPPING };
 export function setMapping(mlist: mappingObj[]): Action {
     return { type: ActionType.SET_MAPPING, payload: mlist };
@@ -57,6 +63,10 @@ export function setThemeFilter(themefilter: number[]): FilterAction {
 
 export function setSpatialFilter(spatialfilter: number[]): FilterAction {
     return { type: ActionType.SET_SPATIAL, payload: spatialfilter };
+}
+
+export function setSpatialData(spatialData: SpatialData): SpatialAction {
+    return { type: ActionType.SET_SPATIALDATA, payload: spatialData };
 }
 
 export function setFoundational(foundational: boolean): BooleanAction {

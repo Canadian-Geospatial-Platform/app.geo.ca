@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { Suspense, StrictMode } from 'react';
+import React, { Suspense, StrictMode, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import axios from 'axios';
+import { Provider, useDispatch } from 'react-redux';
 import { combineReducers, createStore, StoreEnhancer } from 'redux';
 import throttle from 'lodash.throttle';
 import { I18nextProvider } from 'react-i18next';
@@ -26,6 +27,8 @@ import CgpModal from './components/modal/cgpmodal';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/css/style.scss';
+import { setSpatialData } from './reducers/action';
+
 // import authconfig from './components/account/cognito-auth/config.json';
 
 const persistedState: StoreEnhancer<unknown, unknown> | undefined = loadState();
@@ -54,12 +57,29 @@ const config = jsonConfig
     ? JSON.parse(jsonConfig.replace(/'/g, '"'))
     : { name: 'Web Mercator', projection: 3857, zoom: 4, center: [60, -100], language: 'en', search: true, auth: false };
 // const center: LatLngTuple = [config.center[0], config.center[1]];
-const queryParams: { [key: string]: string } = getQueryParams(window.location.href.substr(window.location.href.indexOf("?")));
+const queryParams: { [key: string]: string } = getQueryParams(window.location.href.substr(window.location.href.indexOf('?')));
 
 // console.log(process.env.NODE_ENV);
 
 const RenderMap: React.FunctionComponent = () => {
     const center: LatLngTuple = [config.center[0], config.center[1]];
+    const dispatch = useDispatch();
+    useEffect(() => {
+        axios
+            .get('http://localhost:3000/spatial-view')
+            .then((result) => {
+                //console.log(result);
+                const spatialData: SpatialData = {
+                    viewableOnTheMap: result.data.viewableOnTheMap,
+                    notViewableOnTheMap: result.data.notViewableOnTheMap,
+                };
+                dispatch(setSpatialData(spatialData));
+            })
+            .catch((e) => {
+                console.log(e);
+                dispatch(setSpatialData({ viewableOnTheMap: 0, notViewableOnTheMap: 0 }));
+            });
+    }, []);
     return (
         <Suspense fallback="loading">
             <div className="mapPage">
@@ -89,7 +109,7 @@ const RenderMap: React.FunctionComponent = () => {
 };
 
 const Routing = () => {
-    const language = queryParams.lang!==undefined ? queryParams.lang : i18n.language.substring(0, 2);
+    const language = queryParams.lang !== undefined ? queryParams.lang : i18n.language.substring(0, 2);
     if (language !== i18n.language.substring(0, 2)) {
         i18n.changeLanguage(`${language}-CA`);
     }
@@ -97,15 +117,15 @@ const Routing = () => {
     return (
         <Router>
             {/* <StrictMode> */}
-                <Header />
-                <Switch>
-                    <Route exact path="/" component={RenderMap} />
-                    {/* <Route exact path="/search" component={KeywordSearch} /> */}
-                    <Route exact path="/result" component={MetaDataPage} />
-                    <Route exact path="/map" component={RampViewer} />
-                    <Route path="/404" render={() => <div>404 - Not Found</div>} />
-                    <Redirect to="/404" />
-                </Switch>
+            <Header />
+            <Switch>
+                <Route exact path="/" component={RenderMap} />
+                {/* <Route exact path="/search" component={KeywordSearch} /> */}
+                <Route exact path="/result" component={MetaDataPage} />
+                <Route exact path="/map" component={RampViewer} />
+                <Route path="/404" render={() => <div>404 - Not Found</div>} />
+                <Redirect to="/404" />
+            </Switch>
             {/* </StrictMode> */}
         </Router>
     );
@@ -134,3 +154,7 @@ ReactDOM.render(
     });
     createMap(map, config, i18nInstance);
 }); */
+export interface SpatialData {
+    viewableOnTheMap: number;
+    notViewableOnTheMap: number;
+}

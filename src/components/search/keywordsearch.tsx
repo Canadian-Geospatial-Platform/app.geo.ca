@@ -30,6 +30,7 @@ import themes from './themes.json';
 import spatials from './spatials.json';
 // import { css } from '@emotion/core';
 import './keywordsearch.scss';
+import { SpatialData } from '../../app';
 
 const EnvGlobals = envglobals();
 
@@ -39,6 +40,8 @@ const KeywordSearch = (): JSX.Element => {
     const history = useHistory();
     const { t } = useTranslation();
     const rpp = 10;
+    const [spatialData] = useState<SpatialData>(useSelector((state) => state.mappingReducer.spatialData));
+    const spatialLabelParams = [];
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 6 : 4);
     const [sfloaded, setSF] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -353,6 +356,10 @@ const KeywordSearch = (): JSX.Element => {
     }, [language, fReset, storeorgfilters, storetypefilters, storethemefilters, storespatialfilters, storefoundational]);
 
     // console.log(loading, cpn);
+    spatialLabelParams.splice(0);
+    spatialLabelParams.push(spatialData?.viewableOnTheMap);
+    spatialLabelParams.push(spatialData?.notViewableOnTheMap);
+    //console.log(spatialLabelParams);
     return (
         <div className="pageContainer keyword-search-page">
             {/* Filters / Search Bar */}
@@ -507,6 +514,9 @@ const KeywordSearch = (): JSX.Element => {
                                     filtervalues={spatials[language]}
                                     filterselected={spatialfilters}
                                     selectFilters={handleSpatial}
+                                    filtername="spatial"
+                                    externalLabel
+                                    labelParams={spatialLabelParams}
                                 />
 
                                 <SearchFilter

@@ -33,6 +33,7 @@ import themes from './themes.json';
 import spatials from './spatials.json';
 import './geosearch.scss';
 import Sorting, { SortingOptionInfo } from './sorting';
+import { SpatialData } from '../../app';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (
@@ -47,7 +48,8 @@ const GeoSearch = (
     const location = useLocation();
     const { statePn, stateBounds } = location.state !== undefined ? location.state : {};
     const [stateLoaded, setStateLoaded] = useState(false);
-
+    const [spatialData] = useState<SpatialData>(useSelector((state) => state.mappingReducer.spatialData));
+    const spatialLabelParams = [];
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
@@ -684,6 +686,7 @@ const GeoSearch = (
         language,
         storeorgfilters,
         storetypefilters,
+        storespatialfilters,
         storethemefilters,
         storefoundational,
         stateLoaded,
@@ -716,6 +719,10 @@ const GeoSearch = (
         console.log('sorting by', value);
         // !loading && handleSortFilter();
     };
+    spatialLabelParams.splice(0);
+    spatialLabelParams.push(spatialData?.viewableOnTheMap);
+    spatialLabelParams.push(spatialData?.notViewableOnTheMap);
+    //console.log(spatialLabelParams);
     return (
         <div className="geoSearchContainer">
             <div className={ksOnly ? 'container-fluid container-search input-container' : 'searchInput input-container'}>
@@ -877,6 +884,9 @@ const GeoSearch = (
                                     filtervalues={spatials[language]}
                                     filterselected={spatialfilters}
                                     selectFilters={handleSpatial}
+                                    filtername="spatial"
+                                    externalLabel
+                                    labelParams={spatialLabelParams}
                                 />
                                 <SearchFilter
                                     filtertitle={t('filter.themes')}

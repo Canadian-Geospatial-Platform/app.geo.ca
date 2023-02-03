@@ -15,6 +15,7 @@ import types from '../search/types.json';
 import themes from '../search/themes.json';
 import spatials from '../search/spatials.json';
 import { setFilters } from '../../reducers/action';
+import { SpatialData } from '../../app';
 
 export default function FilterPanel(props: PanelProps): JSX.Element {
     const { showing, closeFunction } = props;
@@ -33,6 +34,8 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
+    const [spatialData] = useState<SpatialData>(useSelector((state) => state.mappingReducer.spatialData));
+    const spatialLabelParams = [];
     // console.log(state, dispatch);
     const applyFilters = () => {
         dispatch(
@@ -100,7 +103,10 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             setFReset(true);
         }
     }, [showing, language]);
-
+    spatialLabelParams.splice(0);
+    spatialLabelParams.push(spatialData?.viewableOnTheMap);
+    spatialLabelParams.push(spatialData?.notViewableOnTheMap);
+    //console.log(spatialLabelParams);
     return (
         <PanelApp
             title="appbar.filters"
@@ -136,6 +142,9 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         filtervalues={spatials[language]}
                                         filterselected={spatialfilters}
                                         selectFilters={handleSpatial}
+                                        filtername="spatial"
+                                        externalLabel
+                                        labelParams={spatialLabelParams}
                                     />
                                     <SearchFilter
                                         filtertitle={t('filter.themes')}

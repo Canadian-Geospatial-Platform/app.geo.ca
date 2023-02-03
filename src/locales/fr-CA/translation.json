@@ -56,8 +56,8 @@
             "select": "sélectionner",
             "relevance": "Pertinence",
             "date": {
-                "desc":"Date newest to oldest",
-                "asc":"Date oldest to newest"
+                "desc": "Date newest to oldest",
+                "asc": "Date oldest to newest"
             },
             "popularity": {
                 "desc": "Popularité newest to oldest",
@@ -74,7 +74,13 @@
         "foundational": "Données de base du Canada",
         "otherfilters": "Autres Filtres",
         "applyfilters": "Appliquer des Filtres",
-        "clearall": "Tout Effacer"
+        "clearall": "Tout Effacer",
+        "label": {
+            "spatial": {
+                "viewable-on-map": "Viewable({{param}})",
+                "not-viewable-on-map": "Non-viewable({{param}})"
+            }
+        }
     },
     "analytic": {
         "title": "Analytique",

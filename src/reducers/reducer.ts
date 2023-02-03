@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { ActionType, Action, BooleanAction, FilterAction, FiltersAction } from './action';
+import { SpatialData } from '../app';
+import { ActionType, Action, BooleanAction, FilterAction, FiltersAction, SpatialAction } from './action';
 
 export interface mappingState {
     mapping: mappingObj[];
@@ -8,6 +9,7 @@ export interface mappingState {
     themefilter: number[];
     spatialfilter: number[];
     foundational: boolean;
+    spatialData: SpatialData;
 }
 export interface mappingObj {
     id: string;
@@ -25,11 +27,12 @@ const defaultState: mappingState = {
     themefilter: [],
     spatialfilter: [],
     foundational: false,
+    spatialData: { viewableOnTheMap: 0, notViewableOnTheMap: 0 },
 };
 
 const mappingReducer = (
     state: mappingState = defaultState,
-    action: Action | BooleanAction | FilterAction | FiltersAction
+    action: Action | BooleanAction | FilterAction | FiltersAction | SpatialAction
 ): mappingState => {
     switch (action.type) {
         case ActionType.SET_MAPPING:
@@ -46,6 +49,8 @@ const mappingReducer = (
             return { ...state, foundational: action.payload };
         case ActionType.SET_FILTERS:
             return { ...state, ...action.payload };
+        case ActionType.SET_SPATIALDATA:
+            return { ...state, spatialData: action.payload };
         default:
             return state;
     }
