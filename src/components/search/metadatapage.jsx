@@ -363,6 +363,7 @@ const MetaDataPage = () => {
                     //const showWHDisclaimer = false;
                     const showWHDisclaimer = result.source_system_name.includes("Canadian Geospatial Data Infrastructure Web Harvester; Moissonneur Web de l'Infrastructure canadienne de données géospatiales");                 
                     // console.log(contact, options);
+                    console.log(showWHDisclaimer);
 
                     return (
                     <div key={`rm-${rmIndex}`} className="container-search-result container-search-result-two-col">
