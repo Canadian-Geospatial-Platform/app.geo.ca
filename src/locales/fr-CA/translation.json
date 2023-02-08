@@ -56,12 +56,12 @@
             "select": "sélectionner",
             "relevance": "Pertinence",
             "date": {
-                "desc":"Date newest to oldest",
-                "asc":"Date oldest to newest"
+                "desc":"Date",
+                "asc":"Date"
             },
             "popularity": {
-                "desc": "Popularité newest to oldest",
-                "asc": "Popularité oldest to newest"
+                "desc": "Popularité",
+                "asc": "Popularité"
             },
             "title": "Titre"
         }
