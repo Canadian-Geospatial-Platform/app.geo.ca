@@ -360,8 +360,11 @@ const MetaDataPage = () => {
                     const zoom = Math.max(Math.log2(3600000/resolution), 1);
                     const useL = result.useLimits.match(/^(.+) [–|-] (.+)\((.+)\)$/);
                     const showDisclaimer=Array.isArray(useL) && licenceOrgs[language].findIndex(p => p.toLowerCase() === useL[2].trim().toLowerCase())>-1;
-                    const showWHDisclaimer = result.source_System_Name.includes('Canadian Geospatial Data Infrastructure Web Harvester'); 
-                    console.log(result);                   
+                    const showWHDisclaimer = false;
+                    // const showWHDisclaimer = result.source_system_name.includes('Canadian Geospatial Data Infrastructure Web Harvester'); 
+                    console.log(result.source_system_name);
+                    console.log(result.sourceSystemName);
+                    console.log(result.source_System_Name);                   
                     // console.log(contact, options);
 
                     return (
