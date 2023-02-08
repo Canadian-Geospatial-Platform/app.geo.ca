@@ -37,7 +37,6 @@ import { envglobals } from '../../common/envglobals';
 import {analyticPost, analyticGet} from '../../common/analytic';
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
-import InfoModal from '../modal/infomodal';
 import './metadatapage.scss';
 
 const EnvGlobals = envglobals();
@@ -46,11 +45,6 @@ const MetaDataPage = () => {
     const location = useLocation();
     const history = useHistory();
     const queryParams = getQueryParams(location.search);
-    const stateKO = location.state && location.state.stateKO ? location.state.stateKO : false;
-    const stateKeyword = location.state && location.state.stateKeyword ? location.state.stateKeyword : '';
-    const statePn = location.state && location.state.statePn ? location.state.statePn : 1;
-    const stateBounds = location.state && location.state.stateBounds ? location.state.stateBounds : undefined; 
-    const backArr = location.state && Array.isArray(location.state.backId) ? location.state.backId : [];
     const {t} = useTranslation();
 
     const mapping = useSelector(state => state.mappingReducer.mapping);
@@ -61,7 +55,6 @@ const MetaDataPage = () => {
     const [analyticLoading, setAnalyticLoading] = useState(true);
     const [analyticRes, setAnalytic] = useState({'30': 1, 'all': 1});
     const [openSection, setOpen] = useState([]);
-    const [mapGreyOut, setGreyMap] = useState(false);
     const rid = queryParams && queryParams.id?queryParams.id.trim():"";
     const inMapping = rid!=="" ? mapping.findIndex((m)=>m.id===rid)>-1 : false;
     const language = t("app.language");
@@ -91,44 +84,6 @@ const MetaDataPage = () => {
         window.open(url, "_blank");
     };
 
-    const handleRelatedClick = (e, id) => {
-        e.stopPropagation();
-        /* const viewParams: AnalyticParams = {
-            search: analyticParams.search,
-            geo: JSON.stringify(analyticParams.geo),
-            uuid: id,
-            loc: '/',
-            lang: language,
-            type: 'access',
-            event: 'view'
-        };
-    
-        if (analyticParams.theme) {
-            viewParams.theme = analyticParams.theme;
-        }
-        if (analyticParams.org) {
-            viewParams.org = analyticParams.org;
-        }
-        if (analyticParams.type_filter) {
-            viewParams.type_filter = analyticParams.type_filter;
-        }
-        if (analyticParams.foundational) {
-            viewParams.foundational = analyticParams.foundational;
-        }
-        analyticPost(viewParams); */
-        backArr.unshift(rid);
-        history.push({
-            pathname: '/result',
-            search:`id=${encodeURI(id.trim())}&lang=${language}`,
-            state: {
-                stateKO,
-                stateKeyword,
-                statePn,
-                stateBounds,
-                backId: backArr
-            }
-        });
-      }
     const handleSearch = (id) => {
       setLoading(true);
 
@@ -143,42 +98,14 @@ const MetaDataPage = () => {
           const res = data.Items[0];
           res.title = language==='en' ? res.title_en : res.title_fr;
           res.mappingtitle = { en: res.title_en, fr: res.title_fr };
-          // get related products  
-          axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.COLLECTIONS}`, { params: {id}})
-            .then((collectionres) => collectionres.data)
-            .then((cdata) => {
-                const related = [];
-                if (cdata.parent !== null) {
-                    related.push({...cdata.parent, ...{'type': 'parent'}});
-                };
-                if (cdata.sibling_count > 0) {
-                    cdata.sibling.forEach(s => {
-                        related.push({...s, ...{'type': 'member'}});
-                    });
-                }
-                if (cdata.child_count > 0) {
-                    cdata.child.forEach(s => {
-                        related.push({...s, ...{'type': 'member'}});
-                    });
-                }
-                res.related = related;
-                setResult(res);
-                setLoading(false);
-            })
-            .catch(error=>{
-                // console.log(error);
-                res.related = [];
-                setResult(res);
-                setLoading(false);
-            });
+            setResult(res);
+            setLoading(false);
       })
       .catch(error=>{
           // console.log(error);
           setResult(null);
           setLoading(false);
       });
-
-      
 
     };
 
@@ -208,22 +135,24 @@ const MetaDataPage = () => {
         }
     };
 
-    const changeMapping = (resultId) => {
-        const localMapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
-
-        // if the map is already in mapCart, return early
-        if (localMapping.find(e => e.id === resultId ) !== undefined) {
-           return;
-        }
-
-        const newMapping = localMapping.concat([{
-                id: resultId,
+    const changeMapping = (resultid) => {
+        const localmapping = loadState()!==undefined ? loadState().mappingReducer.mapping : [];
+        // const changeId = resultid
+        const rIndex = localmapping.findIndex(m => m.id === resultid);
+        const newMapping = localmapping.map(m => m);
+        if (rIndex > -1) {
+            newMapping.splice(rIndex, 1);
+        } else {
+            newMapping.push({
+                id: resultid,
                 title: metaresult.mappingtitle
-            }])
-        analyticPost('map');
+            });
+            viewParams.event = 'map';
+            analyticPost(viewParams);
+        }
         dispatch(setMapping(newMapping));
         showMapping();
-        }
+    };
 
     const viewOnMap = (resultid) => {
         viewParams.event = 'map';
@@ -235,27 +164,12 @@ const MetaDataPage = () => {
     };
 
     const backtoSearch = () => {
-        if (Array.isArray(backArr) && backArr.length>0 ) {
-            const back_id = backArr[0];
-            backArr.shift();
-            history.push({
-                pathname: '/result',
-                search:`id=${encodeURI(back_id.trim())}&lang=${language}`,
-                state: {
-                    stateKO,
-                    stateKeyword,
-                    statePn,
-                    stateBounds,
-                    backId: backArr
-                }
-            });
-        } else {
-            history.push({
-                pathname: '/',
-                search: `keyword=${encodeURI( stateKeyword.trim() )}${stateKO ? '&ksonly' : ''}`,
-                state: {statePn, stateBounds}
-            });
-        }
+        const {stateKO, stateKeyword, statePn, stateBounds } = location.state;
+        history.push({
+            pathname: '/',
+            search: `keyword=${encodeURI( stateKeyword.trim() )}${stateKO ? '&ksonly' : ''}`,
+            state: {statePn, stateBounds}
+        });
     }
 
     const handleMetaDataBtn = (mdEvent) => {
@@ -279,20 +193,10 @@ const MetaDataPage = () => {
         }
     };
 
-    const convertDesc = (paraText) => {
-        return paraText.replace(/\*\*(.*?)\*\*/g, (i, match) => {
-                return `<b>${match}</b>`;        
-            }).replace(/\[(.*?)\]\(https:\/\/(.*?)\)/g, (i, match, match2) => {
-                return `<a class="table-cell-text-link" href="https://${match2}" target="_blank">${match}</a>`;
-            });
-    }
-
     const textParagraphOutput = (paraText) => {
         const paraArray = paraText.split('\\n');
-        return paraArray.map((pt, i) => pt.trim().length>0 ? <p key={`pt${i}`} dangerouslySetInnerHTML={{__html: convertDesc(pt)}} /> : <br key={`pt${i}`} /> );
+        return paraArray.map((pt, i) => pt.trim().length>0 ? <p key={`pt${i}`}>{pt}</p> : <br key={`pt${i}`} /> );
     }
-
-    
 
     useEffect(() => {
       if (rid !== '') {
@@ -346,7 +250,6 @@ const MetaDataPage = () => {
                     });
 
                     const activeMap = options.findIndex((o)=> o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE' || o.type.toUpperCase() === 'SERVICE WEB') > -1;
-                    const mapButtonClass = activeMap? 'btn btn-search' : 'btn btn-search disabled';
                     const contact =   JSON.parse(formattedContact);
                     const coordinates = JSON.parse(result.coordinates);
 
@@ -360,10 +263,8 @@ const MetaDataPage = () => {
                     const zoom = Math.max(Math.log2(3600000/resolution), 1);
                     const useL = result.useLimits.match(/^(.+) [–|-] (.+)\((.+)\)$/);
                     const showDisclaimer=Array.isArray(useL) && licenceOrgs[language].findIndex(p => p.toLowerCase() === useL[2].trim().toLowerCase())>-1;
-                    //const showWHDisclaimer = false;
-                    const showWHDisclaimer = result.source_system_name.includes("Canadian Geospatial Data Infrastructure Web Harvester; Moissonneur Web de l'Infrastructure canadienne de données géospatiales");                 
+                    const showWHDisclaimer = result.source_system_name.includes('Canadian Geospatial Data Infrastructure Web Harvester');
                     // console.log(contact, options);
-                    console.log(showWHDisclaimer);
 
                     return (
                     <div key={`rm-${rmIndex}`} className="container-search-result container-search-result-two-col">
@@ -383,16 +284,6 @@ const MetaDataPage = () => {
                         <meta name="twitter:image" content={imageFile} />
                     </Helmet>
                     <div className="row no-gutters">
-                    {!activeMap && mapGreyOut &&
-                    <InfoModal
-                        className="info-modal-dialog"
-                        wrapClassName="info-modal-wrap"
-                        modalClassName="info-modal"
-                        openOnLoad={ mapGreyOut===true }
-                        onClose = {()=>setGreyMap(false)}
-                        title = {t('page.greymaptitle')}
-                        infotext = {t('page.greymapinfo')}
-                    />}    
                     <main className="col col-12 col-xl-8 main">
                         {/* Header */}
                         <div className="search-result-page-title-wrap">
@@ -401,7 +292,7 @@ const MetaDataPage = () => {
                                 type="button"
                                 onClick={backtoSearch}
                             >
-                                {(Array.isArray(backArr) && backArr.length>0)? t('page.backtorelated') : t('page.gotogeosearchpage')}
+                                {t('page.gotogeosearchpage')}
                             </button>
                             <h1 className="search-result-page-title">{result.title}</h1>
                         </div>
@@ -418,46 +309,34 @@ const MetaDataPage = () => {
                             <caption>
                                 {t("page.metadata")}
                             </caption>
-                            {showDisclaimer ?
                             <tbody id="tbody-meta">
-                                <tr>
-                                <th scope="row">{t("page.disclaimer")}</th>
-                                <td>
-                                    <p>{t("page.dcheader")}{useL[2]}</p>
-                                    <p>{t("page.dcp1")}</p>
-                                    <p>{t("page.dcp2.text1")}<a className="table-cell-text-link" href={t("page.dcp2.link1.url")} target="_blank">{t("page.dcp2.link1.text")}</a>{t("page.dcp2.text2")}<a className="table-cell-text-link" href={t("page.dcp2.link2.url")} target="_blank">{t("page.dcp2.link2.text")}</a>{t("page.dcp2.text3")}</p>
-                                </td>
-                                </tr>
-                                <tr>
-                                <th scope="row">{t("page.disclaimer")}</th>
-                                <td>
-                                    <p>{t("page.dwhheader")}</p>
-                                    <p>{t("page.dwh0")}</p>
-                                    <p>{t("page.dwh1")}</p>
-                                    <p>{t("page.dwh2.text1")}<a className="table-cell-text-link" href={t("page.dwh2.link1.url")} target="_blank">{t("page.dwh2.link1.text")}</a>{t("page.dwh2.text2")}<a className="table-cell-text-link" href={t("page.dwh2.link2.url")} target="_blank">{t("page.dwh2.link2.text")}</a>{t("page.dwh2.text3")}</p>
-                                </td>
-                                </tr>
-                            </tbody>:
-                            <tbody id="tbody-meta">
+                            {showWHDisclaimer ?
+                              <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.datecreated")}</th>
                                 <td>{result.created}</td>
-                                </tr>
+                                </tr> }
+                            {showWHDisclaimer ?
+                              <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.datepublished")}</th>
                                 <td>{result.published}</td>
-                                </tr>
+                                </tr> }
+                            {showWHDisclaimer ?
+                              <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.temporalcoverage")}</th>
                                 <td> { tcRange.map((date, ki)=>(
                                             <span key={ki}>{date} </span>
                                         ))}
                                 </td>
-                                </tr>
+                                </tr> }
                                 <tr>
                                 <th scope="row">{t("page.source")}</th>
                                 <td>{contact[0].organisation[language]}</td>
                                 </tr>
+                            {showWHDisclaimer ?
+                              <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.uselimits")}</th>
                                 <td>{useL===null ? result.useLimits :
@@ -467,37 +346,29 @@ const MetaDataPage = () => {
                                         {useL[1]} - {useL[2]}<a className="table-cell-text-link" href={useL[3]} target="_blank">{useL[3]}</a>
                                     </div>)})}
                                 </td>
-                                </tr>
-                            </tbody>
-                            }
-                            </table>
-                        </section>
-                        { (result.related.length > 0) && 
-                        <section id="search-result-related-products" className="sec-search-result sec-search-result-related-products">
-                            <table className="table table-hover caption-top table-search-result table-related-products">
-                            <caption>
-                                    <button id="related-products-id" type="button" className={openSection.findIndex(o=>o==='relatedproducts')<0?"table-data-toggle collapse":"table-data-toggle expand"} aria-expanded={openSection.findIndex(o=>o==='relatedproducts')<0?"false":"true"} aria-controls="tbody-data-resources" role="button" onClick={()=>handleOpen('relatedproducts')}>{t("page.relatedproducts")}</button>
-                            </caption>
-                            <tbody id="tbody-related-products" className={openSection.findIndex(o=>o==='relatedproducts')<0?"collapse":"collapse show"} aria-labelledby="related-products-id">
+                                </tr> }
+                            {showDisclaimer &&
                                 <tr>
-                                <th scope="col" className="col-5">{t("page.name")}</th>
-                                <th scope="col" className="col-1">{t("page.type")}</th>
-                                </tr>
-                                {result.related.map((relatedp, ri) => {
-                                    // const desc = option.description[language].split(";");
-                                    return (
-                                        <tr className="table-row-link" key={ri} onClick={(e)=>handleRelatedClick(e, relatedp.id)}>
-                                        <td>
-                                            <a className="table-cell-link" onClick={(e)=>handleRelatedClick(e, relatedp.id)}>{relatedp[`description_${language}`]}</a>
-                                        </td>
-                                        <td>{t(`page.${relatedp.type}`)}</td>
-                                        </tr>
-                                    );
-                                })}
+                                <th scope="row">{t("page.disclaimer")}</th>
+                                <td>
+                                    <p>{t("page.dcheader")}{useL[2]}</p>
+                                    <p>{t("page.dcp1")}</p>
+                                    <p>{t("page.dcp2.text1")}<a className="table-cell-text-link" href={t("page.dcp2.link1.url")} target="_blank">{t("page.dcp2.link1.text")}</a>{t("page.dcp2.text2")}<a className="table-cell-text-link" href={t("page.dcp2.link2.url")} target="_blank">{t("page.dcp2.link2.text")}</a>{t("page.dcp2.text3")}</p>
+                                </td>
+                                </tr>}
+                            {showWHDisclaimer &&
+                                <tr>
+                                <th scope="row">{t("page.disclaimer")}</th>
+                                <td>
+                                    <p>{t("page.dwhheader")}</p>
+                                    <p>{t("page.dwh0")}</p>
+                                    <p>{t("page.dwh1")}</p>
+                                    <p>{t("page.dwh2.text1")}<a className="table-cell-text-link" href={t("page.dwh2.link1.url")} target="_blank">{t("page.dwh2.link1.text")}</a>{t("page.dwh2.text2")}<a className="table-cell-text-link" href={t("page.dwh2.link2.url")} target="_blank">{t("page.dwh2.link2.text")}</a>{t("page.dwh2.text3")}</p>
+                                </td>
+                                </tr>}
                             </tbody>
                             </table>
                         </section>
-                        }
                         {/* Data Resources */}
                         <section id="search-result-data-resources" className="sec-search-result sec-search-result-data-resources">
                             <table className="table table-hover caption-top table-search-result table-data-resources">
@@ -538,41 +409,54 @@ const MetaDataPage = () => {
                                 <th scope="row">{t("page.organization")}</th>
                                 <td>{!!contact[0].organisation && !!contact[0].organisation[language] && contact[0].organisation[language] !== 'null' ? contact[0].organisation[language] : 'N/A'}</td>
                                 </tr>
-                                {!showWHDisclaimer &&
-                                <>
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.address")}</th>
                                 <td>{!!contact[0].address && !!contact[0].address[language] && contact[0].address[language] !== 'null' ? contact[0].address[language] : 'N/A'}</td>
-                                </tr> 
+                                </tr> }
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.individualname")}</th>
                                 <td>{!!contact[0].individual && !!contact[0].individual[language] && contact[0].individual[language] !== 'null' ? contact[0].individual[language] : 'N/A'}</td>
-                                </tr> 
+                                </tr> }
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.role")}</th>
                                 <td>{!!contact[0].role!==null && !!contact[0].role[language] && contact[0].role[language] !== 'null' ? contact[0].role[language] : 'N/A'}</td>
-                                </tr> 
+                                </tr> }
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.telephone")}</th>
                                 <td>{!!contact[0].telephone && !!contact[0].telephone[language] && contact[0].telephone[language] !== 'null' ? contact[0].telephone[language] : 'N/A'}</td>
-                                </tr>
+                                </tr> }
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.fax")}</th>
                                 <td>{!!contact[0].fax && !!contact[0].fax[language] && contact[0].fax[language] !== 'null' ? contact[0].fax[language] : 'N/A'}</td>
-                                </tr> 
+                                </tr> }
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.email")}</th>
                                 <td>{!!contact[0].email && !!contact[0].email[language] && contact[0].email[language] !== 'null' ? contact[0].email[language] : 'N/A'}</td>
-                                </tr> 
+                                </tr> }
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.web")}</th>
                                 <td>{!!contact[0].onlineresource && !!contact[0].onlineresource.onlineresource && contact[0].onlineresource.onlineresource!=='null' ? <a href={contact[0].onlineresource.onlineresource} className="table-cell-link" target="_blank">{contact[0].onlineresource.onlineresource}</a> : 'N/A'}</td>
-                                </tr> 
+                                </tr> }
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.description")}</th>
                                 <td>{!!contact[0].onlineresource && !!contact[0].onlineresource.onlineresource_description && contact[0].onlineresource.onlineresource_description!=='null' ? contact[0].onlineresource.onlineresource_description : 'N/A'}</td>
-                                </tr>
-                                </> }
+                                </tr> }
                             </tbody>
                             </table>
                         </section>
@@ -587,16 +471,18 @@ const MetaDataPage = () => {
                                 <th scope="row">{t("page.status")}</th>
                                 <td>{status}</td>
                                 </tr>
-                                {!showWHDisclaimer &&
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.maintenance")}</th>
                                 <td>{maintenance}</td>
                                 </tr> }
                                 <tr>
-                                <th scope="row">{t("page.id")}</th>
+                                <th scope="row">ID</th>
                                 <td>{result.id}</td>
                                 </tr>
-                                {!showWHDisclaimer &&
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.topiccategory")}</th>
                                 <td>{result.topicCategory}</td>
@@ -621,7 +507,8 @@ const MetaDataPage = () => {
                                 <th scope="row">{t("page.south")}</th>
                                 <td>{coordinates[0][0][1].toString()}</td>
                                 </tr>
-                                {!showWHDisclaimer &&
+                                {showWHDisclaimer ?
+                                  <span></span> :
                                 <tr>
                                 <th scope="row">{t("page.spatialrepresentation")}</th>
                                 <td>{spatialRepresentation}</td>
@@ -640,7 +527,7 @@ const MetaDataPage = () => {
                                         zoomControl={false}
                                         attributionControl={false}
                                     >
-                                        <TileLayer url="https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution={t("mapctrl.attribution")} />
+                                        <TileLayer url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution={t("mapctrl.attribution")} />
                                         <AttributionControl position="bottomleft" prefix={false} />
                                         <NavBar />
                                         <GeoJSON key={result.id} data={{
@@ -653,10 +540,10 @@ const MetaDataPage = () => {
                             </section>
                             <section className="sec-search-result search-results-section search-results-misc-data">
                                 <h3 className="section-title">{t("page.addtomap")}</h3>
-                                <p>{activeMap? t("page.viewthedata") : t("page.greymapinfo")}</p>
+                                <p>{t("page.viewthedata")}</p>
                                 <div className="btn-group">
-                                    <button type="button" className={`${mapButtonClass} mr-2`} onClick={activeMap?()=>viewOnMap(result.id):()=>setGreyMap(true)}>{t("page.viewonmap")}</button>
-                                    <button id="addMyMap" type="button" className={inMapping?`${mapButtonClass} btn-added`:mapButtonClass} onClick={activeMap?()=>changeMapping(result.id):()=>setGreyMap(true)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
+                                    <button type="button" className="btn btn-search mr-2" disabled={!activeMap} onClick={activeMap?()=>viewOnMap(result.id):null}>{t("page.viewonmap")}</button>
+                                    <button id="addMyMap" type="button"  disabled={!activeMap} className={inMapping?"btn btn-search btn-added":"btn btn-search"} onClick={activeMap?()=>changeMapping(result.id):null}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
                                 </div>
                             </section>
                             <section className="sec-search-result search-results-section search-results-misc-data">
