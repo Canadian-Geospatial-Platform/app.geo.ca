@@ -7,7 +7,9 @@ export function envglobals() : globalValues {
             SEARCH: "/geo",
             METADATA: "/id",
             COLLECTIONS: "/collections",
-            ANALYTIC: "/analytics"
+            ANALYTIC: "/analytics",
+            ANNOUNCEMENTS:"/announcements",
+            MYCOMMUNITY:"/community/my_community"
         }
         switch(hostname) {
             case "localhost":
@@ -78,6 +80,8 @@ interface globalValues {
         SEARCH: string;
         METADATA: string;
         ANALYTIC: string;
+        ANNOUNCEMENTS: string;
+        MYCOMMUNITY: string;
     };
     APP_GEOCORE_URL: string;
     SITE_NAME: string;

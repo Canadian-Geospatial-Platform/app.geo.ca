@@ -82,8 +82,9 @@
         "headertitle": "Title",
         "headertotal": "Total Access"
     },
-    "account": {
-        "title": "Account",
+    "dashboard": {
+        "title": "Dashboard",
+        "loadingfailed": "Loading failed",
         "announcements": "Announcements",
         "announcementTitle": "{New Feature Alert!}",
         "announcementDesc": "{GEO.CA ia proud to announce our user dashboard! Here you can find the lastest announcements, reasources and data from your communities, and you can now save search results and records! Check it out below!}",

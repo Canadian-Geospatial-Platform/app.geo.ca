@@ -27,7 +27,7 @@ import { getQueryParams } from '../../common/queryparams';
 import SearchPanel from '../search/search-panel';
 import FiltersPanel from '../searchfilter/filters-panel';
 import AnalyticPanel from '../analytic/analytic-panel';
-import AccountPanel from '../account/account-panel';
+import DashboardPanel from '../dashboard/dashboard-panel';
 import HowtoPanel from '../howto/howto-panel';
 import './app-bar.scss';
 
@@ -93,13 +93,13 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const [open, setOpen] = useState(false);
     const [ksOnly, setKSOnly] = useState(queryParams.ksonly !== undefined);
     const [panel, setPanel] = useState(
-       (queryParams.keyword !== undefined ||
-        queryParams.ksonly !== undefined ||
-        queryParams.org !== undefined ||
-        queryParams.type !== undefined ||
-        queryParams.foundational !== undefined ||
-        queryParams.theme !== undefined) ? ' search' : 
-        (queryParams.analytic !== undefined?' analytics':'')
+        (queryParams.keyword !== undefined ||
+            queryParams.ksonly !== undefined ||
+            queryParams.org !== undefined ||
+            queryParams.type !== undefined ||
+            queryParams.foundational !== undefined ||
+            queryParams.theme !== undefined) ? ' search' :
+            (queryParams.analytic !== undefined?' analytics':'')
     );
     const classes = useStyles(ksOnly?'ks':(panel===' analytics'?'analytic':''))();
     const language = t('app.language');
@@ -117,11 +117,11 @@ export function Appbar(props: AppBarProps): JSX.Element {
         map.eachLayer((layer: unknown) => {
             // console.log(layer);
             map.removeLayer(layer);
-        }); 
+        });
         basemaps.forEach(base=>{
             L.tileLayer(base.url).addTo(map);
-        })   
-        
+        })
+
     }, [language, map]);
 
     const handleDrawerClose = () => {
@@ -137,13 +137,13 @@ export function Appbar(props: AppBarProps): JSX.Element {
 
     useEffect(() => {
         setPanel(
-           (queryParams.keyword !== undefined ||
-            queryParams.ksonly !== undefined ||
-            queryParams.org !== undefined || 
-            queryParams.type !== undefined ||
-            queryParams.foundational !== undefined ||
-            queryParams.theme !== undefined) ? ' search' : 
-            (queryParams.analytic !== undefined?' analytics':'')
+            (queryParams.keyword !== undefined ||
+                queryParams.ksonly !== undefined ||
+                queryParams.org !== undefined ||
+                queryParams.type !== undefined ||
+                queryParams.foundational !== undefined ||
+                queryParams.theme !== undefined) ? ' search' :
+                (queryParams.analytic !== undefined?' analytics':'')
         );
         setKSOnly(queryParams.ksonly !== undefined);
     }, [queryParams.keyword, queryParams.ksonly, queryParams.org, queryParams.type, queryParams.theme, queryParams.foundational, queryParams.analytic]);
@@ -151,13 +151,13 @@ export function Appbar(props: AppBarProps): JSX.Element {
     useEffect(() => {
         const appBarEl = document.getElementById("app-left-bar");
         if (panel === ' analytics') {
-            appBarEl.classList.add("analytic-show"); 
+            appBarEl.classList.add("analytic-show");
         } else {
             appBarEl.classList.remove("analytic-show");
         }
 
         if (ksOnly) {
-            appBarEl.classList.add("kso-show"); 
+            appBarEl.classList.add("kso-show");
         } else {
             appBarEl.classList.remove("kso-show");
         }
@@ -172,17 +172,17 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 classes={{ paper: open && panel === '' ? classes.drawerOpen : classes.drawerClose }}
             >
                 <div className={classes.toolbar}>
-                { panel === '' &&  
-                    <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
-                        <IconButton
-                            onClick={handleDrawerClose}
-                            aria-label={t('appbar.opendrawer')}
-                            aria-expanded={!open ? 'false' : 'true'}
-                        >
-                            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                        </IconButton>
-                    </Tooltip>
-                }    
+                    { panel === '' &&
+                        <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
+                            <IconButton
+                                onClick={handleDrawerClose}
+                                aria-label={t('appbar.opendrawer')}
+                                aria-expanded={!open ? 'false' : 'true'}
+                            >
+                                {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                            </IconButton>
+                        </Tooltip>
+                    }
                 </div>
                 <Divider />
                 <List>
@@ -202,7 +202,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 <Divider className={classes.spacer} />
                 <List>
                     {auth && <ButtonApp tooltip="appbar.account" current={panel === ' account'} icon={<AccountIcon />} onClickFunction={() => setPanel(' account')} />}
-                    {auth && panel === ' account' && <div className={`cgp-apppanel${panel}`}><AccountPanel showing={panel === ' account'} closeFunction={() => setPanel('')} /></div>}
+                    {auth && panel === ' account' && <div className={`cgp-apppanel${panel}`}><DashboardPanel showing={panel === ' account'} closeFunction={() => setPanel('')} /></div>}
                     <ButtonApp tooltip="appbar.howto" current={panel === ' howto'} icon={<HelpOutlineIcon />} onClickFunction={() => setPanel(' howto')} />
                     {panel === ' howto' && <div className={`cgp-apppanel${panel}`}><HowtoPanel showing={panel === ' howto'} closeFunction={() => setPanel('')} /></div>}
                 </List>
