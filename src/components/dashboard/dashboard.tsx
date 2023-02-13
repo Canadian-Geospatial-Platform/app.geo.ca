@@ -16,6 +16,7 @@ import './dashboard.scss';
 const Dashboard = () => {
     const { t } = useTranslation();
     const language = t('app.language');
+    const [userID, setUserID] = useState("cf9bfa6f-5837-42f9-9eeb-c15035c3c752");
 
     //#region accouncements
     const [announcementLoading, setAnnouncementLoading] = useState(true);
@@ -23,10 +24,10 @@ const Dashboard = () => {
 
     const getAnnouncement = () => {
         // setErrLoading(false);
-        //announcementGet(
-        announcementGetTemp(
+        announcementGet(
+        //announcementGetTemp(
             '',
-            { lang: language },
+            { lang: language, userId: userID },
             (responseData) => {
                 let item = responseData.data.Items ? responseData.data.Items[0] : {};
                 let announcement = "";
@@ -50,7 +51,7 @@ const Dashboard = () => {
         if (announcementLoading) {
             getAnnouncement();
         }
-    }, [announcementLoading]);
+    }, [announcementLoading, userID]);
 
     useEffect(() => {
         getAnnouncement();
@@ -69,7 +70,7 @@ const Dashboard = () => {
         if (announcementLoading) {
             getCommunityData('announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
         }
-    }, [announcementLoading]);
+    }, [announcementLoading, userID]);
 
     useEffect(() => {
         getCommunityData('announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
@@ -87,7 +88,7 @@ const Dashboard = () => {
         if (announcementLoading) {
             getCommunityData('data', setcommunityDataLoading, setcommunityData);
         }
-    }, [announcementLoading]);
+    }, [announcementLoading, userID]);
 
     useEffect(() => {
         getCommunityData('data', setcommunityDataLoading, setcommunityData);
@@ -105,7 +106,7 @@ const Dashboard = () => {
         if (announcementLoading) {
             getCommunityData('resources', setCommunityResourcesLoading, setcommunityResources);
         }
-    }, [announcementLoading]);
+    }, [announcementLoading, userID]);
 
     useEffect(() => {
         getCommunityData('resources', setCommunityResourcesLoading, setcommunityResources);
@@ -114,10 +115,10 @@ const Dashboard = () => {
     //#endregion
 
     const getCommunityData = (url, loading, setData) => {
-        //communityGet(
-        announcementGetTemp(
+        communityGet(
+        //announcementGetTemp(
             url,
-            { lang: language },
+            { lang: language, userId: userID },
             (responseData) => {
                 let item = responseData.data.Items ? responseData.data.Items[0] : {};
                 setData(item);
