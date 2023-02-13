@@ -26,14 +26,23 @@ import { envglobals } from '../../common/envglobals';
 import { analyticPost, AnalyticParams } from '../../common/analytic';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
-import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setSpatialFilter, setFoundational } from '../../reducers/action';
+import {
+    setFilters,
+    setOrgFilter,
+    setTypeFilter,
+    setThemeFilter,
+    setSpatialFilter,
+    setFoundational,
+    setStacFilter,
+} from '../../reducers/action';
 import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
 import spatials from './spatials.json';
+import stacs from './stac.json';
 import './geosearch.scss';
 import Sorting, { SortingOptionInfo } from './sorting';
-import { SpatialData } from '../../app';
+import { SpatialData, StacData } from '../../app';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (
@@ -50,6 +59,8 @@ const GeoSearch = (
     const [stateLoaded, setStateLoaded] = useState(false);
     const [spatialData] = useState<SpatialData>(useSelector((state) => state.mappingReducer.spatialData));
     const spatialLabelParams = [];
+    const [stacData] = useState<StacData>(useSelector((state) => (state.mappingReducer.stacData ? state.mappingReducer.stacData : {})));
+    const stacLabelParams = [];
     const rpp = 10;
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
     const inputRef: React.RefObject<HTMLInputElement> = createRef();
@@ -73,12 +84,14 @@ const GeoSearch = (
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
     const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
+    const storestacfilters = useSelector((state) => (state.mappingReducer.stacfilter ? state.mappingReducer.stacfilter : []));
     const dispatch = useDispatch();
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
     const [spatialfilters, setSpatial] = useState(storespatialfilters);
     const [foundational, setFound] = useState(storefoundational);
+    const [stacfilters, setStac] = useState(storestacfilters);
     const [fReset, setFReset] = useState(false);
     const [filterbyshown, setFilterbyshown] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
@@ -234,6 +247,8 @@ const GeoSearch = (
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
         const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
+        const stfilters =
+            localState !== undefined ? (localState.mappingReducer.stacfilter ? localState.mappingReducer.stacfilter : []) : [];
         // const MappingState = getMappingState();
         const searchParams: SearchParams = {
             north: bounds._northEast.lat,
@@ -286,6 +301,14 @@ const GeoSearch = (
             delete aParams.spatial;
         }
 
+        if (stfilters.length > 0) {
+            const stArray = stfilters.map((fs: number) => stacs[language][fs].toLowerCase().replace(/\'/g, "''"));
+            searchParams.stac = stArray.join('|');
+            aParams.stac = stArray;
+        } else if (aParams.type_filter) {
+            delete aParams.stac;
+        }
+
         if (found) {
             searchParams.foundational = 'true';
             aParams.foundational = 'true';
@@ -301,6 +324,7 @@ const GeoSearch = (
                 themefilter: thfilters,
                 spatialfilter: spafilters,
                 foundational: found,
+                stacfilter: stfilters,
             })
         );
 
@@ -424,6 +448,7 @@ const GeoSearch = (
                 themefilter: themefilters,
                 spatialfilter: spatialfilters,
                 foundational,
+                stacfilter: stacfilters,
             })
         );
         setFReset(false);
@@ -436,7 +461,7 @@ const GeoSearch = (
         setTheme([]);
         setSpatial([]);
         setFound(false);
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false }));
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false, stacfilter: [] }));
         setFReset(false);
         // setPageNumber(1);
     };
@@ -452,6 +477,7 @@ const GeoSearch = (
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
         const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
+        const stfilters = localState !== undefined ? (localState.mappingReducer.stfilter ? localState.mappingReducer.stfilter : []) : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         const searchParams: KOSearchParams = {
             keyword: keyword.replace(/"/g, '\\"'),
@@ -492,6 +518,13 @@ const GeoSearch = (
         } else if (aParams.spatial) {
             delete aParams.spatial;
         }
+        if (stfilters.length > 0) {
+            const stArray = stfilters.map((fs: number) => stacs[language][fs].toLowerCase().replace(/\'/g, "''"));
+            searchParams.stac = stArray.join('|');
+            aParams.stac = stArray;
+        } else if (aParams.stac) {
+            delete aParams.stac;
+        }
         if (found) {
             searchParams.foundational = 'true';
             aParams.foundational = 'true';
@@ -506,6 +539,7 @@ const GeoSearch = (
                 themefilter: thfilters,
                 spatialfilter: spafilters,
                 foundational: found,
+                stacfilter: stfilters,
             })
         );
         // console.log(searchParams);
@@ -596,6 +630,11 @@ const GeoSearch = (
         setSpatial(filters);
     };
 
+    const handleStac = (filters: unknown): void => {
+        setFReset(true);
+        setStac(filters);
+    };
+
     const handleFound = (found: unknown): void => {
         setFReset(true);
         setFound(found);
@@ -629,6 +668,14 @@ const GeoSearch = (
         const newfilter = spatialfilters.filter((fs: number) => fs !== filter);
         dispatch(setSpatialFilter(newfilter));
         setSpatial(newfilter);
+        setFReset(false);
+        // handleSearch(initKeyword);
+    };
+
+    const clearStacFilter = (filter: number) => {
+        const newfilter = stacfilters.filter((fs: number) => fs !== filter);
+        dispatch(setStacFilter(newfilter));
+        setStac(newfilter);
         setFReset(false);
         // handleSearch(initKeyword);
     };
@@ -689,6 +736,7 @@ const GeoSearch = (
         storespatialfilters,
         storethemefilters,
         storefoundational,
+        storestacfilters,
         stateLoaded,
     ]);
 
@@ -723,6 +771,9 @@ const GeoSearch = (
     spatialLabelParams.push(spatialData?.viewableOnTheMap);
     spatialLabelParams.push(spatialData?.notViewableOnTheMap);
     //console.log(spatialLabelParams);
+    stacLabelParams.splice(0);
+    stacLabelParams.push(stacData?.hnap);
+    stacLabelParams.push(stacData?.stac);
     return (
         <div className="geoSearchContainer">
             <div className={ksOnly ? 'container-fluid container-search input-container' : 'searchInput input-container'}>
@@ -788,6 +839,7 @@ const GeoSearch = (
                 storeorgfilters.length +
                 storethemefilters.length +
                 storespatialfilters.length +
+                storestacfilters.length +
                 (storefoundational ? 1 : 0) >
                 0 && (
                 <div className={ksOnly ? 'container-fluid container-search-filters-active' : 'searchFilters'}>
@@ -834,6 +886,17 @@ const GeoSearch = (
                                 onClick={!loading ? () => clearSpatialFilter(spatialfilter) : undefined}
                             >
                                 {spatials[language][spatialfilter]} <i className="fas fa-times" />
+                            </button>
+                        ))}
+                        {storestacfilters.map((stacfilter: number) => (
+                            <button
+                                key={`spaf-${stacfilter}`}
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? () => clearStacFilter(stacfilter) : undefined}
+                            >
+                                {stacs[language][stacfilter]} <i className="fas fa-times" />
                             </button>
                         ))}
                         {storefoundational && (
@@ -887,6 +950,15 @@ const GeoSearch = (
                                     filtername="spatial"
                                     externalLabel
                                     labelParams={spatialLabelParams}
+                                />
+                                <SearchFilter
+                                    filtertitle={t('filter.stac')}
+                                    filtervalues={stacs[language]}
+                                    filterselected={stacfilters}
+                                    selectFilters={handleStac}
+                                    filtername="stac"
+                                    externalLabel
+                                    labelParams={stacLabelParams}
                                 />
                                 <SearchFilter
                                     filtertitle={t('filter.themes')}
@@ -1149,6 +1221,7 @@ interface SearchParams {
     spatial?: string;
     foundational?: 'true';
     sort?: string;
+    stac?: string;
 }
 interface KOSearchParams {
     keyword: string;
@@ -1162,6 +1235,7 @@ interface KOSearchParams {
     foundational?: 'true';
     sort?: string;
     spatial?: string;
+    stac?: string;
 }
 
 interface SearchResult {

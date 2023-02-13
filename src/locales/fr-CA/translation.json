@@ -79,6 +79,10 @@
             "spatial": {
                 "viewable-on-map": "Viewable({{param}})",
                 "not-viewable-on-map": "Non-viewable({{param}})"
+            },
+            "stac": {
+                "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
+                "STAC": "Spatio Temporal Asset Catalog (STAC) ({{param}} records)"
             }
         }
     },

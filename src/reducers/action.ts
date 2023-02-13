@@ -1,4 +1,4 @@
-import { SpatialData } from '../app';
+import { SpatialData, StacData } from '../app';
 import { mappingObj } from './reducer';
 
 /* eslint-disable prettier/prettier */
@@ -11,6 +11,8 @@ export enum ActionType {
     SET_FOUND = 'setFoundational',
     SET_FILTERS = 'setFilters',
     SET_SPATIALDATA = 'setSpatialData',
+    SET_STAC = 'setStac',
+    SET_STACDATA = 'setStacData',
 }
 
 export interface Action {
@@ -24,6 +26,7 @@ interface Filters {
     themefilter: number[];
     spatialfilter: number[];
     foundational: boolean;
+    stacfilter: number[];
 }
 
 export interface BooleanAction {
@@ -32,7 +35,7 @@ export interface BooleanAction {
 }
 
 export interface FilterAction {
-    type: ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME | ActionType.SET_SPATIAL;
+    type: ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME | ActionType.SET_SPATIAL | ActionType.SET_STAC;
     payload: number[];
 }
 export interface FiltersAction {
@@ -43,6 +46,11 @@ export interface FiltersAction {
 export interface SpatialAction {
     type: ActionType.SET_SPATIALDATA;
     payload: SpatialData;
+}
+
+export interface StacAction {
+    type: ActionType.SET_STACDATA;
+    payload: StacData;
 }
 // export type Action = { type: ActionType.ADD_MAPPING, payload: idstring } | { type: ActionType.DEL_MAPPING, payload: idstring } | { type: ActionType.CLEAR_MAPPING };
 export function setMapping(mlist: mappingObj[]): Action {
@@ -75,4 +83,12 @@ export function setFoundational(foundational: boolean): BooleanAction {
 
 export function setFilters(filters: Filters): FiltersAction {
     return { type: ActionType.SET_FILTERS, payload: filters };
+}
+
+export function setStacFilter(stacfilter: number[]): FilterAction {
+    return { type: ActionType.SET_STAC, payload: stacfilter };
+}
+
+export function setStacData(stacData: StacData): StacAction {
+    return { type: ActionType.SET_STACDATA, payload: stacData };
 }

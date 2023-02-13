@@ -27,7 +27,7 @@ import CgpModal from './components/modal/cgpmodal';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/css/style.scss';
-import { setSpatialData } from './reducers/action';
+import { setSpatialData, setStacData } from './reducers/action';
 
 // import authconfig from './components/account/cognito-auth/config.json';
 
@@ -80,6 +80,20 @@ const RenderMap: React.FunctionComponent = () => {
                 dispatch(setSpatialData({ viewableOnTheMap: 0, notViewableOnTheMap: 0 }));
             });
     }, []);
+    axios
+        .get('http://localhost:3000/metadata-standard')
+        .then((result) => {
+            //console.log(result);
+            const stacData: StacData = {
+                hnap: result.data.hnap,
+                stac: result.data.stac,
+            };
+            dispatch(setStacData(stacData));
+        })
+        .catch((e) => {
+            console.log(e);
+            dispatch(setStacData({ hnap: 0, stac: 0 }));
+        });
     return (
         <Suspense fallback="loading">
             <div className="mapPage">
@@ -157,4 +171,8 @@ ReactDOM.render(
 export interface SpatialData {
     viewableOnTheMap: number;
     notViewableOnTheMap: number;
+}
+export interface StacData {
+    hnap: number;
+    stac: number;
 }

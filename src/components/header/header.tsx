@@ -20,6 +20,7 @@ import organisations from '../search/organisations.json';
 import types from '../search/types.json';
 import themes from '../search/themes.json';
 import spatials from '../search/spatials.json';
+import stacs from '../search/stac.json';
 import { envglobals } from '../../common/envglobals';
 import './header.scss';
 // Reacstrap Collapse - Responsive Navbar
@@ -116,6 +117,7 @@ export default function Header(): JSX.Element {
                 queryParams.org !== undefined ||
                 queryParams.type !== undefined ||
                 queryParams.theme !== undefined ||
+                queryParams.stac !== undefined ||
                 queryParams.foundational !== undefined
             ) {
                 const oIndex =
@@ -136,10 +138,15 @@ export default function Header(): JSX.Element {
                         ? (spatials[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.spatial.toLowerCase())
                         : -1;
 
+                const stIndex =
+                    queryParams.stac !== undefined
+                        ? (stacs[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.stac.toLowerCase())
+                        : -1;
                 const orgfilter = oIndex > -1 ? [oIndex] : [];
                 const typefilter = tIndex > -1 ? [tIndex] : [];
                 const themefilter = thIndex > -1 ? [thIndex] : [];
                 const spatialfilter = spaIndex > -1 ? [spaIndex] : [];
+                const stacfilter = stIndex > -1 ? [stIndex] : [];
                 dispatch(
                     setFilters({
                         orgfilter,
@@ -147,6 +154,7 @@ export default function Header(): JSX.Element {
                         themefilter,
                         spatialfilter,
                         foundational: queryParams.foundational !== undefined && queryParams.foundational === 'y',
+                        stacfilter,
                     })
                 );
             }
@@ -157,7 +165,16 @@ export default function Header(): JSX.Element {
         return () => {
             window.removeEventListener('storage', showMapping);
         };
-    }, [dispatch, langFromUrl, queryParams.lang, queryParams.org, queryParams.theme, queryParams.spatial, queryParams.type]);
+    }, [
+        dispatch,
+        langFromUrl,
+        queryParams.lang,
+        queryParams.org,
+        queryParams.theme,
+        queryParams.spatial,
+        queryParams.type,
+        queryParams.stac,
+    ]);
 
     return (
         <header className="header">

@@ -15,7 +15,8 @@ import types from '../search/types.json';
 import themes from '../search/themes.json';
 import spatials from '../search/spatials.json';
 import { setFilters } from '../../reducers/action';
-import { SpatialData } from '../../app';
+import { SpatialData, StacData } from '../../app';
+import stacs from '../search/stac.json';
 
 export default function FilterPanel(props: PanelProps): JSX.Element {
     const { showing, closeFunction } = props;
@@ -25,6 +26,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
     const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
+    const storestacfilters = useSelector((state) => (state.mappingReducer.stacfilter ? state.mappingReducer.stacfilter : []));
     const dispatch = useDispatch();
     const language = t('app.language');
     const [orgfilters, setOrg] = useState(storeorgfilters);
@@ -36,6 +38,9 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [ofOpen, setOfOpen] = useState(false);
     const [spatialData] = useState<SpatialData>(useSelector((state) => state.mappingReducer.spatialData));
     const spatialLabelParams = [];
+    const [stacfilters, setStac] = useState(storestacfilters);
+    const [stacData] = useState<StacData>(useSelector((state) => state.mappingReducer.stacData));
+    const stacLabelParams = [];
     // console.log(state, dispatch);
     const applyFilters = () => {
         dispatch(
@@ -45,6 +50,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                 themefilter: themefilters,
                 spatialfilter: spatialfilters,
                 foundational,
+                stacfilter: stacfilters,
             })
         );
         setFReset(false);
@@ -55,8 +61,9 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setType([]);
         setTheme([]);
         setSpatial([]);
+        setStac([]);
         setFound(false);
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false }));
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false, stacfilter: [] }));
         setFReset(false);
         closeFunction(' search');
     };
@@ -81,6 +88,10 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setSpatial(filters);
     };
 
+    const handleStac = (filters: unknown): void => {
+        setFReset(true);
+        setStac(filters);
+    };
     const handleFound = (found: unknown): void => {
         setFReset(true);
         setFound(found);
@@ -95,10 +106,13 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
             const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
             const found = localState !== undefined ? localState.mappingReducer.foundational : false;
+            const stfilters =
+                localState !== undefined ? (localState.mappingReducer.stacfilter ? localState.mappingReducer.stacfilter : []) : [];
             setOrg(ofilters);
             setType(tfilters);
             setTheme(thfilters);
             setSpatial(spafilters);
+            setStac(stfilters);
             setFound(found);
             setFReset(true);
         }
@@ -106,6 +120,9 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     spatialLabelParams.splice(0);
     spatialLabelParams.push(spatialData?.viewableOnTheMap);
     spatialLabelParams.push(spatialData?.notViewableOnTheMap);
+    stacLabelParams.splice(0);
+    stacLabelParams.push(stacData?.hnap);
+    stacLabelParams.push(stacData?.stac);
     //console.log(spatialLabelParams);
     return (
         <PanelApp
@@ -145,6 +162,16 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         filtername="spatial"
                                         externalLabel
                                         labelParams={spatialLabelParams}
+                                    />
+
+                                    <SearchFilter
+                                        filtertitle={t('filter.stac')}
+                                        filtervalues={stacs[language]}
+                                        filterselected={stacfilters}
+                                        selectFilters={handleStac}
+                                        filtername="stac"
+                                        externalLabel
+                                        labelParams={stacLabelParams}
                                     />
                                     <SearchFilter
                                         filtertitle={t('filter.themes')}

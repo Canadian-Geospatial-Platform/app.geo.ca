@@ -28,9 +28,10 @@ import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
 import spatials from './spatials.json';
+import stacs from './stac.json';
 // import { css } from '@emotion/core';
 import './keywordsearch.scss';
-import { SpatialData } from '../../app';
+import { SpatialData, StacData } from '../../app';
 
 const EnvGlobals = envglobals();
 
@@ -42,6 +43,8 @@ const KeywordSearch = (): JSX.Element => {
     const rpp = 10;
     const [spatialData] = useState<SpatialData>(useSelector((state) => state.mappingReducer.spatialData));
     const spatialLabelParams = [];
+    const [stacData] = useState<StacData>(useSelector((state) => state.mappingReducer.stacData));
+    const stacLabelParams = [];
     const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 6 : 4);
     const [sfloaded, setSF] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -57,11 +60,13 @@ const KeywordSearch = (): JSX.Element => {
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
     const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
+    const storestacfilters = useSelector((state) => (state.mappingReducer.stacfilter ? state.mappingReducer.stacfilter : []));
     const dispatch = useDispatch();
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
     const [spatialfilters, setSpatial] = useState(storespatialfilters);
+    const [stacfilters, setStac] = useState(storestacfilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
     const [filterbyshown, setFilterbyshown] = useState(false);
@@ -80,6 +85,7 @@ const KeywordSearch = (): JSX.Element => {
                 themefilter: themefilters,
                 spatialfilter: spatialfilters,
                 foundational,
+                stacfilter: stacfilters,
             })
         );
         setFReset(false);
@@ -90,8 +96,9 @@ const KeywordSearch = (): JSX.Element => {
         setOrg([]);
         setType([]);
         setTheme([]);
+        setStac([]);
         setFound(false);
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false }));
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false, stacfilter: [] }));
         setFReset(false);
         // setPageNumber(1);
     };
@@ -107,6 +114,7 @@ const KeywordSearch = (): JSX.Element => {
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
         const spafilters = localState !== undefined ? localState.mappingReducer.spafilter : [];
+        const stfilters = localState !== undefined ? (localState.mappingReducer.stfilter ? localState.mappingReducer.stfilter : []) : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         const searchParams: SearchParams = {
             keyword,
@@ -146,6 +154,13 @@ const KeywordSearch = (): JSX.Element => {
         } else if (aParams.spatial) {
             delete aParams.spatial;
         }
+        if (spafilters.length > 0) {
+            const stArray = stfilters.map((fs: number) => stacs[language][fs].toLowerCase().replace(/\'/g, "''"));
+            searchParams.type = stArray.join('|');
+            aParams.stac = stArray;
+        } else if (aParams.stac) {
+            delete aParams.stac;
+        }
         if (found) {
             searchParams.foundational = 'true';
             aParams.foundational = 'true';
@@ -160,6 +175,7 @@ const KeywordSearch = (): JSX.Element => {
                 themefilter: thfilters,
                 spatialfilter: spafilters,
                 foundational: found,
+                stacfilter: stfilters,
             })
         );
 
@@ -187,6 +203,7 @@ const KeywordSearch = (): JSX.Element => {
                 setType(tfilters);
                 setTheme(thfilters);
                 setSpatial(spafilters);
+                setStac(stfilters);
                 setFound(found);
                 setSF(true);
             })
@@ -204,6 +221,7 @@ const KeywordSearch = (): JSX.Element => {
                 setType(tfilters);
                 setTheme(thfilters);
                 setSpatial(spafilters);
+                setStac(stfilters);
                 setFound(found);
                 setSF(true);
             });
@@ -293,6 +311,11 @@ const KeywordSearch = (): JSX.Element => {
         setSpatial(filters);
     };
 
+    const handleStac = (filters: unknown): void => {
+        setFReset(true);
+        setStac(filters);
+    };
+
     const handleFound = (found: unknown): void => {
         setFReset(true);
         setFound(found);
@@ -329,7 +352,13 @@ const KeywordSearch = (): JSX.Element => {
         setFReset(false);
         // handleSearch(initKeyword);
     };
-
+    const clearStacFilter = (filter: number) => {
+        const newfilter = stacfilters.filter((fs: number) => fs !== filter);
+        dispatch(setStacFilter(newfilter));
+        setStac(newfilter);
+        setFReset(false);
+        // handleSearch(initKeyword);
+    };
     const clearFound = () => {
         dispatch(setFoundational(false));
         setFound(false);
@@ -359,6 +388,9 @@ const KeywordSearch = (): JSX.Element => {
     spatialLabelParams.splice(0);
     spatialLabelParams.push(spatialData?.viewableOnTheMap);
     spatialLabelParams.push(spatialData?.notViewableOnTheMap);
+    stacLabelParams.splice(0);
+    stacLabelParams.push(stacData?.hnap);
+    stacLabelParams.push(stacData?.stac);
     //console.log(spatialLabelParams);
     return (
         <div className="pageContainer keyword-search-page">
@@ -414,6 +446,7 @@ const KeywordSearch = (): JSX.Element => {
                 storeorgfilters.length +
                 storethemefilters.length +
                 storespatialfilters.length +
+                storestacfilters.length +
                 (storefoundational ? 1 : 0) >
                 0 && (
                 <div className="container-fluid container-search-filters-active">
@@ -462,6 +495,17 @@ const KeywordSearch = (): JSX.Element => {
                                         onClick={!loading ? () => clearSpatialFilter(spatialfilter) : undefined}
                                     >
                                         {spatials[language][spatialfilter]} <i className="fas fa-times" />
+                                    </button>
+                                ))}
+                                {storestacfilters.map((stacfilter: number) => (
+                                    <button
+                                        key={`stf-${stacfilter}`}
+                                        type="button"
+                                        className="btn btn-filter"
+                                        disabled={loading}
+                                        onClick={!loading ? () => clearStacFilter(stacfilter) : undefined}
+                                    >
+                                        {stacs[language][stacfilter]} <i className="fas fa-times" />
                                     </button>
                                 ))}
                                 {storefoundational && (
@@ -519,6 +563,15 @@ const KeywordSearch = (): JSX.Element => {
                                     labelParams={spatialLabelParams}
                                 />
 
+                                <SearchFilter
+                                    filtertitle={t('filter.stac')}
+                                    filtervalues={stacs[language]}
+                                    filterselected={stacfilters}
+                                    selectFilters={handleStac}
+                                    filtername="stac"
+                                    externalLabel
+                                    labelParams={stacLabelParams}
+                                />
                                 <SearchFilter
                                     filtertitle={t('filter.themes')}
                                     filtervalues={themes[language]}

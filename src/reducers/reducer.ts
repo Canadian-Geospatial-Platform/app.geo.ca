@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { SpatialData } from '../app';
-import { ActionType, Action, BooleanAction, FilterAction, FiltersAction, SpatialAction } from './action';
+import { SpatialData, StacData } from '../app';
+import { ActionType, Action, BooleanAction, FilterAction, FiltersAction, SpatialAction, StacAction } from './action';
 
 export interface mappingState {
     mapping: mappingObj[];
@@ -10,6 +10,8 @@ export interface mappingState {
     spatialfilter: number[];
     foundational: boolean;
     spatialData: SpatialData;
+    stacfilter: number[];
+    stacData: StacData;
 }
 export interface mappingObj {
     id: string;
@@ -28,11 +30,13 @@ const defaultState: mappingState = {
     spatialfilter: [],
     foundational: false,
     spatialData: { viewableOnTheMap: 0, notViewableOnTheMap: 0 },
+    stacfilter: [],
+    stacData: { hnap: 0, stac: 0 },
 };
 
 const mappingReducer = (
     state: mappingState = defaultState,
-    action: Action | BooleanAction | FilterAction | FiltersAction | SpatialAction
+    action: Action | BooleanAction | FilterAction | FiltersAction | SpatialAction | StacAction
 ): mappingState => {
     switch (action.type) {
         case ActionType.SET_MAPPING:
@@ -51,6 +55,10 @@ const mappingReducer = (
             return { ...state, ...action.payload };
         case ActionType.SET_SPATIALDATA:
             return { ...state, spatialData: action.payload };
+        case ActionType.SET_STAC:
+            return { ...state, stacfilter: action.payload };
+        case ActionType.SET_STACDATA:
+            return { ...state, stacData: action.payload };
         default:
             return state;
     }
