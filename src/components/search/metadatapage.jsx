@@ -361,7 +361,7 @@ const MetaDataPage = () => {
                     const useL = result.useLimits.match(/^(.+) [–|-] (.+)\((.+)\)$/);
                     const showDisclaimer=Array.isArray(useL) && licenceOrgs[language].findIndex(p => p.toLowerCase() === useL[2].trim().toLowerCase())>-1;
                     //const showWHDisclaimer = false;
-                    const showWHDisclaimer = result.source_system_name.includes("Canadian Geospatial Data Infrastructure Web Harvester; Moissonneur Web de l'Infrastructure canadienne de données géospatiales");                 
+                    const showWHDisclaimer = result.source_system_name.includes("Canadian Geospatial Data Infrastructure Web Harvester");                 
                     // console.log(contact, options);
                     console.log(showWHDisclaimer);
 
