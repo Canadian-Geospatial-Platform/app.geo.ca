@@ -837,8 +837,8 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                 </ul>
                                             </div>
                                             <p className="search-desc">
-                                                {result.description.substr(0, 240)}{' '}
-                                                {result.description.length > 240 ? <span>...</span> : ''}
+                                                {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').substr(0, 240)}{' '}
+                                                {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').length > 240 ? <span>...</span> : ''}
                                             </p>
                                             <div className="search-result-buttons">
                                                 <button
@@ -901,7 +901,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                         <strong>{t('page.published')}:</strong> {result.published}
                                     </p>
                                     <p className="searchDesc">
-                                        {result.description.substr(0, 240)} {result.description.length > 240 ? <span>...</span> : ''}
+                                        {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').substr(0, 240)} {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').length > 240 ? <span>...</span> : ''}
                                     </p>
                                     <div className="searchResultButtons">
                                         <button
