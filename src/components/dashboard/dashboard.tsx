@@ -25,7 +25,7 @@ const Dashboard = () => {
     const getAnnouncement = () => {
         // setErrLoading(false);
         announcementGet(
-        //announcementGetTemp(
+            //announcementGetTemp(
             '',
             { lang: language, userId: userID },
             (responseData) => {
@@ -61,7 +61,7 @@ const Dashboard = () => {
 
 
     //#region mycommunity
-    
+
     //#region mycommunity/accouncements
     const [communityAnnouncementLoading, setCommunityAnnouncementLoading] = useState(true);
     const [communityAnnouncement, setCommunityAnnouncement] = useState({});
@@ -116,7 +116,7 @@ const Dashboard = () => {
 
     const getCommunityData = (url, loading, setData) => {
         communityGet(
-        //announcementGetTemp(
+            //announcementGetTemp(
             url,
             { lang: language, userId: userID },
             (responseData) => {
@@ -240,7 +240,7 @@ const Dashboard = () => {
                                 {t('dashboard.communityTitle')}: {t('dashboard.communityName')}
                             </div>
                             <div className="width-50-per text-right">
-                                <a href='#' className='color-light'>Go to Record</a>
+                                <a href={communityData.uuid !== undefined ? "/result?id=" + communityData.uuid + "&lang="+language : "#"} className='color-light'>Go to Record</a>
                             </div>
                         </div>
                     </div>
@@ -279,7 +279,7 @@ const Dashboard = () => {
                                 {t('dashboard.communityTitle')}: {communityResources ? communityResources["community_" + language] : ""}
                             </div>
                             <div className="width-50-per text-right">
-                                <a href='#' className='color-light'>Go to Record</a>
+                                <a href='#' className='color-light'>Go to Resource</a>
                             </div>
                         </div>
                     </div>
