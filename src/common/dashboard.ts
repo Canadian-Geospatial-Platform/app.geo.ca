@@ -5,9 +5,31 @@ import { LastAllParams } from './analytic';
 
 const EnvGlobals = envglobals();
 
-export const announcementGet = (endpointUrl: string, aParams: LastAllParams, successFunc?: any, errorFunc?: any, finallyFunc?: any) => {
+export enum DASHBOARD_CALLS {
+    ANNOUNCEMENT,
+    COMMUNITY,
+    SAVED_RECORDS
+}
+
+const getAPIURL = (dc: DASHBOARD_CALLS, endpointUrl: string) => {
+    let url = "";
+    switch (+dc) {
+        case DASHBOARD_CALLS.ANNOUNCEMENT:
+            url = `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.ANNOUNCEMENTS}/${endpointUrl}`;
+            break;
+        case DASHBOARD_CALLS.COMMUNITY:
+            url = `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.MYCOMMUNITY}/${endpointUrl}`;
+            break;
+        case DASHBOARD_CALLS.SAVED_RECORDS:
+            url = `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SAVED_RECORDS}/${endpointUrl}`;
+            break;
+    }
+    return url;
+}
+
+export const Get = (dc: DASHBOARD_CALLS, endpointUrl: string, aParams: LastAllParams, successFunc?: any, errorFunc?: any, finallyFunc?: any) => {
     axios.get(
-        `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.ANNOUNCEMENTS}/${endpointUrl}`,
+        getAPIURL(dc, endpointUrl),
         {
             params: aParams
         }
@@ -32,13 +54,3 @@ export const announcementGetTemp = (endpointUrl: string, aParams: LastAllParams,
 }
 
 
-export const communityGet = (endpointUrl: string, aParams: LastAllParams, successFunc?: any, errorFunc?: any, finallyFunc?: any) => {
-    axios.get(
-        `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.MYCOMMUNITY}/${endpointUrl}`,
-        {
-            params: aParams
-        }
-    ).then((response) => typeof successFunc === 'function' ? successFunc(response) : {}
-    ).catch((error) => typeof errorFunc === 'function' ? errorFunc(error) : {}
-    ).finally(() => typeof finallyFunc === 'function' ? finallyFunc() : {});
-}

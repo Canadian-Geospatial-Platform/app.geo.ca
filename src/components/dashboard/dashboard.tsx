@@ -8,7 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { announcementGet, communityGet, announcementGetTemp } from '../../common/dashboard';
+import { DASHBOARD_CALLS, Get } from '../../common/dashboard';
 
 import '../analytic/analytic.scss';
 import './dashboard.scss';
@@ -24,7 +24,7 @@ const Dashboard = () => {
 
     const getAnnouncement = () => {
         // setErrLoading(false);
-        announcementGet(
+        Get(DASHBOARD_CALLS.ANNOUNCEMENT,
             //announcementGetTemp(
             '',
             { lang: language, userId: userID },
@@ -68,12 +68,12 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (announcementLoading) {
-            getCommunityData('announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
         }
     }, [announcementLoading, userID]);
 
     useEffect(() => {
-        getCommunityData('announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
+        getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
     }, [language]);
 
     //#endregion
@@ -86,12 +86,12 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (announcementLoading) {
-            getCommunityData('data', setcommunityDataLoading, setcommunityData);
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'data', setcommunityDataLoading, setcommunityData);
         }
     }, [announcementLoading, userID]);
 
     useEffect(() => {
-        getCommunityData('data', setcommunityDataLoading, setcommunityData);
+        getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'data', setcommunityDataLoading, setcommunityData);
     }, [language]);
 
     //#endregion
@@ -104,18 +104,37 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (announcementLoading) {
-            getCommunityData('resources', setCommunityResourcesLoading, setcommunityResources);
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'resources', setCommunityResourcesLoading, setcommunityResources);
         }
     }, [announcementLoading, userID]);
 
     useEffect(() => {
-        getCommunityData('resources', setCommunityResourcesLoading, setcommunityResources);
+        getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'resources', setCommunityResourcesLoading, setcommunityResources);
     }, [language]);
 
     //#endregion
 
-    const getCommunityData = (url, loading, setData) => {
-        communityGet(
+
+    //#region Saved_records/get
+    const [savedRecordsLoading, setsavedRecordsLoading] = useState(true);
+    const [savedRecords, setSavedRecords] = useState({});
+
+
+    useEffect(() => {
+        if (savedRecordsLoading) {
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, '', setsavedRecordsLoading, setSavedRecords);
+        }
+    }, [savedRecordsLoading]);
+
+    useEffect(() => {
+        getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, '', setsavedRecordsLoading, setSavedRecords);
+    }, [language]);
+
+    //#endregion
+
+
+    const getCommunityAndSavedRecords = (dc: DASHBOARD_CALLS, url, loading, setData) => {
+        Get(dc,
             //announcementGetTemp(
             url,
             { lang: language, userId: userID },
@@ -313,11 +332,23 @@ const Dashboard = () => {
                                         </h4>
                                     </div>
                                     <div className="card-wrap">
-                                        <div >
+                                        {savedRecordsLoading ? (
+                                            <BeatLoader color="#ffffff" />
+                                        ) : !savedRecords ? (
+                                            <div className="loading-failed">
+                                                {t('dashboard.loadingfailed')},{' '}
+                                                <button type="button" className="link-button" onClick={() => setsavedRecordsLoading(true)}>
+                                                    {t('analytic.tryagain')}
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div >
+                                                {savedRecords["title_" + language]}
+                                            </div>
+                                        )}
 
-                                            {t('dashboard.resourceDescription')}
-                                        </div>
-                                        {/* )} */}
+
+
                                     </div>
                                 </div>
                             </div>
