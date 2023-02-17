@@ -232,7 +232,7 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
-        const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
+        const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter :[] : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         // const MappingState = getMappingState();
         const searchParams: SearchParams = {
@@ -451,7 +451,7 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
-        const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
+        const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : [] : [];
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         const searchParams: KOSearchParams = {
             keyword: keyword.replace(/"/g, '\\"'),
