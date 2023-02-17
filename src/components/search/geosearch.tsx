@@ -646,7 +646,6 @@ const GeoSearch = (
     };
 
     const sortingOptions: SortingOptionInfo[] = [
-        { label: 'appbar.sortby.relevance', value: 'relevance' },
         { label: 'appbar.sortby.date.desc', value: 'date-desc', sortDirection: 'desc' },
         { label: 'appbar.sortby.date.asc', value: 'date-asc', sortDirection: 'asc' },
         { label: 'appbar.sortby.popularity.desc', value: 'popularity-desc', sortDirection: 'desc' },
