@@ -32,6 +32,7 @@ import types from './types.json';
 import themes from './themes.json';
 import './geosearch.scss';
 import Sorting, { SortingOptionInfo } from './sorting';
+import { getQueryParams } from '../../common/queryparams';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (
@@ -44,6 +45,7 @@ const GeoSearch = (
     const { t } = useTranslation();
     const history = useHistory();
     const location = useLocation();
+    const queryParams: { [key: string]: string } = getQueryParams(location.search);
     const { statePn, stateBounds } = location.state !== undefined ? location.state : {};
     const [stateLoaded, setStateLoaded] = useState(false);
 
@@ -78,7 +80,7 @@ const GeoSearch = (
     const [filterbyshown, setFilterbyshown] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
-    const [sortbyValue, setSortbyValue] = useState('title');
+    const [sortbyValue, setSortbyValue] = useState(queryParams.sort ? queryParams.sort : 'title');
     /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
     const themefilters = useSelector((state) => state.mappingReducer.themefilter);
