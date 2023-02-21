@@ -18,12 +18,12 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import { useMap, MapContainer, TileLayer, GeoJSON, AttributionControl } from 'react-leaflet';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
-import SvgIcon from "@material-ui/core/SvgIcon";
+import SvgIcon from '@material-ui/core/SvgIcon';
 import FilterIcon from '../../assets/icons/filter.svg';
 import { loadState } from '../../reducers/localStorage';
 import { NavBar } from '../navbar/nav-bar';
 import { envglobals } from '../../common/envglobals';
-import {analyticPost, AnalyticParams} from '../../common/analytic';
+import { analyticPost, AnalyticParams } from '../../common/analytic';
 import SearchFilter from '../searchfilter/searchfilter';
 import Pagination from '../pagination/pagination';
 import { setFilters, setOrgFilter, setTypeFilter, setThemeFilter, setFoundational } from '../../reducers/action';
@@ -31,13 +31,20 @@ import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
 import './geosearch.scss';
+import Sorting, { SortingOptionInfo } from './sorting';
 
 const EnvGlobals = envglobals();
-const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>void, setKSOnly: (kso:boolean)=>void, initKeyword: string): JSX.Element => {
+const GeoSearch = (
+    showing: boolean,
+    ksOnly: boolean,
+    setKeyword: (kw: string) => void,
+    setKSOnly: (kso: boolean) => void,
+    initKeyword: string
+): JSX.Element => {
     const { t } = useTranslation();
     const history = useHistory();
     const location = useLocation();
-    const {statePn, stateBounds} = location.state !== undefined ? location.state : {};
+    const { statePn, stateBounds } = location.state !== undefined ? location.state : {};
     const [stateLoaded, setStateLoaded] = useState(false);
 
     const rpp = 10;
@@ -57,7 +64,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     // const [modal, setModal] = useState(false);
     // const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const language = t('app.language');
-    const analyticParams = {loc: '/', lang: language, type: 'search', event: 'search'};
+    const analyticParams = { loc: '/', lang: language, type: 'search', event: 'search' };
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -71,6 +78,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     const [filterbyshown, setFilterbyshown] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
+    const [sortbyValue, setSortbyValue] = useState('title');
     /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
     const themefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -109,7 +117,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 loc: '/',
                 lang: language,
                 type: 'access',
-                event: 'footprint'
+                event: 'footprint',
             };
 
             if (analyticParams.theme) {
@@ -133,7 +141,8 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     const handleSelect = (event: string) => {
         // const {selectResult} = this.props;
         const cardOpen = selected === event ? !open : true;
-        const result = Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;
+        const result =
+            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;
 
         setSelected(event);
         setOpen(cardOpen);
@@ -152,42 +161,42 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             });
     };
 
-  const handleView = (evt:React.MouseEvent<HTMLButtonElement>, id:string) => {
-    evt.stopPropagation();
-    const viewParams: AnalyticParams = {
-        search: analyticParams.search,
-        geo: JSON.stringify(analyticParams.geo),
-        uuid: id,
-        loc: '/',
-        lang: language,
-        type: 'access',
-        event: 'view'
-    };
+    const handleView = (evt: React.MouseEvent<HTMLButtonElement>, id: string) => {
+        evt.stopPropagation();
+        const viewParams: AnalyticParams = {
+            search: analyticParams.search,
+            geo: JSON.stringify(analyticParams.geo),
+            uuid: id,
+            loc: '/',
+            lang: language,
+            type: 'access',
+            event: 'view',
+        };
 
-    if (analyticParams.theme) {
-        viewParams.theme = analyticParams.theme;
-    }
-    if (analyticParams.org) {
-        viewParams.org = analyticParams.org;
-    }
-    if (analyticParams.type_filter) {
-        viewParams.type_filter = analyticParams.type_filter;
-    }
-    if (analyticParams.foundational) {
-        viewParams.foundational = analyticParams.foundational;
-    }
-    analyticPost(viewParams);
-    history.push({
-        pathname: '/result',
-        search:`id=${encodeURI(id.trim())}&lang=${language}`,
-        state: {
-            stateKO: ksOnly,
-            stateKeyword: initKeyword,
-            statePn: pn,
-            stateBounds: initBounds
+        if (analyticParams.theme) {
+            viewParams.theme = analyticParams.theme;
         }
-    });
-  }
+        if (analyticParams.org) {
+            viewParams.org = analyticParams.org;
+        }
+        if (analyticParams.type_filter) {
+            viewParams.type_filter = analyticParams.type_filter;
+        }
+        if (analyticParams.foundational) {
+            viewParams.foundational = analyticParams.foundational;
+        }
+        analyticPost(viewParams);
+        history.push({
+            pathname: '/result',
+            search: `id=${encodeURI(id.trim())}&lang=${language}`,
+            state: {
+                stateKO: ksOnly,
+                stateKeyword: initKeyword,
+                statePn: pn,
+                stateBounds: initBounds,
+            },
+        });
+    };
 
     const handleChange = (e: ChangeEvent) => {
         e.preventDefault();
@@ -207,12 +216,12 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         }
     };
 
-    const handleSearch = (keyword: string, bounds: unknown, pnum?:number) => {
+    const handleSearch = (keyword: string, bounds: unknown, pnum?: number) => {
         map.off('moveend');
-        const cpr = pnum!==undefined ? true:false;
+        const cpr = pnum !== undefined ? true : false;
         setPn(cpr);
         !loading && setLoadingStatus(true);
-        const pageNumber = pnum!==undefined ? pnum: 1;
+        const pageNumber = pnum !== undefined ? pnum : 1;
 
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
@@ -229,14 +238,18 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
+            sort: sortbyValue,
         };
         const aParams = Object.assign(analyticParams);
         aParams.search = keyword;
         // aParams.geo = JSON.stringify(bounds);
-        aParams.geo = [[bounds._northEast.lat, bounds._northEast.lng], [bounds._southWest.lat, bounds._southWest.lng]];
+        aParams.geo = [
+            [bounds._northEast.lat, bounds._northEast.lng],
+            [bounds._southWest.lat, bounds._southWest.lng],
+        ];
 
         if (thfilters.length > 0) {
-            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.theme = themeArray.join('|');
             aParams.theme = themeArray;
         } else if (aParams.theme) {
@@ -244,7 +257,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         }
 
         if (ofilters.length > 0) {
-            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.org = orgArray.join('|');
             aParams.org = orgArray;
         } else if (aParams.org) {
@@ -252,7 +265,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         }
 
         if (tfilters.length > 0) {
-            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.type = typeArray.join('|');
             aParams.type_filter = typeArray;
         } else if (aParams.type_filter) {
@@ -269,7 +282,8 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         // console.log(searchParams);
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
 
-        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
+        axios
+            .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
             .then((response) => {
                 analyticPost(aParams);
                 return response.data;
@@ -316,8 +330,8 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 // setType(tfilters);
                 // setTheme(thfilters);
                 // setFound(found);
-
-            }).finally(()=>{
+            })
+            .finally(() => {
                 setBounds(bounds);
                 setKeyword(keyword);
                 setKWShowing([]);
@@ -346,7 +360,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             handleSubmit();
         }
     };
-/*
+    /*
     const clearOrgFilter = (filter: number) => {
         const newfilter = storeorgfilters.filter((fs: number) => fs !== filter);
         dispatch(setOrgFilter(newfilter));
@@ -378,7 +392,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     const ksToggle = (kso: boolean) => {
         kso && map.off('moveend');
         setKSOnly(kso);
-    }
+    };
 
     const applyFilters = () => {
         dispatch(setFilters({ orgfilter: orgfilters, typefilter: typefilters, themefilter: themefilters, foundational }));
@@ -397,11 +411,11 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
     };
 
     const handleKOSearch = (keyword: string, pnum?: number) => {
-        const cpr = pnum!==undefined;
+        const cpr = pnum !== undefined;
         // const currentLang = (!sfloaded && queryParams.lang !== undefined)?queryParams.lang:language;
         setPn(cpr);
         setLoading(true);
-        const pageNumber = pnum!==undefined ? pnum : 1;
+        const pageNumber = pnum !== undefined ? pnum : 1;
         const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
@@ -413,26 +427,27 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             lang: language,
             min: (pageNumber - 1) * rpp + 1,
             max: pageNumber * rpp,
+            sort: sortbyValue,
         };
 
         const aParams = Object.assign(analyticParams);
         aParams.search = keyword;
         if (thfilters.length > 0) {
-            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.theme = themeArray.join('|');
             aParams.theme = themeArray;
         } else if (aParams.theme) {
             delete aParams.theme;
         }
         if (ofilters.length > 0) {
-            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.org = orgArray.join('|');
             aParams.org = orgArray;
         } else if (aParams.org) {
             delete aParams.org;
         }
         if (tfilters.length > 0) {
-            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.type = typeArray.join('|');
             aParams.type_filter = typeArray;
         } else if (aParams.type_filter) {
@@ -447,8 +462,9 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
 
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
         // console.log(searchParams);
-        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
-            .then((response) =>  {
+        axios
+            .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
+            .then((response) => {
                 analyticPost(analyticParams);
                 return response.data;
             })
@@ -486,7 +502,8 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 // setTheme(thfilters);
                 // setFound(found);
                 // setSF(true);
-            }).finally(()=>{
+            })
+            .finally(() => {
                 setKWShowing([]);
                 setKeyword(keyword);
                 setLoading(false);
@@ -583,10 +600,14 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             // console.log(fReset);
             if (ksOnly) {
                 if (!fReset) {
-                    handleKOSearch(initKeyword, !stateLoaded? statePn : undefined);
+                    handleKOSearch(initKeyword, !stateLoaded ? statePn : undefined);
                 }
             } else {
-                handleSearch(initKeyword, (!stateLoaded && stateBounds !==undefined) ? stateBounds : initBounds, !stateLoaded? statePn : undefined);
+                handleSearch(
+                    initKeyword,
+                    !stateLoaded && stateBounds !== undefined ? stateBounds : initBounds,
+                    !stateLoaded ? statePn : undefined
+                );
             }
             setStateLoaded(true);
         }
@@ -598,16 +619,49 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showing, ksOnly, fReset, language, storeorgfilters, storetypefilters, storethemefilters, storefoundational, stateLoaded]);
+    }, [
+        showing,
+        ksOnly,
+        sortbyValue,
+        fReset,
+        language,
+        storeorgfilters,
+        storetypefilters,
+        storethemefilters,
+        storefoundational,
+        stateLoaded,
+    ]);
 
     // map.on('moveend', event=>eventHandler(event,initKeyword, initBounds));
 
     // console.log(storethemefilters);
     // console.log(loading, cpn, cnt);
+    const handleSortFilter = () => {
+        const keyword = (inputRef.current as HTMLInputElement).value;
+        if (ksOnly) {
+            handleKOSearch(keyword);
+        } else {
+            handleSearch(keyword, initBounds);
+        }
+    };
+
+    const sortingOptions: SortingOptionInfo[] = [
+        { label: 'appbar.sortby.date.desc', value: 'date-desc', sortDirection: 'desc' },
+        { label: 'appbar.sortby.date.asc', value: 'date-asc', sortDirection: 'asc' },
+        { label: 'appbar.sortby.popularity.desc', value: 'popularity-desc', sortDirection: 'desc' },
+        { label: 'appbar.sortby.popularity.asc', value: 'popularity-asc', sortDirection: 'asc' },
+        { label: 'appbar.sortby.title', value: 'title' },
+    ];
+
+    const handleSorting = (value: string) => {
+        setSortbyValue(value);
+        console.log('sorting by', value);
+        // !loading && handleSortFilter();
+    };
     return (
         <div className="geoSearchContainer">
-            <div className={ksOnly?"container-fluid container-search input-container":"searchInput input-container"}>
-                <div className={ksOnly?"col-12 col-search-input":"searchInput"}>
+            <div className={ksOnly ? 'container-fluid container-search input-container' : 'searchInput input-container'}>
+                <div className={ksOnly ? 'col-12 col-search-input' : 'searchInput'}>
                     <input
                         placeholder={t('page.search')}
                         id="search-input"
@@ -629,26 +683,44 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                         <SearchIcon />
                     </button>
                 </div>
-                <div className={ksOnly?"col-12 col-advanced-filters-button":"col-advanced-filters-button"}>
-                    <span>{t('appbar.keywordonly')}</span>
-                    <label className="switch">
-                        <input type="checkbox" disabled={loading} checked={ksOnly} onChange={()=>ksToggle(!ksOnly)} />
-                        <span className="slider round"></span>
-                    </label>
-                {ksOnly && <button
-                        className={filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'}
-                        disabled={loading}
-                        type="button"
-                        onClick={!loading ? () => setFilterbyshown(!filterbyshown) : undefined}
-                        aria-expanded={filterbyshown ? 'true' : 'false'}
-                    >
-                        {t('page.advancedsearchfilters')}
-                    </button>
-                }
+                <div className={ksOnly ? 'col-12 col-advanced-filters-button' : 'col-advanced-filters-button'}>
+                    <div className={ksOnly ? 'geo-padding-right-30' : 'geo-padding-right-10'}>
+                        <span>{t('appbar.keywordonly')}</span>
+                        <label className="switch">
+                            <input type="checkbox" disabled={loading} checked={ksOnly} onChange={() => ksToggle(!ksOnly)} />
+                            <span className="slider round"></span>
+                        </label>
+                    </div>
+                    <div className={ksOnly ? 'geo-padding-right-30' : 'geo-padding-right-5'}>
+                        {!loading && (
+                            <Sorting
+                                label="appbar.sortby.label"
+                                labelClassName="sorting-label"
+                                selectClassName="sorting-select"
+                                optionClassName="sorting-option"
+                                iconClassName="sorting-icon"
+                                defaultValue={sortbyValue}
+                                options={sortingOptions}
+                                onSorting={handleSorting}
+                            />
+                        )}
+                    </div>
+
+                    {ksOnly && (
+                        <button
+                            className={filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'}
+                            disabled={loading}
+                            type="button"
+                            onClick={!loading ? () => setFilterbyshown(!filterbyshown) : undefined}
+                            aria-expanded={filterbyshown ? 'true' : 'false'}
+                        >
+                            {t('page.advancedsearchfilters')}
+                        </button>
+                    )}
                 </div>
             </div>
             {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
-                <div className={ksOnly?"container-fluid container-search-filters-active":"searchFilters"}>
+                <div className={ksOnly ? 'container-fluid container-search-filters-active' : 'searchFilters'}>
                     <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
                         {storetypefilters.map((typefilter: number) => (
                             <button
@@ -707,7 +779,10 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     <div className="row row-filters">
                         <div className="col-12">
                             <h3 className="filters-title">
-                                <SvgIcon><FilterIcon /></SvgIcon> {t('filter.filterby')}:
+                                <SvgIcon>
+                                    <FilterIcon />
+                                </SvgIcon>{' '}
+                                {t('filter.filterby')}:
                             </h3>
                             <div className="filters-wrap">
                                 <SearchFilter
@@ -762,7 +837,20 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 </div>
             )}
             <div className="container-fluid container-results" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
-                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
+                {cnt > 0 && (!loading || cpn) && (
+                    <Pagination
+                        rpp={rpp}
+                        ppg={ppg}
+                        rcnt={cnt}
+                        current={pn}
+                        loading={loading}
+                        selectPage={
+                            ksOnly
+                                ? (pnum: number) => handleKOSearch(initKeyword, pnum)
+                                : (pnum: number) => handleSearch(initKeyword, initBounds, pnum)
+                        }
+                    />
+                )}
                 {loading ? (
                     <div className="col-12 col-beat-loader">
                         <BeatLoader color="#515aa9" />
@@ -928,7 +1016,20 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                         )) }
                     </div>
                 )}
-                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
+                {cnt > 0 && (!loading || cpn) && (
+                    <Pagination
+                        rpp={rpp}
+                        ppg={ppg}
+                        rcnt={cnt}
+                        current={pn}
+                        loading={loading}
+                        selectPage={
+                            ksOnly
+                                ? (pnum: number) => handleKOSearch(initKeyword, pnum)
+                                : (pnum: number) => handleSearch(initKeyword, initBounds, pnum)
+                        }
+                    />
+                )}
             </div>
             {!ksOnly && loading && <div className="searching-cover" />}
         </div>
@@ -948,6 +1049,7 @@ interface SearchParams {
     org?: string;
     type?: string;
     foundational?: 'true';
+    sort?: string;
 }
 interface KOSearchParams {
     keyword: string;
@@ -959,6 +1061,7 @@ interface KOSearchParams {
     org?: string;
     type?: string;
     foundational?: 'true';
+    sort?: string;
 }
 
 interface SearchResult {

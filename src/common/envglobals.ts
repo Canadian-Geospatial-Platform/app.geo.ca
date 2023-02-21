@@ -7,7 +7,8 @@ export function envglobals() : globalValues {
             SEARCH: "/geo",
             METADATA: "/id",
             COLLECTIONS: "/collections",
-            ANALYTIC: "/analytics"
+            ANALYTIC: "/analytics",
+            SORTBY: "/sorting",
         }
         switch(hostname) {
             case "localhost":
@@ -19,7 +20,8 @@ export function envglobals() : globalValues {
                     APP_API_DOMAIN_URL: "https://qgqt1tniy2.execute-api.ca-central-1.amazonaws.com/live",
                     APP_API_ENDPOINTS: endpoints,
                     APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca",
-                    SITE_NAME: "localhost"
+                    SITE_NAME: "localhost",
+                    JSON_SERVER_URL: "http://localhost:3000"
                 };
             case "app-dev.geo.ca":   
                 return {
@@ -77,10 +79,11 @@ interface globalValues {
     APP_API_ENDPOINTS: {
         SEARCH: string;
         METADATA: string;
-        ANALYTIC: string;
+        ANALYTIC: string;        
     };
     APP_GEOCORE_URL: string;
     SITE_NAME: string;
+    JSON_SERVER_URL?:string;
 }
 
 
