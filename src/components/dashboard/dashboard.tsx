@@ -14,6 +14,8 @@ import '../analytic/analytic.scss';
 import './dashboard.scss';
 
 const Dashboard = () => {
+
+    //#region Component state
     const { t } = useTranslation();
     const language = t('app.language');
     const [userID, setUserID] = useState("cf9bfa6f-5837-42f9-9eeb-c15035c3c752");
@@ -21,9 +23,35 @@ const Dashboard = () => {
     //#region accouncements
     const [announcementLoading, setAnnouncementLoading] = useState(true);
     const [announcement, setAnnouncement] = useState("");
+    //#endregion
 
+    //#region mycommunity/accouncements
+    const [communityAnnouncementLoading, setCommunityAnnouncementLoading] = useState(true);
+    const [communityAnnouncement, setCommunityAnnouncement] = useState({});
+    //#endregion
+
+
+    //#region mycommunity/data
+    const [communityDataLoading, setcommunityDataLoading] = useState(true);
+    const [communityData, setcommunityData] = useState({});
+    //#endregion
+
+
+    //#region mycommunity/resources
+    const [communityResourcesLoading, setCommunityResourcesLoading] = useState(true);
+    const [communityResources, setcommunityResources] = useState({});
+    //#endregion
+
+
+    //#region Saved_records/get
+    const [savedRecordsLoading, setsavedRecordsLoading] = useState(true);
+    const [savedRecords, setSavedRecords] = useState({});
+    //#endregion
+
+    //#endregion
+
+    //#region  Api Calls
     const getAnnouncement = () => {
-        // setErrLoading(false);
         Get(DASHBOARD_CALLS.ANNOUNCEMENT,
             //announcementGetTemp(
             '',
@@ -47,92 +75,6 @@ const Dashboard = () => {
         );
     };
 
-    useEffect(() => {
-        if (announcementLoading) {
-            getAnnouncement();
-        }
-    }, [announcementLoading, userID]);
-
-    useEffect(() => {
-        getAnnouncement();
-    }, [language]);
-
-    //#endregion
-
-
-    //#region mycommunity
-
-    //#region mycommunity/accouncements
-    const [communityAnnouncementLoading, setCommunityAnnouncementLoading] = useState(true);
-    const [communityAnnouncement, setCommunityAnnouncement] = useState({});
-
-    useEffect(() => {
-        if (announcementLoading) {
-            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
-        }
-    }, [announcementLoading, userID]);
-
-    useEffect(() => {
-        getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
-    }, [language]);
-
-    //#endregion
-
-
-    //#region mycommunity/data
-    const [communityDataLoading, setcommunityDataLoading] = useState(true);
-    const [communityData, setcommunityData] = useState({});
-
-
-    useEffect(() => {
-        if (announcementLoading) {
-            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'data', setcommunityDataLoading, setcommunityData);
-        }
-    }, [announcementLoading, userID]);
-
-    useEffect(() => {
-        getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'data', setcommunityDataLoading, setcommunityData);
-    }, [language]);
-
-    //#endregion
-
-
-    //#region mycommunity/resources
-    const [communityResourcesLoading, setCommunityResourcesLoading] = useState(true);
-    const [communityResources, setcommunityResources] = useState({});
-
-
-    useEffect(() => {
-        if (announcementLoading) {
-            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'resources', setCommunityResourcesLoading, setcommunityResources);
-        }
-    }, [announcementLoading, userID]);
-
-    useEffect(() => {
-        getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'resources', setCommunityResourcesLoading, setcommunityResources);
-    }, [language]);
-
-    //#endregion
-
-
-    //#region Saved_records/get
-    const [savedRecordsLoading, setsavedRecordsLoading] = useState(true);
-    const [savedRecords, setSavedRecords] = useState({});
-
-
-    useEffect(() => {
-        if (savedRecordsLoading) {
-            getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, '', setsavedRecordsLoading, setSavedRecords);
-        }
-    }, [savedRecordsLoading]);
-
-    useEffect(() => {
-        getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, '', setsavedRecordsLoading, setSavedRecords);
-    }, [language]);
-
-    //#endregion
-
-
     const getCommunityAndSavedRecords = (dc: DASHBOARD_CALLS, url, loading, setData) => {
         Get(dc,
             //announcementGetTemp(
@@ -152,6 +94,43 @@ const Dashboard = () => {
             }
         );
     };
+
+    //#endregion
+
+    //#region  Life Cycle Event
+    useEffect(() => {
+        if (announcementLoading)
+            getAnnouncement();
+    }, [announcementLoading]);
+
+    useEffect(() => {
+        if (savedRecordsLoading)
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, '', setsavedRecordsLoading, setSavedRecords);
+    }, [savedRecordsLoading]);
+
+    useEffect(() => {
+        if (communityAnnouncementLoading)
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
+    }, [communityAnnouncementLoading]);
+
+    useEffect(() => {
+        if (communityDataLoading)
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'data', setcommunityDataLoading, setcommunityData);
+    }, [communityDataLoading]);
+
+    useEffect(() => {
+        if (communityResourcesLoading)
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'resources', setCommunityResourcesLoading, setcommunityResources);
+    }, [communityResourcesLoading]);
+
+    useEffect(() => {
+        setAnnouncementLoading(true);
+        setsavedRecordsLoading(true);
+        setCommunityAnnouncementLoading(true);
+        setcommunityDataLoading(true);
+        setCommunityResourcesLoading(true);
+    }, [language]);
+
     //#endregion
 
     return (
@@ -193,7 +172,6 @@ const Dashboard = () => {
                     <div className="sec-inner-wrap no-margin" >
                         <div className="card-wrap">
                             <h4 className="summary-card-title">
-                                {t('dashboard.latestCommunityAnnouncementTitle')}
                             </h4>
                         </div>
                         <div className="card-wrap">

@@ -13,7 +13,7 @@ export enum DASHBOARD_CALLS {
 
 const getAPIURL = (dc: DASHBOARD_CALLS, endpointUrl: string) => {
     let url = "";
-    switch (+dc) {
+    switch (dc) {
         case DASHBOARD_CALLS.ANNOUNCEMENT:
             url = `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.ANNOUNCEMENTS}/${endpointUrl}`;
             break;
