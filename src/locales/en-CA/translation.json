@@ -50,7 +50,8 @@
         "share": "Share",
         "version": "Access GitHub repo",
         "opendrawer": "Open search toolbox",
-        "searchoperators": "Search Operators"
+        "searchoperators": "Search Operators",
+        "addSearch" : "Add Search"
     },
     "filter": {
         "filterby": "Filter by",

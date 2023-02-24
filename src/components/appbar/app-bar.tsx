@@ -190,12 +190,12 @@ export function Appbar(props: AppBarProps): JSX.Element {
                         <Layers key={`${id}-${item.id}`} />
                     ))} */}
                     {search && <ButtonApp tooltip="appbar.search" current={panel === ' search'} icon={<SearchIcon />} onClickFunction={() => setPanel(' search')} />}
-                    {search && (panel === ' search' || ksOnly) && <div className={ksOnly?'cgp-apppanel search ks-only':`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search' || ksOnly} initKeyword={initKeyword} ksOnly={ksOnly} setKSOnly={setKSOnly} setKeyword={setKeyword} closeFunction={() => setPanel('')} /></div>}
+                    {search && (panel === ' search' || ksOnly) && <div className={ksOnly?'cgp-apppanel search ks-only':`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search' || ksOnly} initKeyword={initKeyword} ksOnly={ksOnly} setKSOnly={setKSOnly} setKeyword={setKeyword} closeFunction={() => setPanel('')} auth={auth} /></div>}
                     {/* {search && (
                         <ButtonApp tooltip="appbar.keywordsearch" current={false} icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
                     )} */}
                     <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<SvgIcon><FilterIcon /></SvgIcon>} onClickFunction={() => setPanel(' filters')} />
-                    {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp!==undefined?cp:'')} /></div>}
+                    {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp !== undefined ? cp : '')} /></div>}
                     <ButtonApp tooltip="appbar.analytics" current={panel === ' analytics'} icon={<SvgIcon><AnalyticIcon /></SvgIcon>} onClickFunction={() => setPanel(' analytics')} />
                     {panel === ' analytics' && <div className={`cgp-apppanel${panel}`}><AnalyticPanel showing={panel === ' analytics'} analyticOrg={analyticOrg} setAnalyticOrg={setAnalyticOrg} closeFunction={() => setPanel('')} /></div>}
                 </List>

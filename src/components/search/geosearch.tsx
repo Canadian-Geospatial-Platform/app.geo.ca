@@ -33,7 +33,7 @@ import themes from './themes.json';
 import './geosearch.scss';
 
 const EnvGlobals = envglobals();
-const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>void, setKSOnly: (kso:boolean)=>void, initKeyword: string): JSX.Element => {
+const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw: string) => void, setKSOnly: (kso: boolean) => void, initKeyword: string, auth: bool): JSX.Element => {
     const { t } = useTranslation();
     const history = useHistory();
     const location = useLocation();
@@ -152,42 +152,42 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             });
     };
 
-  const handleView = (evt:React.MouseEvent<HTMLButtonElement>, id:string) => {
-    evt.stopPropagation();
-    const viewParams: AnalyticParams = {
-        search: analyticParams.search,
-        geo: JSON.stringify(analyticParams.geo),
-        uuid: id,
-        loc: '/',
-        lang: language,
-        type: 'access',
-        event: 'view'
-    };
+    const handleView = (evt:React.MouseEvent<HTMLButtonElement>, id:string) => {
+        evt.stopPropagation();
+        const viewParams: AnalyticParams = {
+            search: analyticParams.search,
+            geo: JSON.stringify(analyticParams.geo),
+            uuid: id,
+            loc: '/',
+            lang: language,
+            type: 'access',
+            event: 'view'
+        };
 
-    if (analyticParams.theme) {
-        viewParams.theme = analyticParams.theme;
-    }
-    if (analyticParams.org) {
-        viewParams.org = analyticParams.org;
-    }
-    if (analyticParams.type_filter) {
-        viewParams.type_filter = analyticParams.type_filter;
-    }
-    if (analyticParams.foundational) {
-        viewParams.foundational = analyticParams.foundational;
-    }
-    analyticPost(viewParams);
-    history.push({
-        pathname: '/result',
-        search:`id=${encodeURI(id.trim())}&lang=${language}`,
-        state: {
-            stateKO: ksOnly,
-            stateKeyword: initKeyword,
-            statePn: pn,
-            stateBounds: initBounds
+        if (analyticParams.theme) {
+            viewParams.theme = analyticParams.theme;
         }
-    });
-  }
+        if (analyticParams.org) {
+            viewParams.org = analyticParams.org;
+        }
+        if (analyticParams.type_filter) {
+            viewParams.type_filter = analyticParams.type_filter;
+        }
+        if (analyticParams.foundational) {
+            viewParams.foundational = analyticParams.foundational;
+        }
+        analyticPost(viewParams);
+        history.push({
+            pathname: '/result',
+            search:`id=${encodeURI(id.trim())}&lang=${language}`,
+            state: {
+                stateKO: ksOnly,
+                stateKeyword: initKeyword,
+                statePn: pn,
+                stateBounds: initBounds
+            }
+        });
+    }
 
     const handleChange = (e: ChangeEvent) => {
         e.preventDefault();
@@ -346,34 +346,34 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
             handleSubmit();
         }
     };
-/*
-    const clearOrgFilter = (filter: number) => {
-        const newfilter = storeorgfilters.filter((fs: number) => fs !== filter);
-        dispatch(setOrgFilter(newfilter));
-        // setOrg(newfilter);
-        // setPageNumber(1);
-    };
-
-    const clearTypeFilter = (filter: number) => {
-        const newfilter = storetypefilters.filter((fs: number) => fs !== filter);
-        dispatch(setTypeFilter(newfilter));
-        // setType(newfilter);
-        // setPageNumber(1);
-    };
-
-    const clearThemeFilter = (filter: number) => {
-        const newfilter = storethemefilters.filter((fs: number) => fs !== filter);
-        dispatch(setThemeFilter(newfilter));
-        // setTheme(newfilter);
-        // setPageNumber(1);
-    };
-
-    const clearFound = () => {
-        dispatch(setFoundational(false));
-        // setFound(false);
-        // setPageNumber(1);
-    };
-*/
+    /*
+        const clearOrgFilter = (filter: number) => {
+            const newfilter = storeorgfilters.filter((fs: number) => fs !== filter);
+            dispatch(setOrgFilter(newfilter));
+            // setOrg(newfilter);
+            // setPageNumber(1);
+        };
+    
+        const clearTypeFilter = (filter: number) => {
+            const newfilter = storetypefilters.filter((fs: number) => fs !== filter);
+            dispatch(setTypeFilter(newfilter));
+            // setType(newfilter);
+            // setPageNumber(1);
+        };
+    
+        const clearThemeFilter = (filter: number) => {
+            const newfilter = storethemefilters.filter((fs: number) => fs !== filter);
+            dispatch(setThemeFilter(newfilter));
+            // setTheme(newfilter);
+            // setPageNumber(1);
+        };
+    
+        const clearFound = () => {
+            dispatch(setFoundational(false));
+            // setFound(false);
+            // setPageNumber(1);
+        };
+    */
 
     const ksToggle = (kso: boolean) => {
         kso && map.off('moveend');
@@ -562,6 +562,29 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
         setFReset(false);
     };
 
+    const saveSearch = () => {
+        !loading && setLoadingStatus(true);
+        const keyword = (inputRef.current as HTMLInputElement).value;
+        const aParams = { "search": keyword,  }
+        console.log(themefilters, orgfilters, typefilters);
+        axios.post(
+            `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SAVED_SEARCHES}/add`,
+            aParams,
+            {
+                headers: {
+                    'x-api-key': "4vXGKyFlmV5eJpAjxdi5o4hb60pBFnVB7clhV8Ce"
+                }
+            }
+        ).then((response) => {
+            console.log(response);
+            setLoadingStatus(false);
+        }
+        ).catch((error) => {
+            console.log(error);
+            setLoadingStatus(false);
+        });
+    }
+
     useEffect(() => {
         /* if (!sfloaded) {
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
@@ -630,12 +653,28 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     </button>
                 </div>
                 <div className={ksOnly?"col-12 col-advanced-filters-button":"col-advanced-filters-button"}>
-                    <span>{t('appbar.keywordonly')}</span>
-                    <label className="switch">
-                        <input type="checkbox" disabled={loading} checked={ksOnly} onChange={()=>ksToggle(!ksOnly)} />
-                        <span className="slider round"></span>
-                    </label>
-                {ksOnly && <button
+                    <div className={"searchResultButtons"}>
+                        {auth ?
+                            <button style={{ marginLeft: '5px' }}
+                                className={'btn btn-sm searchButton'}
+                                disabled={loading}
+                                type="button"
+                                onClick={!loading ? saveSearch : undefined}
+                                aria-expanded={filterbyshown ? 'true' : 'false'}
+                            >
+                                {t('appbar.addSearch')}
+                            </button>
+                            : <></>
+                        }
+                    </div>
+                    <div style={{ marginLeft: 'auto' }}>
+                        <span>{t('appbar.keywordonly')}</span>
+                        <label className="switch">
+                            <input type="checkbox" disabled={loading} checked={ksOnly} onChange={() => ksToggle(!ksOnly)} />
+                            <span className="slider round"></span>
+                        </label>
+                    </div>
+                    {ksOnly && <button
                         className={filterbyshown ? 'advanced-filters-button link-button open' : 'advanced-filters-button link-button'}
                         disabled={loading}
                         type="button"
@@ -644,7 +683,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     >
                         {t('page.advancedsearchfilters')}
                     </button>
-                }
+                    }
                 </div>
             </div>
             {storetypefilters.length + storeorgfilters.length + storethemefilters.length + (storefoundational ? 1 : 0) > 0 && (
@@ -762,7 +801,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                 </div>
             )}
             <div className="container-fluid container-results" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
-                {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
+            {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}
                 {loading ? (
                     <div className="col-12 col-beat-loader">
                         <BeatLoader color="#515aa9" />
@@ -771,7 +810,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                     <div className="col-12 col-search-message">{t('page.noresult')}</div>
                 ) : (
                     <div className="row row-results rowDivider">
-                    {ksOnly?results.map((result: SearchResult, mindex:number) => {
+                        {ksOnly?results.map((result: SearchResult, mindex:number) => {
                             const coordinates = JSON.parse(result.coordinates);
                             const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                             const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
@@ -785,47 +824,47 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                             return (
                                 <div key={result.id} className="container-fluid search-result">
                                     <div className="row resultRow">
-                                        <div className={ksOnly?"col-lg-8":"col-lg-12"}>
+                                    <div className={ksOnly?"col-lg-8":"col-lg-12"}>
                                             <h2 className="search-title">{result.title}</h2>
                                             {ksOnly &&
-                                            <div className="search-keywords">
-                                                <div
-                                                    className={
-                                                        allkwshowing ? 'btn-group btn-group-keywords' : 'btn-group btn-group-keywords less'
-                                                    }
-                                                    role="toolbar"
-                                                    aria-label="Keywords"
-                                                >
-                                                    {keywords.map((keyword, ki) => {
-                                                        return (
+                                                <div className="search-keywords">
+                                                    <div
+                                                        className={
+                                                            allkwshowing ? 'btn-group btn-group-keywords' : 'btn-group btn-group-keywords less'
+                                                        }
+                                                        role="toolbar"
+                                                        aria-label="Keywords"
+                                                    >
+                                                        {keywords.map((keyword, ki) => {
+                                                            return (
+                                                                <button
+                                                                    type="button"
+                                                                    className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
+                                                                    key={ki}
+                                                                    onClick={() => handleKeyword(keyword)}
+                                                                    autoFocus = {cpn && mindex===0 && ki===0?true:false}
+                                                                >
+                                                                    {keyword}
+                                                                </button>
+                                                            );
+                                                        })}
+                                                        {keywords.length > 5 && (
                                                             <button
                                                                 type="button"
-                                                                className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
-                                                                key={ki}
-                                                                onClick={() => handleKeyword(keyword)}
-                                                                autoFocus = {cpn && mindex===0 && ki===0?true:false}
+                                                                className="btn btn-keyword-more"
+                                                                onClick={() => handleKwshowing(result.id)}
+                                                                aria-expanded={allkwshowing}
                                                             >
-                                                                {keyword}
+                                                                {allkwshowing ? t('page.showless') : t('page.viewmore')}
+                                                                {allkwshowing ? (
+                                                                    <span className="sr-only">{t('page.showlessnotice')}</span>
+                                                                ) : (
+                                                                    <span className="sr-only">{t('page.viewmorenotice')}</span>
+                                                                )}
                                                             </button>
-                                                        );
-                                                    })}
-                                                    {keywords.length > 5 && (
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-keyword-more"
-                                                            onClick={() => handleKwshowing(result.id)}
-                                                            aria-expanded={allkwshowing}
-                                                        >
-                                                            {allkwshowing ? t('page.showless') : t('page.viewmore')}
-                                                            {allkwshowing ? (
-                                                                <span className="sr-only">{t('page.showlessnotice')}</span>
-                                                            ) : (
-                                                                <span className="sr-only">{t('page.viewmorenotice')}</span>
-                                                            )}
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </div> }
+                                                        )}
+                                                    </div>
+                                                </div> }
                                             <div className="search-meta">
                                                 <ul className="list list-unstyled">
                                                     <li className="list-item">
@@ -837,7 +876,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                                 </ul>
                                             </div>
                                             <p className="search-desc">
-                                                {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').substr(0, 240)}{' '}
+                                            {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').substr(0, 240)}{' '}
                                                 {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').length > 240 ? <span>...</span> : ''}
                                             </p>
                                             <div className="search-result-buttons">
@@ -884,48 +923,48 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw:string)=>v
                                 </div>
                             )
                         })
-                        :
-                        results.map((result: SearchResult, mindex:number) => (
-                            <div
-                                key={result.id}
-                                className={
-                                    selected === result.id && open === true ? 'col-sm-12 searchResult selected' : 'col-sm-12 searchResult'
-                                }
-                            >
-                                <h3 className="searchTitle">{result.title}</h3>
-                                <div>
-                                    <p className="searchFields">
-                                        <strong>{t('page.organisation')}:</strong> {result.organisation}
-                                    </p>
-                                    <p className="searchFields">
-                                        <strong>{t('page.published')}:</strong> {result.published}
-                                    </p>
-                                    <p className="searchDesc">
+                            :
+                            results.map((result: SearchResult, mindex:number) => (
+                                <div
+                                    key={result.id}
+                                    className={
+                                        selected === result.id && open === true ? 'col-sm-12 searchResult selected' : 'col-sm-12 searchResult'
+                                    }
+                                >
+                                    <h3 className="searchTitle">{result.title}</h3>
+                                    <div>
+                                        <p className="searchFields">
+                                            <strong>{t('page.organisation')}:</strong> {result.organisation}
+                                        </p>
+                                        <p className="searchFields">
+                                            <strong>{t('page.published')}:</strong> {result.published}
+                                        </p>
+                                        <p className="searchDesc">
                                         {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').substr(0, 240)} {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').length > 240 ? <span>...</span> : ''}
-                                    </p>
-                                    <div className="searchResultButtons">
-                                        <button
-                                            type="button"
-                                            className="btn btn-sm searchButton"
-                                            onClick={() => handleSelect(result.id)}
-                                            aria-label={result.id}
-                                            autoFocus = {cpn && mindex===0?true:false}
-                                        >
-                                            {selected === result.id && open === true? t('page.removefootprint') : t('page.viewfootprint')}
-                                        </button>
-                                        <button
-                                            type="button"
-                                            className="btn btn-sm searchButton"
-                                            onClick={(e) => handleView(e, result.id)}
-                                            aria-label={result.title}
+                                        </p>
+                                        <div className="searchResultButtons">
+                                            <button
+                                                type="button"
+                                                className="btn btn-sm searchButton"
+                                                onClick={() => handleSelect(result.id)}
+                                                aria-label={result.id}
+                                                autoFocus = {cpn && mindex===0?true:false}
+                                            >
+                                                {selected === result.id && open === true? t('page.removefootprint') : t('page.viewfootprint')}
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="btn btn-sm searchButton"
+                                                onClick={(e) => handleView(e, result.id)}
+                                                aria-label={result.title}
 
-                                        >
-                                            {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
-                                        </button>
+                                            >
+                                                {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )) }
+                            )) }
                     </div>
                 )}
                 {cnt > 0 && (!loading || cpn ) && <Pagination rpp={rpp} ppg={ppg} rcnt={cnt} current={pn} loading={loading} selectPage={ksOnly?(pnum:number)=>handleKOSearch(initKeyword, pnum):(pnum:number)=>handleSearch(initKeyword, initBounds, pnum)} />}

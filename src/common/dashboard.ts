@@ -8,7 +8,8 @@ const EnvGlobals = envglobals();
 export enum DASHBOARD_CALLS {
     ANNOUNCEMENT,
     COMMUNITY,
-    SAVED_RECORDS
+    SAVED_RECORDS,
+    SAVED_SEARCHES
 }
 
 const getAPIURL = (dc: DASHBOARD_CALLS, endpointUrl: string) => {
@@ -22,6 +23,9 @@ const getAPIURL = (dc: DASHBOARD_CALLS, endpointUrl: string) => {
             break;
         case DASHBOARD_CALLS.SAVED_RECORDS:
             url = `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SAVED_RECORDS}/${endpointUrl}`;
+            break;
+        case DASHBOARD_CALLS.SAVED_SEARCHES:
+            url = `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SAVED_SEARCHES}/${endpointUrl}`;
             break;
     }
     return url;

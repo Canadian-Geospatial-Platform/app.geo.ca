@@ -33,19 +33,24 @@ const Dashboard = () => {
 
     //#region mycommunity/data
     const [communityDataLoading, setcommunityDataLoading] = useState(true);
-    const [communityData, setcommunityData] = useState({});
+    const [communityData, setCommunityData] = useState({});
     //#endregion
 
 
     //#region mycommunity/resources
     const [communityResourcesLoading, setCommunityResourcesLoading] = useState(true);
-    const [communityResources, setcommunityResources] = useState({});
+    const [communityResources, setCommunityResources] = useState({});
     //#endregion
 
 
     //#region Saved_records/get
-    const [savedRecordsLoading, setsavedRecordsLoading] = useState(true);
+    const [savedRecordsLoading, setSavedRecordsLoading] = useState(true);
     const [savedRecords, setSavedRecords] = useState({});
+    //#endregion
+
+    //#region Saved_search/get
+    const [savedSearchesLoading, setSavedSearchesLoading] = useState(true);
+    const [savedSearches, setSavedSearches] = useState([]);
     //#endregion
 
     //#endregion
@@ -75,13 +80,16 @@ const Dashboard = () => {
         );
     };
 
-    const getCommunityAndSavedRecords = (dc: DASHBOARD_CALLS, url, loading, setData) => {
+    const getCommunityAndSavedRecords = (dc: DASHBOARD_CALLS, url, loading, setData, isCallForArray = false) => {
         Get(dc,
             //announcementGetTemp(
             url,
             { lang: language, userId: userID },
             (responseData) => {
-                let item = responseData.data.Items ? responseData.data.Items[0] : {};
+                let item = responseData.data.Items;
+                if (!isCallForArray) {
+                    item = responseData.data.Items ? responseData.data.Items[0] : {};
+                }
                 setData(item);
                 loading(false);
             },
@@ -105,27 +113,38 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (savedRecordsLoading)
-            getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, '', setsavedRecordsLoading, setSavedRecords);
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, '',
+                setSavedRecordsLoading, setSavedRecords, false);
     }, [savedRecordsLoading]);
 
     useEffect(() => {
         if (communityAnnouncementLoading)
-            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'announcements', setCommunityAnnouncementLoading, setCommunityAnnouncement);
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'announcements',
+                setCommunityAnnouncementLoading, setCommunityAnnouncement, false);
     }, [communityAnnouncementLoading]);
 
     useEffect(() => {
         if (communityDataLoading)
-            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'data', setcommunityDataLoading, setcommunityData);
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'data',
+                setcommunityDataLoading, setCommunityData, false);
     }, [communityDataLoading]);
 
     useEffect(() => {
         if (communityResourcesLoading)
-            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'resources', setCommunityResourcesLoading, setcommunityResources);
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.COMMUNITY, 'resources',
+                setCommunityResourcesLoading, setCommunityResources, false);
+    }, [communityResourcesLoading]);
+
+    useEffect(() => {
+        if (savedSearchesLoading)
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_SEARCHES, 'get',
+                setSavedSearchesLoading, setSavedSearches, true);
     }, [communityResourcesLoading]);
 
     useEffect(() => {
         setAnnouncementLoading(true);
-        setsavedRecordsLoading(true);
+        setSavedRecordsLoading(true);
+        setSavedSearchesLoading(true);
         setCommunityAnnouncementLoading(true);
         setcommunityDataLoading(true);
         setCommunityResourcesLoading(true);
@@ -294,11 +313,25 @@ const Dashboard = () => {
                                         </h4>
                                     </div>
                                     <div className="card-wrap">
-                                        <div >
-
-                                            {t('dashboard.resourceDescription')}
-                                        </div>
-                                        {/* )} */}
+                                        {savedSearchesLoading ? (
+                                            <BeatLoader color="#ffffff" />
+                                        ) : !savedSearches ? (
+                                            <div className="loading-failed">
+                                                {t('dashboard.loadingfailed')},{' '}
+                                                <button type="button" className="link-button" onClick={() => setSavedSearchesLoading(true)}>
+                                                    {t('analytic.tryagain')}
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div >
+                                                <ul>
+                                                    {
+                                                        savedSearches.map(q => {
+                                                            return <li key={q.key}> {q.search} </li>
+                                                        })}
+                                                </ul>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
