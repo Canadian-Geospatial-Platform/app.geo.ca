@@ -698,6 +698,19 @@ const GeoSearch = (
 
     // console.log(storethemefilters);
     // console.log(loading, cpn, cnt);
+    const sortingOptions: SortingOptionInfo[] = [
+        { label: 'appbar.sortby.date.desc', value: 'date-desc', sortDirection: 'desc' },
+        { label: 'appbar.sortby.date.asc', value: 'date-asc', sortDirection: 'asc' },
+        { label: 'appbar.sortby.popularity.desc', value: 'popularity-desc', sortDirection: 'desc' },
+        { label: 'appbar.sortby.popularity.asc', value: 'popularity-asc', sortDirection: 'asc' },
+        { label: 'appbar.sortby.title', value: 'title' },
+    ];
+
+    const handleSorting = (value: string) => {
+        setSortbyValue(value);
+        console.log('sorting by', value);
+        // !loading && handleSortFilter();
+    };
     return (
         <div className="geoSearchContainer">
             <div className={ksOnly ? 'container-fluid container-search input-container' : 'searchInput input-container'}>
