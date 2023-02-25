@@ -31,7 +31,7 @@
         },
         "lccurl": "https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_TXT_3978/MapServer/WMTS/tile/1.0.0/CBMT_TXT_3978/default/default028mm/{z}/{y}/{x}.jpg",
         "wburl": "https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_TXT_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_TXT_3857/default/default028mm/{z}/{y}/{x}.png",
-        "attribution": "v.1.0.5 &copy Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources"
+        "attribution": "&copy His Majesty the King in Right of Canada, as represented by the Minister of Natural Resources Canada, 2023"
     },
     "appbar": {
         "drawer": "Drawer",
@@ -56,12 +56,12 @@
             "select": "Select",
             "relevance": "Relevance",
             "date": {
-                "desc": "Date newest to oldest",
-                "asc": "Date oldest to newest"
+                "desc":"Date",
+                "asc": "Date"
             },
             "popularity": {
-                "desc": "Popularity most to least",
-                "asc": "Popularity least to most"
+                "desc": "Popularity",
+                "asc":"Popularity"
             },
             "title": "Title"
         }
@@ -75,13 +75,7 @@
         "spatial": "Viewable on a Map",
         "otherfilters": "Other Filters",
         "applyfilters": "Apply Filters",
-        "clearall": "Clear All",
-        "label": {
-            "spatial": {
-                "viewable-on-map": "Viewable({{param}})",
-                "not-viewable-on-map": "Non-viewable({{param}})"
-            }
-        }
+        "clearall": "Clear All"
     },
     "analytic": {
         "title": "Analytics",
