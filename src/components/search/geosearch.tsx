@@ -43,7 +43,7 @@ import stacs from './stac.json';
 import './geosearch.scss';
 import Sorting, { SortingOptionInfo } from './sorting';
 import { getQueryParams } from '../../common/queryparams';
-import { SpatialData } from '../../app';
+import { SpatialData, StacData } from '../../app';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (
