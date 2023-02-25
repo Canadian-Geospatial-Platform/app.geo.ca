@@ -92,19 +92,15 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim().replaceAll('+', ' ') : '');
     const [analyticOrg, setAnalyticOrg] = useState(-1);
     const [open, setOpen] = useState(false);
-    const [ksOnly, setKSOnly] = useState(queryParams.ksonly !== undefined);
+    const [ksOnly, setKSOnly] = useState(queryParams.keyword_only === 'true');
     const [panel, setPanel] = useState(
-        queryParams.keyword !== undefined ||
-            queryParams.ksonly !== undefined ||
-            queryParams.org !== undefined ||
-            queryParams.type !== undefined ||
-            queryParams.stac !== undefined ||
-            queryParams.foundational !== undefined ||
-            queryParams.theme !== undefined
-            ? ' search'
-            : queryParams.analytic !== undefined
-            ? ' analytics'
-            : ''
+       (queryParams.keyword !== undefined ||
+        queryParams.keyword_only === 'true' ||
+        queryParams.org !== undefined ||
+        queryParams.type !== undefined ||
+        queryParams.foundational !== undefined ||
+        queryParams.theme !== undefined) ? ' search' : 
+        (queryParams.analytic !== undefined?' analytics':'')
     );
     const classes = useStyles(ksOnly ? 'ks' : panel === ' analytics' ? 'analytic' : '')();
     const language = t('app.language');
@@ -141,29 +137,16 @@ export function Appbar(props: AppBarProps): JSX.Element {
 
     useEffect(() => {
         setPanel(
-            queryParams.keyword !== undefined ||
-                queryParams.ksonly !== undefined ||
-                queryParams.org !== undefined ||
-                queryParams.type !== undefined ||
-                queryParams.stac !== undefined ||
-                queryParams.foundational !== undefined ||
-                queryParams.theme !== undefined
-                ? ' search'
-                : queryParams.analytic !== undefined
-                ? ' analytics'
-                : ''
+           (queryParams.keyword !== undefined ||
+            queryParams.keyword_only === 'true' ||
+            queryParams.org !== undefined || 
+            queryParams.type !== undefined ||
+            queryParams.foundational !== undefined ||
+            queryParams.theme !== undefined) ? ' search' : 
+            (queryParams.analytic !== undefined?' analytics':'')
         );
-        setKSOnly(queryParams.ksonly !== undefined);
-    }, [
-        queryParams.keyword,
-        queryParams.ksonly,
-        queryParams.org,
-        queryParams.type,
-        queryParams.theme,
-        queryParams.foundational,
-        queryParams.analytic,
-        queryParams.stac,
-    ]);
+        setKSOnly(queryParams.keyword_only === 'true');
+    }, [queryParams.keyword, queryParams.keyword_only, queryParams.org, queryParams.type, queryParams.theme, queryParams.foundational, queryParams.analytic]);
 
     useEffect(() => {
         const appBarEl = document.getElementById('app-left-bar');

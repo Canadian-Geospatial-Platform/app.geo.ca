@@ -54,6 +54,7 @@ interface SortingProps {
 export interface SortingOptionInfo {
     label: string;
     value: string;
+    sortDirection?: string;
 }
 export default function Sorting(props: SortingProps): JSX.Element {
     const { label, labelClassName, selectClassName, optionClassName, iconClassName, defaultValue, options, onSorting } = props;
@@ -101,9 +102,20 @@ export default function Sorting(props: SortingProps): JSX.Element {
                         }}
                     >
                         {options.map((op, index) => (
+                            (op.sortDirection === undefined) ? 
                             <option className={`${classes.option} ${optionClassName}`} key={index} value={op.value}>
-                                {t(op.label)}
+                                {t(op.label)} 
                             </option>
+                            :
+                            ((op.sortDirection === 'asc') ? 
+                            <option className={`${classes.option} ${optionClassName}`} key={index} value={op.value}>
+                                {t(op.label)} &uarr;
+                            </option>
+                            :
+                            <option className={`${classes.option} ${optionClassName}`} key={index} value={op.value}>
+                                {t(op.label)} &darr;
+                            </option>
+                            )
                         ))}
                     </Select>
                 </FormControl>
