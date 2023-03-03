@@ -60,7 +60,7 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
     }
 
     const handleBBoxChange = (bounds: LatLngBounds) => {
-        console.log('bbox', bounds);
+        // console.log('bbox', bounds);
         setFselected({ ...filterselected, bbox: bounds });
         selectFilters({ ...filterselected, bbox: bounds });
     }
