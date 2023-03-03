@@ -56,8 +56,8 @@
             "select": "sélectionner",
             "relevance": "Pertinence",
             "date": {
-                "desc":"Date",
-                "asc":"Date"
+                "desc": "Date",
+                "asc": "Date"
             },
             "popularity": {
                 "desc": "Popularité",
@@ -73,6 +73,12 @@
         "themes": "Thèmes",
         "foundational": "Données de base du Canada",
         "spatial": "Viewable on a Map",
+        "spatemp": {
+            "title": "SPATIAL-TEMPORAL",
+            "temporal": "All times in Coordinated Universal Time (UTC).",
+            "startdate": "Start Date",
+            "enddate": "End Date"
+        },
         "otherfilters": "Autres Filtres",
         "applyfilters": "Appliquer des Filtres",
         "clearall": "Tout Effacer",
@@ -84,6 +90,10 @@
             "stac": {
                 "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
                 "STAC": "Spatio Temporal Asset Catalog (STAC) ({{param}} records)"
+            },
+            "spatemp": {
+                "SPATIALEXTENT": "Spatial Extent",
+                "TEMPORALEXTENT": "Temporal Extent"
             }
         }
     },
@@ -162,7 +172,10 @@
                 "text": "Loi sur la protection des renseignements personnels"
             },
             "text2": " ni de la ",
-            "link2": { "url": "http://laws-lois.justice.gc.ca/fra/lois/O-3.01/", "text": "Loi sur les langues officielles" },
+            "link2": {
+                "url": "http://laws-lois.justice.gc.ca/fra/lois/O-3.01/",
+                "text": "Loi sur les langues officielles"
+            },
             "text3": ", et qu'ils pourraient ne pas être accessibles aux personnes handicapées. Les renseignements offerts pourraient être uniquement disponibles dans la langue utilisée dans le site en question. En ce qui concerne la protection des renseignements personnels, les visiteurs devraient vérifier les politiques de confidentialité de ce site Web non gouvernemental avant de fournir leurs renseignements personnels."
         },
         "dwhheader": "Mis à disposition par le Moissonneur web de l'Infrastructure canadienne de données géospatiales",
@@ -175,7 +188,10 @@
                 "text": "Loi sur la protection des renseignements personnels"
             },
             "text2": " ni de la ",
-            "link2": { "url": "http://laws-lois.justice.gc.ca/fra/lois/O-3.01/", "text": "Loi sur les langues officielles" },
+            "link2": {
+                "url": "http://laws-lois.justice.gc.ca/fra/lois/O-3.01/",
+                "text": "Loi sur les langues officielles"
+            },
             "text3": ", et qu'ils pourraient ne pas être accessibles aux personnes handicapées. Les renseignements offerts pourraient être uniquement disponibles dans la langue utilisée dans le site en question. En ce qui concerne la protection des renseignements personnels, les visiteurs devraient vérifier les politiques de confidentialité de ce site Web non gouvernemental avant de fournir leurs renseignements personnels."
         },
         "name": "Nom",

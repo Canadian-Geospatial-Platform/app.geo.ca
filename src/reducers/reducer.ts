@@ -1,7 +1,16 @@
 /* eslint-disable prettier/prettier */
+import { LatLng, LatLngBounds } from 'leaflet';
 import { SpatialData, StacData } from '../app';
-import { ActionType, Action, BooleanAction, FilterAction, FiltersAction, SpatialAction, StacAction } from './action';
+import { ActionType, Action, BooleanAction, FilterAction, FiltersAction, SpatialAction, StacAction, SpatialTemporalAction } from './action';
 
+export interface SpatialTemporalFilter {
+    extents: number[];
+    center: LatLng;
+    zoom: number;
+    bbox: LatLngBounds;
+    startDate: string;
+    endDate: string;
+}
 export interface mappingState {
     mapping: mappingObj[];
     orgfilter: number[];
@@ -12,6 +21,7 @@ export interface mappingState {
     spatialData: SpatialData;
     stacfilter: number[];
     stacData: StacData;
+    spatempfilter: SpatialTemporalFilter;
 }
 export interface mappingObj {
     id: string;
@@ -22,6 +32,12 @@ export interface mappingTitle {
     fr: string;
 }
 
+const initcenter: LatLng = new LatLng(68.333, -95.1755);
+const radius = 20;
+const southwest: LatLng = new LatLng(initcenter.lat - radius, initcenter.lng - radius);
+const northeast: LatLng = new LatLng(initcenter.lat + radius / 2, initcenter.lng + radius * 2);
+const initbounds: LatLngBounds = new LatLngBounds(southwest, northeast);
+export const INITSPATIALTEMPORALFILTER: SpatialTemporalFilter = { extents: [], zoom: 1, center: initcenter, bbox: initbounds, startDate: new Date().toISOString(), endDate: new Date().toISOString() };
 const defaultState: mappingState = {
     mapping: [],
     orgfilter: [],
@@ -32,11 +48,12 @@ const defaultState: mappingState = {
     spatialData: { viewableOnTheMap: 0, notViewableOnTheMap: 0 },
     stacfilter: [],
     stacData: { hnap: 0, stac: 0 },
+    spatempfilter: INITSPATIALTEMPORALFILTER
 };
 
 const mappingReducer = (
     state: mappingState = defaultState,
-    action: Action | BooleanAction | FilterAction | FiltersAction | SpatialAction | StacAction
+    action: Action | BooleanAction | FilterAction | FiltersAction | SpatialAction | StacAction | SpatialTemporalAction
 ): mappingState => {
     switch (action.type) {
         case ActionType.SET_MAPPING:
@@ -59,6 +76,8 @@ const mappingReducer = (
             return { ...state, stacfilter: action.payload };
         case ActionType.SET_STACDATA:
             return { ...state, stacData: action.payload };
+        case ActionType.SET_SPATEMP:
+            return { ...state, spatempfilter: action.payload };
         default:
             return state;
     }

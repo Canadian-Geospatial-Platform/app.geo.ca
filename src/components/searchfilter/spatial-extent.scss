@@ -1,0 +1,13 @@
+@import '../../assets/css/variables-site/variables-site';
+
+.spatial-extent {
+    .leaflet-container {
+        margin-top: 0;
+        max-height: 300px;
+        height: 300px !important;
+        width: 400px !important;
+
+    }
+
+    padding-bottom: 15px;
+}

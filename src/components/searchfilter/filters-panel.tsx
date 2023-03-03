@@ -17,6 +17,9 @@ import spatials from '../search/spatials.json';
 import { setFilters } from '../../reducers/action';
 import { SpatialData, StacData } from '../../app';
 import stacs from '../search/stac.json';
+import spatemps from '../search/spatial-temporal.json';
+import { INITSPATIALTEMPORALFILTER, SpatialTemporalFilter } from '../../reducers/reducer';
+import SpatialTemporalSearchFilter from './spatial-temporalfilter';
 
 export default function FilterPanel(props: PanelProps): JSX.Element {
     const { showing, closeFunction } = props;
@@ -27,12 +30,14 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
     const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
     const storestacfilters = useSelector((state) => (state.mappingReducer.stacfilter ? state.mappingReducer.stacfilter : []));
+    const storespatempfilters = useSelector((state) => (state.mappingReducer.spatempfilter ? state.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER));
     const dispatch = useDispatch();
     const language = t('app.language');
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
     const [spatialfilters, setSpatial] = useState(storespatialfilters);
+    const [spatempfilters, setSpatemp] = useState<SpatialTemporalFilter>(storespatempfilters);
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
@@ -51,6 +56,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                 spatialfilter: spatialfilters,
                 foundational,
                 stacfilter: stacfilters,
+                spatempfilter: spatempfilters
             })
         );
         setFReset(false);
@@ -62,8 +68,9 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setTheme([]);
         setSpatial([]);
         setStac([]);
+        setSpatemp(INITSPATIALTEMPORALFILTER);
         setFound(false);
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false, stacfilter: [] }));
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false, stacfilter: [], spatempfilter: INITSPATIALTEMPORALFILTER }));
         setFReset(false);
         closeFunction(' search');
     };
@@ -87,7 +94,10 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setFReset(true);
         setSpatial(filters);
     };
-
+    const handleSpatemp = (filters: SpatialTemporalFilter): void => {
+        setFReset(true);
+        setSpatemp(filters);
+    };
     const handleStac = (filters: unknown): void => {
         setFReset(true);
         setStac(filters);
@@ -105,6 +115,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
             const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
             const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
+            const spatfilters = localState !== undefined ? localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER;
             const found = localState !== undefined ? localState.mappingReducer.foundational : false;
             const stfilters =
                 localState !== undefined ? (localState.mappingReducer.stacfilter ? localState.mappingReducer.stacfilter : []) : [];
@@ -113,6 +124,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             setTheme(thfilters);
             setSpatial(spafilters);
             setStac(stfilters);
+            setSpatemp(spatfilters);
             setFound(found);
             setFReset(true);
         }
@@ -141,6 +153,14 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                             <div className="row row-filters">
                                 <h3 className="filters-title">{t('filter.filterby')}:</h3>
                                 <div className="filters-wrap">
+                                    <SpatialTemporalSearchFilter
+                                        filtertitle={t('filter.spatemp.title')}
+                                        filtervalues={spatemps[language]}
+                                        filterselected={spatempfilters}
+                                        selectFilters={handleSpatemp}
+                                        filtername="spatemp"
+                                        externalLabel
+                                    />
                                     <SearchFilter
                                         filtertitle={t('filter.organisations')}
                                         filtervalues={organisations[language]}

@@ -1,5 +1,5 @@
 import { SpatialData, StacData } from '../app';
-import { mappingObj } from './reducer';
+import { mappingObj, SpatialTemporalFilter } from './reducer';
 
 /* eslint-disable prettier/prettier */
 export enum ActionType {
@@ -13,6 +13,7 @@ export enum ActionType {
     SET_SPATIALDATA = 'setSpatialData',
     SET_STAC = 'setStac',
     SET_STACDATA = 'setStacData',
+    SET_SPATEMP = 'setSpatempFilter'
 }
 
 export interface Action {
@@ -27,6 +28,7 @@ interface Filters {
     spatialfilter: number[];
     foundational: boolean;
     stacfilter: number[];
+    spatempfilter: SpatialTemporalFilter;
 }
 
 export interface BooleanAction {
@@ -41,6 +43,10 @@ export interface FilterAction {
 export interface FiltersAction {
     type: ActionType.SET_FILTERS;
     payload: Filters;
+}
+export interface SpatialTemporalAction {
+    type: ActionType.SET_SPATEMP;
+    payload: SpatialTemporalFilter;
 }
 
 export interface SpatialAction {
@@ -91,4 +97,8 @@ export function setStacFilter(stacfilter: number[]): FilterAction {
 
 export function setStacData(stacData: StacData): StacAction {
     return { type: ActionType.SET_STACDATA, payload: stacData };
+}
+
+export function setSpatempFilter(spatempfilter: SpatialTemporalFilter): SpatialTemporalAction {
+    return { type: ActionType.SET_SPATEMP, payload: spatempfilter };
 }
