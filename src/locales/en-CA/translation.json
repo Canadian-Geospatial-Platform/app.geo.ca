@@ -197,6 +197,7 @@
         "viewonmap": "View on Map",
         "addedtomymap": "Added to MyMap",
         "addtomymap": "Add to MyMap",
+        "addrecord": "Add Record",
         "ourmetadatais": "Our metadata is stored in the geoCore format. A geojson containing all the metadata you see here.",
         "downloadgeocore": "Download geoCore",
         "viewhnaprecord": "View HNAP Record",

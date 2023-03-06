@@ -31,6 +31,7 @@ import organisations from './organisations.json';
 import types from './types.json';
 import themes from './themes.json';
 import './geosearch.scss';
+import apiKey from '../../security/apikey.json';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw: string) => void, setKSOnly: (kso: boolean) => void, initKeyword: string, auth: bool): JSX.Element => {
@@ -71,6 +72,7 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw: string) =
     const [filterbyshown, setFilterbyshown] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
+    const [userID, setUserID] = useState("cf9bfa6f-5837-42f9-9eeb-c15035c3c752");
     /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
     const themefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -564,15 +566,32 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw: string) =
 
     const saveSearch = () => {
         !loading && setLoadingStatus(true);
+        const localState: StoreEnhancer<unknown, unknown> | undefined = loadState();
+        const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
+        const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
+        const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
         const keyword = (inputRef.current as HTMLInputElement).value;
-        const aParams = { "search": keyword,  }
-        console.log(themefilters, orgfilters, typefilters);
+        const aParams = { "search": keyword, "userId": userID };
+        if (thfilters.length > 0) {
+            const themeArray = thfilters.map((fs: number) => themes[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            aParams.theme = themeArray.join('|');
+        }
+        if (ofilters.length > 0) {
+            const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            aParams.org = orgArray.join('|');
+        } 
+        if (tfilters.length > 0) {
+            const typeArray = tfilters.map((fs: number) => types[language][fs].toLowerCase().replace(/\'/g,"\'\'"));
+            aParams.type = typeArray.join('|');
+        } 
+        
         axios.post(
             `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SAVED_SEARCHES}/add`,
             aParams,
             {
                 headers: {
-                    'x-api-key': "4vXGKyFlmV5eJpAjxdi5o4hb60pBFnVB7clhV8Ce"
+                    'x-api-key': apiKey,
+                    "Content-Type": "text/plain" 
                 }
             }
         ).then((response) => {

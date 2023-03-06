@@ -45,7 +45,7 @@ const Dashboard = () => {
 
     //#region Saved_records/get
     const [savedRecordsLoading, setSavedRecordsLoading] = useState(true);
-    const [savedRecords, setSavedRecords] = useState({});
+    const [savedRecords, setSavedRecords] = useState([]);
     //#endregion
 
     //#region Saved_search/get
@@ -114,7 +114,7 @@ const Dashboard = () => {
     useEffect(() => {
         if (savedRecordsLoading)
             getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, '',
-                setSavedRecordsLoading, setSavedRecords, false);
+                setSavedRecordsLoading, setSavedRecords, true);
     }, [savedRecordsLoading]);
 
     useEffect(() => {
@@ -354,8 +354,14 @@ const Dashboard = () => {
                                             </div>
                                         ) : (
                                             <div >
-                                                {savedRecords["title_" + language]}
+                                                <ul >
+                                                    {
+                                                        savedRecords.map(q => {
+                                                            return <li key={q.key}> {q["title_" + language]} </li>
+                                                        })}
+                                                </ul>
                                             </div>
+                                            
                                         )}
 
 
