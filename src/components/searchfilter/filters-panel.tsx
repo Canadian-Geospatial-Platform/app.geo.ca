@@ -160,6 +160,9 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         selectFilters={handleSpatemp}
                                         filtername="spatemp"
                                         externalLabel
+                                        direction="column"
+                                        temporalDirection="row"
+                                        gridWidth="100%"
                                     />
                                     <SearchFilter
                                         filtertitle={t('filter.organisations')}

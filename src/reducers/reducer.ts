@@ -32,7 +32,7 @@ export interface mappingTitle {
     fr: string;
 }
 
-const initcenter: LatLng = new LatLng(68.333, -95.1755);
+const initcenter: LatLng = new LatLng(67.769, -113.9919);
 const radius = 20;
 const southwest: LatLng = new LatLng(initcenter.lat - radius, initcenter.lng - radius);
 const northeast: LatLng = new LatLng(initcenter.lat + radius / 2, initcenter.lng + radius * 2);

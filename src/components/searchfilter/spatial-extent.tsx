@@ -1,4 +1,4 @@
-import L, { DivIcon, LatLng, LatLngBounds, Point } from 'leaflet';
+import L, { DivIcon, LatLng, LatLngBounds, Point, ResizeEvent } from 'leaflet';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AttributionControl, MapContainer, Marker, Pane, Rectangle, TileLayer, useMap, useMapEvents } from 'react-leaflet';
@@ -20,12 +20,10 @@ interface MarkerProps {
     position: number;
     bounds: LatLngBounds;
     onPositionChange: (newBounds: LatLngBounds) => void;
-    onMapCenterChange: (center: LatLng, bounds: LatLngBounds) => void;
-    onMapZoomChange: (zoom: number, bounds: LatLngBounds) => void;
 }
 
 function DraggableMarker(props: MarkerProps) {
-    const { position, bounds, onPositionChange, onMapCenterChange, onMapZoomChange } = props;
+    const { position, bounds, onPositionChange } = props;
     let markerPosition;
     switch (position) {
         case ORDINAL_DIRECTION.SE:
@@ -46,7 +44,6 @@ function DraggableMarker(props: MarkerProps) {
     const eventHandlers = useMemo(
         () => ({
             drag() {
-
                 const marker = markerRef.current;
                 const newPosition = marker.getLatLng();
                 let newBounds;
@@ -79,11 +76,40 @@ function DraggableMarker(props: MarkerProps) {
         [bounds, onPositionChange, position]
     );
 
+    return <Marker icon={icon} draggable={true} eventHandlers={eventHandlers} position={markerPosition} ref={markerRef} />;
+}
+
+interface MapHandlerProps {
+    bounds: LatLngBounds;
+    onMapCenterChange: (center: LatLng, bounds: LatLngBounds) => void;
+    onMapZoomChange: (zoom: number, bounds: LatLngBounds) => void;
+    onMapResize: (bounds: LatLngBounds) => void;
+}
+
+function MapHandler(props: MapHandlerProps) {
+    const { bounds, onMapCenterChange, onMapZoomChange, onMapResize } = props;
     const map = useMap();
     let orgSwMarkerPt: Point;
     let orgNeMarkerPt: Point;
     let isZooming = false;
     useMapEvents({
+        resize: (event: ResizeEvent) => {
+            console.log(event, map.getCenter(), bounds, document.fullscreenElement);
+            const swMarkerPt = map.latLngToContainerPoint(bounds.getSouthWest());
+            const neMarkerPt = map.latLngToContainerPoint(bounds.getNorthEast());
+            const newSwMarkerPt = new Point(
+                (swMarkerPt.x * event.newSize.x) / event.oldSize.x,
+                (swMarkerPt.y * event.newSize.y) / event.oldSize.y,
+                true
+            );
+            const newNeMarkerPt = new Point(
+                (neMarkerPt.x * event.newSize.x) / event.oldSize.x,
+                (neMarkerPt.y * event.newSize.y) / event.oldSize.y,
+                true
+            );
+            console.log(swMarkerPt, newSwMarkerPt, neMarkerPt, newNeMarkerPt);
+            const newbounds = L.latLngBounds(map.containerPointToLatLng(newSwMarkerPt), map.containerPointToLatLng(newNeMarkerPt));
+        },
         zoomstart: () => {
             console.log('zoom start');
             isZooming = true;
@@ -114,8 +140,7 @@ function DraggableMarker(props: MarkerProps) {
             }
         },
     });
-
-    return <Marker icon={icon} draggable={true} eventHandlers={eventHandlers} position={markerPosition} ref={markerRef} />;
+    return null;
 }
 
 interface SpecialExtentProps {
@@ -163,38 +188,11 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                 <Pane name="area-select-rectangle" style={{ zIndex: 499 }}>
                     <Rectangle bounds={bounds} pathOptions={{ color: '#515aa9' }} />
                 </Pane>
-                <DraggableMarker
-                    key="marker-sw"
-                    onMapCenterChange={handleMapMove}
-                    onMapZoomChange={handleMapZoom}
-                    position={ORDINAL_DIRECTION.SW}
-                    bounds={bounds}
-                    onPositionChange={handleMarker}
-                />
-                <DraggableMarker
-                    key="marker-ne"
-                    onMapCenterChange={handleMapMove}
-                    onMapZoomChange={handleMapZoom}
-                    position={ORDINAL_DIRECTION.NE}
-                    bounds={bounds}
-                    onPositionChange={handleMarker}
-                />
-                <DraggableMarker
-                    key="marker-se"
-                    onMapCenterChange={handleMapMove}
-                    onMapZoomChange={handleMapZoom}
-                    position={ORDINAL_DIRECTION.SE}
-                    bounds={bounds}
-                    onPositionChange={handleMarker}
-                />
-                <DraggableMarker
-                    key="marker-nw"
-                    onMapCenterChange={handleMapMove}
-                    onMapZoomChange={handleMapZoom}
-                    position={ORDINAL_DIRECTION.NW}
-                    bounds={bounds}
-                    onPositionChange={handleMarker}
-                />
+                <DraggableMarker key="marker-sw" position={ORDINAL_DIRECTION.SW} bounds={bounds} onPositionChange={handleMarker} />
+                <DraggableMarker key="marker-ne" position={ORDINAL_DIRECTION.NE} bounds={bounds} onPositionChange={handleMarker} />
+                <DraggableMarker key="marker-se" position={ORDINAL_DIRECTION.SE} bounds={bounds} onPositionChange={handleMarker} />
+                <DraggableMarker key="marker-nw" position={ORDINAL_DIRECTION.NW} bounds={bounds} onPositionChange={handleMarker} />
+                <MapHandler onMapResize={handleMarker} onMapCenterChange={handleMapMove} onMapZoomChange={handleMapZoom} bounds={bounds} />
             </MapContainer>
         </div>
     );

@@ -48,6 +48,7 @@ import { SpatialData, StacData } from '../../app';
 import spatemps from './spatial-temporal.json';
 import { INITSPATIALTEMPORALFILTER, SpatialTemporalFilter } from '../../reducers/reducer';
 import SpatialTemporalSearchFilter from '../searchfilter/spatial-temporalfilter';
+import { useMediaQuery } from '@material-ui/core';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (
@@ -735,7 +736,7 @@ const GeoSearch = (
         setFound(false);
         setFReset(false);
     };
-
+    const isMobile = useMediaQuery("(max-width: 760px)");
     useEffect(() => {
         /* if (!sfloaded) {
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
@@ -990,6 +991,9 @@ const GeoSearch = (
                                     selectFilters={handleSpatemp}
                                     filtername='spatemp'
                                     externalLabel
+                                    direction={isMobile ? "column" : "row"}
+                                    temporalDirection={isMobile ? "row" : "column"}
+                                    gridWidth={isMobile ? "100%" : "50%"}
                                 />
                                 <SearchFilter
                                     filtertitle={t('filter.organisations')}

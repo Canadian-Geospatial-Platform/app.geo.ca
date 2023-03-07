@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { Grid, useMediaQuery } from '@material-ui/core';
+import { Grid, GridDirection } from '@material-ui/core';
 import { LatLng, LatLngBounds } from 'leaflet';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,7 @@ import './spatial-temporalfilter.scss';
 import TemporalExtent from './temporal-extent';
 
 export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps): JSX.Element {
-    const { filtertitle, filtervalues, filterselected, selectFilters, filtername, externalLabel, labelParams } = props;
+    const { direction, gridWidth, temporalDirection, filtertitle, filtervalues, filterselected, selectFilters, filtername, externalLabel, labelParams } = props;
     const [fselected, setFselected] = useState<SpatialTemporalFilter>(filterselected);
     const [open, setOpen] = useState(false);
     const { t } = useTranslation();
@@ -76,7 +76,7 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
         setFselected({ ...filterselected, center, bbox: bounds });
         selectFilters({ ...filterselected, center, bbox: bounds });
     }
-    // const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+
     return (
         <div className={open ? 'filter-wrap open' : 'filter-wrap'}>
             {filtertitle !== '' && (
@@ -90,13 +90,13 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
                 </button>
             )}
             <div className="filter-list-wrap">
-                <Grid container sx={{ flexDirection: { xs: "column", md: "row" } }}>
+                <Grid container direction={direction}>
 
                     {filterShowing.map((f: { filter: string; findex: number }) => {
                         const selected = fselected.extents.findIndex((fs) => fs === f.findex) > -1;
                         const inputID = `filter-${filtertitle.replace(/ /g, '-').toLowerCase()}-${f.findex}`; // create valid html ids for each label/input pair (lowercase is optional)
                         return (
-                            <Grid container direction="column" key={`filter-${f.findex}`}>
+                            <Grid container style={{ width: gridWidth }} direction="column" key={`filter-${f.findex}`}>
                                 <div
                                     className={
                                         selected
@@ -131,7 +131,7 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
                                     (f.findex === 1 && (fselected.extents.findIndex(fs => fs === f.findex) >= 0)) ?
                                         (
                                             <div>
-                                                <TemporalExtent initStartDate={new Date(fselected.startDate)} initEndDate={new Date(fselected.endDate)} onSelectStartDate={handleStartDateChange} onSelectEndDate={handleEndDateChange} />
+                                                <TemporalExtent direction={temporalDirection} initStartDate={new Date(fselected.startDate)} initEndDate={new Date(fselected.endDate)} onSelectStartDate={handleStartDateChange} onSelectEndDate={handleEndDateChange} />
                                             </div>) : null
                                 }
                             </Grid>
@@ -151,4 +151,7 @@ interface SpatialTemporalProps {
     filtername?: string;
     externalLabel?: boolean;
     labelParams?: string[];
+    direction?: GridDirection;
+    temporalDirection?: GridDirection;
+    gridWidth?: string;
 }

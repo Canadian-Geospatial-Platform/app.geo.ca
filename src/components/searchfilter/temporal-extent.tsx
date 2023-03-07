@@ -1,10 +1,10 @@
 import DateFnsUtils from '@date-io/date-fns';
-import { FormControl, Grid } from '@material-ui/core';
+import { FormControl, Grid, GridDirection } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import './temporal-extent.scss';
 
 const styles = {
     formControl: {
@@ -26,9 +26,10 @@ export interface TemporalProps {
     initEndDate: Date;
     onSelectStartDate: (date) => void;
     onSelectEndDate: (date) => void;
+    direction?: GridDirection;
 }
 export default function TemporalExtent(props: TemporalProps): JSX.Element {
-    const { initStartDate, initEndDate, onSelectStartDate, onSelectEndDate } = props;
+    const { initStartDate, initEndDate, direction, onSelectStartDate, onSelectEndDate } = props;
     const classes = useStyles();
     const { t } = useTranslation();
     const handleStartDateChange = (date) => {
@@ -45,42 +46,46 @@ export default function TemporalExtent(props: TemporalProps): JSX.Element {
         }, []);
     */
     return (
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container direction="column">
-                <div className={classes.divcontrol}>
-                    <FormControl className={classes.formControl}>
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="MM/dd/yyyy"
-                            margin="normal"
-                            id="date-picker-inline"
-                            label={t('filter.spatemp.startdate')}
-                            value={initStartDate}
-                            onChange={handleStartDateChange}
-                            KeyboardButtonProps={{
-                                'aria-label': 'change start date',
-                            }}
-                        />
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="MM/dd/yyyy"
-                            margin="normal"
-                            id="date-picker-inline"
-                            label={t('filter.spatemp.enddate')}
-                            value={initEndDate}
-                            onChange={handleEndDateChange}
-                            KeyboardButtonProps={{
-                                'aria-label': 'change end date',
-                            }}
-                        />
-                    </FormControl>
-                </div>
-                <div>{t('filter.spatemp.temporal')}</div>
-            </Grid>
-        </MuiPickersUtilsProvider >
+        <div className="temporal-extent">
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container direction="column">
+                    <div className={classes.divcontrol}>
+                        <Grid container direction={direction}>
+                            <FormControl className={classes.formControl}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label={t('filter.spatemp.startdate')}
+                                    value={initStartDate}
+                                    onChange={handleStartDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change start date',
+                                    }}
+                                />
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label={t('filter.spatemp.enddate')}
+                                    value={initEndDate}
+                                    onChange={handleEndDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change end date',
+                                    }}
+                                />
+                            </FormControl>
+                        </Grid>
+                    </div>
+                    <div style={{ paddingTop: '15px', paddingLeft: '10px' }}>{t('filter.spatemp.temporal')}</div>
+                </Grid>
+            </MuiPickersUtilsProvider >
+        </div>
     );
 }
