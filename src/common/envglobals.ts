@@ -10,7 +10,7 @@ export function envglobals() : globalValues {
             ANALYTIC: "/analytics",
             ANNOUNCEMENTS:"/announcements",
             MYCOMMUNITY:"/community/my_community",
-            SAVED_RECORDS:"/saved_records/get",
+            SAVED_RECORDS:"/saved_records",
             SAVED_SEARCHES: "/saved_searches"
         }
         

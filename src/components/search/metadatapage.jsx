@@ -304,7 +304,7 @@ const MetaDataPage = () => {
             "title_fr": metaresult.mappingtitle.fr
         }
         axios.post(
-            `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SAVED_SEARCHES}/add`,
+            `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SAVED_RECORDS}/add`,
             aParams,
             {
                 headers: {
@@ -685,7 +685,7 @@ const MetaDataPage = () => {
                                 <div className="btn-group">
                                     <button type="button" className={`${mapButtonClass} mr-2`} onClick={activeMap?()=>viewOnMap(result.id):()=>setGreyMap(true)}>{t("page.viewonmap")}</button>
                                     <button id="addMyMap" type="button" className={inMapping?`${mapButtonClass} btn-added mr-2`: `${mapButtonClass} mr-2`} onClick={activeMap?()=>changeMapping(result.id):()=>setGreyMap(true)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
-                                    <button id="addRecord" disabled={isAddRecordLoading} type="button" className={inMapping ? `${mapButtonClass} btn-added` : mapButtonClass} onClick={addRecord}>{t("page.addrecord")}</button>
+                                    <button id="addRecord" disabled={activeMap ? isAddRecordLoading : true} type="button" className={inMapping ? `${mapButtonClass} btn-added` : mapButtonClass} onClick={addRecord}>{t("page.addrecord")}</button>
                                 </div>
                             </section>
                             <section className="sec-search-result search-results-section search-results-misc-data">

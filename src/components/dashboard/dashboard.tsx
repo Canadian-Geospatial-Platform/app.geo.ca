@@ -113,7 +113,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (savedRecordsLoading)
-            getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, '',
+            getCommunityAndSavedRecords(DASHBOARD_CALLS.SAVED_RECORDS, 'get',
                 setSavedRecordsLoading, setSavedRecords, true);
     }, [savedRecordsLoading]);
 
