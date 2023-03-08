@@ -266,7 +266,7 @@ const MetaDataPage = () => {
                     const showWHDisclaimer = false;
                     
                     // const showWHDisclaimer = result.source_system_name.includes('Canadian Geospatial Data Infrastructure Web Harvester');
-                    // console.log(contact, options);
+                    // console.log(contact, options); 
 
                     return (
                     <div key={`rm-${rmIndex}`} className="container-search-result container-search-result-two-col">
