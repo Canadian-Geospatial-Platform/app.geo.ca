@@ -1,5 +1,5 @@
 import L, { DivIcon, LatLng, LatLngBounds, Point, ResizeEvent } from 'leaflet';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AttributionControl, MapContainer, Marker, Pane, Rectangle, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { NavBar } from '../navbar/nav-bar';
@@ -24,6 +24,7 @@ interface MarkerProps {
 
 function DraggableMarker(props: MarkerProps) {
     const { position, bounds, onPositionChange } = props;
+    const map = useMap();
     let markerPosition;
     switch (position) {
         case ORDINAL_DIRECTION.SE:
@@ -45,8 +46,23 @@ function DraggableMarker(props: MarkerProps) {
         () => ({
             drag() {
                 const marker = markerRef.current;
-                const newPosition = marker.getLatLng();
+                let newPosition = marker.getLatLng();
                 let newBounds;
+                const newPoint = map.latLngToContainerPoint(newPosition);
+                let x = newPoint.x;
+                let y = newPoint.y;
+                if (x < 0) {
+                    x = 0;
+                } else if (x > map.getSize().x) {
+                    x = map.getSize().x;
+                }
+                if (y < 0) {
+                    y = 0;
+                } else if (y > map.getSize().y - 30) {
+                    y = map.getSize().y - 30;
+                }
+                // console.log(newPoint, x, y);
+                newPosition = map.containerPointToLatLng(new Point(x, y));
                 if (marker != null) {
                     switch (position) {
                         case ORDINAL_DIRECTION.SE:
@@ -92,6 +108,9 @@ function MapHandler(props: MapHandlerProps) {
     let orgSwMarkerPt: Point;
     let orgNeMarkerPt: Point;
     let isZooming = false;
+    useEffect(() => {
+        console.log(map.getSize());
+    }, []);
     useMapEvents({
         resize: (event: ResizeEvent) => {
             console.log(event, map.getCenter(), bounds, document.fullscreenElement);

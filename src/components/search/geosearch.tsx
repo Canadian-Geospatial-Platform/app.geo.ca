@@ -996,6 +996,15 @@ const GeoSearch = (
                                     gridWidth={isMobile ? "100%" : "50%"}
                                 />
                                 <SearchFilter
+                                    filtertitle={t('filter.stac')}
+                                    filtervalues={stacs[language]}
+                                    filterselected={stacfilters}
+                                    selectFilters={handleStac}
+                                    filtername="stac"
+                                    externalLabel
+                                    labelParams={stacLabelParams}
+                                />
+                                <SearchFilter
                                     filtertitle={t('filter.organisations')}
                                     filtervalues={organisations[language]}
                                     filterselected={orgfilters}
@@ -1017,15 +1026,7 @@ const GeoSearch = (
                                     externalLabel
                                     labelParams={spatialLabelParams}
                                 />
-                                <SearchFilter
-                                    filtertitle={t('filter.stac')}
-                                    filtervalues={stacs[language]}
-                                    filterselected={stacfilters}
-                                    selectFilters={handleStac}
-                                    filtername="stac"
-                                    externalLabel
-                                    labelParams={stacLabelParams}
-                                />
+
                                 <SearchFilter
                                     filtertitle={t('filter.themes')}
                                     filtervalues={themes[language]}

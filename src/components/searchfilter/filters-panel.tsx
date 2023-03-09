@@ -165,6 +165,15 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         gridWidth="100%"
                                     />
                                     <SearchFilter
+                                        filtertitle={t('filter.stac')}
+                                        filtervalues={stacs[language]}
+                                        filterselected={stacfilters}
+                                        selectFilters={handleStac}
+                                        filtername="stac"
+                                        externalLabel
+                                        labelParams={stacLabelParams}
+                                    />
+                                    <SearchFilter
                                         filtertitle={t('filter.organisations')}
                                         filtervalues={organisations[language]}
                                         filterselected={orgfilters}
@@ -187,15 +196,6 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         labelParams={spatialLabelParams}
                                     />
 
-                                    <SearchFilter
-                                        filtertitle={t('filter.stac')}
-                                        filtervalues={stacs[language]}
-                                        filterselected={stacfilters}
-                                        selectFilters={handleStac}
-                                        filtername="stac"
-                                        externalLabel
-                                        labelParams={stacLabelParams}
-                                    />
                                     <SearchFilter
                                         filtertitle={t('filter.themes')}
                                         filtervalues={themes[language]}
