@@ -115,7 +115,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
             const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
             const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
-            const spatfilters = localState !== undefined ? localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER;
+            const spatfilters = localState !== undefined ? ( localState.mappingReducer.spatempfilter ?localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER) : INITSPATIALTEMPORALFILTER;
             const found = localState !== undefined ? localState.mappingReducer.foundational : false;
             const stfilters =
                 localState !== undefined ? (localState.mappingReducer.stacfilter ? localState.mappingReducer.stacfilter : []) : [];
