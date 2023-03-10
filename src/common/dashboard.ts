@@ -42,6 +42,24 @@ export const Get = (dc: DASHBOARD_CALLS, endpointUrl: string, aParams: LastAllPa
     ).finally(() => typeof finallyFunc === 'function' ? finallyFunc() : {});
 }
 
+export const Post = (dc: DASHBOARD_CALLS, endpointUrl: string, aParams: LastAllParams, successFunc?: any, errorFunc?: any, finallyFunc?: any) => {
+    console.log(dc, endpointUrl);
+    console.log(getAPIURL(dc, endpointUrl));
+    axios.post(
+        
+        getAPIURL(dc, endpointUrl),
+        aParams,
+        {
+            headers: {
+                'x-api-key': apiKey,
+                "Content-Type": "application/json" 
+            }
+        }
+    ).then((response) => typeof successFunc === 'function' ? successFunc(response) : {}
+    ).catch((error) => typeof errorFunc === 'function' ? errorFunc(error) : {}
+    ).finally(() => typeof finallyFunc === 'function' ? finallyFunc() : {});
+}
+
 export const announcementGetTemp = (endpointUrl: string, aParams: LastAllParams, successFunc?: any, errorFunc?: any, finallyFunc?: any) => {
     let url = `https://mocki.io/v1/804e9c1d-9674-4afa-aa88-5aa4035e8331`;
     if (endpointUrl === 'announcements')

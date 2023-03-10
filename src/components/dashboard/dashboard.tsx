@@ -5,10 +5,11 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import { DeleteOutlined } from '@material-ui/icons';
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { DASHBOARD_CALLS, Get } from '../../common/dashboard';
+import { DASHBOARD_CALLS, Get, Post } from '../../common/dashboard';
 
 import '../analytic/analytic.scss';
 import './dashboard.scss';
@@ -102,6 +103,37 @@ const Dashboard = () => {
             }
         );
     };
+
+    const deleteRecord = (dc: DASHBOARD_CALLS, url, key, loading) => {
+        loading(true);
+        Post(dc,
+            //announcementGetTemp(
+            url,
+            { key: key, userId: userID },
+            (responseData) => {
+                loading(false);
+                removeLocally(key, dc);
+                // Remove item from local array
+            },
+            (analyticErr) => {
+                loading(false);
+            },
+            () => {
+                // setErrLoading(!nstLoading&&!nslLoading&&!nalLoading&&!natLoading&&!raaLoading&&!ralLoading&&!raoLoading&&!rslLoading);
+            }
+        );
+    };
+
+    const deleteSavedSearchItem = (key, dc) => {
+        deleteRecord(dc, 'delete', key, dc === DASHBOARD_CALLS.SAVED_SEARCHES ? setSavedSearchesLoading : setSavedRecordsLoading);
+    }
+
+    const removeLocally = (key, dc) => {
+        if (dc === DASHBOARD_CALLS.SAVED_SEARCHES)
+            setSavedSearches(savedSearches.filter(item => item.key !== key));
+        else
+            setSavedRecords(savedRecords.filter(item => item.key !== key));
+    }
 
     //#endregion
 
@@ -256,7 +288,7 @@ const Dashboard = () => {
                                 {t('dashboard.communityTitle')}: {t('dashboard.communityName')}
                             </div>
                             <div className="width-50-per text-right">
-                                <a href={communityData.uuid !== undefined ? "/result?id=" + communityData.uuid + "&lang="+language : "#"} className='color-light'>Go to Record</a>
+                                <a href={communityData.uuid !== undefined ? "/result?id=" + communityData.uuid + "&lang=" + language : "#"} className='color-light'>Go to Record</a>
                             </div>
                         </div>
                     </div>
@@ -324,12 +356,18 @@ const Dashboard = () => {
                                             </div>
                                         ) : (
                                             <div >
-                                                <ul>
-                                                    {
-                                                        savedSearches.map(q => {
-                                                            return <li key={q.key}> {q.search} </li>
-                                                        })}
-                                                </ul>
+                                                <table className="anayltics-table table caption-top">
+                                                    <tbody>
+                                                        {
+                                                            savedSearches.map(q => {
+                                                                return <tr key={q.key} className="table-row table-row-no-record" style={{ textAlign: 'left' }}>
+                                                                    <td className="table-cell">{q.search}</td>
+                                                                    <td className="table-cell" style={{ cursor: 'pointer' }} onClick={() => { deleteSavedSearchItem(q.key, DASHBOARD_CALLS.SAVED_SEARCHES) }} >{<DeleteOutlined />}</td>
+                                                                </tr>
+                                                                //return <li > {q.search} </li>
+                                                            })}
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         )}
                                     </div>
@@ -354,14 +392,20 @@ const Dashboard = () => {
                                             </div>
                                         ) : (
                                             <div >
-                                                <ul >
-                                                    {
-                                                        savedRecords.map(q => {
-                                                            return <li key={q.key}> {q["title_" + language]} </li>
-                                                        })}
-                                                </ul>
+                                                <table className="anayltics-table table caption-top">
+                                                    <tbody>
+                                                        {
+                                                            savedRecords.map(q => {
+                                                                return <tr key={q.key} className="table-row table-row-no-record" style={{ textAlign: 'left' }}>
+                                                                    <td className="table-cell">{q["title_" + language]}</td>
+                                                                    <td className="table-cell" style={{ cursor: 'pointer' }} onClick={() => { deleteSavedSearchItem(q.key, DASHBOARD_CALLS.SAVED_RECORDS) }} >{<DeleteOutlined />}</td>
+                                                                </tr>
+                                                                //return <li > {q.search} </li>
+                                                            })}
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            
+
                                         )}
 
 

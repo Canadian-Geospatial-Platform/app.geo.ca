@@ -672,19 +672,21 @@ const GeoSearch = (showing: boolean, ksOnly: boolean, setKeyword: (kw: string) =
                     </button>
                 </div>
                 <div className={ksOnly?"col-12 col-advanced-filters-button":"col-advanced-filters-button"}>
-                    <div className={"searchResultButtons"}>
-                        {auth ?
-                            <button style={{ marginLeft: '5px' }}
-                                className={'btn btn-sm searchButton'}
-                                disabled={loading}
-                                type="button"
-                                onClick={!loading ? saveSearch : undefined}
-                                aria-expanded={filterbyshown ? 'true' : 'false'}
-                            >
-                                {t('appbar.addSearch')}
-                            </button>
-                            : <></>
-                        }
+                    <div className="cgp-modal-dialog">
+                        <div className={"modal-footer"} style={{padding:0, border:0}}>
+                            {auth ?
+                                <button style={{ marginLeft: '5px' }}
+                                    className={'btn btn-secondary'}
+                                    disabled={loading}
+                                    type="button"
+                                    onClick={!loading ? saveSearch : undefined}
+                                    aria-expanded={filterbyshown ? 'true' : 'false'}
+                                >
+                                    {t('appbar.addSearch')}
+                                </button>
+                                : <></>
+                            }
+                        </div>
                     </div>
                     <div style={{ marginLeft: 'auto' }}>
                         <span>{t('appbar.keywordonly')}</span>
