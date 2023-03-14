@@ -12,7 +12,7 @@ import './spatial-temporalfilter.scss';
 import TemporalExtent from './temporal-extent';
 
 export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps): JSX.Element {
-    const { direction, gridWidth, temporalDirection, filtertitle, filtervalues, filterselected, selectFilters, filtername, externalLabel, labelParams } = props;
+    const { direction, gridWidth, temporalDirection, filtertitle, filtervalues, filterselected, selectFilters, onZoomChange, onCenterChange, onBoundboxChange, filtername, externalLabel, labelParams } = props;
     const [fselected, setFselected] = useState<SpatialTemporalFilter>(filterselected);
     const [open, setOpen] = useState(false);
     const { t } = useTranslation();
@@ -59,22 +59,20 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
         selectFilters({ ...filterselected, startDate: date.toISOString() });
     }
 
-    const handleBBoxChange = (bounds: LatLngBounds) => {
-        // console.log('bbox', bounds);
-        setFselected({ ...filterselected, bbox: bounds });
-        selectFilters({ ...filterselected, bbox: bounds });
+    const handleBBoxChange = (boundbox: LatLngBounds) => {
+        console.log('bbox', boundbox);
+        onBoundboxChange(boundbox);
     }
 
     const handleZoomChange = (zoom: number, bounds: LatLngBounds) => {
         console.log('zoom', zoom, bounds);
-        setFselected({ ...filterselected, zoom, bbox: bounds });
-        selectFilters({ ...filterselected, zoom, bbox: bounds });
+        onZoomChange(zoom, bounds);
     }
 
     const handleCenterChange = (center: LatLng, bounds: LatLngBounds) => {
         console.log('center', center, bounds);
-        setFselected({ ...filterselected, center, bbox: bounds });
-        selectFilters({ ...filterselected, center, bbox: bounds });
+        onCenterChange(center);
+        onBoundboxChange(bounds);
     }
 
     return (
@@ -123,7 +121,7 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
                                     (f.findex === 0 && (fselected.extents.findIndex(fs => fs === f.findex) >= 0)) ?
                                         (
                                             < div >
-                                                <SpatialExtent zoom={fselected.zoom} center={fselected.center} bbox={new LatLngBounds(new LatLng(fselected.bbox['_southWest'].lat, fselected.bbox['_southWest'].lng), new LatLng(fselected.bbox['_northEast'].lat, fselected.bbox['_northEast'].lng))} onBBox={handleBBoxChange} onZoom={handleZoomChange} onCenter={handleCenterChange} />
+                                                <SpatialExtent onBBox={handleBBoxChange} onZoom={handleZoomChange} onCenter={handleCenterChange} />
                                             </div>
                                         ) : null
                                 }
@@ -148,6 +146,9 @@ interface SpatialTemporalProps {
     filtervalues: string[];
     filterselected: SpatialTemporalFilter;
     selectFilters: (arg: SpatialTemporalFilter) => void;
+    onZoomChange: (zoom: number, bounds: LatLngBounds) => void;
+    onCenterChange: (center: LatLng) => void;
+    onBoundboxChange: (boundbox: LatLngBounds) => void;
     filtername?: string;
     externalLabel?: boolean;
     labelParams?: string[];

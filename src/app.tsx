@@ -108,9 +108,6 @@ const RenderMap: React.FunctionComponent = () => {
                 <div className="mapContainer">
                     <Map
                         id="MainMap"
-                        center={center}
-                        zoom={config.zoom}
-                        projection={config.projection}
                         language={i18n.language}
                         layers={config.layers}
                         search={config.search}

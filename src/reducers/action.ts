@@ -1,5 +1,6 @@
+import { LatLng, LatLngBounds } from 'leaflet';
 import { SpatialData, StacData } from '../app';
-import { mappingObj, SpatialTemporalFilter } from './reducer';
+import { MainMapInfo, mappingObj, SpatialTemporalFilter } from './reducer';
 
 /* eslint-disable prettier/prettier */
 export enum ActionType {
@@ -13,7 +14,10 @@ export enum ActionType {
     SET_SPATIALDATA = 'setSpatialData',
     SET_STAC = 'setStac',
     SET_STACDATA = 'setStacData',
-    SET_SPATEMP = 'setSpatempFilter'
+    SET_SPATEMP = 'setSpatempFilter',
+    SET_CENTER = 'setCenter',
+    SET_ZOOM = 'setZoom',
+    SET_BOUNDBOX = 'setBoundbox'
 }
 
 export interface Action {
@@ -58,6 +62,18 @@ export interface StacAction {
     type: ActionType.SET_STACDATA;
     payload: StacData;
 }
+export interface CenterAction {
+    type: ActionType.SET_CENTER;
+    payload: LatLng;
+}
+export interface ZoomAction {
+    type: ActionType.SET_ZOOM;
+    payload: number;
+}
+export interface BoundboxAction {
+    type: ActionType.SET_BOUNDBOX;
+    payload: LatLngBounds;
+}
 // export type Action = { type: ActionType.ADD_MAPPING, payload: idstring } | { type: ActionType.DEL_MAPPING, payload: idstring } | { type: ActionType.CLEAR_MAPPING };
 export function setMapping(mlist: mappingObj[]): Action {
     return { type: ActionType.SET_MAPPING, payload: mlist };
@@ -101,4 +117,13 @@ export function setStacData(stacData: StacData): StacAction {
 
 export function setSpatempFilter(spatempfilter: SpatialTemporalFilter): SpatialTemporalAction {
     return { type: ActionType.SET_SPATEMP, payload: spatempfilter };
+}
+export function setStoreCenter(center: LatLng): CenterAction {
+    return { type: ActionType.SET_CENTER, payload: center };
+}
+export function setStoreZoom(zoom: number): ZoomAction {
+    return { type: ActionType.SET_ZOOM, payload: zoom };
+}
+export function setStoreBoundbox(boundbox: LatLngBounds): BoundboxAction {
+    return { type: ActionType.SET_BOUNDBOX, payload: boundbox }
 }

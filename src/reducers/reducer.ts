@@ -1,15 +1,17 @@
 /* eslint-disable prettier/prettier */
 import { LatLng, LatLngBounds } from 'leaflet';
 import { SpatialData, StacData } from '../app';
-import { ActionType, Action, BooleanAction, FilterAction, FiltersAction, SpatialAction, StacAction, SpatialTemporalAction } from './action';
+import { getMapOptions, MapOptions } from '../common/map';
+import { Action, ActionType, BooleanAction, CenterAction, FilterAction, FiltersAction, MainMapInfoAction, SpatialAction, SpatialTemporalAction, StacAction, ZoomAction } from './action';
 
 export interface SpatialTemporalFilter {
     extents: number[];
-    center: LatLng;
-    zoom: number;
-    bbox: LatLngBounds;
     startDate: string;
     endDate: string;
+}
+export interface MainMapInfo {
+    zoom: number;
+    center: LatLng;
 }
 export interface mappingState {
     mapping: mappingObj[];
@@ -22,6 +24,9 @@ export interface mappingState {
     stacfilter: number[];
     stacData: StacData;
     spatempfilter: SpatialTemporalFilter;
+    center: LatLng;
+    zoom: number;
+    boundbox?: LatLngBounds;
 }
 export interface mappingObj {
     id: string;
@@ -31,13 +36,39 @@ export interface mappingTitle {
     en: string;
     fr: string;
 }
+export interface ConfigInfo {
+    projection: any;
+    zoomFactor: number;
+}
+export function getMiniZoom(zoom: number, zoomFactor: number): number {
+    const miniZoom = zoom - zoomFactor;
+    return miniZoom > 0 ? miniZoom : 0;
+}
+export function getMainZoom(zoom: number, zoomFactor: number): number {
+    let newZoom;
+    if (zoom === 0) {
+        newZoom = 4;
+    } else {
+        newZoom = zoom + zoomFactor;
+    }
+    return newZoom;
+}
+const mainMap: Element | null = document.getElementById('root');
+const jsonConfig = mainMap && mainMap.getAttribute('data-leaflet');
+const config = jsonConfig
+    ? JSON.parse(jsonConfig.replace(/'/g, '"'))
+    : { name: 'Web Mercator', projection: 3857, zoom: 4, center: [60, -100], language: 'en', search: true, auth: false };
+const mapOptions: MapOptions = getMapOptions(config.projection);
+// const initZoom = config.zoom - mapOptions.zoomFactor > 0 ? config.zoom - mapOptions.zoomFactor : 0;
+const initcenter: LatLng = new LatLng(config.center[0], config.center[1]);
 
-const initcenter: LatLng = new LatLng(67.769, -113.9919);
-const radius = 20;
-const southwest: LatLng = new LatLng(initcenter.lat - radius, initcenter.lng - radius);
-const northeast: LatLng = new LatLng(initcenter.lat + radius / 2, initcenter.lng + radius * 2);
-const initbounds: LatLngBounds = new LatLngBounds(southwest, northeast);
-export const INITSPATIALTEMPORALFILTER: SpatialTemporalFilter = { extents: [], zoom: 1, center: initcenter, bbox: initbounds, startDate: new Date().toISOString(), endDate: new Date().toISOString() };
+// const radius = 20;
+// const southwest: LatLng = new LatLng(initcenter.lat - radius, initcenter.lng - radius);
+// const northeast: LatLng = new LatLng(initcenter.lat + radius / 2, initcenter.lng + radius * 2);
+// const initbounds = mapOptions.maxBounds ? mapOptions.maxBounds : new LatLngBounds(southwest, northeast);
+export const INITCONFIGINFO: ConfigInfo = { projection: config.projection, zoomFactor: mapOptions.zoomFactor };
+export const INITMAINMAPINFO: MainMapInfo = { center: initcenter, zoom: config.zoom };
+export const INITSPATIALTEMPORALFILTER: SpatialTemporalFilter = { extents: [], startDate: new Date().toISOString(), endDate: new Date().toISOString() };
 const defaultState: mappingState = {
     mapping: [],
     orgfilter: [],
@@ -48,12 +79,14 @@ const defaultState: mappingState = {
     spatialData: { viewableOnTheMap: 0, notViewableOnTheMap: 0 },
     stacfilter: [],
     stacData: { hnap: 0, stac: 0 },
-    spatempfilter: INITSPATIALTEMPORALFILTER
+    spatempfilter: INITSPATIALTEMPORALFILTER,
+    center: INITMAINMAPINFO.center,
+    zoom: INITMAINMAPINFO.zoom
 };
 
 const mappingReducer = (
     state: mappingState = defaultState,
-    action: Action | BooleanAction | FilterAction | FiltersAction | SpatialAction | StacAction | SpatialTemporalAction
+    action: Action | BooleanAction | FilterAction | FiltersAction | SpatialAction | StacAction | SpatialTemporalAction | MainMapInfoAction | CenterAction | ZoomAction | BoundsAction
 ): mappingState => {
     switch (action.type) {
         case ActionType.SET_MAPPING:
@@ -78,6 +111,12 @@ const mappingReducer = (
             return { ...state, stacData: action.payload };
         case ActionType.SET_SPATEMP:
             return { ...state, spatempfilter: action.payload };
+        case ActionType.SET_CENTER:
+            return { ...state, center: action.payload };
+        case ActionType.SET_ZOOM:
+            return { ...state, zoom: action.payload };
+        case ActionType.SET_BOUNDBOX:
+            return { ...state, boundbox: action.payload };
         default:
             return state;
     }

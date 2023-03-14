@@ -9,46 +9,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useState, createRef, useEffect, ChangeEvent } from 'react';
-import { StoreEnhancer } from 'redux';
+import { useMediaQuery } from '@material-ui/core';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import SearchIcon from '@material-ui/icons/Search';
+import axios from 'axios';
+import { LatLng, LatLngBounds } from 'leaflet';
+import React, { ChangeEvent, createRef, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AttributionControl, GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
-import axios from 'axios';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { useMap, MapContainer, TileLayer, GeoJSON, AttributionControl } from 'react-leaflet';
-import { useTranslation } from 'react-i18next';
-import SearchIcon from '@material-ui/icons/Search';
-import SvgIcon from '@material-ui/core/SvgIcon';
+import { StoreEnhancer } from 'redux';
+import { SpatialData, StacData } from '../../app';
 import FilterIcon from '../../assets/icons/filter.svg';
-import { loadState } from '../../reducers/localStorage';
-import { NavBar } from '../navbar/nav-bar';
+import { AnalyticParams, analyticPost } from '../../common/analytic';
 import { envglobals } from '../../common/envglobals';
-import { analyticPost, AnalyticParams } from '../../common/analytic';
-import SearchFilter from '../searchfilter/searchfilter';
-import Pagination from '../pagination/pagination';
+import { getQueryParams } from '../../common/queryparams';
 import {
-    setFilters,
-    setOrgFilter,
-    setTypeFilter,
-    setThemeFilter,
-    setSpatialFilter,
-    setFoundational,
-    setStacFilter,
-    setSpatempFilter,
+    setFilters, setFoundational, setOrgFilter, setSpatempFilter, setSpatialFilter, setStacFilter, setStoreBoundbox, setStoreCenter,
+    setStoreZoom, setThemeFilter, setTypeFilter
 } from '../../reducers/action';
+import { loadState } from '../../reducers/localStorage';
+import { INITMAINMAPINFO, INITSPATIALTEMPORALFILTER, SpatialTemporalFilter } from '../../reducers/reducer';
+import { NavBar } from '../navbar/nav-bar';
+import Pagination from '../pagination/pagination';
+import SearchFilter from '../searchfilter/searchfilter';
+import SpatialTemporalSearchFilter from '../searchfilter/spatial-temporalfilter';
+import './geosearch.scss';
 import organisations from './organisations.json';
-import types from './types.json';
-import themes from './themes.json';
+import Sorting, { SortingOptionInfo } from './sorting';
+import spatemps from './spatial-temporal.json';
 import spatials from './spatials.json';
 import stacs from './stac.json';
-import './geosearch.scss';
-import Sorting, { SortingOptionInfo } from './sorting';
-import { getQueryParams } from '../../common/queryparams';
-import { SpatialData, StacData } from '../../app';
-import spatemps from './spatial-temporal.json';
-import { INITSPATIALTEMPORALFILTER, SpatialTemporalFilter } from '../../reducers/reducer';
-import SpatialTemporalSearchFilter from '../searchfilter/spatial-temporalfilter';
-import { useMediaQuery } from '@material-ui/core';
+import themes from './themes.json';
+import types from './types.json';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (
@@ -92,8 +87,11 @@ const GeoSearch = (
     const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
     const storestacfilters = useSelector((state) => (state.mappingReducer.stacfilter ? state.mappingReducer.stacfilter : []));
-    const storespatempfilters = useSelector((state) => (state.mappingReducer.spatempfilter ? state.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER));
+    const storespatempfilters = useSelector((state) => state.mappingReducer.spatempfilter);
     const dispatch = useDispatch();
+    const [zoom, setZoom] = useState(null);
+    const [center, setCenter] = useState(null);
+    const [boundbox, setBoundbox] = useState(useSelector((state) => state.mappingReducer.boundbox));
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
@@ -322,7 +320,7 @@ const GeoSearch = (
         if (spatfilters.extents.length > 0) {
             const spatArray = spatfilters.extents.map((fs: number) => spatemps[language][fs]);
             if (spatArray.indexOf('SPATIALEXTENT') > -1) {
-                searchParams.bbox = `${spatfilters.bbox['_southWest'].lat}|${spatfilters.bbox['_southWest'].lng}|${spatfilters.bbox['_northEast'].lat}|${spatfilters.bbox['_northEast'].lng}`;
+                searchParams.bbox = `${boundbox._southWest.lat}|${boundbox._southWest.lng}|${boundbox._northEast.lat}|${boundbox._northEast.lng}`;
             }
             if (spatArray.indexOf('TEMPORALEXTENT') > -1) {
                 searchParams.datetime = `${spatfilters.startDate}|${spatfilters.endDate}`;
@@ -475,6 +473,31 @@ const GeoSearch = (
                 spatempfilter: spatempfilters
             })
         );
+        if (spatempfilters.extents.length > 0) {
+            const spatArray = spatempfilters.extents.map((fs: number) => spatemps[language][fs]);
+            if (spatArray.indexOf('SPATIALEXTENT') > -1) {
+                if (boundbox) {
+                    dispatch(setStoreBoundbox(boundbox));
+                    console.log('set bounds', boundbox);
+                }
+                if (center !== null) {
+                    dispatch(setStoreCenter(center));
+                    console.log('set center', center);
+                }
+                if (zoom !== null) {
+                    dispatch(setStoreZoom(zoom));
+                    console.log('set zoom', zoom);
+                }
+            } else {
+                dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
+                dispatch(setStoreCenter(INITMAINMAPINFO.center));
+                dispatch(setStoreBoundbox(undefined));
+            }
+        } else {
+            dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
+            dispatch(setStoreCenter(INITMAINMAPINFO.center));
+            dispatch(setStoreBoundbox(undefined));
+        }
         setFReset(false);
         // setPageNumber(1);
     };
@@ -485,8 +508,11 @@ const GeoSearch = (
         setTheme([]);
         setSpatial([]);
         setFound(false);
-        setSpatemp(INITSPATIALTEMPORALFILTER);
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false, stacfilter: [], spatempfilter: INITSPATIALTEMPORALFILTER }));
+        setSpatemp({ ...spatempfilters, extents: [] });
+        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false, stacfilter: [], spatempfilter: { ...INITSPATIALTEMPORALFILTER } }));
+        dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
+        dispatch(setStoreCenter(INITMAINMAPINFO.center));
+        dispatch(setStoreBoundbox(undefined));
         setFReset(false);
         // setPageNumber(1);
     };
@@ -503,7 +529,7 @@ const GeoSearch = (
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
         const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : [] : [];
         const stfilters = localState !== undefined ? (localState.mappingReducer.stfilter ? localState.mappingReducer.stfilter : []) : [];
-        const spatfilters: SpatialTemporalFilter = localState !== undefined ? (localState.mappingReducer.spatempfilter ? localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER) : INITSPATIALTEMPORALFILTER;
+        const spatfilters: SpatialTemporalFilter = localState !== undefined ? localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER;
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         const searchParams: KOSearchParams = {
             keyword: keyword.replace(/"/g, '\\"'),
@@ -552,11 +578,11 @@ const GeoSearch = (
             delete aParams.stac;
         }
         if (spatfilters.extents.length > 0) {
-            const spatArray = spatfilters.extents.map((fs: number) => spatemps[language][fs].toLowerCase().replace(/\'/g, "''"));
-            if (spatArray.indexOf('SPATIALEXTENT')) {
-                searchParams.bbox = `${spatfilters.bbox['_southWest'].lat}|${spatfilters.bbox['_southWest'].lng}|${spatfilters.bbox['_northEast'].lat}|${spatfilters.bbox['_northEast'].lng}`;
+            const spatArray = spatfilters.extents.map((fs: number) => spatemps[language][fs]);
+            if (spatArray.indexOf('SPATIALEXTENT') > -1) {
+                searchParams.bbox = `${boundbox['_southWest'].lat}|${boundbox['_southWest'].lng}|${boundbox['_northEast'].lat}|${boundbox['_northEast'].lng}`;
             }
-            if (spatArray.indexOf('TEMPORALEXTENT')) {
+            if (spatArray.indexOf('TEMPORALEXTENT') > -1) {
                 searchParams.datetime = `${spatfilters.startDate}|${spatfilters.endDate}`;
             }
             //aParams.datetime = spatialArray;
@@ -678,6 +704,18 @@ const GeoSearch = (
         setSpatemp(filters);
     };
 
+    const handleZoomChange = (newZoom: number, boundbox: LatLngBounds): void => { setZoom(newZoom); setBounds(boundbox); };
+    const handleCenterChange = (newCenter: LatLng): void => {
+        console.log('set center', newCenter);
+        setFReset(true);
+        setCenter(newCenter);
+    };
+    const handleBoundboxChange = (boundbox: LatLngBounds) => {
+        console.log('set bbox', boundbox);
+        setFReset(true);
+        setBoundbox(boundbox);
+    };
+
     const handleFound = (found: unknown): void => {
         setFReset(true);
         setFound(found);
@@ -727,6 +765,11 @@ const GeoSearch = (
         const newfilter = spatempfilters.extents.filter((fs: number) => fs !== filter);
         dispatch(setSpatempFilter({ ...spatempfilters, extents: newfilter }));
         setSpatemp({ ...spatempfilters, extents: newfilter });
+        if (spatemps[language][filter] === 'SPATIALEXTENT') {
+            dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
+            dispatch(setStoreCenter(INITMAINMAPINFO.center));
+            dispatch(setStoreBoundbox(undefined));
+        }
         setFReset(false);
         // handleSearch(initKeyword);
     };
@@ -989,6 +1032,9 @@ const GeoSearch = (
                                     filtervalues={spatemps[language]}
                                     filterselected={spatempfilters}
                                     selectFilters={handleSpatemp}
+                                    onBoundboxChange={handleBoundboxChange}
+                                    onCenterChange={handleCenterChange}
+                                    onZoomChange={handleZoomChange}
                                     filtername='spatemp'
                                     externalLabel
                                     direction={isMobile ? "column" : "row"}
