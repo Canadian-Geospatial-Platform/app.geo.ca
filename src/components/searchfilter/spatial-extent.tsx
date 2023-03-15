@@ -1,11 +1,11 @@
 import L, { CRS, DivIcon, LatLng, LatLngBounds, Point, ResizeEvent } from 'leaflet';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AttributionControl, MapContainer, Marker, Pane, Rectangle, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, Marker, Pane, Rectangle, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { Basemap, BasemapOptions } from '../../common/basemap';
 import { Projection } from '../../common/projection';
-import { getMainZoom, getMiniZoom, INITCONFIGINFO, INITSPATIALTEMPORALFILTER, mappingState } from '../../reducers/reducer';
+import { getMainZoom, getMiniZoom, INITCONFIGINFO } from '../../reducers/reducer';
 import { NavBar } from '../navbar/nav-bar';
 import './spatial-extent.scss';
 
@@ -186,12 +186,25 @@ interface MapHandlerProps {
 function MapHandler(props: MapHandlerProps) {
     const { bounds, onMapCenterChange, onMapZoomChange, onMapResize } = props;
     const map = useMap();
+    const { t } = useTranslation();
+    const language = t('app.language');
     let orgSwMarkerPt: Point;
     let orgNeMarkerPt: Point;
     let isZooming = false;
     useEffect(() => {
         console.log(map.getSize());
     }, []);
+    useEffect(() => {
+        const basemap: Basemap = new Basemap(`${language}-CA`);
+        const basemaps: BasemapOptions[] = basemap.wmCBMT;
+        map.eachLayer((layer: unknown) => {
+            // console.log(layer);
+            map.removeLayer(layer);
+        });
+        basemaps.forEach((base) => {
+            L.tileLayer(base.url).addTo(map);
+        });
+    }, [language, map]);
     useMapEvents({
         resize: (event: ResizeEvent) => {
             console.log(event, map.getCenter(), bounds, document.fullscreenElement);
@@ -307,7 +320,6 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                 {basemaps.map((base: { id: string | number | null | undefined; url: string }) => (
                     <TileLayer key={base.id} url={base.url} />
                 ))}
-                <AttributionControl position="bottomleft" prefix={false} />
                 <NavBar />
 
                 <Pane name="area-select-rectangle" style={{ zIndex: 499 }}>
