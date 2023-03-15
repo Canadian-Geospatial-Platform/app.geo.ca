@@ -194,17 +194,21 @@ function MapHandler(props: MapHandlerProps) {
     useEffect(() => {
         console.log(map.getSize());
     }, []);
+
     useEffect(() => {
         const basemap: Basemap = new Basemap(`${language}-CA`);
         const basemaps: BasemapOptions[] = basemap.wmCBMT;
         map.eachLayer((layer: unknown) => {
             // console.log(layer);
-            map.removeLayer(layer);
+            if (layer instanceof L.TileLayer) {
+                map.removeLayer(layer);
+            }
         });
         basemaps.forEach((base) => {
             L.tileLayer(base.url).addTo(map);
         });
-    }, [language, map]);
+    }, [language]);
+
     useMapEvents({
         resize: (event: ResizeEvent) => {
             console.log(event, map.getCenter(), bounds, document.fullscreenElement);
@@ -322,9 +326,9 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                 ))}
                 <NavBar />
 
-                <Pane name="area-select-rectangle" style={{ zIndex: 499 }}>
-                    <Rectangle bounds={bounds} pathOptions={{ color: '#515aa9', weight: 1, opacity: 0.5 }} />
-                </Pane>
+
+                <Rectangle bounds={bounds} pathOptions={{ color: '#515aa9', weight: 1, opacity: 0.5 }} />
+
                 <DraggableMarker key="marker-sw" position={ORDINAL_DIRECTION.SW} bounds={bounds} onPositionChange={handleMarker} />
                 <DraggableMarker key="marker-ne" position={ORDINAL_DIRECTION.NE} bounds={bounds} onPositionChange={handleMarker} />
                 <DraggableMarker key="marker-se" position={ORDINAL_DIRECTION.SE} bounds={bounds} onPositionChange={handleMarker} />
