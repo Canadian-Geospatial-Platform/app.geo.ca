@@ -247,12 +247,12 @@ interface SpecialExtentProps {
     //zoom: number;
     //center: LatLng;
     //bbox: LatLngBounds;
+    language: string;
     onBBox: (bounds: LatLngBounds) => void;
     onZoom: (zoom: number, bounds: LatLngBounds) => void;
     onCenter: (center: LatLng, bounds: LatLngBounds) => void;
 }
 export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
-    const { t } = useTranslation();
     /*
     const [zoom, setZoom] = useState(props.zoom);
     const [center, setCenter] = useState<LatLng>(
@@ -269,7 +269,7 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
             new LatLng(boundbox._northEast.lat, boundbox._northEast.lng)
         ) : null
     );
-    const basemap: Basemap = new Basemap(t('app.language'));
+    const basemap: Basemap = new Basemap(props.language);
     const basemaps: BasemapOptions[] = INITCONFIGINFO.projection === 3857 ? basemap.wmCBMT : basemap.lccCBMT;
     const crs = INITCONFIGINFO.projection === 3857 ? CRS.EPSG3857 : Projection.getProjection(INITCONFIGINFO.projection);
     const handleMarker = (newBounds: LatLngBounds) => {

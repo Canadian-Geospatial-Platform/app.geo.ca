@@ -6,6 +6,7 @@ import { Grid, GridDirection } from '@material-ui/core';
 import { LatLng, LatLngBounds } from 'leaflet';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../assets/i18n/i18n';
 import { SpatialTemporalFilter } from '../../reducers/reducer';
 import SpatialExtent from './spatial-extent';
 import './spatial-temporalfilter.scss';
@@ -121,7 +122,7 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
                                     (f.findex === 0 && (fselected.extents.findIndex(fs => fs === f.findex) >= 0)) ?
                                         (
                                             < div >
-                                                <SpatialExtent onBBox={handleBBoxChange} onZoom={handleZoomChange} onCenter={handleCenterChange} />
+                                                <SpatialExtent language={i18n.language} onBBox={handleBBoxChange} onZoom={handleZoomChange} onCenter={handleCenterChange} />
                                             </div>
                                         ) : null
                                 }
