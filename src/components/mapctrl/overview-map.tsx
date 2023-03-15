@@ -64,18 +64,12 @@ function MinimapBounds(props: MiniboundProps) {
     //const [bounds, setBounds] = useState({ height: 0, width: 0, top: 0, left: 0 });
 
     const [bounds, setBounds] = useState(
-        () => {
-            if (boundbox) {
-                return new LatLngBounds(
-                    new LatLng(boundbox._southWest.lat, boundbox._southWest.lng),
-                    new LatLng(boundbox._northEast.lat, boundbox._northEast.lng)
-                );
-            } else {
-                //return { height: 0, width: 0, top: 0, left: 0 };
-                return null;
-            }
-        }
-    );
+        boundbox
+            ? new LatLngBounds(
+                new LatLng(boundbox._southWest.lat, boundbox._southWest.lng),
+                new LatLng(boundbox._northEast.lat, boundbox._northEast.lng)
+            )
+            : parentMap.getBounds());
     const onChange = useCallback(() => {
         // Update the minimap's view to match the parent map's center and zoom
         // const newZoom = parentMap.getZoom() - zoomFactor > 0 ? parentMap.getZoom() - zoomFactor : 0;
