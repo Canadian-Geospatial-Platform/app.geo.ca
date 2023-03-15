@@ -17,5 +17,5 @@ jobs:
         ref: stage
     
     - name: Push changes - Init Prod
-      run: git push origin -f stage:prod
+      run: git push origin -f stage:prod 
  
