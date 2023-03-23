@@ -19,6 +19,7 @@ const config = {
     entry: path.resolve(__dirname, 'src/app.tsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
         filename: 'gcpv-main.js',
     },
     resolve: {
