@@ -307,7 +307,6 @@ const MetaDataPage = (props) => {
     }, [language, rid]);
 
     useEffect(() => {
-        console.log(pathlang, language);
         if ( pathlang !== language && metaresult !== null && rid !== '') {
             window.location.href = `/result/${language}/${encodeURI(metaresult.mappingtitle[language].trim().toLowerCase())}?id=${encodeURI(rid.trim())}&lang=${language}`
         }
