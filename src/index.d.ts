@@ -11,4 +11,4 @@ declare module '*.svg' {
     const value: any;
     export = value;
 }
-declare module 'react-cognito';
+// declare module 'react-cognito';
