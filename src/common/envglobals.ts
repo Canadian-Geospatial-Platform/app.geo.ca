@@ -9,7 +9,13 @@ export function envglobals() : globalValues {
             COLLECTIONS: "/collections",
             ANALYTIC: "/analytics",
             SORTBY: "/sorting",
+            ANNOUNCEMENTS:"/announcements",
+            MYCOMMUNITY:"/community/my_community",
+            SAVED_RECORDS:"/saved_records",
+            SAVED_SEARCHES: "/saved_searches"
+
         }
+        
         switch(hostname) {
             case "localhost":
                 return {
@@ -79,7 +85,11 @@ interface globalValues {
     APP_API_ENDPOINTS: {
         SEARCH: string;
         METADATA: string;
-        ANALYTIC: string;        
+        ANALYTIC: string;
+        ANNOUNCEMENTS: string;
+        MYCOMMUNITY: string;
+        SAVED_RECORDS: string;
+        SAVED_SEARCHES: string;
     };
     APP_GEOCORE_URL: string;
     SITE_NAME: string;

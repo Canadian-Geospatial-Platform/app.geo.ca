@@ -56,4 +56,5 @@ export interface AnalyticParams {
 export interface LastAllParams {
     lang?: 'en'|'fr';
     org?: string[];
+    userId?: string
 }
