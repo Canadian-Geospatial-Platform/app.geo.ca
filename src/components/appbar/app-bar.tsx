@@ -27,7 +27,7 @@ import { getQueryParams } from '../../common/queryparams';
 import SearchPanel from '../search/search-panel';
 import FiltersPanel from '../searchfilter/filters-panel';
 import AnalyticPanel from '../analytic/analytic-panel';
-import AccountPanel from '../account/account-panel';
+import DashboardPanel from '../dashboard/dashboard-panel';
 import HowtoPanel from '../howto/howto-panel';
 import './app-bar.scss';
 
@@ -117,11 +117,11 @@ export function Appbar(props: AppBarProps): JSX.Element {
         map.eachLayer((layer: unknown) => {
             // console.log(layer);
             map.removeLayer(layer);
-        }); 
+        });
         basemaps.forEach(base=>{
             L.tileLayer(base.url).addTo(map);
-        })   
-        
+        })
+
     }, [language, map]);
 
     const handleDrawerClose = () => {
@@ -144,6 +144,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
             queryParams.foundational !== undefined ||
             queryParams.theme !== undefined) ? ' search' : 
             (queryParams.analytic !== undefined?' analytics':'')
+
         );
         setKSOnly(queryParams.keyword_only === 'true');
     }, [queryParams.keyword, queryParams.keyword_only, queryParams.org, queryParams.type, queryParams.theme, queryParams.foundational, queryParams.analytic]);
@@ -151,13 +152,13 @@ export function Appbar(props: AppBarProps): JSX.Element {
     useEffect(() => {
         const appBarEl = document.getElementById("app-left-bar");
         if (panel === ' analytics') {
-            appBarEl.classList.add("analytic-show"); 
+            appBarEl.classList.add("analytic-show");
         } else {
             appBarEl.classList.remove("analytic-show");
         }
 
         if (ksOnly) {
-            appBarEl.classList.add("kso-show"); 
+            appBarEl.classList.add("kso-show");
         } else {
             appBarEl.classList.remove("kso-show");
         }
@@ -172,17 +173,17 @@ export function Appbar(props: AppBarProps): JSX.Element {
                 classes={{ paper: open && panel === '' ? classes.drawerOpen : classes.drawerClose }}
             >
                 <div className={classes.toolbar}>
-                { panel === '' &&  
-                    <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
-                        <IconButton
-                            onClick={handleDrawerClose}
-                            aria-label={t('appbar.opendrawer')}
-                            aria-expanded={!open ? 'false' : 'true'}
-                        >
-                            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                        </IconButton>
-                    </Tooltip>
-                }    
+                    { panel === '' &&
+                        <Tooltip title={t('appbar.drawer')} placement="right" TransitionComponent={Fade}>
+                            <IconButton
+                                onClick={handleDrawerClose}
+                                aria-label={t('appbar.opendrawer')}
+                                aria-expanded={!open ? 'false' : 'true'}
+                            >
+                                {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                            </IconButton>
+                        </Tooltip>
+                    }
                 </div>
                 <Divider />
                 <List>
@@ -190,19 +191,19 @@ export function Appbar(props: AppBarProps): JSX.Element {
                         <Layers key={`${id}-${item.id}`} />
                     ))} */}
                     {search && <ButtonApp tooltip="appbar.search" current={panel === ' search'} icon={<SearchIcon />} onClickFunction={() => setPanel(' search')} />}
-                    {search && (panel === ' search' || ksOnly) && <div className={ksOnly?'cgp-apppanel search ks-only':`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search' || ksOnly} initKeyword={initKeyword} ksOnly={ksOnly} setKSOnly={setKSOnly} setKeyword={setKeyword} closeFunction={() => setPanel('')} /></div>}
+                    {search && (panel === ' search' || ksOnly) && <div className={ksOnly?'cgp-apppanel search ks-only':`cgp-apppanel${panel}`}><SearchPanel showing={panel === ' search' || ksOnly} initKeyword={initKeyword} ksOnly={ksOnly} setKSOnly={setKSOnly} setKeyword={setKeyword} closeFunction={() => setPanel('')} auth={auth} /></div>}
                     {/* {search && (
                         <ButtonApp tooltip="appbar.keywordsearch" current={false} icon={<KeywordSearchIcon />} onClickFunction={gotoKeywordSearch} />
                     )} */}
                     <ButtonApp tooltip="appbar.filters" current={panel === ' filters'} icon={<SvgIcon><FilterIcon /></SvgIcon>} onClickFunction={() => setPanel(' filters')} />
-                    {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp!==undefined?cp:'')} /></div>}
+                    {panel === ' filters' && <div className={`cgp-apppanel${panel}`}><FiltersPanel showing={panel === ' filters'} closeFunction={(cp?: string) => setPanel(cp !== undefined ? cp : '')} /></div>}
                     <ButtonApp tooltip="appbar.analytics" current={panel === ' analytics'} icon={<SvgIcon><AnalyticIcon /></SvgIcon>} onClickFunction={() => setPanel(' analytics')} />
                     {panel === ' analytics' && <div className={`cgp-apppanel${panel}`}><AnalyticPanel showing={panel === ' analytics'} analyticOrg={analyticOrg} setAnalyticOrg={setAnalyticOrg} closeFunction={() => setPanel('')} /></div>}
                 </List>
                 <Divider className={classes.spacer} />
                 <List>
                     {auth && <ButtonApp tooltip="appbar.account" current={panel === ' account'} icon={<AccountIcon />} onClickFunction={() => setPanel(' account')} />}
-                    {auth && panel === ' account' && <div className={`cgp-apppanel${panel}`}><AccountPanel showing={panel === ' account'} closeFunction={() => setPanel('')} /></div>}
+                    {auth && panel === ' account' && <div className={`cgp-apppanel${panel}`}><DashboardPanel showing={panel === ' account'} closeFunction={() => setPanel('')} /></div>}
                     <ButtonApp tooltip="appbar.howto" current={panel === ' howto'} icon={<HelpOutlineIcon />} onClickFunction={() => setPanel(' howto')} />
                     {panel === ' howto' && <div className={`cgp-apppanel${panel}`}><HowtoPanel showing={panel === ' howto'} closeFunction={() => setPanel('')} /></div>}
                 </List>

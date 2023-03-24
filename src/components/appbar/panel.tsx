@@ -84,4 +84,5 @@ export interface PanelProps {
     setKeyword?: (kw: string) => void;
     setAnalyticOrg?: (ao: number[]) => void;
     closeFunction: (cp?: string) => void;
+    auth: boolean;
 }

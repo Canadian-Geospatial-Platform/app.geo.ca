@@ -1,0 +1,62 @@
+@import '../../assets/css/variables-site/variables-site';
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.color-light{
+    color: $color__light !important;
+}
+
+.padding-left-15 {
+    padding-left: 15px !important;
+}
+
+.padding-right-15 {
+    padding-right: 15px !important;
+}
+
+.no-border {
+    border: 0 !important;
+}
+
+.card-wrap{
+    overflow-wrap: anywhere;
+    padding: 0 15px;
+}
+
+.sec-analytics-results {
+
+    .width-50-per {
+        width: 50%;
+    }
+
+    @media (max-width: $breakpoint__lg) {
+        .sec-inner-wrap {
+            margin: 0 5%;
+            padding: .35em .35em 0.3125em .35em;
+        }
+    }
+
+    @media (min-width: $breakpoint__lg + 1px) {
+        .sec-inner-wrap {
+            margin: 0 5%;
+            padding: .75em .75em .5em .75em;
+        }
+    }
+
+    @media (min-width: $breakpoint__xl + 1px) {
+        .sec-inner-wrap {
+            max-width: 1200px;
+        }
+        
+    }
+}

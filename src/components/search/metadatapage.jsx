@@ -40,6 +40,7 @@ import {analyticPost, analyticGet} from '../../common/analytic';
 import { setMapping } from "../../reducers/action";
 import InfoModal from '../modal/infomodal';
 import './metadatapage.scss';
+import apiKey from '../../security/apikey.json';
 
 const EnvGlobals = envglobals();
 
@@ -58,6 +59,8 @@ const MetaDataPage = (props) => {
     const mapping = useSelector(state => state.mappingReducer.mapping);
     const dispatch = useDispatch();
 
+    const [userID, setUserID] = useState("cf9bfa6f-5837-42f9-9eeb-c15035c3c752");
+    const [isAddRecordLoading, setAddRecordLoading] = useState(false);
     const [loading, setLoading] = useState(true);
     const [metaresult, setResult] = useState(null);
     const [analyticLoading, setAnalyticLoading] = useState(true);
@@ -294,6 +297,33 @@ const MetaDataPage = (props) => {
         return paraArray.map((pt, i) => pt.trim().length>0 ? <p key={`pt${i}`} dangerouslySetInnerHTML={{__html: convertDesc(pt)}} /> : <br key={`pt${i}`} /> );
     }
 
+
+    const addRecord = () => {
+        !isAddRecordLoading && setAddRecordLoading(true);
+        const aParams =
+        {
+            "userId": userID, "uuid": rid,
+            "title_en": metaresult.mappingtitle.en,
+            "title_fr": metaresult.mappingtitle.fr
+        }
+        axios.post(
+            `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SAVED_RECORDS}/add`,
+            aParams,
+            {
+                headers: {
+                    'x-api-key': apiKey,
+                    "Content-Type": "text/plain" 
+                }
+            }
+        ).then((response) => {
+            console.log(response);
+            setAddRecordLoading(false);
+        }
+        ).catch((error) => {
+            console.log(error);
+            setAddRecordLoading(false);
+        });
+    }    
     useEffect(() => {
       if (rid !== '') {
           handleSearch(rid);
@@ -665,7 +695,8 @@ const MetaDataPage = (props) => {
                                 <p>{activeMap? t("page.viewthedata") : t("page.greymapinfo")}</p>
                                 <div className="btn-group">
                                     <button type="button" className={`${mapButtonClass} mr-2`} onClick={activeMap?()=>viewOnMap(result.id):()=>setGreyMap(true)}>{t("page.viewonmap")}</button>
-                                    <button id="addMyMap" type="button" className={inMapping?`${mapButtonClass} btn-added`:mapButtonClass} onClick={activeMap?()=>changeMapping(result.id):()=>setGreyMap(true)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
+                                    <button id="addMyMap" type="button" className={inMapping?`${mapButtonClass} btn-added mr-2`: `${mapButtonClass} mr-2`} onClick={activeMap?()=>changeMapping(result.id):()=>setGreyMap(true)}>{inMapping?t("page.addedtomymap"):t("page.addtomymap")}</button>
+                                    <button id="addRecord" disabled={activeMap ? isAddRecordLoading : true} type="button" className={inMapping ? `${mapButtonClass} btn-added` : mapButtonClass} onClick={addRecord}>{t("page.addrecord")}</button>
                                 </div>
                             </section>
                             <section className="sec-search-result search-results-section search-results-misc-data">
