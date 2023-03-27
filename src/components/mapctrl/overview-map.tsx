@@ -16,7 +16,7 @@ function MinimapBounds(props: MiniboundProps) {
     const minimap = useMap();
     const dispatch = useDispatch();
     useEffect(() => {
-        console.log('fit', boundbox, parentMap.getBounds());
+        // console.log('fit', boundbox, parentMap.getBounds());
         if (boundbox
             // && (parentMap.getBounds().getSouthWest().lat.toFixed(4) !== boundbox._southWest.lat.toFixed(4)
             //  || parentMap.getBounds().getSouthWest().lng.toFixed(4) !== boundbox._southWest.lng.toFixed(4)

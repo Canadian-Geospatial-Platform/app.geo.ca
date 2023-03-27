@@ -39,13 +39,15 @@ export function Map(props: MapProps): JSX.Element {
     const mapOptions: MapOptions = getMapOptions(INITCONFIGINFO.projection);
     const toggleSpatialFilter = (e) => {
         //e.preventDefault();
-        console.log(e.target.checked);
+        // console.log(e.target.checked);
         dispatch(setFreezeMapSearch(e.target.checked));
         setFreeze({ freeze: e.target.checked });
     }
+    /*
     useEffect(() => {
         console.log('rendered');
     });
+    */
     return (
         <MapContainer
             id={id}

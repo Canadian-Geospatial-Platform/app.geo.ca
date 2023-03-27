@@ -786,7 +786,7 @@ const GeoSearch = (
     };
     const isMobile = useMediaQuery("(max-width: 760px)");
     useEffect(() => {
-        console.log(freeze);
+        // console.log(freeze);
         if (!freeze.freeze) {
             map.on('moveend', (event) => eventHandler(event, initKeyword));
         } else {

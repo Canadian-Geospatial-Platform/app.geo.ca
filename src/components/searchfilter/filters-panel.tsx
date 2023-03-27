@@ -67,15 +67,15 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             if (spatArray.indexOf('SPATIALEXTENT') > -1) {
                 if (bounds !== null) {
                     dispatch(setStoreBoundbox(bounds));
-                    console.log('set bounds', bounds);
+                    // console.log('set bounds', bounds);
                 }
                 if (center !== null) {
                     dispatch(setStoreCenter(center));
-                    console.log('set center', center);
+                    // console.log('set center', center);
                 }
                 if (zoom !== null) {
                     dispatch(setStoreZoom(zoom));
-                    console.log('set zoom', zoom);
+                    // console.log('set zoom', zoom);
                 }
             } else {
                 dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
@@ -135,12 +135,12 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setFReset(true);
     };
     const handleCenterChange = (newCenter: LatLng): void => {
-        console.log('set center', newCenter);
+        // console.log('set center', newCenter);
         setCenter(newCenter);
         setFReset(true);
     };
     const handleBoundboxChange = (boundbox: LatLngBounds) => {
-        console.log('set bbox', boundbox);
+        // console.log('set bbox', boundbox);
         setBounds(boundbox);
         setFReset(true);
     };
