@@ -86,7 +86,9 @@
         "label": {
             "spatial": {
                 "viewable-on-map": "Viewable({{param}})",
-                "not-viewable-on-map": "Non-viewable({{param}})"
+                "not-viewable-on-map": "Non-viewable({{param}})",
+                "opt": "Freeze spatial filtering",
+                "opt-tooltip": "placeholder for tooltip"
             },
             "stac": {
                 "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
@@ -94,7 +96,11 @@
             },
             "spatemp": {
                 "SPATIALEXTENT": "Spatial Extent",
-                "TEMPORALEXTENT": "Temporal Extent"
+                "TEMPORALEXTENT": "Temporal Extent",
+                "selectprovince": "Search provinces or territories",
+                "or": "or",
+                "search-extent": "Search extents...",
+                "select-extent": "Alternative search extents"
             }
         }
     },
@@ -250,5 +256,20 @@
             "gotomymap": "Go To MyMap",
             "cancel": "Cancel"
         }
+    },
+    "province": {
+        "AB": "Alberta",
+        "BC": "British Columbia",
+        "ON": "Ontario",
+        "QC": "Quebec",
+        "MB": "Manitoba",
+        "PEI": "Prince Edward Island",
+        "SK": "Saskatchewan",
+        "NL": "Newfoundland and Labrador",
+        "NS": "Nova Scotia",
+        "NB": "New Brunswick",
+        "NU": "Nunavut",
+        "NT": "Northwest Territories",
+        "YT": "Yukon"
     }
 }

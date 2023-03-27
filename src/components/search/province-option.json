@@ -1,0 +1,58 @@
+[
+    {
+        "label": "Please select one",
+        "value": ""
+    },
+    {
+        "label": "province.AB",
+        "value": "AB"
+    },
+    {
+        "label": "province.BC",
+        "value": "BC"
+    },
+    {
+        "label": "province.MB",
+        "value": "MB"
+    },
+    {
+        "label": "province.NB",
+        "value": "NB"
+    },
+    {
+        "label": "province.NL",
+        "value": "NL"
+    },
+    {
+        "label": "province.NT",
+        "value": "NT"
+    },
+    {
+        "label": "province.NS",
+        "value": "NS"
+    },
+    {
+        "label": "province.NU",
+        "value": "NU"
+    },
+    {
+        "label": "province.ON",
+        "value": "ON"
+    },
+    {
+        "label": "province.PEI",
+        "value": "PEI"
+    },
+    {
+        "label": "province.QC",
+        "value": "QC"
+    },
+    {
+        "label": "province.SK",
+        "value": "SK"
+    },
+    {
+        "label": "province.YT",
+        "value": "YT"
+    }
+]
