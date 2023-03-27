@@ -13,6 +13,9 @@ export interface MainMapInfo {
     zoom: number;
     center: LatLng;
 }
+export interface FreezeMapSpatial {
+    freeze: boolean;
+}
 export interface mappingState {
     mapping: mappingObj[];
     orgfilter: number[];
@@ -27,6 +30,7 @@ export interface mappingState {
     center: LatLng;
     zoom: number;
     boundbox?: LatLngBounds;
+    freezeMapSearch: FreezeMapSpatial;
 }
 export interface mappingObj {
     id: string;
@@ -81,7 +85,8 @@ const defaultState: mappingState = {
     stacData: { hnap: 0, stac: 0 },
     spatempfilter: INITSPATIALTEMPORALFILTER,
     center: INITMAINMAPINFO.center,
-    zoom: INITMAINMAPINFO.zoom
+    zoom: INITMAINMAPINFO.zoom,
+    freezeMapSearch: { freeze: true }
 };
 
 const mappingReducer = (
@@ -101,6 +106,8 @@ const mappingReducer = (
             return { ...state, spatialfilter: action.payload };
         case ActionType.SET_FOUND:
             return { ...state, foundational: action.payload };
+        case ActionType.SET_FREEZEMAPSEARCH:
+            return { ...state, freezeMapSearch: action.payload };
         case ActionType.SET_FILTERS:
             return { ...state, ...action.payload };
         case ActionType.SET_SPATIALDATA:

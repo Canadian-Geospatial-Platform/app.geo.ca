@@ -30,6 +30,7 @@ import AnalyticPanel from '../analytic/analytic-panel';
 import AccountPanel from '../account/account-panel';
 import HowtoPanel from '../howto/howto-panel';
 import './app-bar.scss';
+import { FreezeMapSpatial } from '../../reducers/reducer';
 
 const drawerWidth = 200;
 const drawerWidthFull = '100vw';
@@ -83,7 +84,7 @@ const useStyles = (panel: string) =>
     }));
 
 export function Appbar(props: AppBarProps): JSX.Element {
-    const { search, auth } = props;
+    const { search, auth, freeze } = props;
     const { t } = useTranslation();
     // const history = useHistory();
     const location = useLocation();
@@ -94,13 +95,13 @@ export function Appbar(props: AppBarProps): JSX.Element {
     const [open, setOpen] = useState(false);
     const [ksOnly, setKSOnly] = useState(queryParams.keyword_only === 'true');
     const [panel, setPanel] = useState(
-       (queryParams.keyword !== undefined ||
-        queryParams.keyword_only === 'true' ||
-        queryParams.org !== undefined ||
-        queryParams.type !== undefined ||
-        queryParams.foundational !== undefined ||
-        queryParams.theme !== undefined) ? ' search' : 
-        (queryParams.analytic !== undefined?' analytics':'')
+        (queryParams.keyword !== undefined ||
+            queryParams.keyword_only === 'true' ||
+            queryParams.org !== undefined ||
+            queryParams.type !== undefined ||
+            queryParams.foundational !== undefined ||
+            queryParams.theme !== undefined) ? ' search' :
+            (queryParams.analytic !== undefined ? ' analytics' : '')
     );
     const classes = useStyles(ksOnly ? 'ks' : panel === ' analytics' ? 'analytic' : '')();
     const language = t('app.language');
@@ -137,13 +138,13 @@ export function Appbar(props: AppBarProps): JSX.Element {
 
     useEffect(() => {
         setPanel(
-           (queryParams.keyword !== undefined ||
-            queryParams.keyword_only === 'true' ||
-            queryParams.org !== undefined || 
-            queryParams.type !== undefined ||
-            queryParams.foundational !== undefined ||
-            queryParams.theme !== undefined) ? ' search' : 
-            (queryParams.analytic !== undefined?' analytics':'')
+            (queryParams.keyword !== undefined ||
+                queryParams.keyword_only === 'true' ||
+                queryParams.org !== undefined ||
+                queryParams.type !== undefined ||
+                queryParams.foundational !== undefined ||
+                queryParams.theme !== undefined) ? ' search' :
+                (queryParams.analytic !== undefined ? ' analytics' : '')
         );
         setKSOnly(queryParams.keyword_only === 'true');
     }, [queryParams.keyword, queryParams.keyword_only, queryParams.org, queryParams.type, queryParams.theme, queryParams.foundational, queryParams.analytic]);
@@ -206,6 +207,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
                                 setKSOnly={setKSOnly}
                                 setKeyword={setKeyword}
                                 closeFunction={() => setPanel('')}
+                                freeze={freeze}
                             />
                         </div>
                     )}
@@ -290,4 +292,5 @@ export function Appbar(props: AppBarProps): JSX.Element {
 interface AppBarProps {
     search: boolean;
     auth: boolean;
+    freeze: FreezeMapSpatial;
 }
