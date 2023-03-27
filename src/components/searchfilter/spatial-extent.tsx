@@ -218,6 +218,7 @@ function MapHandler(props: MapHandlerProps) {
     }, [language]);
 
     useMapEvents({
+        /*
         resize: (event: ResizeEvent) => {
             console.log(event, map.getCenter(), bounds, document.fullscreenElement);
             const swMarkerPt = map.latLngToContainerPoint(bounds.getSouthWest());
@@ -235,8 +236,9 @@ function MapHandler(props: MapHandlerProps) {
             console.log(swMarkerPt, newSwMarkerPt, neMarkerPt, newNeMarkerPt);
             const newbounds = L.latLngBounds(map.containerPointToLatLng(newSwMarkerPt), map.containerPointToLatLng(newNeMarkerPt));
         },
+        */
         zoomstart: () => {
-            console.log('zoom start');
+            // console.log('zoom start');
             isZooming = true;
             orgSwMarkerPt = map.latLngToContainerPoint(bounds.getSouthWest());
             orgNeMarkerPt = map.latLngToContainerPoint(bounds.getNorthEast());
@@ -248,7 +250,7 @@ function MapHandler(props: MapHandlerProps) {
             isZooming = false;
         },
         movestart: () => {
-            console.log('move start');
+            // console.log('move start');
             if (!isZooming) {
                 orgSwMarkerPt = map.latLngToContainerPoint(bounds.getSouthWest());
                 orgNeMarkerPt = map.latLngToContainerPoint(bounds.getNorthEast());
@@ -411,7 +413,7 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                             });
                             setExtent(list[0].value);
                             setSearchResult(list);
-                            console.log(list);
+                            // console.log(list);
                         }
 
                         const box = items[0].bbox;
@@ -442,11 +444,11 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                 setLoading(false);
             });
     };
-
-    useEffect(() => {
-        console.log('rendered');
-    });
-
+    /*
+        useEffect(() => {
+            console.log('rendered');
+        });
+    */
     return (
         <div className="spatial-extent">
             <DropdownSelection

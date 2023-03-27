@@ -49,13 +49,13 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
     }, [filterselected]);
 
     const handleEndDateChange = (date) => {
-        console.log('end', date);
+        // console.log('end', date);
         setFselected({ ...filterselected, endDate: date.toISOString() });
         selectFilters({ ...filterselected, endDate: date.toISOString() });
     }
 
     const handleStartDateChange = (date) => {
-        console.log('start', date);
+        // console.log('start', date);
         setFselected({ ...filterselected, startDate: date.toISOString() });
         selectFilters({ ...filterselected, startDate: date.toISOString() });
     }
