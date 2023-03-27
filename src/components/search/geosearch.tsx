@@ -31,7 +31,7 @@ import {
     setStoreZoom, setThemeFilter, setTypeFilter
 } from '../../reducers/action';
 import { loadState } from '../../reducers/localStorage';
-import { FreezeMapSpatial, INITMAINMAPINFO, INITSPATIALTEMPORALFILTER, SpatialTemporalFilter } from '../../reducers/reducer';
+import { INITMAINMAPINFO, INITSPATIALTEMPORALFILTER, SpatialTemporalFilter } from '../../reducers/reducer';
 import { NavBar } from '../navbar/nav-bar';
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
@@ -51,8 +51,7 @@ const GeoSearch = (
     ksOnly: boolean,
     setKeyword: (kw: string) => void,
     setKSOnly: (kso: boolean) => void,
-    initKeyword: string,
-    freeze: FreezeMapSpatial
+    initKeyword: string
 ): JSX.Element => {
     const { t } = useTranslation();
     const history = useHistory();
@@ -233,9 +232,9 @@ const GeoSearch = (
         const mbounds = event.target.getBounds();
         // console.log(mbounds,bounds);
         // console.log(passkw);
-        // map.off('moveend');           
+        // map.off('moveend');
         if (!loading && mapCount === 0 && !Object.is(mbounds, initBounds)) {
-            // console.log('research:', loading, keyword, mapCount);            
+            // console.log('research:', loading, keyword, mapCount);
             mapCount++;
             setLoadingStatus(true);
             handleSearch(passkw, mbounds);
@@ -404,11 +403,7 @@ const GeoSearch = (
                 setKeyword(keyword);
                 setKWShowing([]);
                 setLoadingStatus(false);
-                if (!freeze.freeze) {
-                    map.on('moveend', (event) => eventHandler(event, keyword));
-                } else {
-                    map.off('moveend');
-                }
+                map.on('moveend', (event) => eventHandler(event, keyword));
                 mapCount = 0;
             });
     };
@@ -785,15 +780,6 @@ const GeoSearch = (
         setFReset(false);
     };
     const isMobile = useMediaQuery("(max-width: 760px)");
-    useEffect(() => {
-        console.log(freeze);
-        if (!freeze.freeze) {
-            map.on('moveend', (event) => eventHandler(event, initKeyword));
-        } else {
-            map.off('moveend');
-        }
-    }, [freeze]
-    );
     useEffect(() => {
         /* if (!sfloaded) {
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {

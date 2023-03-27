@@ -72,22 +72,12 @@
         "types": "Les Thèmes",
         "themes": "Thèmes",
         "foundational": "Données de base du Canada",
-        "spatial": {
-            "viewable-on-map": "Viewable({{param}})",
-            "not-viewable-on-map": "Non-viewable({{param}})",
-            "opt": "Freeze spatial filter",
-            "opt-tooltip": "Check this option to disable dynamic loading on search"
-        },
-        "stac": {
-            "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
-            "STAC": "Spatio Temporal Asset Catalog (STAC) ({{param}} records)"
-        },
+        "spatial": "Viewable on a Map",
         "spatemp": {
-            "SPATIALEXTENT": "Spatial Extent",
-            "TEMPORALEXTENT": "Temporal Extent",
-            "selectprovince": "Suggested extents",
-            "or": "or",
-            "search-extent": "Search extents..."
+            "title": "SPATIAL-TEMPORAL",
+            "temporal": "All times in Coordinated Universal Time (UTC).",
+            "startdate": "Start Date",
+            "enddate": "End Date"
         },
         "otherfilters": "Autres Filtres",
         "applyfilters": "Appliquer des Filtres",
@@ -259,20 +249,5 @@
             "gotomymap": "Aller à MaCarte",
             "cancel": "Annuler"
         }
-    },
-    "province": {
-        "AB": "l'Alberta",
-        "BC": "la Colombie-Britannique",
-        "ON": "l'Ontario",
-        "QC": "le Québec",
-        "MB": "le Manitoba",
-        "PEI": "l'île-du-Prince-Édouard",
-        "SK": "la Saskatchewan",
-        "NL": "la Terre-Neuve-et-Labrador",
-        "NS": "la Nouvelle-Écosse",
-        "NB": "le Nouveau-Brunswick",
-        "NU": "le Nunavut",
-        "NT": "les Territoires du Nord-Ouest",
-        "YT": "Le Yukon / le territoire du Yukon"
     }
 }

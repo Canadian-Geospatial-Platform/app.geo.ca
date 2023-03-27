@@ -35,9 +35,6 @@ export const loadState = (): StoreEnhancer<unknown, unknown> | undefined => {
         if (!checkNestedProperty(state, 'mappingReducer.zoom')) {
             state['mappingReducer'].zoom = INITMAINMAPINFO.zoom;
         }
-        if (!checkNestedProperty(state, 'mappingReducer.freezeMapSearch')) {
-            state['mappingReducer'].freezeMapSearch = { freeze: true };
-        }
         return state;
     } catch (err) {
         return undefined;

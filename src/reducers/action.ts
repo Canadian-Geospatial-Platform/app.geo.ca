@@ -1,6 +1,6 @@
 import { LatLng, LatLngBounds } from 'leaflet';
 import { SpatialData, StacData } from '../app';
-import { FreezeMapSpatial, mappingObj, SpatialTemporalFilter } from './reducer';
+import { MainMapInfo, mappingObj, SpatialTemporalFilter } from './reducer';
 
 /* eslint-disable prettier/prettier */
 export enum ActionType {
@@ -17,8 +17,7 @@ export enum ActionType {
     SET_SPATEMP = 'setSpatempFilter',
     SET_CENTER = 'setCenter',
     SET_ZOOM = 'setZoom',
-    SET_BOUNDBOX = 'setBoundbox',
-    SET_FREEZEMAPSEARCH = 'setFreezeMapSearch'
+    SET_BOUNDBOX = 'setBoundbox'
 }
 
 export interface Action {
@@ -41,10 +40,6 @@ export interface BooleanAction {
     payload: boolean;
 }
 
-export interface FreezeSpatialAction {
-    type: ActionType.SET_FREEZEMAPSEARCH;
-    payload: FreezeMapSpatial;
-}
 export interface FilterAction {
     type: ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME | ActionType.SET_SPATIAL | ActionType.SET_STAC;
     payload: number[];
@@ -106,10 +101,6 @@ export function setSpatialData(spatialData: SpatialData): SpatialAction {
 
 export function setFoundational(foundational: boolean): BooleanAction {
     return { type: ActionType.SET_FOUND, payload: foundational };
-}
-
-export function setFreezeMapSearch(freeze: boolean): FreezeSpatialAction {
-    return { type: ActionType.SET_FREEZEMAPSEARCH, payload: { freeze } };
 }
 
 export function setFilters(filters: Filters): FiltersAction {

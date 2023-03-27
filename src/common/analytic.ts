@@ -11,30 +11,30 @@ const EnvGlobals = envglobals();
 export const analyticPost = (aParams: AnalyticParams, successFunc?: any, errorFunc?: any) => {
     // console.log(aParams);
     axios.post(
-        `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.ANALYTIC}`,
-        aParams,
-        {
-            headers: {
-                'x-api-key': apiKey
-            }
+        `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.ANALYTIC}`, 
+        aParams, 
+        { 
+          headers: { 
+            'x-api-key': apiKey
+          }
         }
-    ).then((response) => typeof successFunc === 'function' ? successFunc(response) : {}
-    ).catch((error) => typeof errorFunc === 'function' ? errorFunc(error) : {});
-
+    ).then((response)=>typeof successFunc === 'function'?successFunc(response):{}
+    ).catch((error)=>typeof errorFunc === 'function'?errorFunc(error):{});
+  
 }
 
 export const analyticGet = (endpointUrl: string, aParams: LastAllParams, successFunc?: any, errorFunc?: any, finallyFunc?: any) => {
     // console.log(aParams);
     axios.get(
-        `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.ANALYTIC}/${endpointUrl}`,
-        {
-            params: aParams
+        `${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.ANALYTIC}/${endpointUrl}`, 
+        { 
+          params: aParams
         }
-    ).then((response) => typeof successFunc === 'function' ? successFunc(response) : {}
-    ).catch((error) => typeof errorFunc === 'function' ? errorFunc(error) : {}
-    ).finally(() => typeof finallyFunc === 'function' ? finallyFunc() : {});
+    ).then((response)=>typeof successFunc === 'function'?successFunc(response):{}
+    ).catch((error)=>typeof errorFunc === 'function'?errorFunc(error):{}
+    ).finally(()=>typeof finallyFunc === 'function'?finallyFunc():{});
 
-
+  
 }
 
 export interface AnalyticParams {
@@ -42,21 +42,18 @@ export interface AnalyticParams {
     theme?: string[];
     org?: string[];
     type_filter?: string[];
-    spatial_filter?: string[];
-    stac_filter?: string[];
-    spatial_temporal?: string[];
-    foundational?: 'true' | 'false';
+    foundational?: 'true'|'false';
     geo?: string;
     uuid?: string;
     resource?: string;
     resource_type?: string;
     loc: string;
-    lang: 'en' | 'fr';
-    type: 'access' | 'use' | 'search';
-    event: 'search' | 'view' | 'map' | 'footprint' | 'geocore' | 'resource' | 'hnap';
+    lang: 'en'|'fr';
+    type: 'access'|'use'|'search';
+    event: 'search'|'view'|'map'|'footprint'|'geocore'|'resource'|'hnap';
 }
 
 export interface LastAllParams {
-    lang?: 'en' | 'fr';
+    lang?: 'en'|'fr';
     org?: string[];
 }
