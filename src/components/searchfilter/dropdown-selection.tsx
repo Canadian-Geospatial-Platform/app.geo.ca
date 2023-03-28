@@ -11,7 +11,7 @@ const styles = {
     },
     select: {
         fontFamily: 'Open Sans',
-        fontSize: '0.875rem',
+        fontSize: '0.825rem',
         color: '#54595f',
     },
     divcontrol: {
@@ -24,14 +24,14 @@ const styles = {
         marginTop: '5px',
         display: 'flex',
         fontFamily: 'Open Sans',
-        fontSize: '0.875rem',
+        fontSize: '0.825rem',
     },
     icon: {
         fill: '#515aa9',
     },
     option: {
         fontFamily: 'Open Sans',
-        fontSize: '0.875rem',
+        fontSize: '0.825rem',
         color: '#54595f',
     },
     root: {
