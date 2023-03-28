@@ -16,7 +16,7 @@ The Geocore application found at app.geo.ca is an open source react application 
 
 ### License
 
-geocore application is distributed by an [MIT license](https://github.com/Canadian-Geospatial-Platform/app.geo.ca/tree/main/LICENSE.txt).
+The geocore application is distributed by an [MIT license](https://github.com/Canadian-Geospatial-Platform/app.geo.ca/tree/main/LICENSE.txt).
 
 
 # Une application open source pour explorer Geocore, un catalogue géospatial natif du cloud.
