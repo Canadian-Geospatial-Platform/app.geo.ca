@@ -13,9 +13,9 @@
 # you will see them accessed via {{ site.title }}, {{ site.github_repo }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: geocore
-description: An Open Source Cloud Native Geospatial Catalog
-baseurl: "/geocore" # the subpath of your site, e.g. /blog
+title: app.geo.ca
+description: An Open Source Application for the GeoCore Cloud Native Geospatial Catalog
+baseurl: "/app.geo.ca" # the subpath of your site, e.g. /blog
 url: "https://canadian-geospatial-platform.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 permalink: pretty
