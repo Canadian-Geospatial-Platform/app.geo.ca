@@ -15,7 +15,7 @@
 # in the templates via {{ site.myvariable }}.
 title: geocore appication
 description: An Open Source Application to Explore Geocore, A Cloud Native Geospatial Catalog.
-baseurl: "/app-geo-ca" # the subpath of your site, e.g. /blog
+baseurl: "/app.geo.ca" # the subpath of your site, e.g. /blog
 url: "https://canadian-geospatial-platform.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 permalink: pretty
