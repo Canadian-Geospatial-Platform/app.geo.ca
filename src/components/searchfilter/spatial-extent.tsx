@@ -509,7 +509,7 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                 {basemaps.map((base: { id: string | number | null | undefined; url: string }) => (
                     <TileLayer key={base.id} url={base.url} />
                 ))}
-                <NavBar />
+                <NavBar excludeFullHome />
 
                 <Rectangle bounds={bounds} pathOptions={{ color: '#515aa9', weight: 1, opacity: 0.5 }} />
 

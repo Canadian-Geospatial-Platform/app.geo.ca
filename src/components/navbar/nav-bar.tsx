@@ -29,8 +29,11 @@ const useStyles = makeStyles((theme) => ({
         pointerEvents: 'auto',
     }
 }));
-
-export function NavBar(): JSX.Element {
+export interface NavBarProps {
+    excludeFullHome?: boolean;
+}
+export function NavBar(props: NavBarProps): JSX.Element {
+    const { excludeFullHome } = props;
     const classes = useStyles();
     const { t } = useTranslation();
 
@@ -41,10 +44,12 @@ export function NavBar(): JSX.Element {
                     <ZoomIn />
                     <ZoomOut />
                 </ButtonGroup>
-                <ButtonGroup orientation="vertical" aria-label={t('mapnav.ariaNavbar', '')} variant="contained">
-                    <Fullscreen />
-                    <Home />
-                </ButtonGroup>
+                {!excludeFullHome &&
+                    <ButtonGroup orientation="vertical" aria-label={t('mapnav.ariaNavbar', '')} variant="contained">
+                        <Fullscreen />
+                        <Home />
+                    </ButtonGroup>
+                }
             </div>
         </div>
     );
