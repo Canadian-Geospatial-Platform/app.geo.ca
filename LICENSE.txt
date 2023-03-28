@@ -1,0 +1,37 @@
+geocore - Terms and Conditions of Use
+
+Unless otherwise noted, computer program source code of the Federal Geospatial Platform (FGP) is covered under Crown Copyright, Government of Canada, and is distributed under the MIT License.
+
+The Canada wordmark and related graphics associated with this distribution are protected under trademark law and copyright law. No permission is granted to use them outside the parameters of the Government of Canada's corporate identity program. For more information, see http://www.tbs-sct.gc.ca/fip-pcim/index-eng.asp
+
+Copyright title to all 3rd party software distributed with the Federal Geospatial Platform (FGP) is held by the respective copyright holders as noted in those files. Users are asked to read the 3rd Party Licenses referenced with those assets.
+
+MIT License
+
+Copyright (c) 2022 Government of Canada
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-------------------------------------------------------------------
+
+geocore - Termes et conditions d'utilisation
+
+Sauf indication contraire, le code source du programme informatique de la Plateforme géospatiale fédérale (FGP) est couvert par le droit d'auteur de la Couronne, gouvernement du Canada, et est distribué sous la licence MIT.
+
+Le mot-symbole Canada et les graphiques connexes associés à cette distribution sont protégés par la loi sur les marques de commerce et la loi sur le droit d'auteur. Aucune autorisation n'est accordée pour les utiliser en dehors des paramètres du programme d'image de marque du gouvernement du Canada. Pour plus d'informations, voir http://www.tbs-sct.gc.ca/fip-pcim/index-fra.asp
+
+Le droit d'auteur sur tous les logiciels tiers distribués avec la plateforme géospatiale fédérale (FGP) est détenu par les détenteurs de droits d'auteur respectifs, comme indiqué dans ces fichiers. Les utilisateurs sont invités à lire les licences tierces référencées avec ces actifs.
+
+Licence MIT
+
+Copyright (c) 2022 Gouvernement du Canada
+
+L'autorisation est accordée, gratuitement, à toute personne obtenant une copie de ce logiciel et des fichiers de documentation associés (le "Logiciel"), de traiter le Logiciel sans restriction, y compris, sans limitation, les droits d'utilisation, de copie, de modification, de fusion , publier, distribuer, concéder en sous-licence et/ou vendre des copies du Logiciel, et permettre aux personnes à qui le Logiciel est fourni de le faire, sous réserve des conditions suivantes :
+
+L'avis de droit d'auteur ci-dessus et cet avis d'autorisation doivent être inclus dans toutes les copies ou parties substantielles du Logiciel.
+
+LE LOGICIEL EST FOURNI "TEL QUEL", SANS GARANTIE D'AUCUNE SORTE, EXPRESSE OU IMPLICITE, Y COMPRIS, MAIS SANS S'Y LIMITER, LES GARANTIES DE QUALITÉ MARCHANDE, D'ADÉQUATION À UN USAGE PARTICULIER ET D'ABSENCE DE CONTREFAÇON. EN AUCUN CAS, LES AUTEURS OU LES DÉTENTEURS DU COPYRIGHT NE SERONT RESPONSABLES DE TOUTE RÉCLAMATION, DOMMAGE OU AUTRE RESPONSABILITÉ, QUE CE SOIT DANS UNE ACTION CONTRACTUELLE, DÉLICTUELLE OU AUTRE, DÉCOULANT DE, DE OU EN RELATION AVEC LE LOGICIEL OU L'UTILISATION OU D'AUTRES TRANSACTIONS DANS LE LOGICIEL.
