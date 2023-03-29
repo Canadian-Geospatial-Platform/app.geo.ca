@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Architecture / Architecture
-nav_order: 4
+nav_order: 2
 ---
 
 # Foundational Architecture / Architecture fondamentale
@@ -17,26 +17,22 @@ nav_order: 4
 
 # Foundational Architecture
 
-We store individual geoCore files for each item in an Amazon s3 bucket. To allow for faster search, we combine these individual files into a [parquet file](https://parquet.apache.org/). Once the parquet file is created and stored in another Amazon s3 bucket, we use [AWS Glue](https://aws.amazon.com/glue/) and [AWS Athena](https://aws.amazon.com/athena/). AWS Athena and AWS Glue work together to enable SQL queries against non-SQL data. This allows us to create sql like tables in athena using this parquet file. We can access AWS Athena with sql queries to search and discover our metadata records in the geocore data lake.
+We host the geocore application on Amazon Web Services (AWS) utilizing Github as the source for the build files. Once this repository is updated, an Amazon CodePipeline is triggered. It builds the application and deploys it to Amazon s3. It's served to the public through AWS Cloudfront and a Web Application Firewall (WAF) to enhance security. 
 
-To enable the scalability of the system, we use AWS Lambda functions to carry out the main tasks of the system. This allows us to scale the system to millions of concurrent activities without endangering the functionality of the system. We use AWS lambda primarily as microservices, where one lambda function does one function, and that one function really well. It can be accessed with AWS API Gateway using AWS Cloudfront and security to enable the best protection of the system.
-
-This lays out the foundational architecture of the geoCore system, now we will describe the additional and optional functions that we have created in the system to power [GEO.CA](https://geo.ca/).
+If you are building this application yourself, you may be able to use managed services such as AWS Amplify, or other cloud platforms to accomplish a similar strucutre. Please remember that the current application requires Geocore API endpoints, you can use GEO.CA's endpoints found on the geocore documentation, or you can build your own instance.
 
 ## Architecture Overview
 
-![This is an image](../assets/images/geocore.png)
+![This is an image](../assets/images/app-geo-ca.png)
 
 ---
 
 # Architecture fondamentale
 
-Nous stockons des fichiers geoCore individuels pour chaque élément dans un compartiment Amazon s3. Pour permettre une recherche plus rapide, nous combinons ces fichiers individuels dans un [fichier parquet](https://parquet.apache.org/). Une fois le fichier parquet créé et stocké dans un autre compartiment Amazon s3, nous utilisons [AWS Glue](https://aws.amazon.com/glue/) et [AWS Athena](https://aws.amazon.com/ athéna/). AWS Athena et AWS Glue fonctionnent ensemble pour activer les requêtes SQL sur des données non SQL. Cela nous permet de créer des tables de type sql dans athena en utilisant ce fichier parquet. Nous pouvons accéder à AWS Athena avec des requêtes SQL pour rechercher et découvrir nos enregistrements de métadonnées dans le lac de données géocore.
+Nous hébergeons l'application geocore sur Amazon Web Services (AWS) en utilisant Github comme source pour les fichiers de construction. Une fois ce référentiel mis à jour, un Amazon CodePipeline est déclenché. Il crée l'application et la déploie sur Amazon s3. Il est servi au public via AWS Cloudfront et un pare-feu d'application Web (WAF) pour renforcer la sécurité.
 
-Pour permettre l'évolutivité du système, nous utilisons les fonctions AWS Lambda pour effectuer les principales tâches du système. Cela nous permet d'adapter le système à des millions d'activités simultanées sans mettre en danger la fonctionnalité du système. Nous utilisons AWS lambda principalement en tant que microservices, où une fonction lambda remplit une fonction, et celle-ci fonctionne très bien. Il est accessible avec AWS API Gateway en utilisant AWS Cloudfront et la sécurité pour permettre la meilleure protection du système.
-
-Ceci expose l'architecture fondamentale du système geoCore, nous allons maintenant décrire les fonctions supplémentaires et optionnelles que nous avons créées dans le système pour alimenter [GEO.CA](https://geo.ca/).
+Si vous créez vous-même cette application, vous pourrez peut-être utiliser des services gérés tels qu'AWS Amplify ou d'autres plates-formes cloud pour réaliser une structure similaire. N'oubliez pas que l'application actuelle nécessite des points de terminaison de l'API Geocore, vous pouvez utiliser les points de terminaison de GEO.CA trouvés dans la documentation geocore ou vous pouvez créer votre propre instance.
 
 ## Présentation de l'architecture
 
-![This is an image](../assets/images/geocore.png)
+![This is an image](../assets/images/app-geo-ca.png)

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Build Instructions / Instructions de construction
-nav_order: 2
+nav_order: 3
 ---
 
 # Build Instructions / Instructions de construction
