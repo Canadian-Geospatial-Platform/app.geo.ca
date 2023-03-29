@@ -80,7 +80,7 @@ nav_sort: case_sensitive # Capital letters sorted before lowercase
 nav_external_links:
 
   - title: Build Document / Créer un document
-    url: https://github.com/Canadian-Geospatial-Platform/app.geo.ca/blob/main/docs/Build%20Document%20app.geo.ca.docx
+    url: https://github.com/Canadian-Geospatial-Platform/app.geo.ca/tree/page/docs
 
   - title: AWS Cloud Formations / Formations cloud AWS
     url: https://github.com/Canadian-Geospatial-Platform/geocore/tree/main/docs/cloudformation
