@@ -1,13 +1,13 @@
-# geocore #
+# geocore application #
 
-GeoCore is an Open Source Cloud Native (AWS) Geospatial Catalog for accessing and sharing geospatial content.
+The Geocore application found at app.geo.ca is an open source react application created to expore the geocore geospatial library.
 
-Documentation can be found [here](https://canadian-geospatial-platform.github.io/geocore/).
+Documentation can be found [here](https://canadian-geospatial-platform.github.io/app.geo.ca/).
 
 ---
 
-# geocore #
+# application géocore #
 
-GeoCore est un catalogue géospatial Open Source Cloud Native (AWS) permettant d'accéder et de partager du contenu géospatial.
+L'application Geocore disponible sur app.geo.ca est une application de réaction open source créée pour explorer la bibliothèque géospatiale geocore.
 
-La documentation est disponible [ici](https://canadian-geospatial-platform.github.io/geocore/).
+La documentation peut être trouvée [ici](https://canadian-geospatial-platform.github.io/app.geo.ca/).
