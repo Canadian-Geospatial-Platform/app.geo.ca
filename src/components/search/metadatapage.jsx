@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react/destructuring-assignment */
 /* jshint esversion: 6 */
 /* eslint-disable jsx-a11y/no-redundant-roles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -43,10 +42,9 @@ import './metadatapage.scss';
 
 const EnvGlobals = envglobals();
 
-const MetaDataPage = (props) => {
+const MetaDataPage = () => {
     const location = useLocation();
     const history = useHistory();
-    const { pathlang } = props.match.params;
     const queryParams = getQueryParams(location.search);
     const stateKO = location.state && location.state.stateKO ? location.state.stateKO : false;
     const stateKeyword = location.state && location.state.stateKeyword ? location.state.stateKeyword : '';
@@ -294,6 +292,8 @@ const MetaDataPage = (props) => {
         return paraArray.map((pt, i) => pt.trim().length>0 ? <p key={`pt${i}`} dangerouslySetInnerHTML={{__html: convertDesc(pt)}} /> : <br key={`pt${i}`} /> );
     }
 
+    
+
     useEffect(() => {
       if (rid !== '') {
           handleSearch(rid);
@@ -305,12 +305,6 @@ const MetaDataPage = (props) => {
             window.removeEventListener('storage', getInMapping);
       };
     }, [language, rid]);
-
-    useEffect(() => {
-        if ( pathlang !== language && metaresult !== null && rid !== '') {
-            window.location.href = `/result/${language}/${encodeURI(metaresult.mappingtitle[language].trim().toLowerCase())}?id=${encodeURI(rid.trim())}&lang=${language}`
-        }
-    }, [metaresult, pathlang, language, rid]);
 
     return (
     <div className="pageContainer resultPage">
@@ -375,7 +369,7 @@ const MetaDataPage = (props) => {
                     <div key={`rm-${rmIndex}`} className="container-search-result container-search-result-two-col">
                     <Helmet>
                         <title>{result.title} - GEO.CA Viewer</title>
-                        <link rel="alternate" hrefLang={`${language}-ca`} href={encodeURI(`https://app.geo.ca/result/${language}/${encodeURI(result.title.trim().toLowerCase())}/`)} />
+                        <link rel="alternate" hrefLang={`${language}-ca`} href={`https://app.geo.ca/result/${language}/${result.mappingtitle['en'].replace(/ /g,'-').toLowerCase()}/`} />
                         <meta name="description" content={result.description} />
                         <meta property="og:title" content={result.title} />
                         <meta property="og:description" content={result.description} />

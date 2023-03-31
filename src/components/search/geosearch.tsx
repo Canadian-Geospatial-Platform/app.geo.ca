@@ -163,7 +163,7 @@ const GeoSearch = (
             });
     };
 
-    const handleView = (evt: React.MouseEvent<HTMLButtonElement>, id: string, title: string) => {
+    const handleView = (evt: React.MouseEvent<HTMLButtonElement>, id: string) => {
         evt.stopPropagation();
         const viewParams: AnalyticParams = {
             search: analyticParams.search,
@@ -189,7 +189,7 @@ const GeoSearch = (
         }
         analyticPost(viewParams);
         history.push({
-            pathname: `/result/${language}/${encodeURI(title.trim().toLowerCase())}`,
+            pathname: '/result',
             search: `id=${encodeURI(id.trim())}&lang=${language}`,
             state: {
                 stateKO: ksOnly,
@@ -934,7 +934,7 @@ const GeoSearch = (
                                                 <button
                                                     type="button"
                                                     className="btn btn-search"
-                                                    onClick={(e) => handleView(e, result.id, result.title)}
+                                                    onClick={(e) => handleView(e, result.id)}
                                                     aria-label={result.title}
                                                     autoFocus = {cpn && keywords.length===0 && mindex===0?true:false}
                                                 >
@@ -1006,7 +1006,7 @@ const GeoSearch = (
                                         <button
                                             type="button"
                                             className="btn btn-sm searchButton"
-                                            onClick={(e) => handleView(e, result.id, result.title)}
+                                            onClick={(e) => handleView(e, result.id)}
                                             aria-label={result.title}
 
                                         >
