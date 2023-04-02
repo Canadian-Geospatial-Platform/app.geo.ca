@@ -1,38 +1,13 @@
-# GeoView
+# geocore application #
 
-The GEO.CA intends to deploy new infrastructure, tools and web integration of GeoCore, a new geospatial metadata lake library capable of supporting multiple metadata standards. In recognition of these desired capabilities, it needs a lightweight viewer to incorporate in their infrastructure. The need is to have a simple and flexible viewer to display geospatial data from GeoCore metadata lake on a map with limited functionalities.
+The Geocore application found at app.geo.ca is an open source react application created to expore the geocore geospatial library.
 
-[Demo](https://jolevesq.github.io/GeoView/index.html)
+Documentation can be found [here](https://canadian-geospatial-platform.github.io/app.geo.ca/).
 
-## Solution
+---
 
-GeoView mapping capabilites are based on [Leafet](https://github.com/Leaflet/Leaflet) open source viewer. The overall project uses the latest [React](https://reactjs.org/) framework version 17+. With this in mind, here is the list of the main dependencies
+# application géocore #
 
--   [react-leaflet](https://react-leaflet.js.org/) version 3+ to make the link between Leafelt and React
--   [i18next](https://www.i18next.com/) to do localization in English and French
--   [material-ui](https://material-ui.com/) to do the layout
+L'application Geocore disponible sur app.geo.ca est une application de réaction open source créée pour explorer la bibliothèque géospatiale geocore.
 
-## Developpement
-
-Developement is made with VisualStudio Code and uses few extentions to help linting and formating
-
--   Prettier
--   ESLint
--   Better Comments
-
-## Building the project
-
-To install the project, just run
-`npm install`
-
-To serve the project, just run
-`npm run serve` and GeoView will be serve from http://localhost:8080/
-
-## Mock Api for testing locally
-
-Run `npm install -g json-server` to install json-server
-Run `json-server --watch mockapi-data/sortby-date.json --port 3000` to start mocked APIs
-
-## Contributing to the project
-
-_Work in progress_
+La documentation peut être trouvée [ici](https://canadian-geospatial-platform.github.io/app.geo.ca/).
