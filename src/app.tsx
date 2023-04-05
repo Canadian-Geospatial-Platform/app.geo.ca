@@ -101,7 +101,7 @@ const Routing = () => {
                 <Switch>
                     <Route exact path="/" component={RenderMap} />
                     {/* <Route exact path="/search" component={KeywordSearch} /> */}
-                    <Route exact path="/result" component={MetaDataPage} />
+                    <Route exact path="/result/:pathlang/:title" component={MetaDataPage} />
                     <Route exact path="/map" component={RampViewer} />
                     <Route path='/404' component={() => {
                         window.location.href = 'https://geo.ca/404.html';

@@ -42,9 +42,10 @@ import './metadatapage.scss';
 
 const EnvGlobals = envglobals();
 
-const MetaDataPage = () => {
+const MetaDataPage = (props) => {
     const location = useLocation();
     const history = useHistory();
+    const { pathlang } = props.match.params;
     const queryParams = getQueryParams(location.search);
     const stateKO = location.state && location.state.stateKO ? location.state.stateKO : false;
     const stateKeyword = location.state && location.state.stateKeyword ? location.state.stateKeyword : '';
@@ -306,6 +307,13 @@ const MetaDataPage = () => {
       };
     }, [language, rid]);
 
+    
+    useEffect(() => {
+        if ( pathlang !== language && metaresult !== null && rid !== '') {
+            window.location.href = `/result/${language}/${encodeURI(metaresult.mappingtitle[language].trim().toLowerCase())}?id=${encodeURI(rid.trim())}&lang=${language}`
+        }
+    }, [metaresult, pathlang, language, rid]);
+
     return (
     <div className="pageContainer resultPage">
         <div className="resultContainer" aria-live="assertive" aria-busy={loading ? "true" : "false"} >
@@ -369,7 +377,7 @@ const MetaDataPage = () => {
                     <div key={`rm-${rmIndex}`} className="container-search-result container-search-result-two-col">
                     <Helmet>
                         <title>{result.title} - GEO.CA Viewer</title>
-                        <link rel="alternate" hrefLang={`${language}-ca`} href={`https://app.geo.ca/result/${language}/${result.mappingtitle['en'].replace(/ /g,'-').toLowerCase()}/`} />
+                        <link rel="alternate" hrefLang={`${language}-ca`} href={encodeURI(`https://app.geo.ca/result/${language}/${encodeURI(result.title.trim().toLowerCase())}/`)} />
                         <meta name="description" content={result.description} />
                         <meta property="og:title" content={result.title} />
                         <meta property="og:description" content={result.description} />
