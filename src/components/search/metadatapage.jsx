@@ -310,7 +310,7 @@ const MetaDataPage = (props) => {
     
     useEffect(() => {
         if ( pathlang !== language && metaresult !== null && rid !== '') {
-            window.location.href = `/result/${language}/${encodeURI(metaresult.mappingtitle[language].trim().toLowerCase())}?id=${encodeURI(rid.trim())}&lang=${language}`
+            window.location.href = `/result/${language}/${encodeURI(metaresult.mappingtitle[language].trim().toLowerCase().replaceAll(" ", "-"))}?id=${encodeURI(rid.trim())}&lang=${language}`
         }
     }, [metaresult, pathlang, language, rid]);
 
@@ -377,7 +377,7 @@ const MetaDataPage = (props) => {
                     <div key={`rm-${rmIndex}`} className="container-search-result container-search-result-two-col">
                     <Helmet>
                         <title>{result.title} - GEO.CA Viewer</title>
-                        <link rel="alternate" hrefLang={`${language}-ca`} href={encodeURI(`https://app.geo.ca/result/${language}/${encodeURI(result.title.trim().toLowerCase())}/`)} />
+                        <link rel="alternate" hrefLang={`${language}-ca`} href={encodeURI(`https://app.geo.ca/result/${language}/${encodeURI(result.title.trim().toLowerCase().replaceAll(" ", "-"))}/`)} />
                         <meta name="description" content={result.description} />
                         <meta property="og:title" content={result.title} />
                         <meta property="og:description" content={result.description} />

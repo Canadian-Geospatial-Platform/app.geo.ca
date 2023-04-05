@@ -189,7 +189,7 @@ const GeoSearch = (
         }
         analyticPost(viewParams);
         history.push({
-            pathname: `/result/${language}/${encodeURI(title.trim().toLowerCase())}`,
+            pathname: `/result/${language}/${encodeURI(title.trim().toLowerCase().replaceAll(" ", "-"))}`,
             search: `id=${encodeURI(id.trim())}&lang=${language}`,
             state: {
                 stateKO: ksOnly,
