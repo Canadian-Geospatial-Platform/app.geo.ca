@@ -189,7 +189,7 @@ const GeoSearch = (
             viewParams.foundational = analyticParams.foundational;
         }
         analyticPost(viewParams);
-        if (evt.nativeEvent.which === 1) {
+        if (evt.button === 0) {
             history.push({
                 pathname: `/result/${language}/${encodeURI(title.trim().toLowerCase().replaceAll(" ", "-"))}`,
                 search: `id=${encodeURI(id.trim())}&lang=${language}`,
@@ -200,7 +200,7 @@ const GeoSearch = (
                     stateBounds: initBounds,
                 },
             });
-        } else if (evt.nativeEvent.which === 3) {
+        } else if (evt.button === 1) {
             const metadataState = {
                 lang: `${language}`,
                 id: `${encodeURI(id.trim())}`,
@@ -949,8 +949,7 @@ const GeoSearch = (
                                                 <button
                                                     type="button"
                                                     className="btn btn-search"
-                                                    onClick={(e) => handleView(e, result.id, result.title)}
-                                                    onContextMenu={(e) => handleView(e, result.id, result.title)}
+                                                    onMouseUp={(e) => handleView(e, result.id, result.title)}
                                                     aria-label={result.title}
                                                     autoFocus={cpn && keywords.length === 0 && mindex === 0 ? true : false}
                                                 >
@@ -1022,10 +1021,8 @@ const GeoSearch = (
                                             <button
                                                 type="button"
                                                 className="btn btn-sm searchButton"
-                                                onClick={(e) => handleView(e, result.id, result.title)}
-                                                onContextMenu={(e) => handleView(e, result.id, result.title)}
+                                                onMouseUp={(e) => handleView(e, result.id, result.title)}
                                                 aria-label={result.title}
-
                                             >
                                                 {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                             </button>
