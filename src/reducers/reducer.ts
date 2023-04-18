@@ -2,7 +2,19 @@
 import { LatLng, LatLngBounds } from 'leaflet';
 import { SpatialData, StacData } from '../app';
 import { getMapOptions, MapOptions } from '../common/map';
-import { Action, ActionType, BooleanAction, CenterAction, FilterAction, FiltersAction, MainMapInfoAction, SpatialAction, SpatialTemporalAction, StacAction, ZoomAction } from './action';
+import {
+    Action,
+    ActionType,
+    BooleanAction,
+    CenterAction,
+    FilterAction,
+    FiltersAction,
+    MainMapInfoAction,
+    SpatialAction,
+    SpatialTemporalAction,
+    StacAction,
+    ZoomAction,
+} from './action';
 
 export interface SpatialTemporalFilter {
     extents: number[];
@@ -72,7 +84,11 @@ const initcenter: LatLng = new LatLng(config.center[0], config.center[1]);
 // const initbounds = mapOptions.maxBounds ? mapOptions.maxBounds : new LatLngBounds(southwest, northeast);
 export const INITCONFIGINFO: ConfigInfo = { projection: config.projection, zoomFactor: mapOptions.zoomFactor };
 export const INITMAINMAPINFO: MainMapInfo = { center: initcenter, zoom: config.zoom };
-export const INITSPATIALTEMPORALFILTER: SpatialTemporalFilter = { extents: [], startDate: new Date().toISOString(), endDate: new Date().toISOString() };
+export const INITSPATIALTEMPORALFILTER: SpatialTemporalFilter = {
+    extents: [],
+    startDate: new Date().toISOString(),
+    endDate: new Date().toISOString(),
+};
 const defaultState: mappingState = {
     mapping: [],
     orgfilter: [],
@@ -86,12 +102,23 @@ const defaultState: mappingState = {
     spatempfilter: INITSPATIALTEMPORALFILTER,
     center: INITMAINMAPINFO.center,
     zoom: INITMAINMAPINFO.zoom,
-    freezeMapSearch: { freeze: true }
+    freezeMapSearch: { freeze: false },
 };
 
 const mappingReducer = (
     state: mappingState = defaultState,
-    action: Action | BooleanAction | FilterAction | FiltersAction | SpatialAction | StacAction | SpatialTemporalAction | MainMapInfoAction | CenterAction | ZoomAction | BoundsAction
+    action:
+        | Action
+        | BooleanAction
+        | FilterAction
+        | FiltersAction
+        | SpatialAction
+        | StacAction
+        | SpatialTemporalAction
+        | MainMapInfoAction
+        | CenterAction
+        | ZoomAction
+        | BoundsAction
 ): mappingState => {
     switch (action.type) {
         case ActionType.SET_MAPPING:

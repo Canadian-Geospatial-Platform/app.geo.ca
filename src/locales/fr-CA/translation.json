@@ -72,22 +72,13 @@
         "types": "Les Thèmes",
         "themes": "Thèmes",
         "foundational": "Données de base du Canada",
-        "spatial": {
-            "viewable-on-map": "Viewable({{param}})",
-            "not-viewable-on-map": "Non-viewable({{param}})",
-            "opt": "Freeze spatial filter",
-            "opt-tooltip": "Check this option to disable dynamic loading on search"
-        },
-        "stac": {
-            "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
-            "STAC": "Spatio Temporal Asset Catalog (STAC) ({{param}} records)"
-        },
+        "spatial": "Viewable on a Map",
+        "stac": "Metadata Standard",
         "spatemp": {
-            "SPATIALEXTENT": "Spatial Extent",
-            "TEMPORALEXTENT": "Temporal Extent",
-            "selectprovince": "Suggested extents",
-            "or": "or",
-            "search-extent": "Search extents..."
+            "title": "SPATIAL-TEMPORAL",
+            "temporal": "All times in Coordinated Universal Time (UTC).",
+            "startdate": "Start Date",
+            "enddate": "End Date"
         },
         "otherfilters": "Autres Filtres",
         "applyfilters": "Appliquer des Filtres",
@@ -95,7 +86,9 @@
         "label": {
             "spatial": {
                 "viewable-on-map": "Viewable({{param}})",
-                "not-viewable-on-map": "Non-viewable({{param}})"
+                "not-viewable-on-map": "Non-viewable({{param}})",
+                "opt": "Freeze spatial filtering",
+                "opt-tooltip": "placeholder for tooltip"
             },
             "stac": {
                 "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
@@ -103,7 +96,11 @@
             },
             "spatemp": {
                 "SPATIALEXTENT": "Spatial Extent",
-                "TEMPORALEXTENT": "Temporal Extent"
+                "TEMPORALEXTENT": "Temporal Extent",
+                "selectprovince": "Search provinces or territories",
+                "or": "or",
+                "search-extent": "Search extents...",
+                "select-extent": "Alternative search extents"
             }
         }
     },
