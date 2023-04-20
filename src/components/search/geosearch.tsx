@@ -187,7 +187,8 @@ const GeoSearch = (
             });
     };
 
-    const handleView = (evt: React.MouseEvent<HTMLButtonElement>, id: string) => {
+    const handleView = (evt: React.MouseEvent<HTMLButtonElement>, id: string, title: string) => {
+        console.log(evt);
         evt.stopPropagation();
         const viewParams: AnalyticParams = {
             search: analyticParams.search,
@@ -212,16 +213,30 @@ const GeoSearch = (
             viewParams.foundational = analyticParams.foundational;
         }
         analyticPost(viewParams);
-        history.push({
-            pathname: '/result',
-            search: `id=${encodeURI(id.trim())}&lang=${language}`,
-            state: {
+        if (evt.button === 0) {
+            history.push({
+                pathname: `/result/${language}/${encodeURI(title.trim().toLowerCase().replaceAll(" ", "-"))}`,
+                search: `id=${encodeURI(id.trim())}&lang=${language}`,
+                state: {
+                    stateKO: ksOnly,
+                    stateKeyword: initKeyword,
+                    statePn: pn,
+                    stateBounds: initBounds,
+                },
+            });
+        } else if (evt.button === 1) {
+            const metadataState = {
+                lang: `${language}`,
+                id: `${encodeURI(id.trim())}`,
+                title: `${encodeURI(title.trim().toLowerCase().replaceAll(" ", "-"))}`,
                 stateKO: ksOnly,
                 stateKeyword: initKeyword,
                 statePn: pn,
-                stateBounds: initBounds,
-            },
-        });
+                stateBounds: initBounds
+            };
+            localStorage.setItem('metadataState', JSON.stringify(metadataState));
+            window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, '_blank', 'noreferrer');
+        }
     };
 
     const handleChange = (e: ChangeEvent) => {
@@ -1223,7 +1238,7 @@ const GeoSearch = (
                                                 <button
                                                     type="button"
                                                     className="btn btn-search"
-                                                    onClick={(e) => handleView(e, result.id)}
+                                                    onMouseUp={(e) => handleView(e, result.id, result.title)}
                                                     aria-label={result.title}
                                                     autoFocus={cpn && keywords.length === 0 && mindex === 0 ? true : false}
                                                 >
@@ -1295,7 +1310,7 @@ const GeoSearch = (
                                             <button
                                                 type="button"
                                                 className="btn btn-sm searchButton"
-                                                onClick={(e) => handleView(e, result.id)}
+                                                onMouseUp={(e) => handleView(e, result.id, result.title)}
                                                 aria-label={result.title}
 
                                             >

@@ -22,7 +22,6 @@ import { Map } from './components/map/map';
 // import KeywordSearch from './components/search/keywordsearch';
 import MetaDataPage from './components/search/metadatapage';
 import RampViewer from './components/rampviewer/rampviewer';
-
 import CgpModal from './components/modal/cgpmodal';
 
 import '../node_modules/leaflet/dist/leaflet.css';
@@ -132,9 +131,13 @@ const Routing = () => {
             <Switch>
                 <Route exact path="/" component={RenderMap} />
                 {/* <Route exact path="/search" component={KeywordSearch} /> */}
-                <Route exact path="/result" component={MetaDataPage} />
+                <Route exact path="/result/:pathlang/:title" component={MetaDataPage} />
                 <Route exact path="/map" component={RampViewer} />
-                <Route path="/404" render={() => <div>404 - Not Found</div>} />
+                <Route exact path="/result" component={MetaDataPage} />
+                <Route path='/404' component={() => {
+                    window.location.href = 'https://geo.ca/404.html';
+                    return null;
+                }} />
                 <Redirect to="/404" />
             </Switch>
             {/* </StrictMode> */}
