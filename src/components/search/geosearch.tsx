@@ -164,6 +164,7 @@ const GeoSearch = (
     };
 
     const handleView = (evt: React.MouseEvent<HTMLButtonElement>, id: string, title: string) => {
+        console.log(evt);
         evt.stopPropagation();
         const viewParams: AnalyticParams = {
             search: analyticParams.search,
@@ -188,16 +189,30 @@ const GeoSearch = (
             viewParams.foundational = analyticParams.foundational;
         }
         analyticPost(viewParams);
-        history.push({
-            pathname: `/result/${language}/${encodeURI(title.trim().toLowerCase().replaceAll(" ", "-"))}`,
-            search: `id=${encodeURI(id.trim())}&lang=${language}`,
-            state: {
+        if (evt.button === 0) {
+            history.push({
+                pathname: `/result/${language}/${encodeURI(title.trim().toLowerCase().replaceAll(" ", "-"))}`,
+                search: `id=${encodeURI(id.trim())}&lang=${language}`,
+                state: {
+                    stateKO: ksOnly,
+                    stateKeyword: initKeyword,
+                    statePn: pn,
+                    stateBounds: initBounds,
+                },
+            });
+        } else if (evt.button === 1) {
+            const metadataState = {
+                lang: `${language}`,
+                id: `${encodeURI(id.trim())}`,
+                title: `${encodeURI(title.trim().toLowerCase().replaceAll(" ", "-"))}`,
                 stateKO: ksOnly,
                 stateKeyword: initKeyword,
                 statePn: pn,
-                stateBounds: initBounds,
-            },
-        });
+                stateBounds: initBounds
+            };
+            localStorage.setItem('metadataState', JSON.stringify(metadataState));
+            window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, '_blank', 'noreferrer');
+        }
     };
 
     const handleChange = (e: ChangeEvent) => {
@@ -861,7 +876,7 @@ const GeoSearch = (
                     <div className="col-12 col-search-message">{t('page.noresult')}</div>
                 ) : (
                     <div className="row row-results rowDivider">
-                    {ksOnly?results.map((result: SearchResult, mindex:number) => {
+                        {ksOnly ? results.map((result: SearchResult, mindex: number) => {
                             const coordinates = JSON.parse(result.coordinates);
                             const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
                             const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
@@ -875,47 +890,47 @@ const GeoSearch = (
                             return (
                                 <div key={result.id} className="container-fluid search-result">
                                     <div className="row resultRow">
-                                        <div className={ksOnly?"col-lg-8":"col-lg-12"}>
+                                        <div className={ksOnly ? "col-lg-8" : "col-lg-12"}>
                                             <h2 className="search-title">{result.title}</h2>
                                             {ksOnly &&
-                                            <div className="search-keywords">
-                                                <div
-                                                    className={
-                                                        allkwshowing ? 'btn-group btn-group-keywords' : 'btn-group btn-group-keywords less'
-                                                    }
-                                                    role="toolbar"
-                                                    aria-label="Keywords"
-                                                >
-                                                    {keywords.map((keyword, ki) => {
-                                                        return (
+                                                <div className="search-keywords">
+                                                    <div
+                                                        className={
+                                                            allkwshowing ? 'btn-group btn-group-keywords' : 'btn-group btn-group-keywords less'
+                                                        }
+                                                        role="toolbar"
+                                                        aria-label="Keywords"
+                                                    >
+                                                        {keywords.map((keyword, ki) => {
+                                                            return (
+                                                                <button
+                                                                    type="button"
+                                                                    className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
+                                                                    key={ki}
+                                                                    onClick={() => handleKeyword(keyword)}
+                                                                    autoFocus={cpn && mindex === 0 && ki === 0 ? true : false}
+                                                                >
+                                                                    {keyword}
+                                                                </button>
+                                                            );
+                                                        })}
+                                                        {keywords.length > 5 && (
                                                             <button
                                                                 type="button"
-                                                                className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
-                                                                key={ki}
-                                                                onClick={() => handleKeyword(keyword)}
-                                                                autoFocus = {cpn && mindex===0 && ki===0?true:false}
+                                                                className="btn btn-keyword-more"
+                                                                onClick={() => handleKwshowing(result.id)}
+                                                                aria-expanded={allkwshowing}
                                                             >
-                                                                {keyword}
+                                                                {allkwshowing ? t('page.showless') : t('page.viewmore')}
+                                                                {allkwshowing ? (
+                                                                    <span className="sr-only">{t('page.showlessnotice')}</span>
+                                                                ) : (
+                                                                    <span className="sr-only">{t('page.viewmorenotice')}</span>
+                                                                )}
                                                             </button>
-                                                        );
-                                                    })}
-                                                    {keywords.length > 5 && (
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-keyword-more"
-                                                            onClick={() => handleKwshowing(result.id)}
-                                                            aria-expanded={allkwshowing}
-                                                        >
-                                                            {allkwshowing ? t('page.showless') : t('page.viewmore')}
-                                                            {allkwshowing ? (
-                                                                <span className="sr-only">{t('page.showlessnotice')}</span>
-                                                            ) : (
-                                                                <span className="sr-only">{t('page.viewmorenotice')}</span>
-                                                            )}
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </div> }
+                                                        )}
+                                                    </div>
+                                                </div>}
                                             <div className="search-meta">
                                                 <ul className="list list-unstyled">
                                                     <li className="list-item">
@@ -927,16 +942,16 @@ const GeoSearch = (
                                                 </ul>
                                             </div>
                                             <p className="search-desc">
-                                                {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').substr(0, 240)}{' '}
-                                                {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').length > 240 ? <span>...</span> : ''}
+                                                {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').substr(0, 240)}{' '}
+                                                {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').length > 240 ? <span>...</span> : ''}
                                             </p>
                                             <div className="search-result-buttons">
                                                 <button
                                                     type="button"
                                                     className="btn btn-search"
-                                                    onClick={(e) => handleView(e, result.id, result.title)}
+                                                    onMouseUp={(e) => handleView(e, result.id, result.title)}
                                                     aria-label={result.title}
-                                                    autoFocus = {cpn && keywords.length===0 && mindex===0?true:false}
+                                                    autoFocus={cpn && keywords.length === 0 && mindex === 0 ? true : false}
                                                 >
                                                     {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
                                                 </button>
@@ -974,48 +989,47 @@ const GeoSearch = (
                                 </div>
                             )
                         })
-                        :
-                        results.map((result: SearchResult, mindex:number) => (
-                            <div
-                                key={result.id}
-                                className={
-                                    selected === result.id && open === true ? 'col-sm-12 searchResult selected' : 'col-sm-12 searchResult'
-                                }
-                            >
-                                <h3 className="searchTitle">{result.title}</h3>
-                                <div>
-                                    <p className="searchFields">
-                                        <strong>{t('page.organisation')}:</strong> {result.organisation}
-                                    </p>
-                                    <p className="searchFields">
-                                        <strong>{t('page.published')}:</strong> {result.published}
-                                    </p>
-                                    <p className="searchDesc">
-                                        {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').substr(0, 240)} {result.description.replace(/\\n\\n/g,' ').replace(/\\n/g,' ').length > 240 ? <span>...</span> : ''}
-                                    </p>
-                                    <div className="searchResultButtons">
-                                        <button
-                                            type="button"
-                                            className="btn btn-sm searchButton"
-                                            onClick={() => handleSelect(result.id)}
-                                            aria-label={result.id}
-                                            autoFocus = {cpn && mindex===0?true:false}
-                                        >
-                                            {selected === result.id && open === true? t('page.removefootprint') : t('page.viewfootprint')}
-                                        </button>
-                                        <button
-                                            type="button"
-                                            className="btn btn-sm searchButton"
-                                            onClick={(e) => handleView(e, result.id, result.title)}
-                                            aria-label={result.title}
-
-                                        >
-                                            {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
-                                        </button>
+                            :
+                            results.map((result: SearchResult, mindex: number) => (
+                                <div
+                                    key={result.id}
+                                    className={
+                                        selected === result.id && open === true ? 'col-sm-12 searchResult selected' : 'col-sm-12 searchResult'
+                                    }
+                                >
+                                    <h3 className="searchTitle">{result.title}</h3>
+                                    <div>
+                                        <p className="searchFields">
+                                            <strong>{t('page.organisation')}:</strong> {result.organisation}
+                                        </p>
+                                        <p className="searchFields">
+                                            <strong>{t('page.published')}:</strong> {result.published}
+                                        </p>
+                                        <p className="searchDesc">
+                                            {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').substr(0, 240)} {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').length > 240 ? <span>...</span> : ''}
+                                        </p>
+                                        <div className="searchResultButtons">
+                                            <button
+                                                type="button"
+                                                className="btn btn-sm searchButton"
+                                                onClick={() => handleSelect(result.id)}
+                                                aria-label={result.id}
+                                                autoFocus={cpn && mindex === 0 ? true : false}
+                                            >
+                                                {selected === result.id && open === true ? t('page.removefootprint') : t('page.viewfootprint')}
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="btn btn-sm searchButton"
+                                                onMouseUp={(e) => handleView(e, result.id, result.title)}
+                                                aria-label={result.title}
+                                            >
+                                                {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )) }
+                            ))}
                     </div>
                 )}
                 {cnt > 0 && (!loading || cpn) && (

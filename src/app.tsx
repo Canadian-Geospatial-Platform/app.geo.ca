@@ -21,7 +21,6 @@ import { Map } from './components/map/map';
 // import KeywordSearch from './components/search/keywordsearch';
 import MetaDataPage from './components/search/metadatapage';
 import RampViewer from './components/rampviewer/rampviewer';
-
 import CgpModal from './components/modal/cgpmodal';
 
 import '../node_modules/leaflet/dist/leaflet.css';
@@ -89,7 +88,7 @@ const RenderMap: React.FunctionComponent = () => {
 };
 
 const Routing = () => {
-    const language = queryParams.lang!==undefined ? queryParams.lang : i18n.language.substring(0, 2);
+    const language = queryParams.lang !== undefined ? queryParams.lang : i18n.language.substring(0, 2);
     if (language !== i18n.language.substring(0, 2)) {
         i18n.changeLanguage(`${language}-CA`);
     }
@@ -97,18 +96,19 @@ const Routing = () => {
     return (
         <Router>
             {/* <StrictMode> */}
-                <Header />
-                <Switch>
-                    <Route exact path="/" component={RenderMap} />
-                    {/* <Route exact path="/search" component={KeywordSearch} /> */}
-                    <Route exact path="/result/:pathlang/:title" component={MetaDataPage} />
-                    <Route exact path="/map" component={RampViewer} />
-                    <Route path='/404' component={() => {
-                        window.location.href = 'https://geo.ca/404.html';
-                        return null;
-                    }}/>
-                    <Redirect to="/404" />
-                </Switch>
+            <Header />
+            <Switch>
+                <Route exact path="/" component={RenderMap} />
+                {/* <Route exact path="/search" component={KeywordSearch} /> */}
+                <Route exact path="/result/:pathlang/:title" component={MetaDataPage} />
+                <Route exact path="/map" component={RampViewer} />
+                <Route exact path="/result" component={MetaDataPage} />
+                <Route path='/404' component={() => {
+                    window.location.href = 'https://geo.ca/404.html';
+                    return null;
+                }} />
+                <Redirect to="/404" />
+            </Switch>
             {/* </StrictMode> */}
         </Router>
     );
