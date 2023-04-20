@@ -1,40 +1,56 @@
 /* eslint-disable prettier/prettier */
-import React, { Suspense, StrictMode } from 'react';
+import { StrictMode, Suspense, useEffect, useState } from 'react';
 import { render } from 'react-dom';
 
+import { CRS, LatLngTuple } from 'leaflet';
 import { I18nextProvider, useTranslation } from 'react-i18next';
-import { LatLngTuple, CRS } from 'leaflet';
-import { MapContainer, TileLayer, ScaleControl, AttributionControl } from 'react-leaflet';
+import { AttributionControl, MapContainer, ScaleControl, TileLayer } from 'react-leaflet';
 
-import { MapOptions, getMapOptions } from '../../common/map';
+import { useDispatch, useSelector } from 'react-redux';
 import { Basemap, BasemapOptions } from '../../common/basemap';
 import { Layer, LayerConfig } from '../../common/layer';
+import { getMapOptions, MapOptions } from '../../common/map';
 import { Projection } from '../../common/projection';
 
+import { setFreezeMapSearch } from '../../reducers/action';
+import { FreezeMapSpatial, INITCONFIGINFO } from '../../reducers/reducer';
+import { Appbar } from '../appbar/app-bar';
 import { MousePosition } from '../mapctrl/mouse-position';
 import { OverviewMap } from '../mapctrl/overview-map';
-import { Appbar } from '../appbar/app-bar';
+import { SpatialOpt } from '../mapctrl/spatial-opt';
 import { NavBar } from '../navbar/nav-bar';
 
 export function Map(props: MapProps): JSX.Element {
-    const { id, center, zoom, projection, language, search, auth, layers } = props;
+    const { id, language, search, auth, layers } = props;
     const { t } = useTranslation();
-
     // get the needed projection. Web Mercator is out of the box but we need to create LCC
     // the projection will work with CBMT basemap. If another basemap would be use, update...
-    const crs = projection === 3857 ? CRS.EPSG3857 : Projection.getProjection(projection);
-
+    const crs = INITCONFIGINFO.projection === 3857 ? CRS.EPSG3857 : Projection.getProjection(INITCONFIGINFO.projection);
+    const zoom = useSelector((state) => state.mappingReducer.zoom);
+    const center = useSelector((state) => state.mappingReducer.center);
+    const freezeSpatial = useSelector((state) => state.mappingReducer.freezeMapSearch);
+    const [freeze, setFreeze] = useState<FreezeMapSpatial>(freezeSpatial);
     // get basemaps with attribution
     const basemap: Basemap = new Basemap(language);
-    const basemaps: BasemapOptions[] = projection === 3857 ? basemap.wmCBMT : basemap.lccCBMT;
+    const basemaps: BasemapOptions[] = INITCONFIGINFO.projection === 3857 ? basemap.wmCBMT : basemap.lccCBMT;
     // const attribution = language === 'en-CA' ? basemap.attribution['en-CA'] : basemap.attribution['fr-CA'];
-
+    const dispatch = useDispatch();
     // get map option from slected basemap projection
-    const mapOptions: MapOptions = getMapOptions(projection);
-    
+    const mapOptions: MapOptions = getMapOptions(INITCONFIGINFO.projection);
+    const toggleSpatialFilter = (e) => {
+        //e.preventDefault();
+        // console.log(e.target.checked);
+        dispatch(setFreezeMapSearch(e.target.checked));
+        setFreeze({ freeze: e.target.checked });
+    }
+    /*
+    useEffect(() => {
+        console.log('rendered');
+    });
+    */
     return (
         <MapContainer
-            id={id} 
+            id={id}
             center={center}
             zoom={zoom}
             crs={crs}
@@ -48,7 +64,6 @@ export function Map(props: MapProps): JSX.Element {
                 setTimeout(() => {
                     cgpMap.setView(center, zoom);
                 }, 0);
-
                 // TODO: put this a t the right place. This is temporary to show we can add different layer type to the map
                 const layer = new Layer();
                 const createdLayers = [];
@@ -64,12 +79,13 @@ export function Map(props: MapProps): JSX.Element {
             }}
         >
             <div id="app-left-bar" className="leaflet-control cgp-appbar">
-                <Appbar search={search} auth={auth} />
+                <Appbar search={search} auth={auth} freeze={freeze} />
             </div>
             {basemaps.map((base) => (
                 <TileLayer key={base.id} url={base.url} attribution={t("mapctrl.attribution")} />
             ))}
             <NavBar />
+            <SpatialOpt checked={freeze.freeze} onChange={toggleSpatialFilter} />
             <MousePosition />
             <ScaleControl position="bottomright" imperial={false} />
             <AttributionControl position="bottomleft" prefix={false} />
@@ -117,9 +133,6 @@ interface MapConfig {
 
 interface MapProps {
     id: string;
-    center: LatLngTuple;
-    zoom: number;
-    projection: number;
     language: string;
     search: boolean;
     auth: boolean;

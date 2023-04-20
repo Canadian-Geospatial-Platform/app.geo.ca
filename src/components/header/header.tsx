@@ -19,6 +19,8 @@ import MappingModal from '../modal/mappingmodal';
 import organisations from '../search/organisations.json';
 import types from '../search/types.json';
 import themes from '../search/themes.json';
+import spatials from '../search/spatials.json';
+import stacs from '../search/stac.json';
 import { envglobals } from '../../common/envglobals';
 import './header.scss';
 // Reacstrap Collapse - Responsive Navbar
@@ -36,15 +38,15 @@ export default function Header(): JSX.Element {
     const [showmappinglist, setSML] = useState(false);
     const [showmappingDemo, setSMD] = useState(false);
     const clanguage = t('app.language');
-    
+
     const gotoHome = () => {
         setCollapse(false);
         if (location.pathname === '/' && !location.search) {
-            if (clanguage==='en') {
+            if (clanguage === 'en') {
                 history.go(0);
             } else {
-                window.location.href=`/?lang=${clanguage}`;
-            }    
+                window.location.href = `/?lang=${clanguage}`;
+            }
         } else {
             history.push({
                 pathname: '/',
@@ -55,10 +57,10 @@ export default function Header(): JSX.Element {
 
     const showMapping = () => {
         const cmapping = loadState() !== undefined ? loadState().mappingReducer.mapping : [];
-        const mcntButton = document.getElementById("mcntBtn");
+        const mcntButton = document.getElementById('mcntBtn');
         if (mcntButton) {
-            mcntButton.innerText=cmapping.length.toString();
-            mcntButton.className = cmapping.length>0 ? "show" : "hidden";
+            mcntButton.innerText = cmapping.length.toString();
+            mcntButton.className = cmapping.length > 0 ? 'show' : 'hidden';
         }
     };
 
@@ -86,19 +88,19 @@ export default function Header(): JSX.Element {
     // Reacstrap Collapse - Responsive Navbar
     const toggle = () => setCollapse(!collapse);
     // console.log(location.pathname);
-     
-    const rvScript = document.getElementById("rvJS");
+
+    const rvScript = document.getElementById('rvJS');
     if (rvScript) {
         rvScript.remove();
     }
-    const rvApiScript = document.getElementById("rvApi");
+    const rvApiScript = document.getElementById('rvApi');
     if (rvApiScript) {
         rvApiScript.remove();
     }
-    const rvSVG = document.getElementsByTagName("svg");
-    if (rvSVG.length>0) {
+    const rvSVG = document.getElementsByTagName('svg');
+    if (rvSVG.length > 0) {
         for (const item of rvSVG) {
-            if (item.id && item.id.indexOf("SvgjsSvg")===0) {
+            if (item.id && item.id.indexOf('SvgjsSvg') === 0) {
                 item.remove();
             }
         }
@@ -106,29 +108,73 @@ export default function Header(): JSX.Element {
 
     useEffect(() => {
         if (!langFromUrl) {
-           let clang:string = clanguage; 
-           if (queryParams.lang !== undefined && clang !== queryParams.lang) {
-               i18n.changeLanguage(`${queryParams.lang}-CA`);
-               clang = queryParams.lang;
-           }
-           if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined || queryParams.foundational !== undefined) {
-                const oIndex = (queryParams.org!==undefined)?(organisations[clang] as string[]).findIndex((os: string) => os.toLowerCase() === queryParams.org.toLowerCase()) : -1;
-                const tIndex = (queryParams.type!==undefined)?(types[clang] as string[]).findIndex((ts: string) => ts.toLowerCase() === queryParams.type.toLowerCase()) : -1;
-                const thIndex = (queryParams.theme!==undefined)?(themes[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.theme.toLowerCase()) : -1;
+            let clang: string = clanguage;
+            if (queryParams.lang !== undefined && clang !== queryParams.lang) {
+                i18n.changeLanguage(`${queryParams.lang}-CA`);
+                clang = queryParams.lang;
+            }
+            if (
+                queryParams.org !== undefined ||
+                queryParams.type !== undefined ||
+                queryParams.theme !== undefined ||
+                queryParams.stac !== undefined ||
+                queryParams.foundational !== undefined
+            ) {
+                const oIndex =
+                    queryParams.org !== undefined
+                        ? (organisations[clang] as string[]).findIndex((os: string) => os.toLowerCase() === queryParams.org.toLowerCase())
+                        : -1;
+                const tIndex =
+                    queryParams.type !== undefined
+                        ? (types[clang] as string[]).findIndex((ts: string) => ts.toLowerCase() === queryParams.type.toLowerCase())
+                        : -1;
+                const thIndex =
+                    queryParams.theme !== undefined
+                        ? (themes[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.theme.toLowerCase())
+                        : -1;
+
+                const spaIndex =
+                    queryParams.spatial !== undefined
+                        ? (spatials[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.spatial.toLowerCase())
+                        : -1;
+
+                const stIndex =
+                    queryParams.stac !== undefined
+                        ? (stacs[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.stac.toLowerCase())
+                        : -1;
                 const orgfilter = oIndex > -1 ? [oIndex] : [];
                 const typefilter = tIndex > -1 ? [tIndex] : [];
                 const themefilter = thIndex > -1 ? [thIndex] : [];
-                dispatch(setFilters({ orgfilter, typefilter, themefilter, foundational: queryParams.foundational!==undefined && queryParams.foundational ==='y'}));
-            } 
-           setLF(true);
+                const spatialfilter = spaIndex > -1 ? [spaIndex] : [];
+                const stacfilter = stIndex > -1 ? [stIndex] : [];
+                dispatch(
+                    setFilters({
+                        orgfilter,
+                        typefilter,
+                        themefilter,
+                        spatialfilter,
+                        foundational: queryParams.foundational !== undefined && queryParams.foundational === 'y',
+                        stacfilter,
+                    })
+                );
+            }
+            setLF(true);
         }
-        
+
         window.addEventListener('storage', showMapping);
         return () => {
             window.removeEventListener('storage', showMapping);
-        }; 
-        
-    }, [dispatch, langFromUrl, queryParams.lang, queryParams.org, queryParams.theme, queryParams.type]);
+        };
+    }, [
+        dispatch,
+        langFromUrl,
+        queryParams.lang,
+        queryParams.org,
+        queryParams.theme,
+        queryParams.spatial,
+        queryParams.type,
+        queryParams.stac,
+    ]);
 
     return (
         <header className="header">
@@ -138,8 +184,11 @@ export default function Header(): JSX.Element {
                 modalClassName="mapping-modal"
                 isTestDemo={showmappingDemo}
                 openOnLoad={showmappinglist}
-                toggle={()=>{setSML(!showmappinglist); setSMD(false)}}
-                onClosed = {showMapping}
+                toggle={() => {
+                    setSML(!showmappinglist);
+                    setSMD(false);
+                }}
+                onClosed={showMapping}
             />
             <div className="container-fluid">
                 <div className="row align-items-center">
@@ -169,12 +218,21 @@ export default function Header(): JSX.Element {
                                         </button>
                                     </li>
                                     <li className="nav-item">
-                                        <button id="myMapBtn" type="button" onClick={()=>setSML(true)}>
+                                        <button id="myMapBtn" type="button" onClick={() => setSML(true)}>
                                             {t('nav.mymap')}
                                         </button>
-                                        <button id="mcntBtn" type="button" className={loadState() !== undefined && loadState().mappingReducer.mapping.length>0 ? "show" : "hidden"} onClick={()=>setSML(true)}>
-                                            {loadState() !== undefined?loadState().mappingReducer.mapping.length:0}
-                                        </button> 
+                                        <button
+                                            id="mcntBtn"
+                                            type="button"
+                                            className={
+                                                loadState() !== undefined && loadState().mappingReducer.mapping.length > 0
+                                                    ? 'show'
+                                                    : 'hidden'
+                                            }
+                                            onClick={() => setSML(true)}
+                                        >
+                                            {loadState() !== undefined ? loadState().mappingReducer.mapping.length : 0}
+                                        </button>
                                     </li>
                                     <li className="nav-item">
                                         <button

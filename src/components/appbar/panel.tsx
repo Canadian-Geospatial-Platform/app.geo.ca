@@ -1,13 +1,13 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 //import { render } from 'react-dom';
 
-import { useTranslation } from 'react-i18next';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Card, CardHeader, CardContent, Divider, IconButton, Typography } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Divider, IconButton, Typography } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import { useTranslation } from 'react-i18next';
 
 import { DomEvent } from 'leaflet';
-import { ReactJSXLibraryManagedAttributes } from '@emotion/react/types/jsx-namespace';
+import { FreezeMapSpatial } from '../../reducers/reducer';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -84,4 +84,5 @@ export interface PanelProps {
     setKeyword?: (kw: string) => void;
     setAnalyticOrg?: (ao: number[]) => void;
     closeFunction: (cp?: string) => void;
+    freeze: FreezeMapSpatial;
 }

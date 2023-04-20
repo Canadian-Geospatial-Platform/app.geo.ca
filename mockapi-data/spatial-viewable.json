@@ -1,0 +1,10 @@
+{
+    "spatial-view": {
+        "viewableOnTheMap": "4021",
+        "notViewableOnTheMap": "1201"
+    },
+    "metadata-standard": {
+        "hnap": "200",
+        "stac": "1000"
+    }
+}

@@ -7,25 +7,25 @@ import { useTranslation } from 'react-i18next';
 import './searchfilter.scss';
 
 export default function SearchFilter(props: filterProps): JSX.Element {
-    const { filtertitle, filtervalues, filterselected, selectFilters, singleselect } = props;
-    const [fselected, setFilterSelected] = useState(singleselect?[filterselected[0]]:filterselected);
+    const { filtertitle, filtervalues, filterselected, selectFilters, singleselect, filtername, externalLabel, labelParams } = props;
+    const [fselected, setFilterSelected] = useState(singleselect ? [filterselected[0]] : filterselected);
     const [open, setOpen] = useState(false);
     const { t } = useTranslation();
     const language = t('app.language');
     const vtype = filtervalues.length > 0;
-    const filterShowing = filtervalues.map(
-        (f:string, i:number) => {
-          return {"filter": f, "findex": i};
-        }).sort(
-         (a, b) => { 
+    const filterShowing = filtervalues
+        .map((f: string, i: number) => {
+            return { filter: f, findex: i };
+        })
+        .sort((a, b) => {
             return a.filter.toLowerCase().localeCompare(b.filter.toLowerCase(), language);
-         });
+        });
     const selectFilterValue = (findex: number) => {
         const newselected = fselected.map((fs) => fs);
         const selectedIndex = fselected.findIndex((fs) => fs === findex);
         if (selectedIndex < 0) {
             if (singleselect) {
-                newselected.splice(0,1);
+                newselected.splice(0, 1);
             }
             newselected.push(findex);
         } else {
@@ -48,16 +48,23 @@ export default function SearchFilter(props: filterProps): JSX.Element {
 
     useEffect(() => {
         setFilterSelected(filterselected);
-    }, [filterselected]); 
+    }, [filterselected]);
 
     return vtype ? (
         <div className={open ? 'filter-wrap open' : 'filter-wrap'}>
-            {filtertitle !== "" && <button type="button" className="link-button filter-title" aria-expanded={open ? 'true' : 'false'} onClick={() => handleOpen()}>
-                {filtertitle}
-            </button> }
+            {filtertitle !== '' && (
+                <button
+                    type="button"
+                    className="link-button filter-title"
+                    aria-expanded={open ? 'true' : 'false'}
+                    onClick={() => handleOpen()}
+                >
+                    {filtertitle}
+                </button>
+            )}
             <div className="filter-list-wrap">
                 <ul className="list">
-                    {filterShowing.map((f: {filter: string, findex: number}) => {
+                    {filterShowing.map((f: { filter: string; findex: number }) => {
                         const selected = fselected.findIndex((fs) => fs === f.findex) > -1;
                         const inputID = `filter-${filtertitle.replace(/ /g, '-').toLowerCase()}-${f.findex}`; // create valid html ids for each label/input pair (lowercase is optional)
                         return (
@@ -70,7 +77,11 @@ export default function SearchFilter(props: filterProps): JSX.Element {
                                 }
                             >
                                 <label htmlFor={inputID} className="label">
-                                    {f.filter}
+                                    {externalLabel
+                                        ? labelParams && labelParams.length > 0
+                                            ? t(`filter.label.${filtername}.${f.filter}`, { param: labelParams[f.findex] })
+                                            : t(`filter.label.${filtername}.${f.filter}`)
+                                        : f.filter}
                                 </label>
                                 <input
                                     id={inputID}
@@ -117,4 +128,7 @@ interface filterProps {
     filterselected: number[];
     selectFilters: (arg: unknown) => void;
     singleselect?: boolean;
+    filtername?: string;
+    externalLabel?: boolean;
+    labelParams?: string[];
 }

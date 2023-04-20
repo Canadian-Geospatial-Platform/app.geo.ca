@@ -56,12 +56,12 @@
             "select": "Select",
             "relevance": "Relevance",
             "date": {
-                "desc":"Date",
+                "desc": "Date",
                 "asc": "Date"
             },
             "popularity": {
                 "desc": "Popularity",
-                "asc":"Popularity"
+                "asc": "Popularity"
             },
             "title": "Title"
         }
@@ -72,10 +72,37 @@
         "types": "Types",
         "themes": "Themes",
         "foundational": "Foundation Data",
-        "spatial": "Spatial",
+        "spatial": "Viewable on a Map",
+        "stac": "Metadata Standard",
+        "spatemp": {
+            "title": "SPATIAL-TEMPORAL",
+            "temporal": "All times in Coordinated Universal Time (UTC).",
+            "startdate": "Start Date",
+            "enddate": "End Date"
+        },
         "otherfilters": "Other Filters",
         "applyfilters": "Apply Filters",
-        "clearall": "Clear All"
+        "clearall": "Clear All",
+        "label": {
+            "spatial": {
+                "viewable-on-map": "Viewable({{param}})",
+                "not-viewable-on-map": "Non-viewable({{param}})",
+                "opt": "Freeze spatial filtering",
+                "opt-tooltip": "placeholder for tooltip"
+            },
+            "stac": {
+                "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
+                "STAC": "Spatio Temporal Asset Catalog (STAC) ({{param}} records)"
+            },
+            "spatemp": {
+                "SPATIALEXTENT": "Spatial Extent",
+                "TEMPORALEXTENT": "Temporal Extent",
+                "selectprovince": "Search provinces or territories",
+                "or": "or",
+                "search-extent": "Search extents...",
+                "select-extent": "Alternative search extents"
+            }
+        }
     },
     "analytic": {
         "title": "Analytics",
@@ -147,9 +174,15 @@
         "dcp1": "These resources are not under the control of the Government of Canada and the link is provided solely for the convenience of our website visitors. We are not responsible for the accuracy, currency or reliability of the content of this website. The Government of Canada does not offer any guarantee in that regard and is not responsible for the information found through this link.",
         "dcp2": {
             "text1": "Visitors should also be aware that information offered by this non-Government of Canada site is not subject to the ",
-            "link1": { "url": "http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html", "text": "Privacy Act" },
+            "link1": {
+                "url": "http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html",
+                "text": "Privacy Act"
+            },
             "text2": " or the ",
-            "link2": { "url": "http://laws-lois.justice.gc.ca/eng/acts/O-3.01/", "text": "Official Languages Act" },
+            "link2": {
+                "url": "http://laws-lois.justice.gc.ca/eng/acts/O-3.01/",
+                "text": "Official Languages Act"
+            },
             "text3": " and may not be accessible to persons with disabilities. The information offered may be available only in the language used by the site. With respect to privacy, visitors should research the privacy policies of this non-government website before providing personal information."
         },
         "dwhheader": "Made available by the Canadian Geospatial Data Infrastructure Web Harvester ",
@@ -157,9 +190,15 @@
         "dwh1": "These resources are not under the control of the Government of Canada and the link is provided solely for the convenience of our website visitors. We are not responsible for the accuracy, currency or reliability of the content of this website. The Government of Canada does not offer any guarantee in that regard and is not responsible for the information found through this link.",
         "dwh2": {
             "text1": "Visitors should also be aware that information offered by this non-Government of Canada site is not subject to the ",
-            "link1": { "url": "http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html", "text": "Privacy Act" },
+            "link1": {
+                "url": "http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html",
+                "text": "Privacy Act"
+            },
             "text2": " or the ",
-            "link2": { "url": "http://laws-lois.justice.gc.ca/eng/acts/O-3.01/", "text": "Official Languages Act" },
+            "link2": {
+                "url": "http://laws-lois.justice.gc.ca/eng/acts/O-3.01/",
+                "text": "Official Languages Act"
+            },
             "text3": " and may not be accessible to persons with disabilities. The information offered may be available only in the language used by the site. With respect to privacy, visitors should research the privacy policies of this non-government website before providing personal information."
         },
         "name": "Name",
@@ -217,5 +256,20 @@
             "gotomymap": "Go To MyMap",
             "cancel": "Cancel"
         }
+    },
+    "province": {
+        "AB": "Alberta",
+        "BC": "British Columbia",
+        "ON": "Ontario",
+        "QC": "Quebec",
+        "MB": "Manitoba",
+        "PEI": "Prince Edward Island",
+        "SK": "Saskatchewan",
+        "NL": "Newfoundland and Labrador",
+        "NS": "Nova Scotia",
+        "NB": "New Brunswick",
+        "NU": "Nunavut",
+        "NT": "Northwest Territories",
+        "YT": "Yukon"
     }
 }

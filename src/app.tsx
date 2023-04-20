@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { Suspense, StrictMode } from 'react';
+import React, { Suspense, StrictMode, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import axios from 'axios';
+import { Provider, useDispatch } from 'react-redux';
 import { combineReducers, createStore, StoreEnhancer } from 'redux';
 import throttle from 'lodash.throttle';
 import { I18nextProvider } from 'react-i18next';
@@ -25,6 +26,8 @@ import CgpModal from './components/modal/cgpmodal';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/css/style.scss';
+import { setSpatialData, setStacData } from './reducers/action';
+
 // import authconfig from './components/account/cognito-auth/config.json';
 
 const persistedState: StoreEnhancer<unknown, unknown> | undefined = loadState();
@@ -53,12 +56,43 @@ const config = jsonConfig
     ? JSON.parse(jsonConfig.replace(/'/g, '"'))
     : { name: 'Web Mercator', projection: 3857, zoom: 4, center: [60, -100], language: 'en', search: true, auth: false };
 // const center: LatLngTuple = [config.center[0], config.center[1]];
-const queryParams: { [key: string]: string } = getQueryParams(window.location.href.substr(window.location.href.indexOf("?")));
+const queryParams: { [key: string]: string } = getQueryParams(window.location.href.substr(window.location.href.indexOf('?')));
 
 // console.log(process.env.NODE_ENV);
 
 const RenderMap: React.FunctionComponent = () => {
     const center: LatLngTuple = [config.center[0], config.center[1]];
+    const dispatch = useDispatch();
+    useEffect(() => {
+        axios
+            .get('http://localhost:3000/spatial-view')
+            .then((result) => {
+                //console.log(result);
+                const spatialData: SpatialData = {
+                    viewableOnTheMap: result.data.viewableOnTheMap,
+                    notViewableOnTheMap: result.data.notViewableOnTheMap,
+                };
+                dispatch(setSpatialData(spatialData));
+            })
+            .catch((e) => {
+                console.log(e);
+                dispatch(setSpatialData({ viewableOnTheMap: 0, notViewableOnTheMap: 0 }));
+            });
+    }, []);
+    axios
+        .get('http://localhost:3000/metadata-standard')
+        .then((result) => {
+            //console.log(result);
+            const stacData: StacData = {
+                hnap: result.data.hnap,
+                stac: result.data.stac,
+            };
+            dispatch(setStacData(stacData));
+        })
+        .catch((e) => {
+            console.log(e);
+            dispatch(setStacData({ hnap: 0, stac: 0 }));
+        });
     return (
         <Suspense fallback="loading">
             <div className="mapPage">
@@ -73,9 +107,6 @@ const RenderMap: React.FunctionComponent = () => {
                 <div className="mapContainer">
                     <Map
                         id="MainMap"
-                        center={center}
-                        zoom={config.zoom}
-                        projection={config.projection}
                         language={i18n.language}
                         layers={config.layers}
                         search={config.search}
@@ -137,3 +168,11 @@ ReactDOM.render(
     });
     createMap(map, config, i18nInstance);
 }); */
+export interface SpatialData {
+    viewableOnTheMap: number;
+    notViewableOnTheMap: number;
+}
+export interface StacData {
+    hnap: number;
+    stac: number;
+}
