@@ -8,13 +8,18 @@ const common = require('./webpack.common.js');
 const config = {
     mode: 'development',
     devtool: 'source-map',
+    ignoreWarnings: [/./],
     devServer: {
         host: process.env.IP,
         https: false,
-        disableHostCheck: true,
-        contentBase: path.resolve(__dirname, 'public'),
+        allowedHosts: 'all',
+        static: {
+            directory: path.resolve(__dirname, 'public'),
+        },
         historyApiFallback: true,
-        overlay: true,
+        client: {
+            overlay: true,
+        },
         hot: true,
         port: 8080,
         compress: true,
