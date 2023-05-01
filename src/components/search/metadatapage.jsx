@@ -439,7 +439,7 @@ const MetaDataPage = (props) => {
                                                 </div>
                                                 <table className="table table-hover caption-top table-search-result table-meta">
                                                     <caption>
-                                                        {t("page.metadata")}
+                                                        {t("page.metadata")} 
                                                     </caption>
                                                     {showDisclaimer ?
                                                         <tbody id="tbody-meta">
