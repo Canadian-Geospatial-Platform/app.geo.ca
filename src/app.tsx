@@ -23,7 +23,8 @@ import { Map } from './components/map/map';
 import MetaDataPage from './components/search/metadatapage';
 import RampViewer from './components/rampviewer/rampviewer';
 import CgpModal from './components/modal/cgpmodal';
-import SignIn from './components/signin/signin';
+import DispatchSignIn from './components/signin/dispatch/dispatchsignin';
+import ReceiveSignIn from './components/signin/receive/receivesignin';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/css/style.scss';
@@ -131,7 +132,8 @@ const Routing = () => {
                 <Route exact path="/result/:pathlang/:title" component={MetaDataPage} />
                 <Route exact path="/map" component={RampViewer} />
                 <Route exact path="/result" component={MetaDataPage} />
-                <Route exact path="/signin" component={SignIn} />
+                <Route exact path="/dispatchsignin" component={DispatchSignIn} />
+                <Route exact path="/receivesignin" component={ReceiveSignIn} />
                 <Route path='/404' component={() => {
                     window.location.href = 'https://geo.ca/404.html';
                     return null;
