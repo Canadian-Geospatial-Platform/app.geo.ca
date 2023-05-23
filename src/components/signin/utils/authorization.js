@@ -117,4 +117,13 @@ const requireLogin = async function (jwt, signInPageUrl, currentPage) {
 	}
 };
 
-export { requireLogin, signIn };
+const getToken = function () {
+	try {
+		const token = JSON.parse(sessionStorage.getItem('token'));
+		return token;
+	} catch (error) {
+		return null;
+	}
+};
+
+export { requireLogin, signIn, getToken };
