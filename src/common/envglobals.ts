@@ -17,7 +17,7 @@ export function envglobals(): globalValues {
                     en: "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/home/",
                     fr: "http://wp-01-1130072660.ca-central-1.elb.amazonaws.com/fr/accueil/"
                 },
-                APP_API_DOMAIN_URL: "https://qgqt1tniy2.execute-api.ca-central-1.amazonaws.com/live",
+                APP_API_DOMAIN_URL: "https://0mgqjkl9t0.execute-api.ca-central-1.amazonaws.com/dev",
                 APP_API_ENDPOINTS: endpoints,
                 APP_GEOCORE_URL: "https://geocore-dev.metadata.geo.ca",
                 SITE_NAME: "localhost",
