@@ -144,7 +144,7 @@ const MetaDataPage = (props) => {
         axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: searchParams })
             .then(response => response.data)
             .then((data) => {
-                const res = data.Items[0];
+                const res = data.body.Items[0];
                 res.title = language === 'en' ? res.title_en : res.title_fr;
                 res.mappingtitle = { en: res.title_en, fr: res.title_fr };
                 // get related products  
@@ -339,12 +339,12 @@ const MetaDataPage = (props) => {
                             {t("page.noresult")}
                         </p> :
                         [metaresult].map((result, rmIndex) => {
-                            const formattedOption = result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.options.replace(/\\"/g, '"').replace(/["]+/g, '"').length - 1);
-                            const formattedContact = result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').substring(1, result.contact.replace(/\\"/g, '"').replace(/["]+/g, '"').length - 1);
-                            const formattedgraphicOverview = result.graphicOverview.replace(/\\"/g, '"').replace(/["]+/g, '"');
-                            const graphicOverview = formattedgraphicOverview !== null && formattedgraphicOverview !== '' ? JSON.parse(formattedgraphicOverview) : { overviewFileName: '' };
+                            const formattedOption = result.options;
+                            const formattedContact = result.contact;
+                            const formattedgraphicOverview = result.graphicOverview;
+                            const graphicOverview = formattedgraphicOverview !== null && formattedgraphicOverview !== '' ? formattedgraphicOverview : { overviewFileName: '' };
                             const imageFile = graphicOverview.map(o => o.overviewFileName).join(',');
-                            const options = JSON.parse(formattedOption)
+                            const options = formattedOption
                                 .filter(o => { return o.protocol !== null && o.url !== null && o.protocol !== 'null' && o.url !== 'null' })
                                 .map((option) => {
                                     const desc = option.description[language].split(";");
@@ -352,7 +352,10 @@ const MetaDataPage = (props) => {
                                 });
 
                             const tcRange = ['N/A', 'N/A'];
-                            result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").forEach((date) => {
+							tcRange[0] = result.temporalExtent.begin;
+							tcRange[1] = result.temporalExtent.end;
+                            /*
+							result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").forEach((date) => {
                                 const dateStr = date.trim().split("=");
                                 if (dateStr[1] !== undefined && dateStr[1].toLowerCase() !== 'null') {
                                     if (dateStr[0].toLowerCase() === 'begin') {
@@ -364,10 +367,11 @@ const MetaDataPage = (props) => {
 
                                 }
                             });
+							*/
 
                             const activeMap = options.findIndex((o) => o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE' || o.type.toUpperCase() === 'SERVICE WEB') > -1;
                             const mapButtonClass = activeMap ? 'btn btn-search' : 'btn btn-search disabled';
-                            const contact = JSON.parse(formattedContact);
+                            const contact = formattedContact;
                             const coordinates = JSON.parse(result.coordinates);
 
                             const langInd = (language === 'en') ? 0 : 1;
