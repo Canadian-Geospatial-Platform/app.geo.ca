@@ -40,7 +40,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
     const [spatialfilters, setSpatial] = useState(storespatialfilters);
-    const [spatempfilters, setSpatemp] = useState<SpatialTemporalFilter>(useSelector((state) => (state.mappingReducer.spatempfilter)));
+    const [spatempfilters, setSpatemp] = useState<SpatialTemporalFilter>(useSelector((state) => state.mappingReducer.spatempfilter));
     const [foundational, setFound] = useState(storefoundational);
     const [fReset, setFReset] = useState(false);
     const [ofOpen, setOfOpen] = useState(false);
@@ -59,7 +59,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                 spatialfilter: spatialfilters,
                 foundational,
                 stacfilter: stacfilters,
-                spatempfilter: spatempfilters
+                spatempfilter: spatempfilters,
             })
         );
         if (spatempfilters.extents.length > 0) {
@@ -98,7 +98,17 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setStac([]);
         setSpatemp({ ...spatempfilters, extents: [] });
         setFound(false);
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false, stacfilter: [], spatempfilter: { ...INITSPATIALTEMPORALFILTER } }));
+        dispatch(
+            setFilters({
+                orgfilter: [],
+                typefilter: [],
+                themefilter: [],
+                spatialfilter: [],
+                foundational: false,
+                stacfilter: [],
+                spatempfilter: { ...INITSPATIALTEMPORALFILTER },
+            })
+        );
         dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
         dispatch(setStoreCenter(INITMAINMAPINFO.center));
         dispatch(setStoreBoundbox(undefined));
@@ -214,6 +224,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         temporalDirection="row"
                                         gridWidth="100%"
                                     />
+                                    {/*
                                     <SearchFilter
                                         filtertitle={t('filter.stac')}
                                         filtervalues={stacs[language]}
@@ -222,7 +233,8 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         filtername="stac"
                                         externalLabel
                                         labelParams={stacLabelParams}
-                                    />
+                                    /> 
+                                    */}
                                     <SearchFilter
                                         filtertitle={t('filter.organisations')}
                                         filtervalues={organisations[language]}
@@ -235,7 +247,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         filterselected={typefilters}
                                         selectFilters={handleType}
                                     />
-
+                                    {/*
                                     <SearchFilter
                                         filtertitle={t('filter.spatial')}
                                         filtervalues={spatials[language]}
@@ -245,7 +257,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         externalLabel
                                         labelParams={spatialLabelParams}
                                     />
-
+                                    */}
                                     <SearchFilter
                                         filtertitle={t('filter.themes')}
                                         filtervalues={themes[language]}

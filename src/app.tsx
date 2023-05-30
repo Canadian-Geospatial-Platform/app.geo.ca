@@ -63,7 +63,8 @@ const queryParams: { [key: string]: string } = getQueryParams(window.location.hr
 const RenderMap: React.FunctionComponent = () => {
     const center: LatLngTuple = [config.center[0], config.center[1]];
     const dispatch = useDispatch();
-    useEffect(() => {
+    /*
+    useEffect(() => {        
         axios
             .get('http://localhost:3000/spatial-view')
             .then((result) => {
@@ -93,6 +94,7 @@ const RenderMap: React.FunctionComponent = () => {
             console.log(e);
             dispatch(setStacData({ hnap: 0, stac: 0 }));
         });
+        */
     return (
         <Suspense fallback="loading">
             <div className="mapPage">
@@ -105,13 +107,7 @@ const RenderMap: React.FunctionComponent = () => {
                     unmountOnClose
                 />
                 <div className="mapContainer">
-                    <Map
-                        id="MainMap"
-                        language={i18n.language}
-                        layers={config.layers}
-                        search={config.search}
-                        auth={config.auth}
-                    />
+                    <Map id="MainMap" language={i18n.language} layers={config.layers} search={config.search} auth={config.auth} />
                 </div>
             </div>
         </Suspense>
@@ -134,10 +130,13 @@ const Routing = () => {
                 <Route exact path="/result/:pathlang/:title" component={MetaDataPage} />
                 <Route exact path="/map" component={RampViewer} />
                 <Route exact path="/result" component={MetaDataPage} />
-                <Route path='/404' component={() => {
-                    window.location.href = 'https://geo.ca/404.html';
-                    return null;
-                }} />
+                <Route
+                    path="/404"
+                    component={() => {
+                        window.location.href = 'https://geo.ca/404.html';
+                        return null;
+                    }}
+                />
                 <Redirect to="/404" />
             </Switch>
             {/* </StrictMode> */}

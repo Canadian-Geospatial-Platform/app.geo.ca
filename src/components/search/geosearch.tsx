@@ -27,8 +27,17 @@ import { AnalyticParams, analyticPost } from '../../common/analytic';
 import { envglobals } from '../../common/envglobals';
 import { getQueryParams } from '../../common/queryparams';
 import {
-    setFilters, setFoundational, setOrgFilter, setSpatempFilter, setSpatialFilter, setStacFilter, setStoreBoundbox, setStoreCenter,
-    setStoreZoom, setThemeFilter, setTypeFilter
+    setFilters,
+    setFoundational,
+    setOrgFilter,
+    setSpatempFilter,
+    setSpatialFilter,
+    setStacFilter,
+    setStoreBoundbox,
+    setStoreCenter,
+    setStoreZoom,
+    setThemeFilter,
+    setTypeFilter,
 } from '../../reducers/action';
 import { loadState } from '../../reducers/localStorage';
 import { FreezeMapSpatial, INITMAINMAPINFO, INITSPATIALTEMPORALFILTER, SpatialTemporalFilter } from '../../reducers/reducer';
@@ -215,7 +224,7 @@ const GeoSearch = (
         analyticPost(viewParams);
         if (evt.button === 0) {
             history.push({
-                pathname: `/result/${language}/${encodeURI(title.trim().toLowerCase().replaceAll(" ", "-"))}`,
+                pathname: `/result/${language}/${encodeURI(title.trim().toLowerCase().replaceAll(' ', '-'))}`,
                 search: `id=${encodeURI(id.trim())}&lang=${language}`,
                 state: {
                     stateKO: ksOnly,
@@ -228,11 +237,11 @@ const GeoSearch = (
             const metadataState = {
                 lang: `${language}`,
                 id: `${encodeURI(id.trim())}`,
-                title: `${encodeURI(title.trim().toLowerCase().replaceAll(" ", "-"))}`,
+                title: `${encodeURI(title.trim().toLowerCase().replaceAll(' ', '-'))}`,
                 stateKO: ksOnly,
                 stateKeyword: initKeyword,
                 statePn: pn,
-                stateBounds: initBounds
+                stateBounds: initBounds,
             };
             localStorage.setItem('metadataState', JSON.stringify(metadataState));
             window.open(`/result?id=${encodeURI(id.trim())}&lang=${language}`, '_blank', 'noreferrer');
@@ -248,9 +257,9 @@ const GeoSearch = (
         const mbounds = event.target.getBounds();
         // console.log(mbounds,bounds);
         // console.log(passkw);
-        // map.off('moveend');           
+        // map.off('moveend');
         if (!loading && mapCount === 0 && !Object.is(mbounds, initBounds)) {
-            // console.log('research:', loading, keyword, mapCount);            
+            // console.log('research:', loading, keyword, mapCount);
             mapCount++;
             setLoadingStatus(true);
             handleSearch(passkw, mbounds);
@@ -268,8 +277,14 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
-        const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : [] : [];
-        const spatfilters: SpatialTemporalFilter = localState !== undefined ? localState.mappingReducer.spatempfilter ? localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER : INITSPATIALTEMPORALFILTER;
+        const spafilters =
+            localState !== undefined ? (localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : []) : [];
+        const spatfilters: SpatialTemporalFilter =
+            localState !== undefined
+                ? localState.mappingReducer.spatempfilter
+                    ? localState.mappingReducer.spatempfilter
+                    : INITSPATIALTEMPORALFILTER
+                : INITSPATIALTEMPORALFILTER;
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         const stfilters =
             localState !== undefined ? (localState.mappingReducer.stacfilter ? localState.mappingReducer.stacfilter : []) : [];
@@ -361,7 +376,7 @@ const GeoSearch = (
                 spatialfilter: spafilters,
                 foundational: found,
                 stacfilter: stfilters,
-                spatempfilter: spatfilters
+                spatempfilter: spatfilters,
             })
         );
 
@@ -490,7 +505,7 @@ const GeoSearch = (
                 spatialfilter: spatialfilters,
                 foundational,
                 stacfilter: stacfilters,
-                spatempfilter: spatempfilters
+                spatempfilter: spatempfilters,
             })
         );
         if (spatempfilters.extents.length > 0) {
@@ -529,7 +544,17 @@ const GeoSearch = (
         setSpatial([]);
         setFound(false);
         setSpatemp({ ...spatempfilters, extents: [] });
-        dispatch(setFilters({ orgfilter: [], typefilter: [], themefilter: [], spatialfilter: [], foundational: false, stacfilter: [], spatempfilter: { ...INITSPATIALTEMPORALFILTER } }));
+        dispatch(
+            setFilters({
+                orgfilter: [],
+                typefilter: [],
+                themefilter: [],
+                spatialfilter: [],
+                foundational: false,
+                stacfilter: [],
+                spatempfilter: { ...INITSPATIALTEMPORALFILTER },
+            })
+        );
         dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
         dispatch(setStoreCenter(INITMAINMAPINFO.center));
         dispatch(setStoreBoundbox(undefined));
@@ -547,9 +572,11 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
-        const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : [] : [];
+        const spafilters =
+            localState !== undefined ? (localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : []) : [];
         const stfilters = localState !== undefined ? (localState.mappingReducer.stfilter ? localState.mappingReducer.stfilter : []) : [];
-        const spatfilters: SpatialTemporalFilter = localState !== undefined ? localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER;
+        const spatfilters: SpatialTemporalFilter =
+            localState !== undefined ? localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER;
         const found = localState !== undefined ? localState.mappingReducer.foundational : false;
         const searchParams: KOSearchParams = {
             keyword: keyword.replace(/"/g, '\\"'),
@@ -622,7 +649,7 @@ const GeoSearch = (
                 spatialfilter: spafilters,
                 foundational: found,
                 stacfilter: stfilters,
-                spatempfilter: spatfilters
+                spatempfilter: spatfilters,
             })
         );
         // console.log(searchParams);
@@ -724,7 +751,10 @@ const GeoSearch = (
         setSpatemp(filters);
     };
 
-    const handleZoomChange = (newZoom: number, boundbox: LatLngBounds): void => { setZoom(newZoom); setBounds(boundbox); };
+    const handleZoomChange = (newZoom: number, boundbox: LatLngBounds): void => {
+        setZoom(newZoom);
+        setBounds(boundbox);
+    };
     const handleCenterChange = (newCenter: LatLng): void => {
         console.log('set center', newCenter);
         setFReset(true);
@@ -799,7 +829,7 @@ const GeoSearch = (
         setFound(false);
         setFReset(false);
     };
-    const isMobile = useMediaQuery("(max-width: 760px)");
+    const isMobile = useMediaQuery('(max-width: 760px)');
     useEffect(() => {
         // console.log(freeze);
         if (!freeze.freeze) {
@@ -807,8 +837,7 @@ const GeoSearch = (
         } else {
             map.off('moveend');
         }
-    }, [freeze]
-    );
+    }, [freeze]);
     useEffect(() => {
         /* if (!sfloaded) {
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
@@ -958,87 +987,87 @@ const GeoSearch = (
                 storespatempfilters.extents.length +
                 (storefoundational ? 1 : 0) >
                 0 && (
-                    <div className={ksOnly ? 'container-fluid container-search-filters-active' : 'searchFilters'}>
-                        <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
-                            {storetypefilters.map((typefilter: number) => (
-                                <button
-                                    key={`tf-${typefilter}`}
-                                    type="button"
-                                    className="btn btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? () => clearTypeFilter(typefilter) : undefined}
-                                >
-                                    {types[language][typefilter]} <i className="fas fa-times" />
-                                </button>
-                            ))}
-                            {storeorgfilters.map((orgfilter: number) => (
-                                <button
-                                    key={`of-${orgfilter}`}
-                                    type="button"
-                                    className="btn btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? () => clearOrgFilter(orgfilter) : undefined}
-                                >
-                                    {organisations[language][orgfilter]} <i className="fas fa-times" />
-                                </button>
-                            ))}
-                            {storethemefilters.map((themefilter: number) => (
-                                <button
-                                    key={`thf-${themefilter}`}
-                                    type="button"
-                                    className="btn btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? () => clearThemeFilter(themefilter) : undefined}
-                                >
-                                    {themes[language][themefilter]} <i className="fas fa-times" />
-                                </button>
-                            ))}
-                            {storespatialfilters.map((spatialfilter: number) => (
-                                <button
-                                    key={`spaf-${spatialfilter}`}
-                                    type="button"
-                                    className="btn btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? () => clearSpatialFilter(spatialfilter) : undefined}
-                                >
-                                    {spatials[language][spatialfilter]} <i className="fas fa-times" />
-                                </button>
-                            ))}
-                            {storespatempfilters.extents.map((spatempfilter: number) => (
-                                <button
-                                    key={`spatemp-${spatempfilter}`}
-                                    type="button"
-                                    className="btn btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? () => clearSpatempFilter(spatempfilter) : undefined}
-                                >
-                                    {spatemps[language][spatempfilter]} <i className="fas fa-times" />
-                                </button>
-                            ))}
-                            {storestacfilters.map((stacfilter: number) => (
-                                <button
-                                    key={`spaf-${stacfilter}`}
-                                    type="button"
-                                    className="btn btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? () => clearStacFilter(stacfilter) : undefined}
-                                >
-                                    {stacs[language][stacfilter]} <i className="fas fa-times" />
-                                </button>
-                            ))}
-                            {storefoundational && (
-                                <button
-                                    type="button"
-                                    className="btn btn btn-filter"
-                                    disabled={loading}
-                                    onClick={!loading ? clearFound : undefined}
-                                >
-                                    {t('filter.foundational')} <i className="fas fa-times" />
-                                </button>
-                            )}
-                        </div>
+                <div className={ksOnly ? 'container-fluid container-search-filters-active' : 'searchFilters'}>
+                    <div className="btn-group btn-group-search-filters-active" role="toolbar" aria-label="Active filters">
+                        {storetypefilters.map((typefilter: number) => (
+                            <button
+                                key={`tf-${typefilter}`}
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? () => clearTypeFilter(typefilter) : undefined}
+                            >
+                                {types[language][typefilter]} <i className="fas fa-times" />
+                            </button>
+                        ))}
+                        {storeorgfilters.map((orgfilter: number) => (
+                            <button
+                                key={`of-${orgfilter}`}
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? () => clearOrgFilter(orgfilter) : undefined}
+                            >
+                                {organisations[language][orgfilter]} <i className="fas fa-times" />
+                            </button>
+                        ))}
+                        {storethemefilters.map((themefilter: number) => (
+                            <button
+                                key={`thf-${themefilter}`}
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? () => clearThemeFilter(themefilter) : undefined}
+                            >
+                                {themes[language][themefilter]} <i className="fas fa-times" />
+                            </button>
+                        ))}
+                        {storespatialfilters.map((spatialfilter: number) => (
+                            <button
+                                key={`spaf-${spatialfilter}`}
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? () => clearSpatialFilter(spatialfilter) : undefined}
+                            >
+                                {spatials[language][spatialfilter]} <i className="fas fa-times" />
+                            </button>
+                        ))}
+                        {storespatempfilters.extents.map((spatempfilter: number) => (
+                            <button
+                                key={`spatemp-${spatempfilter}`}
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? () => clearSpatempFilter(spatempfilter) : undefined}
+                            >
+                                {spatemps[language][spatempfilter]} <i className="fas fa-times" />
+                            </button>
+                        ))}
+                        {storestacfilters.map((stacfilter: number) => (
+                            <button
+                                key={`spaf-${stacfilter}`}
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? () => clearStacFilter(stacfilter) : undefined}
+                            >
+                                {stacs[language][stacfilter]} <i className="fas fa-times" />
+                            </button>
+                        ))}
+                        {storefoundational && (
+                            <button
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? clearFound : undefined}
+                            >
+                                {t('filter.foundational')} <i className="fas fa-times" />
+                            </button>
+                        )}
                     </div>
-                )}
+                </div>
+            )}
             {ksOnly && filterbyshown && (
                 <div
                     className={
@@ -1064,12 +1093,13 @@ const GeoSearch = (
                                     onBoundboxChange={handleBoundboxChange}
                                     onCenterChange={handleCenterChange}
                                     onZoomChange={handleZoomChange}
-                                    filtername='spatemp'
+                                    filtername="spatemp"
                                     externalLabel
-                                    direction={isMobile ? "column" : "row"}
-                                    temporalDirection={isMobile ? "row" : "column"}
-                                    gridWidth={isMobile ? "100%" : "50%"}
+                                    direction={isMobile ? 'column' : 'row'}
+                                    temporalDirection={isMobile ? 'row' : 'column'}
+                                    gridWidth={isMobile ? '100%' : '50%'}
                                 />
+                                {/*
                                 <SearchFilter
                                     filtertitle={t('filter.stac')}
                                     filtervalues={stacs[language]}
@@ -1079,6 +1109,7 @@ const GeoSearch = (
                                     externalLabel
                                     labelParams={stacLabelParams}
                                 />
+                                */}
                                 <SearchFilter
                                     filtertitle={t('filter.organisations')}
                                     filtervalues={organisations[language]}
@@ -1091,7 +1122,7 @@ const GeoSearch = (
                                     filterselected={typefilters}
                                     selectFilters={handleType}
                                 />
-
+                                {/*
                                 <SearchFilter
                                     filtertitle={t('filter.spatial')}
                                     filtervalues={spatials[language]}
@@ -1101,7 +1132,7 @@ const GeoSearch = (
                                     externalLabel
                                     labelParams={spatialLabelParams}
                                 />
-
+                                */}
                                 <SearchFilter
                                     filtertitle={t('filter.themes')}
                                     filtervalues={themes[language]}
@@ -1165,161 +1196,182 @@ const GeoSearch = (
                     <div className="col-12 col-search-message">{t('page.noresult')}</div>
                 ) : (
                     <div className="row row-results rowDivider">
-                        {ksOnly ? results.map((result: SearchResult, mindex: number) => {
-                            const coordinates = JSON.parse(result.coordinates);
-                            const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
-                            const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
-                            const dist = Math.max(
-                                Math.abs(coordinates[0][2][1] - coordinates[0][0][1]),
-                                Math.abs(coordinates[0][1][0] - coordinates[0][0][0])
-                            );
-                            const resolution = (40.7436654315252 * dist * 11132) / 15;
-                            const zoom = Math.max(Math.log2(3600000 / resolution), 1);
-                            // console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
-                            return (
-                                <div key={result.id} className="container-fluid search-result">
-                                    <div className="row resultRow">
-                                        <div className={ksOnly ? "col-lg-8" : "col-lg-12"}>
-                                            <h2 className="search-title">{result.title}</h2>
-                                            {ksOnly &&
-                                                <div className="search-keywords">
-                                                    <div
-                                                        className={
-                                                            allkwshowing ? 'btn-group btn-group-keywords' : 'btn-group btn-group-keywords less'
-                                                        }
-                                                        role="toolbar"
-                                                        aria-label="Keywords"
-                                                    >
-                                                        {keywords.map((keyword, ki) => {
-                                                            return (
-                                                                <button
-                                                                    type="button"
-                                                                    className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
-                                                                    key={ki}
-                                                                    onClick={() => handleKeyword(keyword)}
-                                                                    autoFocus={cpn && mindex === 0 && ki === 0 ? true : false}
-                                                                >
-                                                                    {keyword}
-                                                                </button>
-                                                            );
-                                                        })}
-                                                        {keywords.length > 5 && (
-                                                            <button
-                                                                type="button"
-                                                                className="btn btn-keyword-more"
-                                                                onClick={() => handleKwshowing(result.id)}
-                                                                aria-expanded={allkwshowing}
-                                                            >
-                                                                {allkwshowing ? t('page.showless') : t('page.viewmore')}
-                                                                {allkwshowing ? (
-                                                                    <span className="sr-only">{t('page.showlessnotice')}</span>
-                                                                ) : (
-                                                                    <span className="sr-only">{t('page.viewmorenotice')}</span>
-                                                                )}
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </div>}
-                                            <div className="search-meta">
-                                                <ul className="list list-unstyled">
-                                                    <li className="list-item">
-                                                        <strong>{t('page.organisation')}:</strong> {result.organisation}
-                                                    </li>
-                                                    <li className="list-item">
-                                                        <strong>{t('page.published')}:</strong> {result.published}
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <p className="search-desc">
-                                                {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').substr(0, 240)}{' '}
-                                                {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').length > 240 ? <span>...</span> : ''}
-                                            </p>
-                                            <div className="search-result-buttons">
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-search"
-                                                    onMouseUp={(e) => handleView(e, result.id, result.title)}
-                                                    aria-label={result.title}
-                                                    autoFocus={cpn && keywords.length === 0 && mindex === 0 ? true : false}
-                                                >
-                                                    {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-4">
-                                            <div className="search-image">
-                                                <MapContainer
-                                                    center={[
-                                                        (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
-                                                        (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
-                                                    ]}
-                                                    zoomControl={false}
-                                                    zoom={zoom}
-                                                    attributionControl={false}
-                                                >
-                                                    <TileLayer
-                                                        url="https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
-                                                        attribution={t('mapctrl.attribution')}
-                                                    />
-                                                    <AttributionControl position="bottomleft" prefix={false} />
-                                                    <NavBar />
-                                                    <GeoJSON
-                                                        key={result.id}
-                                                        data={{
-                                                            type: 'Feature',
-                                                            properties: { id: result.id, tag: 'geoViewGeoJSON' },
-                                                            geometry: { type: 'Polygon', coordinates },
-                                                        }}
-                                                    />
-                                                </MapContainer>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                            :
-                            results.map((result: SearchResult, mindex: number) => (
-                                <div
-                                    key={result.id}
-                                    className={
-                                        selected === result.id && open === true ? 'col-sm-12 searchResult selected' : 'col-sm-12 searchResult'
-                                    }
-                                >
-                                    <h3 className="searchTitle">{result.title}</h3>
-                                    <div>
-                                        <p className="searchFields">
-                                            <strong>{t('page.organisation')}:</strong> {result.organisation}
-                                        </p>
-                                        <p className="searchFields">
-                                            <strong>{t('page.published')}:</strong> {result.published}
-                                        </p>
-                                        <p className="searchDesc">
-                                            {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').substr(0, 240)} {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').length > 240 ? <span>...</span> : ''}
-                                        </p>
-                                        <div className="searchResultButtons">
-                                            <button
-                                                type="button"
-                                                className="btn btn-sm searchButton"
-                                                onClick={() => handleSelect(result.id)}
-                                                aria-label={result.id}
-                                                autoFocus={cpn && mindex === 0 ? true : false}
-                                            >
-                                                {selected === result.id && open === true ? t('page.removefootprint') : t('page.viewfootprint')}
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="btn btn-sm searchButton"
-                                                onMouseUp={(e) => handleView(e, result.id, result.title)}
-                                                aria-label={result.title}
-
-                                            >
-                                                {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                        {ksOnly
+                            ? results.map((result: SearchResult, mindex: number) => {
+                                  const coordinates = JSON.parse(result.coordinates);
+                                  const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
+                                  const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
+                                  const dist = Math.max(
+                                      Math.abs(coordinates[0][2][1] - coordinates[0][0][1]),
+                                      Math.abs(coordinates[0][1][0] - coordinates[0][0][0])
+                                  );
+                                  const resolution = (40.7436654315252 * dist * 11132) / 15;
+                                  const zoom = Math.max(Math.log2(3600000 / resolution), 1);
+                                  // console.log(coordinates[0][2][1] - coordinates[0][0][1], coordinates[0][1][0] - coordinates[0][0][0], zoom);
+                                  return (
+                                      <div key={result.id} className="container-fluid search-result">
+                                          <div className="row resultRow">
+                                              <div className={ksOnly ? 'col-lg-8' : 'col-lg-12'}>
+                                                  <h2 className="search-title">{result.title}</h2>
+                                                  {ksOnly && (
+                                                      <div className="search-keywords">
+                                                          <div
+                                                              className={
+                                                                  allkwshowing
+                                                                      ? 'btn-group btn-group-keywords'
+                                                                      : 'btn-group btn-group-keywords less'
+                                                              }
+                                                              role="toolbar"
+                                                              aria-label="Keywords"
+                                                          >
+                                                              {keywords.map((keyword, ki) => {
+                                                                  return (
+                                                                      <button
+                                                                          type="button"
+                                                                          className={ki < 5 ? 'btn btn-keyword' : 'btn btn-keyword more'}
+                                                                          key={ki}
+                                                                          onClick={() => handleKeyword(keyword)}
+                                                                          autoFocus={cpn && mindex === 0 && ki === 0 ? true : false}
+                                                                      >
+                                                                          {keyword}
+                                                                      </button>
+                                                                  );
+                                                              })}
+                                                              {keywords.length > 5 && (
+                                                                  <button
+                                                                      type="button"
+                                                                      className="btn btn-keyword-more"
+                                                                      onClick={() => handleKwshowing(result.id)}
+                                                                      aria-expanded={allkwshowing}
+                                                                  >
+                                                                      {allkwshowing ? t('page.showless') : t('page.viewmore')}
+                                                                      {allkwshowing ? (
+                                                                          <span className="sr-only">{t('page.showlessnotice')}</span>
+                                                                      ) : (
+                                                                          <span className="sr-only">{t('page.viewmorenotice')}</span>
+                                                                      )}
+                                                                  </button>
+                                                              )}
+                                                          </div>
+                                                      </div>
+                                                  )}
+                                                  <div className="search-meta">
+                                                      <ul className="list list-unstyled">
+                                                          <li className="list-item">
+                                                              <strong>{t('page.organisation')}:</strong> {result.organisation}
+                                                          </li>
+                                                          <li className="list-item">
+                                                              <strong>{t('page.published')}:</strong> {result.published}
+                                                          </li>
+                                                      </ul>
+                                                  </div>
+                                                  <p className="search-desc">
+                                                      {result.description
+                                                          .replace(/\\n\\n/g, ' ')
+                                                          .replace(/\\n/g, ' ')
+                                                          .substr(0, 240)}{' '}
+                                                      {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').length > 240 ? (
+                                                          <span>...</span>
+                                                      ) : (
+                                                          ''
+                                                      )}
+                                                  </p>
+                                                  <div className="search-result-buttons">
+                                                      <button
+                                                          type="button"
+                                                          className="btn btn-search"
+                                                          onMouseUp={(e) => handleView(e, result.id, result.title)}
+                                                          aria-label={result.title}
+                                                          autoFocus={cpn && keywords.length === 0 && mindex === 0 ? true : false}
+                                                      >
+                                                          {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
+                                                      </button>
+                                                  </div>
+                                              </div>
+                                              <div className="col-lg-4">
+                                                  <div className="search-image">
+                                                      <MapContainer
+                                                          center={[
+                                                              (coordinates[0][2][1] + coordinates[0][0][1]) / 2,
+                                                              (coordinates[0][1][0] + coordinates[0][0][0]) / 2,
+                                                          ]}
+                                                          zoomControl={false}
+                                                          zoom={zoom}
+                                                          attributionControl={false}
+                                                      >
+                                                          <TileLayer
+                                                              url="https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
+                                                              attribution={t('mapctrl.attribution')}
+                                                          />
+                                                          <AttributionControl position="bottomleft" prefix={false} />
+                                                          <NavBar />
+                                                          <GeoJSON
+                                                              key={result.id}
+                                                              data={{
+                                                                  type: 'Feature',
+                                                                  properties: { id: result.id, tag: 'geoViewGeoJSON' },
+                                                                  geometry: { type: 'Polygon', coordinates },
+                                                              }}
+                                                          />
+                                                      </MapContainer>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  );
+                              })
+                            : results.map((result: SearchResult, mindex: number) => (
+                                  <div
+                                      key={result.id}
+                                      className={
+                                          selected === result.id && open === true
+                                              ? 'col-sm-12 searchResult selected'
+                                              : 'col-sm-12 searchResult'
+                                      }
+                                  >
+                                      <h3 className="searchTitle">{result.title}</h3>
+                                      <div>
+                                          <p className="searchFields">
+                                              <strong>{t('page.organisation')}:</strong> {result.organisation}
+                                          </p>
+                                          <p className="searchFields">
+                                              <strong>{t('page.published')}:</strong> {result.published}
+                                          </p>
+                                          <p className="searchDesc">
+                                              {result.description
+                                                  .replace(/\\n\\n/g, ' ')
+                                                  .replace(/\\n/g, ' ')
+                                                  .substr(0, 240)}{' '}
+                                              {result.description.replace(/\\n\\n/g, ' ').replace(/\\n/g, ' ').length > 240 ? (
+                                                  <span>...</span>
+                                              ) : (
+                                                  ''
+                                              )}
+                                          </p>
+                                          <div className="searchResultButtons">
+                                              <button
+                                                  type="button"
+                                                  className="btn btn-sm searchButton"
+                                                  onClick={() => handleSelect(result.id)}
+                                                  aria-label={result.id}
+                                                  autoFocus={cpn && mindex === 0 ? true : false}
+                                              >
+                                                  {selected === result.id && open === true
+                                                      ? t('page.removefootprint')
+                                                      : t('page.viewfootprint')}
+                                              </button>
+                                              <button
+                                                  type="button"
+                                                  className="btn btn-sm searchButton"
+                                                  onMouseUp={(e) => handleView(e, result.id, result.title)}
+                                                  aria-label={result.title}
+                                              >
+                                                  {t('page.viewrecord')} <i className="fas fa-long-arrow-alt-right" />
+                                              </button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              ))}
                     </div>
                 )}
                 {cnt > 0 && (!loading || cpn) && (
