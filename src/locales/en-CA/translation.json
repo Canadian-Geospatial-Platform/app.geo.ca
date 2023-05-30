@@ -75,7 +75,7 @@
         "spatial": "Viewable on a Map",
         "stac": "Metadata Standard",
         "spatemp": {
-            "title": "SPATIAL-TEMPORAL",
+            "title": "SPATIO-TEMPORAL",
             "temporal": "All times in Coordinated Universal Time (UTC).",
             "startdate": "Start Date",
             "enddate": "End Date"
@@ -88,7 +88,7 @@
                 "viewable-on-map": "Viewable({{param}})",
                 "not-viewable-on-map": "Non-viewable({{param}})",
                 "opt": "Freeze spatial filtering",
-                "opt-tooltip": "placeholder for tooltip"
+                "opt-tooltip": "Freeze the spatial filtering when panning or zooming map"
             },
             "stac": {
                 "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
@@ -270,6 +270,7 @@
         "NB": "New Brunswick",
         "NU": "Nunavut",
         "NT": "Northwest Territories",
-        "YT": "Yukon"
+        "YT": "Yukon",
+        "DEFAULT": "Please select one"
     }
 }

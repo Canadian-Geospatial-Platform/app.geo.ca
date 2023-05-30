@@ -32,9 +32,9 @@
         .searchButtonGroupBtn {
             margin-top: 5px;
 
-            >.btn,
-            >.btn-group,
-            >.input-group {
+            > .btn,
+            > .btn-group,
+            > .input-group {
                 margin-left: 0px;
                 font-size: 0.9em;
             }
@@ -130,22 +130,22 @@
             }
         }
 
-        input:checked+.slider {
+        input:checked + .slider {
             background-color: $color__light;
         }
 
-        input:focus+.slider,
-        input:hover+.slider {
+        input:focus + .slider,
+        input:hover + .slider {
             box-shadow: 0 0 3px $color__icon-btn-bg;
         }
 
-        input:checked:focus+.slider,
-        input:checked:hover+.slider {
+        input:checked:focus + .slider,
+        input:checked:hover + .slider {
             box-shadow: 0 0 3px $color__semi-light;
             background-color: $color__semi-light;
         }
 
-        input:checked+.slider:before {
+        input:checked + .slider:before {
             -webkit-transform: translateX(24px);
             -ms-transform: translateX(24px);
             transform: translateX(24px);
@@ -167,7 +167,6 @@
 
     .dropdown-select {
         color: $color__text-main;
-        border-bottom: 1px solid $color__text-main;
     }
 
     .dropdown-select-option {
