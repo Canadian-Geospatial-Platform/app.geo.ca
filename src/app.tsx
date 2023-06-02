@@ -16,7 +16,7 @@ import i18n from "./assets/i18n/i18n";
 import { I18nextProvider } from "react-i18next";
 const w = window as TypeWindow;
 // get reference to geoview apis
-export const cgpv = w["cgpv"];
+const cgpv = w["cgpv"];
 
 const persistedState: StoreEnhancer<unknown, unknown> | undefined = loadState();
 const reducers = combineReducers({

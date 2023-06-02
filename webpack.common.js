@@ -22,6 +22,10 @@ const config = {
     publicPath: "/",
     filename: "app.geo.ca.js",
   },
+  externals: {
+    react: 'cgpv.react',
+    'react-dom': 'cgpv.reactDOM',
+  },
   resolve: {
     extensions: [".mjs", ".ts", ".tsx", ".js", ".jsx", ".json", ".jpg"],
     fallback: {

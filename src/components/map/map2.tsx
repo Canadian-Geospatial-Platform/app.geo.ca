@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { useEffect } from "react";
 import { TypeIconButtonProps, TypePanelProps } from "geoview-core-types";
-import { cgpv } from "../../app";
+import { TypeWindow } from "geoview-core-types";
 import translationEn from "../../locales/en-CA/translation.json";
 import translationFr from "../../locales/fr-CA/translation.json";
 import { Appbar } from "../appbar/app-bar";
-
+const w = window as TypeWindow;
+// get reference to geoview apis
+const cgpv = w["cgpv"];
 export function Map2(): JSX.Element {
   const { react, useTranslation } = cgpv;
 
