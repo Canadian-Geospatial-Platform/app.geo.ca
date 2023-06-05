@@ -75,10 +75,10 @@
         "spatial": "Viewable on a Map",
         "stac": "Metadata Standard",
         "spatemp": {
-            "title": "SPATIO-TEMPOREL",
-            "temporal": "Toutes les heures sont exprimées en temps universel coordonné (UTC)",
-            "startdate": "Date de début",
-            "enddate": "Date de fin"
+            "title": "SPATIAL-TEMPORAL",
+            "temporal": "All times in Coordinated Universal Time (UTC).",
+            "startdate": "Start Date",
+            "enddate": "End Date"
         },
         "otherfilters": "Autres Filtres",
         "applyfilters": "Appliquer des Filtres",
@@ -87,20 +87,20 @@
             "spatial": {
                 "viewable-on-map": "Viewable({{param}})",
                 "not-viewable-on-map": "Non-viewable({{param}})",
-                "opt": "geler le filtrage géospatial",
-                "opt-tooltip": "Geler le filtrage spatial lors d'un panoramique ou d'un zoom sur la carte"
+                "opt": "Freeze spatial filtering",
+                "opt-tooltip": "placeholder for tooltip"
             },
             "stac": {
                 "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
                 "STAC": "Spatio Temporal Asset Catalog (STAC) ({{param}} records)"
             },
             "spatemp": {
-                "SPATIALEXTENT": "Étendue spatiale",
-                "TEMPORALEXTENT": "Étendue temporelle",
-                "selectprovince": "Rechercher des provinces ou des territoires",
-                "or": "ou",
-                "search-extent": "Étendue de la recherche...",
-                "select-extent": "Autres domaines de recherche"
+                "SPATIALEXTENT": "Spatial Extent",
+                "TEMPORALEXTENT": "Temporal Extent",
+                "selectprovince": "Search provinces or territories",
+                "or": "or",
+                "search-extent": "Search extents...",
+                "select-extent": "Alternative search extents"
             }
         }
     },
@@ -270,7 +270,6 @@
         "NB": "le Nouveau-Brunswick",
         "NU": "le Nunavut",
         "NT": "les Territoires du Nord-Ouest",
-        "YT": "Le Yukon / le territoire du Yukon",
-        "DEFAULT": "Veuillez sélectionner une option"
+        "YT": "Le Yukon / le territoire du Yukon"
     }
 }
