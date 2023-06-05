@@ -1,8 +1,8 @@
 {
-  "name": "test3",
+  "name": "geoviewcore-test",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "webpack": "webpack",
     "serve": "webpack serve",

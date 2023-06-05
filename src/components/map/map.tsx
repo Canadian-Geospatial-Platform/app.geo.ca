@@ -4,11 +4,13 @@ import { TypeWindow } from "geoview-core-types";
 import translationEn from "../../locales/en-CA/translation.json";
 import translationFr from "../../locales/fr-CA/translation.json";
 import { Appbar } from "../appbar/app-bar";
+import { useDispatch } from "react-redux";
 
 const w = window as TypeWindow;
 
 const cgpv = w["cgpv"];
 export function Map(): JSX.Element {
+  const dispatch = useDispatch();
   useEffect(() => {
     cgpv.init(function () {
       const translations = {
