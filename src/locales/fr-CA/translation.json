@@ -69,7 +69,7 @@
     "filter": {
         "filterby": "Filtrer par",
         "organisations": "Organisations",
-        "types": "Les Thèmes",
+        "types": "Types",
         "themes": "Thèmes",
         "foundational": "Données de base du Canada",
         "spatial": "Viewable on a Map",
@@ -81,14 +81,14 @@
             "enddate": "Date de fin"
         },
         "otherfilters": "Autres Filtres",
-        "applyfilters": "Appliquer des Filtres",
-        "clearall": "Tout Effacer",
+        "applyfilters": "Appliquer les filtres",
+        "clearall": "Tout effacer",
         "label": {
             "spatial": {
                 "viewable-on-map": "Viewable({{param}})",
                 "not-viewable-on-map": "Non-viewable({{param}})",
-                "opt": "geler le filtrage géospatial",
-                "opt-tooltip": "Geler le filtrage spatial lors d'un panoramique ou d'un zoom sur la carte"
+                "opt": "Geler le filtrage géospatial",
+                "opt-tooltip": "Geler le filtrage spatial lors d'un déplacement ou d'un zoom sur la carte"
             },
             "stac": {
                 "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
@@ -97,9 +97,9 @@
             "spatemp": {
                 "SPATIALEXTENT": "Étendue spatiale",
                 "TEMPORALEXTENT": "Étendue temporelle",
-                "selectprovince": "Rechercher des provinces ou des territoires",
+                "selectprovince": "Rechercher par province ou territoire",
                 "or": "ou",
-                "search-extent": "Étendue de la recherche...",
+                "search-extent": "Rechercher par lieu",
                 "select-extent": "Autres domaines de recherche"
             }
         }
@@ -258,19 +258,19 @@
         }
     },
     "province": {
-        "AB": "l'Alberta",
-        "BC": "la Colombie-Britannique",
-        "ON": "l'Ontario",
-        "QC": "le Québec",
-        "MB": "le Manitoba",
-        "PEI": "l'île-du-Prince-Édouard",
-        "SK": "la Saskatchewan",
-        "NL": "la Terre-Neuve-et-Labrador",
-        "NS": "la Nouvelle-Écosse",
-        "NB": "le Nouveau-Brunswick",
-        "NU": "le Nunavut",
-        "NT": "les Territoires du Nord-Ouest",
-        "YT": "Le Yukon / le territoire du Yukon",
-        "DEFAULT": "Veuillez sélectionner une option"
+        "AB": "Alberta",
+        "BC": "Colombie-Britannique",
+        "ON": "Ontario",
+        "QC": "Québec",
+        "MB": "Manitoba",
+        "PEI": "île-du-Prince-Édouard",
+        "SK": "Saskatchewan",
+        "NL": "Terre-Neuve-et-Labrador",
+        "NS": "Nouvelle-Écosse",
+        "NB": "Nouveau-Brunswick",
+        "NU": "Nunavut",
+        "NT": "Territoires du Nord-Ouest",
+        "YT": "Yukon",
+        "DEFAULT": "Sélectionnez une option"
     }
 }

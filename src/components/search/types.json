@@ -1,18 +1,4 @@
 {
-    "en": [
-        "API",
-        "Application",
-        "Collection",
-        "Community",
-        "Dataset",
-        "Service"
-    ],
-    "fr": [
-        "API",
-        "Applications",
-        "Collections",
-        "Communauté",
-        "Jeu de données",
-        "Service"
-    ]
+    "en": ["API", "Application", "Collection", "Community", "Dataset", "Service"],
+    "fr": ["API", "Application", "Collection", "Communauté", "Jeu de données", "Service"]
 }

@@ -24,7 +24,7 @@ const localeUtilsMap = {
 };
 const localeFormatMap = {
     en: 'MM/dd/yyyy',
-    fr: 'MM/dd/yyyy',
+    fr: 'yyyy/MM/dd',
 };
 const styles = {
     formControl: {
@@ -77,7 +77,7 @@ export default function TemporalExtent(props: TemporalProps): JSX.Element {
                                 <KeyboardDatePicker
                                     disableToolbar
                                     variant="inline"
-                                    format="MM/dd/yyyy"
+                                    format={localeFormatMap[locale]}
                                     margin="normal"
                                     id="date-picker-inline"
                                     label={t('filter.spatemp.startdate')}
@@ -90,7 +90,6 @@ export default function TemporalExtent(props: TemporalProps): JSX.Element {
                             </FormControl>
                             <FormControl className={classes.formControl}>
                                 <KeyboardDatePicker
-                                    views={['year', 'month', 'date']}
                                     disableToolbar
                                     variant="inline"
                                     format={localeFormatMap[locale]}
