@@ -1,7 +1,7 @@
 import DateFnsUtils from '@date-io/date-fns';
 import { FormControl, Grid, GridDirection } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { DatePicker, KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
 import { useTranslation } from 'react-i18next';
 import format from 'date-fns/format';
@@ -13,18 +13,31 @@ const localeMap = {
     en: enLocale,
     fr: frLocale,
 };
+class EnLocalizedUtils extends DateFnsUtils {
+    getDatePickerHeaderText(date) {
+        return format(date, 'd MMM yyyy', { locale: this.locale });
+    }
+}
 class FrLocalizedUtils extends DateFnsUtils {
     getDatePickerHeaderText(date) {
         return format(date, 'd MMM yyyy', { locale: this.locale });
     }
 }
 const localeUtilsMap = {
-    en: DateFnsUtils,
+    en: EnLocalizedUtils,
     fr: FrLocalizedUtils,
 };
 const localeFormatMap = {
     en: 'MM/dd/yyyy',
     fr: 'yyyy/MM/dd',
+};
+const localeCancelLabelMap = {
+    en: 'cancel',
+    fr: 'annuler',
+};
+const localeClearLabelMap = {
+    en: 'clear',
+    fr: 'claire',
 };
 const styles = {
     formControl: {
@@ -75,12 +88,13 @@ export default function TemporalExtent(props: TemporalProps): JSX.Element {
                         <Grid container direction={direction}>
                             <FormControl className={classes.formControl}>
                                 <KeyboardDatePicker
-                                    disableToolbar
-                                    variant="inline"
+                                    variant="dialog"
                                     format={localeFormatMap[locale]}
                                     margin="normal"
-                                    id="date-picker-inline"
+                                    id="date-picker-inline-start"
                                     label={t('filter.spatemp.startdate')}
+                                    cancelLabel={localeCancelLabelMap[locale]}
+                                    clearLabel={localeClearLabelMap[locale]}
                                     value={initStartDate}
                                     onChange={handleStartDateChange}
                                     KeyboardButtonProps={{
@@ -90,12 +104,13 @@ export default function TemporalExtent(props: TemporalProps): JSX.Element {
                             </FormControl>
                             <FormControl className={classes.formControl}>
                                 <KeyboardDatePicker
-                                    disableToolbar
-                                    variant="inline"
+                                    variant="dialog"
                                     format={localeFormatMap[locale]}
                                     margin="normal"
-                                    id="date-picker-inline"
+                                    id="date-picker-inline-end"
                                     label={t('filter.spatemp.enddate')}
+                                    cancelLabel={localeCancelLabelMap[locale]}
+                                    clearLabel={localeClearLabelMap[locale]}
                                     value={initEndDate}
                                     onChange={handleEndDateChange}
                                     KeyboardButtonProps={{
