@@ -13,7 +13,21 @@ import './spatial-temporalfilter.scss';
 import TemporalExtent from './temporal-extent';
 
 export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps): JSX.Element {
-    const { direction, gridWidth, temporalDirection, filtertitle, filtervalues, filterselected, selectFilters, onZoomChange, onCenterChange, onBoundboxChange, filtername, externalLabel, labelParams } = props;
+    const {
+        direction,
+        gridWidth,
+        temporalDirection,
+        filtertitle,
+        filtervalues,
+        filterselected,
+        selectFilters,
+        onZoomChange,
+        onCenterChange,
+        onBoundboxChange,
+        filtername,
+        externalLabel,
+        labelParams,
+    } = props;
     const [fselected, setFselected] = useState<SpatialTemporalFilter>(filterselected);
     const [open, setOpen] = useState(false);
     const { t } = useTranslation();
@@ -50,31 +64,39 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
 
     const handleEndDateChange = (date) => {
         // console.log('end', date);
-        setFselected({ ...filterselected, endDate: date.toISOString() });
-        selectFilters({ ...filterselected, endDate: date.toISOString() });
-    }
+        try {
+            setFselected({ ...filterselected, endDate: date.toISOString() });
+            selectFilters({ ...filterselected, endDate: date.toISOString() });
+        } catch (e) {
+            //ignore
+        }
+    };
 
     const handleStartDateChange = (date) => {
         // console.log('start', date);
-        setFselected({ ...filterselected, startDate: date.toISOString() });
-        selectFilters({ ...filterselected, startDate: date.toISOString() });
-    }
+        try {
+            setFselected({ ...filterselected, startDate: date.toISOString() });
+            selectFilters({ ...filterselected, startDate: date.toISOString() });
+        } catch (e) {
+            //ignore
+        }
+    };
 
     const handleBBoxChange = (boundbox: LatLngBounds) => {
         console.log('bbox', boundbox);
         onBoundboxChange(boundbox);
-    }
+    };
 
     const handleZoomChange = (zoom: number, bounds: LatLngBounds) => {
         console.log('zoom', zoom, bounds);
         onZoomChange(zoom, bounds);
-    }
+    };
 
     const handleCenterChange = (center: LatLng, bounds: LatLngBounds) => {
         console.log('center', center, bounds);
         onCenterChange(center);
         onBoundboxChange(bounds);
-    }
+    };
 
     return (
         <div className={open ? 'filter-wrap open' : 'filter-wrap'}>
@@ -90,7 +112,6 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
             )}
             <div className="filter-list-wrap">
                 <Grid container direction={direction}>
-
                     {filterShowing.map((f: { filter: string; findex: number }) => {
                         const selected = fselected.extents.findIndex((fs) => fs === f.findex) > -1;
                         const inputID = `filter-${filtertitle.replace(/ /g, '-').toLowerCase()}-${f.findex}`; // create valid html ids for each label/input pair (lowercase is optional)
@@ -118,28 +139,34 @@ export default function SpatialTemporalSearchFilter(props: SpatialTemporalProps)
                                         onChange={() => onSelectFilter(f.findex)}
                                     />
                                 </div>
-                                {
-                                    (f.findex === 0 && (fselected.extents.findIndex(fs => fs === f.findex) >= 0)) ?
-                                        (
-                                            < div >
-                                                <SpatialExtent language={i18n.language} onBBox={handleBBoxChange} onZoom={handleZoomChange} onCenter={handleCenterChange} />
-                                            </div>
-                                        ) : null
-                                }
-                                {
-                                    (f.findex === 1 && (fselected.extents.findIndex(fs => fs === f.findex) >= 0)) ?
-                                        (
-                                            <div>
-                                                <TemporalExtent direction={temporalDirection} initStartDate={new Date(fselected.startDate)} initEndDate={new Date(fselected.endDate)} onSelectStartDate={handleStartDateChange} onSelectEndDate={handleEndDateChange} />
-                                            </div>) : null
-                                }
+                                {f.findex === 0 && fselected.extents.findIndex((fs) => fs === f.findex) >= 0 ? (
+                                    <div>
+                                        <SpatialExtent
+                                            language={i18n.language}
+                                            onBBox={handleBBoxChange}
+                                            onZoom={handleZoomChange}
+                                            onCenter={handleCenterChange}
+                                        />
+                                    </div>
+                                ) : null}
+                                {f.findex === 1 && fselected.extents.findIndex((fs) => fs === f.findex) >= 0 ? (
+                                    <div>
+                                        <TemporalExtent
+                                            direction={temporalDirection}
+                                            initStartDate={new Date(fselected.startDate)}
+                                            initEndDate={new Date(fselected.endDate)}
+                                            onSelectStartDate={handleStartDateChange}
+                                            onSelectEndDate={handleEndDateChange}
+                                        />
+                                    </div>
+                                ) : null}
                             </Grid>
                         );
                     })}
                 </Grid>
             </div>
-        </div >
-    )
+        </div>
+    );
 }
 
 interface SpatialTemporalProps {
