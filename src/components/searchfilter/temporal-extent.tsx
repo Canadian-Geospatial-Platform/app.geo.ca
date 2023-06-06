@@ -4,8 +4,28 @@ import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
 import { useTranslation } from 'react-i18next';
+import format from 'date-fns/format';
+import frLocale from 'date-fns/locale/fr';
+import enLocale from 'date-fns/locale/en-US';
 import './temporal-extent.scss';
-
+import { useState } from 'react';
+const localeMap = {
+    en: enLocale,
+    fr: frLocale,
+};
+class FrLocalizedUtils extends DateFnsUtils {
+    getDatePickerHeaderText(date) {
+        return format(date, 'd MMM yyyy', { locale: this.locale });
+    }
+}
+const localeUtilsMap = {
+    en: DateFnsUtils,
+    fr: FrLocalizedUtils,
+};
+const localeFormatMap = {
+    en: 'MM/dd/yyyy',
+    fr: 'MM/dd/yyyy',
+};
 const styles = {
     formControl: {
         width: '150px',
@@ -17,7 +37,7 @@ const styles = {
         flexDirection: 'row',
         alignItems: 'center',
     },
-}
+};
 
 const useStyles = makeStyles(styles);
 
@@ -32,6 +52,8 @@ export default function TemporalExtent(props: TemporalProps): JSX.Element {
     const { initStartDate, initEndDate, direction, onSelectStartDate, onSelectEndDate } = props;
     const classes = useStyles();
     const { t } = useTranslation();
+    const language = t('app.language');
+    const [locale, setLocale] = useState(language);
     const handleStartDateChange = (date) => {
         onSelectStartDate(date);
     };
@@ -47,7 +69,7 @@ export default function TemporalExtent(props: TemporalProps): JSX.Element {
     */
     return (
         <div className="temporal-extent">
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={localeUtilsMap[locale]} locale={localeMap[locale]}>
                 <Grid container direction="column">
                     <div className={classes.divcontrol}>
                         <Grid container direction={direction}>
@@ -68,9 +90,10 @@ export default function TemporalExtent(props: TemporalProps): JSX.Element {
                             </FormControl>
                             <FormControl className={classes.formControl}>
                                 <KeyboardDatePicker
+                                    views={['year', 'month', 'date']}
                                     disableToolbar
                                     variant="inline"
-                                    format="MM/dd/yyyy"
+                                    format={localeFormatMap[locale]}
                                     margin="normal"
                                     id="date-picker-inline"
                                     label={t('filter.spatemp.enddate')}
@@ -85,7 +108,7 @@ export default function TemporalExtent(props: TemporalProps): JSX.Element {
                     </div>
                     <div style={{ paddingTop: '15px', paddingLeft: '10px' }}>{t('filter.spatemp.temporal')}</div>
                 </Grid>
-            </MuiPickersUtilsProvider >
+            </MuiPickersUtilsProvider>
         </div>
     );
 }
