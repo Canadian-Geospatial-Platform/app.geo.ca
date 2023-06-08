@@ -244,10 +244,14 @@ function MapHandler(props: MapHandlerProps) {
             orgNeMarkerPt = map.latLngToContainerPoint(bounds.getNorthEast());
         },
         zoomend: () => {
-            // console.log('zoom end');
-            const newbounds = L.latLngBounds(map.containerPointToLatLng(orgSwMarkerPt), map.containerPointToLatLng(orgNeMarkerPt));
-            onMapZoomChange(getMainZoom(map.getZoom(), INITCONFIGINFO.zoomFactor), newbounds);
+            //console.log('zoom end');
             isZooming = false;
+            try {
+                const newbounds = L.latLngBounds(map.containerPointToLatLng(orgSwMarkerPt), map.containerPointToLatLng(orgNeMarkerPt));
+                onMapZoomChange(getMainZoom(map.getZoom(), INITCONFIGINFO.zoomFactor), newbounds);
+            } catch (e) {
+                // ignore
+            }
         },
         movestart: () => {
             // console.log('move start');
@@ -369,12 +373,20 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
         console.log(value, bbox);
         const bound = new LatLngBounds(new LatLng(bbox[1], bbox[0]), new LatLng(bbox[3], bbox[2]));
         const newCenter = new LatLng(bbox[1] + (bbox[3] - bbox[1]) / 2, bbox[0] + (bbox[2] - bbox[0]) / 2);
-        const newZoom = 10;
-        map.setView(newCenter, newZoom);
+        /*
+        let newZoom = 10;
+        if (bbox[2] - bbox[0] > 4 || bbox[3] - bbox[1] > 4) {
+            newZoom = 4;
+        }
+        if (bbox[2] - bbox[0] > 10 || bbox[3] - bbox[1] > 10) {
+            newZoom = 3;
+        }*/
+        //map.setView(newCenter, newZoom);
+        map.fitBounds(bound);
         setTimeout(() => {
             setBounds(bound);
             setCenter(newCenter);
-            setZoom(getMainZoom(newZoom, INITCONFIGINFO.zoomFactor));
+            //setZoom(getMainZoom(newZoom, INITCONFIGINFO.zoomFactor));
             props.onCenter(newCenter, bound);
         }, 300);
     };
@@ -428,12 +440,20 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                         // w.lng, s.lat, e.lng, n.lat
                         const bound = new LatLngBounds(new LatLng(box[1], box[0]), new LatLng(box[3], box[2]));
                         const newCenter = new LatLng(box[1] + (box[3] - box[1]) / 2, box[0] + (box[2] - box[0]) / 2);
-                        const newZoom = 10;
-                        map.setView(newCenter, newZoom);
+                        /*
+                        let newZoom = 10;
+                        if (box[2] - box[0] > 4 || box[3] - box[1] > 4) {
+                            newZoom = 4;
+                        }
+                        if (box[2] - box[0] > 10 || box[3] - box[1] > 10) {
+                            newZoom = 3;
+                        }*/
+                        //map.setView(newCenter, newZoom);
+                        map.fitBounds(bound);
                         setTimeout(() => {
                             setBounds(bound);
                             setCenter(newCenter);
-                            setZoom(getMainZoom(newZoom, INITCONFIGINFO.zoomFactor));
+                            //setZoom(getMainZoom(newZoom, INITCONFIGINFO.zoomFactor));
                             props.onCenter(newCenter, bound);
                         }, 300);
                     } else {
