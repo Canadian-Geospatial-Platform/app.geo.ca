@@ -17,7 +17,7 @@
     },
     "mapnav": {
         "ariaNavbar": "groupe de buttons vertical pour navigation sur la carte",
-        "fullscreen": "Plein Écran",
+        "fullscreen": "Plein écran",
         "home": "Maison",
         "zoomIn": "Zoom avant",
         "zoomOut": "Zoom arrière"
@@ -46,7 +46,7 @@
         "filters": "Filtres",
         "analytics": "Analytique",
         "account": "Compte",
-        "howto": "Comment",
+        "howto": "Aide",
         "share": "Partager",
         "version": "Accéder au repo sur GitHub",
         "opendrawer": "Ouvrir la boîte à outils de recherche",
@@ -125,10 +125,10 @@
         "headertotal": "Accès total"
     },
     "howto": {
-        "geosearchdescription": "L'application recherche utilise une carte pour rechercher des données dans la zone indiquée. Effectuez un panoramique et un zoom sur la carte pour filtrer le contenu en fonction de la zone qui vous intéresse. Les résultats seront rafraîchis en fonction de la zone de la carte. Si vous n'êtes pas intéressé par une zone géographique donnée. Cliquez sur le bouton Mot-clé uniquement, saisissez un mot-clé et filtrez les résultats à l'aide de nos filtres avancés.",
+        "geosearchdescription": "L'application de recherche utilise une carte pour rechercher des données dans l'étendue géographique indiquée. Naviguez sur la carte pour filtrer le contenu en fonction de la région qui vous intéresse. Les résultats seront rafraîchis en fonction de l'étendue de la carte. Si vous n'êtes pas intéressé par une géographique spécifique, cliquez uniquement sur le bouton <<Mot-clé>>, saisissez un mot-clé et, au besoin, filtrez les résultats à l'aide de nos filtres avancés.",
         "keywordsearchdescription": "La page de recherche par mot-clé peut être utilisée si vous n'êtes pas intéressé par une zone géographique donnée. Saisissez un mot-clé et filtrez les résultats en fonction de nos filtres avancés.",
-        "filtersdescription": "Les filtres avancés peuvent filtrer les données en fonction de l'organisation, du type, du thème et des couches fondamentales. Vous pouvez ajouter autant de filtres que nécessaire et les supprimer s'ils ne vous donnent pas le résultat dont vous avez besoin.",
-        "searchoperators": "GEO.ca prend en charge une série d'opérateurs de recherche qui peuvent vous aider à trouver plus rapidement les données dont vous avez besoin. Si vous recherchez une correspondance exacte avec votre terme de recherche, placez-le entre guillemets. Cela renverra uniquement les résultats qui correspondent exactement à votre terme . Par exemple. -'\"Mon terme de recherche\"'. Si vous souhaitez que l'enregistrement contienne plusieurs termes de recherche, incluez ET dans la zone de recherche. Par exemple. - '\"Ma recherche ET Terme\"'. Enfin, si vous souhaitez inclure plusieurs termes de recherche tels que '\"Recherche OU Terme\"', incluez un espace entre les termes et notre système inclura automatiquement les enregistrements avec l'un ou l'autre terme de recherche."
+        "filtersdescription": "Les filtres avancés permettent de filtrer les données en fonction de l'organisation, du type, du thème et des données de base. Vous pouvez ajouter autant de filtres que nécessaire et les supprimer s'ils ne vous donnent pas le résultat souhaité.",
+        "searchoperators": "GEO.ca prend en charge une série d'opérateurs de recherche qui peuvent vous aider à trouver plus rapidement les données dont vous avez besoin. Si vous recherchez une correspondance exacte avec votre terme de recherche, placez-le entre guillemets. Cela renverra uniquement les résultats qui correspondent exactement à votre terme. Par exemple: <<Mon terme de recherche>>. Si vous souhaitez que l'enregistrement contienne plusieurs termes de recherche, incluez ET dans la zone de recherche. Par exemple: <<Ma recherche ET Terme>>. Enfin, si vous souhaitez inclure plusieurs termes de recherche tels que <<Recherche OU Terme>>, incluez un espace entre les termes et notre système inclura automatiquement les enregistrements avec l'un ou l'autre terme de recherche."
     },
     "page": {
         "ctrl": {
