@@ -303,9 +303,9 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
     const [bounds, setBounds] = useState(() =>
         boundbox
             ? new LatLngBounds(
-                new LatLng(boundbox._southWest.lat, boundbox._southWest.lng),
-                new LatLng(boundbox._northEast.lat, boundbox._northEast.lng)
-            )
+                  new LatLng(boundbox._southWest.lat, boundbox._southWest.lng),
+                  new LatLng(boundbox._northEast.lat, boundbox._northEast.lng)
+              )
             : null
     );
     /*
@@ -390,7 +390,14 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
         axios
             .get(`${EnvGlobals.APP_GEOLOCATOR_URL}`, {
                 //headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                params: { lang: t('app.language'), q: keyword, key: 'geonames' },
+                params: { lang: t('app.language'), q: keyword, keys: 'geonames' },
+                paramsSerializer: (params) => {
+                    let result = '';
+                    Object.keys(params).forEach((key) => {
+                        result += `${key}=${encodeURIComponent(params[key])}&`;
+                    });
+                    return result.substring(0, result.length - 1);
+                },
             })
             .then((response) => {
                 setLoading(false);
@@ -429,14 +436,12 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                             setZoom(getMainZoom(newZoom, INITCONFIGINFO.zoomFactor));
                             props.onCenter(newCenter, bound);
                         }, 300);
-
                     } else {
                         setErrorResult(true);
                     }
                 } else {
                     setErrorResult(true);
                 }
-
             })
             .catch((e) => {
                 console.log(e);
@@ -517,14 +522,8 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                 <DraggableMarker key="marker-ne" position={ORDINAL_DIRECTION.NE} bounds={bounds} onPositionChange={handleMarker} />
                 <DraggableMarker key="marker-se" position={ORDINAL_DIRECTION.SE} bounds={bounds} onPositionChange={handleMarker} />
                 <DraggableMarker key="marker-nw" position={ORDINAL_DIRECTION.NW} bounds={bounds} onPositionChange={handleMarker} />
-                <MapHandler
-                    onMapResize={handleMarker}
-                    onMapCenterChange={handleMapMove}
-                    onMapZoomChange={handleMapZoom}
-                    bounds={bounds}
-                />
+                <MapHandler onMapResize={handleMarker} onMapCenterChange={handleMapMove} onMapZoomChange={handleMapZoom} bounds={bounds} />
             </MapContainer>
-
         </div>
     );
 }
