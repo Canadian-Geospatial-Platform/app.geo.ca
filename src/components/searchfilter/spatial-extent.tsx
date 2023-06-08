@@ -419,7 +419,7 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                     if (items && items.length > 0) {
                         setErrorResult(false);
 
-                        if (items.length > 1) {
+                        if (items.length >= 1) {
                             const list = items.map((d, idx) => {
                                 let label;
                                 if (d.tag && d.tag[0]) {
