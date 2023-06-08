@@ -390,7 +390,7 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
         axios
             .get(`${EnvGlobals.APP_GEOLOCATOR_URL}`, {
                 //headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                params: { lang: t('app.language'), q: keyword, keys: 'geonames' },
+                params: { lang: t('app.language'), q: keyword, keys: 'geonames,nominatim' },
                 paramsSerializer: (params) => {
                     let result = '';
                     Object.keys(params).forEach((key) => {
@@ -403,7 +403,7 @@ export default function SpatialExtent(props: SpecialExtentProps): JSX.Element {
                 setLoading(false);
                 console.log('search', response);
                 if (response && response.status === 200 && response.data && response.data.length > 0) {
-                    const items = response.data.filter((d) => d.key === 'geonames');
+                    const items = response.data.filter((d) => d.bbox && (d.key === 'geonames' || d.key === 'nominatim'));
                     if (items && items.length > 0) {
                         setErrorResult(false);
 
