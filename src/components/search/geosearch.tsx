@@ -352,6 +352,10 @@ const GeoSearch = (
             const spatArray = spatfilters.extents.map((fs: number) => spatemps[language][fs]);
             if (spatArray.indexOf('SPATIALEXTENT') > -1) {
                 searchParams.bbox = `${boundbox._southWest.lat}|${boundbox._southWest.lng}|${boundbox._northEast.lat}|${boundbox._northEast.lng}`;
+                searchParams.south = boundbox._southWest.lat;
+                searchParams.west = boundbox._southWest.lng;
+                searchParams.north = boundbox._northEast.lat;
+                searchParams.east = boundbox._northEast.lng;
             }
             if (spatArray.indexOf('TEMPORALEXTENT') > -1) {
                 searchParams.datetime = `${spatfilters.startDate}|${spatfilters.endDate}`;
@@ -624,16 +628,21 @@ const GeoSearch = (
         } else if (aParams.stac) {
             delete aParams.stac;
         }
+        /*
         if (spatfilters.extents.length > 0) {
             const spatArray = spatfilters.extents.map((fs: number) => spatemps[language][fs]);
             if (spatArray.indexOf('SPATIALEXTENT') > -1) {
                 searchParams.bbox = `${boundbox['_southWest'].lat}|${boundbox['_southWest'].lng}|${boundbox['_northEast'].lat}|${boundbox['_northEast'].lng}`;
+                searchParams.south = boundbox._southWest.lat;
+                searchParams.west = boundbox._southWest.lng;
+                searchParams.north = boundbox._northEast.lat;
+                searchParams.east = boundbox._northEast.lng;
             }
             if (spatArray.indexOf('TEMPORALEXTENT') > -1) {
                 searchParams.datetime = `${spatfilters.startDate}|${spatfilters.endDate}`;
             }
             //aParams.datetime = spatialArray;
-        }
+        }*/
         if (found) {
             searchParams.foundational = 'true';
             aParams.foundational = 'true';
@@ -1085,6 +1094,7 @@ const GeoSearch = (
                                 {t('filter.filterby')}:
                             </h3>
                             <div className="filters-wrap">
+                                {/*
                                 <SpatialTemporalSearchFilter
                                     filtertitle={t('filter.spatemp.title')}
                                     filtervalues={spatemps[language]}
@@ -1099,6 +1109,7 @@ const GeoSearch = (
                                     temporalDirection={isMobile ? 'row' : 'column'}
                                     gridWidth={isMobile ? '100%' : '50%'}
                                 />
+                                */}
                                 {/*
                                 <SearchFilter
                                     filtertitle={t('filter.stac')}
