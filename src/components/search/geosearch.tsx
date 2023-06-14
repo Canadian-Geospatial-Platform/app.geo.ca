@@ -358,7 +358,8 @@ const GeoSearch = (
                 searchParams.east = boundbox._northEast.lng;
             }
             if (spatArray.indexOf('TEMPORALEXTENT') > -1) {
-                searchParams.datetime = `${spatfilters.startDate}|${spatfilters.endDate}`;
+                searchParams.begin = `${spatfilters.startDate}`;
+                searchParams.end = `${spatfilters.endDate}`;
             }
             //aParams.datetime = spatialArray;
         } else if (aParams.type_filter) {
@@ -1421,7 +1422,8 @@ interface SearchParams {
     foundational?: 'true';
     sort?: string;
     stac?: string;
-    datetime?: string;
+    begin?: string;
+    end?: string;
     bbox?: string;
 }
 interface KOSearchParams {
