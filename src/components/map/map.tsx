@@ -3,14 +3,25 @@ import { TypeIconButtonProps, TypePanelProps } from "geoview-core-types";
 import { TypeWindow } from "geoview-core-types";
 import translationEn from "../../locales/en-CA/translation.json";
 import translationFr from "../../locales/fr-CA/translation.json";
-import { Appbar } from "../appbar/app-bar";
-import { useDispatch } from "react-redux";
+import SearchIcon from "@mui/icons-material/Search";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import HowtoPanel from "../panels/howto-panel";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import Version from "../panels/version";
+import { GITUHUB_REPO } from "../../common/constant";
 
 const w = window as TypeWindow;
 
-const cgpv = w["cgpv"];
+export const cgpv = w["cgpv"];
+
 export function Map(): JSX.Element {
-  const dispatch = useDispatch();
+  const { useTranslation } = cgpv;
+  const { t } = useTranslation();
+  function getRepo(): void {
+    window.open(GITUHUB_REPO, "_blank");
+  }
   useEffect(() => {
     cgpv.init(function () {
       const translations = {
@@ -37,37 +48,112 @@ export function Map(): JSX.Element {
         false
       );
 
-      const MapIcon = cgpv.ui.elements.MapIcon;
-
       // button props
-      const geolocatorButton: TypeIconButtonProps = {
+      const searchButton: TypeIconButtonProps = {
         // set ID so that it can be accessed from the core viewer
-
-        tooltip: "test1",
+        tooltip: t("appbar.search"),
         tooltipPlacement: "right",
-        children: <MapIcon />,
+        children: <SearchIcon />,
         visible: true,
       };
 
       // panel props
-      const geolocatorPanel: TypePanelProps = {
-        title: "App Panel",
-        icon: <MapIcon />,
+      const searchPanel: TypePanelProps = {
+        title: t("appbar.search"),
+        icon: <SearchIcon />,
         width: 500,
       };
 
       // create a new button panel on the appbar
-      const geolocatorButtonPanel = cgpv.api
+      const searchButtonPanel = cgpv.api
         .map("mapWM")
-        .appBarButtons.createAppbarPanel(
-          geolocatorButton,
-          geolocatorPanel,
-          null
-        );
+        .appBarButtons.createAppbarPanel(searchButton, searchPanel, null);
 
       // set panel content
-      geolocatorButtonPanel?.panel?.changeContent(<Appbar />);
+      //geolocatorButtonPanel?.panel?.changeContent(<Appbar />);
+      const filterButton: TypeIconButtonProps = {
+        // set ID so that it can be accessed from the core viewer
+        tooltip: "filters",
+        tooltipPlacement: "right",
+        children: <FilterAltIcon />,
+        visible: true,
+      };
+
+      // panel props
+      const filterPanel: TypePanelProps = {
+        title: "Filters",
+        icon: <FilterAltIcon />,
+        width: 500,
+      };
+
+      // create a new button panel on the appbar
+      const filterButtonPanel = cgpv.api
+        .map("mapWM")
+        .appBarButtons.createAppbarPanel(filterButton, filterPanel, null);
+
+      const analyticsButton: TypeIconButtonProps = {
+        // set ID so that it can be accessed from the core viewer
+        tooltip: "analytics",
+        tooltipPlacement: "right",
+        children: <AnalyticsIcon />,
+        visible: true,
+      };
+
+      // panel props
+      const analyticsPanel: TypePanelProps = {
+        title: "Analytics",
+        icon: <AnalyticsIcon />,
+        width: 500,
+      };
+
+      // create a new button panel on the appbar
+      const analyticsButtonPanel = cgpv.api
+        .map("mapWM")
+        .appBarButtons.createAppbarPanel(analyticsButton, analyticsPanel, null);
+
+      const helpButton: TypeIconButtonProps = {
+        // set ID so that it can be accessed from the core viewer
+        tooltip: t("appbar.howto"),
+        tooltipPlacement: "right",
+        children: <HelpOutlineIcon />,
+        visible: true,
+      };
+
+      // panel props
+      const helpPanel: TypePanelProps = {
+        title: t("appbar.howto"),
+        icon: <HelpOutlineIcon />,
+        width: 500,
+      };
+
+      // create a new button panel on the appbar
+      const helpButtonPanel = cgpv.api
+        .map("mapWM")
+        .appBarButtons.createAppbarPanel(helpButton, helpPanel, null);
+      helpButtonPanel?.panel?.changeContent(<HowtoPanel />);
+
+      const versionButton: TypeIconButtonProps = {
+        // set ID so that it can be accessed from the core viewer
+        tooltip: t("appbar.version"),
+        tooltipPlacement: "right",
+        children: <GitHubIcon />,
+        visible: true,
+      };
+      versionButton.onClick = getRepo;
+      // panel props
+      const versionPanel: TypePanelProps = {
+        title: t("appbar.version"),
+        icon: <GitHubIcon />,
+        width: 500,
+      };
+
+      // create a new button panel on the appbar
+      const versionButtonPanel = cgpv.api
+        .map("mapWM")
+        .appBarButtons.createAppbarPanel(versionButton, versionPanel, null);
+      versionButtonPanel?.panel?.changeContent(<Version />);
     });
+
     console.log("map inited");
   }, []);
 

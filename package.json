@@ -26,6 +26,7 @@
     "geoview-core-types": "github:Canadian-Geospatial-Platform/geoview#types",
     "html-webpack-plugin": "^5.5.1",
     "path": "^0.12.7",
+    "sass": "^1.63.4",
     "sass-loader": "^13.3.1",
     "style-loader": "^3.3.3",
     "webpack": "^5.85.0",
@@ -33,6 +34,11 @@
     "webpack-dev-server": "^4.15.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.5",
+    "@mui/styles": "^5.13.2",
     "@reduxjs/toolkit": "^1.9.5",
     "react-redux": "^8.0.7",
     "react-router-dom": "^6.11.2",
