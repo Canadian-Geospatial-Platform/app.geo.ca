@@ -1,0 +1,420 @@
+/*!
+ * Angular Material Design
+ * https://github.com/angular/material
+ * @license MIT
+ * v1.1.9
+ * Built with: material-tools
+ * Includes modules: menu, core, animate, layout, interaction, gestures, theming, palette, meta, backdrop, menuBar, icon, checkbox, dialog, button, progressLinear, progressCircular, tooltip, panel, divider, input, autocomplete, virtualRepeat, showHide, select, sidenav, toast, datepicker, switch, slider
+ * 
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Use of this source code is governed by an MIT-style license that can be found in the LICENSE file at http://material.angularjs.org/LICENSE.
+ */
+
+/*!
+ * Sizzle CSS Selector Engine v2.3.4
+ * https://sizzlejs.com/
+ *
+ * Copyright JS Foundation and other contributors
+ * Released under the MIT license
+ * https://js.foundation/
+ *
+ * Date: 2019-04-08
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * angular-translate - v2.18.1 - 2018-05-19
+ * 
+ * Copyright (c) 2018 The angular-translate team, Pascal Precht; Licensed MIT
+ */
+
+/*!
+ * html2canvas 1.0.0-rc.1 <https://html2canvas.hertzen.com>
+ * Copyright (c) 2019 Niklas von Hertzen <https://hertzen.com>
+ * Released under MIT License
+ */
+
+/*!
+ * jQuery JavaScript Library v3.4.1
+ * https://jquery.com/
+ *
+ * Includes Sizzle.js
+ * https://sizzlejs.com/
+ *
+ * Copyright JS Foundation and other contributors
+ * Released under the MIT license
+ * https://jquery.org/license
+ *
+ * Date: 2019-05-01T21:04Z
+ */
+
+/*!
+* screenfull
+* v4.0.1 - 2019-02-18
+* (c) Sindre Sorhus; MIT License
+*/
+
+/*!
+* svg.js - A lightweight library for manipulating and animating SVG.
+* @version 2.6.1
+* https://svgdotjs.github.io/
+*
+* @copyright Wout Fierens <wout@mick-wout.com>
+* @license MIT
+*
+* BUILT: Tue Apr 25 2017 11:58:09 GMT+0200 (Mitteleuropäische Sommerzeit)
+*/
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+/*! exports provided: BACKGROUND_REPEAT, BACKGROUND_SIZE, BACKGROUND_CLIP, BACKGROUND_ORIGIN, calculateBackgroundSize, calculateGradientBackgroundSize, calculateBackgroungPaintingArea, calculateBackgroungPositioningArea, calculateBackgroundPosition, calculateBackgroundRepeatPath, parseBackground, parseBackgroundImage */
+
+/*! exports provided: BORDER_STYLE, BORDER_SIDES, parseBorder */
+
+/*! exports provided: Bounds, parseBounds, calculatePaddingBox, calculateContentBox, parseDocumentSize, parsePathForBorder, calculateBorderBoxPath, calculatePaddingBoxPath, parseBoundCurves */
+
+/*! exports provided: DISPLAY, parseDisplay */
+
+/*! exports provided: DocumentCloner, cloneWindow */
+
+/*! exports provided: FLOAT, parseCSSFloat */
+
+/*! exports provided: FontMetrics */
+
+/*! exports provided: GRADIENT_TYPE, RADIAL_GRADIENT_SHAPE, LinearGradient, RadialGradient, parseGradient, transformWebkitRadialGradientArgs */
+
+/*! exports provided: INPUT_COLOR, INPUT_BORDERS, INPUT_BACKGROUND, getInputBorderRadius, inlineInputElement, inlineTextAreaElement, inlineSelectElement, reformatInputBounds */
+
+/*! exports provided: LENGTH_TYPE, default, calculateLengthFromValueWithUnit */
+
+/*! exports provided: LINE_BREAK, parseLineBreak */
+
+/*! exports provided: LIST_STYLE_POSITION, LIST_STYLE_TYPE, parseListStyleType, parseListStyle */
+
+/*! exports provided: NodeParser */
+
+/*! exports provided: OVERFLOW, parseOverflow */
+
+/*! exports provided: OVERFLOW_WRAP, parseOverflowWrap */
+
+/*! exports provided: PADDING_SIDES, parsePadding */
+
+/*! exports provided: PATH */
+
+/*! exports provided: POSITION, parsePosition */
+
+/*! exports provided: PSEUDO_CONTENT_ITEM_TYPE, TOKEN_TYPE, parseCounterReset, popCounters, resolvePseudoContent, parseContent */
+
+/*! exports provided: Proxy */
+
+/*! exports provided: TEXT_DECORATION_STYLE, TEXT_DECORATION, TEXT_DECORATION_LINE, parseTextDecoration */
+
+/*! exports provided: TEXT_TRANSFORM, parseTextTransform */
+
+/*! exports provided: TextBounds, parseTextBounds */
+
+/*! exports provided: VISIBILITY, parseVisibility */
+
+/*! exports provided: WORD_BREAK, parseWordBreak */
+
+/*! exports provided: contains, distance, copyCSSStyles, SMALL_IMAGE */
+
+/*! exports provided: default */
+
+/*! exports provided: default, ResourceStore */
+
+/*! exports provided: default, TRANSPARENT */
+
+/*! exports provided: default, createForeignObjectSVG, loadSerializedSVG */
+
+/*! exports provided: getListOwner, inlineListItemElement, createCounterText */
+
+/*! exports provided: parseAngle */
+
+/*! exports provided: parseBorderRadius */
+
+/*! exports provided: parseFont */
+
+/*! exports provided: parseLetterSpacing */
+
+/*! exports provided: parseMargin */
+
+/*! exports provided: parseTextShadow */
+
+/*! exports provided: parseTransform */
+
+/*! exports provided: parseZIndex */
+
+/*! exports provided: renderElement */
+
+/*! exports provided: toCodePoints, fromCodePoint, breakWords */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! no static exports found */
+
+/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*!*********************!*\
+  !*** ./src/Font.js ***!
+  \*********************/
+
+/*!*********************!*\
+  !*** ./src/Util.js ***!
+  \*********************/
+
+/*!**********************!*\
+  !*** ./src/Angle.js ***!
+  \**********************/
+
+/*!**********************!*\
+  !*** ./src/Clone.js ***!
+  \**********************/
+
+/*!**********************!*\
+  !*** ./src/Color.js ***!
+  \**********************/
+
+/*!**********************!*\
+  !*** ./src/Input.js ***!
+  \**********************/
+
+/*!**********************!*\
+  !*** ./src/Proxy.js ***!
+  \**********************/
+
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+
+/*!***********************!*\
+  !*** ./src/Bounds.js ***!
+  \***********************/
+
+/*!***********************!*\
+  !*** ./src/Length.js ***!
+  \***********************/
+
+/*!***********************!*\
+  !*** ./src/Logger.js ***!
+  \***********************/
+
+/*!***********************!*\
+  !*** ./src/Window.js ***!
+  \***********************/
+
+/*!************************!*\
+  !*** ./src/Feature.js ***!
+  \************************/
+
+/*!************************!*\
+  !*** ./src/Unicode.js ***!
+  \************************/
+
+/*!*************************!*\
+  !*** ./src/Gradient.js ***!
+  \*************************/
+
+/*!*************************!*\
+  !*** ./src/ListItem.js ***!
+  \*************************/
+
+/*!*************************!*\
+  !*** ./src/Renderer.js ***!
+  \*************************/
+
+/*!***************************!*\
+  !*** ./src/NodeParser.js ***!
+  \***************************/
+
+/*!***************************!*\
+  !*** ./src/TextBounds.js ***!
+  \***************************/
+
+/*!*****************************!*\
+  !*** ./src/drawing/Path.js ***!
+  \*****************************/
+
+/*!*****************************!*\
+  !*** ./src/drawing/Size.js ***!
+  \*****************************/
+
+/*!*****************************!*\
+  !*** ./src/parsing/font.js ***!
+  \*****************************/
+
+/*!******************************!*\
+  !*** ./src/NodeContainer.js ***!
+  \******************************/
+
+/*!******************************!*\
+  !*** ./src/TextContainer.js ***!
+  \******************************/
+
+/*!******************************!*\
+  !*** ./src/parsing/float.js ***!
+  \******************************/
+
+/*!*******************************!*\
+  !*** ./src/ResourceLoader.js ***!
+  \*******************************/
+
+/*!*******************************!*\
+  !*** ./src/drawing/Circle.js ***!
+  \*******************************/
+
+/*!*******************************!*\
+  !*** ./src/drawing/Vector.js ***!
+  \*******************************/
+
+/*!*******************************!*\
+  !*** ./src/parsing/border.js ***!
+  \*******************************/
+
+/*!*******************************!*\
+  !*** ./src/parsing/margin.js ***!
+  \*******************************/
+
+/*!*******************************!*\
+  !*** ./src/parsing/zIndex.js ***!
+  \*******************************/
+
+/*!********************************!*\
+  !*** ./src/StackingContext.js ***!
+  \********************************/
+
+/*!********************************!*\
+  !*** ./src/parsing/display.js ***!
+  \********************************/
+
+/*!********************************!*\
+  !*** ./src/parsing/padding.js ***!
+  \********************************/
+
+/*!*********************************!*\
+  !*** ./src/parsing/overflow.js ***!
+  \*********************************/
+
+/*!*********************************!*\
+  !*** ./src/parsing/position.js ***!
+  \*********************************/
+
+/*!**********************************!*\
+  !*** ./src/PseudoNodeContent.js ***!
+  \**********************************/
+
+/*!**********************************!*\
+  !*** ./src/parsing/lineBreak.js ***!
+  \**********************************/
+
+/*!**********************************!*\
+  !*** ./src/parsing/listStyle.js ***!
+  \**********************************/
+
+/*!**********************************!*\
+  !*** ./src/parsing/transform.js ***!
+  \**********************************/
+
+/*!***********************************!*\
+  !*** ./src/parsing/background.js ***!
+  \***********************************/
+
+/*!***********************************!*\
+  !*** ./src/parsing/textShadow.js ***!
+  \***********************************/
+
+/*!***********************************!*\
+  !*** ./src/parsing/visibility.js ***!
+  \***********************************/
+
+/*!***********************************!*\
+  !*** ./src/parsing/word-break.js ***!
+  \***********************************/
+
+/*!************************************!*\
+  !*** ./src/drawing/BezierCurve.js ***!
+  \************************************/
+
+/*!*************************************!*\
+  !*** ./src/parsing/borderRadius.js ***!
+  \*************************************/
+
+/*!*************************************!*\
+  !*** ./src/parsing/overflowWrap.js ***!
+  \*************************************/
+
+/*!**************************************!*\
+  !*** ./src/parsing/letterSpacing.js ***!
+  \**************************************/
+
+/*!**************************************!*\
+  !*** ./src/parsing/textTransform.js ***!
+  \**************************************/
+
+/*!***************************************!*\
+  !*** ./src/parsing/textDecoration.js ***!
+  \***************************************/
+
+/*!****************************************!*\
+  !*** ./src/renderer/CanvasRenderer.js ***!
+  \****************************************/
+
+/*!***********************************************!*\
+  !*** ./src/renderer/ForeignObjectRenderer.js ***!
+  \***********************************************/
+
+/*!**************************************************!*\
+  !*** ./node_modules/css-line-break/dist/Trie.js ***!
+  \**************************************************/
+
+/*!**************************************************!*\
+  !*** ./node_modules/css-line-break/dist/Util.js ***!
+  \**************************************************/
+
+/*!***************************************************!*\
+  !*** ./node_modules/css-line-break/dist/index.js ***!
+  \***************************************************/
+
+/*!*******************************************************!*\
+  !*** ./node_modules/css-line-break/dist/LineBreak.js ***!
+  \*******************************************************/
+
+/*!************************************************************!*\
+  !*** ./node_modules/css-line-break/dist/linebreak-trie.js ***!
+  \************************************************************/
+
+/**
+ * @license AngularJS v1.7.5
+ * (c) 2010-2018 Google, Inc. http://angularjs.org
+ * License: MIT
+ */
+
+/**
+ * @license MIT
+ */
+
+/**
+ * ag-grid-community - Advanced Data Grid / Data Table supporting Javascript / React / AngularJS / Web Components
+ * @version v19.0.0
+ * @link http://www.ag-grid.com/
+ * @license MIT
+ */
