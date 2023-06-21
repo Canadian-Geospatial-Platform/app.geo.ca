@@ -4,9 +4,14 @@
   "description": "",
   "main": "index.tsx",
   "scripts": {
-    "webpack": "webpack",
-    "serve": "webpack serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "webpack serve --progress --color --config webpack.dev.js",
+    "start": "webpack --config webpack.dev.js",
+    "build": "webpack --progress --color --config webpack.prod.js",
+    "deploy": "gh-pages -d dist",
+    "test": "jest",
+    "update_test": "jest --updateSnapshot",
+    "lint": "eslint 'src/**/*.{ts,tsx,js}' 'tests/**/*.{ts,tsx,js}'",
+    "fix": "eslint 'src/**/*.{ts,tsx,js}' 'tests/**/*.{ts,tsx,js}' --fix"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +26,7 @@
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
     "babel-loader": "^9.1.2",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "file-loader": "^6.2.0",
     "geoview-core-types": "github:Canadian-Geospatial-Platform/geoview#types",
@@ -42,6 +48,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "react-redux": "^8.0.7",
     "react-router-dom": "^6.11.2",
+    "reactstrap": "^9.2.0",
     "typescript": "^5.1.3"
   }
 }

@@ -11,10 +11,7 @@ import HowtoPanel from "../panels/howto-panel";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Version from "../panels/version";
 import { GITUHUB_REPO } from "../../common/constant";
-
-const w = window as TypeWindow;
-
-export const cgpv = w["cgpv"];
+import { cgpv } from "../../app";
 
 export function Map(): JSX.Element {
   const { useTranslation } = cgpv;

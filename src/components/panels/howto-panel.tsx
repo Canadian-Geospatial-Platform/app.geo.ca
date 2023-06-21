@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { cgpv } from "../map/map";
+import { cgpv } from "../../app";
 
 export default function HowtoPanel(): JSX.Element {
   const { useTranslation } = cgpv;
