@@ -11,8 +11,31 @@ import { jwtIsValid } from './type-validations/jwt';
 const SIGN_IN_PAGE_URL = 'https://auth-dev.geo.ca/oauth2/authorize';
 const CLIENT_ID = '7b4mbo0osnfb6cer4f980kob0t';
 const CUSTOM_DOMAIN = 'https://auth-dev.geo.ca';
+const OPEN_ID_CONFIGURATION_URL = 'https://id-dev.geo.ca/ca-central-1_7DZIA1rpl/.well-known/openid-configuration'
+let openIdConfiguration;
+
+// @param url the url to the .well-know/openid-configuration endpoint. (ex: https://id-dev.geo.ca/ca-central-1_7DZIA1rpl/.well-known/openid-configuration)
+const getOpenIdConfiguration = async function() {
+    if (openIdConfiguration == null) {
+        openIdConfiguration = await fetch(OPEN_ID_CONFIGURATION_URL, {
+            method: 'GET',
+        })       .then((response) => response.json())
+        .then((data) => {
+            const res = data;
+            if (!res) throw 'Falsy openIdConfiguration returned from request.';
+            if (res.error) throw 'Error message returned from authorization server:\n' + res.error;
+            return res;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            throw 'Error:' + error;
+        });
+    }
+    return openIdConfiguration;
+}
 
 const getJWT = async function (code, signInPageUrl) {
+    console.log("oidc config:\n", await openIdConfiguration)
     console.log('getJwt');
     const data = {
         grant_type: 'authorization_code',
@@ -127,5 +150,7 @@ const getToken = function () {
         return null;
     }
 };
+
+openIdConfiguration = getOpenIdConfiguration();
 
 export { requireLogin, signIn, getToken };
