@@ -8,17 +8,9 @@ import { urlEncode } from './url-encode';
 import { parseJwt } from './parse-jwt';
 import { jwtIsValid } from './type-validations/jwt';
 
-//before
-// const SIGN_IN_PAGE_URL = 'https://auth-dev.geo.ca/oauth2/authorize';
-// const CLIENT_ID = '7b4mbo0osnfb6cer4f980kob0t';
-
-// const CUSTOM_DOMAIN = 'https://id-dev.geo.ca/oauth2';
-// after
 const SIGN_IN_PAGE_URL = 'https://auth-dev.geo.ca/oauth2/authorize';
 const CLIENT_ID = '7b4mbo0osnfb6cer4f980kob0t';
 const CUSTOM_DOMAIN = 'https://auth-dev.geo.ca';
-
-
 
 const getJWT = async function (code, signInPageUrl) {
     console.log('getJwt');
