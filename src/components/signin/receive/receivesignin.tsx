@@ -1,8 +1,20 @@
 import './receivesignin.scss'
 import React, { useEffect } from "react";
+import { getToken, signIn } from '../utils/authorization';
 export default function ReceiveSignIn(): JSX.Element {
        useEffect(() => {
-    // window.location.href = "https://auth-dev.geo.ca/oauth2/authorize?client_id=7b4mbo0osnfb6cer4f980kob0t&response_type=code&scope=openid&redirect_uri=http://localhost:8080/receivesignin";
+    
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    let state = params.state; 
+    let code = params.code;
+    const executeSignIn = async () => {
+        console.log("token is:\n", getToken())
+    if (!getToken()) await signIn(code, 'http://localhost:8080/receivesignin', state);
+    }
+    executeSignIn()
+ 
   }, []);
   
     return <h1 className="receivesignin">Receiving sign in.</h1>;

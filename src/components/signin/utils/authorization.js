@@ -8,9 +8,17 @@ import { urlEncode } from './url-encode';
 import { parseJwt } from './parse-jwt';
 import { jwtIsValid } from './type-validations/jwt';
 
+//before
+// const SIGN_IN_PAGE_URL = 'https://auth-dev.geo.ca/oauth2/authorize';
+// const CLIENT_ID = '7b4mbo0osnfb6cer4f980kob0t';
+
+// const CUSTOM_DOMAIN = 'https://id-dev.geo.ca/oauth2';
+// after
 const SIGN_IN_PAGE_URL = 'https://auth-dev.geo.ca/oauth2/authorize';
 const CLIENT_ID = '7b4mbo0osnfb6cer4f980kob0t';
 const CUSTOM_DOMAIN = 'https://auth-dev.geo.ca';
+
+
  
 const getJWT = async function (code, signInPageUrl) {
 	console.log('getJwt');
@@ -25,7 +33,7 @@ const getJWT = async function (code, signInPageUrl) {
 	return fetch(url, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+			'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 		},
 		body: urlEncode(data)
 	})
@@ -34,6 +42,7 @@ const getJWT = async function (code, signInPageUrl) {
 			const res = data;
 			if (!res) throw 'Falsy Jwt returned.';
 			if (res.error) throw 'Error message returned from authorization server:\n' + res.error;
+            console.log("getJwt response is:\n", res)
 			return res;
 		})
 		.catch((error) => {
@@ -45,9 +54,10 @@ const getJWT = async function (code, signInPageUrl) {
 // todo: It should be ensured that redirectUrl is a secure value. The value comming back from the server could be tampered with.
 const signIn = async function (code, signInPageUrl, state) {
 	const jwt = await getJWT(code, signInPageUrl);
+    console.log("setting jwt: \n", jwt)
 	sessionStorage.setItem('token', JSON.stringify(jwt));
 	console.log(jwt);
-	window.location = (signInPageUrl + state);
+	window.location = (state);
 };
 
 const getRefreshedJWT = function () {
@@ -108,7 +118,7 @@ const requireLogin = async function (jwt, signInPageUrl, currentPage) {
 		console.log('currentpage:');
 		console.log(currentPage);
 		redirectToAuthProvider(signInPageUrl, currentPage);
-	} else if (parseJwt(jwt.access_token).exp < Date.now() / 1000 - 300) {
+	} else if (parseJwt(jwt.access_token).exp != null && parseJwt(jwt.access_token).exp < Date.now() / 1000 - 300) {
 		console.log('User is logged in but token is expired -> refreshing jwt');
 		const newJWT = await getRefreshedJWT();
 		sessionStorage.setItem('token', JSON.stringify(newJWT));
