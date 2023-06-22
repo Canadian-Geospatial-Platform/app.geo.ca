@@ -12,7 +12,7 @@ const SIGN_IN_PAGE_URL = 'https://auth-dev.geo.ca/oauth2/authorize';
 const CLIENT_ID = '7b4mbo0osnfb6cer4f980kob0t';
 const CUSTOM_DOMAIN = 'https://auth-dev.geo.ca';
 const OPEN_ID_CONFIGURATION_URL = 'https://id-dev.geo.ca/ca-central-1_7DZIA1rpl/.well-known/openid-configuration'
-let openIdConfiguration;
+let openIdConfiguration = null;
 
 // @param url the url to the .well-know/openid-configuration endpoint. (ex: https://id-dev.geo.ca/ca-central-1_7DZIA1rpl/.well-known/openid-configuration)
 const getOpenIdConfiguration = async function() {
@@ -35,7 +35,10 @@ const getOpenIdConfiguration = async function() {
 }
 
 const getJWT = async function (code, signInPageUrl) {
-    console.log("oidc config:\n", await openIdConfiguration)
+    let x = await getOpenIdConfiguration();
+    let y = await getOpenIdConfiguration();
+    console.log("oidc config:\n", x)
+    console.log("oidc config2:\n", y)
     console.log('getJwt');
     const data = {
         grant_type: 'authorization_code',
@@ -150,7 +153,5 @@ const getToken = function () {
         return null;
     }
 };
-
-openIdConfiguration = getOpenIdConfiguration();
 
 export { requireLogin, signIn, getToken };
