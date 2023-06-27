@@ -58,8 +58,10 @@ const MetaDataPage = (props) => {
     const mapping = useSelector(state => state.mappingReducer.mapping);
     const dispatch = useDispatch();
 
-    const [loading, setLoading] = useState(true);
+    const [loading1, setLoading1] = useState(true);
+    const [loading2, setLoading2] = useState(true);
     const [metaresult, setResult] = useState(null);
+    const [related, setRelated] = useState([]);
     const [analyticLoading, setAnalyticLoading] = useState(true);
     const [analyticRes, setAnalytic] = useState({ '30': 1, 'all': 1 });
     const [openSection, setOpen] = useState([]);
@@ -134,7 +136,7 @@ const MetaDataPage = (props) => {
         });
     }
     const handleSearch = (id) => {
-        setLoading(true);
+        setLoading1(true);
 
         const searchParams = {
             id,
@@ -147,42 +149,44 @@ const MetaDataPage = (props) => {
                 const res = data.body.Items[0];
                 res.title = language === 'en' ? res.title_en : res.title_fr;
                 res.mappingtitle = { en: res.title_en, fr: res.title_fr };
-                // get related products  
-                axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.COLLECTIONS}`, { params: { id } })
-                    .then((collectionres) => collectionres.data)
-                    .then((cdata) => {
-                        const related = [];
-                        if (cdata.parent !== null) {
-                            related.push({ ...cdata.parent, ...{ 'type': 'parent' } });
-                        };
-                        if (cdata.sibling_count > 0) {
-                            cdata.sibling.forEach(s => {
-                                related.push({ ...s, ...{ 'type': 'member' } });
-                            });
-                        }
-                        if (cdata.child_count > 0) {
-                            cdata.child.forEach(s => {
-                                related.push({ ...s, ...{ 'type': 'member' } });
-                            });
-                        }
-                        res.related = related;
-                        setResult(res);
-                        setLoading(false);
-                    })
-                    .catch(error => {
-                        // console.log(error);
-                        res.related = [];
-                        setResult(res);
-                        setLoading(false);
-                    });
+                setResult(res);
+                setLoading1(false);
             })
             .catch(error => {
                 // console.log(error);
                 setResult(null);
-                setLoading(false);
+                setLoading1(false);
             });
 
-
+        // get related products  
+        setLoading2(true);
+        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.COLLECTIONS}`, { params: { id } })
+            .then((collectionres) => collectionres.data)
+            .then((cdata) => {
+                const related1 = [];
+                if (cdata.parent !== null) {
+                    related1.push({ ...cdata.parent, ...{ 'type': 'parent' } });
+                };
+                if (cdata.sibling_count > 0) {
+                    cdata.sibling.forEach(s => {
+                        related1.push({ ...s, ...{ 'type': 'member' } });
+                    });
+                }
+                if (cdata.child_count > 0) {
+                    cdata.child.forEach(s => {
+                        related1.push({ ...s, ...{ 'type': 'member' } });
+                    });
+                }
+                
+                setRelated(related1);
+                setLoading2(false);
+            })
+            .catch(error => {
+                // console.log(error);
+                
+                setRelated([]);
+                setLoading2(false);    
+            });
 
     };
 
@@ -328,8 +332,8 @@ const MetaDataPage = (props) => {
 
     return (
         <div className="pageContainer resultPage">
-            <div className="resultContainer" aria-live="assertive" aria-busy={loading ? "true" : "false"} >
-                {loading ?
+            <div className="resultContainer" aria-live="assertive" aria-busy={loading1 || loading2 ? "true" : "false"} >
+                {loading1 || loading2 ?
                     <div className="d-flex justify-content-center status-indicator">
                         <BeatLoader color="#515AA9" />
                     </div>
@@ -500,7 +504,7 @@ const MetaDataPage = (props) => {
                                                     }
                                                 </table>
                                             </section>
-                                            {(result.related.length > 0) &&
+                                            {(related.length > 0) &&
                                                 <section id="search-result-related-products" className="sec-search-result sec-search-result-related-products">
                                                     <table className="table table-hover caption-top table-search-result table-related-products">
                                                         <caption>
@@ -511,7 +515,7 @@ const MetaDataPage = (props) => {
                                                                 <th scope="col" className="col-5">{t("page.name")}</th>
                                                                 <th scope="col" className="col-1">{t("page.type")}</th>
                                                             </tr>
-                                                            {result.related.map((relatedp, ri) => {
+                                                            {related.map((relatedp, ri) => {
                                                                 // const desc = option.description[language].split(";");
                                                                 return (
                                                                     <tr className="table-row-link" key={ri} onClick={(e) => handleRelatedClick(e, relatedp.id)}>
