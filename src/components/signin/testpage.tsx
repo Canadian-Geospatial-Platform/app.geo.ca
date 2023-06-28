@@ -1,11 +1,11 @@
 import './dispatch/dispatchsignin.scss'
 import React, { useEffect } from "react";
-import { requireLogin, getToken } from './utils/authorization';
+import { requireLogin } from './utils/authorization';
 
 export default function TestPage(): JSX.Element {
   useEffect(() => {
     const fetchData = async () => {
-      await requireLogin(getToken(), window.location.origin + '/receivesignin', window.location.href);
+      await requireLogin(window.location.origin + '/receivesignin', window.location.href);
     }
     fetchData()
   }, [requireLogin]);
