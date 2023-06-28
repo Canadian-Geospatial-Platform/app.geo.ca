@@ -54,7 +54,7 @@ const signIn = async function (code: string, signInPageUrl: string, state: strin
 
 const getRefreshedJWT = function () {
     const storedToken = sessionStorage.getItem('token')
-    if(storedToken == null) {
+    if (storedToken == null) {
         console.error("null stored token when calling getRefreshedJwt")
         return;
     }
@@ -104,20 +104,18 @@ const redirectToAuthProvider = function (signInPageUrl: string, currentPage: str
 
 type JWT = {
     access_token: string,
-	id_token: string,
-	refresh_token: string,
-	expires_in: string,
-	token_type: string,
+    id_token: string,
+    refresh_token: string,
+    expires_in: string,
+    token_type: string,
 }
 
 const requireLogin = async function (signInPageUrl: string, currentPage: string) {
-    const storedToken = sessionStorage.getItem('token')
-    let jwt = storedToken ? JSON.parse(storedToken) as JWT:null;
-    console.log('jwt is:\n', jwt);
+    let jwt = getStoredToken()
     if (!currentPage) currentPage = '/';
     if (!signInPageUrl) console.error('signInPageUrl not set in requireLogin function.');
     if (jwt == null || !jwtIsValid(jwt)) {
-        console.log('User is not logged in -> logging in\n','jwt:\n',jwt,"signinpageurl:\n",signInPageUrl,'currentpage:\n', currentPage);
+        console.log('User is not logged in -> logging in\n', 'jwt:\n', jwt, "signinpageurl:\n", signInPageUrl, 'currentpage:\n', currentPage);
         redirectToAuthProvider(signInPageUrl, currentPage);
     } else if (parseJwt(jwt.access_token).exp != null && parseJwt(jwt.access_token).exp < Date.now() / 1000 - 300) {
         console.log('User is logged in but token is expired -> refreshing jwt');
@@ -128,4 +126,22 @@ const requireLogin = async function (signInPageUrl: string, currentPage: string)
     }
 };
 
-export { requireLogin, signIn };
+const getStoredToken = function () {
+    const storedToken = sessionStorage.getItem('token')
+    let jwt = storedToken ? JSON.parse(storedToken) as JWT : null;
+    console.log('jwt is:\n', jwt);
+    return jwt;
+}
+
+
+const getAuthorization = function () {
+    const token = getStoredToken()
+    if (token == null) {
+        console.error("falsy token in attachAuthorizationHeader. No authorization header has been attached. ")
+        return null;
+    }
+    return token.access_token;
+
+}
+
+export { requireLogin, signIn, getAuthorization };

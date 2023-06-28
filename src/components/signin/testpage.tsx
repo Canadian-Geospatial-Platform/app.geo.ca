@@ -1,15 +1,25 @@
 import './dispatch/dispatchsignin.scss'
-import React, { useEffect } from "react";
-import { requireLogin } from './utils/authorization';
+import React, { useEffect, useState } from "react";
+import { getAuthorization, requireLogin } from './utils/authorization';
 
 export default function TestPage(): JSX.Element {
-  useEffect(() => {
-    const fetchData = async () => {
-      await requireLogin(window.location.origin + '/receivesignin', window.location.href);
+    const [x, set_x] = useState("initial value");
+    const onClickFunction = () => {
+        let x =getAuthorization()
+        console.log("on click function callled!", getAuthorization())
+        if (x) {set_x(x)}
     }
-    fetchData()
-  }, [requireLogin]);
+    useEffect(() => {
+        const fetchData = async () => {
+            await requireLogin(window.location.origin + '/receivesignin', window.location.href);
+        }
+        fetchData()
+    }, [requireLogin]);
 
 
-  return <h1 className="sign-in">Wlecome to the test page. Please wait while you are being redirected to the sign-in page.</h1>;
+    return <div>
+        <h1 className="sign-in">Welcome to the test page. Please wait while you are being redirected to the sign-in page.</h1>
+        <button onClick={onClickFunction}>a button</button>
+        <p>The athorization token is: {x}</p>
+    </div>
 }
