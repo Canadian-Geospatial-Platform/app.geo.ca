@@ -3,13 +3,12 @@ import React, { useEffect } from "react";
 import { signIn } from '../utils/authorization';
 export default function ReceiveSignIn(): JSX.Element {
     useEffect(() => {
-
         const params = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop: string) => searchParams.get(prop),
-        });
-        let stateOrNull = params.get("state");
+        }) as URLSearchParams & {state: string | null, code: string | null} ;
+        let stateOrNull = params.state;
         let state = stateOrNull?stateOrNull:'/';
-        let code = params.get("code");
+        let code = params.code;
         const executeSignIn = async (code: string | null, state: string) => {
          if(code == null) 
         {

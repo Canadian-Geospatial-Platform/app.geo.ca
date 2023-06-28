@@ -11,5 +11,5 @@ export default function TestPage(): JSX.Element {
   }, [requireLogin]);
 
 
-  return <h1 className="sign-in">Please wait while you are being redirected to the sign-in page.</h1>;
+  return <h1 className="sign-in">Wlecome to the test page. Please wait while you are being redirected to the sign-in page.</h1>;
 }
