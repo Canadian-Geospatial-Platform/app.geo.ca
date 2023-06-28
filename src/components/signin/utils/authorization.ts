@@ -44,12 +44,12 @@ const getJWT = async function (code: string, signInPageUrl: string) {
 };
 
 // todo: It should be ensured that redirectUrl is a secure value. The value comming back from the server could be tampered with.
-const signIn = async function (code: string, signInPageUrl: string, state: Location) {
+const signIn = async function (code: string, signInPageUrl: string, state: string) {
     const jwt = await getJWT(code, signInPageUrl);
     console.log("setting jwt: \n", jwt)
     sessionStorage.setItem('token', JSON.stringify(jwt));
     console.log(jwt);
-    window.location = (state);
+    (window as Window).location = (state);
 };
 
 const getRefreshedJWT = function () {

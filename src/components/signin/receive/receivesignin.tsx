@@ -5,14 +5,20 @@ export default function ReceiveSignIn(): JSX.Element {
     useEffect(() => {
 
         const params = new Proxy(new URLSearchParams(window.location.search), {
-            get: (searchParams, prop) => searchParams.get(prop),
+            get: (searchParams, prop: string) => searchParams.get(prop),
         });
-        let state = params.state;
-        let code = params.code;
-        const executeSignIn = async () => {
-            await signIn(code, 'http://localhost:8080/receivesignin', state);
+        let stateOrNull = params.get("state");
+        let state = stateOrNull?stateOrNull:'/';
+        let code = params.get("code");
+        const executeSignIn = async (code: string | null, state: string) => {
+         if(code == null) 
+        {
+            console.error("code is null in receivesignin.")
+            return;
         }
-        executeSignIn()
+           await signIn(code, 'http://localhost:8080/receivesignin', state);
+        }
+        executeSignIn(code, state)
 
     }, []);
 
