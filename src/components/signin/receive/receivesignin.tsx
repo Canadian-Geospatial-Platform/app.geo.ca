@@ -1,6 +1,6 @@
 import './receivesignin.scss'
 import React, { useEffect } from "react";
-import { getToken, signIn } from '../utils/authorization';
+import { signIn } from '../utils/authorization';
 export default function ReceiveSignIn(): JSX.Element {
     useEffect(() => {
 
@@ -10,8 +10,7 @@ export default function ReceiveSignIn(): JSX.Element {
         let state = params.state;
         let code = params.code;
         const executeSignIn = async () => {
-            console.log("token is:\n", getToken())
-            if (!getToken()) await signIn(code, 'http://localhost:8080/receivesignin', state);
+            await signIn(code, 'http://localhost:8080/receivesignin', state);
         }
         executeSignIn()
 
