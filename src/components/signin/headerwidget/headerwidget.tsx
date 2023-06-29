@@ -20,10 +20,10 @@ export default function HeaderWidget(): JSX.Element {
 
     useEffect(() => {
         let token = getIdToken()
-        if ( token != null) {
+        if (token != null) {
             set_loggedIn(true)
             console.log("token is\n", token, "\n", parseJwt(token))
-            set_loggedInMessage("Hello, " + parseJwt(token).name + ".")
+            set_loggedInMessage("Signed in as " + parseJwt(token).name + ".")
         }
     }, [getIdToken()]);
 
