@@ -134,14 +134,23 @@ const getStoredToken = function () {
 }
 
 
-const getAuthorization = function () {
+const getAccessToken = function () {
     const token = getStoredToken()
     if (token == null) {
         console.error("falsy token in attachAuthorizationHeader. No authorization header has been attached. ")
         return null;
     }
     return token.access_token;
-
 }
 
-export { requireLogin, signIn, getAuthorization };
+const getIdToken = function () {
+    const token = getStoredToken()
+    if (token == null) {
+        console.error("falsy token in attachAuthorizationHeader. No authorization header has been attached. ")
+        return null;
+    }
+    return token.id_token;
+}
+
+export { requireLogin, signIn, getAccessToken, getIdToken };
+

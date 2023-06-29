@@ -1,12 +1,12 @@
 import './dispatch/dispatchsignin.scss'
 import React, { useEffect, useState } from "react";
-import { getAuthorization, requireLogin } from './utils/authorization';
+import { getAccessToken, requireLogin } from './utils/authorization';
 
 export default function TestPage(): JSX.Element {
     const [x, set_x] = useState("initial value");
     const onClickFunction = () => {
-        let x =getAuthorization()
-        console.log("on click function callled!", getAuthorization())
+        let x =getAccessToken()
+        console.log("on click function callled!", getAccessToken())
         if (x) {set_x(x)}
     }
     useEffect(() => {
