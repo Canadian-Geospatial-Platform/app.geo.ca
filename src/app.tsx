@@ -57,7 +57,7 @@ const mainMap: Element | null = document.getElementById('root');
 const jsonConfig = mainMap && mainMap.getAttribute('data-leaflet');
 const config = jsonConfig
     ? JSON.parse(jsonConfig.replace(/'/g, '"'))
-    : { name: 'Web Mercator', projection: 3857, zoom: 4, center: [60, -100], language: 'en', search: true, auth: false };
+    : { name: 'Web Mercator', projection: 3857, zoom: 4, center: [60, -100], language: 'en', search: true, auth: true };
 // const center: LatLngTuple = [config.center[0], config.center[1]];
 const queryParams: { [key: string]: string } = getQueryParams(window.location.href.substr(window.location.href.indexOf('?')));
 
