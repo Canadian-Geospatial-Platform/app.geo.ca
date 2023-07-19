@@ -1,5 +1,5 @@
 .dropdown ul li{
-    color: black;
+color: black;
 list-style-type: none;  
 z-index: 1000;
 position: absolute;
@@ -14,10 +14,17 @@ margin-top: 0.5rem;
 }
 
 #loginWidget .userIcon{
-    color: white;
-    background-color: blue;
-    border-radius: 100%;
+color: white;
+background-color: blue;
+border-radius: 100%;
 border-style: solid;
 border-width: 0.1rem;
 border-color: black;
+}
+
+#loginButton {
+background-color: blue;
+border-radius: 0.25rem;
+color: white;
+padding: 0.55em 1em;
 }

@@ -15,12 +15,7 @@ export default function HeaderWidget(): JSX.Element {
     let loginButton;
 
     if (!loggedIn) {
-        loginButton = <button type="button" className="button button-primary" style={{
-            "background-color": "blue", 
-            "border-radius": "0.25rem",
-            "color": 'white',
-            "padding": '0.55em 1em',
-    }} onClick={fetchData}>Sign in</button>
+        loginButton = <button id="loginButton" type="button" className="button button-primary" onClick={fetchData}>Sign in</button>
     } else {
         loginButton = <div id="loginWidget" className="dropdown"><button className="userIcon" onClick={() => {set_showMenu(!showMenu)}} style={{
             "padding": '0.55em 1em',
