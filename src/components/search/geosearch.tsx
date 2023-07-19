@@ -53,6 +53,7 @@ import spatials from './spatials.json';
 import stacs from './stac.json';
 import themes from './themes.json';
 import types from './types.json';
+import { getAccessToken } from '../signin/utils/authorization';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (
@@ -386,7 +387,7 @@ const GeoSearch = (
         );
 
         axios
-            .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
+            .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams, headers: { 'Authorization': `Bearer ${getAccessToken()}` } })
             .then((response) => {
                 analyticPost(aParams);
                 return response.data;
@@ -664,7 +665,7 @@ const GeoSearch = (
         );
         // console.log(searchParams);
         axios
-            .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
+            .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams, headers: { 'Authorization': `Bearer ${getAccessToken()}` } })
             .then((response) => {
                 analyticPost(analyticParams);
                 return response.data;
