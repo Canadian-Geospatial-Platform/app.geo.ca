@@ -33,3 +33,5 @@ export default function HeaderWidget(): JSX.Element {
         {loginButton}
     </div>);
 }
+
+// mardi 4 juillet 16h15

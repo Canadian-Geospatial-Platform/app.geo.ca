@@ -25,7 +25,7 @@ import RampViewer from './components/rampviewer/rampviewer';
 import CgpModal from './components/modal/cgpmodal';
 import DispatchSignIn from './components/signin/dispatch/dispatchsignin';
 import ReceiveSignIn from './components/signin/receive/receivesignin';
-import TestPage from './components/signin/testpage';
+import TestPage from './components/signin/sample-page-requiring-sign-in';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/css/style.scss';
