@@ -152,5 +152,10 @@ const getIdToken = function () {
     return token.id_token;
 }
 
-export { requireLogin, signIn, getAccessToken, getIdToken };
+const logout = function() {
+    sessionStorage.setItem('token', '');
+    (window as Window).location = (window as Window).location; // triggers window refresh and should display content as signed out user. could redirect to different places such as custom layered logout urls if need be.
+}
+
+export { requireLogin, signIn, getAccessToken, getIdToken, logout };
 

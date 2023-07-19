@@ -1,0 +1,12 @@
+.dropdown ul li{
+    color: red;
+list-style-type: none;  
+z-index: 1000;
+position: absolute;
+right: 0;
+top: auto;
+background-color: white;
+width: 100%;
+padding: inherit;
+border-radius: 0.25rem;
+}
