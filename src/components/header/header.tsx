@@ -235,7 +235,9 @@ export default function Header(): JSX.Element {
                                             {loadState() !== undefined ? loadState().mappingReducer.mapping.length : 0}
                                         </button>
                                     </li>
-                                    <li className='nav-item'>
+                                    <li className='nav-item' style={{
+                                        "margin": 'auto',
+                                    }}>
                                         <HeaderWidget/>
                                     </li>
                                     <li className="nav-item">

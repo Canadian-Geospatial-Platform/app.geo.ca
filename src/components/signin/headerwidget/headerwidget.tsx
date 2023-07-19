@@ -13,9 +13,14 @@ export default function HeaderWidget(): JSX.Element {
     let loginButton;
 
     if (!loggedIn) {
-        loginButton = <button type="button" className="button button-primary" onClick={fetchData}>Sign in/Sign up<AccountIcon /></button>
+        loginButton = <button type="button" className="button button-primary" style={{
+            "background-color": "blue", 
+            "border-radius": "0.25rem",
+            "color": 'white',
+            "padding": '0.55em 1em',
+    }} onClick={fetchData}>Sign in</button>
     } else {
-        loginButton = <button type="button" className="button button-primary">{loggedInMessage}</button>
+        loginButton = <button type="button" className="button button-primary"><AccountIcon />{loggedInMessage}</button>
     }
 
     useEffect(() => {
