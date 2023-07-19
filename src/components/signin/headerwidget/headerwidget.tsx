@@ -1,3 +1,4 @@
+import './headerwidget.scss';
 import AccountIcon from '@material-ui/icons/AccountBox';
 import React, { useEffect, useState } from "react";
 import { getIdToken, requireLogin } from '../utils/authorization';
@@ -9,6 +10,7 @@ export default function HeaderWidget(): JSX.Element {
     }
 
     const [loggedIn, set_loggedIn] = useState(false);
+    const [showMenu, set_showMenu] = useState(false);
     const [loggedInMessage, set_loggedInMessage] = useState("Logged In!");
     let loginButton;
 
@@ -20,14 +22,13 @@ export default function HeaderWidget(): JSX.Element {
             "padding": '0.55em 1em',
     }} onClick={fetchData}>Sign in</button>
     } else {
-        loginButton = <button type="button" className="button button-primary"><AccountIcon />{loggedInMessage}</button>
+        loginButton = <div className="dropdown"><button onClick={() => {set_showMenu(!showMenu)}}><AccountIcon />{loggedInMessage}</button>{showMenu ? <ul ><li><button>Logout</button></li></ul> : ""}</div>
     }
 
     useEffect(() => {
         let token = getIdToken()
         if (token != null) {
             set_loggedIn(true)
-            console.log("token is\n", token, "\n", parseJwt(token))
             set_loggedInMessage("Signed in as " + parseJwt(token).name + ".")
         }
     }, [getIdToken()]);
