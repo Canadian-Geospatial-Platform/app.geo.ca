@@ -2,8 +2,8 @@ import './dispatch/dispatchsignin.scss'
 import React, { useEffect, useState } from "react";
 import { getAccessToken, requireLogin } from './utils/authorization';
 
-export default function TestPage(): JSX.Element {
-    const [x, set_x] = useState("initial value");
+export default function SamplePageRequiringSignIn(): JSX.Element {
+    const [x, set_x] = useState(null);
     const onClickFunction = () => {
         let x = getAccessToken()
         console.log("on click function callled!", getAccessToken())
@@ -16,10 +16,12 @@ export default function TestPage(): JSX.Element {
         fetchData()
     }, [requireLogin]);
 
+    let TokenHtml = <button onClick={onClickFunction}>Click here to display the authorization token.</button>
+    
+    if (x) {TokenHtml = <p>The athorization token is: {x}</p>}
 
     return <div>
         <h1 className="sign-in">Welcome to the test page. This page should require login on load. and redirect the user to the sign-in page.</h1>
-        <button onClick={onClickFunction}>a button</button>
-        <p>The athorization token is: {x}</p>
+        {TokenHtml}
     </div>
 }
