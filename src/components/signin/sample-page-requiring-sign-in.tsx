@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getAccessToken, requireLogin } from './utils/authorization';
 
 export default function SamplePageRequiringSignIn(): JSX.Element {
-    const [x, set_x] = useState(null);
+    const [x, set_x] = useState<null|string>(null);
     const onClickFunction = () => {
         let x = getAccessToken()
         console.log("on click function callled!", getAccessToken())
