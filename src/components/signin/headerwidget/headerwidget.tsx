@@ -22,14 +22,16 @@ export default function HeaderWidget(): JSX.Element {
             "padding": '0.55em 1em',
     }} onClick={fetchData}>Sign in</button>
     } else {
-        loginButton = <div className="dropdown"><button onClick={() => {set_showMenu(!showMenu)}}><AccountIcon />{loggedInMessage}</button>{showMenu ? <ul ><li><button onClick={logout}>Logout</button></li></ul> : ""}</div>
+        loginButton = <div id="loginWidget" className="dropdown"><button className="userIcon" onClick={() => {set_showMenu(!showMenu)}} style={{
+            "padding": '0.55em 1em',
+    }}>{loggedInMessage.charAt(0)}</button>{showMenu ? <ul><li><button onClick={logout}>Logout</button></li></ul> : ""}</div>
     }
 
     useEffect(() => {
         let token = getIdToken()
         if (token != null) {
             set_loggedIn(true)
-            set_loggedInMessage("Signed in as " + parseJwt(token).name + ".")
+            set_loggedInMessage(parseJwt(token).name)
         }
     }, [getIdToken()]);
 

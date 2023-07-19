@@ -1,12 +1,23 @@
 .dropdown ul li{
-    color: red;
+    color: black;
 list-style-type: none;  
 z-index: 1000;
 position: absolute;
 right: 0;
 top: auto;
 background-color: white;
-width: 100%;
-padding: inherit;
-border-radius: 0.25rem;
+width: 10rem;
+border-style: solid;
+border-width: 0.1rem;
+box-shadow: 0.1rem 0.1rem;
+margin-top: 0.5rem;
+}
+
+#loginWidget .userIcon{
+    color: white;
+    background-color: blue;
+    border-radius: 100%;
+border-style: solid;
+border-width: 0.1rem;
+border-color: black;
 }
