@@ -13,7 +13,9 @@
         },
         "nomap": "Votre carte est vide, veuillez ajouter des données à la carte",
         "logotext": "logo de la Plateforme géospatiale fédérale",
-        "logoLinktext": "Page d'accueil de la Plateforme géospatiale fédérale"
+        "logoLinktext": "Page d'accueil de la Plateforme géospatiale fédérale",
+        "logout": "Déconnexion",
+        "login": "Connexion"
     },
     "mapnav": {
         "ariaNavbar": "groupe de buttons vertical pour navigation sur la carte",

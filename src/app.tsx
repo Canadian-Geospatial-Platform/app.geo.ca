@@ -23,6 +23,9 @@ import { Map } from './components/map/map';
 import MetaDataPage from './components/search/metadatapage';
 import RampViewer from './components/rampviewer/rampviewer';
 import CgpModal from './components/modal/cgpmodal';
+import DispatchSignIn from './components/signin/dispatch/dispatchsignin';
+import ReceiveSignIn from './components/signin/receive/receivesignin';
+import SamplePageRequiringSignIn from './components/signin/sample-page-requiring-sign-in';
 
 import '../node_modules/leaflet/dist/leaflet.css';
 import './assets/css/style.scss';
@@ -54,7 +57,7 @@ const mainMap: Element | null = document.getElementById('root');
 const jsonConfig = mainMap && mainMap.getAttribute('data-leaflet');
 const config = jsonConfig
     ? JSON.parse(jsonConfig.replace(/'/g, '"'))
-    : { name: 'Web Mercator', projection: 3857, zoom: 4, center: [60, -100], language: 'en', search: true, auth: false };
+    : { name: 'Web Mercator', projection: 3857, zoom: 4, center: [60, -100], language: 'en', search: true, auth: true };
 // const center: LatLngTuple = [config.center[0], config.center[1]];
 const queryParams: { [key: string]: string } = getQueryParams(window.location.href.substr(window.location.href.indexOf('?')));
 
@@ -130,13 +133,13 @@ const Routing = () => {
                 <Route exact path="/result/:pathlang/:title" component={MetaDataPage} />
                 <Route exact path="/map" component={RampViewer} />
                 <Route exact path="/result" component={MetaDataPage} />
-                <Route
-                    path="/404"
-                    component={() => {
-                        window.location.href = 'https://geo.ca/404.html';
-                        return null;
-                    }}
-                />
+                <Route exact path="/dispatchsignin" component={DispatchSignIn} />
+                <Route exact path="/receivesignin" component={ReceiveSignIn} />
+                <Route exact path="/sample-page-requiring-sign-in" component={SamplePageRequiringSignIn} />
+                <Route path='/404' component={() => {
+                    window.location.href = 'https://geo.ca/404.html';
+                    return null;
+                }} />
                 <Redirect to="/404" />
             </Switch>
             {/* </StrictMode> */}

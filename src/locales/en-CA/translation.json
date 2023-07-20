@@ -13,7 +13,9 @@
         },
         "nomap": "Your map is empty, please add data to map",
         "logotext": "logo for the GEO.CA",
-        "logoLinktext": "GEO.CA homepage"
+        "logoLinktext": "GEO.CA homepage",
+        "logout": "Logout",
+        "login": "Login"
     },
     "mapnav": {
         "ariaNavbar": "vertical button group for map navigation",
