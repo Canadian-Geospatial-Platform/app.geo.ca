@@ -21,5 +21,5 @@ export default function ReceiveSignIn(): JSX.Element {
 
     }, []);
 
-    return <h1 className="receivesignin">Receiving sign in.</h1>;
+    return <h1 className="receivesignin">Signing in... Please wait while you are being redirected.</h1>;
 }
