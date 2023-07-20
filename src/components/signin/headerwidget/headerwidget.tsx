@@ -1,5 +1,4 @@
 import './headerwidget.scss';
-import AccountIcon from '@material-ui/icons/AccountBox';
 import React, { useEffect, useState } from "react";
 import { getIdToken, requireLogin, logout } from '../utils/authorization';
 import { parseJwt } from '../utils/parse-jwt';
@@ -21,7 +20,7 @@ export default function HeaderWidget(): JSX.Element {
     } else {
         loginButton = <div id="loginWidget" className="dropdown"><button className="userIcon" onClick={() => {set_showMenu(!showMenu)}} style={{
             "padding": '0.55em 1em',
-    }}>{loggedInMessage.charAt(0)}</button>{showMenu ? <ul><li><button onClick={logout}>{t('nav.logout')}</button></li></ul> : ""}</div>
+    }}>{loggedInMessage.charAt(0)}</button>{showMenu ? <ul><li><button>{loggedInMessage}</button></li><li><button onClick={logout}>{t('nav.logout')}</button></li></ul> : ""}</div>
     }
 
     useEffect(() => {
