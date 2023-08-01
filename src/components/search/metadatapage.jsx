@@ -58,7 +58,9 @@ const MetaDataPage = (props) => {
 
     const mapping = useSelector(state => state.mappingReducer.mapping);
     const dispatch = useDispatch();
-
+    const [similarRec, setSimilarRec] = useState(true);
+    const [similarRecords, setSimilarRecords] = useState([]);
+    const [showSimilarRecords, setShowSimilarRecords] = useState([]);
     const [loading1, setLoading1] = useState(true);
     const [loading2, setLoading2] = useState(true);
     const [metaresult, setResult] = useState(null);
@@ -152,6 +154,12 @@ const MetaDataPage = (props) => {
                 res.mappingtitle = { en: res.title_en, fr: res.title_fr };
                 setResult(res);
                 setLoading1(false);
+                //const sims = [{ uuid: 'a4d4b53b-143a-4d10-9ded-45abb164d239', title_en: 'Lost, Stolen and Found Sealed Sources and Radiation Devices', title_fr: 'Ensemble de données sur les sources scellées et les appareils à rayonnement perdus, volés ou trouvés' }, { uuid: '701e5144-5047-4a14-2c0b-03f97ffb7334', title_en: 'Referrals, Investigations and Founded Cases', title_fr: 'Orientations, enquêtes et affaires fondées - Services de délivrance de licences et protection pour les personnes prises en charge' }, { title_en: 'similar3' }, { title_en: 'similar4' }, { title_en: 'similar5' }, { title_en: 'similar6' }, { title_en: 'similar7' }, { title_en: 'similar8' }, { title_en: 'similar9' }, { title_en: 'similar10' }]
+                if (res.similarity) {
+                    const sims = res.similarity;
+                    setSimilarRecords(sims);
+                    setShowSimilarRecords(sims.slice(0, 5));
+                }
             })
             .catch(error => {
                 // console.log(error);
@@ -178,15 +186,15 @@ const MetaDataPage = (props) => {
                         related1.push({ ...s, ...{ 'type': 'member' } });
                     });
                 }
-                
+
                 setRelated(related1);
                 setLoading2(false);
             })
             .catch(error => {
                 // console.log(error);
-                
+
                 setRelated([]);
-                setLoading2(false);    
+                setLoading2(false);
             });
 
     };
@@ -302,7 +310,15 @@ const MetaDataPage = (props) => {
         return paraArray.map((pt, i) => pt.trim().length > 0 ? <p key={`pt${i}`} dangerouslySetInnerHTML={{ __html: convertDesc(pt) }} /> : <br key={`pt${i}`} />);
     }
 
-
+    const handleViewSimilarRecords = () => {
+        const similar = !similarRec;
+        setSimilarRec(similar);
+        if (similar) {
+            setShowSimilarRecords(similarRecords.slice(0, 5));
+        } else {
+            setShowSimilarRecords(similarRecords);
+        }
+    }
 
     useEffect(() => {
         if (rid !== '') {
@@ -319,7 +335,7 @@ const MetaDataPage = (props) => {
 
     useEffect(() => {
         if (pathlang !== language && metaresult !== null && rid !== '' && !metadataState) {
-            window.location.href = `/result/${language}/${encodeURI(metaresult.mappingtitle[language].trim().toLowerCase().replaceAll(" ", "-"))}?id=${encodeURI(rid.trim())}&lang=${language}`
+            window.location.href = `/result/${language}/${encodeURI(metaresult.mappingtitle[language].trim().toLowerCase().replaceAll(" ", "-").replaceAll('/', '%2F'))}?id=${encodeURI(rid.trim())}&lang=${language}`
         }
     }, [metaresult, pathlang, language, rid]);
 
@@ -357,10 +373,10 @@ const MetaDataPage = (props) => {
                                 });
 
                             const tcRange = ['N/A', 'N/A'];
-							tcRange[0] = result.temporalExtent.begin;
-							tcRange[1] = result.temporalExtent.end;
+                            tcRange[0] = result.temporalExtent.begin;
+                            tcRange[1] = result.temporalExtent.end;
                             /*
-							result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").forEach((date) => {
+                            result.temporalExtent.substring(1, result.temporalExtent.length - 1).split(",").forEach((date) => {
                                 const dateStr = date.trim().split("=");
                                 if (dateStr[1] !== undefined && dateStr[1].toLowerCase() !== 'null') {
                                     if (dateStr[0].toLowerCase() === 'begin') {
@@ -372,7 +388,7 @@ const MetaDataPage = (props) => {
 
                                 }
                             });
-							*/
+                            */
 
                             const activeMap = options.findIndex((o) => o.type.toUpperCase() === 'WMS' || o.type.toUpperCase() === 'WEB SERVICE' || o.type.toUpperCase() === 'SERVICE WEB') > -1;
                             const mapButtonClass = activeMap ? 'btn btn-search' : 'btn btn-search disabled';
@@ -448,7 +464,7 @@ const MetaDataPage = (props) => {
                                                 </div>
                                                 <table className="table table-hover caption-top table-search-result table-meta">
                                                     <caption>
-                                                        {t("page.metadata")} 
+                                                        {t("page.metadata")}
                                                     </caption>
                                                     {showDisclaimer ?
                                                         <tbody id="tbody-meta">
@@ -692,6 +708,21 @@ const MetaDataPage = (props) => {
                                                         <button id="addMyMap" type="button" className={inMapping ? `${mapButtonClass} btn-added` : mapButtonClass} onClick={activeMap ? () => changeMapping(result.id) : () => setGreyMap(true)}>{inMapping ? t("page.addedtomymap") : t("page.addtomymap")}</button>
                                                     </div>
                                                 </section>
+                                                {showSimilarRecords.length > 0 &&
+                                                    <section className="sec-search-result search-results-section search-results-misc-data">
+                                                        <h3 className="section-title">{t("page.similarrecords")}</h3>
+                                                        <div>
+                                                            <ul>
+                                                                {showSimilarRecords.map((si, index) => (
+                                                                    <li key={index}><a target="_blank" href={`/result?id=${encodeURI(si.features_properties_id.trim())}&lang=${language}`}>{language === 'en' ? si.features_properties_title_en : si.features_properties_title_fr}</a></li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                        <div className="btn-group">
+                                                            <button type="button" className="btn btn-search" onClick={handleViewSimilarRecords}>{similarRec ? t("page.viewmore") : t("page.showless")}</button>
+                                                        </div>
+                                                    </section>
+                                                }
                                                 <section className="sec-search-result search-results-section search-results-misc-data">
                                                     <h3 className="section-title">{t("page.metadata")}</h3>
                                                     <p>{t("page.ourmetadatais")}</p>
@@ -744,8 +775,8 @@ const MetaDataPage = (props) => {
                                 </div>
                             )
                         }))}
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 

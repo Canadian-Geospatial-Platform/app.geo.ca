@@ -166,6 +166,7 @@
         "member": "Member",
         "keywords": "Keywords",
         "metadata": "Metadata",
+        "similarrecords": "Similar Records",
         "datecreated": "Date Created",
         "datepublished": "Date Published",
         "temporalcoverage": "Temporal Coverage",
