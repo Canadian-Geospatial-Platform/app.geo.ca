@@ -32,7 +32,6 @@ import stacs from './stac.json';
 // import { css } from '@emotion/core';
 import './keywordsearch.scss';
 import { SpatialData, StacData } from '../../app';
-import { getAccessToken } from '../signin/utils/authorization';
 
 const EnvGlobals = envglobals();
 
@@ -182,7 +181,7 @@ const KeywordSearch = (): JSX.Element => {
 
         // console.log(searchParams);
         axios
-            .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams, headers: { 'Authorization': `Bearer ${getAccessToken()}` } })
+            .get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams, headers: {} })
             .then((response) => {
                 analyticPost(analyticParams);
                 return response.data;

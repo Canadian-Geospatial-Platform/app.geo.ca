@@ -23,7 +23,6 @@ import spatials from '../search/spatials.json';
 import stacs from '../search/stac.json';
 import { envglobals } from '../../common/envglobals';
 import './header.scss';
-import HeaderWidget from '../signin/headerwidget/headerwidget';
 // Reacstrap Collapse - Responsive Navbar
 
 const EnvGlobals = envglobals();
@@ -234,11 +233,6 @@ export default function Header(): JSX.Element {
                                         >
                                             {loadState() !== undefined ? loadState().mappingReducer.mapping.length : 0}
                                         </button>
-                                    </li>
-                                    <li className='nav-item' style={{
-                                        "margin": 'auto',
-                                    }}>
-                                        <HeaderWidget/>
                                     </li>
                                     <li className="nav-item">
                                         <button

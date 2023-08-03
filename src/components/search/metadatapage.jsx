@@ -39,7 +39,6 @@ import { analyticPost, analyticGet } from '../../common/analytic';
 import { setMapping } from "../../reducers/action";
 import InfoModal from '../modal/infomodal';
 import './metadatapage.scss';
-import { getAccessToken } from '../signin/utils/authorization';
 
 const EnvGlobals = envglobals();
 
@@ -146,7 +145,7 @@ const MetaDataPage = (props) => {
             lang: language,
         };
 
-        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: searchParams, headers: { 'Authorization': `Bearer ${getAccessToken()}` } })
+        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: searchParams, headers: { } })
             .then(response => response.data)
             .then((data) => {
                 const res = data.body.Items[0];
