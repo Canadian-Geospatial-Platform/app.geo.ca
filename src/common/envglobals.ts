@@ -5,7 +5,7 @@ export function envglobals(): globalValues {
     // console.log(hostname);
     const endpoints = {
         SEARCH: '/geo',
-        METADATA: '/id',
+        METADATA: '/id/v2',
         COLLECTIONS: '/collections',
         ANALYTIC: '/analytics',
         SORTBY: '/sorting',
