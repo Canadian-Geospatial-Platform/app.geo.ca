@@ -727,7 +727,7 @@ const GeoSearch = (
     };
 
     const handleKeyword = (keyword: string) => {
-        window.open(`/?keyword=${encodeURI(keyword.trim())}&ksonly&lang=${language}`, `_blank`);
+        window.open(`/?keyword=${encodeURI(keyword.trim())}&keyword_only=true&lang=${language}`, `_blank`);
     };
 
     const handleOrg = (filters: unknown): void => {
@@ -1211,7 +1211,7 @@ const GeoSearch = (
                         {ksOnly
                             ? results.map((result: SearchResult, mindex: number) => {
                                 const coordinates = JSON.parse(result.coordinates);
-                                const keywords = result.keywords.substring(0, result.keywords.length - 2).split(',');
+                                const keywords = result.keywords.split(',');
                                 const allkwshowing = allkw.findIndex((ak) => ak === result.id) > -1;
                                 const dist = Math.max(
                                     Math.abs(coordinates[0][2][1] - coordinates[0][0][1]),
