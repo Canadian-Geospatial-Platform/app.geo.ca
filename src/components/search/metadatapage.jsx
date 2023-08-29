@@ -269,7 +269,7 @@ const MetaDataPage = (props) => {
         } else {
             history.push({
                 pathname: '/',
-                search: `keyword=${encodeURI(stateKeyword.trim())}${stateKO ? '&ksonly' : ''}`,
+                search: `keyword=${encodeURI(stateKeyword.trim())}${stateKO ? '&keyword_only=true' : ''}`,
                 state: { statePn, stateBounds }
             });
         }
