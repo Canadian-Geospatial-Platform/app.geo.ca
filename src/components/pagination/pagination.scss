@@ -5,12 +5,20 @@
     padding: 1rem 0 0.5rem 0;
     margin: auto;
     max-width: calc(100vw - 61px);
+
     .pagination-total {
         color: $color__semi-dark;
         margin-bottom: 0.5rem;
     }
+
+    .pagination-total2 {
+        color: $color__light;
+        margin-bottom: 0.5rem;
+    }
+
     .pagination-list {
         margin-bottom: 0;
+
         .list-item {
             &.current {
                 .page-link {
@@ -19,6 +27,7 @@
                     font-weight: 600;
                 }
             }
+
             .page-link {
                 background-color: transparent;
                 border: none;
@@ -34,6 +43,7 @@
                     font-size: 1.375em;
                     transition: all 0.3s ease;
                 }
+
                 &:focus {
                     background-color: transparent;
                     color: $color__dark;
@@ -45,27 +55,107 @@
                     }
                 }
             }
+
             &.disabled {
                 .page-link {
                     &:hover {
                         cursor: default;
                     }
+
                     &:focus {
                         color: $color__logo-blue-dark;
                     }
                 }
             }
+
             &.disabled:not(.current) {
                 .page-link {
                     opacity: 0.5;
                 }
             }
+
             &:not(.disabled) {
                 .page-link {
                     &:hover {
                         background-color: transparent;
                         color: $color__dark;
                         font-weight: 600;
+
+                        .ico-pagination {
+                            background-color: $color__logo-blue;
+                            color: $color__light;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .pagination-list2 {
+        margin-bottom: 0;
+
+        .list-item {
+            &.current {
+                .page-link {
+                    background-color: transparent;
+                    color: $color__light;
+                    font-weight: 600;
+                }
+            }
+
+            .page-link {
+                background-color: transparent;
+                border: none;
+                color: $color__semi-light;
+                font-weight: 300;
+                transition: all 0.3s ease;
+                padding: .5rem .6rem;
+
+                .ico-pagination {
+                    border: 1px solid $color__logo-blue;
+                    border-radius: 25px;
+                    color: $color__light;
+                    font-size: 1.375em;
+                    transition: all 0.3s ease;
+                }
+
+                &:focus {
+                    background-color: transparent;
+                    color: $color__light;
+                    font-weight: 600;
+
+                    .ico-pagination {
+                        background-color: $color__logo-blue;
+                        color: $color__light;
+                    }
+                }
+            }
+
+            &.disabled {
+                .page-link {
+                    &:hover {
+                        cursor: default;
+                    }
+
+                    &:focus {
+                        color: $color__light;
+                    }
+                }
+            }
+
+            &.disabled:not(.current) {
+                .page-link {
+                    opacity: 0.5;
+                }
+            }
+
+            &:not(.disabled) {
+                .page-link {
+                    &:hover {
+                        background-color: transparent;
+                        color: $color__light;
+                        font-weight: 600;
+
                         .ico-pagination {
                             background-color: $color__logo-blue;
                             color: $color__light;

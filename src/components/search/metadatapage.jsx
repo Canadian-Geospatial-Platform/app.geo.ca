@@ -38,6 +38,7 @@ import { analyticPost, analyticGet } from '../../common/analytic';
 // import { css } from "@emotion/core";
 import { setMapping } from "../../reducers/action";
 import InfoModal from '../modal/infomodal';
+import Pagination from "../pagination/pagination";
 import './metadatapage.scss';
 
 const EnvGlobals = envglobals();
@@ -64,10 +65,14 @@ const MetaDataPage = (props) => {
     const [loading2, setLoading2] = useState(true);
     const [metaresult, setResult] = useState(null);
     const [related, setRelated] = useState([]);
+    const [relatedPage, setRelatedPage] = useState([]);
     const [analyticLoading, setAnalyticLoading] = useState(true);
     const [analyticRes, setAnalytic] = useState({ '30': 1, 'all': 1 });
     const [openSection, setOpen] = useState([]);
     const [mapGreyOut, setGreyMap] = useState(false);
+    const [pn, setPageNumber] = useState(1);
+    const rpp = 10;
+    const [ppg, setPPG] = useState(window.innerWidth > 600 ? 8 : window.innerWidth > 400 ? 5 : 3);
     const rid = queryParams && queryParams.id ? queryParams.id.trim() : metadataState && metadataState.id ? metadataState.id : "";
     const inMapping = rid !== "" ? mapping.findIndex((m) => m.id === rid) > -1 : false;
     const language = t("app.language");
@@ -145,7 +150,7 @@ const MetaDataPage = (props) => {
             lang: language,
         };
 
-        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: searchParams, headers: { } })
+        axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.METADATA}`, { params: searchParams, headers: {} })
             .then(response => response.data)
             .then((data) => {
                 const res = data.body.Items[0];
@@ -187,6 +192,7 @@ const MetaDataPage = (props) => {
                 }
 
                 setRelated(related1);
+                setRelatedPage(related1.slice(0, rpp));
                 setLoading2(false);
             })
             .catch(error => {
@@ -317,6 +323,11 @@ const MetaDataPage = (props) => {
         } else {
             setShowSimilarRecords(similarRecords);
         }
+    }
+
+    const handleRelatedPage = (pnum) => {
+        setPageNumber(pnum);
+        setRelatedPage(related.slice((pnum - 1) * 10, pnum * 10));
     }
 
     useEffect(() => {
@@ -522,6 +533,7 @@ const MetaDataPage = (props) => {
                                             </section>
                                             {(related.length > 0) &&
                                                 <section id="search-result-related-products" className="sec-search-result sec-search-result-related-products">
+
                                                     <table className="table table-hover caption-top table-search-result table-related-products">
                                                         <caption>
                                                             <button id="related-products-id" type="button" className={openSection.findIndex(o => o === 'relatedproducts') < 0 ? "table-data-toggle collapse" : "table-data-toggle expand"} aria-expanded={openSection.findIndex(o => o === 'relatedproducts') < 0 ? "false" : "true"} aria-controls="tbody-data-resources" role="button" onClick={() => handleOpen('relatedproducts')}>{t("page.relatedproducts")}</button>
@@ -531,7 +543,7 @@ const MetaDataPage = (props) => {
                                                                 <th scope="col" className="col-5">{t("page.name")}</th>
                                                                 <th scope="col" className="col-1">{t("page.type")}</th>
                                                             </tr>
-                                                            {related.map((relatedp, ri) => {
+                                                            {relatedPage.map((relatedp, ri) => {
                                                                 // const desc = option.description[language].split(";");
                                                                 return (
                                                                     <tr className="table-row-link" key={ri} onClick={(e) => handleRelatedClick(e, relatedp.id)}>
@@ -543,6 +555,18 @@ const MetaDataPage = (props) => {
                                                                 );
                                                             })}
                                                         </tbody>
+                                                        {(related.length > 10) &&
+                                                            <tfoot id="tfoot-related-products" className={openSection.findIndex(o => o === 'relatedproducts') < 0 ? "collapse" : "collapse show"}>
+                                                                <Pagination rpp={rpp}
+                                                                    ppg={ppg}
+                                                                    rcnt={related.length}
+                                                                    loading={false}
+                                                                    current={pn}
+                                                                    totalClass="pagination-total2"
+                                                                    listClass="pagination-list2"
+                                                                    selectPage={(pnum) => handleRelatedPage(pnum)}></Pagination>
+                                                            </tfoot>
+                                                        }
                                                     </table>
                                                 </section>
                                             }

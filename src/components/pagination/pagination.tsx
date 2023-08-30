@@ -11,7 +11,7 @@ import './pagination.scss';
 
 export default function Pagination(props: paginationProps): JSX.Element {
     const { t } = useTranslation();
-    const { rpp, ppg, rcnt, current, loading, selectPage } = props;
+    const { rpp, ppg, rcnt, current, loading, selectPage, totalClass, listClass } = props;
     const pcnt = Math.ceil(rcnt / rpp);
     const pgcnt = Math.ceil(pcnt / ppg);
     const cgroup = Math.ceil(current / ppg);
@@ -23,11 +23,11 @@ export default function Pagination(props: paginationProps): JSX.Element {
     const max = Math.min(current * rpp, rcnt);
     return (
         <nav className="pagination-container" aria-label={t('page.ctrl.paginationlabel')}>
-            <p className="pagination-total text-center" role="status">
+            <p className={totalClass ? `${totalClass} text-center` : 'pagination-total text-center'} role="status">
                 {!loading && t('page.ctrl.total', { index: `${(current - 1) * rpp + 1} - ${max}`, total: rcnt })}
             </p>
             {pcnt > 1 && (
-                <ul className="pagination pagination-list justify-content-center">
+                <ul className={listClass ? `pagination ${listClass} justify-content-center` : 'pagination pagination-list justify-content-center'}>
                     {pgcnt > 1 && (
                         <li className={cgroup === 1 ? 'list-item first disabled' : 'list-item first'}>
                             <button
@@ -97,8 +97,9 @@ export default function Pagination(props: paginationProps): JSX.Element {
                         </li>
                     )}
                 </ul>
-            )}
-        </nav>
+            )
+            }
+        </nav >
     );
 }
 
@@ -109,4 +110,6 @@ interface paginationProps {
     current: number;
     loading: boolean;
     selectPage(pn: number): unknown;
+    totalClass?: string;
+    listClass?: string;
 }
