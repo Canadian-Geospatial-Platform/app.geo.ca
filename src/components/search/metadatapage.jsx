@@ -17,7 +17,7 @@ import { useLocation, useHistory } from 'react-router';
 // import {useParams} from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { MapContainer, TileLayer, GeoJSON, AttributionControl } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, AttributionControl, ImageOverlay } from 'react-leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import {
@@ -381,7 +381,8 @@ const MetaDataPage = (props) => {
                                     const desc = option.description[language].split(";");
                                     return { name: option.name[language], type: desc[0], format: desc[1], language: t(`page.${desc[2].toLowerCase().replace(',', '')}`), url: option.url };
                                 });
-
+                            const imageUrls=formattedOption.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.indexOf("image/png")>=0||o.description.en.indexOf("image/jpeg")>=0));
+                            const hasImage=imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0;                            
                             const tcRange = ['N/A', 'N/A'];
                             tcRange[0] = result.temporalExtent.begin;
                             tcRange[1] = result.temporalExtent.end;
@@ -404,7 +405,8 @@ const MetaDataPage = (props) => {
                             const mapButtonClass = activeMap ? 'btn btn-search' : 'btn btn-search disabled';
                             const contact = formattedContact;
                             const coordinates = JSON.parse(result.coordinates);
-
+                            const bounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]
+                              );
                             const langInd = (language === 'en') ? 0 : 1;
                             const status = result.status.split(';')[langInd];
                             const maintenance = result.maintenance.split(';')[langInd];
@@ -720,6 +722,13 @@ const MetaDataPage = (props) => {
                                                                 "properties": { "id": result.id, "tag": "geoViewGeoJSON" },
                                                                 "geometry": { "type": "Polygon", "coordinates": coordinates }
                                                             }} />
+                                                            {hasImage && <ImageOverlay
+                                                                url={imageUrls[0].url}
+                                                                bounds={bounds}
+                                                                opacity={1}
+                                                                zIndex={10}
+                                                                />
+                                                            }
                                                         </MapContainer>
                                                     </div>
                                                 </section>
