@@ -21,7 +21,7 @@ const config = {
             overlay: true,
         },
         hot: true,
-        port: 8090,
+        port: 8080,
         compress: true,
         open: true,
     },
