@@ -17,7 +17,8 @@ import { useLocation, useHistory } from 'react-router';
 // import {useParams} from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
-import { MapContainer, TileLayer, GeoJSON, AttributionControl, ImageOverlay } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, AttributionControl, ImageOverlay  } from 'react-leaflet';
+import { LatLng, LatLngBounds} from 'leaflet';
 import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import {
@@ -58,6 +59,10 @@ const MetaDataPage = (props) => {
 
     const mapping = useSelector(state => state.mappingReducer.mapping);
     const dispatch = useDispatch();
+    const [tileServiceUrl, setTileServiceUrl]=useState(null);
+    const [cogCenter, setCogCenter]=useState([]);
+    const [cogBounds, setCogBounds]=useState([]);
+    const [cogZoom, setCogZoom]=useState(0);
     const [similarRec, setSimilarRec] = useState(true);
     const [similarRecords, setSimilarRecords] = useState([]);
     const [showSimilarRecords, setShowSimilarRecords] = useState([]);
@@ -157,12 +162,43 @@ const MetaDataPage = (props) => {
                 res.title = language === 'en' ? res.title_en : res.title_fr;
                 res.mappingtitle = { en: res.title_en, fr: res.title_fr };
                 setResult(res);
-                setLoading1(false);
+                
                 //const sims = [{ uuid: 'a4d4b53b-143a-4d10-9ded-45abb164d239', title_en: 'Lost, Stolen and Found Sealed Sources and Radiation Devices', title_fr: 'Ensemble de données sur les sources scellées et les appareils à rayonnement perdus, volés ou trouvés' }, { uuid: '701e5144-5047-4a14-2c0b-03f97ffb7334', title_en: 'Referrals, Investigations and Founded Cases', title_fr: 'Orientations, enquêtes et affaires fondées - Services de délivrance de licences et protection pour les personnes prises en charge' }, { title_en: 'similar3' }, { title_en: 'similar4' }, { title_en: 'similar5' }, { title_en: 'similar6' }, { title_en: 'similar7' }, { title_en: 'similar8' }, { title_en: 'similar9' }, { title_en: 'similar10' }]
                 if (res.similarity) {
                     const sims = res.similarity;
                     setSimilarRecords(sims);
                     setShowSimilarRecords(sims.slice(0, 5));
+                }
+                if(res.options){                
+                    const imageUrls=res.options.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.indexOf("image/tiff")>=0||o.description.en.indexOf("image/png")>=0||o.description.en.indexOf("image/jpeg")>=0));
+                    const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
+                    let url;
+                    if(hasImage){
+                        let imgUrls=imageUrls.filter(o=>o.description.en.indexOf("image/tiff")>0);
+                        url=imageUrls[0].url;
+                        if(imgUrls.length>0){
+                            url=imgUrls[0].url;
+                        }
+                        axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
+                            console.log(res);
+                            const centers=res.data.center;
+                            setCogCenter(new LatLng(centers[1], centers[0]));
+                            setCogZoom(centers[2]);
+                            axios.get(`${EnvGlobals.COG_META_URL}`, {params: {url}}).then((res2)=>{
+                                console.log(res2);
+                                const min=res2.data.statistics['1'].min;
+                                const max=res2.data.statistics['1'].max;
+                                const imageBounds = L.latLngBounds([[res2.data.bounds[3], res2.data.bounds[2]],[res2.data.bounds[1], res2.data.bounds[0]]]);
+                                setCogBounds(imageBounds);
+                                setTileServiceUrl(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`);
+                                setLoading1(false);                                
+                            });
+                        });                
+                    }else{
+                        setLoading1(false);
+                    }
+                }else{
+                    setLoading1(false);
                 }
             })
             .catch(error => {
@@ -708,7 +744,7 @@ const MetaDataPage = (props) => {
                                             <div className="top-sections">
                                                 <section className="sec-search-result search-results-section search-results-map">
                                                     <div className="ratio ratio-16x9">
-                                                        <MapContainer
+                                                        {!hasImage && <MapContainer
                                                             center={[(coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2]}
                                                             zoom={zoom}
                                                             zoomControl={false}
@@ -722,14 +758,31 @@ const MetaDataPage = (props) => {
                                                                 "properties": { "id": result.id, "tag": "geoViewGeoJSON" },
                                                                 "geometry": { "type": "Polygon", "coordinates": coordinates }
                                                             }} />
-                                                            {hasImage && <ImageOverlay
+                                                            
+                                                        </MapContainer>}
+                                                        {hasImage && <MapContainer
+                                                            center={cogCenter}
+                                                            zoom={cogZoom}
+                                                            zoomControl={false}
+                                                            attributionControl={false}
+                                                        >
+                                                            <TileLayer url="https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution={t("mapctrl.attribution")} />
+                                                            <AttributionControl position="bottomleft" prefix={false} />
+                                                            <TileLayer url={tileServiceUrl} bounds={cogBounds} />
+                                                            <NavBar />
+                                                            <GeoJSON key={result.id} data={{
+                                                                "type": "Feature",
+                                                                "properties": { "id": result.id, "tag": "geoViewGeoJSON" },
+                                                                "geometry": { "type": "Polygon", "coordinates": coordinates }
+                                                            }} />
+                                                            {/*hasImage && <ImageOverlay
                                                                 url={imageUrls[0].url}
                                                                 bounds={bounds}
                                                                 opacity={1}
                                                                 zIndex={10}
                                                                 />
-                                                            }
-                                                        </MapContainer>
+                                                        */}
+                                                        </MapContainer>}
                                                     </div>
                                                 </section>
                                                 <section className="sec-search-result search-results-section search-results-misc-data">
