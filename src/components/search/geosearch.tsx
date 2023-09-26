@@ -99,7 +99,6 @@ const GeoSearch = (
     const storestacfilters = useSelector((state) => (state.mappingReducer.stacfilter ? state.mappingReducer.stacfilter : []));
     const storespatempfilters = useSelector((state) => state.mappingReducer.spatempfilter);
     const dispatch = useDispatch();
-    const [image, setImage]=useState(null);
     const [zoom, setZoom] = useState(null);
     const [center, setCenter] = useState(null);
     const [boundbox, setBoundbox] = useState(useSelector((state) => state.mappingReducer.boundbox));
@@ -122,10 +121,6 @@ const GeoSearch = (
     const dispatch = useDispatch(); */
 
     const selectResult = (result: SearchResult | undefined) => {
-        if(image!==null){            
-            map.removeLayer(image);
-            setImage(null);
-        }
         map.eachLayer((layer: unknown) => {
             // console.log(layer);
             const { feature } = layer;
@@ -142,13 +137,12 @@ const GeoSearch = (
         });
 
         if (result) {
-            const coordinates=JSON.parse(result.coordinates);
             const data = {
                 type: 'Feature',
                 properties: { id: result.id, tag: 'geoViewGeoJSON' },
                 geometry: {
                     type: 'Polygon',
-                    coordinates,
+                    coordinates: JSON.parse(result.coordinates),
                 },
             };
             const selectedParams: AnalyticParams = {
@@ -176,20 +170,6 @@ const GeoSearch = (
             analyticPost(selectedParams);
             // eslint-disable-next-line new-cap
             new L.geoJSON(data).addTo(map);
-            if(result.options){                
-                let imageUrls=JSON.parse(result.options.replaceAll('""','"')).filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.indexOf("image/png")>0 || o.description.en.indexOf("image/jpeg")>0));                
-                if(imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0){                
-                    const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]
-                    );
-                    const image=L.imageOverlay(imageUrls[0].url, imageBounds, {opacity: 1}).addTo(map);
-                    setImage(image);
-                }
-            }
-            const center=new LatLng((coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2);
-            const bounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
-            console.log(bounds, center);
-            map.fitBounds(bounds);
-            map.setView(center, map.getZoom());
         }
     };
 
@@ -197,7 +177,8 @@ const GeoSearch = (
         // const {selectResult} = this.props;
         const cardOpen = selected === event ? !open : true;
         const result =
-            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;        
+            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;
+
         setSelected(event);
         setOpen(cardOpen);
         selectResult(result);
@@ -1470,7 +1451,7 @@ interface SearchResult {
     description: string;
     published: string;
     keywords: string;
-    options: string;
+    options: [];
     contact: [];
     created: string;
     spatialRepresentation: string;
