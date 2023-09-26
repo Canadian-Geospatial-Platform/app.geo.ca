@@ -187,10 +187,9 @@ const GeoSearch = (
             }
             const center=new LatLng((coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2);
             const bounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
-            //console.log(bounds, center);
+            console.log(bounds, center);
             map.fitBounds(bounds);
-            //map.panTo(center);
-            //map.setView(center, map.getZoom());
+            map.setView(center, map.getZoom());
         }
     };
 
