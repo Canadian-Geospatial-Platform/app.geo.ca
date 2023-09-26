@@ -64,9 +64,11 @@ export default function Sorting(props: SortingProps): JSX.Element {
     const onChange = (event) => {
         onSorting(event.target.value);
     };
+    /*
     useEffect(() => {
         console.log(props);
     }, []);
+    */
     return (
         <>
             {/*

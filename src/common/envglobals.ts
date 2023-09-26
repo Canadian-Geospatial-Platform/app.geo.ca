@@ -23,6 +23,9 @@ export function envglobals(): globalValues {
                 SITE_NAME: 'localhost',
                 JSON_SERVER_URL: 'http://localhost:3000',
                 APP_GEOLOCATOR_URL: 'https://tkyuwlg5f7.execute-api.ca-central-1.amazonaws.com/live/',
+                COG_TILESERVICE_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
+                COG_META_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/metadata',
+                COG_TILEJSON_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/tilejson.json'
             };
         case 'app-dev.geo.ca':
             return {
@@ -35,6 +38,9 @@ export function envglobals(): globalValues {
                 APP_GEOCORE_URL: 'https://geocore-dev.metadata.geo.ca',
                 SITE_NAME: 'dev.geo.ca',
                 APP_GEOLOCATOR_URL: 'https://geolocator-dev.api.geo.ca/',
+                COG_TILESERVICE_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
+                COG_META_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/metadata',
+                COG_TILEJSON_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/tilejson.json'
             };
         case 'app-stage.geo.ca':
             return {
@@ -90,4 +96,7 @@ interface globalValues {
     SITE_NAME: string;
     JSON_SERVER_URL?: string;
     APP_GEOLOCATOR_URL?: string;
+    COG_TILESERVICE_URL?:string;
+    COG_TILEJSON_URL?:string;
+    COG_META_URL?:string;
 }

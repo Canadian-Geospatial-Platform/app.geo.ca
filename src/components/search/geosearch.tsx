@@ -99,6 +99,7 @@ const GeoSearch = (
     const storestacfilters = useSelector((state) => (state.mappingReducer.stacfilter ? state.mappingReducer.stacfilter : []));
     const storespatempfilters = useSelector((state) => state.mappingReducer.spatempfilter);
     const dispatch = useDispatch();
+    const [image, setImage]=useState(null);
     const [zoom, setZoom] = useState(null);
     const [center, setCenter] = useState(null);
     const [boundbox, setBoundbox] = useState(useSelector((state) => state.mappingReducer.boundbox));
@@ -121,8 +122,15 @@ const GeoSearch = (
     const dispatch = useDispatch(); */
 
     const selectResult = (result: SearchResult | undefined) => {
+        if(image!==null){            
+            map.removeLayer(image);
+            setImage(null);
+        }
         map.eachLayer((layer: unknown) => {
             // console.log(layer);
+            if(layer.options && layer.options.zIndex && layer.options.zIndex === 9999){
+                map.removeLayer(layer);
+            }
             const { feature } = layer;
             if (
                 !!feature &&
@@ -134,15 +142,16 @@ const GeoSearch = (
             ) {
                 map.removeLayer(layer);
             }
-        });
+        });        
 
         if (result) {
+            const coordinates=JSON.parse(result.coordinates);
             const data = {
                 type: 'Feature',
                 properties: { id: result.id, tag: 'geoViewGeoJSON' },
                 geometry: {
                     type: 'Polygon',
-                    coordinates: JSON.parse(result.coordinates),
+                    coordinates,
                 },
             };
             const selectedParams: AnalyticParams = {
@@ -170,15 +179,56 @@ const GeoSearch = (
             analyticPost(selectedParams);
             // eslint-disable-next-line new-cap
             new L.geoJSON(data).addTo(map);
+            
+            const center=new LatLng((coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2);
+            const bounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
+            //console.log(center, bounds);
+            if(result.options){                
+                let imageUrls=JSON.parse(result.options.replaceAll('""','"')).filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.indexOf("image/tiff")>0 || o.description.en.indexOf("image/png")>0 || o.description.en.indexOf("image/jpeg")>0));                
+                if(imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0){                
+                    let imgUrls=imageUrls.filter(o=>o.description.en.indexOf("image/tiff")>0);
+                    let url=imageUrls[0].url;
+                    if(imgUrls.length>0){
+                        url=imgUrls[0].url;
+                    }
+                    //const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]
+                    //);
+                    //const image=L.imageOverlay(url, imageBounds, {opacity: 1}).addTo(map);
+                    //setImage(image);
+                    axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
+                        console.log(res);
+                        const centers=res.data.center;
+                        axios.get(`${EnvGlobals.COG_META_URL}`, {params: {url}}).then((res2)=>{
+                            console.log(res2);
+                            const min=res2.data.statistics['1'].min;
+                            const max=res2.data.statistics['1'].max;
+                            const imageBounds = L.latLngBounds([[res2.data.bounds[3], res2.data.bounds[2]],[res2.data.bounds[1], res2.data.bounds[0]]]);
+                            var layer=new L.TileLayer(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`, {bounds:imageBounds, zIndex:9999});
+                            map.addLayer(layer);
+                            console.log('added', layer);
+                            map.setView(new LatLng(centers[1], centers[0]), centers[2]);                            
+                        });
+                    });
+                    
+                }else{
+                    setMapView(center, bounds);
+                }                
+            } else{
+                setMapView(center, bounds);
+            }          
         }
     };
+
+    const setMapView=(center, bounds)=>{
+        map.fitBounds(bounds);
+        setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
+    }
 
     const handleSelect = (event: string) => {
         // const {selectResult} = this.props;
         const cardOpen = selected === event ? !open : true;
         const result =
-            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;
-
+            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;        
         setSelected(event);
         setOpen(cardOpen);
         selectResult(result);
@@ -1451,7 +1501,7 @@ interface SearchResult {
     description: string;
     published: string;
     keywords: string;
-    options: [];
+    options: string;
     contact: [];
     created: string;
     spatialRepresentation: string;
