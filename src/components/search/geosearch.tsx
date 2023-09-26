@@ -128,9 +128,6 @@ const GeoSearch = (
         }
         map.eachLayer((layer: unknown) => {
             // console.log(layer);
-            if(layer.options && layer.options.zIndex && layer.options.zIndex === 9999){
-                map.removeLayer(layer);
-            }
             const { feature } = layer;
             if (
                 !!feature &&
@@ -142,7 +139,7 @@ const GeoSearch = (
             ) {
                 map.removeLayer(layer);
             }
-        });        
+        });
 
         if (result) {
             const coordinates=JSON.parse(result.coordinates);
@@ -203,7 +200,7 @@ const GeoSearch = (
                             const min=res2.data.statistics['1'].min;
                             const max=res2.data.statistics['1'].max;
                             const imageBounds = L.latLngBounds([[res2.data.bounds[3], res2.data.bounds[2]],[res2.data.bounds[1], res2.data.bounds[0]]]);
-                            var layer=new L.TileLayer(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`, {bounds:imageBounds, zIndex:9999});
+                            var layer=new L.TileLayer(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`, {bounds:imageBounds});
                             map.addLayer(layer);
                             console.log('added', layer);
                             map.setView(new LatLng(centers[1], centers[0]), centers[2]);                            
