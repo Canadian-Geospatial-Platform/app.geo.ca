@@ -176,50 +176,24 @@ const GeoSearch = (
             analyticPost(selectedParams);
             // eslint-disable-next-line new-cap
             new L.geoJSON(data).addTo(map);
-            
+            if(result.options){                
+                let imageUrls=JSON.parse(result.options.replaceAll('""','"')).filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.indexOf("image/png")>0 || o.description.en.indexOf("image/jpeg")>0));                
+                if(imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0){                
+                    const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]
+                    );
+                    const image=L.imageOverlay(imageUrls[0].url, imageBounds, {opacity: 1}).addTo(map);
+                    setImage(image);
+                }
+            }
             const center=new LatLng((coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2);
             const bounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
-            //console.log(center, bounds);
-            if(result.options){                
-                let imageUrls=JSON.parse(result.options.replaceAll('""','"')).filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.indexOf("image/tiff")>0 || o.description.en.indexOf("image/png")>0 || o.description.en.indexOf("image/jpeg")>0));                
-                if(imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0){                
-                    let imgUrls=imageUrls.filter(o=>o.description.en.indexOf("image/tiff")>0);
-                    let url=imageUrls[0].url;
-                    if(imgUrls.length>0){
-                        url=imgUrls[0].url;
-                    }
-                    //const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]
-                    //);
-                    //const image=L.imageOverlay(url, imageBounds, {opacity: 1}).addTo(map);
-                    //setImage(image);
-                    axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
-                        console.log(res);
-                        const centers=res.data.center;
-                        axios.get(`${EnvGlobals.COG_META_URL}`, {params: {url}}).then((res2)=>{
-                            console.log(res2);
-                            const min=res2.data.statistics['1'].min;
-                            const max=res2.data.statistics['1'].max;
-                            const imageBounds = L.latLngBounds([[res2.data.bounds[3], res2.data.bounds[2]],[res2.data.bounds[1], res2.data.bounds[0]]]);
-                            var layer=new L.TileLayer(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`, {bounds:imageBounds});
-                            map.addLayer(layer);
-                            console.log('added', layer);
-                            map.setView(new LatLng(centers[1], centers[0]), centers[2]);                            
-                        });
-                    });
-                    
-                }else{
-                    setMapView(center, bounds);
-                }                
-            } else{
-                setMapView(center, bounds);
-            }          
+            //console.log(bounds, center);
+            map.fitBounds(bounds, {padding: [50,50]});
+            //map.fitBounds(bounds);
+            //map.panTo(center);
+            setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);            
         }
     };
-
-    const setMapView=(center, bounds)=>{
-        map.fitBounds(bounds);
-        setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
-    }
 
     const handleSelect = (event: string) => {
         // const {selectResult} = this.props;
