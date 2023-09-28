@@ -170,11 +170,11 @@ const MetaDataPage = (props) => {
                     setShowSimilarRecords(sims.slice(0, 5));
                 }
                 if(res.options){                
-                    const imageUrls=res.options.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("image/tiff")>=0||o.description.en.toLowerCase().indexOf("image/png")>=0||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
+                    const imageUrls=res.options.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0||o.description.en.toLowerCase().indexOf("image/png")>=0||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
                     const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
                     let url;
                     if(hasImage){
-                        let imgUrls=imageUrls.filter(o=>o.description.en.indexOf("image/tiff")>0);
+                        let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                         url=imageUrls[0].url;
                         if(imgUrls.length>0){
                             url=imgUrls[0].url;
