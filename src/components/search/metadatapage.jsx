@@ -170,7 +170,7 @@ const MetaDataPage = (props) => {
                     setShowSimilarRecords(sims.slice(0, 5));
                 }
                 if(res.options){                
-                    const imageUrls=res.options.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.indexOf("image/tiff")>=0||o.description.en.indexOf("image/png")>=0||o.description.en.indexOf("image/jpeg")>=0));
+                    const imageUrls=res.options.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("image/tiff")>=0||o.description.en.toLowerCase().indexOf("image/png")>=0||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
                     const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
                     let url;
                     if(hasImage){

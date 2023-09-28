@@ -184,7 +184,7 @@ const GeoSearch = (
             const bounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
             //console.log(center, bounds);
             if(result.options){                
-                let imageUrls=JSON.parse(result.options.replaceAll('""','"')).filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.indexOf("image/tiff")>0 || o.description.en.indexOf("image/png")>0 || o.description.en.indexOf("image/jpeg")>0));                
+                let imageUrls=JSON.parse(result.options.replaceAll('""','"')).filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("image/tiff")>0 || o.description.en.toLowerCase().indexOf("image/png")>0 || o.description.en.toLowerCase().indexOf("image/jpeg")>0));                
                 if(imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0){                
                     let imgUrls=imageUrls.filter(o=>o.description.en.indexOf("image/tiff")>0);
                     let url=imageUrls[0].url;
