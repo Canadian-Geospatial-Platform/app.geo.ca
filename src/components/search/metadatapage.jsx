@@ -417,7 +417,7 @@ const MetaDataPage = (props) => {
                                     const desc = option.description[language].split(";");
                                     return { name: option.name[language], type: desc[0], format: desc[1], language: t(`page.${desc[2].toLowerCase().replace(',', '')}`), url: option.url };
                                 });
-                            const imageUrls=formattedOption.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.indexOf("image/png")>=0||o.description.en.indexOf("image/jpeg")>=0));
+                            const imageUrls=formattedOption.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0||o.description.en.toLowerCase().indexOf("image/png")>=0||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
                             const hasImage=imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0;                            
                             const tcRange = ['N/A', 'N/A'];
                             tcRange[0] = result.temporalExtent.begin;
