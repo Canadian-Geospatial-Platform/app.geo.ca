@@ -185,7 +185,9 @@ const GeoSearch = (
             //console.log(center, bounds);
             if(result.options){                
                 const parsedOptions=JSON.parse(result.options.replaceAll('""','"'));
-                let imageUrls=parsedOptions.filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("data;tiff;")>=0 ||o.description.en.toLowerCase().indexOf("image/tiff")>=0 || o.description.en.toLowerCase().indexOf("image/png")>=0 || o.description.en.toLowerCase().indexOf("image/jpeg")>=0));                
+                let imageUrls=parsedOptions.filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("data;tiff;")>=0 ||o.description.en.toLowerCase().indexOf("image/tiff")>=0
+                 || o.description.en.toLowerCase().indexOf("thumbnail;png")>=0 ||o.description.en.toLowerCase().indexOf("image/png")>=0 
+                 || o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0 ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));                
                 if(imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0){                
                     let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                     let url=imageUrls[0].url;
