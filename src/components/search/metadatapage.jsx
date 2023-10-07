@@ -480,7 +480,7 @@ const MetaDataPage = (props) => {
                                         <meta property="og:site_name" content={EnvGlobals.SITE_NAME} />
                                         <meta property="og:locale" content={`${language}-CA`} />
                                         <meta property="og:url" content={window.location.href} />
-                                        <meta property="og:image:alt" content={`${window.location.origin}/assets/img/GeoDotCaBanner.jpg`} />
+                                        <meta property="og:image:alt" content={`${window.location.origin}/assets/img/geo-ca-logo.svg`} />
                                         <meta name="twitter:card" content="summary" />
                                         <meta name="twitter:title" content={result.title} />
                                         <meta name="twitter:description" content={result.description} />
