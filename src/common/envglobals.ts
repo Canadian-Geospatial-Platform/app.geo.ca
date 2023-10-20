@@ -38,9 +38,9 @@ export function envglobals(): globalValues {
                 APP_GEOCORE_URL: 'https://geocore-dev.metadata.geo.ca',
                 SITE_NAME: 'dev.geo.ca',
                 APP_GEOLOCATOR_URL: 'https://geolocator-dev.api.geo.ca/',
-                COG_TILESERVICE_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
-                COG_META_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/metadata',
-                COG_TILEJSON_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/tilejson.json'
+                COG_TILESERVICE_URL:'https://tiler-dev.api.geo.ca/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
+                COG_META_URL:'https://tiler-dev.api.geo.ca/cog/metadata',
+                COG_TILEJSON_URL:'https://tiler-dev.api.geo.ca/cog/tilejson.json'
             };
         case 'app-stage.geo.ca':
             return {
@@ -53,6 +53,9 @@ export function envglobals(): globalValues {
                 APP_GEOCORE_URL: 'https://geocore-stage.metadata.geo.ca',
                 SITE_NAME: 'stage.geo.ca',
                 APP_GEOLOCATOR_URL: 'https://geolocator-stage.api.geo.ca/',
+                COG_TILESERVICE_URL:'https://tiler-stage.api.geo.ca/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
+                COG_META_URL:'https://tiler-stage.api.geo.ca/cog/metadata',
+                COG_TILEJSON_URL:'https://tiler-stage.api.geo.ca/cog/tilejson.json'
             };
         case 'app.geo.ca':
             return {
@@ -65,6 +68,9 @@ export function envglobals(): globalValues {
                 APP_GEOCORE_URL: 'https://geocore.metadata.geo.ca',
                 SITE_NAME: 'geo.ca',
                 APP_GEOLOCATOR_URL: 'https://geolocator.api.geo.ca/',
+                COG_TILESERVICE_URL:'https://tiler.api.geo.ca/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
+                COG_META_URL:'https://tiler.api.geo.ca/cog/metadata',
+                COG_TILEJSON_URL:'https://tiler.api.geo.ca/cog/tilejson.json'
             };
         default:
             return {
@@ -77,6 +83,9 @@ export function envglobals(): globalValues {
                 APP_GEOCORE_URL: 'https://geocore-dev.metadata.geo.ca',
                 SITE_NAME: 'dev.geo.ca',
                 APP_GEOLOCATOR_URL: 'https://geolocator-dev.api.geo.ca/',
+                COG_TILESERVICE_URL:'https://tiler-dev.api.geo.ca/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
+                COG_META_URL:'https://tiler-dev.api.geo.ca/cog/metadata',
+                COG_TILEJSON_URL:'https://tiler-dev.api.geo.ca/cog/tilejson.json'
             };
     }
 }
