@@ -188,14 +188,14 @@ const MetaDataPage = (props) => {
                             const centers=res.data.center;
                             setCogCenter(new LatLng(centers[1], centers[0]));
                             setCogZoom(centers[2]);
-                            axios.get(`${EnvGlobals.COG_META_URL}`, {params: {url}}).then((res2)=>{
+                            const imageBounds = L.latLngBounds([[res.data.bounds[3], res.data.bounds[2]],[res.data.bounds[1], res.data.bounds[0]]]);
+                            setCogBounds(imageBounds);
+                            axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {params: {url, unscale: 'false', resampling:'nearest', max_size: '1024', categorical: 'false'}}).then((res2)=>{
                                 console.log(res2);
-                                const min=res2.data.statistics['1'].min;
-                                const max=res2.data.statistics['1'].max;
-                                const imageBounds = L.latLngBounds([[res2.data.bounds[3], res2.data.bounds[2]],[res2.data.bounds[1], res2.data.bounds[0]]]);
-                                setCogBounds(imageBounds);
+                                const min=res2.data.b1.min;
+                                const max=res2.data.b1.max;                                                              
                                 setTileServiceUrl(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`);
-                                setLoading1(false);                                
+                                setLoading1(false);                                                            
                             });
                         });                
                     }else{

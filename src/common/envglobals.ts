@@ -25,7 +25,9 @@ export function envglobals(): globalValues {
                 APP_GEOLOCATOR_URL: 'https://tkyuwlg5f7.execute-api.ca-central-1.amazonaws.com/live/',
                 COG_TILESERVICE_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
                 COG_META_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/metadata',
-                COG_TILEJSON_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/tilejson.json'
+                COG_TILEJSON_URL:'https://fyhjej9kzc.execute-api.ca-central-1.amazonaws.com/cog/tilejson.json',
+                COG_STATISTICS_URL:'https://bm1jtbf1w4.execute-api.ca-central-1.amazonaws.com/live/cog/statistics',
+                COG_BOUNDS_URL:'https://bm1jtbf1w4.execute-api.ca-central-1.amazonaws.com/live/cog/bounds'
             };
         case 'app-dev.geo.ca':
             return {
@@ -40,7 +42,9 @@ export function envglobals(): globalValues {
                 APP_GEOLOCATOR_URL: 'https://geolocator-dev.api.geo.ca/',
                 COG_TILESERVICE_URL:'https://tiler-dev.api.geo.ca/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
                 COG_META_URL:'https://tiler-dev.api.geo.ca/cog/metadata',
-                COG_TILEJSON_URL:'https://tiler-dev.api.geo.ca/cog/tilejson.json'
+                COG_TILEJSON_URL:'https://tiler-dev.api.geo.ca/cog/tilejson.json',
+                COG_STATISTICS_URL:'https://tiler-dev.api.geo.ca/cog/statistics',
+                COG_BOUNDS_URL:'https://tiler-dev.api.geo.ca/cog/bounds'
             };
         case 'app-stage.geo.ca':
             return {
@@ -55,7 +59,9 @@ export function envglobals(): globalValues {
                 APP_GEOLOCATOR_URL: 'https://geolocator-stage.api.geo.ca/',
                 COG_TILESERVICE_URL:'https://tiler-stage.api.geo.ca/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
                 COG_META_URL:'https://tiler-stage.api.geo.ca/cog/metadata',
-                COG_TILEJSON_URL:'https://tiler-stage.api.geo.ca/cog/tilejson.json'
+                COG_TILEJSON_URL:'https://tiler-stage.api.geo.ca/cog/tilejson.json',
+                COG_STATISTICS_URL:'https://tiler-stage.api.geo.ca/cog/statistics',
+                COG_BOUNDS_URL:'https://tiler-stage.api.geo.ca/cog/bounds'
             };
         case 'app.geo.ca':
             return {
@@ -70,7 +76,9 @@ export function envglobals(): globalValues {
                 APP_GEOLOCATOR_URL: 'https://geolocator.api.geo.ca/',
                 COG_TILESERVICE_URL:'https://tiler.api.geo.ca/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
                 COG_META_URL:'https://tiler.api.geo.ca/cog/metadata',
-                COG_TILEJSON_URL:'https://tiler.api.geo.ca/cog/tilejson.json'
+                COG_TILEJSON_URL:'https://tiler.api.geo.ca/cog/tilejson.json',
+                COG_STATISTICS_URL:'https://tiler.api.geo.ca/cog/statistics',
+                COG_BOUNDS_URL:'https://tiler.api.geo.ca/cog/bounds'
             };
         default:
             return {
@@ -85,7 +93,9 @@ export function envglobals(): globalValues {
                 APP_GEOLOCATOR_URL: 'https://geolocator-dev.api.geo.ca/',
                 COG_TILESERVICE_URL:'https://tiler-dev.api.geo.ca/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x',
                 COG_META_URL:'https://tiler-dev.api.geo.ca/cog/metadata',
-                COG_TILEJSON_URL:'https://tiler-dev.api.geo.ca/cog/tilejson.json'
+                COG_TILEJSON_URL:'https://tiler-dev.api.geo.ca/cog/tilejson.json',
+                COG_STATISTICS_URL:'https://tiler-dev.api.geo.ca/cog/statistics',
+                COG_BOUNDS_URL:'https://tiler-dev.api.geo.ca/cog/bounds'
             };
     }
 }
@@ -108,4 +118,6 @@ interface globalValues {
     COG_TILESERVICE_URL?:string;
     COG_TILEJSON_URL?:string;
     COG_META_URL?:string;
+    COG_STATISTICS_URL?:string;
+    COG_BOUNDS_URL?:string;
 }

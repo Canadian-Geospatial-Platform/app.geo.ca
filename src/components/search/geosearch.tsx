@@ -201,15 +201,15 @@ const GeoSearch = (
                     axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
                         console.log(res);
                         const centers=res.data.center;
-                        axios.get(`${EnvGlobals.COG_META_URL}`, {params: {url}}).then((res2)=>{
+                        const imageBounds = L.latLngBounds([[res.data.bounds[3], res.data.bounds[2]],[res.data.bounds[1], res.data.bounds[0]]]);
+                        axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {params: {url, unscale: 'false', resampling:'nearest', max_size: '1024', categorical: 'false'}}).then((res2)=>{
                             console.log(res2);
-                            const min=res2.data.statistics['1'].min;
-                            const max=res2.data.statistics['1'].max;
-                            const imageBounds = L.latLngBounds([[res2.data.bounds[3], res2.data.bounds[2]],[res2.data.bounds[1], res2.data.bounds[0]]]);
+                            const min=res2.data.b1.min;
+                            const max=res2.data.b1.max;                                                        
                             var layer=new L.TileLayer(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`, {bounds:imageBounds, zIndex:9999});
                             map.addLayer(layer);
                             console.log('added', layer);
-                            map.setView(new LatLng(centers[1], centers[0]), centers[2]);                            
+                            map.setView(new LatLng(centers[1], centers[0]), centers[2]);                                                                             
                         });
                     });
                     
