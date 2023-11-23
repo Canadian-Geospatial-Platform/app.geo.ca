@@ -9,7 +9,7 @@ permalink: /
 # An Open Source Application to Explore Geocore, A Cloud Native Geospatial Catalog.
 {: .fs-9 }
 
-The Geocore application found at app.geo.ca is an open source react application created to expore the geocore geospatial library. Through the use of both geographic and keyword based search user interface, this application allows the user to search, filter and identify relevant geospatial information and content. This application can be used as a white labled application for contributors to the geocore system, enabling them to have their own geospatial portal utilizing the geocore geospatial catalog.
+The Geocore application found at app.geo.ca is an open source react application created to explore the geocore geospatial library. Through the use of both geographic and keyword based search user interface, this application allows the user to search, filter and identify relevant geospatial information and content. This application can be used as a white labled application for contributors to the geocore system, enabling them to have their own geospatial portal utilizing the geocore geospatial catalog.
 {: .fs-6 .fw-300 }
 
 [View in action](https://app.geo.ca/){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/Canadian-Geospatial-Platform/app.geo.ca/){: .btn .fs-5 .mb-4 .mb-md-0 }
