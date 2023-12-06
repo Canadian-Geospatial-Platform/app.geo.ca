@@ -21,6 +21,7 @@ import types from '../search/types.json';
 import themes from '../search/themes.json';
 import spatials from '../search/spatials.json';
 import stacs from '../search/stac.json';
+import metasources from '../search/metadata-source.json';
 import { envglobals } from '../../common/envglobals';
 import './header.scss';
 // Reacstrap Collapse - Responsive Navbar
@@ -118,7 +119,8 @@ export default function Header(): JSX.Element {
                 queryParams.type !== undefined ||
                 queryParams.theme !== undefined ||
                 queryParams.stac !== undefined ||
-                queryParams.foundational !== undefined
+                queryParams.foundational !== undefined || 
+                queryParams.sourcesystemname !== undefined
             ) {
                 const oIndex =
                     queryParams.org !== undefined
@@ -132,7 +134,10 @@ export default function Header(): JSX.Element {
                     queryParams.theme !== undefined
                         ? (themes[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.theme.toLowerCase())
                         : -1;
-
+                const msIndex =
+                    queryParams.sourcesystemname !== undefined
+                        ? (metasources[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.sourcesystemname.toLowerCase())
+                        : -1;
                 const spaIndex =
                     queryParams.spatial !== undefined
                         ? (spatials[clang] as string[]).findIndex((ths: string) => ths.toLowerCase() === queryParams.spatial.toLowerCase())
@@ -145,6 +150,7 @@ export default function Header(): JSX.Element {
                 const orgfilter = oIndex > -1 ? [oIndex] : [];
                 const typefilter = tIndex > -1 ? [tIndex] : [];
                 const themefilter = thIndex > -1 ? [thIndex] : [];
+                const metasrcfilter = msIndex > -1 ? [msIndex] : [];
                 const spatialfilter = spaIndex > -1 ? [spaIndex] : [];
                 const stacfilter = stIndex > -1 ? [stIndex] : [];
                 dispatch(
@@ -152,6 +158,7 @@ export default function Header(): JSX.Element {
                         orgfilter,
                         typefilter,
                         themefilter,
+                        metasrcfilter,
                         spatialfilter,
                         foundational: queryParams.foundational !== undefined && queryParams.foundational === 'y',
                         stacfilter,
@@ -171,6 +178,7 @@ export default function Header(): JSX.Element {
         queryParams.lang,
         queryParams.org,
         queryParams.theme,
+        queryParams.sourcesystemname,
         queryParams.spatial,
         queryParams.type,
         queryParams.stac,

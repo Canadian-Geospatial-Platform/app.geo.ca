@@ -1,6 +1,6 @@
 # geocore application #
 
-The Geocore application found at app.geo.ca is an open source react application created to expore the geocore geospatial library.
+The Geocore application found at app.geo.ca is an open source react application created to explore the geocore geospatial library.
 
 Documentation can be found [here](https://canadian-geospatial-platform.github.io/app.geo.ca/).
 

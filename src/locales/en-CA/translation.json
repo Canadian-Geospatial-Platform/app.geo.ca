@@ -76,6 +76,7 @@
         "foundational": "Foundation Data",
         "spatial": "Viewable on a Map",
         "stac": "Metadata Standard",
+        "metasource": "Metadata Source",
         "spatemp": {
             "title": "SPATIO-TEMPORAL",
             "temporal": "All times in Coordinated Universal Time (UTC).",

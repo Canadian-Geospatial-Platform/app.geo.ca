@@ -18,7 +18,8 @@ export enum ActionType {
     SET_CENTER = 'setCenter',
     SET_ZOOM = 'setZoom',
     SET_BOUNDBOX = 'setBoundbox',
-    SET_FREEZEMAPSEARCH = 'setFreezeMapSearch'
+    SET_FREEZEMAPSEARCH = 'setFreezeMapSearch',
+    SET_METASRC = 'setMetadataSource',
 }
 
 export interface Action {
@@ -34,6 +35,7 @@ interface Filters {
     foundational: boolean;
     stacfilter: number[];
     spatempfilter: SpatialTemporalFilter;
+    metasrcfilter: number[];
 }
 
 export interface BooleanAction {
@@ -46,7 +48,13 @@ export interface FreezeSpatialAction {
     payload: FreezeMapSpatial;
 }
 export interface FilterAction {
-    type: ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME | ActionType.SET_SPATIAL | ActionType.SET_STAC;
+    type:
+        | ActionType.SET_ORG
+        | ActionType.SET_TYPE
+        | ActionType.SET_THEME
+        | ActionType.SET_SPATIAL
+        | ActionType.SET_STAC
+        | ActionType.SET_METASRC;
     payload: number[];
 }
 export interface FiltersAction {
@@ -96,6 +104,10 @@ export function setThemeFilter(themefilter: number[]): FilterAction {
     return { type: ActionType.SET_THEME, payload: themefilter };
 }
 
+export function setMetasrcFilter(metasrcfilter: number[]): FilterAction {
+    return { type: ActionType.SET_METASRC, payload: metasrcfilter };
+}
+
 export function setSpatialFilter(spatialfilter: number[]): FilterAction {
     return { type: ActionType.SET_SPATIAL, payload: spatialfilter };
 }
@@ -134,5 +146,5 @@ export function setStoreZoom(zoom: number): ZoomAction {
     return { type: ActionType.SET_ZOOM, payload: zoom };
 }
 export function setStoreBoundbox(boundbox: LatLngBounds): BoundboxAction {
-    return { type: ActionType.SET_BOUNDBOX, payload: boundbox }
+    return { type: ActionType.SET_BOUNDBOX, payload: boundbox };
 }

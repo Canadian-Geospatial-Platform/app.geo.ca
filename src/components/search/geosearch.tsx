@@ -29,6 +29,7 @@ import { getQueryParams } from '../../common/queryparams';
 import {
     setFilters,
     setFoundational,
+    setMetasrcFilter,
     setOrgFilter,
     setSpatempFilter,
     setSpatialFilter,
@@ -50,6 +51,7 @@ import organisations from './organisations.json';
 import Sorting, { SortingOptionInfo } from './sorting';
 import spatemps from './spatial-temporal.json';
 import spatials from './spatials.json';
+import metasources from './metadata-source.json';
 import stacs from './stac.json';
 import themes from './themes.json';
 import types from './types.json';
@@ -94,6 +96,7 @@ const GeoSearch = (
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
+    const storemetasrcfilters = useSelector((state) => state.mappingReducer.metasrcfilter);
     const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
     const storestacfilters = useSelector((state) => (state.mappingReducer.stacfilter ? state.mappingReducer.stacfilter : []));
@@ -106,6 +109,7 @@ const GeoSearch = (
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
+    const [metasrcfilters, setMetaSource] = useState(storemetasrcfilters);
     const [spatialfilters, setSpatial] = useState(storespatialfilters);
     const [spatempfilters, setSpatemp] = useState<SpatialTemporalFilter>(storespatempfilters);
     const [foundational, setFound] = useState(storefoundational);
@@ -166,6 +170,9 @@ const GeoSearch = (
 
             if (analyticParams.theme) {
                 selectedParams.theme = analyticParams.theme;
+            }
+            if (analyticParams.sourcesystemname) {
+                selectedParams.sourcesystemname = analyticParams.sourcesystemname;
             }
             if (analyticParams.org) {
                 selectedParams.org = analyticParams.org;
@@ -265,6 +272,9 @@ const GeoSearch = (
         if (analyticParams.theme) {
             viewParams.theme = analyticParams.theme;
         }
+        if (analyticParams.sourcesystemname) {
+            viewParams.sourcesystemname = analyticParams.sourcesystemname;
+        }
         if (analyticParams.org) {
             viewParams.org = analyticParams.org;
         }
@@ -330,6 +340,7 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+        const msfilters = localState !== undefined ? localState.mappingReducer.metasrcfilter : [];
         const spafilters =
             localState !== undefined ? (localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : []) : [];
         const spatfilters: SpatialTemporalFilter =
@@ -367,6 +378,14 @@ const GeoSearch = (
             aParams.theme = themeArray;
         } else if (aParams.theme) {
             delete aParams.theme;
+        }
+
+        if (msfilters.length > 0) {
+            const msArray = msfilters.map((fs: number) => metasources[language][fs].toLowerCase().replace(/\'/g, "''"));
+            searchParams.sourcesystemname = msArray.join('|');
+            aParams.sourcesystemname = msArray;
+        } else if (aParams.sourcesystemname) {
+            delete aParams.sourcesystemname;
         }
 
         if (ofilters.length > 0) {
@@ -435,6 +454,7 @@ const GeoSearch = (
                 foundational: found,
                 stacfilter: stfilters,
                 spatempfilter: spatfilters,
+                metasrcfilter: msfilters
             })
         );
 
@@ -564,6 +584,7 @@ const GeoSearch = (
                 foundational,
                 stacfilter: stacfilters,
                 spatempfilter: spatempfilters,
+                metasrcfilter: metasrcfilters
             })
         );
         if (spatempfilters.extents.length > 0) {
@@ -600,6 +621,7 @@ const GeoSearch = (
         setType([]);
         setTheme([]);
         setSpatial([]);
+        setMetaSource([]);
         setFound(false);
         setSpatemp({ ...spatempfilters, extents: [] });
         dispatch(
@@ -611,6 +633,7 @@ const GeoSearch = (
                 foundational: false,
                 stacfilter: [],
                 spatempfilter: { ...INITSPATIALTEMPORALFILTER },
+                metasrcfilter: []
             })
         );
         dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
@@ -630,6 +653,7 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+        const msfilters = localState !== undefined ? localState.mappingReducer.metasrcfilter : [];
         const spafilters =
             localState !== undefined ? (localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : []) : [];
         const stfilters = localState !== undefined ? (localState.mappingReducer.stfilter ? localState.mappingReducer.stfilter : []) : [];
@@ -653,6 +677,13 @@ const GeoSearch = (
             aParams.theme = themeArray;
         } else if (aParams.theme) {
             delete aParams.theme;
+        }
+        if (msfilters.length > 0) {
+            const msArray = msfilters.map((fs: number) => metasources[language][fs].toLowerCase().replace(/\'/g, "''"));
+            searchParams.sourcesystemname = msArray.join('|');
+            aParams.sourcesystemname = msArray;
+        } else if (aParams.sourcesystemname) {
+            delete aParams.sourcesystemname;
         }
         if (ofilters.length > 0) {
             const orgArray = ofilters.map((fs: number) => organisations[language][fs].toLowerCase().replace(/\'/g, "''"));
@@ -713,6 +744,7 @@ const GeoSearch = (
                 foundational: found,
                 stacfilter: stfilters,
                 spatempfilter: spatfilters,
+                metasrcfilter: metasrcfilters
             })
         );
         // console.log(searchParams);
@@ -764,6 +796,7 @@ const GeoSearch = (
                 setOrg(ofilters);
                 setType(tfilters);
                 setTheme(thfilters);
+                setMetaSource(msfilters);
                 setFound(found);
             });
     };
@@ -796,6 +829,11 @@ const GeoSearch = (
     const handleTheme = (filters: unknown): void => {
         setFReset(true);
         setTheme(filters);
+    };
+
+    const handleMetaSource = (filters: unknown): void => {
+        setFReset(true);
+        setMetaSource(filters);
     };
 
     const handleSpatial = (filters: unknown): void => {
@@ -856,6 +894,13 @@ const GeoSearch = (
         setTheme(newfilter);
         setFReset(false);
         // handleSearch(initKeyword);
+    };
+
+    const clearMetaSourceFilter = (filter: number) => {
+        const newfilter = metasrcfilters.filter((fs: number) => fs !== filter);
+        dispatch(setMetasrcFilter(newfilter));
+        setMetaSource(newfilter);
+        setFReset(false);      
     };
 
     const clearSpatialFilter = (filter: number) => {
@@ -954,6 +999,7 @@ const GeoSearch = (
         storefoundational,
         storestacfilters,
         storespatempfilters,
+        storemetasrcfilters,
         stateLoaded,
     ]);
 
@@ -1044,6 +1090,7 @@ const GeoSearch = (
             </div>
             {storetypefilters.length +
                 storeorgfilters.length +
+                storemetasrcfilters.length +
                 storethemefilters.length +
                 storespatialfilters.length +
                 storestacfilters.length +
@@ -1083,6 +1130,17 @@ const GeoSearch = (
                                 onClick={!loading ? () => clearThemeFilter(themefilter) : undefined}
                             >
                                 {themes[language][themefilter]} <i className="fas fa-times" />
+                            </button>
+                        ))}
+                        {storemetasrcfilters.map((metasrcfilter: number) => (
+                            <button
+                                key={`msf-${metasrcfilter}`}
+                                type="button"
+                                className="btn btn btn-filter"
+                                disabled={loading}
+                                onClick={!loading ? () => clearMetaSourceFilter(metasrcfilter) : undefined}
+                            >
+                                {metasources[language][metasrcfilter]} <i className="fas fa-times" />
                             </button>
                         ))}
                         {storespatialfilters.map((spatialfilter: number) => (
@@ -1204,7 +1262,12 @@ const GeoSearch = (
                                     filterselected={themefilters}
                                     selectFilters={handleTheme}
                                 />
-
+                                <SearchFilter
+                                    filtertitle={t('filter.metasource')}
+                                    filtervalues={metasources[language]}
+                                    filterselected={metasrcfilters}
+                                    selectFilters={handleMetaSource}
+                                />
                                 <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
                                     <button
                                         type="button"
@@ -1478,6 +1541,7 @@ interface SearchParams {
     begin?: string;
     end?: string;
     bbox?: string;
+    sourcesystemname?: string;
 }
 interface KOSearchParams {
     keyword: string;
@@ -1494,6 +1558,7 @@ interface KOSearchParams {
     stac?: string;
     datetime?: string;
     bbox?: string;
+    sourcesystemname?: string;
 }
 
 interface SearchResult {

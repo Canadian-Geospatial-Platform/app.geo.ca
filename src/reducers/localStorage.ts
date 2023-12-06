@@ -26,6 +26,9 @@ export const loadState = (): StoreEnhancer<unknown, unknown> | undefined => {
         if (!checkNestedProperty(state, 'mappingReducer.spatialfilter')) {
             state['mappingReducer'].spatialfilter = [];
         }
+        if (!checkNestedProperty(state, 'mappingReducer.metasrcfilter')) {
+            state['mappingReducer'].metasrcfilter = [];
+        }
         if (!checkNestedProperty(state, 'mappingReducer.stacfilter')) {
             state['mappingReducer'].stacfilter = [];
         }

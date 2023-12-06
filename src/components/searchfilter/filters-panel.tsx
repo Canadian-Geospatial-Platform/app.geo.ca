@@ -17,6 +17,7 @@ import organisations from '../search/organisations.json';
 import spatemps from '../search/spatial-temporal.json';
 import spatials from '../search/spatials.json';
 import stacs from '../search/stac.json';
+import metasources from '../search/metadata-source.json';
 import themes from '../search/themes.json';
 import types from '../search/types.json';
 import SearchFilter from './searchfilter';
@@ -28,6 +29,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
     const storethemefilters = useSelector((state) => state.mappingReducer.themefilter);
+    const storemetasrcfilters = useSelector((state) => state.mappingReducer.metasrcfilter);
     const storefoundational = useSelector((state) => state.mappingReducer.foundational);
     const storespatialfilters = useSelector((state) => (state.mappingReducer.spatialfilter ? state.mappingReducer.spatialfilter : []));
     const storestacfilters = useSelector((state) => (state.mappingReducer.stacfilter ? state.mappingReducer.stacfilter : []));
@@ -39,6 +41,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
+    const [metasrcfilters, setMetaSource] = useState(storemetasrcfilters);
     const [spatialfilters, setSpatial] = useState(storespatialfilters);
     const [spatempfilters, setSpatemp] = useState<SpatialTemporalFilter>(useSelector((state) => state.mappingReducer.spatempfilter));
     const [foundational, setFound] = useState(storefoundational);
@@ -56,6 +59,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                 orgfilter: orgfilters,
                 typefilter: typefilters,
                 themefilter: themefilters,
+                metasrcfilter: metasrcfilters,
                 spatialfilter: spatialfilters,
                 foundational,
                 stacfilter: stacfilters,
@@ -94,6 +98,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setOrg([]);
         setType([]);
         setTheme([]);
+        setMetaSource([]);
         setSpatial([]);
         setStac([]);
         setSpatemp({ ...spatempfilters, extents: [] });
@@ -103,6 +108,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                 orgfilter: [],
                 typefilter: [],
                 themefilter: [],
+                metasrcfilter: [],
                 spatialfilter: [],
                 foundational: false,
                 stacfilter: [],
@@ -129,6 +135,11 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const handleTheme = (filters: unknown): void => {
         setFReset(true);
         setTheme(filters);
+    };
+
+    const handleMetaSource = (filters: unknown): void => {
+        setFReset(true);
+        setMetaSource(filters);
     };
 
     const handleSpatial = (filters: unknown): void => {
@@ -170,6 +181,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
             const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
             const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
+            const msfilters = localState !== undefined ? localState.mappingReducer.metasrcfilter : [];
             const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
             const spatfilters = localState !== undefined ? localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER;
             const found = localState !== undefined ? localState.mappingReducer.foundational : false;
@@ -179,6 +191,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             setOrg(ofilters);
             setType(tfilters);
             setTheme(thfilters);
+            setMetaSource(msfilters);
             setSpatial(spafilters);
             setStac(stfilters);
             setSpatemp(spatfilters);
@@ -264,7 +277,12 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         filterselected={themefilters}
                                         selectFilters={handleTheme}
                                     />
-
+                                    <SearchFilter
+                                        filtertitle={t('filter.metasource')}
+                                        filtervalues={metasources[language]}
+                                        filterselected={metasrcfilters}
+                                        selectFilters={handleMetaSource}
+                                    />
                                     <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
                                         <button
                                             type="button"

@@ -76,6 +76,7 @@
         "foundational": "Données de base du Canada",
         "spatial": "Viewable on a Map",
         "stac": "Metadata Standard",
+        "metarsc": "Metadata Source",
         "spatemp": {
             "title": "SPATIO-TEMPOREL",
             "temporal": "Toutes les heures sont exprimées en temps universel coordonné (UTC)",

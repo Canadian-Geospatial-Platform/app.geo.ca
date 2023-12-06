@@ -41,6 +41,7 @@ export interface AnalyticParams {
     search?: string;
     theme?: string[];
     org?: string[];
+    sourcesystemname?: string[];
     type_filter?: string[];
     spatial_filter?: string[];
     stac_filter?: string[];

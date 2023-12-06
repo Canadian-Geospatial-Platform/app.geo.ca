@@ -99,6 +99,7 @@ export function Appbar(props: AppBarProps): JSX.Element {
             queryParams.keyword_only === 'true' ||
             queryParams.org !== undefined ||
             queryParams.type !== undefined ||
+            queryParams.sourcesystemname !== undefined ||
             queryParams.foundational !== undefined ||
             queryParams.theme !== undefined) ? ' search' :
             (queryParams.analytic !== undefined ? ' analytics' : '')
@@ -141,13 +142,14 @@ export function Appbar(props: AppBarProps): JSX.Element {
             (queryParams.keyword !== undefined ||
                 queryParams.keyword_only === 'true' ||
                 queryParams.org !== undefined ||
+                queryParams.sourcesystemname !== undefined ||
                 queryParams.type !== undefined ||
                 queryParams.foundational !== undefined ||
                 queryParams.theme !== undefined) ? ' search' :
                 (queryParams.analytic !== undefined ? ' analytics' : '')
         );
         setKSOnly(queryParams.keyword_only === 'true');
-    }, [queryParams.keyword, queryParams.keyword_only, queryParams.org, queryParams.type, queryParams.theme, queryParams.foundational, queryParams.analytic]);
+    }, [queryParams.keyword, queryParams.keyword_only, queryParams.org, queryParams.type, queryParams.theme, queryParams.sourcesystemname, queryParams.foundational, queryParams.analytic]);
 
     useEffect(() => {
         const appBarEl = document.getElementById('app-left-bar');

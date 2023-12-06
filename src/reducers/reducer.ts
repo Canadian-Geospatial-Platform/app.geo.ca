@@ -33,6 +33,7 @@ export interface mappingState {
     orgfilter: number[];
     typefilter: number[];
     themefilter: number[];
+    metasrcfilter: number[];
     spatialfilter: number[];
     foundational: boolean;
     spatialData: SpatialData;
@@ -94,6 +95,7 @@ const defaultState: mappingState = {
     orgfilter: [],
     typefilter: [],
     themefilter: [],
+    metasrcfilter: [],
     spatialfilter: [],
     foundational: false,
     spatialData: { viewableOnTheMap: 0, notViewableOnTheMap: 0 },
@@ -129,6 +131,8 @@ const mappingReducer = (
             return { ...state, typefilter: action.payload };
         case ActionType.SET_THEME:
             return { ...state, themefilter: action.payload };
+        case ActionType.SET_METASRC:
+            return { ...state, metasrcfilter: action.payload };
         case ActionType.SET_SPATIAL:
             return { ...state, spatialfilter: action.payload };
         case ActionType.SET_FOUND:
