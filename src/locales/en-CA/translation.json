@@ -97,6 +97,11 @@
                 "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
                 "STAC": "Spatio Temporal Asset Catalog (STAC) ({{param}} records)"
             },
+            "sourcesystemname": {
+                "cgp": "Canadian Geospatial Platform",
+                "datacube": "CCMEO Datacube",
+                "eodms": "Earth Observation Data Management System"
+            },
             "spatemp": {
                 "SPATIALEXTENT": "Spatial Extent",
                 "TEMPORALEXTENT": "Temporal Extent",

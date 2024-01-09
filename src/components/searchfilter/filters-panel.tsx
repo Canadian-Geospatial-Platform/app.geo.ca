@@ -282,6 +282,8 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         filtervalues={metasources[language]}
                                         filterselected={metasrcfilters}
                                         selectFilters={handleMetaSource}
+                                        filtername="sourcesystemname"
+                                        externalLabel
                                     />
                                     <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
                                         <button
