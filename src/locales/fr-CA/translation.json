@@ -76,7 +76,7 @@
         "foundational": "Données de base du Canada",
         "spatial": "Viewable on a Map",
         "stac": "Metadata Standard",
-        "metarsc": "Metadata Source",
+        "metasource": "source de métadonnées",
         "spatemp": {
             "title": "SPATIO-TEMPOREL",
             "temporal": "Toutes les heures sont exprimées en temps universel coordonné (UTC)",
@@ -97,10 +97,10 @@
                 "HNAP": "Harmonized North American Profile (HNAP) ({{param}} records)",
                 "STAC": "Spatio Temporal Asset Catalog (STAC) ({{param}} records)"
             },
-            "metasource": {
-                "cgp": "Canadian Geospatial Platform",
-                "datacube": "CCMEO Datacube",
-                "eodms": "Earth Observation Data Management System"
+            "sourcesystemname": {
+                "cgp": "Plateforme Géospatiale Canadienne",
+                "datacube": "Cube de données du Centre canadien de cartographie et d'observation de la Terre",
+                "eodms": "Système de données d'observation de la Terre"
             },
             "spatemp": {
                 "SPATIALEXTENT": "Étendue spatiale",

@@ -99,7 +99,7 @@
             },
             "sourcesystemname": {
                 "cgp": "Canadian Geospatial Platform",
-                "datacube": "CCMEO Datacube",
+                "datacube": "Canada Centre for Mapping and Earth Observation Data Cube",
                 "eodms": "Earth Observation Data Management System"
             },
             "spatemp": {
