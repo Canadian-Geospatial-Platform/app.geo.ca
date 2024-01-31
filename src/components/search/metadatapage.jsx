@@ -197,6 +197,10 @@ const MetaDataPage = (props) => {
                                 setTileServiceUrl(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`);
                                 setLoading1(false);                                                            
                             });
+                        }).catch(err=>{
+                            console.log('tilejson', err);
+                            setTileServiceUrl(null);
+                            setLoading1(false);
                         });                
                     }else{
                         setLoading1(false);
@@ -207,6 +211,7 @@ const MetaDataPage = (props) => {
             })
             .catch(error => {
                 // console.log(error);
+                setTileServiceUrl(null);
                 setResult(null);
                 setLoading1(false);
             });
@@ -753,7 +758,7 @@ const MetaDataPage = (props) => {
                                             <div className="top-sections">
                                                 <section className="sec-search-result search-results-section search-results-map">
                                                     <div className="ratio ratio-16x9">
-                                                        {!hasImage && <MapContainer
+                                                        {(!hasImage || tileServiceUrl===null) && <MapContainer
                                                             center={[(coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2]}
                                                             zoom={zoom}
                                                             zoomControl={false}
@@ -769,7 +774,7 @@ const MetaDataPage = (props) => {
                                                             }} />
                                                             
                                                         </MapContainer>}
-                                                        {hasImage && <MapContainer
+                                                        {(hasImage && tileServiceUrl!==null) && <MapContainer
                                                             center={cogCenter}
                                                             zoom={cogZoom}
                                                             zoomControl={false}

@@ -218,6 +218,9 @@ const GeoSearch = (
                             console.log('added', layer);
                             map.setView(new LatLng(centers[1], centers[0]), centers[2]);                                                                             
                         });
+                    }).catch(err=>{
+                        console.log('tilejson', err);
+                        setMapView(center, bounds);    
                     });
                     
                 }else{
