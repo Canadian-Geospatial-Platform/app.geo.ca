@@ -6,10 +6,11 @@ import {
     Action,
     ActionType,
     BooleanAction,
+    BoundboxAction,
     CenterAction,
     FilterAction,
-    FiltersAction,
-    MainMapInfoAction,
+    FiltersAction,    
+    FreezeSpatialAction,    
     SpatialAction,
     SpatialTemporalAction,
     StacAction,
@@ -114,11 +115,11 @@ const mappingReducer = (
         | FiltersAction
         | SpatialAction
         | StacAction
-        | SpatialTemporalAction
-        | MainMapInfoAction
+        | SpatialTemporalAction        
         | CenterAction
         | ZoomAction
-        | BoundsAction
+        | BoundboxAction
+        | FreezeSpatialAction
 ): mappingState => {
     switch (action.type) {
         case ActionType.SET_MAPPING:
