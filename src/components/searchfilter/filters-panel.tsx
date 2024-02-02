@@ -52,6 +52,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [stacfilters, setStac] = useState(storestacfilters);
     const [stacData] = useState<StacData>(useSelector((state) => state.mappingReducer.stacData));
     const stacLabelParams = [];
+    const boundbox = useSelector((state) => state.mappingReducer.boundbox);
     // console.log(state, dispatch);
     const applyFilters = () => {
         dispatch(
@@ -84,12 +85,12 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             } else {
                 dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
                 dispatch(setStoreCenter(INITMAINMAPINFO.center));
-                dispatch(setStoreBoundbox(undefined));
+                //dispatch(setStoreBoundbox(undefined));
             }
         } else {
             dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
             dispatch(setStoreCenter(INITMAINMAPINFO.center));
-            dispatch(setStoreBoundbox(undefined));
+            //dispatch(setStoreBoundbox(undefined));
         }
         setFReset(false);
         closeFunction(' search');
@@ -117,7 +118,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         );
         dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
         dispatch(setStoreCenter(INITMAINMAPINFO.center));
-        dispatch(setStoreBoundbox(undefined));
+        //dispatch(setStoreBoundbox(undefined));
         setFReset(false);
         closeFunction(' search');
     };

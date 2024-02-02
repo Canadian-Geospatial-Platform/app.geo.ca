@@ -579,7 +579,7 @@ const GeoSearch = (
 
     const applyFilters = () => {
         dispatch(
-            setFilters({
+            setFilters({                
                 orgfilter: orgfilters,
                 typefilter: typefilters,
                 themefilter: themefilters,
@@ -608,12 +608,12 @@ const GeoSearch = (
             } else {
                 dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
                 dispatch(setStoreCenter(INITMAINMAPINFO.center));
-                dispatch(setStoreBoundbox(undefined));
+                //dispatch(setStoreBoundbox(undefined));
             }
         } else {
             dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
             dispatch(setStoreCenter(INITMAINMAPINFO.center));
-            dispatch(setStoreBoundbox(undefined));
+            //dispatch(setStoreBoundbox(undefined));
         }
         setFReset(false);
         // setPageNumber(1);
@@ -641,7 +641,7 @@ const GeoSearch = (
         );
         dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
         dispatch(setStoreCenter(INITMAINMAPINFO.center));
-        dispatch(setStoreBoundbox(undefined));
+        //dispatch(setStoreBoundbox(undefined));
         setFReset(false);
         // setPageNumber(1);
     };
