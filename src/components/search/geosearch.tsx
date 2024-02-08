@@ -396,13 +396,13 @@ const GeoSearch = (
             if(msArray.indexOf('eodms')>-1){
                 if(msfilters.dataCollection && msfilters.dataCollection!==''){
                     searchParams.eocollection=msfilters.dataCollection;
-                }
-                if(msfilters.polarization && msfilters.polarization!==''){
-                    searchParams.polarization=msfilters.polarization;
-                }
-                if(msfilters.orbitDirection && msfilters.orbitDirection!==''){
-                    searchParams.orbit=msfilters.orbitDirection;
-                }
+                    if(msfilters.polarization && msfilters.polarization!==''){
+                        searchParams.polarization=msfilters.polarization;
+                    }
+                    if(msfilters.orbitDirection && msfilters.orbitDirection!==''){
+                        searchParams.orbit=msfilters.orbitDirection;
+                    }
+                }                
             }
         } else if (aParams.sourcesystemname) {
             delete aParams.sourcesystemname;
@@ -710,13 +710,13 @@ const GeoSearch = (
             if(msArray.indexOf('eodms')>-1){
                 if(msfilters.dataCollection && msfilters.dataCollection!==''){
                     searchParams.eocollection=msfilters.dataCollection;
-                }
-                if(msfilters.polarization && msfilters.polarization!==''){
-                    searchParams.polarization=msfilters.polarization;
-                }
-                if(msfilters.orbitDirection && msfilters.orbitDirection!==''){
-                    searchParams.orbit=msfilters.orbitDirection;
-                }
+                    if(msfilters.polarization && msfilters.polarization!==''){
+                        searchParams.polarization=msfilters.polarization;
+                    }
+                    if(msfilters.orbitDirection && msfilters.orbitDirection!==''){
+                        searchParams.orbit=msfilters.orbitDirection;
+                    }
+                }                
             }
         } else if (aParams.sourcesystemname) {
             delete aParams.sourcesystemname;
