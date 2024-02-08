@@ -579,6 +579,21 @@ const MetaDataPage = (props) => {
                                                                     })}
                                                                 </td>
                                                             </tr>
+                                                            {result.sourceSystemName==='ccmeo-eodms' && <>
+                                                            <tr>
+                                                                <th scope="row">{t("page.eocollection")}</th>  
+                                                                <td>{result.eoCollection}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">{t("page.polarization")}</th>  
+                                                                <td>{result.eoFilters[0]?.polarizations}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">{t("page.orbit")}</th>  
+                                                                <td>{result.eoFilters[0]?.orbitState}</td>
+                                                            </tr>
+                                                            </>
+                                                            }
                                                         </tbody>
                                                     }
                                                 </table>

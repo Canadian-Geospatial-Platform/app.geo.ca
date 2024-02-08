@@ -1,6 +1,6 @@
 import { LatLng, LatLngBounds } from 'leaflet';
 import { SpatialData, StacData } from '../app';
-import { FreezeMapSpatial, mappingObj, SpatialTemporalFilter } from './reducer';
+import { FreezeMapSpatial, mappingObj, MetadataSourceFilter, SpatialTemporalFilter } from './reducer';
 
 /* eslint-disable prettier/prettier */
 export enum ActionType {
@@ -18,7 +18,8 @@ export enum ActionType {
     SET_CENTER = 'setCenter',
     SET_ZOOM = 'setZoom',
     SET_BOUNDBOX = 'setBoundbox',
-    SET_FREEZEMAPSEARCH = 'setFreezeMapSearch'
+    SET_FREEZEMAPSEARCH = 'setFreezeMapSearch',
+    SET_METASRC = 'setMetadataSource',
 }
 
 export interface Action {
@@ -33,7 +34,8 @@ interface Filters {
     spatialfilter: number[];
     foundational: boolean;
     stacfilter: number[];
-    spatempfilter: SpatialTemporalFilter;
+    spatempfilter?: SpatialTemporalFilter;
+    metasrcfilter?: MetadataSourceFilter;
 }
 
 export interface BooleanAction {
@@ -46,7 +48,12 @@ export interface FreezeSpatialAction {
     payload: FreezeMapSpatial;
 }
 export interface FilterAction {
-    type: ActionType.SET_ORG | ActionType.SET_TYPE | ActionType.SET_THEME | ActionType.SET_SPATIAL | ActionType.SET_STAC;
+    type:
+        | ActionType.SET_ORG
+        | ActionType.SET_TYPE
+        | ActionType.SET_THEME
+        | ActionType.SET_SPATIAL
+        | ActionType.SET_STAC;        
     payload: number[];
 }
 export interface FiltersAction {
@@ -57,7 +64,10 @@ export interface SpatialTemporalAction {
     type: ActionType.SET_SPATEMP;
     payload: SpatialTemporalFilter;
 }
-
+export interface MetadataSourceAction {
+    type: ActionType.SET_METASRC;
+    payload: MetadataSourceFilter;
+}
 export interface SpatialAction {
     type: ActionType.SET_SPATIALDATA;
     payload: SpatialData;
@@ -94,6 +104,10 @@ export function setTypeFilter(typefilter: number[]): FilterAction {
 
 export function setThemeFilter(themefilter: number[]): FilterAction {
     return { type: ActionType.SET_THEME, payload: themefilter };
+}
+
+export function setMetasrcFilter(metasrcfilter: MetadataSourceFilter): MetadataSourceAction {
+    return { type: ActionType.SET_METASRC, payload: metasrcfilter };
 }
 
 export function setSpatialFilter(spatialfilter: number[]): FilterAction {
@@ -134,5 +148,5 @@ export function setStoreZoom(zoom: number): ZoomAction {
     return { type: ActionType.SET_ZOOM, payload: zoom };
 }
 export function setStoreBoundbox(boundbox: LatLngBounds): BoundboxAction {
-    return { type: ActionType.SET_BOUNDBOX, payload: boundbox }
+    return { type: ActionType.SET_BOUNDBOX, payload: boundbox };
 }

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { StoreEnhancer } from 'redux';
-import { INITMAINMAPINFO, INITSPATIALTEMPORALFILTER } from './reducer';
+import { INITMAINMAPINFO, INITMETADATASRCFILTER, INITSPATIALTEMPORALFILTER } from './reducer';
 
 function checkNestedProperty(obj, props: string): boolean {
     const splitted = props.split('.');
@@ -25,6 +25,9 @@ export const loadState = (): StoreEnhancer<unknown, unknown> | undefined => {
         }
         if (!checkNestedProperty(state, 'mappingReducer.spatialfilter')) {
             state['mappingReducer'].spatialfilter = [];
+        }
+        if (!checkNestedProperty(state, 'mappingReducer.metasrcfilter')) {
+            state['mappingReducer'].metasrcfilter = INITMETADATASRCFILTER;
         }
         if (!checkNestedProperty(state, 'mappingReducer.stacfilter')) {
             state['mappingReducer'].stacfilter = [];

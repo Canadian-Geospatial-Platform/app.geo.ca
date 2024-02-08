@@ -1,0 +1,14 @@
+[
+    {
+        "label": "orbit.DEFAULT",
+        "value": ""
+    },
+    {
+        "label": "orbit.ASC",
+        "value": "ascending"
+    },
+    {
+        "label": "orbit.DESC",
+        "value": "descending"
+    }
+]
