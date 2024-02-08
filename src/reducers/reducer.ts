@@ -22,6 +22,13 @@ export interface SpatialTemporalFilter {
     startDate: string;
     endDate: string;
 }
+export interface MetadataSourceFilter {
+    sources: number[];
+    dataCollection: string;
+    polarization: string;
+    orbitDirection: string;
+}
+
 export interface MainMapInfo {
     zoom: number;
     center: LatLng;
@@ -34,7 +41,7 @@ export interface mappingState {
     orgfilter: number[];
     typefilter: number[];
     themefilter: number[];
-    metasrcfilter: number[];
+    metasrcfilter: MetadataSourceFilter;
     spatialfilter: number[];
     foundational: boolean;
     spatialData: SpatialData;
@@ -91,12 +98,18 @@ export const INITSPATIALTEMPORALFILTER: SpatialTemporalFilter = {
     startDate: new Date().toISOString(),
     endDate: new Date().toISOString(),
 };
+export const INITMETADATASRCFILTER: MetadataSourceFilter = {
+    sources: [],
+    dataCollection: '',
+    polarization: '',
+    orbitDirection: ''
+};
 const defaultState: mappingState = {
     mapping: [],
     orgfilter: [],
     typefilter: [],
     themefilter: [],
-    metasrcfilter: [],
+    metasrcfilter: INITMETADATASRCFILTER,
     spatialfilter: [],
     foundational: false,
     spatialData: { viewableOnTheMap: 0, notViewableOnTheMap: 0 },

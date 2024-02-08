@@ -109,6 +109,15 @@
                 "or": "ou",
                 "search-extent": "Rechercher par lieu",
                 "select-extent": "Autres domaines de recherche"
+            },
+            "eofilter":{
+                "data-collection": "Data Collections:",
+                "polarization": "Polarization:",
+                "orbit": "Orbit Direction:",
+                "data-collection-tooltip":"",
+                "polarization-tooltip":"Determines with which polarisation the data was acquired. The first letter indicates the polarisation when sending the signal, the second letter when receiving the signal, e.g., HV = horizontal polarisation when sending the signal and vertical polarisation when receiving. Data can be acquired in single polarisation HH (SH) or VV (SV) or in dual polarisation HH&HV (DH) or VV&VH (DV), depending on the instrument mode. SM, IW and EW can be acquired in single or dual polarisation. WV can only be acquired in single polarisation.",
+                "orbit-tooltip":"Determines whether the data was recorded during a descending orbit (flight direction: north - south) or an ascending orbit (flight direction: south - north).",
+                "SENTINEL1-tooltip":"Sentinel-1 provides all-weather, day and night radar imagery for land and ocean services. EO Browser provides data acquired in Interferometric Wide Swath (IW) and Extra Wide Swath (EW) modes processed to Level-1 Ground Range Detected (GRD)."
             }
         }
     },
@@ -251,7 +260,10 @@
         "share": "Partager",
         "id": "Identifiant",
         "greymaptitle": "Pas de contenu visible",
-        "greymapinfo": "Cet enregistrement n'a pas d'élément visible."
+        "greymapinfo": "Cet enregistrement n'a pas d'élément visible.",
+        "eocollection": "EO Collections",
+        "polarization": "Polarization",
+        "orbit": "Orbit Direction"
     },
     "modal": {
         "buttonlabel": "Fermer",
@@ -281,5 +293,25 @@
         "NT": "Territoires du Nord-Ouest",
         "YT": "Yukon",
         "DEFAULT": "Sélectionnez une option"
+    },
+    "datacollection": {
+        "DEFAULT": "Sélectionnez une option",
+        "SENTINEL1": "Sentinel-1"
+    },
+    "polarization": {
+        "DEFAULT": "Sélectionnez une option",
+        "VV": "VV",
+        "VVVH": "VV+VH",
+        "HH": "HH",
+        "HHHV": "HH+HV",
+        "HHHVVHVV":"HH+HV+VH+VV",
+        "HHVV":"HH+VV",
+        "HV": "HV",
+        "VH": "VH"
+    },
+    "orbit": {
+        "DEFAULT": "Sélectionnez une option",
+        "ASC": "Ascending",
+        "DESC": "Descending"
     }
 }

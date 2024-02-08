@@ -1,8 +1,8 @@
-import { FormControl, InputLabel, Select } from '@material-ui/core';
+import { Fade, FormControl, InputLabel, Select, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-
+import { InfoOutlined } from '@material-ui/icons';
 const styles = {
     formControl: {
         width: 'auto',
@@ -50,13 +50,15 @@ interface SelectionProps {
     optionClassName: string;
     iconClassName: string;
     onSelect: (value: string) => void;
+    tooltip?: boolean;
+    tooltipTitle?: string;
 }
 export interface SelectOptionInfo {
     label: string;
     value: string;
 }
 export default function DropdownSelection(props: SelectionProps): JSX.Element {
-    const { label, labelClassName, selectClassName, optionClassName, iconClassName, defaultValue, options, onSelect } = props;
+    const { tooltip, tooltipTitle, label, labelClassName, selectClassName, optionClassName, iconClassName, defaultValue, options, onSelect } = props;
     const { t } = useTranslation();
 
     const classes = useStyles();
@@ -70,8 +72,13 @@ export default function DropdownSelection(props: SelectionProps): JSX.Element {
         <>
             <div className={classes.divcontrol}>
                 <InputLabel className={`${classes.label} ${labelClassName}`} htmlFor="sortby-select">
-                    {t(label)}
+                        {t(label)}
                 </InputLabel>
+                    
+                { tooltip && <Tooltip title={t(tooltipTitle)} placement="right" TransitionComponent={Fade}>                    
+                    <InfoOutlined style={{fontSize: 20, paddingLeft:5}} />    
+                </Tooltip>}
+                
                 <FormControl className={classes.formControl}>
                     <Select
                         native

@@ -41,7 +41,7 @@ import {
     setTypeFilter,
 } from '../../reducers/action';
 import { loadState } from '../../reducers/localStorage';
-import { FreezeMapSpatial, INITMAINMAPINFO, INITSPATIALTEMPORALFILTER, SpatialTemporalFilter } from '../../reducers/reducer';
+import { FreezeMapSpatial, INITMAINMAPINFO, INITMETADATASRCFILTER, INITSPATIALTEMPORALFILTER, MetadataSourceFilter, SpatialTemporalFilter } from '../../reducers/reducer';
 import { NavBar } from '../navbar/nav-bar';
 import Pagination from '../pagination/pagination';
 import SearchFilter from '../searchfilter/searchfilter';
@@ -55,6 +55,7 @@ import metasources from './metadata-source.json';
 import stacs from './stac.json';
 import themes from './themes.json';
 import types from './types.json';
+import MetadataSourceSearchFilter from '../searchfilter/metadata-sourcefilter';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (
@@ -343,7 +344,12 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
-        const msfilters = localState !== undefined ? localState.mappingReducer.metasrcfilter : [];
+        const msfilters: MetadataSourceFilter = 
+            localState !== undefined
+            ? localState.mappingReducer.metasrcfilter
+                ? localState.mappingReducer.metasrcfilter
+                : INITMETADATASRCFILTER
+            : INITMETADATASRCFILTER;
         const spafilters =
             localState !== undefined ? (localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : []) : [];
         const spatfilters: SpatialTemporalFilter =
@@ -383,10 +389,21 @@ const GeoSearch = (
             delete aParams.theme;
         }
 
-        if (msfilters.length > 0) {
-            const msArray = msfilters.map((fs: number) => metasources[language][fs].toLowerCase().replace(/\'/g, "''"));
+        if (msfilters.sources.length > 0) {
+            const msArray = msfilters.sources.map((fs: number) => metasources[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.sourcesystemname = msArray.join('|');
             aParams.sourcesystemname = msArray;
+            if(msArray.indexOf('eodms')>-1){
+                if(msfilters.dataCollection && msfilters.dataCollection!==''){
+                    searchParams.eocollection=msfilters.dataCollection;
+                }
+                if(msfilters.polarization && msfilters.polarization!==''){
+                    searchParams.polarization=msfilters.polarization;
+                }
+                if(msfilters.orbitDirection && msfilters.orbitDirection!==''){
+                    searchParams.orbit=msfilters.orbitDirection;
+                }
+            }
         } else if (aParams.sourcesystemname) {
             delete aParams.sourcesystemname;
         }
@@ -624,7 +641,7 @@ const GeoSearch = (
         setType([]);
         setTheme([]);
         setSpatial([]);
-        setMetaSource([]);
+        setMetaSource({...metasrcfilters, sources: []});
         setFound(false);
         setSpatemp({ ...spatempfilters, extents: [] });
         dispatch(
@@ -636,7 +653,7 @@ const GeoSearch = (
                 foundational: false,
                 stacfilter: [],
                 spatempfilter: { ...INITSPATIALTEMPORALFILTER },
-                metasrcfilter: []
+                metasrcfilter: { ... INITMETADATASRCFILTER } 
             })
         );
         dispatch(setStoreZoom(INITMAINMAPINFO.zoom));
@@ -656,7 +673,12 @@ const GeoSearch = (
         const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
         const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
         const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
-        const msfilters = localState !== undefined ? localState.mappingReducer.metasrcfilter : [];
+        const msfilters = 
+            localState !== undefined
+                ? localState.mappingReducer.metasrcfilter
+                    ? localState.mappingReducer.metasrcfilter
+                    : INITMETADATASRCFILTER
+                : INITMETADATASRCFILTER;
         const spafilters =
             localState !== undefined ? (localState.mappingReducer.spatialfilter ? localState.mappingReducer.spatialfilter : []) : [];
         const stfilters = localState !== undefined ? (localState.mappingReducer.stfilter ? localState.mappingReducer.stfilter : []) : [];
@@ -681,10 +703,21 @@ const GeoSearch = (
         } else if (aParams.theme) {
             delete aParams.theme;
         }
-        if (msfilters.length > 0) {
-            const msArray = msfilters.map((fs: number) => metasources[language][fs].toLowerCase().replace(/\'/g, "''"));
+        if (msfilters.sources.length > 0) {
+            const msArray = msfilters.sources.map((fs: number) => metasources[language][fs].toLowerCase().replace(/\'/g, "''"));
             searchParams.sourcesystemname = msArray.join('|');
             aParams.sourcesystemname = msArray;
+            if(msArray.indexOf('eodms')>-1){
+                if(msfilters.dataCollection && msfilters.dataCollection!==''){
+                    searchParams.eocollection=msfilters.dataCollection;
+                }
+                if(msfilters.polarization && msfilters.polarization!==''){
+                    searchParams.polarization=msfilters.polarization;
+                }
+                if(msfilters.orbitDirection && msfilters.orbitDirection!==''){
+                    searchParams.orbit=msfilters.orbitDirection;
+                }
+            }
         } else if (aParams.sourcesystemname) {
             delete aParams.sourcesystemname;
         }
@@ -1209,6 +1242,16 @@ const GeoSearch = (
                                 {t('filter.filterby')}:
                             </h3>
                             <div className="filters-wrap">
+                                <MetadataSourceSearchFilter
+                                    filtertitle={t('filter.metasource')}
+                                    filtervalues={metasources[language]}
+                                    filterselected={metasrcfilters}
+                                    selectFilters={handleMetaSource}
+                                    filtername="sourcesystemname"
+                                    externalLabel
+                                    direction={isMobile ? 'column' : 'row'}                                    
+                                    gridWidth={isMobile ? '100%' : '50%'}
+                                />
                                 {/*
                                 <SpatialTemporalSearchFilter
                                     filtertitle={t('filter.spatemp.title')}
@@ -1265,14 +1308,7 @@ const GeoSearch = (
                                     filterselected={themefilters}
                                     selectFilters={handleTheme}
                                 />
-                                <SearchFilter
-                                    filtertitle={t('filter.metasource')}
-                                    filtervalues={metasources[language]}
-                                    filterselected={metasrcfilters}
-                                    selectFilters={handleMetaSource}
-                                    filtername="sourcesystemname"
-                                    externalLabel
-                                />
+                                
                                 <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
                                     <button
                                         type="button"
@@ -1547,6 +1583,9 @@ interface SearchParams {
     end?: string;
     bbox?: string;
     sourcesystemname?: string;
+    eocollection?:string;
+    polarization?: string;
+    orbit?: string;
 }
 interface KOSearchParams {
     keyword: string;
@@ -1564,6 +1603,9 @@ interface KOSearchParams {
     datetime?: string;
     bbox?: string;
     sourcesystemname?: string;
+    eocollection?:string;
+    polarization?: string;
+    orbit?: string;
 }
 
 interface SearchResult {

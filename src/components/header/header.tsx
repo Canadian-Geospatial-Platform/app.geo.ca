@@ -157,11 +157,10 @@ export default function Header(): JSX.Element {
                     setFilters({
                         orgfilter,
                         typefilter,
-                        themefilter,
-                        metasrcfilter,
+                        themefilter,                        
                         spatialfilter,
                         foundational: queryParams.foundational !== undefined && queryParams.foundational === 'y',
-                        stacfilter,
+                        stacfilter
                     })
                 );
             }

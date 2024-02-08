@@ -1,0 +1,10 @@
+[
+    {
+        "label": "datacollection.DEFAULT",
+        "value": ""
+    },
+    {
+        "label": "datacollection.SENTINEL1",
+        "value": "sentinel-1"
+    }
+]

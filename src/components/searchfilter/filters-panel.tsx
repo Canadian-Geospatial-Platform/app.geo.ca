@@ -11,7 +11,7 @@ import { SpatialData, StacData } from '../../app';
 import FilterIcon from '../../assets/icons/filter.svg';
 import { setFilters, setStoreBoundbox, setStoreCenter, setStoreZoom } from '../../reducers/action';
 import { loadState } from '../../reducers/localStorage';
-import { INITMAINMAPINFO, INITSPATIALTEMPORALFILTER, SpatialTemporalFilter } from '../../reducers/reducer';
+import { INITMAINMAPINFO, INITMETADATASRCFILTER, INITSPATIALTEMPORALFILTER, MetadataSourceFilter, SpatialTemporalFilter } from '../../reducers/reducer';
 import PanelApp, { PanelProps } from '../appbar/panel';
 import organisations from '../search/organisations.json';
 import spatemps from '../search/spatial-temporal.json';
@@ -22,6 +22,7 @@ import themes from '../search/themes.json';
 import types from '../search/types.json';
 import SearchFilter from './searchfilter';
 import SpatialTemporalSearchFilter from './spatial-temporalfilter';
+import MetadataSourceSearchFilter from './metadata-sourcefilter';
 
 export default function FilterPanel(props: PanelProps): JSX.Element {
     const { showing, closeFunction } = props;
@@ -41,7 +42,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
     const [orgfilters, setOrg] = useState(storeorgfilters);
     const [typefilters, setType] = useState(storetypefilters);
     const [themefilters, setTheme] = useState(storethemefilters);
-    const [metasrcfilters, setMetaSource] = useState(storemetasrcfilters);
+    const [metasrcfilters, setMetaSource] = useState<MetadataSourceFilter>(storemetasrcfilters);
     const [spatialfilters, setSpatial] = useState(storespatialfilters);
     const [spatempfilters, setSpatemp] = useState<SpatialTemporalFilter>(useSelector((state) => state.mappingReducer.spatempfilter));
     const [foundational, setFound] = useState(storefoundational);
@@ -99,7 +100,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setOrg([]);
         setType([]);
         setTheme([]);
-        setMetaSource([]);
+        setMetaSource({ sources: [], dataCollection: '', orbitDirection: '', polarization: ''});
         setSpatial([]);
         setStac([]);
         setSpatemp({ ...spatempfilters, extents: [] });
@@ -109,7 +110,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                 orgfilter: [],
                 typefilter: [],
                 themefilter: [],
-                metasrcfilter: [],
+                metasrcfilter: { sources: [], dataCollection: '', orbitDirection: '', polarization: ''},
                 spatialfilter: [],
                 foundational: false,
                 stacfilter: [],
@@ -138,7 +139,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
         setTheme(filters);
     };
 
-    const handleMetaSource = (filters: unknown): void => {
+    const handleMetaSource = (filters: MetadataSourceFilter): void => {
         setFReset(true);
         setMetaSource(filters);
     };
@@ -182,7 +183,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
             const ofilters = localState !== undefined ? localState.mappingReducer.orgfilter : [];
             const tfilters = localState !== undefined ? localState.mappingReducer.typefilter : [];
             const thfilters = localState !== undefined ? localState.mappingReducer.themefilter : [];
-            const msfilters = localState !== undefined ? localState.mappingReducer.metasrcfilter : [];
+            const msfilters = localState !== undefined ? localState.mappingReducer.metasrcfilter : INITMETADATASRCFILTER;
             const spafilters = localState !== undefined ? localState.mappingReducer.spatialfilter : [];
             const spatfilters = localState !== undefined ? localState.mappingReducer.spatempfilter : INITSPATIALTEMPORALFILTER;
             const found = localState !== undefined ? localState.mappingReducer.foundational : false;
@@ -224,6 +225,16 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                             <div className="row row-filters">
                                 <h3 className="filters-title">{t('filter.filterby')}:</h3>
                                 <div className="filters-wrap">
+                                    <MetadataSourceSearchFilter
+                                        filtertitle={t('filter.metasource')}
+                                        filtervalues={metasources[language]}
+                                        filterselected={metasrcfilters}
+                                        selectFilters={handleMetaSource}
+                                        filtername="sourcesystemname"
+                                        externalLabel
+                                        direction="column"                                        
+                                        gridWidth="100%"
+                                    />
                                     <SpatialTemporalSearchFilter
                                         filtertitle={t('filter.spatemp.title')}
                                         filtervalues={spatemps[language]}
@@ -277,15 +288,7 @@ export default function FilterPanel(props: PanelProps): JSX.Element {
                                         filtervalues={themes[language]}
                                         filterselected={themefilters}
                                         selectFilters={handleTheme}
-                                    />
-                                    <SearchFilter
-                                        filtertitle={t('filter.metasource')}
-                                        filtervalues={metasources[language]}
-                                        filterselected={metasrcfilters}
-                                        selectFilters={handleMetaSource}
-                                        filtername="sourcesystemname"
-                                        externalLabel
-                                    />
+                                    />                                    
                                     <div className={ofOpen ? 'filter-wrap open' : 'filter-wrap'}>
                                         <button
                                             type="button"
