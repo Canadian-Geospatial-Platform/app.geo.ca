@@ -311,7 +311,9 @@
     },
     "orbit": {
         "DEFAULT": "Sélectionnez une option",
-        "ASC": "Ascending",
-        "DESC": "Descending"
-    }
+        "ASC": "ascendante",
+        "DESC": "descendante"
+    },
+    "ascending": "ascendante ",
+    "descending": "descendante "
 }

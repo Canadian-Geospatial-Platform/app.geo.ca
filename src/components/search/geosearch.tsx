@@ -196,16 +196,27 @@ const GeoSearch = (
                 let imageUrls=parsedOptions.filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("data;tiff;")>=0 ||o.description.en.toLowerCase().indexOf("image/tiff")>=0
                  || o.description.en.toLowerCase().indexOf("thumbnail;png")>=0 ||o.description.en.toLowerCase().indexOf("image/png")>=0 
                  || o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0 ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));                
-                if(imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0){                
+                 if(imageUrls.length>0 && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'){
+                    //const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
                     let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                     let url=imageUrls[0].url;
                     if(imgUrls.length>0){
                         url=imgUrls[0].url;
                     }
-                    //const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]
-                    //);
-                    //const image=L.imageOverlay(url, imageBounds, {opacity: 1}).addTo(map);
-                    //setImage(image);
+                    const image=L.imageOverlay(url, bounds, {opacity: 1}).addTo(map);
+                    setImage(image);
+                    //map.fitBounds(bounds);
+                    //map.setView(center, map.getZoom());
+                    map.fitBounds(bounds, {padding: [50,50]});
+            
+                    setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);   
+                 }else if(imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0){                
+                    let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
+                    let url=imageUrls[0].url;
+                    if(imgUrls.length>0){
+                        url=imgUrls[0].url;
+                    }
+                    
                     axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
                         console.log(res);
                         const centers=res.data.center;

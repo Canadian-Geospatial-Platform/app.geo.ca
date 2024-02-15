@@ -313,5 +313,7 @@
         "DEFAULT": "Please select one",
         "ASC": "Ascending",
         "DESC": "Descending"
-    }
+    },
+    "ascending": "ascending",
+    "descending": "descending"
 }

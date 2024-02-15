@@ -175,14 +175,19 @@ const MetaDataPage = (props) => {
                     ||o.description.en.toLowerCase().indexOf("image/png")>=0
                     ||o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0 
                     ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
-                    const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
                     let url;
-                    if(hasImage){
+                    const isSentinel1=imageUrls.length>0 && res.sourceSystemName.toLowerCase().indexOf("eodms")>=0 && res.eoCollection==='sentinel-1';
+                    if (isSentinel1) setTileServiceUrl(null);
+                    const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
+                    if(imageUrls.length>0){
                         let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
-                        url=imageUrls[0].url;
-                        if(imgUrls.length>0){
-                            url=imgUrls[0].url;
+                            url=imageUrls[0].url;
+                            if(imgUrls.length>0){
+                                url=imgUrls[0].url;
                         }
+                    }
+                    if(!isSentinel1 && hasImage){
+                        
                         axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
                             console.log(res);
                             const centers=res.data.center;
@@ -432,7 +437,16 @@ const MetaDataPage = (props) => {
                             ||o.description.en.toLowerCase().indexOf("image/png")>=0
                             ||o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0
                             ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
+                            let url;                            
+                            const isSentinel1=imageUrls.length>0 && result.sourceSystemName==='ccmeo-eodms' && result.eoCollection==='sentinel-1';
                             const hasImage=imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0;                            
+                            if(imageUrls.length>0){
+                                let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
+                                url=imageUrls[0].url;
+                                if(imgUrls.length>0){
+                                    url=imgUrls[0].url;
+                                }
+                            }
                             const tcRange = ['N/A', 'N/A'];
                             tcRange[0] = result.temporalExtent.begin;
                             tcRange[1] = result.temporalExtent.end;
@@ -590,7 +604,7 @@ const MetaDataPage = (props) => {
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">{t("page.orbit")}</th>  
-                                                                <td>{result.eoFilters[0]?.orbitState}</td>
+                                                                <td>{t(result.eoFilters[0]?.orbitState)}</td>
                                                             </tr>
                                                             </>
                                                             }
@@ -773,7 +787,7 @@ const MetaDataPage = (props) => {
                                             <div className="top-sections">
                                                 <section className="sec-search-result search-results-section search-results-map">
                                                     <div className="ratio ratio-16x9">
-                                                        {(!hasImage || tileServiceUrl===null) && <MapContainer
+                                                        {((!isSentinel1 && !hasImage) || (!isSentinel1 && tileServiceUrl===null)) && <MapContainer
                                                             center={[(coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2]}
                                                             zoom={zoom}
                                                             zoomControl={false}
@@ -789,7 +803,7 @@ const MetaDataPage = (props) => {
                                                             }} />
                                                             
                                                         </MapContainer>}
-                                                        {(hasImage && tileServiceUrl!==null) && <MapContainer
+                                                        {(!isSentinel1 && hasImage && tileServiceUrl!==null) && <MapContainer
                                                             center={cogCenter}
                                                             zoom={cogZoom}
                                                             zoomControl={false}
@@ -804,14 +818,29 @@ const MetaDataPage = (props) => {
                                                                 "properties": { "id": result.id, "tag": "geoViewGeoJSON" },
                                                                 "geometry": { "type": "Polygon", "coordinates": coordinates }
                                                             }} />
-                                                            {/*hasImage && <ImageOverlay
-                                                                url={imageUrls[0].url}
+                                                            
+                                                        </MapContainer>}
+                                                        {isSentinel1 && <MapContainer
+                                                            center={[(coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2]}
+                                                            zoom={zoom}
+                                                            zoomControl={false}
+                                                            attributionControl={false}
+                                                        >
+                                                            <TileLayer url="https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg" attribution={t("mapctrl.attribution")} />
+                                                            <AttributionControl position="bottomleft" prefix={false} />
+                                                            <NavBar />
+                                                            <GeoJSON key={result.id} data={{
+                                                                "type": "Feature",
+                                                                "properties": { "id": result.id, "tag": "geoViewGeoJSON" },
+                                                                "geometry": { "type": "Polygon", "coordinates": coordinates }
+                                                            }} />
+                                                            <ImageOverlay
+                                                                url={url}
                                                                 bounds={bounds}
                                                                 opacity={1}
                                                                 zIndex={10}
                                                                 />
-                                                        */}
-                                                        </MapContainer>}
+                                                        </MapContainer>}                                                        
                                                     </div>
                                                 </section>
                                                 <section className="sec-search-result search-results-section search-results-misc-data">
