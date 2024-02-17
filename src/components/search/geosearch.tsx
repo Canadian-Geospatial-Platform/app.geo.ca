@@ -28,7 +28,7 @@ import { envglobals } from '../../common/envglobals';
 import { getQueryParams } from '../../common/queryparams';
 import {
     setFilters,
-    setFoundational,
+    setFoundational,    
     setMetasrcFilter,
     setOrgFilter,
     setSpatempFilter,
@@ -90,6 +90,7 @@ const GeoSearch = (
     const [cnt, setCount] = useState(0);
     const [selected, setSelected] = useState('search');
     const [open, setOpen] = useState(false);
+    const [footprintViewed, setFootprintViewed] = useState(false);
     // const [modal, setModal] = useState(false);
     // const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
     const language = t('app.language');
@@ -252,6 +253,7 @@ const GeoSearch = (
     const handleSelect = (event: string) => {
         // const {selectResult} = this.props;
         const cardOpen = selected === event ? !open : true;
+        setFootprintViewed(cardOpen);
         const result =
             Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;        
         setSelected(event);
@@ -339,7 +341,7 @@ const GeoSearch = (
         if (!loading && mapCount === 0 && !Object.is(mbounds, initBounds)) {
             // console.log('research:', loading, keyword, mapCount);
             mapCount++;
-            setLoadingStatus(true);
+            setLoadingStatus(true);            
             handleSearch(passkw, mbounds);
         }
     };
@@ -993,6 +995,13 @@ const GeoSearch = (
             map.off('moveend');
         }
     }, [freeze]);
+    useEffect(() => {        
+        if (!footprintViewed) {
+            map.on('moveend', (event) => eventHandler(event, initKeyword));
+        } else {
+            map.off('moveend');
+        }
+    }, [footprintViewed]);
     useEffect(() => {
         /* if (!sfloaded) {
             if (queryParams.org !== undefined || queryParams.type !== undefined || queryParams.theme !== undefined) {
@@ -1016,7 +1025,7 @@ const GeoSearch = (
                 if (!fReset) {
                     handleKOSearch(initKeyword, !stateLoaded ? statePn : undefined);
                 }
-            } else {
+            } else {                
                 handleSearch(
                     initKeyword,
                     !stateLoaded && stateBounds !== undefined ? stateBounds : initBounds,
