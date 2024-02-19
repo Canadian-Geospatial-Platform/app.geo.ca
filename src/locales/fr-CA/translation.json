@@ -111,13 +111,13 @@
                 "select-extent": "Autres domaines de recherche"
             },
             "eofilter":{
-                "data-collection": "Data Collections:",
-                "polarization": "Polarization:",
-                "orbit": "Orbit Direction:",
+                "data-collection": "Collections de Données :",
+                "polarization": "Polarisation:",
+                "orbit": "Direction de l'orbite:",
                 "data-collection-tooltip":"",
-                "polarization-tooltip":"Determines with which polarisation the data was acquired. The first letter indicates the polarisation when sending the signal, the second letter when receiving the signal, e.g., HV = horizontal polarisation when sending the signal and vertical polarisation when receiving. Data can be acquired in single polarisation HH (SH) or VV (SV) or in dual polarisation HH&HV (DH) or VV&VH (DV), depending on the instrument mode. SM, IW and EW can be acquired in single or dual polarisation. WV can only be acquired in single polarisation.",
-                "orbit-tooltip":"Determines whether the data was recorded during a descending orbit (flight direction: north - south) or an ascending orbit (flight direction: south - north).",
-                "SENTINEL1-tooltip":"Sentinel-1 provides all-weather, day and night radar imagery for land and ocean services. EO Browser provides data acquired in Interferometric Wide Swath (IW) and Extra Wide Swath (EW) modes processed to Level-1 Ground Range Detected (GRD)."
+                "polarization-tooltip":"Détermine la polarisation avec laquelle les données ont été acquises. La première lettre indique la polarisation lors de l'envoi du signal, la deuxième lettre lors de la réception du signal, par exemple, HV = polarisation horizontale lors de l'envoi du signal et polarisation verticale lors de la réception.<br/>Les données peuvent être acquises en polarisation simple HH (SH) ou VV (SV) ou en polarisation double HH&HV (DH) ou VV&VH (DV), selon le mode de l'instrument.<br/>SM, IW et EW peuvent être acquis en polarisation simple ou double. WV ne peut être acquis qu'en polarisation simple.",
+                "orbit-tooltip":"Détermine si les données ont été enregistrées sur une orbite descendante (direction de déplacement : nord - sud) ou une orbite ascendante (direction de déplacement : sud - nord).",
+                "sentinel-1-tooltip":"<strong>Sentinel-1</strong> fournit des images radar de jour et de nuit, par tous les temps, pour les services terrestres et océaniques. EO Browser fournit des données acquises en mode interférométrique Wide Swath (IW) et Extra Wide Swath (EW), traitées en niveau 1 de détection de la portée au sol (GRD). traitées en niveau 1 Ground Range Detected (GRD)."
             }
         }
     },

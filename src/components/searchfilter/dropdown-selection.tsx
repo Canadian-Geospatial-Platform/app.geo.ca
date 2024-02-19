@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { InfoOutlined } from '@material-ui/icons';
+import { HtmlTooltip } from './html-tooltip';
+import React from 'react';
 const styles = {
     formControl: {
         width: 'auto',
@@ -67,17 +69,26 @@ export default function DropdownSelection(props: SelectionProps): JSX.Element {
     };
     useEffect(() => {
         console.log(props);
-    }, []);
+    }, []);    
     return (
         <>
             <div className={classes.divcontrol}>
                 <InputLabel className={`${classes.label} ${labelClassName}`} htmlFor="sortby-select">
                         {t(label)}
                 </InputLabel>
-                    
-                { tooltip && <Tooltip title={t(tooltipTitle)} placement="right" TransitionComponent={Fade}>                    
+                {tooltip &&
+                <HtmlTooltip placement="right" TransitionComponent={Fade}
+                    title={
+                        <div 
+                        dangerouslySetInnerHTML={{__html: t(tooltipTitle, {interpolation: {escapeValue: false}})}}
+                        />                        
+                    }>
+                        <InfoOutlined style={{fontSize: 20, paddingLeft:5}} /> 
+                    </HtmlTooltip>
+                }    
+                {/* tooltip && <Tooltip title={t(tooltipTitle)} placement="right" TransitionComponent={Fade}>                    
                     <InfoOutlined style={{fontSize: 20, paddingLeft:5}} />    
-                </Tooltip>}
+            </Tooltip>*/}
                 
                 <FormControl className={classes.formControl}>
                     <Select
