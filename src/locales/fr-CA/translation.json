@@ -111,7 +111,7 @@
                 "select-extent": "Autres domaines de recherche"
             },
             "eofilter":{
-                "data-collection": "Collections de Données :",
+                "data-collection": "Collections de Données:",
                 "polarization": "Polarisation:",
                 "orbit": "Direction de l'orbite:",
                 "data-collection-tooltip":"",
@@ -261,9 +261,9 @@
         "id": "Identifiant",
         "greymaptitle": "Pas de contenu visible",
         "greymapinfo": "Cet enregistrement n'a pas d'élément visible.",
-        "eocollection": "EO Collections",
-        "polarization": "Polarization",
-        "orbit": "Orbit Direction"
+        "eocollection": "Collections de Données",
+        "polarization": "Polarisation",
+        "orbit": "Direction de l'orbite"
     },
     "modal": {
         "buttonlabel": "Fermer",
