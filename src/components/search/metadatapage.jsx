@@ -40,6 +40,7 @@ import { analyticPost, analyticGet } from '../../common/analytic';
 import { setMapping } from "../../reducers/action";
 import InfoModal from '../modal/infomodal';
 import Pagination from "../pagination/pagination";
+import thumbnailConfig from "./thumbnail-config.json";
 import './metadatapage.scss';
 
 const EnvGlobals = envglobals();
@@ -176,7 +177,7 @@ const MetaDataPage = (props) => {
                     ||o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0 
                     ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
                     let url;
-                    const isSentinel1=imageUrls.length>0 && res.sourceSystemName.toLowerCase().indexOf("eodms")>=0 && res.eoCollection==='sentinel-1';
+                    const isSentinel1=imageUrls.length>0 && res.sourceSystemName.toLowerCase().indexOf("eodms")>=0 && res.eoCollection==='sentinel-1' && thumbnailConfig['eodms_use_image'];
                     if (isSentinel1) setTileServiceUrl(null);
                     const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
                     if(imageUrls.length>0){
@@ -438,7 +439,7 @@ const MetaDataPage = (props) => {
                             ||o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0
                             ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
                             let url;                            
-                            const isSentinel1=imageUrls.length>0 && result.sourceSystemName==='ccmeo-eodms' && result.eoCollection==='sentinel-1';
+                            const isSentinel1=imageUrls.length>0 && result.sourceSystemName==='ccmeo-eodms' && result.eoCollection==='sentinel-1' && thumbnailConfig['eodms_use_image'];
                             const hasImage=imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0;                            
                             if(imageUrls.length>0){
                                 let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);

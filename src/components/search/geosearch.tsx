@@ -56,6 +56,7 @@ import stacs from './stac.json';
 import themes from './themes.json';
 import types from './types.json';
 import MetadataSourceSearchFilter from '../searchfilter/metadata-sourcefilter';
+import thumbnailConfig from './thumbnail-config.json';
 
 const EnvGlobals = envglobals();
 const GeoSearch = (
@@ -197,7 +198,7 @@ const GeoSearch = (
                 let imageUrls=parsedOptions.filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("data;tiff;")>=0 ||o.description.en.toLowerCase().indexOf("image/tiff")>=0
                  || o.description.en.toLowerCase().indexOf("thumbnail;png")>=0 ||o.description.en.toLowerCase().indexOf("image/png")>=0 
                  || o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0 ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));                
-                 if(imageUrls.length>0 && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'){
+                 if(imageUrls.length>0 && thumbnailConfig['eodms_use_image']===true && result.systemName && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'){
                     //const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
                     let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                     let url=imageUrls[0].url;
@@ -211,7 +212,8 @@ const GeoSearch = (
                     map.fitBounds(bounds, {padding: [50,50]});
             
                     setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);   
-                 }else if(imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0){                
+                 }else if(imageUrls.length>0 && (result.keywords.toLowerCase().indexOf("stac")>=0
+                    || (thumbnailConfig['eodms_use_image']===false && result.systemName && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'))){                
                     let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                     let url=imageUrls[0].url;
                     if(imgUrls.length>0){
