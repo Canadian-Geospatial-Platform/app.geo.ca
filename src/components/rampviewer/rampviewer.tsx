@@ -65,6 +65,7 @@ const RampViewer = (): JSX.Element => {
         mapDiv.setAttribute("is", attr.is);
         mapDiv.setAttribute("rv-langs", attr.rvLangs);
         mapDiv.setAttribute("rv-service-endpoint", "https://maps.canada.ca/geonetwork/srv/api/");
+        mapDiv.setAttribute("rv-plugins","coordInfo,rangeSlider,chart");
         mapDiv.setAttribute("rv-config", JSON.stringify(defaultMapConfig[language]));
         mapDiv.setAttribute("data-rv-keys", JSON.stringify(attr.rvKeys));
 
@@ -99,7 +100,7 @@ const RampViewer = (): JSX.Element => {
         <div id="rvMapPage" className="mapPage">
             <div id="rvMap" is="rv-map" 
                  rv-langs={`["${language}-CA"]`} 
-                 rv-service-endpoint="https://gcgeo.gc.ca/geonetwork/srv/api/"
+                 rv-service-endpoint="https://maps.canada.ca/geonetwork/srv/api/"
                  rv-plugins="coordInfo,rangeSlider,chart"
                  rv-config={JSON.stringify(defaultMapConfig[language])} 
                  data-rv-keys={queryParams.rvKey ? JSON.stringify([queryParams.rvKey]):JSON.stringify(mapping)} 
