@@ -100,6 +100,7 @@ const RampViewer = (): JSX.Element => {
             <div id="rvMap" is="rv-map" 
                  rv-langs={`["${language}-CA"]`} 
                  rv-service-endpoint="https://gcgeo.gc.ca/geonetwork/srv/api/"
+                 rv-plugins="coordInfo,rangeSlider,chart"
                  rv-config={JSON.stringify(defaultMapConfig[language])} 
                  data-rv-keys={queryParams.rvKey ? JSON.stringify([queryParams.rvKey]):JSON.stringify(mapping)} 
             />
