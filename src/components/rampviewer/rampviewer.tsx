@@ -57,7 +57,17 @@ const RampViewer = (): JSX.Element => {
         } else {
             document.body.appendChild(script);
         }    
-    }
+    };
+
+    const appendStylesheet = (href: string, id?: string) => {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        if (id) {
+            link.id = id;
+        }
+        document.head.appendChild(link);
+    };
 
     const addMapDiv = (attr: mapAttr) => {
         const mapDiv = document.createElement("div");
@@ -94,6 +104,12 @@ const RampViewer = (): JSX.Element => {
         addMapDiv({id: "rvMap", is: "rv-map", rvLangs: `["${language}-CA"]`, rvKeys});
         appendScript({id: "rvJS", scriptToAppend: "/assets/js/rv-main.js" });
         appendScript({id: "rvApi", scriptToAppend: "/assets/js/legacy-api.js" });
+        appendScript({ id: "range-slider", scriptToAppend: "https://viewer-visualiseur.services.geo.ca/apps/RAMP/contributed-plugins/range-slider/range-slider.js" });
+        appendScript({ id: "chart", scriptToAppend: "https://viewer-visualiseur.services.geo.ca/apps/RAMP/contributed-plugins/chart/chart.js" });
+
+        appendStylesheet("https://viewer-visualiseur.services.geo.ca/apps/RAMP/contributed-plugins/range-slider/range-slider.css", "range-slider-css");
+        appendStylesheet("https://viewer-visualiseur.services.geo.ca/apps/RAMP/contributed-plugins/chart/chart.css", "chart-css");
+        
     }, [language, testDemo]);
 
     return (
