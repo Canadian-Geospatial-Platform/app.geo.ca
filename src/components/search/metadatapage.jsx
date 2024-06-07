@@ -184,8 +184,9 @@ const MetaDataPage = (props) => {
                         let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                         url=imageUrls[0].url;
                         if(imgUrls.length>0){
-                            let thumbnail_correction=thumbnailConfig['thumbnail_correction_proxy_dev']
+                            let thumbnail_correction=thumbnailConfig['thumbnail_correction_proxy_dev'];
                             url=thumbnail_correction + imgUrls[0].url;
+                            console.log(url);
                         }
                     }
                     if(!isSentinel1 && hasImage){
@@ -446,8 +447,9 @@ const MetaDataPage = (props) => {
                                 let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                                 url=imageUrls[0].url;
                                 if(imgUrls.length>0){
-                                    let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev']
-                                    url=thumbnail_correction + imgUrls[0].url
+                                    let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
+                                    url=thumbnail_correction + imgUrls[0].url;
+                                    console.log(url);
                                 }
                             }
                             const tcRange = ['N/A', 'N/A'];
