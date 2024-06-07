@@ -203,7 +203,8 @@ const GeoSearch = (
                     let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                     let url=imageUrls[0].url;
                     if(imgUrls.length>0){
-                        url=imgUrls[0].url;
+                        let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev']
+                        url = thumbnail_correction + imgUrls[0].url;
                     }
                     const image=L.imageOverlay(url, bounds, {opacity: 1}).addTo(map);
                     setImage(image);

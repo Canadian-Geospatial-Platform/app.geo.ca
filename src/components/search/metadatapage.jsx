@@ -182,9 +182,10 @@ const MetaDataPage = (props) => {
                     const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
                     if(imageUrls.length>0){
                         let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
-                            url=imageUrls[0].url;
-                            if(imgUrls.length>0){
-                                url=imgUrls[0].url;
+                        url=imageUrls[0].url;
+                        if(imgUrls.length>0){
+                            let thumbnail_correction=thumbnailConfig['thumbnail_correction_proxy_dev']
+                            url=thumbnail_correction + imgUrls[0].url;
                         }
                     }
                     if(!isSentinel1 && hasImage){
@@ -445,7 +446,8 @@ const MetaDataPage = (props) => {
                                 let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                                 url=imageUrls[0].url;
                                 if(imgUrls.length>0){
-                                    url=imgUrls[0].url;
+                                    let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev']
+                                    url=thumbnail_correction + imgUrls[0].url
                                 }
                             }
                             const tcRange = ['N/A', 'N/A'];

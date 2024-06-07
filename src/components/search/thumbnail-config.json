@@ -1,3 +1,4 @@
 {
-    "eodms_use_image": true
+    "eodms_use_image": true,
+    "thumbnail_correction_proxy_dev": "https://ps15con05b.execute-api.ca-central-1.amazonaws.com/live/flip?url="
 }
