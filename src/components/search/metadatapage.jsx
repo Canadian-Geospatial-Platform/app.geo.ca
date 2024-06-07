@@ -449,9 +449,9 @@ const MetaDataPage = (props) => {
                                 if(imgUrls.length>0){
                                     let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
                                     url=thumbnail_correction + imgUrls[0].url;
-                                    console.log(url);
                                 }
                             }
+                            console.log(url);
                             const tcRange = ['N/A', 'N/A'];
                             tcRange[0] = result.temporalExtent.begin;
                             tcRange[1] = result.temporalExtent.end;
