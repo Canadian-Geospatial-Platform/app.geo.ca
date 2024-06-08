@@ -181,14 +181,14 @@ const MetaDataPage = (props) => {
                     if (isSentinel1) setTileServiceUrl(null);
                     const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
                     if(imageUrls.length>0){
-                        let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
-                        url=imageUrls[0].url;
-                        if(imgUrls.length>0){
-                            let thumbnail_correction=thumbnailConfig['thumbnail_correction_proxy_dev'];
-                            url=thumbnail_correction + imgUrls[0].url;
-                            console.log(url);
+                        let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
+                        url=thumbnail_correction + imageUrls[0].url;
+                        //handling if image is type tiff
+                        let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
+                        if(imgUrlsTIFF.length>0){
+                            url=imgUrlsTIFF[0].url;
                         }
-                    }
+
                     if(!isSentinel1 && hasImage){
                         
                         axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
@@ -444,11 +444,12 @@ const MetaDataPage = (props) => {
                             const isSentinel1=imageUrls.length>0 && result.sourceSystemName==='ccmeo-eodms' && result.eoCollection==='sentinel-1' && thumbnailConfig['eodms_use_image'];
                             const hasImage=imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0;                            
                             if(imageUrls.length>0){
-                                let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
-                                url=imageUrls[0].url;
-                                if(imgUrls.length>0){
-                                    let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
-                                    url=thumbnail_correction + imgUrls[0].url;
+                                let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
+                                url=thumbnail_correction + imageUrls[0].url;
+                                //handling if image is type tiff
+                                let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
+                                if(imgUrlsTIFF.length>0){
+                                    url=imgUrlsTIFF[0].url;
                                 }
                             }
                             console.log(url);
