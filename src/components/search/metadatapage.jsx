@@ -188,6 +188,7 @@ const MetaDataPage = (props) => {
                         if(imgUrlsTIFF.length>0){
                             url=imgUrlsTIFF[0].url;
                         }
+                    }
 
                     if(!isSentinel1 && hasImage){
                         
