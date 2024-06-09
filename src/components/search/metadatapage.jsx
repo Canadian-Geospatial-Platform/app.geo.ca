@@ -448,7 +448,7 @@ const MetaDataPage = (props) => {
                             const hasImage=imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0;                            
                             if(imageUrls.length>0){
                                 let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
-                                let orbitDirection = res.eoFilters[0]?.orbitState;
+                                let orbitDirection = result.eoFilters[0]?.orbitState;
                                 console.log(orbitDirection);
                                 url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
                                 //handling if image is type tiff
