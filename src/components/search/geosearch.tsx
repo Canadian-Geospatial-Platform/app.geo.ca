@@ -200,12 +200,13 @@ const GeoSearch = (
                  || o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0 ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));                
                  if(imageUrls.length>0 && thumbnailConfig['eodms_use_image']===true && result.systemName && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'){
                     //const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
-                    let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
-                    let url=imageUrls[0].url;
-                    if(imgUrls.length>0){
-                        let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
-                        url = thumbnail_correction + imgUrls[0].url;
-                        console.log(url);
+                    let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
+                    let orbitDirection = result.eoFilters[0]?.orbitState;
+                    url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
+                    //handling if image is type tiff
+                    let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
+                    if(imgUrlsTIFF.length>0){
+                        url=imgUrlsTIFF[0].url;
                     }
                     const image=L.imageOverlay(url, bounds, {opacity: 1}).addTo(map);
                     setImage(image);
