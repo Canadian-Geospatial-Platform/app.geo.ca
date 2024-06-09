@@ -183,7 +183,7 @@ const MetaDataPage = (props) => {
                     if(imageUrls.length>0){
                         let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
                         let orbitDirection = res.eoFilters[0]?.orbitState;
-                        console.log(orbitDirection);
+                        //console.log(orbitDirection);
                         url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
                         //handling if image is type tiff
                         let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
@@ -195,21 +195,21 @@ const MetaDataPage = (props) => {
                     if(!isSentinel1 && hasImage){
                         
                         axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
-                            console.log(res);
+                            //console.log(res);
                             const centers=res.data.center;
                             setCogCenter(new LatLng(centers[1], centers[0]));
                             setCogZoom(centers[2]);
                             const imageBounds = L.latLngBounds([[res.data.bounds[3], res.data.bounds[2]],[res.data.bounds[1], res.data.bounds[0]]]);
                             setCogBounds(imageBounds);
                             axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {params: {url, unscale: 'false', resampling:'nearest', max_size: '1024', categorical: 'false'}}).then((res2)=>{
-                                console.log(res2);
+                                //console.log(res2);
                                 const min=res2.data.b1.min;
                                 const max=res2.data.b1.max;                                                              
                                 setTileServiceUrl(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`);
                                 setLoading1(false);                                                            
                             });
                         }).catch(err=>{
-                            console.log('tilejson', err);
+                            //console.log('tilejson', err);
                             setTileServiceUrl(null);
                             setLoading1(false);
                         });                
@@ -410,7 +410,7 @@ const MetaDataPage = (props) => {
     }, []);
 
     useEffect(() => {
-        console.log("Passed state", { metadataState });
+        //console.log("Passed state", { metadataState });
     }, [metadataState]);
 
     return (
@@ -449,7 +449,7 @@ const MetaDataPage = (props) => {
                             if(imageUrls.length>0){
                                 let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
                                 let orbitDirection = result.eoFilters[0]?.orbitState;
-                                console.log(orbitDirection);
+                                //console.log(orbitDirection);
                                 url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
                                 //handling if image is type tiff
                                 let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
@@ -457,7 +457,7 @@ const MetaDataPage = (props) => {
                                     url=imgUrlsTIFF[0].url;
                                 }
                             }
-                            console.log(url);
+                            //console.log(url);
                             const tcRange = ['N/A', 'N/A'];
                             tcRange[0] = result.temporalExtent.begin;
                             tcRange[1] = result.temporalExtent.end;

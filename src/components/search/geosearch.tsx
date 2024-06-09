@@ -202,7 +202,7 @@ const GeoSearch = (
                     //const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
                     let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
                     let orbitDirection = result.eoFilters[0]?.orbitState;
-                    url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
+                    let url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
                     //handling if image is type tiff
                     let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                     if(imgUrlsTIFF.length>0){
@@ -224,16 +224,16 @@ const GeoSearch = (
                     }
                     
                     axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
-                        console.log(res);
+                        //console.log(res);
                         const centers=res.data.center;
                         const imageBounds = L.latLngBounds([[res.data.bounds[3], res.data.bounds[2]],[res.data.bounds[1], res.data.bounds[0]]]);
                         axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {params: {url, unscale: 'false', resampling:'nearest', max_size: '1024', categorical: 'false'}}).then((res2)=>{
-                            console.log(res2);
+                            //console.log(res2);
                             const min=res2.data.b1.min;
                             const max=res2.data.b1.max;                                                        
                             var layer=new L.TileLayer(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`, {bounds:imageBounds, zIndex:9999});
                             map.addLayer(layer);
-                            console.log('added', layer);
+                            //console.log('added', layer);
                             map.setView(new LatLng(centers[1], centers[0]), centers[2]);                                                                             
                         });
                     }).catch(err=>{
