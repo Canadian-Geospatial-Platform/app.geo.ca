@@ -182,7 +182,9 @@ const MetaDataPage = (props) => {
                     const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
                     if(imageUrls.length>0){
                         let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
-                        url=thumbnail_correction + imageUrls[0].url;
+                        let orbitDirection = res.eoFilters[0]?.orbitState;
+                        console.log(orbitDirection);
+                        url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
                         //handling if image is type tiff
                         let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                         if(imgUrlsTIFF.length>0){
@@ -446,7 +448,9 @@ const MetaDataPage = (props) => {
                             const hasImage=imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0;                            
                             if(imageUrls.length>0){
                                 let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
-                                url=thumbnail_correction + imageUrls[0].url;
+                                let orbitDirection = res.eoFilters[0]?.orbitState;
+                                console.log(orbitDirection);
+                                url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
                                 //handling if image is type tiff
                                 let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                                 if(imgUrlsTIFF.length>0){
