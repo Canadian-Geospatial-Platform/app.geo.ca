@@ -98,7 +98,7 @@
                 "STAC": "Spatio Temporal Asset Catalog (STAC) ({{param}} records)"
             },
             "sourcesystemname": {
-                "cgp": "Plateforme Géospatiale Canadienne",
+                "cgp": "Geo.ca",
                 "datacube": "Cube de données du Centre canadien de cartographie et d'observation de la Terre",
                 "eodms": "Système de données d'observation de la Terre"
             },
