@@ -16,7 +16,7 @@ function checkNestedProperty(obj, props: string): boolean {
 export const loadState = (): StoreEnhancer<unknown, unknown> | undefined => {
     try {
         const urlParams = new URLSearchParams(window.location.search);
-		if (!urlParams.toString()) {
+        if (!urlParams.toString()) {
             const serializedState = localStorage.getItem('state');
             if (serializedState === null) {
                 return undefined;
@@ -39,6 +39,35 @@ export const loadState = (): StoreEnhancer<unknown, unknown> | undefined => {
             }
             if (!checkNestedProperty(state, 'mappingReducer.zoom')) {
                 state['mappingReducer'].zoom = INITMAINMAPINFO.zoom;
+            }
+            if (!checkNestedProperty(state, 'mappingReducer.freezeMapSearch')) {
+                state['mappingReducer'].freezeMapSearch = { freeze: true };
+            }
+            return state;
+        }
+        else {
+            const serializedState = localStorage.getItem('state');
+            if (serializedState === null) {
+                return undefined;
+            }
+            const state = JSON.parse(serializedState);
+            if (!checkNestedProperty(state, 'mappingReducer.spatempfilter')) {
+                state['mappingReducer'].spatempfilter = [];
+            }
+            if (!checkNestedProperty(state, 'mappingReducer.spatialfilter')) {
+                state['mappingReducer'].spatialfilter = [];
+            }
+            if (!checkNestedProperty(state, 'mappingReducer.metasrcfilter')) {
+                state['mappingReducer'].metasrcfilter = [];
+            }
+            if (!checkNestedProperty(state, 'mappingReducer.stacfilter')) {
+                state['mappingReducer'].stacfilter = [];
+            }
+            if (!checkNestedProperty(state, 'mappingReducer.center')) {
+                state['mappingReducer'].center = [];
+            }
+            if (!checkNestedProperty(state, 'mappingReducer.zoom')) {
+                state['mappingReducer'].zoom = [];
             }
             if (!checkNestedProperty(state, 'mappingReducer.freezeMapSearch')) {
                 state['mappingReducer'].freezeMapSearch = { freeze: true };
