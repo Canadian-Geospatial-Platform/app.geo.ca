@@ -57,7 +57,6 @@ export const loadState = (): StoreEnhancer<unknown, unknown> | undefined => {
             state['mappingReducer'].stacfilter = [];
             state['mappingReducer'].center = { lat: 54.5, lng: -115 };
             state['mappingReducer'].zoom = [];
-            state['mappingReducer'].orgfilter = [];
             state['mappingReducer'].freezeMapSearch = { freeze: true };
             return state;
         }
