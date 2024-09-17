@@ -51,23 +51,13 @@ export const loadState = (): StoreEnhancer<unknown, unknown> | undefined => {
                 return undefined;
             }
             const state = JSON.parse(serializedState);
-            if (!checkNestedProperty(state, 'mappingReducer.spatempfilter')) {
-                state['mappingReducer'].spatempfilter = [];
-            }
-            if (!checkNestedProperty(state, 'mappingReducer.spatialfilter')) {
-                state['mappingReducer'].spatialfilter = [];
-            }
+            state['mappingReducer'].spatempfilter = [];
+            state['mappingReducer'].spatialfilter = [];
             state['mappingReducer'].metasrcfilter = { sources: [], dataCollection: '',  polarization: '', orbitDirection: '' };
             state['mappingReducer'].stacfilter = [];
-            if (!checkNestedProperty(state, 'mappingReducer.center')) {
-                state['mappingReducer'].center = [];
-            }
-            if (!checkNestedProperty(state, 'mappingReducer.zoom')) {
-                state['mappingReducer'].zoom = [];
-            }
-            if (!checkNestedProperty(state, 'mappingReducer.freezeMapSearch')) {
-                state['mappingReducer'].freezeMapSearch = { freeze: true };
-            }
+            state['mappingReducer'].center = [];
+            state['mappingReducer'].zoom = [];
+            state['mappingReducer'].freezeMapSearch = { freeze: true };
             return state;
         }
     } catch (err) {
