@@ -51,7 +51,7 @@ export const loadState = (): StoreEnhancer<unknown, unknown> | undefined => {
                 return undefined;
             }
             const state = JSON.parse(serializedState);
-            state['mappingReducer'].spatempfilter = [];
+            state['mappingReducer'].spatempfilter = { extents: [], startDate: "", endDate: "" };
             state['mappingReducer'].spatialfilter = [];
             state['mappingReducer'].metasrcfilter = { sources: [], dataCollection: '',  polarization: '', orbitDirection: '' };
             state['mappingReducer'].stacfilter = [];
