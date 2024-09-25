@@ -1,4 +1,4 @@
 {
     "eodms_use_image": true,
-    "thumbnail_correction_proxy_dev": "https://geocore.api.geo.ca/image-processor?url="
+    "thumbnail_correction_proxy_dev": "https://tiler.api.geo.ca/image-processor?url="
 }
