@@ -296,7 +296,8 @@
     },
     "datacollection": {
         "DEFAULT": "Please select one",
-        "SENTINEL1": "Sentinel-1"
+        "SENTINEL1": "Sentinel-1",
+        "RCM-ARD": "Radarsat Constellation Mission (RCM) - Analysis Ready Data (ARD)"
     },
     "polarization": {
         "DEFAULT": "Please select one",
