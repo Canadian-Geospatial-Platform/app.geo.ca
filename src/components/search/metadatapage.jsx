@@ -192,17 +192,21 @@ const MetaDataPage = (props) => {
                             url=imgUrlsTIFF[0].url;
                         }
                     }
-
+                    
+                    console.log(isRCMARD);
+                    console.log(isDatacube);
+                    console.log(hasImage);
                     if((isRCMARD || isDatacube) && hasImage){
+                        console.log("trying to load tile");
                         axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
-                            //console.log(res);
+                            console.log(res);
                             const centers=res.data.center;
                             setCogCenter(new LatLng(centers[1], centers[0]));
                             setCogZoom(centers[2]);
                             const imageBounds = L.latLngBounds([[res.data.bounds[3], res.data.bounds[2]],[res.data.bounds[1], res.data.bounds[0]]]);
                             setCogBounds(imageBounds);
                             axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {params: {url, unscale: 'false', resampling:'nearest', max_size: '1024', categorical: 'false'}}).then((res2)=>{
-                                //console.log(res2);
+                                /console.log(res2);
                                 const min=res2.data.b1.min;
                                 const max=res2.data.b1.max;
                                 setTileServiceUrl(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`);
