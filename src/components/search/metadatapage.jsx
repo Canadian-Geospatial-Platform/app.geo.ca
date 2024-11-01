@@ -190,14 +190,22 @@ const MetaDataPage = (props) => {
                     const isDatacube=imageUrls.length>0 && res.sourceSystemName.toLowerCase().indexOf("ccmeo-datacube")>=0;
                     if (isSentinel1) setTileServiceUrl(null);
                     const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;
-                    if(imageUrls.length>0){
+                    if (isSentinel1 && imageUrls.length > 0) {
+                        // Set URL to load the thumbnail image
                         let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
                         let orbitDirection = res.eoFilters[0]?.orbitState;
-                        url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
-                        //handling if image is type tiff
-                        let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
-                        if(imgUrlsTIFF.length>0){
-                            url=imgUrlsTIFF[0].url;
+                        url = thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
+                    }
+                    else if ((isRCMARD || isDatacube) && imageUrls.length > 0) {
+                        // Set URL to load the COG geotiff
+                        let imgUrlsTIFF = imageUrls.filter(o => (
+                            o.description.en.toLowerCase().indexOf("data;tiff;") >= 0 || 
+                            o.description.en.toLowerCase().indexOf("image/tiff") >= 0 ||
+                            o.description.en.toLowerCase().indexOf("application/geotiff") >= 0
+                        ));
+                        
+                        if (imgUrlsTIFF.length > 0) {
+                            url = imgUrlsTIFF[0].url;
                         }
                     }
                     console.log(imageUrls);
