@@ -206,7 +206,7 @@ const MetaDataPage = (props) => {
                             const imageBounds = L.latLngBounds([[res.data.bounds[3], res.data.bounds[2]],[res.data.bounds[1], res.data.bounds[0]]]);
                             setCogBounds(imageBounds);
                             axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {params: {url, unscale: 'false', resampling:'nearest', max_size: '1024', categorical: 'false'}}).then((res2)=>{
-                                /console.log(res2);
+                                console.log(res2);
                                 const min=res2.data.b1.min;
                                 const max=res2.data.b1.max;
                                 setTileServiceUrl(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`);
