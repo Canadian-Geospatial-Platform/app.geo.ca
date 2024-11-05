@@ -261,7 +261,7 @@ const GeoSearch = (
                     // GEO.ca record
                     const zoomLevel = map.getZoom();
                     // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
-                    const longitudeOffset = 5 * (zoomLevel / 10); // Adjust this formula for better control
+                    const longitudeOffset = 10 * (zoomLevel / 10); // Adjust this formula for better control
 
                     // Adjust the center after the map is set
                     console.log("ELSE1")
@@ -274,6 +274,7 @@ const GeoSearch = (
                     const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
 
                     // Set the view with the new center and zoom level
+					map.fitBounds(bounds);
                     map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
                     //setMapView(center, bounds);
                 }                
@@ -293,8 +294,9 @@ const GeoSearch = (
                 const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
 
                 // Set the view with the new center and zoom level
+				map.fitBounds(bounds);
                 map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
-                setMapView(center, bounds);
+                //setMapView(center, bounds);
             }          
         }
     };
