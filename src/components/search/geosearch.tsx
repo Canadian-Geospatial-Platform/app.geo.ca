@@ -250,7 +250,7 @@ const GeoSearch = (
                             var layer=new L.TileLayer(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`, {bounds:imageBounds, zIndex:9999});
                             map.addLayer(layer);
                             //console.log('added', layer);
-                            map.setView(new LatLng(centers[1], centers[0]), centers[2]);                                                                             
+                            map.setView(new LatLng(centers[1], centers[0]), centers[2]);
                         });
                     }).catch(err=>{
                         console.log('tilejson', err);
@@ -274,8 +274,7 @@ const GeoSearch = (
                     const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
 
                     // Set the view with the new center and zoom level
-					map.fitBounds(bounds);
-                    map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
+                    map.setView(adjustedCenter, map.getZoom());
                     //setMapView(center, bounds);
                 }                
             } else{
@@ -291,18 +290,17 @@ const GeoSearch = (
                 console.log(longitudeOffset)
                 console.log(zoomLevel)
                 
-                const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
+                const adjustedCenter = new LatLng(center.lat, center.lng - longitudeOffset);
 
                 // Set the view with the new center and zoom level
-				map.fitBounds(bounds);
-                map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
+                map.setView(adjustedCenter, map.getZoom());
                 //setMapView(center, bounds);
             }          
         }
     };
 
     const setMapView=(center, bounds)=>{
-        map.fitBounds(bounds);
+        //map.fitBounds(bounds);
         setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
     }
 
