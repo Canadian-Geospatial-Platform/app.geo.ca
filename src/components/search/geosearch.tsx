@@ -214,9 +214,15 @@ const GeoSearch = (
                     //map.fitBounds(bounds);
                     const zoomLevel = map.getZoom();
                     // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
-                    const longitudeOffset = 0.004 * (zoomLevel / 10); // Adjust this formula for better control
+                    const longitudeOffset = 0.5 * (zoomLevel / 10); // Adjust this formula for better control
 
                     // Adjust the center after the map is set
+                    console.log(center.lat)
+                    console.log(center.lng )
+                    console.log(longitudeOffset)
+                    console.log(zoomLevel)
+                    
+                    
                     const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
 
                     // Set the view with the new center and zoom level
