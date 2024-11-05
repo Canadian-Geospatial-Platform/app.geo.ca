@@ -213,7 +213,7 @@ const GeoSearch = (
                     setImage(image);
                     //map.fitBounds(bounds);
                     //map.setView(center, map.getZoom());
-                    map.fitBounds(bounds, {padding: [50,50]});
+                    map.fitBounds(bounds, {padding: [50,400]});
             
                     setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);   
                  }else if(imageUrls.length>0 && (result.keywords.toLowerCase().indexOf("stac")>=0
