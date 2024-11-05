@@ -230,7 +230,7 @@ const GeoSearch = (
                     //map.setView(center, map.getZoom());
                     //map.fitBounds(bounds, {padding: [50,400]});
             
-                    setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);   
+                    //setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);   
                  }else if(imageUrls.length>0 && (result.keywords.toLowerCase().indexOf("stac")>=0
                     || (thumbnailConfig['eodms_use_image']===false && result.systemName && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'))){                
                     let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
@@ -258,9 +258,42 @@ const GeoSearch = (
                     });
                     
                 }else{
-                    setMapView(center, bounds);
+                    // GEO.ca record
+                    const zoomLevel = map.getZoom();
+                    // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
+                    const longitudeOffset = 0.5 * (zoomLevel / 10); // Adjust this formula for better control
+
+                    // Adjust the center after the map is set
+                    console.log("ELSE1")
+                    console.log(center.lat)
+                    console.log(center.lng )
+                    console.log(longitudeOffset)
+                    console.log(zoomLevel)
+                    
+                    
+                    const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
+
+                    // Set the view with the new center and zoom level
+                    map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
+                    //setMapView(center, bounds);
                 }                
             } else{
+                // GEO.ca record
+                const zoomLevel = map.getZoom();
+                // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
+                const longitudeOffset = 0.5 * (zoomLevel / 10); // Adjust this formula for better control
+
+                // Adjust the center after the map is set
+                console.log("ELSE2")
+                console.log(center.lat)
+                console.log(center.lng )
+                console.log(longitudeOffset)
+                console.log(zoomLevel)
+                
+                const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
+
+                // Set the view with the new center and zoom level
+                map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
                 setMapView(center, bounds);
             }          
         }
