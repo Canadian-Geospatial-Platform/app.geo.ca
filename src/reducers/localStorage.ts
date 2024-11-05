@@ -25,7 +25,9 @@ export const loadState = (): StoreEnhancer<unknown, unknown> | undefined => {
         // Check if the session has expired (5 minutes timeout)
         const currentTime = new Date().getTime();
         if (currentTime - parseInt(savedTime) > SESSION_TIMEOUT) {
+            console.log("NEW_SESSION_STARTED")
             localStorage.clear(); // Invalidate state if session expired
+            localStorage.setItem('stateTimestamp', currentTime);
             return undefined;
         }
         
