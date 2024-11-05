@@ -212,8 +212,17 @@ const GeoSearch = (
                     const image=L.imageOverlay(url, bounds, {opacity: 1}).addTo(map);
                     setImage(image);
                     //map.fitBounds(bounds);
+                    const zoomLevel = map.getZoom();
+                    // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
+                    const longitudeOffset = 0.004 * (zoomLevel / 10); // Adjust this formula for better control
+
+                    // Adjust the center after the map is set
+                    const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
+
+                    // Set the view with the new center and zoom level
+                    map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
                     //map.setView(center, map.getZoom());
-                    map.fitBounds(bounds, {padding: [50,400]});
+                    //map.fitBounds(bounds, {padding: [50,400]});
             
                     setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);   
                  }else if(imageUrls.length>0 && (result.keywords.toLowerCase().indexOf("stac")>=0
