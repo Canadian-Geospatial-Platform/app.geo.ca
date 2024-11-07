@@ -262,18 +262,14 @@ const GeoSearch = (
                     //const zoomLevel = map.getZoom();
                     // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
                     const longitudeOffset = 100 * (zoomLevel / 10); // Adjust this formula for better control
-
+                    const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
+                    const zoomLevel = map.getBoundsZoom(bounds);
                     // Adjust the center after the map is set
                     console.log("ELSE1")
                     console.log(center.lat)
-                    console.log(center.lng )
+                    console.log(center.lng)
                     console.log(longitudeOffset)
                     console.log(zoomLevel)
-                    
-                    
-                    const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
-					const zoomLevel = map.getBoundsZoom(bounds);
-
                     // Set the view with the new center and zoom level
                     map.setView(adjustedCenter, zoomLevel);
                     //setMapView(center, bounds);
@@ -282,18 +278,15 @@ const GeoSearch = (
                 // GEO.ca record
                 //const zoomLevel = map.getZoom();
                 // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
-                const longitudeOffset = 0.5 * (zoomLevel / 10); // Adjust this formula for better control
-
+                const longitudeOffset = 100 * (zoomLevel / 10); // Adjust this formula for better control
+                const adjustedCenter = new LatLng(center.lat, center.lng + longitudeOffset);
+                const zoomLevel = map.getBoundsZoom(bounds);
                 // Adjust the center after the map is set
                 console.log("ELSE2")
                 console.log(center.lat)
-                console.log(center.lng )
+                console.log(center.lng)
                 console.log(longitudeOffset)
                 console.log(zoomLevel)
-                
-                const adjustedCenter = new LatLng(center.lat, center.lng - longitudeOffset);
-				const zoomLevel = map.getBoundsZoom(bounds);
-
                 // Set the view with the new center and zoom level
                 map.setView(adjustedCenter, zoomLevel);
                 //setMapView(center, bounds);
