@@ -276,8 +276,8 @@ const GeoSearch = (
                     //console.log(newCenter.lat)
                     //console.log(newCenter.lng)
                     // Set the view with the new center and zoom level
-                    map.fitBounds(bounds);
-                    map.setView(adjustedCenter, bounds);
+                    //map.fitBounds(bounds);
+                    //map.setView(adjustedCenter, bounds);
                     //setMapView(center, bounds);
                 }                
             } else{
@@ -301,7 +301,7 @@ const GeoSearch = (
     };
 
     const setMapView=(center, bounds)=>{
-        //map.fitBounds(bounds);
+        map.fitBounds(bounds);
         setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
     }
 
