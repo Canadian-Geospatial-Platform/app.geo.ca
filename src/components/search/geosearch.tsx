@@ -188,7 +188,7 @@ const GeoSearch = (
             }
             analyticPost(selectedParams);
             // eslint-disable-next-line new-cap
-            new L.geoJSON(data).addTo(map);
+
             
             const center=new LatLng((coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2);
             const bounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
@@ -209,7 +209,7 @@ const GeoSearch = (
                     if(imgUrlsTIFF.length>0){
                         url=imgUrlsTIFF[0].url;
                     }
-                    const image=L.imageOverlay(url, bounds, {opacity: 1}).addTo(map);
+                    const image=L.imageOverlay(url, bounds, {opacity:.75}).addTo(map);
                     setImage(image);
                     const zoomLevel = map.getZoom();
                     // Adjust the center after the map is set
@@ -251,28 +251,8 @@ const GeoSearch = (
                     
                 }else{
                     // GEO.ca record
-                    //const zoomLevel = map.getZoom();
-                    // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
-                    //const sidebarWidth = -500;
-                    //const zoomLevel = map.getBoundsZoom(bounds);
-                    //const longitudeOffset = 100 * (zoomLevel / 10); // Adjust this formula for better control
-                    const centers=res.data.center;
-                    console.log(centers)
-                    map.setView(new LatLng(centers[1], centers[0]), centers[2]);
-                    //const offsetPoint = map.latLngToContainerPoint(adjustedCenter).add([sidebarWidth, 0]);
-                    //const newCenter = map.containerPointToLatLng(offsetPoint);
-                    // Adjust the center after the map is set
-                    //console.log("ELSE1")
-                    //console.log(center.lat)
-                    //console.log(center.lng)
-                    //console.log(longitudeOffset)
-                    //console.log(zoomLevel)
-                    //console.log(newCenter.lat)
-                    //console.log(newCenter.lng)
-                    // Set the view with the new center and zoom level
-                    //map.fitBounds(bounds);
-                    //map.setView(adjustedCenter, bounds);
-                    //setMapView(center, bounds);
+                    setMapView(center, bounds);
+                    new L.geoJSON(data).addTo(map);
                 }                
             } else{
                 setMapView(center, bounds);
