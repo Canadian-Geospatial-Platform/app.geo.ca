@@ -261,7 +261,7 @@ const GeoSearch = (
                     // GEO.ca record
                     //const zoomLevel = map.getZoom();
                     // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
-                    const sidebarWidth = 500;
+                    const sidebarWidth = -500;
                     const zoomLevel = map.getBoundsZoom(bounds);
                     const longitudeOffset = 100 * (zoomLevel / 10); // Adjust this formula for better control
                     const adjustedCenter = new LatLng(center.lat, center.lng)
