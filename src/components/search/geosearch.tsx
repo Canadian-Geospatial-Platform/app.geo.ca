@@ -272,7 +272,7 @@ const GeoSearch = (
                     console.log(center.lat)
                     console.log(center.lng)
                     //console.log(longitudeOffset)
-                    console.log(zoomLevel)
+                    //console.log(zoomLevel)
                     //console.log(newCenter.lat)
                     //console.log(newCenter.lng)
                     // Set the view with the new center and zoom level
