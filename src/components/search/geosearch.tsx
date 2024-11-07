@@ -301,7 +301,7 @@ const GeoSearch = (
     };
 
     const setMapView=(center, bounds)=>{
-        map.fitBounds(bounds);
+        //map.fitBounds(bounds);
         setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
     }
 
