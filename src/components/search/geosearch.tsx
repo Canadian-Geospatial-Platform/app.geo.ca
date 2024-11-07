@@ -211,20 +211,12 @@ const GeoSearch = (
                     }
                     const image=L.imageOverlay(url, bounds, {opacity: 1}).addTo(map);
                     setImage(image);
-                    //map.fitBounds(bounds);
                     const zoomLevel = map.getZoom();
-                    // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
-                    const longitudeOffset = 0.5 * (zoomLevel / 10); // Adjust this formula for better control
-
                     // Adjust the center after the map is set
                     console.log(center.lat)
                     console.log(center.lng )
-                    console.log(longitudeOffset)
                     console.log(zoomLevel)
-                    
-                    
-                    const adjustedCenter = new LatLng(center.lat, center.lng - longitudeOffset);
-
+                    const adjustedCenter = new LatLng(center.lat, center.lng);
                     // Set the view with the new center and zoom level
                     map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
                     //map.setView(center, map.getZoom());
@@ -310,7 +302,7 @@ const GeoSearch = (
         const cardOpen = selected === event ? !open : true;
         setFootprintViewed(cardOpen);
         const result =
-            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;        
+            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;
         setSelected(event);
         setOpen(cardOpen);
         selectResult(result);
