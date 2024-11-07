@@ -218,8 +218,8 @@ const GeoSearch = (
                     console.log(zoomLevel)
                     const adjustedCenter = new LatLng(center.lat, center.lng);
                     // Set the view with the new center and zoom level
-                    map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
-                    //map.setView(center, map.getZoom());
+                    //map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
+                    map.setView(center, map.getZoom());
                     //map.fitBounds(bounds, {padding: [50,400]});
             
                     //setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);   
@@ -246,7 +246,7 @@ const GeoSearch = (
                         });
                     }).catch(err=>{
                         console.log('tilejson', err);
-                        setMapView(center, bounds);    
+                        setMapView(center, bounds);
                     });
                     
                 }else{
@@ -256,13 +256,15 @@ const GeoSearch = (
                     //const sidebarWidth = -500;
                     //const zoomLevel = map.getBoundsZoom(bounds);
                     //const longitudeOffset = 100 * (zoomLevel / 10); // Adjust this formula for better control
-                    const adjustedCenter = new LatLng(center.lat, center.lng)
+                    const centers=res.data.center;
+                    console.log(centers)
+                    map.setView(new LatLng(centers[1], centers[0]), centers[2]);
                     //const offsetPoint = map.latLngToContainerPoint(adjustedCenter).add([sidebarWidth, 0]);
                     //const newCenter = map.containerPointToLatLng(offsetPoint);
                     // Adjust the center after the map is set
-                    console.log("ELSE1")
-                    console.log(center.lat)
-                    console.log(center.lng)
+                    //console.log("ELSE1")
+                    //console.log(center.lat)
+                    //console.log(center.lng)
                     //console.log(longitudeOffset)
                     //console.log(zoomLevel)
                     //console.log(newCenter.lat)
@@ -273,27 +275,13 @@ const GeoSearch = (
                     //setMapView(center, bounds);
                 }                
             } else{
-                // GEO.ca record
-                //const zoomLevel = map.getZoom();
-                // Calculate a more appropriate longitude offset for Canada (scale it based on zoom level)
-                const zoomLevel = map.getBoundsZoom(bounds);
-                const longitudeOffset = 100 * (zoomLevel / 10); // Adjust this formula for better control
-                const adjustedCenter = new LatLng(center.lat, center.lng);
-                // Adjust the center after the map is set
-                console.log("ELSE2")
-                console.log(center.lat)
-                console.log(center.lng)
-                console.log(longitudeOffset)
-                console.log(zoomLevel)
-                // Set the view with the new center and zoom level
-                map.setView(adjustedCenter, zoomLevel);
-                //setMapView(center, bounds);
+                setMapView(center, bounds);
             }          
         }
     };
 
     const setMapView=(center, bounds)=>{
-        //map.fitBounds(bounds);
+        map.fitBounds(bounds);
         setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
     }
 
