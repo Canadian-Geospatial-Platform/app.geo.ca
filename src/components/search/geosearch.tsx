@@ -251,8 +251,8 @@ const GeoSearch = (
                     // GEO.ca record
                     //map.setView(center, map.getZoom());
                     //setMapView(center, bounds);
-                    console.log(L.geoJSON(data).getBounds())
-                    map.fitBounds(L.geoJSON(data).getBounds(), { padding: [50, 50] });
+                    const padding = window.innerWidth < 768 ? [20, 20] : [300, 50];
+                    map.fitBounds(L.geoJSON(data).getBounds(), { paddingTopLeft: [padding[0], padding[1]], paddingBottomRight: [50, 50] });
                     setTimeout(() => {
                         new L.geoJSON(data).addTo(map);
                     }, 200);
