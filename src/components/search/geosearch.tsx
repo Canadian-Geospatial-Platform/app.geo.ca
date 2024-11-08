@@ -249,8 +249,9 @@ const GeoSearch = (
                     
                 }else{
                     // GEO.ca record
-                    map.setView(center, map.getZoom());
+                    //map.setView(center, map.getZoom());
                     //setMapView(center, bounds);
+                    map.fitBounds(L.geoJSON(data).getBounds();, { padding: [50, 50] });
                     new L.geoJSON(data).addTo(map);
                 }
             } else{
