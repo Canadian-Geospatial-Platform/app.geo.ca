@@ -253,9 +253,9 @@ const GeoSearch = (
                     //setMapView(center, bounds);
                     const padding = window.innerWidth < 768 ? [20, 20] : [50, 300];
                     map.fitBounds(L.geoJSON(data).getBounds(), { paddingTopLeft: [padding[0], padding[1]], paddingBottomRight: [50, 50] });
+                    map.panBy([-250, 0]);
                     setTimeout(() => {
                         new L.geoJSON(data).addTo(map);
-                        map.panBy([-300, 0]);
                     }, 200);
                 }
             } else{
