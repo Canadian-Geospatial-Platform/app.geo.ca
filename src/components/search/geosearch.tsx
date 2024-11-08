@@ -209,7 +209,7 @@ const GeoSearch = (
                     if(imgUrlsTIFF.length>0){
                         url=imgUrlsTIFF[0].url;
                     }
-                    const image=L.imageOverlay(url, bounds, {opacity:.75}).addTo(map);
+                    const image=L.imageOverlay(url, bounds, {opacity:1}).addTo(map);
                     setImage(image);
                     const zoomLevel = map.getZoom();
                     // Adjust the center after the map is set
@@ -221,18 +221,16 @@ const GeoSearch = (
                     //map.setView(adjustedCenter, map.getZoom() > 5 ? map.getZoom() - 1 : map.getZoom());
                     map.setView(center, map.getZoom());
                     //map.fitBounds(bounds, {padding: [50,400]});
-            
                     //setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);   
                  }else if(imageUrls.length>0 && (result.keywords.toLowerCase().indexOf("stac")>=0
-                    || (thumbnailConfig['eodms_use_image']===false && result.systemName && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'))){                
+                    || (thumbnailConfig['eodms_use_image']===false && result.systemName && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'))){
+                    //code for titiler
                     let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
                     let url=imageUrls[0].url;
                     if(imgUrls.length>0){
                         url=imgUrls[0].url;
                     }
-                    
                     axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
-                        //console.log(res);
                         const centers=res.data.center;
                         const imageBounds = L.latLngBounds([[res.data.bounds[3], res.data.bounds[2]],[res.data.bounds[1], res.data.bounds[0]]]);
                         axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {params: {url, unscale: 'false', resampling:'nearest', max_size: '1024', categorical: 'false'}}).then((res2)=>{
@@ -251,18 +249,21 @@ const GeoSearch = (
                     
                 }else{
                     // GEO.ca record
-                    setMapView(center, bounds);
+                    map.setView(center, map.getZoom());
+                    //setMapView(center, bounds);
                     new L.geoJSON(data).addTo(map);
-                }                
+                }
             } else{
+                map.setView(center, map.getZoom());
                 setMapView(center, bounds);
-            }          
+                new L.geoJSON(data).addTo(map);
+            }
         }
     };
 
     const setMapView=(center, bounds)=>{
-        map.fitBounds(bounds);
-        setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
+        //map.fitBounds(bounds);
+        //setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
     }
 
     const handleSelect = (event: string) => {
