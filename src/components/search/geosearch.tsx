@@ -251,11 +251,11 @@ const GeoSearch = (
                     // GEO.ca record
                     //map.setView(center, map.getZoom());
                     //setMapView(center, bounds);
-                    const padding = window.innerWidth < 768 ? [20, 20] : [300, 50];
+                    const padding = window.innerWidth < 768 ? [20, 20] : [50, 300];
                     map.fitBounds(L.geoJSON(data).getBounds(), { paddingTopLeft: [padding[0], padding[1]], paddingBottomRight: [50, 50] });
                     setTimeout(() => {
                         new L.geoJSON(data).addTo(map);
-                        map.panBy([300, 0]);
+                        map.panBy([0, 300]);
                     }, 200);
                 }
             } else{
