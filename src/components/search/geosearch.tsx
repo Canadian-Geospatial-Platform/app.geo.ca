@@ -255,7 +255,7 @@ const GeoSearch = (
                     map.fitBounds(L.geoJSON(data).getBounds(), { paddingTopLeft: [padding[0], padding[1]], paddingBottomRight: [50, 50] });
                     setTimeout(() => {
                         new L.geoJSON(data).addTo(map);
-                        map.panBy([0, 300]);
+                        map.panBy([-300, 0]);
                     }, 200);
                 }
             } else{
