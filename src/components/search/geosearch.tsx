@@ -154,6 +154,8 @@ const GeoSearch = (
     const resetMapToInitialState = () => {
         if (initialCenter && initialZoom !== null) {
             // Reset the map view to the initial center and zoom
+            console.log(initialCenter);
+            console.log(initialZoom);
             map.setView(initialCenter, initialZoom);
         }
     };
@@ -282,9 +284,10 @@ const GeoSearch = (
                     // GEO.ca record
                     //map.setView(center, map.getZoom());
                     //setMapView(center, bounds);
-                    const padding = window.innerWidth < 768 ? [20, 20] : [50, 50];
-                    map.fitBounds(L.geoJSON(data).getBounds(), { paddingTopLeft: [padding[0], padding[1]], paddingBottomRight: [50, 50] });
-                    map.panBy([-250, 0]);
+                    //const padding = window.innerWidth < 768 ? [20, 20] : [50, 50];
+                    map.fitBounds(L.geoJSON(data).getBounds());
+                    console.log(L.geoJSON(data).getBounds());
+                    map.panBy([0, 0]);
                     setTimeout(() => {
                         new L.geoJSON(data).addTo(map);
                     }, 200);
@@ -1040,7 +1043,7 @@ const GeoSearch = (
     };
     const isMobile = useMediaQuery('(max-width: 760px)');
     useEffect(() => {
-        // console.log(freeze);
+        console.log(freeze);
         if (!freeze.freeze) {
             map.on('moveend', (event) => eventHandler(event, initKeyword));
         } else {
