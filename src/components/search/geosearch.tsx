@@ -283,11 +283,11 @@ const GeoSearch = (
                 }else{
                     // GEO.ca record
                     //map.setView(center, map.getZoom());
-                    //setMapView(center, bounds);
+                    setMapView(center, bounds);
                     //const padding = window.innerWidth < 768 ? [20, 20] : [50, 50];
-                    map.fitBounds(L.geoJSON(data).getBounds());
-                    console.log(L.geoJSON(data).getBounds());
-                    map.panBy([0, 0]);
+                    //map.fitBounds(L.geoJSON(data).getBounds());
+                    //console.log(L.geoJSON(data).getBounds());
+                    //map.panBy([0, 0]);
                     setTimeout(() => {
                         new L.geoJSON(data).addTo(map);
                     }, 200);
@@ -302,7 +302,7 @@ const GeoSearch = (
 
     const setMapView=(center, bounds)=>{
         //map.fitBounds(bounds);
-        //setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
+        setTimeout(()=>map.setView(center, map.getZoom()>5?4), 200);
     }
 
     const handleSelect = (event: string) => {
