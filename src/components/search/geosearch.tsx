@@ -301,11 +301,15 @@ const GeoSearch = (
         }
     };
 
-    const setMapView=(center, bounds)=>{
-        console.log(map.getBoundsZoom(bounds, true));
-        //map.fitBounds(bounds);
-        setTimeout(()=>map.setView(center, map.getZoom()>4?4:map.getZoom()), 200);
-    }
+    const setMapView = (center, bounds) => {
+        const bestZoom = map.getBoundsZoom(bounds, true);
+        if (bestZoom > 8) {
+            map.fitBounds(bounds);
+        } else {
+            // Set a minimum zoom level of 4
+            setTimeout(() => map.setView(center, Math.max(4, map.getZoom())), 200);
+        }
+    };
 
     const handleSelect = (event: string) => {
         // const {selectResult} = this.props;
