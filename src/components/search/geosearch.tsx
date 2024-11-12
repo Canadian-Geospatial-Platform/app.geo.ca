@@ -161,6 +161,7 @@ const GeoSearch = (
     };
 
     const selectResult = (result: SearchResult | undefined) => {
+        map.setMinZoom(4);
         resetMapToInitialState();
         if(image!==null){            
             map.removeLayer(image);
@@ -301,6 +302,7 @@ const GeoSearch = (
     };
 
     const setMapView=(center, bounds)=>{
+        console.log(const zoom = map.getBoundsZoom(bounds, true));
         //map.fitBounds(bounds);
         setTimeout(()=>map.setView(center, map.getZoom()>4?4:map.getZoom()), 200);
     }
