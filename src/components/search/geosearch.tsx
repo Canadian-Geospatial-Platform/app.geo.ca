@@ -302,7 +302,7 @@ const GeoSearch = (
 
     const setMapView=(center, bounds)=>{
         //map.fitBounds(bounds);
-        setTimeout(()=>map.setView(center, map.getZoom()>5?4), 200);
+        setTimeout(()=>map.setView(center, map.getZoom()>4?4:map.getZoom()), 200);
     }
 
     const handleSelect = (event: string) => {
