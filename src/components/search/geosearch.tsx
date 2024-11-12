@@ -122,6 +122,8 @@ const GeoSearch = (
     const [ofOpen, setOfOpen] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
     const [sortbyValue, setSortbyValue] = useState(queryParams.sort ? queryParams.sort : 'popularity-desc');
+    const [initialCenter, setInitialCenter] = useState<LatLng | null>(null);
+    const [initialZoom, setInitialZoom] = useState<number | null>(null);
     /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
     const themefilters = useSelector((state) => state.mappingReducer.themefilter);
@@ -148,13 +150,16 @@ const GeoSearch = (
             }
         });
     };  
+    
+    const resetMapToInitialState = () => {
+        if (initialCenter && initialZoom !== null) {
+            // Reset the map view to the initial center and zoom
+            map.setView(initialCenter, initialZoom);
+        }
+    };
 
-const canadaBounds = [
-    [41.675105, -141.002875], // Southwest corner of Canada
-    [83.113789, -52.6368]     // Northeast corner of Canada
-];
     const selectResult = (result: SearchResult | undefined) => {
-        map.fitBounds(canadaBounds, { padding: [50, 50] });
+        resetMapToInitialState();
         if(image!==null){            
             map.removeLayer(image);
             setImage(null);
@@ -277,7 +282,7 @@ const canadaBounds = [
                     // GEO.ca record
                     //map.setView(center, map.getZoom());
                     //setMapView(center, bounds);
-                    const padding = window.innerWidth < 768 ? [20, 20] : [50, 300];
+                    const padding = window.innerWidth < 768 ? [20, 20] : [50, 50];
                     map.fitBounds(L.geoJSON(data).getBounds(), { paddingTopLeft: [padding[0], padding[1]], paddingBottomRight: [50, 50] });
                     map.panBy([-250, 0]);
                     setTimeout(() => {
