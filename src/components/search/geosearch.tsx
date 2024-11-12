@@ -128,7 +128,33 @@ const GeoSearch = (
     const foundational = useSelector((state) => state.mappingReducer.foundational);
     const dispatch = useDispatch(); */
 
+    const removeLayers = () => {
+        map.eachLayer((layer: unknown) => {
+            // Check for layers with zIndex 9999
+            if (layer.options && layer.options.zIndex === 9999) {
+                map.removeLayer(layer);
+                return; // Exit early as layer is already removed
+            }
+
+            // Check for layers with geoJSON feature properties
+            const { feature } = layer;
+            if (
+                feature &&
+                feature.type === 'Feature' &&
+                feature.properties &&
+                feature.properties.tag === 'geoViewGeoJSON'
+            ) {
+                map.removeLayer(layer);
+            }
+        });
+    };  
+
+const canadaBounds = [
+    [41.675105, -141.002875], // Southwest corner of Canada
+    [83.113789, -52.6368]     // Northeast corner of Canada
+];
     const selectResult = (result: SearchResult | undefined) => {
+        map.fitBounds(canadaBounds, { padding: [50, 50] });
         if(image!==null){            
             map.removeLayer(image);
             setImage(null);
@@ -1385,17 +1411,21 @@ const GeoSearch = (
             )}
             <div className="container-fluid container-results" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
                 {cnt > 0 && (!loading || cpn) && (
-                    <Pagination
+                    <Pagination 
                         rpp={rpp}
                         ppg={ppg}
                         rcnt={cnt}
                         current={pn}
                         loading={loading}
-                        selectPage={
-                            ksOnly
-                                ? (pnum: number) => handleKOSearch(initKeyword, pnum)
-                                : (pnum: number) => handleSearch(initKeyword, initBounds, pnum)
-                        }
+                        selectPage={(pnum: number) => {
+                            removeLayers();
+                            
+                            if (ksOnly) {
+                                handleKOSearch(initKeyword, pnum);
+                            } else {
+                                handleSearch(initKeyword, initBounds, pnum);
+                            }
+                        }}
                     />
                 )}
                 {loading ? (
@@ -1591,11 +1621,15 @@ const GeoSearch = (
                         rcnt={cnt}
                         current={pn}
                         loading={loading}
-                        selectPage={
-                            ksOnly
-                                ? (pnum: number) => handleKOSearch(initKeyword, pnum)
-                                : (pnum: number) => handleSearch(initKeyword, initBounds, pnum)
-                        }
+                        selectPage={(pnum: number) => {
+                            removeLayers();
+                            
+                            if (ksOnly) {
+                                handleKOSearch(initKeyword, pnum);
+                            } else {
+                                handleSearch(initKeyword, initBounds, pnum);
+                            }
+                        }}
                     />
                 )}
             </div>
