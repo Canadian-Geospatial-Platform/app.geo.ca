@@ -56,7 +56,7 @@ export default function EoSearchFilter(props: EoSearchProps): JSX.Element {
                 onSelect={handlePolarizationChange}
                 tooltip
                 tooltipTitle='filter.label.eofilter.polarization-tooltip'
-            />  
+            />
             <DropdownSelection
                 label="filter.label.eofilter.orbit"
                 options={orbitOptions}

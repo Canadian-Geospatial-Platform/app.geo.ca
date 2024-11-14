@@ -117,7 +117,8 @@
                 "data-collection-tooltip":"",
                 "polarization-tooltip":"Determines with which polarisation the data was acquired. The first letter indicates the polarisation when sending the signal, the second letter when receiving the signal, e.g., HV = horizontal polarisation when sending the signal and vertical polarisation when receiving. <br/>Data can be acquired in single polarisation HH (SH) or VV (SV) or in dual polarisation HH&HV (DH) or VV&VH (DV), depending on the instrument mode. <br/>SM, IW and EW can be acquired in single or dual polarisation. WV can only be acquired in single polarisation.",
                 "orbit-tooltip":"Determines whether the data was recorded during a descending orbit (flight direction: north - south) or an ascending orbit (flight direction: south - north).",
-                "sentinel-1-tooltip":"<Strong>Sentinel-1</Strong> provides all-weather, day and night radar imagery for land and ocean services. <br/>EO Browser provides data acquired in Interferometric Wide Swath (IW) and Extra Wide Swath (EW) modes processed to Level-1 Ground Range Detected (GRD)."
+                "sentinel-1-tooltip":"<Strong>Sentinel-1</Strong> provides all-weather, day and night radar imagery for land and ocean services. <br/>EO Browser provides data acquired in Interferometric Wide Swath (IW) and Extra Wide Swath (EW) modes processed to Level-1 Ground Range Detected (GRD).",
+                "rcm-ard-tooltip":"<Strong>Radarsat Constellation Mission (RCM) - Analysis Ready Data (ARD) </Strong> includes a trio of Earth observation satellites, capable of scanning Earth day or night and in any weather conditions. The three-satellite configuration allows for daily revisits of Canada's vast territory and maritime approaches, as well as daily access to 90% of the world's surface and the Arctic up to four times a day."
             }
         }
     },
