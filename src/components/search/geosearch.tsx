@@ -307,7 +307,7 @@ const GeoSearch = (
             map.fitBounds(bounds);
         } else {
             // Set a minimum zoom level of 4
-            setTimeout(() => map.setView(center, Math.max(4, map.getZoom())), 200);
+            setTimeout(() => map.setView(center, Math.min(4, map.getZoom())), 200);
         }
     };
 
