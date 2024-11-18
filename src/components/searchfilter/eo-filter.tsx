@@ -71,6 +71,33 @@ export default function EoSearchFilter(props: EoSearchProps): JSX.Element {
             />  
             </div>
            ) }
+           { dataCollection === 'rcm-ard' && (<div className="rcm-ard">
+            <DropdownSelection  
+                label="filter.label.eofilter.polarization"
+                options={polarizationOptions}
+                labelClassName="dropdown-select-label"
+                selectClassName="dropdown-select"
+                optionClassName="dropdown-select-option"
+                iconClassName="dropdown-select-icon"
+                defaultValue={polarization}
+                onSelect={handlePolarizationChange}
+                tooltip
+                tooltipTitle='filter.label.eofilter.polarization-tooltip'
+            />
+            <DropdownSelection
+                label="filter.label.eofilter.orbit"
+                options={orbitOptions}
+                labelClassName="dropdown-select-label"
+                selectClassName="dropdown-select"
+                optionClassName="dropdown-select-option"
+                iconClassName="dropdown-select-icon"
+                defaultValue={orbit}
+                onSelect={handleOrbitChange}
+                tooltip
+                tooltipTitle='filter.label.eofilter.orbit-tooltip'
+            />  
+            </div>
+           ) }
             </div>
     );
 }
