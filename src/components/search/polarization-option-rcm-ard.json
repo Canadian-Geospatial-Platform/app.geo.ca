@@ -1,0 +1,14 @@
+[
+    {
+        "label": "polarization.DEFAULT",
+        "value": ""
+    },
+    {
+        "label": "polarization.CHCV",
+        "value": "CH + CV"
+    },
+    {
+        "label": "polarization.HHHV",
+        "value": "HH + HV"
+    }
+]

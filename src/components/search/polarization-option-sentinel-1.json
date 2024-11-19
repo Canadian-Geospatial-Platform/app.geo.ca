@@ -1,0 +1,38 @@
+[
+    {
+        "label": "polarization.DEFAULT",
+        "value": ""
+    },
+    {
+        "label": "polarization.VV",
+        "value": "VV"
+    },
+    {
+        "label": "polarization.VVVH",
+        "value": "VV + VH"
+    },
+    {
+        "label": "polarization.HH",
+        "value": "HH"
+    },
+    {
+        "label": "polarization.HHHV",
+        "value": "HH + HV"
+    },
+    {
+        "label": "polarization.HHHVVHVV",
+        "value": "HH + HV + VH + VV"
+    },
+    {
+        "label": "polarization.HHVV",
+        "value": "HH + VV"
+    },
+    {
+        "label": "polarization.HV",
+        "value": "HV"
+    },
+    {
+        "label": "polarization.VH",
+        "value": "VH"
+    }
+]
