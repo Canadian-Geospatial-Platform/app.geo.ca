@@ -197,7 +197,7 @@ const GeoSearch = (
 
         if (result) {
             const coordinates=JSON.parse(result.coordinates);
-            const data = {
+            const geojson_data = {
                 type: 'Feature',
                 properties: { id: result.id, tag: 'geoViewGeoJSON' },
                 geometry: {
@@ -267,7 +267,7 @@ const GeoSearch = (
                     
                     // Draw the bounding box
                     setTimeout(() => {
-                        new L.geoJSON(data).addTo(map);
+                        new L.geoJSON(geojson_data).addTo(map);
                     }, 200);
                 } else if (
                     imageUrls.length > 0 &&
@@ -312,29 +312,33 @@ const GeoSearch = (
                                 { bounds: imageBounds, zIndex: 9999 }
                             );
                             //Add tile to map
-                            console.log("Adding tile to map");
+                            //console.log("Adding tile to map");
                             map.addLayer(layer);
                             map.setView(new LatLng(tileCenter[1], tileCenter[0]), tileCenter[2]);
                             setTimeout(() => {
-                                new L.geoJSON(data).addTo(map);
+                                new L.geoJSON(geojson_data).addTo(map);
                             }, 200);
                         })
                         .catch((err) => {
+                            //Handle errors in getting the Tile
                             console.error("TileJSON Error:", err);
                             setMapView(center, bounds);
+                            setTimeout(() => {
+                                new L.geoJSON(geojson_data).addTo(map);
+                            }, 200);
                         });
                 } else {
                     // Handle fallback GEO.ca record or default case
                     setMapView(center, bounds);
                     setTimeout(() => {
-                        new L.geoJSON(data).addTo(map);
+                        new L.geoJSON(geojson_data).addTo(map);
                     }, 200);
                 }
             } else {
                 // Default handling when no options are provided
                 setMapView(center, bounds);
                 setTimeout(() => {
-                    new L.geoJSON(data).addTo(map);
+                    new L.geoJSON(geojson_data).addTo(map);
                 }, 200);
             }
         }
