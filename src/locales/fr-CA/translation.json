@@ -309,7 +309,8 @@
         "HHHVVHVV":"HH+HV+VH+VV",
         "HHVV":"HH+VV",
         "HV": "HV",
-        "VH": "VH"
+        "VH": "VH",
+        "CHCV": "CH+CV"
     },
     "orbit": {
         "DEFAULT": "Tout afficher",

@@ -279,14 +279,17 @@ const GeoSearch = (
                     // Handle COG image rendering via tiling service
                     const tiffImages = getFilteredImageUrls(imageUrls, ["data;tiff;", "image/tiff"]);
                     const url = tiffImages.length > 0 ? tiffImages[0].url : imageUrls[0].url;
+                    let imageBounds;
+                    let tileCenter;
 
                     axios
                         .get(`${EnvGlobals.COG_TILEJSON_URL}`, { params: { url } })
                         .then((tileResponse) => {
-                            const { center: tileCenter, bounds: tileBounds } = tileResponse.data;
+                            const { center, bounds: tileBounds } = tileResponse.data;
+                            tileCenter = center;
 
                             // Parse tile bounds
-                            const imageBounds = L.latLngBounds([
+                            imageBounds = L.latLngBounds([
                                 [tileBounds[3], tileBounds[2]],
                                 [tileBounds[1], tileBounds[0]],
                             ]);
@@ -302,13 +305,14 @@ const GeoSearch = (
                             });
                         })
                         .then((statsResponse) => {
-                            const { min, max } = statsResponse.data.b1;
+                            const { min, percentile_98 } = statsResponse.data.b1;
 
                             const layer = new L.TileLayer(
-                                `${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min},${max}`,
+                                `${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min},${percentile_98}`,
                                 { bounds: imageBounds, zIndex: 9999 }
                             );
-
+                            //Add tile to map
+                            console.log("Adding tile to map");
                             map.addLayer(layer);
                             map.setView(new LatLng(tileCenter[1], tileCenter[0]), tileCenter[2]);
                             setTimeout(() => {
