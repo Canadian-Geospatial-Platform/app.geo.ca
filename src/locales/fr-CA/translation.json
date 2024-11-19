@@ -298,7 +298,7 @@
     "datacollection": {
         "DEFAULT": "Tout afficher",
         "SENTINEL1": "Sentinel-1",
-        "RCM-ARD": "mission de la Constellation RADARSAT (MCR) - données prêtes à l'analyse (DPA)"
+        "RCM-ARD": "Mission de la Constellation RADARSAT (MCR) - données prêtes à l'analyse (DPA)"
     },
     "polarization": {
         "DEFAULT": "Tout afficher",

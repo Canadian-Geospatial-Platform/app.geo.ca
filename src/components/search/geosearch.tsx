@@ -132,7 +132,7 @@ const GeoSearch = (
     "image/png",
     "thumbnail;jpeg",
     "image/jpeg",
-	"application/geotiff"
+    "application/geotiff"
     ];
     /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
@@ -263,7 +263,12 @@ const GeoSearch = (
                     setImage(imageLayer);
 
                     // Adjust map view
-					setMapView(center, bounds);
+                    setMapView(center, bounds);
+                    
+                    // Draw the bounding box
+                    setTimeout(() => {
+                        new L.geoJSON(data).addTo(map);
+                    }, 200);
                 } else if (
                     imageUrls.length > 0 &&
                     (result.keywords.toLowerCase().includes("stac") ||
@@ -306,6 +311,9 @@ const GeoSearch = (
 
                             map.addLayer(layer);
                             map.setView(new LatLng(tileCenter[1], tileCenter[0]), tileCenter[2]);
+                            setTimeout(() => {
+                                new L.geoJSON(data).addTo(map);
+                            }, 200);
                         })
                         .catch((err) => {
                             console.error("TileJSON Error:", err);
