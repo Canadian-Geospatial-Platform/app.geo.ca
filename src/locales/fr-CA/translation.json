@@ -293,15 +293,15 @@
         "NU": "Nunavut",
         "NT": "Territoires du Nord-Ouest",
         "YT": "Yukon",
-        "DEFAULT": "Sélectionnez une option"
+        "DEFAULT": "Tout afficher"
     },
     "datacollection": {
-        "DEFAULT": "Sélectionnez une option",
+        "DEFAULT": "Tout afficher",
         "SENTINEL1": "Sentinel-1",
         "RCM-ARD": "mission de la Constellation RADARSAT (MCR) - données prêtes à l'analyse (DPA)"
     },
     "polarization": {
-        "DEFAULT": "Sélectionnez une option",
+        "DEFAULT": "Tout afficher",
         "VV": "VV",
         "VVVH": "VV+VH",
         "HH": "HH",
@@ -312,7 +312,7 @@
         "VH": "VH"
     },
     "orbit": {
-        "DEFAULT": "Sélectionnez une option",
+        "DEFAULT": "Tout afficher",
         "ASC": "ascendante",
         "DESC": "descendante"
     },

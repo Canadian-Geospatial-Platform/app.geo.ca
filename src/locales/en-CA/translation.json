@@ -293,15 +293,15 @@
         "NU": "Nunavut",
         "NT": "Northwest Territories",
         "YT": "Yukon",
-        "DEFAULT": "Please select one"
+        "DEFAULT": "Show all"
     },
     "datacollection": {
-        "DEFAULT": "Please select one",
+        "DEFAULT": "Show all",
         "SENTINEL1": "Sentinel-1",
         "RCM-ARD": "Radarsat Constellation Mission (RCM) - Analysis Ready Data (ARD)"
     },
     "polarization": {
-        "DEFAULT": "Please select one",
+        "DEFAULT": "Show all",
         "VV": "VV",
         "VVVH": "VV+VH",
         "HH": "HH",
@@ -312,7 +312,7 @@
         "VH": "VH"
     },
     "orbit": {
-        "DEFAULT": "Please select one",
+        "DEFAULT": "Show all",
         "ASC": "Ascending",
         "DESC": "Descending"
     },
