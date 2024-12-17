@@ -122,13 +122,57 @@ const GeoSearch = (
     const [ofOpen, setOfOpen] = useState(false);
     const [allkw, setKWShowing] = useState<string[]>([]);
     const [sortbyValue, setSortbyValue] = useState(queryParams.sort ? queryParams.sort : 'popularity-desc');
+    const [initialCenter, setInitialCenter] = useState<LatLng | null>(null);
+    const [initialZoom, setInitialZoom] = useState<number | null>(null);
+    
+    const supportedFormats = [
+    "data;tiff;",
+    "image/tiff",
+    "thumbnail;png",
+    "image/png",
+    "thumbnail;jpeg",
+    "image/jpeg",
+    "application/geotiff"
+    ];
     /* const orgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const typefilters = useSelector((state) => state.mappingReducer.typefilter);
     const themefilters = useSelector((state) => state.mappingReducer.themefilter);
     const foundational = useSelector((state) => state.mappingReducer.foundational);
     const dispatch = useDispatch(); */
 
+    const removeLayers = () => {
+        map.eachLayer((layer: unknown) => {
+            // Check for layers with zIndex 9999
+            if (layer.options && layer.options.zIndex === 9999) {
+                map.removeLayer(layer);
+                return; // Exit early as layer is already removed
+            }
+
+            // Check for layers with geoJSON feature properties
+            const { feature } = layer;
+            if (
+                feature &&
+                feature.type === 'Feature' &&
+                feature.properties &&
+                feature.properties.tag === 'geoViewGeoJSON'
+            ) {
+                map.removeLayer(layer);
+            }
+        });
+    };  
+    
+    const resetMapToInitialState = () => {
+        if (initialCenter && initialZoom !== null) {
+            // Reset the map view to the initial center and zoom
+            console.log(initialCenter);
+            console.log(initialZoom);
+            map.setView(initialCenter, initialZoom);
+        }
+    };
+
     const selectResult = (result: SearchResult | undefined) => {
+        map.setMinZoom(4);
+        resetMapToInitialState();
         if(image!==null){            
             map.removeLayer(image);
             setImage(null);
@@ -153,7 +197,7 @@ const GeoSearch = (
 
         if (result) {
             const coordinates=JSON.parse(result.coordinates);
-            const data = {
+            const geojson_data = {
                 type: 'Feature',
                 properties: { id: result.id, tag: 'geoViewGeoJSON' },
                 geometry: {
@@ -188,80 +232,144 @@ const GeoSearch = (
             }
             analyticPost(selectedParams);
             // eslint-disable-next-line new-cap
-            new L.geoJSON(data).addTo(map);
+
             
             const center=new LatLng((coordinates[0][2][1] + coordinates[0][0][1]) / 2, (coordinates[0][1][0] + coordinates[0][0][0]) / 2);
             const bounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
-            //console.log(center, bounds);
-            if(result.options){                
-                const parsedOptions=JSON.parse(result.options.replaceAll('""','"'));
-                let imageUrls=parsedOptions.filter(o=>o.url && o.url !==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("data;tiff;")>=0 ||o.description.en.toLowerCase().indexOf("image/tiff")>=0
-                 || o.description.en.toLowerCase().indexOf("thumbnail;png")>=0 ||o.description.en.toLowerCase().indexOf("image/png")>=0 
-                 || o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0 ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));                
-                 if(imageUrls.length>0 && thumbnailConfig['eodms_use_image']===true && result.systemName && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'){
-                    //const imageBounds = L.latLngBounds([[coordinates[0][2][1], coordinates[0][1][0]],[coordinates[0][0][1],coordinates[0][0][0]]]);
-                    let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
+            if (result.options) {
+                const parsedOptions = JSON.parse(result.options.replaceAll('""', '"'));
+                const imageUrls = getFilteredImageUrls(parsedOptions, supportedFormats);
+
+                if (
+                    imageUrls.length > 0 &&
+                    thumbnailConfig['eodms_use_image'] === true &&
+                    result.systemName?.toLowerCase().includes("eodms") &&
+                    result.eoCollection === "sentinel-1"
+                ) {
+                    // Handle EODMS Sentinel-1 thumnbnail image rendering
+                    const thumbnailCorrection = thumbnailConfig['thumbnail_correction_proxy_dev'];
                     const eoFilters = JSON.parse(result.eoFilters.replace(/\"\"/g, '"'));
-                    let orbitDirection = eoFilters[0].orbitState;
-                    let url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
-                    //handling if image is type tiff
-                    let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
-                    if(imgUrlsTIFF.length>0){
-                        url=imgUrlsTIFF[0].url;
+                    const orbitDirection = eoFilters[0].orbitState;
+
+                    // Get the first image URL and prioritize TIFF images
+                    let url = thumbnailCorrection + imageUrls[0].url + "&side=" + orbitDirection;
+                    const tiffImages = getFilteredImageUrls(imageUrls, ["data;tiff;", "image/tiff"]);
+                    if (tiffImages.length > 0) {
+                        url = tiffImages[0].url;
                     }
-                    const image=L.imageOverlay(url, bounds, {opacity: 1}).addTo(map);
-                    setImage(image);
-                    //map.fitBounds(bounds);
-                    //map.setView(center, map.getZoom());
-                    map.fitBounds(bounds, {padding: [50,50]});
-            
-                    setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);   
-                 }else if(imageUrls.length>0 && (result.keywords.toLowerCase().indexOf("stac")>=0
-                    || (thumbnailConfig['eodms_use_image']===false && result.systemName && result.systemName.toLowerCase().indexOf("eodms")>=0 && result.eoCollection==='sentinel-1'))){                
-                    let imgUrls=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0 || o.description.en.toLowerCase().indexOf("image/tiff")>=0);
-                    let url=imageUrls[0].url;
-                    if(imgUrls.length>0){
-                        url=imgUrls[0].url;
-                    }
-                    
-                    axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
-                        //console.log(res);
-                        const centers=res.data.center;
-                        const imageBounds = L.latLngBounds([[res.data.bounds[3], res.data.bounds[2]],[res.data.bounds[1], res.data.bounds[0]]]);
-                        axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {params: {url, unscale: 'false', resampling:'nearest', max_size: '1024', categorical: 'false'}}).then((res2)=>{
-                            //console.log(res2);
-                            const min=res2.data.b1.min;
-                            const max=res2.data.b1.max;                                                        
-                            var layer=new L.TileLayer(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`, {bounds:imageBounds, zIndex:9999});
-                            map.addLayer(layer);
-                            //console.log('added', layer);
-                            map.setView(new LatLng(centers[1], centers[0]), centers[2]);                                                                             
-                        });
-                    }).catch(err=>{
-                        console.log('tilejson', err);
-                        setMapView(center, bounds);    
-                    });
-                    
-                }else{
+
+                    // Add image overlay to map
+                    const imageLayer = L.imageOverlay(url, bounds, { opacity: 1 }).addTo(map);
+                    setImage(imageLayer);
+
+                    // Adjust map view
                     setMapView(center, bounds);
-                }                
-            } else{
+                    
+                    // Draw the bounding box
+                    setTimeout(() => {
+                        new L.geoJSON(geojson_data).addTo(map);
+                    }, 200);
+                } else if (
+                    imageUrls.length > 0 &&
+                    (result.keywords.toLowerCase().includes("stac") ||
+                        (!thumbnailConfig['eodms_use_image'] &&
+                            result.systemName?.toLowerCase().includes("eodms") &&
+                            result.eoCollection === "sentinel-1"))
+                ) {
+                    // Handle COG image rendering via tiling service
+                    const tiffImages = getFilteredImageUrls(imageUrls, ["data;tiff;", "image/tiff"]);
+                    const url = tiffImages.length > 0 ? tiffImages[0].url : imageUrls[0].url;
+                    let imageBounds;
+                    let tileCenter;
+
+                    axios
+                        .get(`${EnvGlobals.COG_TILEJSON_URL}`, { params: { url } })
+                        .then((tileResponse) => {
+                            const { center, bounds: tileBounds } = tileResponse.data;
+                            tileCenter = center;
+
+                            // Parse tile bounds
+                            imageBounds = L.latLngBounds([
+                                [tileBounds[3], tileBounds[2]],
+                                [tileBounds[1], tileBounds[0]],
+                            ]);
+
+                            return axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {
+                                params: {
+                                    url,
+                                    unscale: "false",
+                                    resampling: "nearest",
+                                    max_size: "1024",
+                                    categorical: "false",
+                                },
+                            });
+                        })
+                        .then((statsResponse) => {
+                            const { min, percentile_98 } = statsResponse.data.b1;
+
+                            const layer = new L.TileLayer(
+                                `${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min},${percentile_98}`,
+                                { bounds: imageBounds, zIndex: 9999 }
+                            );
+                            //Add tile to map
+                            //console.log("Adding tile to map");
+                            map.addLayer(layer);
+                            map.setView(new LatLng(tileCenter[1], tileCenter[0]), tileCenter[2]);
+                            setTimeout(() => {
+                                new L.geoJSON(geojson_data).addTo(map);
+                            }, 200);
+                        })
+                        .catch((err) => {
+                            //Handle errors in getting the Tile
+                            console.error("TileJSON Error:", err);
+                            setMapView(center, bounds);
+                            setTimeout(() => {
+                                new L.geoJSON(geojson_data).addTo(map);
+                            }, 200);
+                        });
+                } else {
+                    // Handle fallback GEO.ca record or default case
+                    setMapView(center, bounds);
+                    setTimeout(() => {
+                        new L.geoJSON(geojson_data).addTo(map);
+                    }, 200);
+                }
+            } else {
+                // Default handling when no options are provided
                 setMapView(center, bounds);
-            }          
+                setTimeout(() => {
+                    new L.geoJSON(geojson_data).addTo(map);
+                }, 200);
+            }
         }
     };
-
-    const setMapView=(center, bounds)=>{
-        map.fitBounds(bounds);
-        setTimeout(()=>map.setView(center, map.getZoom()>5?map.getZoom()-1:map.getZoom()), 500);
+    
+    function getFilteredImageUrls(parsedOptions, formats) {
+        return parsedOptions.filter(
+            (o) =>
+                o.url &&
+                o.description &&
+                o.description.en &&
+                formats.some((format) => o.description.en.toLowerCase().includes(format))
+        );
     }
+
+    const setMapView = (center, bounds) => {
+        const bestZoom = map.getBoundsZoom(bounds, true);
+        if (bestZoom > 8) {
+            map.fitBounds(bounds);
+        } else {
+            // Set a minimum zoom level of 4
+            setTimeout(() => map.setView(center, Math.min(4, map.getZoom())), 200);
+        }
+    };
 
     const handleSelect = (event: string) => {
         // const {selectResult} = this.props;
         const cardOpen = selected === event ? !open : true;
         setFootprintViewed(cardOpen);
         const result =
-            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;        
+            Array.isArray(results) && results.length > 0 && cardOpen ? results.find((r: SearchResult) => r.id === event) : undefined;
         setSelected(event);
         setOpen(cardOpen);
         selectResult(result);
@@ -994,7 +1102,7 @@ const GeoSearch = (
     };
     const isMobile = useMediaQuery('(max-width: 760px)');
     useEffect(() => {
-        // console.log(freeze);
+        console.log(freeze);
         if (!freeze.freeze) {
             map.on('moveend', (event) => eventHandler(event, initKeyword));
         } else {
@@ -1370,17 +1478,21 @@ const GeoSearch = (
             )}
             <div className="container-fluid container-results" aria-live="assertive" aria-busy={loading ? 'true' : 'false'}>
                 {cnt > 0 && (!loading || cpn) && (
-                    <Pagination
+                    <Pagination 
                         rpp={rpp}
                         ppg={ppg}
                         rcnt={cnt}
                         current={pn}
                         loading={loading}
-                        selectPage={
-                            ksOnly
-                                ? (pnum: number) => handleKOSearch(initKeyword, pnum)
-                                : (pnum: number) => handleSearch(initKeyword, initBounds, pnum)
-                        }
+                        selectPage={(pnum: number) => {
+                            removeLayers();
+                            
+                            if (ksOnly) {
+                                handleKOSearch(initKeyword, pnum);
+                            } else {
+                                handleSearch(initKeyword, initBounds, pnum);
+                            }
+                        }}
                     />
                 )}
                 {loading ? (
@@ -1576,11 +1688,15 @@ const GeoSearch = (
                         rcnt={cnt}
                         current={pn}
                         loading={loading}
-                        selectPage={
-                            ksOnly
-                                ? (pnum: number) => handleKOSearch(initKeyword, pnum)
-                                : (pnum: number) => handleSearch(initKeyword, initBounds, pnum)
-                        }
+                        selectPage={(pnum: number) => {
+                            removeLayers();
+                            
+                            if (ksOnly) {
+                                handleKOSearch(initKeyword, pnum);
+                            } else {
+                                handleSearch(initKeyword, initBounds, pnum);
+                            }
+                        }}
                     />
                 )}
             </div>

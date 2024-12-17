@@ -170,43 +170,63 @@ const MetaDataPage = (props) => {
                     setSimilarRecords(sims);
                     setShowSimilarRecords(sims.slice(0, 5));
                 }
-                if(res.options){                
-                    const imageUrls=res.options.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0
-                    ||o.description.en.toLowerCase().indexOf("thumbnail;png")>=0 
-                    ||o.description.en.toLowerCase().indexOf("image/png")>=0
-                    ||o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0 
-                    ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
+                if(res.options){
+                    const imageUrls = res.options.filter(o => 
+                    o.url && o.url !== null &&
+                    o.description && o.description.en &&
+                    (
+                        o.description.en.toLowerCase().indexOf("data;tiff;") >= 0 ||
+                        o.description.en.toLowerCase().indexOf("image/tiff") >= 0 ||
+                        o.description.en.toLowerCase().indexOf("thumbnail;png") >= 0 ||
+                        o.description.en.toLowerCase().indexOf("image/png") >= 0 ||
+                        o.description.en.toLowerCase().indexOf("thumbnail;jpeg") >= 0 ||
+                        o.description.en.toLowerCase().indexOf("image/jpeg") >= 0 ||
+                        o.description.en.toLowerCase().indexOf("application/geotiff") >= 0
+                    )
+                    );
                     let url;
-                    const isSentinel1=imageUrls.length>0 && res.sourceSystemName.toLowerCase().indexOf("eodms")>=0 && res.eoCollection==='sentinel-1' && thumbnailConfig['eodms_use_image'];
+                    const isSentinel1=imageUrls.length>0 && res.sourceSystemName.toLowerCase().indexOf("ccmeo-eodms")>=0 && res.eoCollection==='sentinel-1' && thumbnailConfig['eodms_use_image'];
+                    const isRCMARD=imageUrls.length>0 && res.sourceSystemName.toLowerCase().indexOf("ccmeo-eodms")>=0 && res.eoCollection==='rcm-ard';
+                    const isDatacube=imageUrls.length>0 && res.sourceSystemName.toLowerCase().indexOf("ccmeo-datacube")>=0;
                     if (isSentinel1) setTileServiceUrl(null);
-                    const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;                            
-                    if(imageUrls.length>0){
+                    const hasImage=imageUrls.length>0 && res.keywords.toLowerCase().indexOf("stac")>=0;
+                    if (isSentinel1 && imageUrls.length > 0) {
+                        // Set URL to load the thumbnail image
                         let thumbnail_correction = thumbnailConfig['thumbnail_correction_proxy_dev'];
                         let orbitDirection = res.eoFilters[0]?.orbitState;
-                        //console.log(orbitDirection);
-                        url=thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
-                        //handling if image is type tiff
-                        let imgUrlsTIFF=imageUrls.filter(o=>o.description.en.toLowerCase().indexOf("data;tiff;")>=0||o.description.en.toLowerCase().indexOf("image/tiff")>=0);
-                        if(imgUrlsTIFF.length>0){
-                            url=imgUrlsTIFF[0].url;
+                        url = thumbnail_correction + imageUrls[0].url + "&side=" + orbitDirection;
+                    }
+                    else if ((isRCMARD || isDatacube) && imageUrls.length > 0) {
+                        // Set URL to load the COG geotiff
+                        let imgUrlsTIFF = imageUrls.filter(o => (
+                            o.description.en.toLowerCase().indexOf("data;tiff;") >= 0 || 
+                            o.description.en.toLowerCase().indexOf("image/tiff") >= 0 ||
+                            o.description.en.toLowerCase().indexOf("application/geotiff") >= 0
+                        ));
+                        
+                        if (imgUrlsTIFF.length > 0) {
+                            url = imgUrlsTIFF[0].url;
                         }
                     }
-
-                    if(!isSentinel1 && hasImage){
-                        
+                    console.log(imageUrls);
+                    console.log(isRCMARD);
+                    console.log(isDatacube);
+                    console.log(hasImage);
+                    if((isRCMARD || isDatacube) && hasImage){
+                        console.log("trying to load tile");
                         axios.get(`${EnvGlobals.COG_TILEJSON_URL}`, {params: {url}}).then((res)=>{
-                            //console.log(res);
+                            console.log(res);
                             const centers=res.data.center;
                             setCogCenter(new LatLng(centers[1], centers[0]));
                             setCogZoom(centers[2]);
                             const imageBounds = L.latLngBounds([[res.data.bounds[3], res.data.bounds[2]],[res.data.bounds[1], res.data.bounds[0]]]);
                             setCogBounds(imageBounds);
                             axios.get(`${EnvGlobals.COG_STATISTICS_URL}`, {params: {url, unscale: 'false', resampling:'nearest', max_size: '1024', categorical: 'false'}}).then((res2)=>{
-                                //console.log(res2);
+                                console.log(res2);
                                 const min=res2.data.b1.min;
-                                const max=res2.data.b1.max;                                                              
+                                const max=res2.data.b1.percentile_98;
                                 setTileServiceUrl(`${EnvGlobals.COG_TILESERVICE_URL}?url=${url}&resampling_method=nearest&bidx=1&rescale=${min}%2C${max}`);
-                                setLoading1(false);                                                            
+                                setLoading1(false);
                             });
                         }).catch(err=>{
                             //console.log('tilejson', err);
@@ -437,12 +457,20 @@ const MetaDataPage = (props) => {
                                     const desc = option.description[language].split(";");
                                     return { name: option.name[language], type: desc[0], format: desc[1], language: t(`page.${desc[2].toLowerCase().replace(',', '')}`), url: option.url };
                                 });
-                            const imageUrls=formattedOption.filter(o=>o.url && o.url!==null && o.description && o.description.en && (o.description.en.toLowerCase().indexOf("data;tiff;")>=0
-                            ||o.description.en.toLowerCase().indexOf("image/tiff")>=0
-                            ||o.description.en.toLowerCase().indexOf("thumbnail;png")>=0
-                            ||o.description.en.toLowerCase().indexOf("image/png")>=0
-                            ||o.description.en.toLowerCase().indexOf("thumbnail;jpeg")>=0
-                            ||o.description.en.toLowerCase().indexOf("image/jpeg")>=0));
+                            
+                            const imageUrls = formattedOption.filter(o => 
+                                o.url && o.url !== null &&
+                                o.description && o.description.en &&
+                                (
+                                    o.description.en.toLowerCase().indexOf("data;tiff;") >= 0 ||
+                                    o.description.en.toLowerCase().indexOf("image/tiff") >= 0 ||
+                                    o.description.en.toLowerCase().indexOf("thumbnail;png") >= 0 ||
+                                    o.description.en.toLowerCase().indexOf("image/png") >= 0 ||
+                                    o.description.en.toLowerCase().indexOf("thumbnail;jpeg") >= 0 ||
+                                    o.description.en.toLowerCase().indexOf("image/jpeg") >= 0 ||
+                                    o.description.en.toLowerCase().indexOf("application/geotiff") >= 0
+                                )
+                            );
                             let url;                            
                             const isSentinel1=imageUrls.length>0 && result.sourceSystemName==='ccmeo-eodms' && result.eoCollection==='sentinel-1' && thumbnailConfig['eodms_use_image'];
                             const hasImage=imageUrls.length>0 && result.keywords.toLowerCase().indexOf("stac")>=0;                            
@@ -848,7 +876,7 @@ const MetaDataPage = (props) => {
                                                             <ImageOverlay
                                                                 url={url}
                                                                 bounds={bounds}
-                                                                opacity={1}
+                                                                opacity={0.75}
                                                                 zIndex={10}
                                                                 />
                                                         </MapContainer>}                                                        

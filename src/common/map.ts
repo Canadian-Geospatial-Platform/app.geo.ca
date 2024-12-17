@@ -14,7 +14,7 @@ const lccMapOptionsParam: MapOptions = {
 // Web Mercator map options
 const wmMapOptionsParam: MapOptions = {
     zoomFactor: 5,
-    minZoom: 2,
+    minZoom: 4,
     maxZooom: 19,
     maxBounds: new LatLngBounds({ lat: -89.999, lng: -180 }, { lat: 89.999, lng: 180 }),
     maxBoundsViscosity: 0.0,

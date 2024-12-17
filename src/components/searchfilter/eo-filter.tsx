@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import dataCollectionOptions from '../search/data-collection-option.json';
 import orbitOptions from '../search/orbit-direction-option.json';
-import polarizationOptions from '../search/polarization-option.json';
+import polarizationOptionsSentinel from '../search/polarization-option-sentinel-1.json';
+import polarizationOptionsRCMARD from '../search/polarization-option-rcm-ard.json';
 import DropdownSelection from './dropdown-selection';
 import './eo-filter.scss';
 
@@ -47,7 +48,7 @@ export default function EoSearchFilter(props: EoSearchProps): JSX.Element {
            { dataCollection === 'sentinel-1' && (<div className="sentinel-1">
             <DropdownSelection  
                 label="filter.label.eofilter.polarization"
-                options={polarizationOptions}
+                options={polarizationOptionsSentinel}
                 labelClassName="dropdown-select-label"
                 selectClassName="dropdown-select"
                 optionClassName="dropdown-select-option"
@@ -56,7 +57,34 @@ export default function EoSearchFilter(props: EoSearchProps): JSX.Element {
                 onSelect={handlePolarizationChange}
                 tooltip
                 tooltipTitle='filter.label.eofilter.polarization-tooltip'
+            />
+            <DropdownSelection
+                label="filter.label.eofilter.orbit"
+                options={orbitOptions}
+                labelClassName="dropdown-select-label"
+                selectClassName="dropdown-select"
+                optionClassName="dropdown-select-option"
+                iconClassName="dropdown-select-icon"
+                defaultValue={orbit}
+                onSelect={handleOrbitChange}
+                tooltip
+                tooltipTitle='filter.label.eofilter.orbit-tooltip'
             />  
+            </div>
+           ) }
+           { dataCollection === 'rcm-ard' && (<div className="rcm-ard">
+            <DropdownSelection  
+                label="filter.label.eofilter.polarization"
+                options={polarizationOptionsRCMARD}
+                labelClassName="dropdown-select-label"
+                selectClassName="dropdown-select"
+                optionClassName="dropdown-select-option"
+                iconClassName="dropdown-select-icon"
+                defaultValue={polarization}
+                onSelect={handlePolarizationChange}
+                tooltip
+                tooltipTitle='filter.label.eofilter.polarization-tooltip'
+            />
             <DropdownSelection
                 label="filter.label.eofilter.orbit"
                 options={orbitOptions}

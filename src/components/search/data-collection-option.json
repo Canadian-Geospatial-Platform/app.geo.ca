@@ -6,5 +6,9 @@
     {
         "label": "datacollection.SENTINEL1",
         "value": "sentinel-1"
+    },
+    {
+        "label": "datacollection.RCM-ARD",
+        "value": "rcm-ard"
     }
 ]
