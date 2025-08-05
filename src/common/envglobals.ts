@@ -29,7 +29,7 @@ export function envglobals(): globalValues {
                 COG_STATISTICS_URL:'https://bm1jtbf1w4.execute-api.ca-central-1.amazonaws.com/live/cog/statistics',
                 COG_BOUNDS_URL:'https://bm1jtbf1w4.execute-api.ca-central-1.amazonaws.com/live/cog/bounds'
             };
-        case 'app-dev.geo.ca':
+        case 'old.app-dev.geo.ca':
             return {
                 LOGO_SITE_LINK_URL: {
                     en: 'https://dev.geo.ca/home/index.html',
@@ -46,7 +46,7 @@ export function envglobals(): globalValues {
                 COG_STATISTICS_URL:'https://tiler-dev.api.geo.ca/cog/statistics',
                 COG_BOUNDS_URL:'https://tiler-dev.api.geo.ca/cog/bounds'
             };
-        case 'app-stage.geo.ca':
+        case 'old.app-stage.geo.ca':
             return {
                 LOGO_SITE_LINK_URL: {
                     en: 'https://stage.geo.ca/home/index.html',
@@ -63,7 +63,7 @@ export function envglobals(): globalValues {
                 COG_STATISTICS_URL:'https://tiler-stage.api.geo.ca/cog/statistics',
                 COG_BOUNDS_URL:'https://tiler-stage.api.geo.ca/cog/bounds'
             };
-        case 'app.geo.ca':
+        case 'old.app.geo.ca':
             return {
                 LOGO_SITE_LINK_URL: {
                     en: 'https://geo.ca/home/index.html',
